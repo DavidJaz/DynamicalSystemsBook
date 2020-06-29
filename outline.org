@@ -1,0 +1,41 @@
+* This Document
+
+
+** This document is Jaz's outline
+   It will primarily concern the parts of the book on which Jaz is writing the first draft.
+
+   Comments from David S. are welcome.
+
+** General Comments:
+
+
+* Chapter 1: Deterministic Automata 
+** Definition of Determinisitic Automata
+
+** Wiring Together Automata
+** Maps of Automata: Trajectories, Steady States, and Periodic Orbits
+** Hierarchical Planning
+* Chapter 2: First Order Ordinary Differential Equations
+
+** Definition of First Order ODEs
+
+** Wiring Together ODEs
+
+
+** Maps of ODEs: Trajectories, Steady States, and Periodic Orbits
+
+** Approximating ODEs with Automata: Euler's Method.
+
+* Chapter 3: Markov Decision Processes
+
+
+** Definition of Markov Decision Processes
+
+
+** Multi-agent Processes and Wiring Together Markov Decision Processes
+
+
+** Hierarchical Planning
+
+* The Final Chapter: Dynamical System Doctrines and Indexed Double Categories
+
