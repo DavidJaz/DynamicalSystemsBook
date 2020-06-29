@@ -15,6 +15,7 @@
 ** Wiring Together Automata
 ** Maps of Automata: Trajectories, Steady States, and Periodic Orbits
 ** Hierarchical Planning
+
 * Chapter 2: First Order Ordinary Differential Equations
 
 ** Definition of First Order ODEs
@@ -36,6 +37,28 @@
 
 
 ** Hierarchical Planning
+
+* Chapter 4: Polynomial functors I
+
+** Poly as a category
+
+** Generalized Moore machines 
+
+** Dirichlet monoidal structure
+
+** Generalized wiring diagrams (Poly as an operad)
+
+* Chapter 5: Polynomial functors II
+
+** Composition monoidal structure
+
+** Strategies
+
+** Comonoids
+
+** Ahman-Uustalu-Garner
+
+** A marriage of data and process
 
 * The Final Chapter: Dynamical System Doctrines and Indexed Double Categories
 
