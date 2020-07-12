@@ -11,7 +11,6 @@
 
 * Chapter 1: Deterministic Automata 
 ** Definition of Determinisitic Automata
-
 ** Wiring Together Automata
 ** Maps of Automata: Trajectories, Steady States, and Periodic Orbits
 ** Hierarchical Planning
@@ -38,4 +37,4 @@
 ** Hierarchical Planning
 
 * The Final Chapter: Dynamical System Doctrines and Indexed Double Categories
-
+  
