@@ -1,0 +1,433 @@
+\documentclass[11pt, book]{memoir}
+
+\settrims{0pt}{0pt} % page and stock same size
+\settypeblocksize{*}{34.5pc}{*} % {height}{width}{ratio}
+\setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
+\setulmarginsandblock{1in}{1in}{*} % height of typeblock computed
+\setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
+\setheaderspaces{*}{1.5\onelineskip}{*} % {headdrop}{headsep}{ratio}
+\checkandfixthelayout
+
+\chapterstyle{bianchi}
+\newcommand{\titlefont}{\normalfont\Huge\bfseries}
+\renewcommand{\chaptitlefont}{\titlefont}
+
+%-------- Packages --------%
+
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{accents}
+\usepackage{newpxtext}
+\usepackage[varg,bigdelims]{newpxmath}
+\usepackage{eucal}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage[siunitx]{circuitikz}
+\usepackage{graphicx}
+\usepackage{outline}
+\usepackage{varwidth}
+\usepackage[inline]{enumitem}
+\usepackage{ifthen}
+\usepackage{footnote}
+\usepackage[utf8]{inputenc} %allows non-ascii in bib file
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
+citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
+\usepackage{subfiles}
+\usepackage[capitalize]{cleveref}
+\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+\usepackage{makeidx}
+\usepackage[all]{xy}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{todonotes}
+\usepackage{tablefootnote}
+%\usepackage{changepage} %indented paragraphs in solutions 
+%\usepackage{showkeys} %for drafting; prints labels in margin
+
+%-------- Package setup --------%
+
+% cleveref %
+  \newcommand{\creflastconjunction}{, and\nobreakspace} % serial comma
+
+% biblatex %
+  \addbibresource{Library20180913.bib} 
+
+% makeidx %
+  \makeindex 
+
+% hyperref %
+  \hypersetup{final}
+
+% enumitem %
+  \setlist{nosep}
+  
+% footnote
+	\makesavenoteenv{tabular}
+
+
+% tikz %
+  \usetikzlibrary{ 
+  	cd,
+  	math,
+  	decorations.markings,
+		decorations.pathreplacing,
+  	positioning,
+  	arrows.meta,
+  	shapes,
+		shadows,
+		shadings,
+  	calc,
+  	fit,
+  	quotes,
+  	intersections,
+    circuits,
+    circuits.ee.IEC
+  }
+  
+	\tikzcdset{arrow style=tikz, diagrams={>=To}}
+
+% mdframed/tablefootnote%
+% This makes \tablefootnote allow construction of footnotes that appear at bottom of page instead of inside frame
+
+\makeatletter
+\AfterEndEnvironment{mdframed}{%
+  \tfn@tablefootnoteprintout%
+  \gdef\tfn@fnt{0}%
+}
+\makeatother
+
+% TikZ Stuff
+
+\input{tikz_stuff}
+
+% Theorem environments
+
+% Colored box background colours
+
+\colorlet{theoremcolor}{white!92!blue}
+\colorlet{definitioncolor}{white!92!purple}
+\colorlet{examplecolor}{white!93!green}
+
+\mdfdefinestyle{theoremframe}{
+    linewidth=0pt,
+    %linecolor=blue,
+    backgroundcolor=theoremcolor,
+    roundcorner=6pt,
+    nobreak=true,
+    leftmargin=0,
+    innerleftmargin=0,
+    rightmargin=0,
+    innerrightmargin=0,
+    }
+
+\mdfdefinestyle{definitionframe}{
+    linewidth=0pt,
+    %linecolor=blue,
+    backgroundcolor=definitioncolor,
+    roundcorner=6pt,
+    leftmargin=0,
+    innerleftmargin=0,
+    rightmargin=0,
+    innerrightmargin=0,
+    }
+
+\mdfdefinestyle{exampleframe}{
+    linewidth=0pt,
+    backgroundcolor=examplecolor,
+    leftmargin=0,
+    innerleftmargin=0,
+    rightmargin=0,
+    innerrightmargin=0,
+    }
+
+%\mdfdefinestyle{exerciseframe}{
+%    linecolor=white!93!yellow,
+%    backgroundcolor=white!93!yellow,
+%    }
+
+\newtheoremstyle{plain}
+  {-\topsep}		%space above
+  {}			%space below
+  {\normalfont}		%body font
+  {}			%indent amount
+  {\bfseries}		%theorem head font
+  {.}			%punctuation after theorem head
+  {.5em}		%space after theorem head
+  {}			%theorem head spec
+
+% amsthm %
+  \theoremstyle{plain}
+  \newmdtheoremenv[style=theoremframe]{theorem}[equation]{Theorem}
+  \newmdtheoremenv[style=theoremframe]{proposition}[equation]{Proposition}
+  \newmdtheoremenv[style=theoremframe]{corollary}[equation]{Corollary}
+  \newmdtheoremenv[style=theoremframe]{lemma}[equation]{Lemma}
+  
+  \theoremstyle{plain}
+  \newmdtheoremenv[style=definitionframe]{definition}[equation]{Definition}
+  \newmdtheoremenv[style=definitionframe]{roughDef}[equation]{Rough Definition}
+  \crefname{roughDef}{Definition}{Definitions}
+  \newtheorem{construction}[equation]{Construction}
+  \newtheorem{notation}[equation]{Notation}
+  \newtheorem{axiom}{Axiom}
+  \newtheorem*{axiom*}{Axiom}
+  
+  \theoremstyle{remark}
+  \newtheorem{remark}[equation]{Remark}
+  \newtheorem{warning}[equation]{Warning}
+%  \newtheorem{exercise}[equation]{Exercise}
+
+
+% Solution environment
+
+\newcommand{\finishSolutionChapter}{
+%\vfill\hrulefill\\\noindent
+%\arabic{solcounterlocal} exercises in Chapter \arabic{section}, and \arabic{solcounterglobal} total exercises up to this point.
+%
+\clearpage
+}
+
+\makeatletter
+\newcommand{\nolisttopbreak}{\nobreak\@afterheading}
+\makeatother
+
+\newcounter{solcounterlocal}[section]
+\newcounter{solcounterglobal}
+
+\newcommand{\sol}[4][noprint]{
+
+\stepcounter{solcounterlocal}\stepcounter{solcounterglobal}
+
+\noindent\ignorespacesafterend\emph{Solution to} \cref{#2}.%
+\nopagebreak%
+\ifthenelse{\equal{#1}{print}}{
+\nopagebreak%
+\begin{mdframed}[backgroundcolor=examplecolor,linewidth=0pt]%
+#3%
+\end{mdframed}%
+\nopagebreak
+}{}%
+\nolisttopbreak
+\begin{description}[leftmargin=2.5ex,itemindent=0pt,topsep=0ex,nosep]
+\item\nopagebreak
+#4
+\end{description}
+\bigskip
+}
+
+% Aligned tikz environment
+\newenvironment{altikz}{
+\begin{aligned}
+\begin{tikzpicture}
+}
+{
+\end{tikzpicture}
+\end{aligned}
+}
+		
+%Getting ending symbols in example and exercise environments:
+	
+\newmdtheoremenv[style=exampleframe]{example}[equation]{Example}
+
+\newtheorem{exc-inner}[equation]{Exercise}
+\newenvironment{exercise}[1][]{
+  \def\qedsymbol{$\lozenge$}% Set the QED symbol. 
+  \pushQED{\qed}
+  \begin{exc-inner}[#1]~
+}{
+  \popQED
+  \end{exc-inner}
+}
+  \crefname{exercise}{Exercise}{Exercises}
+
+
+% Adjunctions
+\newcommand{\adj}[5][30pt]{%[size] Cat L, Left, Right, Cat R.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, bend left=15, shift left=2pt, "#3"]
+  \ar[r, Rightarrow, shorten <=8pt, shorten >=8pt]\&
+  #5\ar[l, bend left=15, shift left=2pt, "#4"]
+\end{tikzcd}
+}
+
+\newcommand{\adjr}[5][30pt]{%[size] Cat R, Right, Left, Cat L.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, bend left=15, shift left=2pt, "#3"]\&
+  #5\ar[l, bend left=15, shift left=2pt, "#4"]
+  \ar[l, Rightarrow, shorten <=8pt, shorten >=8pt]
+\end{tikzcd}
+}
+
+  
+%-------- Single symbols --------%
+	
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+\DeclareMathSymbol\fatsemi\mathop{stmry}{"23}
+
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+
+
+%-------- Renewed commands --------%
+
+\renewcommand{\ss}{\subseteq}
+
+%-------- Other Macros --------%
+
+\DeclarePairedDelimiter{\pair}{\langle}{\rangle}
+\DeclarePairedDelimiter{\copair}{[}{]}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\corners}{\ulcorner}{\urcorner}
+
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Ob}{Ob}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\dju}{\sqcup}
+
+
+
+\newcommand{\const}[1]{\mathtt{#1}}%a constant, or named element of a set
+\newcommand{\Set}[1]{\mathrm{#1}}%a named set
+\newcommand{\cat}[1]{\mathcal{#1}}%a generic category
+\newcommand{\Cat}[1]{\mathbf{#1}}%a named category
+\newcommand{\fun}[1]{\textit{#1}}%function
+\newcommand{\Fun}[1]{\mathsf{#1}}%functor
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\then}{\mathbin{\fatsemi}}
+
+\newcommand{\cocolon}{:\!}
+
+
+\newcommand{\iso}{\cong}
+\newcommand{\too}{\longrightarrow}
+\newcommand{\tto}{\rightrightarrows}
+\newcommand{\To}[1]{\xrightarrow{#1}}
+\newcommand{\Tto}[3][13pt]{\begin{tikzcd}[sep=#1, cramped, ampersand replacement=\&, text height=1ex, text depth=.3ex]\ar[r, shift left=2pt, "#2"]\ar[r, shift right=2pt, "#3"']\&{}\end{tikzcd}}
+\newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
+\newcommand{\from}{\leftarrow}
+\newcommand{\From}[1]{\xleftarrow{#1}}
+\newcommand{\Fromm}[1]{\xleftarrow{\;\;#1\;\;}}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\inj}{\rightarrowtail}
+\newcommand{\wavyto}{\rightsquigarrow}
+\newcommand{\lollipop}{\multimap}
+\newcommand{\tickar}{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
+\newcommand{\imp}{\Rightarrow}
+\renewcommand{\iff}{\Leftrightarrow}
+\renewcommand{\th}{\ensuremath{^\tn{th}}\ }
+\newcommand{\down}{\mathbin{\downarrow}}
+
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\op}{^\tn{op}}
+
+\newcommand{\tn}[1]{\textnormal{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\newcommand{\LMO}[2][over]{\ifthenelse{\equal{#1}{over}}{\overset{#2}{\bullet}}{\underset{#2}{\bullet}}}
+\newcommand{\LTO}[2][\bullet]{\overset{\tn{#2}}{#1}}
+
+
+\newcommand{\bb}{\mathbb{B}}
+\newcommand{\nn}{\NN}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\rr}{\mathbb{R}}
+
+\newcommand{\singleton}{\{1\}}
+\newcommand{\powset}{\Fun{P}}
+
+
+\newcommand{\smset}{\Cat{Set}}
+\newcommand{\smcat}{\Cat{Cat}}
+
+\newcommand{\List}{\Fun{List}}
+\newcommand{\set}{\tn{-}\Cat{Set}}
+
+
+
+\newcommand{\boxCD}[2][black]{\fcolorbox{#1}{white}{\begin{varwidth}{\textwidth}\centering #2\end{varwidth}}}
+
+\newcommand{\erase}[2][]{{\color{red}#1}}
+\newcommand{\showhide}[2]{#1}
+
+\linespread{1.15}
+%\allowdisplaybreaks
+\setsecnumdepth{subsubsection}
+\settocdepth{subsection}
+\setlength{\parindent}{15pt}
+\setcounter{tocdepth}{1}
+
+%\newcommand{\define}[1]{\textbf{#1}}
+
+
+\DeclareMathVersion{normal2}
+
+%--------------- Document ---------------%
+\begin{document}
+
+\frontmatter
+
+\title{\titlefont Categorical dynamics}
+
+\author{\LARGE David Jaz Myers \and \LARGE David I. Spivak}
+
+
+
+\date{\vfill (Last updated: \today)}
+
+\maketitle
+\thispagestyle{empty}
+
+\subfile{C0-Preface}
+
+\clearpage
+\tableofcontents*
+
+\mainmatter
+\subfile{C1-}
+
+\subfile{C2-}
+
+\subfile{C3-}
+
+\subfile{C4-}
+
+\subfile{C5-}
+
+\subfile{C6-}
+
+\subfile{C7-}
+
+\appendix
+\begingroup
+\footnotesize
+
+\subfile{C8-Solutions}
+
+\backmatter
+%\appendix
+%\subfile{C8-Sample_outlines}
+
+\printbibliography
+\printindex
+
+\end{document}

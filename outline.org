@@ -14,6 +14,7 @@
 ** Wiring Together Automata
 ** Maps of Automata: Trajectories, Steady States, and Periodic Orbits
 ** Hierarchical Planning
+
 * Chapter 2: First Order Ordinary Differential Equations
 
 ** Definition of First Order ODEs
@@ -35,6 +36,52 @@
 
 
 ** Hierarchical Planning
+
+* Chapter 4: Polynomial functors and dynamics
+
+** Poly as a category
+
+** Generalized Moore machines and finite state automata (regular languages)
+
+** Dirichlet monoidal structure
+
+** Generalized wiring diagrams (Poly as an operad)
+
+* Chapter 5: The composition product and games
+
+** Composition monoidal structure
+
+** Theory
+*** Duoidal and coduoidal
+*** Distributivity over +,x on left
+*** Preservation of connected limits on right
+
+** Strategies
+
+** Comonoids
+*** Ahman-Uustalu
+*** Coproducts and products in Cat^# (funny tensor product?)
+
+*Chapter 6: The equipment (Cat, Cofunctors, Bimodules)
+
+** Garner: bimodules = parametric right adjoints
+*** Proof
+*** Dynamics of bimodules
+*** Bimodule composition
+
+** Joyal-Kock polynomials as bimodules between discrete categories
+*** The double category in Gambino-Kock is full subcat of bimod(Cat^#).
+*** Operads
+
+
+** Data migration
+*** Discrete modules as copresheaves
+
+
+
+
+
+** A marriage of data and process
 
 * The Final Chapter: Dynamical System Doctrines and Indexed Double Categories
   

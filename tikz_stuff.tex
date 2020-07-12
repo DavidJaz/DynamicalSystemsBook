@@ -1,0 +1,81 @@
+\pgfdeclarelayer{edgelayer}
+\pgfdeclarelayer{nodelayer}
+\pgfsetlayers{edgelayer,nodelayer,main}
+
+
+
+  \tikzset{
+     tick/.style={postaction={
+        decorate,
+        decoration={markings, mark=at position 0.5 with
+        {\draw[-] (0,.4ex) -- (0,-.4ex);}}}
+     }
+  } 
+  
+
+  	
+  \tikzset{
+     oriented WD/.style={%everything after equals replaces "oriented WD" in key.
+        every to/.style={out=0,in=180,draw},
+        label/.style={
+           font=\everymath\expandafter{\the\everymath\scriptstyle},
+           inner sep=0pt,
+           node distance=2pt and -2pt},
+        semithick,
+        node distance=1 and 1,
+        decoration={markings, mark=at position \stringdecpos with \stringdec},
+        ar/.style={postaction={decorate}},
+        execute at begin picture={\tikzset{
+           x=\bbx, y=\bby,
+           every fit/.style={inner xsep=\bbx, inner ysep=\bby}}}
+        },
+     string decoration/.store in=\stringdec,
+     string decoration={\arrow{stealth};},
+     string decoration pos/.store in=\stringdecpos,
+     string decoration pos=.7,
+     bbx/.store in=\bbx,
+     bbx = 1.5cm,
+     bby/.store in=\bby,
+     bby = 1.5ex,
+     bb port sep/.store in=\bbportsep,
+     bb port sep=1.5,
+     % bb wire sep/.store in=\bbwiresep,
+     % bb wire sep=1.75ex,
+     bb port length/.store in=\bbportlen,
+     bb port length=4pt,
+     bb penetrate/.store in=\bbpenetrate,
+     bb penetrate=0,
+     bb min width/.store in=\bbminwidth,
+     bb min width=1cm,
+     bb rounded corners/.store in=\bbcorners,
+     bb rounded corners=2pt,
+     bb small/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, 
+bby=.7ex},
+		 bb medium/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, 
+bby=.9ex},
+     bb/.code 2 args={%When you see this key, run the code below:
+        \pgfmathsetlengthmacro{\bbheight}{\bbportsep * (max(#1,#2)+1) * \bby}
+        \pgfkeysalso{draw,minimum height=\bbheight,minimum width=\bbminwidth,outer 
+sep=0pt,
+           rounded corners=\bbcorners,thick,
+           prefix after command={\pgfextra{\let\fixname\tikzlastnode}},
+           append after command={\pgfextra{\draw
+              \ifnum #1=0{} \else foreach \i in {1,...,#1} {
+                 ($(\fixname.north west)!{\i/(#1+1)}!(\fixname.south west)$) +(-
+\bbportlen,0) 
+  coordinate (\fixname_in\i) -- +(\bbpenetrate,0) coordinate (\fixname_in\i')}\fi 
+  %Define the endpoints of tickmarks
+              \ifnum #2=0{} \else foreach \i in {1,...,#2} {
+                 ($(\fixname.north east)!{\i/(#2+1)}!(\fixname.south east)$) +(-
+\bbpenetrate,0) 
+  coordinate (\fixname_out\i') -- +(\bbportlen,0) coordinate (\fixname_out\i)}\fi;
+           }}}
+     },
+     bb name/.style={append after command={\pgfextra{\node[anchor=north] at 
+(\fixname.north) {#1};}}}
+  }
+  
+ 
+ 
+ 
+
