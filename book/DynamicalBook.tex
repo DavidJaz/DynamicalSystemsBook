@@ -14,33 +14,45 @@
 
 %-------- Packages --------%
 
-\usepackage{mathtools}
 \usepackage{amsthm}
 \usepackage{amssymb}
-\usepackage{accents}
-\usepackage{newpxtext}
-\usepackage[varg,bigdelims]{newpxmath}
-\usepackage{eucal}
-\usepackage[usenames,dvipsnames]{xcolor}
-\usepackage{tikz}
-\usepackage[siunitx]{circuitikz}
-\usepackage{graphicx}
-\usepackage{outline}
-\usepackage{varwidth}
+\usepackage{mathtools}
+
+\usepackage{makeidx}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{footnote}
+\usepackage{tablefootnote}
+
 \usepackage[inline]{enumitem}
 \usepackage{ifthen}
-\usepackage{footnote}
 \usepackage[utf8]{inputenc} %allows non-ascii in bib file
+\usepackage{xcolor}
+
+\usepackage{subfiles}
+\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
 \usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
 citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
-\usepackage{subfiles}
 \usepackage[capitalize]{cleveref}
-\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
-\usepackage{makeidx}
-\usepackage[all]{xy}
-\usepackage[framemethod=tikz]{mdframed}
-\usepackage{todonotes}
-\usepackage{tablefootnote}
+
+% Fonts
+\usepackage{newpxtext}
+\usepackage[varg,bigdelims]{newpxmath}
+\usepackage{dutchcal}
+
+
+%\usepackage{accents}
+%\usepackage{eucal}
+
+% Graphics
+\usepackage{tikz}
+
+%\usepackage{graphicx}
+%\usepackage{varwidth}
+
+
+%\usepackage[all]{xy}
+
+
 %\usepackage{changepage} %indented paragraphs in solutions 
 %\usepackage{showkeys} %for drafting; prints labels in margin
 
@@ -85,6 +97,8 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
   }
   
 	\tikzcdset{arrow style=tikz, diagrams={>=To}}
+	
+	
 
 % mdframed/tablefootnote%
 % This makes \tablefootnote allow construction of footnotes that appear at bottom of page instead of inside frame
@@ -369,14 +383,21 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\erase}[2][]{{\color{red}#1}}
 \newcommand{\showhide}[2]{#1}
 
+
+% Spivak macros %
+
+\newcommand{\yon}{\mathcal{y}}
+
+% Myers macros %
+
+% ---- Changeable document parameters ---- %
+
 \linespread{1.15}
 %\allowdisplaybreaks
 \setsecnumdepth{subsubsection}
 \settocdepth{subsection}
 \setlength{\parindent}{15pt}
 \setcounter{tocdepth}{1}
-
-%\newcommand{\define}[1]{\textbf{#1}}
 
 
 \DeclareMathVersion{normal2}
@@ -409,7 +430,7 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 
 \subfile{C3-}
 
-\subfile{C4-}
+\subfile{C4-Polynomials}
 
 \subfile{C5-}
 
