@@ -16,6 +16,9 @@ Pair A B = [ _ ∈ A ]×[ B ]
 data Void : Set where
 
 
+data Unit : Set where
+  ⊤ : Unit
+
 record Interface : Set where
    field
      pos : Set
@@ -43,3 +46,4 @@ dis (constant x) _ = Void
 
 toFunctor : Interface -> Set -> Set
 toFunctor i x = [ p ∈ pos i ]×[ (dis i p -> x) ]
+
