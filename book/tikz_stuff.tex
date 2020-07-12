@@ -12,7 +12,16 @@
      }
   } 
   
-
+\tikzset{trees/.style={
+	inner sep=0, 
+	minimum width=0, 
+	minimum height=0,
+	level distance=.5cm, 
+	sibling distance=.5cm,
+%	every child/.style={fill},
+	edge from parent/.style={shorten <= -4pt, draw, ->}
+	}
+}
   	
   \tikzset{
      oriented WD/.style={%everything after equals replaces "oriented WD" in key.
