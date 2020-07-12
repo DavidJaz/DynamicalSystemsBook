@@ -8,6 +8,7 @@
 
 ** General Comments:
 
+* Preface:
 
 * Chapter 1: Deterministic Automata 
 ** Definition of Determinisitic Automata
