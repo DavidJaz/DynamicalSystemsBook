@@ -42,7 +42,6 @@ A paradigmatic example of this sort of dynamical system is a clock.
 \foreach \angle in {0,90,180,270}
   \draw[line width=2pt] (\angle:1.6cm) -- (\angle:2cm);
 \draw (0,0) -- (120:0.8cm);
-\draw (0,0) -- (90:1cm);
 \end{tikzpicture}
 \]
 
@@ -55,8 +54,8 @@ The set $\Set{Hours}$ is the set of \emph{states} of our clock system. If we kno
 % :CUSTOM-ID: problem-with-drawing-mapsto-nicely
 %
 \begin{align*}
-  \fun{tick} &: \Set{Hours} \to \Set{Hours} \\
-                i \mapsto \begin{cases} i + 1 &\mbox{if $i < 12$}\\ 1 &\mbox{if $i = 12$}  \end{cases}
+  \fun{tick} : \Set{Hours} &\to \Set{Hours} \\
+                t &\mapsto \begin{cases} t + 1 &\mbox{if $t < 12$}\\ 1 &\mbox{if $t = 12$}  \end{cases}
 \end{align*}
 
 Here's a sample of the dynamics of the clock. Say we started at 3 o'clock:
@@ -82,8 +81,33 @@ that is shows the hour it is currently displaying on the outgoing wire.
 One issue with our clock is that it doesn't tell us whether it is morning or
 evening. Being morning or evening is its own way that things might be, and we
 can see it as its own dynamical system. We might imagine a little addition to
-our clock that might read $\const{a.m.}$ or $\const{p.m.}$. This time, the states are
-$$\Set{Meridien} = \{\const{a.m.}, \const{p.m.}\}$$
+our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
+\[
+\begin{tikzpicture}[line cap=rect,line width=3pt]
+\filldraw [fill=cyan] (0,0) circle [radius=2cm];
+\foreach \angle [count=\xi] in {60,30,...,-270}
+{
+  \draw[line width=1pt] (\angle:1.8cm) -- (\angle:2cm);
+  \node[font=\large] at (\angle:1.36cm) {\textsf{\xi}};
+}
+\foreach \angle in {0,90,180,270}
+  \draw[line width=2pt] (\angle:1.6cm) -- (\angle:2cm);
+\draw (0,0) -- (120:0.8cm);
+\note at (330:.5cm) {\const{a.m}};
+\end{tikzpicture}
+\]
 
+The states of our daytime-nighttime system are
+$$\Set{Meridien} = \{\const{a.m.}, \const{p.m.}\}.$$
+But this time, knowing how they are going to change also requires us to know the
+hour:
+\begin{align*}
+  \fun{next} : \Set{Meridien} \times \Set{Hours} &\to \Set{Meridien} \\
+               (\const{a.m}, t) &\mapsto \begin{cases} \const{p.m.} &\mbox{if $t = 11$}\\ \const{a.m} &\mbox{otherwise}  \end{cases} \\
+               (\const{p.m}, t) &\mapsto \begin{cases} \const{a.m.} &\mbox{if $t = 11$}\\ \const{p.m} &\mbox{otherwise}  \end{cases}
+\end{align*}
+If it is $\const{a.m.}$ and the clock reads 8, then it will still be
+$\const{a.m.}$; but if it is $\const{a.m.}$ and the clock reads 11, then it will
+switch on the next hour to $\const{p.m.}$.
 
 \end{document}
