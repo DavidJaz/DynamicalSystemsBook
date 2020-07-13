@@ -260,12 +260,12 @@ But $\poly$ is very versatile in its applications. Next we'll show how it relate
 %---- Subsection ----%
 \subsection{Data}
 
-Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put it in a database. A database is a conceptual structure filled with examples.
+Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put their data in a database. This requires organizing the little pieces into a conceptual structure. So when you hear ``database'', just think of it as a conceptual structure filled with examples.
 
-For example, imagine that you have to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
+To fix a mental image, let's say that you need to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
 \[
 \begin{tabular}{ c | c  c  c}
-  \textbf{Employee}&\textbf{Name}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
+  \textbf{Employee}&\textbf{FirstName}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
   1&Alan&101&2\\
   2&Ruth&101&2\\
   3&Carla&102&3
@@ -289,7 +289,7 @@ We can see it as being associated to the following conceptual scheme, also calle
 \tiny\cat{C}\coloneqq
 \boxCD{
 \begin{tikzcd}[row sep=large, ampersand replacement = \&]
- 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{Name}"']\ar[loop left, "\text{Mngr}"]\&\&
+ 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{FirstName}"']\ar[loop left, "\text{Mngr}"]\&\&
   \LTO{Department}\ar[ll, shift left, "\text{Admin}"]\ar[dl, bend left, "\text{Name}"]\\
   \&\LTO[\circ]{String}
 \end{tikzcd}
@@ -297,14 +297,46 @@ We can see it as being associated to the following conceptual scheme, also calle
   Department.Admin.WorksIn = Department
 }
 \]
+The equation at the bottom says that for any department $d$, if you ask for the admin person and see which department they work in, it's required to be $d$.
 
+There's a very important thing that people do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager''.
+\begin{minted}{mysql}
+ FOR    d: Department, e: Employee
+ WHERE  Name(d)="Math" AND
+        (e=Admin(d) OR e=Mngr(Admin(d)))
+ RETURN FirstName(e)
+\end{minted}
+This sort of question is formally called a ``union of conjunctive queries''. We will see this sort of query is intimately connected with $\poly$.
 
+We will also see how databases can be conceived in terms of dynamical systems.
 
 %---- Subsection ----%
 \subsection{Decision theory}
 
 
 Here's a pretty thing we're getting to: the decision stream.
+
+\[
+\begin{tikzpicture}[trees,level 1/.style={sibling distance=20mm},level 2/.style={sibling distance=10mm},level 3/.style={sibling distance=5mm},level 4/.style={sibling distance=2.5mm}]\node {$\bullet$}  child {node {$\bullet$}  	child {node {$\bullet$}  		child {node {$\bullet$}
+				child 
+				child
+			}  		child {node {$\bullet$}
+				child 
+				child
+			}  	}  	child {node {$\bullet$}  		child {node {$\bullet$}
+				child
+				child
+			}
+  		child  {node {$\bullet$}}  	}  }  child {node {$\bullet$}  	child {node {$\bullet$}  		child {node {$\bullet$}
+				child
+				child
+			}  		child {node {$\bullet$}
+				child
+				child
+			}		}		child {node {$\bullet$}
+		}	};
+\end{tikzpicture}
+\]
 \begin{equation}\label{eqn.trees_comp}
 \begin{tikzpicture}[trees, grow'=up]
 	\node (p3) {
