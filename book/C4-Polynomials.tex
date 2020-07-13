@@ -36,9 +36,9 @@ All our polynomials will involve one variable, $\yon$, chosen for reasons we'll 
 \end{align}
 More technically, mini-trees are called \emph{corollas}, so what we're calling a \emph{poly} is a set of corollas. 
 
-Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two options, one options, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end''. While the corollas $1,\yon,$ and $\yon^2$ are each interesting as decisions, their sum $\yon^2+\yon+1$ has very little theoretical interest; it's just a first example.
+Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{possibilities}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two possibilities, one possibility, and no possibilities. Having two possibilities is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one possibility is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no possibilities is when you actually don't get through it: it's ``the end''. While the corollas $1,\yon,$ and $\yon^2$ are each interesting as decisions, their sum $\yon^2+\yon+1$ has very little theoretical interest; it's just a first example.
 
-In a polynomial like $42\yon^3+17\yon$, the pure power term $\yon^3$ has a coefficient of 42 next to it, so the corolla with three leaves shows up 42 times in the associated poly. Intuitively, there are 42 situations in which you have a decision with three options.
+In a polynomial like $42\yon^3+17\yon$, the pure power term $\yon^3$ has a coefficient of 42 next to it, so the corolla with three leaves shows up 42 times in the associated poly. Intuitively, there are 42 situations in which you have a decision with three possibilities.
 
 \[
 \begin{tabular}{llll}
@@ -46,7 +46,7 @@ In a polynomial like $42\yon^3+17\yon$, the pure power term $\yon^3$ has a coeff
 \textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Chapter-intuition}\\\hline
 Set of positions & $p(\ord{1})$ & Set of roots & Set of situations\\
 Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
-Distinction $\fun{d}\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Option
+Distinction $\fun{d}\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Possibility
 \end{tabular}
 \]
 
@@ -59,7 +59,7 @@ Consider the polynomial $p\coloneqq2\yon^3+2\yon+1$ and the associated poly.
 	\item How many roots does this poly have?
 	\item How many decisions does this represent?
 	\item For each corolla in the poly, say how many leaves it has.
-	\item For each decision, how many options does it have?
+	\item For each decision, how many possibilities does it have?
 \end{enumerate}
 Now referring instead to the polynomial $q\coloneqq\yon^\nn+4\yon$:
 \begin{enumerate}[resume]
@@ -241,14 +241,26 @@ Think of another example where systems are sending each other information, but w
 
 But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how you can change how you interface with the world? Sometimes I close my eyes, which makes that particular way of sending me information inaccessible: that port vanishes and you need to use your words. Sometimes I'm in a tunnel and my phone can't receive GPS. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. My ports themselves change in time. Sometimes I even use my output ports to determine the wiring pattern of other machines. We will be able to say all this using $\poly$.
 
-But there's even more that's wrong with the above description. Namely, when I move my eyes, that's actually something you can see---e.g.\ whether I'm looking at you. When I turn around, I see different things, and \emph{you can notice I'm turned around}! When I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves. So my output is actually achieved by changing position. The model in $\poly$ will be able to express this too.
+And there's even more that's wrong with the above description. Namely, when I move my eyes, that's actually something you can see---e.g.\ whether I'm looking at you. When I turn around, I see different things, and \emph{you can notice I'm turned around}! When I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves. So my output is actually achieved by changing position. The model in $\poly$ will be able to express this too.
 
+\begin{example}
+Imagine a million little eyeballs, each of which has a tiny brain inside it, all together in a pond of eyeballs. All that an individual eyeball $e$ can do is open and close. When $e$ is open, it can make some distinction about all the rest of the eyeballs in view: maybe it can count how many are open, or maybe it can see whether just one certain eyeball $e'$ is open or closed. But when $e$ is closed, it can't see anything; whatever else is happening, it's all the same to $e$. All it can do in that state is process previous information.
 
+Each eyeball in this system will correspond to the polynomial $\yon^n+\yon$, which intuitively consists of two situations, one with $n$ possibilities, and the other with only one possibility.
+
+The point is, however, is that the other eyeballs can tell if $e$ is opened or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
+
+Talk about real-world applications!
+\end{example}
+
+Hopefully you now have an idea of what we mean by mode-dependence: interfaces and wiring diagrams changing in time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and wiring diagrams in this sense. 
+
+But $\poly$ is very versatile in its applications. Next we'll show how it relates to information storage and translation.
 
 %---- Subsection ----%
 \subsection{Data}
 
-Data is information, maybe thought of as quantized into atomic pieces, but were these atomic pieces are somehow linked by a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put it in a database. A database is a conceptual structure filled with examples.
+Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put it in a database. A database is a conceptual structure filled with examples.
 
 For example, imagine that you have to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
 \[
