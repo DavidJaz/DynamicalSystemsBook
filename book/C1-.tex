@@ -14,7 +14,7 @@ Here's a basic fact of life: \emph{things change}. And how things change most
 often depends on how they currently are. This is the basic idea underlying all the various notions of \emph{dynamical
   system} that we will see in this book.
 
-\begin{defn}
+\begin{informal}
   A \emph{dynamical system} consists of:
   \begin{itemize}
   \item a notion of how things are, called the \emph{state}, and
@@ -23,7 +23,7 @@ often depends on how they currently are. This is the basic idea underlying all t
   The dynamics of a system might also depend on some free \emph{parameters}, and
   we will often only be interested in some particular \emph{variables} of the
   state. 
-\end{defn}
+\end{informal}
 
 In this chapter, we will see this idea in its
 most distilled form: we will know exactly how things are, and what they will be
@@ -40,6 +40,9 @@ the way things can be for the clock into a set of hours:
 $$\Set{Hours} := \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}.$$
 
 The set $\Set{Hours}$ is the set of \emph{states} of our clock system. If we know what hour it is, we also know what hour is coming next. So, this system has the following dynamics:
+%
+% :CUSTOM-ID: problem-with-drawing-mapsto-nicely
+%
 \begin{align*}
   \fun{tick} &: \Set{Hours} \to \Set{Hours} \\
                 i \mapsto \begin{cases} i + 1 &\mbox{if $i < 12$}\\ 1 &\mbox{if $i = 12$}  \end{cases}
@@ -52,7 +55,7 @@ $$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
 Not the most dynamic of systems, but we have to start somewhere. If we want to
 refer to the whole system at once, we can box it up and write it like this:
 
-\begin{equation}\label{}\tag{box1}
+\begin{equation}\label{eqn.clock_system_box}\tag{box1}
 \begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
 	\node[bb={1}{1}] (X) {$M$};
 	\draw[label] 
@@ -61,5 +64,15 @@ refer to the whole system at once, we can box it up and write it like this:
 		;
 \end{tikzpicture}
 \end{equation}
+
+We imagine that the clock is going about its business inside the clock, and
+that is shows the hour it is currently displaying on the outgoing wire.
+
+One issue with our clock is that it doesn't tell us whether it is morning or
+evening. Being morning or evening is its own way that things might be, and we
+can see it as its own dynamical system. We might imagine a little addition to
+our clock that might read $\const{a.m.}$ or $\const{p.m.}$. This time, the states are
+$$\Set{Meridien} = \{\const{a.m.}, \const{p.m.}\}$$
+
 
 \end{document}

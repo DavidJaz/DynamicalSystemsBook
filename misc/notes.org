@@ -43,3 +43,21 @@ In each note topic, I think we should trade off with headers simply named
     I'm having trouble drawing this mapsto nicely: [[file:~/Documents/Books/DynamicalSystemsBook/book/C1-.tex::#problem-drawing-mapsto-nicely][See situation here.]] 
     
     I want this to look nice, as in, to have the mapsto line up under the to, but I've never really known how to get that effect.
+** Naming conventions for discrete-time dynamical systems
+   We have a number of discrete-time dynamical systems (in various doctrines). 
+
+   We discussed it, and we came up with this convention:
+     adjective system
+
+   For example:
+     deterministic system
+   For a deterministic automaton aka Moore machine
+
+     stochastic system
+   For a stochastic automaton aka Markov decision process
+
+     dependent system
+   For a Poly-dynamical system. 
+   
+   This also lets us use the word "system" for short.
+
