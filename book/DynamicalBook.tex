@@ -319,6 +319,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \newcommand{\Cat}[1]{\mathbf{#1}}%a named category
 \newcommand{\fun}[1]{\textit{#1}}%function
 \newcommand{\Fun}[1]{\mathsf{#1}}%functor
+\newcommand{\Sys}[1]{\mathsf{#1}}%dynamical system
 
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\then}{\mathbin{\fatsemi}}
@@ -345,6 +346,8 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \renewcommand{\iff}{\Leftrightarrow}
 \renewcommand{\th}{\ensuremath{^\tn{th}}\ }
 \newcommand{\down}{\mathbin{\downarrow}}
+
+
 
 
 \newcommand{\inv}{^{-1}}
@@ -388,7 +391,20 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 
 \newcommand{\yon}{\mathcal{y}}
 
-% Myers macros %
+% Jaz macros %
+
+% xmapsto
+\makeatletter
+\providecommand*{\xmapstofill@}{%
+  \arrowfill@{\mapstochar\relbar}\relbar\rightarrow
+}
+\providecommand*{\xmapsto}[2][]{%
+  \ext@arrow 0395\xmapstofill@{#1}{#2}%
+}
+\newcommand{\xto}[1]{\xrightarrow{#1}}
+
+% for making notes in text:
+\newcommand{\jaz}[1]{{\color{red} Jaz: {#1}}}
 
 % ---- Changeable document parameters ---- %
 
