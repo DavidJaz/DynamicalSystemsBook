@@ -1,0 +1,38 @@
+* Style guidelines:
+
+  I intend to use this document to leave daily notes and conversations so we have them available to refer to.
+
+Outermost items should merely be a date. Because I started the document and because this is on Portuguese date system for historical reasons, the dates will be in Portuguese, so
+ <year-month-day> day-of-week
+
+Underneath the outermost item should be note topics. 
+
+In each note topic, I think we should trade off with headers simply named 
+"David" for David I. Spivak and 
+"Jaz" for David Jaz Myers. 
+
+(Jaz: Feel free to choose your own name David)
+
+* <2020-07-13 seg> 
+
+** Conventions for labelling:
+   How should we label our equations, theorems, lemmas, propositions, etc
+
+*** Jaz: 
+    My usual convention is 
+      kind:name.of.particular.item
+
+    e.g. 
+      thm:polynomial.functors.are.dope
+
+    or 
+      eqn:really.complicated.diagram1 
+ 
+      (though, hopefully with better names)
+
+    I suppose it might be useful to also label according to their chapter, like
+
+    C1:eqn:just.a.single.box
+
+    Any ideas?
+
