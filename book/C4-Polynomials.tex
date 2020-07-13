@@ -135,6 +135,7 @@ To give some intuition for the first two, imagine yourself as a system, wired up
 We wrote a little question for you at the top of the diagram. Isn't there something a little funny about wiring diagrams? Maybe for old-fashioned machines, you would wire things together once and they'd stay like that for the life of the machine. But my phone connects to different wifi stations at different times, I drop my connection to Alice for weeks at a time, etc. So wiring diagrams should be able to change in time; $\poly$ will let us do that.
 
 \begin{example}
+Here are some familiar circumstances where we see wiring diagrams changing in time.
 \begin{enumerate}[itemsep=0pt]
 %	\item Airplanes only communicate when they get near enough;
 %	\item A phone is connected to 4G or to wifi depending on circumstances;
@@ -170,10 +171,13 @@ We wrote a little question for you at the top of the diagram. Isn't there someth
 {Snap!};
 \end{tikzpicture}
 \]
+\begin{quote}
+In materials science the Young's modulus accounts for how much force can be transferred across a material as its endpoints are pulled apart. When the material breaks, the two sides can no longer feel evidence of each other. Thinking of pulling as sending a signal (a signal of force), we might say that the ability of internal entities to send signals to each other---the connectivity of the wiring diagram---is being measured by Young's modulus. It will also be visible within $\poly$.
+\end{quote}
 \begin{enumerate}[resume]
 	\item A company may change its supplier at any time;
 \end{enumerate}
-\begin{equation}\label{eqn.supplier}
+\begin{equation*}%\label{eqn.supplier}
 \begin{tikzpicture}[oriented WD, font=\ttfamily, every node/.style={fill=blue!10}, baseline=(c)]
 	\node[bb={0}{1}] (s1) {Supplier 1};
 	\node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
@@ -189,14 +193,17 @@ We wrote a little question for you at the top of the diagram. Isn't there someth
 	\draw (s2'_out1) to (c'_in1);
 	\draw (s1'_out1) to +(5pt,0) node[fill=none] {$\bullet$};
 \end{scope}
-	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=green!10, font=\small,line width=1.5pt] at ($(c)!.5!(helper')$)
+	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=green!10, font=\small, fill=white, line width=1.5pt] at ($(c)!.5!(helper')$)
 {Change\\supplier!};
 \end{tikzpicture}
-\end{equation}
+\end{equation*}
+\begin{quote}
+The company can get widgets either from supplier 1 or supplier 2; we could imagine this choice is completely up to the company. The company can decide based on the quality of widgets it has received in the past, i.e.\ when the company gets a bad widget, it updates an internal variable, and sometimes that variable passes a threshold making the company switch states. Whatever its strategy for deciding, we should be able to encode it in $\poly$.
+\end{quote}
 \begin{enumerate}[resume]
 	\item When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
 \end{enumerate}
-\begin{equation}\label{eqn.someone}
+\begin{equation*}%\label{eqn.someone}
 \begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
 	\node[bb port sep=.5, bb={0}{1}] (A) {unit A};
 	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
@@ -220,16 +227,21 @@ We wrote a little question for you at the top of the diagram. Isn't there someth
 	\node[starburst, draw, minimum width=2cm, minimum height=2cm,fill=blue!50,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
 {Attach!};
 \end{tikzpicture}
-\end{equation}
+\end{equation*}
+\begin{quote}
+Have you ever assembled something? Your internal states dictate the connection pattern of some other things. We can say this in $\poly$.
+\end{quote}
+
+All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory \cref{?,?,?}.
 \end{example}
 
 \begin{exercise}
-Think of another example where systems are sending each other information, but the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your situation.
+Think of another example where systems are sending each other information, but where the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your situation.
 \end{exercise}
 
-But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how your very ports can change in time? Sometimes I close my eyes, which makes that way of sending me information inaccessible: the port vanishes. Sometimes I'm in a tunnel and my phone can't receive GPS. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. My ports themselves change in time. Sometimes I even use my output ports to determine the wiring pattern of other machines. We will be able to say all this using $\poly$.
+But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how you can change how you interface with the world? Sometimes I close my eyes, which makes that particular way of sending me information inaccessible: that port vanishes and you need to use your words. Sometimes I'm in a tunnel and my phone can't receive GPS. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. My ports themselves change in time. Sometimes I even use my output ports to determine the wiring pattern of other machines. We will be able to say all this using $\poly$.
 
-But there's even more that's wrong with the above description. Namely, when I move my eyes, that's actually something you can see. When I turn around, I see different things, and \emph{you can notice I'm turned around}! When I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves. So my output is actually achieved by changing position. The model in $\poly$ will be able to express this too.
+But there's even more that's wrong with the above description. Namely, when I move my eyes, that's actually something you can see---e.g.\ whether I'm looking at you. When I turn around, I see different things, and \emph{you can notice I'm turned around}! When I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves. So my output is actually achieved by changing position. The model in $\poly$ will be able to express this too.
 
 
 
