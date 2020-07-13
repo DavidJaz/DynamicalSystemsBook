@@ -317,68 +317,79 @@ We will also see how databases can be conceived in terms of dynamical systems.
 Here's a pretty thing we're getting to: the decision stream.
 
 \[
-\begin{tikzpicture}[trees,level 1/.style={sibling distance=20mm},level 2/.style={sibling distance=10mm},level 3/.style={sibling distance=5mm},level 4/.style={sibling distance=2.5mm}]\node (a) {$\bullet$}  child {node {$\bullet$}  	child {node {$\bullet$}  		child {node {$\bullet$}
-				child 
-				child
-			}  		child {node {$\bullet$}
-				child 
-				child
-			}  	}  	child {node {$\bullet$}  		child {node {$\bullet$}
+\begin{tikzpicture}[trees]
+\begin{scope}[
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child 
+  				child
+  			}
+    		child {node[dyellow] {$\bullet$}
+  				child 
+  				child
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child
+  				child
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child
+  				child
+  			}
+    		child {node[dyellow] {$\bullet$}
+  				child
+  				child
+  			}
+  		}
+  		child {node[red] {$\bullet$}
+  		}
+  	}
+  ;
+\end{scope}
+\begin{scope}[
+  level 1/.style={sibling distance=13mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+\node (b) [right=4 of a, dyellow] {$\bullet$}
+  child {node[dgreen] {$\bullet$}
+  	child {node[dgreen] {$\bullet$}
+  		child {node[dgreen] {$\bullet$}
 				child
 				child
 			}
-  		child  {node {$\bullet$}}  	}  }  child {node {$\bullet$}  	child {node {$\bullet$}  		child {node {$\bullet$}
+  		child {node[dyellow] {$\bullet$}
 				child
 				child
-			}  		child {node {$\bullet$}
+			}
+		}
+  	child {node[dyellow] {$\bullet$}
+  		child {node[dgreen] {$\bullet$}
 				child
 				child
-			}		}		child {node {$\bullet$}
-		}	};
+			}
+  		child  {node[red] {$\bullet$}}
+  	}
+	}
+	child {node[red] {$\bullet$}}	
+;
+\end{scope}
+\node (c) [red, right=2 of b] {$\bullet$};
 \end{tikzpicture}
 \]
-\begin{equation}\label{eqn.trees_comp}
-\begin{tikzpicture}[trees, grow'=up]
-	\node (p3) {
-  \begin{tikzpicture}[trees, grow'=up]
-    \node (a) {$\bullet$}[sibling distance=.75cm] 
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}[sibling distance=.3cm]
-				  child {node (x) {}} child 
-			}
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}[sibling distance=.3cm]
-				  child child
-  		};
-    \node (b) [right=1.5 of a] {$\bullet$} 
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}[sibling distance=.3cm]
-				  child child
-			}
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}
-  		};
-    \node (c) [right=1 of b]{$\bullet$}
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}
-			}
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}[sibling distance=.3cm]
-				  child child
-  		};
-    \node (d) [right=1 of c]{$\bullet$} 
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}
-			}
-      child {[fill]
-      	node[left=-3pt] {$\bullet$}
-  		};		
-     \node (e) [right=1 of d] {$\bullet$};
-    \node[draw, fill=yellow!80!black, opacity=0.2, rounded corners=5pt, inner sep=5pt, fit=(x) (e)] (y) {};	
-  \end{tikzpicture}
-   };
-\end{tikzpicture}
-\end{equation}
 
 %---- Subsection ----%
 \subsection{Implementation}
