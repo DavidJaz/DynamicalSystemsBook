@@ -43,22 +43,29 @@ In a polynomial like $42\yon^3+17\yon$, the pure power term $\yon^3$ has a coeff
 \[
 \begin{tabular}{llll}
 \multicolumn{4}{c}{\large Terminology}\\
-\textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Intuitive}\\\hline
-Set of positions & $p(1)$ & Set of roots & Set of situations\\
-Interface in position $i$ & Pure power summand $\yon^{p_i}$ & Corolla & Decision\\
-Distinction $d\in p_i$ & Element of $p_i$ & Leaf & Option
+\textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Chapter-intuition}\\\hline
+Set of positions & $p(\ord{1})$ & Set of roots & Set of situations\\
+Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
+Distinction $\fun{d}\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Option
 \end{tabular}
 \]
 
+If you're wondering about the bold $\ord{1}$ and the upright $\fun{i}$, we'll get to all our notational conventions in \cref{sec.poly}.
+
 \begin{exercise}
-Consider the polynomial $2\yon^3+2\yon+1$ and the associated poly.
+Consider the polynomial $p\coloneqq2\yon^3+2\yon+1$ and the associated poly.
 \begin{enumerate}
-	\item Draw the poly.
+	\item Draw the poly whose name is $p$.
 	\item How many roots does this poly have?
 	\item How many decisions does this represent?
 	\item For each corolla in the poly, say how many leaves it has.
 	\item For each decision, how many options does it have?
-	\item Does the polynomial $\yon^\nn+4\yon$ have a representable summand $\yon^2$?
+\end{enumerate}
+Now referring instead to the polynomial $q\coloneqq\yon^\nn+4\yon$:
+\begin{enumerate}[resume]
+	\item Does the polynomial $q$ have a pure-power summand $\yon^2$?
+	\item Does the polynomial $q$ have a pure-power summand $\yon$?
+	\item Does the polynomial $q$ have a pure-power summand $4\yon$?
 	\qedhere
 \end{enumerate}
 
@@ -82,7 +89,7 @@ If you were a suitor choosing the poly you love, aesthetically speaking, which w
 Any reason for your choice?
 \end{exercise}
 
-But before we get into the details, let's say where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. Remember, we spoke superlatively of $\poly$ at the beginning of this chapter,
+Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. Remember, we spoke superlatively of $\poly$ at the beginning of this chapter,
 \slogan{
 The category of polynomial functors is a jackpot. Its beauty flows without bound}
 and we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
@@ -127,9 +134,104 @@ To give some intuition for the first two, imagine yourself as a system, wired up
 \end{equation}
 We wrote a little question for you at the top of the diagram. Isn't there something a little funny about wiring diagrams? Maybe for old-fashioned machines, you would wire things together once and they'd stay like that for the life of the machine. But my phone connects to different wifi stations at different times, I drop my connection to Alice for weeks at a time, etc. So wiring diagrams should be able to change in time; $\poly$ will let us do that.
 
+\begin{example}
+\begin{enumerate}[itemsep=0pt]
+%	\item Airplanes only communicate when they get near enough;
+%	\item A phone is connected to 4G or to wifi depending on circumstances;
+%	\item A person can choose when to open (receive input through) their eyes and when to speak (produce output);\goodbreak
+	\item When too much force is applied to a material, bonds can break;
+\end{enumerate}
+\[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=0]
+	\foreach \i in {0,...,4} {
+		\node[bb={1}{1}, fill=blue!10] at (1.7*\i,0) (X\i) {};
+	}
+%	\node[bb={1}{1}, fit=(X0) (X4)] (X) {};
+	\foreach \i in {0,...,3} {
+		\draw[thick] (X\i_out1) -- (X\the\numexpr\i+1\relax_in1);
+	};
+	\draw[thick, ->] (X0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0);
+	\draw[thick, ->] (X4_out1) -- node[above, font=\tiny] {Force} +(2.5,0) node (R) {};
+%
+\def\x{21};
+	\foreach \i in {0,...,2} {
+		\node[bb={1}{1}, fill=blue!10] at (\x+1.7*\i,0) (Y\i) {};
+	}
+	\foreach \i in {3,...,4} {
+		\node[bb={1}{1}, fill=blue!10] at (\x+1.3+1.7*\i,0) (Y\i) {};
+	}
+%	\node[bb={1}{1}, fit=(Y0) (Y4)] (Y) {};
+	\foreach \i in {0,1,3} {
+		\draw[thick] (Y\i_out1) -- (Y\the\numexpr\i+1\relax_in1);
+	};
+	\draw[thick, ->] (Y0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0) node (L) {};
+	\draw[thick, ->] (Y4_out1) -- node[above, font=\tiny] {Force} +(2.5,0);
+	\node[starburst, draw, minimum width=2cm, minimum height=1.5cm,red,fill=orange,line width=1.5pt] at ($(L)!.5!(R)$)
+{Snap!};
+\end{tikzpicture}
+\]
+\begin{enumerate}[resume]
+	\item A company may change its supplier at any time;
+\end{enumerate}
+\begin{equation}\label{eqn.supplier}
+\begin{tikzpicture}[oriented WD, font=\ttfamily, every node/.style={fill=blue!10}, baseline=(c)]
+	\node[bb={0}{1}] (s1) {Supplier 1};
+	\node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
+	\coordinate (helper) at ($(s1)!.5!(s2)$);
+	\node[bb={1}{0}, right=1.5 of helper] (c) {Company};
+	\draw (s1_out1) to (c_in1);
+	\draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
+\begin{scope}[xshift=3.5in]
+	\node[bb={0}{1}] (s1') {Supplier 1};
+	\node[bb={0}{1}, below=of s1'] (s2') {Supplier 2};
+	\coordinate (helper') at ($(s1')!.5!(s2')$);
+	\node[bb={1}{0}, right=1.5 of helper'] (c') {Company};
+	\draw (s2'_out1) to (c'_in1);
+	\draw (s1'_out1) to +(5pt,0) node[fill=none] {$\bullet$};
+\end{scope}
+	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=green!10, font=\small,line width=1.5pt] at ($(c)!.5!(helper')$)
+{Change\\supplier!};
+\end{tikzpicture}
+\end{equation}
+\begin{enumerate}[resume]
+	\item When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
+\end{enumerate}
+\begin{equation}\label{eqn.someone}
+\begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
+	\node[bb port sep=.5, bb={0}{1}] (A) {unit A};
+	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
+	\coordinate (helper) at ($(A)!.5!(B)$);
+	\node[bb={1}{1}, below=2 of helper] (someone) {\tikzsymStrichmaxerl[3]};
+	\draw[->, dashed, blue] (someone_in1) to[out=180, in=270] (A.270);
+	\draw[->, dashed, blue] (someone_out1) to[out=0, in=270] (B.270);
+	\draw (A_out1) -- +(10pt,0);
+	\draw (B_in1) -- +(-10pt,0);
+%
+\begin{scope}[xshift=3.5in]
+	\node[bb port sep=.5, bb={0}{1}] (A') {unit A};
+	\node[bb port sep=.5, bb={1}{0}, right=.5of A'] (B') {unit B};
+	\coordinate (helper') at ($(A')!.5!(B')$);
+	\node[bb={1}{1}, below=2 of helper'] (someone') {\tikzsymStrichmaxerl[3]};
+	\draw[->, dashed, blue] (someone'_in1) to[out=180, in=270] (A'.270);
+	\draw[->, dashed, blue] (someone'_out1) to[out=0, in=270] (B'.270);
+	\draw (A'_out1) -- (B'_in1);
+\end{scope}
+%
+	\node[starburst, draw, minimum width=2cm, minimum height=2cm,fill=blue!50,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
+{Attach!};
+\end{tikzpicture}
+\end{equation}
+\end{example}
+
+\begin{exercise}
+Think of another example where systems are sending each other information, but the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your situation.
+\end{exercise}
+
 But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how your very ports can change in time? Sometimes I close my eyes, which makes that way of sending me information inaccessible: the port vanishes. Sometimes I'm in a tunnel and my phone can't receive GPS. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. My ports themselves change in time. Sometimes I even use my output ports to determine the wiring pattern of other machines. We will be able to say all this using $\poly$.
 
 But there's even more that's wrong with the above description. Namely, when I move my eyes, that's actually something you can see. When I turn around, I see different things, and \emph{you can notice I'm turned around}! When I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves. So my output is actually achieved by changing position. The model in $\poly$ will be able to express this too.
+
+
 
 %---- Subsection ----%
 \subsection{Data}
@@ -138,39 +240,41 @@ Data is information, maybe thought of as quantized into atomic pieces, but were 
 
 For example, imagine that you have to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
 \[
+\begin{tabular}{ c | c  c  c}
+  \textbf{Employee}&\textbf{Name}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
+  1&Alan&101&2\\
+  2&Ruth&101&2\\
+  3&Carla&102&3
+\end{tabular}
+\hspace{.3in}
+\begin{tabular}{ c | c  c}
+  \textbf{Department}&\textbf{Name}&\textbf{Admin}\\\hline
+  101&Sales&1\\
+  102&IT&3\\~
+\end{tabular}
+%\hspace{.3in}
+%\begin{tabular}{ c |}
+%	\textbf{String}\\\hline
+%	Alan\\
+%	IT\\[-3pt]
+%	\resizebox{!}{10pt}{$\vdots$}
+%\end{tabular}
+\]
+We can see it as being associated to the following conceptual scheme, also called a \emph{schema}:
+\[
 \tiny\cat{C}\coloneqq
 \boxCD{
 \begin{tikzcd}[row sep=large, ampersand replacement = \&]
- 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{FName}"']\ar[loop left, "\text{Mngr}"]\&\&
-  \LTO{Department}\ar[ll, shift left, "\text{Admin}"]\ar[dl, bend left, "\text{DName}"]\\
-  \&\LTO{String}
+ 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{Name}"']\ar[loop left, "\text{Mngr}"]\&\&
+  \LTO{Department}\ar[ll, shift left, "\text{Admin}"]\ar[dl, bend left, "\text{Name}"]\\
+  \&\LTO[\circ]{String}
 \end{tikzcd}
 \\~\\\tiny
   Department.Admin.WorksIn = Department
 }
 \]
 
-\[\tiny
-\begin{tabular}{ c | c  c  c}
-  \textbf{Employee}&\textbf{FName}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
-  1&Alan&101&2\\
-  2&Ruth&101&2\\
-  3&Carla&102&3
-\end{tabular}
-\hspace{.5in}
-\begin{tabular}{ c | c  c}
-  \textbf{Department}&\textbf{DName}&\textbf{Admin}\\\hline
-  101&Sales&1\\
-  102&IT&3\\~
-\end{tabular}
-\hspace{.5in}
-\begin{tabular}{ c |}
-	\textbf{String}\\\hline
-	Alan\\
-	IT\\[-3pt]
-	\resizebox{!}{10pt}{$\vdots$}
-\end{tabular}
-\]
+
 
 %---- Subsection ----%
 \subsection{Decision theory}
@@ -225,6 +329,9 @@ Here's a pretty thing we're getting to: the decision stream.
 
 %---- Subsection ----%
 \subsection{Mathematical theory}
+
+%-------- Section --------%
+\section{$\poly$ as a category}\label{sec.poly}
 
 %-------- Section --------%
 \section{Dynamical systems}
