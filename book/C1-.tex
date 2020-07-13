@@ -137,7 +137,7 @@ our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
 	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
   	\node[bb={0}{1}, below=of X1] (X2) {$\Sys{Clock}$};
   \node (Label) at (2,-6) {$\Sys{ClockWithDisplay}$};
-	\node[bb={0}{2}, fit=(X1) (X2) (Label)] (Y) {};
+	\node[bb={0}{2}, fit={($(X1.north west)$) (X2) ($(Label) + (0,1)$)}] (Y) {};
 	\draw (X1_out1) to (Y_out1);
   \draw (X2_out1) to[out=0, in=0] (2,-1.5);
   \draw (1.9, -1.5) to (-2.9, -1.5);
