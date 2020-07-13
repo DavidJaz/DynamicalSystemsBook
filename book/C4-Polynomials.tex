@@ -102,11 +102,11 @@ Throughout this book, we've seen dynamical systems---machines of various sorts--
 To give some intuition for the first two, imagine yourself as a system, wired up to other systems. You have some input ports: your eyes, your ears, etc., and you have some output ports: your speech, your gestures, etc. And you connect with other systems: your family, your colleagues, the GPS of your phone, etc.
 \begin{equation}\label{eqn.wired_forever}
 \begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
-	\node[bb={2}{2}, green!25!black] (X11) {\tiny me};
+	\node[bb={2}{2}, green!25!black] (X11) {\tiny Alice};
 	\node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny you};
-	\node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny GPS};
-	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny Alice};
-	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny Bob};
+	\node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny Bob};
+	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny GPS};
+	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny me};
   \node[bb={2}{2}, fit = {($(X11.north east)+(-1,4)$) (X12) (X13) ($(X21.south)$) ($(X22.east)+(.5,0)$)}, bb name = {\small Wired together like this forever?}] (Z) {};
 	\draw (X21_out1) to (X22_in1);
 	\draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
@@ -134,7 +134,43 @@ But there's even more that's wrong with the above description. Namely, when I mo
 %---- Subsection ----%
 \subsection{Data}
 
+Data is information, maybe thought of as quantized into atomic pieces, but were these atomic pieces are somehow linked by a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put it in a database. A database is a conceptual structure filled with examples.
 
+For example, imagine that you have to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
+\[
+\tiny\cat{C}\coloneqq
+\boxCD{
+\begin{tikzcd}[row sep=large, ampersand replacement = \&]
+ 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{FName}"']\ar[loop left, "\text{Mngr}"]\&\&
+  \LTO{Department}\ar[ll, shift left, "\text{Admin}"]\ar[dl, bend left, "\text{DName}"]\\
+  \&\LTO{String}
+\end{tikzcd}
+\\~\\\tiny
+  Department.Admin.WorksIn = Department
+}
+\]
+
+\[\tiny
+\begin{tabular}{ c | c  c  c}
+  \textbf{Employee}&\textbf{FName}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
+  1&Alan&101&2\\
+  2&Ruth&101&2\\
+  3&Carla&102&3
+\end{tabular}
+\hspace{.5in}
+\begin{tabular}{ c | c  c}
+  \textbf{Department}&\textbf{DName}&\textbf{Admin}\\\hline
+  101&Sales&1\\
+  102&IT&3\\~
+\end{tabular}
+\hspace{.5in}
+\begin{tabular}{ c |}
+	\textbf{String}\\\hline
+	Alan\\
+	IT\\[-3pt]
+	\resizebox{!}{10pt}{$\vdots$}
+\end{tabular}
+\]
 
 %---- Subsection ----%
 \subsection{Decision theory}
