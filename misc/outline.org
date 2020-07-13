@@ -1,15 +1,10 @@
 * This Document
+  
 
-
-** This document is Jaz's outline
-   It will primarily concern the parts of the book on which Jaz is writing the first draft.
-
-   Comments from David S. are welcome.
 
 ** General Comments:
 
 * Preface:
-
 * Chapter 1: Deterministic Automata 
 ** Definition of Determinisitic Automata
 ** Wiring Together Automata
@@ -63,7 +58,7 @@
 *** Ahman-Uustalu
 *** Coproducts and products in Cat^# (funny tensor product?)
 
-*Chapter 6: The equipment (Cat, Cofunctors, Bimodules)
+* Chapter 6: The equipment (Cat, Cofunctors, Bimodules)
 
 ** Garner: bimodules = parametric right adjoints
 *** Proof
