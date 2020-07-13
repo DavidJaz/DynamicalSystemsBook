@@ -136,8 +136,8 @@ our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
 	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
   	\node[bb={0}{1}, below=of X1] (X2) {$\Sys{Clock}$};
-  \node (Label) at (2,-6) {$\Sys{ClockWithDisplay}$};
-	\node[bb={0}{2}, fit=(X1) (X2) (Label)] (Y) {};
+	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
 	\draw (X1_out1) to (Y_out1);
   \draw (X2_out1) to[out=0, in=0] (2,-1.5);
   \draw (1.9, -1.5) to (-2.9, -1.5);
