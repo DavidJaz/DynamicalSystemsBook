@@ -42,6 +42,7 @@ In a polynomial like $42\yon^3+17\yon$, the pure power term $\yon^3$ has a coeff
 
 \[
 \begin{tabular}{llll}
+\multicolumn{4}{c}{\large Terminology}\\
 \textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Intuitive}\\\hline
 Set of positions & $p(1)$ & Set of roots & Set of situations\\
 Interface in position $i$ & Pure power summand $\yon^{p_i}$ & Corolla & Decision\\
@@ -81,15 +82,59 @@ If you were a suitor choosing the poly you love, aesthetically speaking, which w
 Any reason for your choice?
 \end{exercise}
 
-But before we get into the details, let's say where we're going. We're going to use polynomials to think about dynamics, data, and decision. We made very big promises at the beginning of this section, and we have not yet begun to deliver.
+But before we get into the details, let's say where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. Remember, we spoke superlatively of $\poly$ at the beginning of this chapter,
+\slogan{
+The category of polynomial functors is a jackpot. Its beauty flows without bound}
+and we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
 
 %---- Subsection ----%
 \subsection{Dynamical systems}
 
-We've seen dynamical systems throughout this book
+Throughout this book, we've seen dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In the context of this chapter, we'll be looking mainly at deterministic systems, but with a lot of interesting new possibilities:
+\begin{enumerate}
+	\item The interface of the system can change shape through time.
+	\item The wiring diagram connecting a bunch of systems can change in time.
+	\item One can speed up the dynamics of a system.
+	\item One can introduce ``effects'', i.e.\ as defined by monads on $\smset$.
+	\item The dynamical systems on any interface form a topos.
+\end{enumerate}
+
+To give some intuition for the first two, imagine yourself as a system, wired up to other systems. You have some input ports: your eyes, your ears, etc., and you have some output ports: your speech, your gestures, etc. And you connect with other systems: your family, your colleagues, the GPS of your phone, etc.
+\begin{equation}\label{eqn.wired_forever}
+\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
+	\node[bb={2}{2}, green!25!black] (X11) {\tiny me};
+	\node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny you};
+	\node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny GPS};
+	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny Alice};
+	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny Bob};
+  \node[bb={2}{2}, fit = {($(X11.north east)+(-1,4)$) (X12) (X13) ($(X21.south)$) ($(X22.east)+(.5,0)$)}, bb name = {\small Wired together like this forever?}] (Z) {};
+	\draw (X21_out1) to (X22_in1);
+	\draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
+          (X22_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X21_in1);
+	\draw (X11_out1) to (X13_in1);
+	\draw (X11_out2) to (X12_in1);
+	\draw (X12_out1) to (X13_in2);
+	\draw (Z_in1'|-X11_in2) to (X11_in2);	
+	\draw (Z_in2'|-X12_in2) to (X12_in2);
+	\draw (X12_out2) to (X21_in2);
+	\draw (X21_out2) to (Z_out2'|-X21_out2);
+	 \draw let \p1=(X12.south east), \p2=(X12.south west), \n1={\y1-\bby}, \n2=\bbportlen in
+	  (X12_out3) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X12_in3);
+	\draw let \p1=(X22.north east), \p2=(X11.north west), \n1={\y2+\bby}, \n2=\bbportlen in
+          (X22_out2) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X11_in1);
+	\draw (X13_out1) to (Z_out1'|-X13_out1);
+\end{tikzpicture}
+\end{equation}
+We wrote a little question for you at the top of the diagram. Isn't there something a little funny about wiring diagrams? Maybe for old-fashioned machines, you would wire things together once and they'd stay like that for the life of the machine. But my phone connects to different wifi stations at different times, I drop my connection to Alice for weeks at a time, etc. So wiring diagrams should be able to change in time; $\poly$ will let us do that.
+
+But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how your very ports can change in time? Sometimes I close my eyes, which makes that way of sending me information inaccessible: the port vanishes. Sometimes I'm in a tunnel and my phone can't receive GPS. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. My ports themselves change in time. Sometimes I even use my output ports to determine the wiring pattern of other machines. We will be able to say all this using $\poly$.
+
+But there's even more that's wrong with the above description. Namely, when I move my eyes, that's actually something you can see. When I turn around, I see different things, and \emph{you can notice I'm turned around}! When I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves. So my output is actually achieved by changing position. The model in $\poly$ will be able to express this too.
 
 %---- Subsection ----%
 \subsection{Data}
+
+
 
 %---- Subsection ----%
 \subsection{Decision theory}
