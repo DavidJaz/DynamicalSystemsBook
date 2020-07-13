@@ -9,10 +9,14 @@
 %------------ Chapter ------------%
 \chapter{Polynomial functors and dynamics}
 
+\slogan{
+The category of polynomial functors is a jackpot. Its beauty flows without bound.}
+
 %-------- Section --------%
 \section{Introduction}
 
-The category of polynomial functors is a jackpot. Its beauty flows without bound. We will see its intimate relationship with both information and process. We will see its intimate relationship with safety and decision-making. But our story begins with something quite humble: middle school algebra.
+
+In this chapter we will investigate a remarkable category called $\poly$. We will see its intimate relationship with both dynamic processes, data storage and transformations, and decision-making. We will see its intimate relationship with safety and decision-making. But our story begins with something quite humble: middle school algebra.
 \begin{align}\label{eqn.polynomial1892}
 \yon^2+\yon+1 \quad&\quad
 \textit{polynomial}
@@ -32,14 +36,16 @@ All our polynomials will involve one variable, $\yon$, chosen for reasons we'll 
 \end{align}
 More technically, mini-trees are called \emph{corollas}, so what we're calling a \emph{poly} is a set of corollas. 
 
-Intuitively, one might register each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two options, one options, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end''. While the corollas $1,\yon,$ and $\yon^2$ are each interesting as decisions, their sum $\yon^2+\yon+1$ has very little theoretical interest; it's just a first example.
+Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two options, one options, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end''. While the corollas $1,\yon,$ and $\yon^2$ are each interesting as decisions, their sum $\yon^2+\yon+1$ has very little theoretical interest; it's just a first example.
+
+In a polynomial like $42\yon^3+17\yon$, the pure power term $\yon^3$ has a coefficient of 42 next to it, so the corolla with three leaves shows up 42 times in the associated poly. Intuitively, there are 42 situations in which you have a decision with three options.
 
 \[
 \begin{tabular}{llll}
-\textbf{Polynomial} $p$ & \textbf{Overarching terminology} & \textbf{Poly} & \textbf{Intuitive}\\\hline
-$p(1)$ & Set of positions & Set of corollas & Set of decisions\\
-Pure power summand $\yon^A$& Position & Corolla & Decision\\
-Distinction $d\in p_i$ & ? & Set of leaves & Set of options
+\textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Intuitive}\\\hline
+Set of positions & $p(1)$ & Set of roots & Set of situations\\
+Interface in position $i$ & Pure power summand $\yon^{p_i}$ & Corolla & Decision\\
+Distinction $d\in p_i$ & Element of $p_i$ & Leaf & Option
 \end{tabular}
 \]
 
@@ -52,11 +58,12 @@ Consider the polynomial $2\yon^3+2\yon+1$ and the associated poly.
 	\item For each corolla in the poly, say how many leaves it has.
 	\item For each decision, how many options does it have?
 	\item Does the polynomial $\yon^\nn+4\yon$ have a representable summand $\yon^2$?
+	\qedhere
 \end{enumerate}
 
 \end{exercise}
 
-In our terminology, a polynomial $p$ consists of positions and their distinctions, so as in \eqref{eqn.polynomial1892} would be pronounced as having three positions, one with two distinctions, one with one, and one with none. The associated poly \eqref{eqn.poly1892} would be pronounced as having three decisions, one with two options, one with one, one with none. We do not make a distinction in notation between the poly and its name $p$; they are two different syntaxes for the same object. 
+Mathematically and notationally we do not make a distinction between a poly and its name $p$; they are two different syntaxes for the same object. 
 
 
 \begin{exercise}
@@ -69,15 +76,17 @@ If you were a suitor choosing the poly you love, aesthetically speaking, which w
 	\item $(\nn\yon)^\nn$
 	\item $S\yon^S$
 	\item $\yon^{100}+\yon^2+3\yon$
-	\item Your poly's nomial $p$ here.
+	\item Your poly's name $p$ here.
 \end{enumerate}
-Any reason?
+Any reason for your choice?
 \end{exercise}
 
-But before we get into the details, let's say where we're going: dynamical systems and data.
+But before we get into the details, let's say where we're going. We're going to use polynomials to think about dynamics, data, and decision. We made very big promises at the beginning of this section, and we have not yet begun to deliver.
 
 %---- Subsection ----%
 \subsection{Dynamical systems}
+
+We've seen dynamical systems throughout this book
 
 %---- Subsection ----%
 \subsection{Data}
