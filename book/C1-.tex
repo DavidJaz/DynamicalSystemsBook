@@ -66,12 +66,11 @@ $$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
 Not the most dynamic of systems, but we have to start somewhere. If we want to
 refer to the whole system at once, we can box it up and write it like this:
 
-\begin{equation}\label{eqn.clock_system_box}\tag{box1}
+\begin{equation}\label{eqn.clock_system_box}\tag{Clock System}
 \begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
-	\node[bb={1}{1}] (X) {$M$};
+	\node[bb={0}{1}] (X) {$\Sys{Clock}$};
 	\draw[label] 
-		node [left=2pt of X_in1] {$A$}
-		node [right=2pt of X_out1] {$B$}
+		node [right=2pt of X_out1] {$\Set{Hours}$}
 		;
 \end{tikzpicture}
 \end{equation}
@@ -94,7 +93,7 @@ our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
 \foreach \angle in {0,90,180,270}
   \draw[line width=2pt] (\angle:1.6cm) -- (\angle:2cm);
 \draw (0,0) -- (120:0.8cm);
-\node at (330:.5cm) {$\const{a.m}$};
+\node[draw, fill] at (330:.7cm) {$\color{white}\const{a.m}$};
 \end{tikzpicture}
 \end{equation}
 
@@ -115,12 +114,12 @@ switch on the next hour to $\const{p.m.}$.
 The thing to note about the dynamics of the $\const{a.m.}/\const{p.m.}$ system
 is that they depend on what hour it is. The hour is a \emph{parameter} for the
 dynamics of this system. We can draw this system as a box like this:
-\begin{equation}\label{eqn.am_pm_system_box}\tag{box1}
+\begin{equation}\label{eqn.am_pm_system_box}
 \begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
-	\node[bb={1}{1}] (X) {$M$};
+	\node[bb={1}{1}] (X) {$\Sys{a.m./p.m.}$};
 	\draw[label] 
-		node [left=2pt of X_in1] {$A$}
-		node [right=2pt of X_out1] {$B$}
+		node [left=2pt of X_in1] {$\Set{Hours}$}
+		node [right=2pt of X_out1] {$\Set{Meridien}$}
 		;
 \end{tikzpicture}
 \end{equation}
@@ -132,12 +131,19 @@ our dynamics.
 
 We can now express our whole clock (\ref{eqn.whole_clock}) by wiring together
 our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
-\begin{equation}\label{eqn.clock_system_box}\tag{box1}
-\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
-	\node[bb={1}{1}] (X) {$M$};
+\begin{equation}\label{eqn.clock_system_box}
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
+  	\node[bb={0}{1}, below=of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={0}{2}, fit=(X1) (X2)] (Y) {$\Sys{ClockWithDisplay}$};
+	\draw (X1_out1) to (Y_out1);
+  \draw (X2_out1) to[out=0, in=0] (2,-1.5);
+  \draw (1.9, -1.5) to (-2.9, -1.5);
+  \draw (-3, -1.5) to[out=180, in=180] (X1_in1);
+  \draw (X2_out1) to (Y_out2);
 	\draw[label] 
-		node [left=2pt of X_in1] {$A$}
-		node [right=2pt of X_out1] {$B$}
+		node [right=2pt of Y_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out2] {$\Set{Hours}$}
 		;
 \end{tikzpicture}
 \end{equation}
@@ -173,10 +179,11 @@ The diner's dynamics are then
 Again, we can represent the diner by this box:
 \begin{equation}\label{eqn.diner_system_box}\tag{box1}
 \begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
-	\node[bb={1}{1}] (X) {$M$};
+	\node[bb={2}{1}] (X) {$\Sys{Diner}$};
 	\draw[label] 
-		node [left=2pt of X_in1] {$A$}
-		node [right=2pt of X_out1] {$B$}
+		node [left=2pt of X_in1] {$\Set{Meridien}$}
+		node [left=2pt of X_in2] {$\Set{Hours}$}
+		node [right=2pt of X_out1] {$\Set{DinerState}$}
 		;
 \end{tikzpicture}
 \end{equation}
@@ -228,7 +235,7 @@ the abstract language of composition: \emph{category theory}.
 
 That's a lot of informal definitions, we are ready for something precise:
 \begin{definition}
-  A \emph{deterministic system} $\lens{u}{r} : \lens{S}{S} \leftrightarrow \lens{I}{O}$ consists of:
+  A \emph{deterministic system} $\lens{u}{r} : \lens{S}{S} \leftrightarrows \lens{I}{O}$ consists of:
   \begin{itemize}
     \item A set $S$ of \emph{states}.
     \item A set $O$ of \emph{values for exposed variables}, or \emph{outputs}
