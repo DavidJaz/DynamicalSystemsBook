@@ -7,7 +7,7 @@
 
 
 %------------ Chapter ------------%
-\chapter{}
+\chapter{Deterministic, Disrete-Time Systems}
 
 
 Here's a basic fact of life: \emph{things change}. And how things change most
@@ -139,5 +139,108 @@ our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
 		;
 \end{tikzpicture}
 \end{equation}
+
+This system has states
+$$\Set{HoursWithDisplay} := \Set{Hours} \times \Set{Meridien}$$
+consisting of a pair $(11, \const{a.m.})$ of an hour and a meridien reading.
+They update in a combined way, by using the hour shown on the clock face as the
+parameter we need for the $\const{a.m.}/\const{p.m.}$ system. In full, the
+dynamics looks like this:
+\begin{align*}
+  \fun{tick'} :\Set{HoursWithDisplay} &\to \Set{HoursWithDisplay} \\
+  (t, m) &\mapsto (\fun{tick}(t), \fun{next}(t, m))
+\end{align*}
+
+\begin{exercise}
+  Expand the definition of the combined system out in full, and check that it
+  really does behave like the clock with $\const{a.m.}/\const{p.m.}$ display should.
+\end{exercise}
+
+Now that we have a working clock, we can use it for systems that need to know
+the time. For example, consider a diner that opens at $7 \const{a.m.}$ and
+closes at $10 \const{p.m.}$. The states of this diner are
+$$\Set{DinerState} = \{\const{open}, \const{closed}\}.$$
+The diner's dynamics are then
+\begin{align*}
+  \fun{dinerDynamics} : \Set{DinerState} \times \Set{HoursWithDisplay} &\to \Set{DinerState} \\
+  (\const{open}, (10, \const{p.m.})) &\mapsto \const{closed} \\
+  (\const{closed}, (7, \const{a.m.})) &\mapsto \const{open} \\
+  (s, (t, m)) &\mapsto s \quad\mbox{otherwise.} 
+\end{align*}
+
+Again, we can represent the diner by this box:
+\begin{equation}\label{eqn.diner_system_box}\tag{box1}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+	\node[bb={1}{1}] (X) {$M$};
+	\draw[label] 
+		node [left=2pt of X_in1] {$A$}
+		node [right=2pt of X_out1] {$B$}
+		;
+\end{tikzpicture}
+\end{equation}
+This time, we have two wires coming in, corresponding to the two parameters we
+need for the diner system: the hour and the
+meridien. 
+
+Assuming that the diner has a clock on its wall which it uses to decide whether
+to open or close, the full diner system would be given by wiring the clock with display into
+those input wires:
+\begin{equation}\label{eqn.diner_system_box}\tag{box1}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+	\node[bb={1}{1}] (X) {$M$};
+	\draw[label] 
+		node [left=2pt of X_in1] {$A$}
+		node [right=2pt of X_out1] {$B$}
+		;
+\end{tikzpicture}
+\end{equation}
+If we want to, we can peak into the clock with display and see that it is itself
+made out of a clock wired to a display:
+\begin{equation}\label{eqn.diner_system_box}\tag{box1}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+	\node[bb={1}{1}] (X) {$M$};
+	\draw[label] 
+		node [left=2pt of X_in1] {$A$}
+		node [right=2pt of X_out1] {$B$}
+		;
+\end{tikzpicture}
+\end{equation}
+
+We call this way of putting together dynamical systems to make more complex
+systems \emph{composition}.
+\begin{informal}
+  \emph{Composition} is the process by which some things are brought together to
+  form bigger things.
+
+  Functions can be composed by $g \circ f(x) = g(f(x))$, and dynamical systems
+  can be composed by plugging in the variables of the states of some into the
+  parameters of others.
+\end{informal}
+
+This book is all about composing dynamical systems. Because of this, we will use
+the abstract language of composition: \emph{category theory}.
+\begin{informal}
+\emph{Category theory} is the abstract study of composition.
+\end{informal}
+
+That's a lot of informal definitions, we are ready for something precise:
+\begin{definition}
+  A \emph{deterministic system} $\lens{u}{r} : \lens{S}{S} \leftrightarrow \lens{I}{O}$ consists of:
+  \begin{itemize}
+    \item A set $S$ of \emph{states}.
+    \item A set $O$ of \emph{values for exposed variables}, or \emph{outputs}
+      for short.
+    \item A set $I$ of \emph{parameter values}, or \emph{inputs} for short.
+    \item A function $r : S \to O$, the \emph{exposed variable of state} or
+      \emph{readout} function which takes a state to the output it yields. 
+    \item A function $u : S \times I \to S$, the \emph{dynamics} of
+      \emph{update} function which takes a state and a parameter and gives the
+      next state.
+  \end{itemize}
+  We refer to the pair $\lens{I}{O}$ of exposed variable and parameter values as
+  the \emph{interface} of the system.
+\end{definition}
+
+\section{Wiring Together Systems with Lenses}
 
 \end{document}
