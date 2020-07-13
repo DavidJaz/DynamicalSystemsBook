@@ -285,7 +285,7 @@ To fix a mental image, let's say that you need to constantly look up employees, 
 %\end{tabular}
 \]
 We can see it as being associated to the following conceptual scheme, also called a \emph{schema}:
-\[
+\begin{equation}\label{eqn.myschema}
 \tiny\cat{C}\coloneqq
 \boxCD{
 \begin{tikzcd}[row sep=large, ampersand replacement = \&]
@@ -296,10 +296,10 @@ We can see it as being associated to the following conceptual scheme, also calle
 \\~\\\tiny
   Department.Admin.WorksIn = Department
 }
-\]
+\end{equation}
 The equation at the bottom says that for any department $d$, if you ask for the admin person and see which department they work in, it's required to be $d$.
 
-There's a very important thing that people do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager''.
+There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager''.
 \begin{minted}{mysql}
  FOR    d: Department, e: Employee
  WHERE  Name(d)="Math" AND
@@ -311,11 +311,9 @@ This sort of question is formally called a ``union of conjunctive queries''. We 
 We will also see how databases can be conceived in terms of dynamical systems.
 
 %---- Subsection ----%
-\subsection{Decision theory}
+\subsection{Decisions}
 
-
-Here's a pretty thing we're getting to: the decision stream.
-
+Consider the following three trees, the first two are infinite (though that's hard to draw):
 \[
 \begin{tikzpicture}[trees]
 \begin{scope}[
@@ -390,10 +388,179 @@ Here's a pretty thing we're getting to: the decision stream.
 \node (c) [red, right=2 of b] {$\bullet$};
 \end{tikzpicture}
 \]
+These are patterned examples---and we'll understand what this pattern is more clearly in \cref{???}---of what we will call \emph{decision streams}. Decision streams form the objects in a category that also includes the following level-3 abbreviations of binary decision streams (the third of which is a finite stream):
+\[
+\begin{tikzpicture}[trees]
+\begin{scope}[
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+  \node (a) {$\bullet$}
+    child {node {$\bullet$}
+    	child {node {$\bullet$}
+    		child {node {$\bullet$}
+  			}
+    		child {node {$\bullet$}
+  				child 
+  				child
+  			}
+    	}
+    	child {node {$\bullet$}
+  			}
+    }
+    child {node {$\bullet$}
+    	child {node {$\bullet$}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+  		}
+  		child {node {$\bullet$}
+    		child {node {$\bullet$}
+  			}
+    		child {node {$\bullet$}
+  			}
+  		}
+  	}
+  ;
+\end{scope}
+\begin{scope}[
+  level 1/.style={sibling distance=13mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+  \node (b) [right=4 of a] {$\bullet$}
+    child {node {$\bullet$}
+    }
+    child {node {$\bullet$}
+    	child {node {$\bullet$}
+    		child {node {$\bullet$}
+  			}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+  		}
+  		child {node {$\bullet$}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+  		}
+  	}
+  ;
+\end{scope}
+\begin{scope}[
+  level 1/.style={sibling distance=13mm},
+  level 2/.style={sibling distance=8mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+  \node (c) [right=4 of b] {$\bullet$}
+    child {node {$\bullet$}
+    	child {node {$\bullet$}
+  		}
+  		child {node {$\bullet$}
+    		child {node {$\bullet$}
+  			}
+    		child {node {$\bullet$}
+  			}
+  		}
+    }
+    child {node {$\bullet$}
+  	}
+  ;
+\end{scope}
+\end{tikzpicture}
+\]
+
+The set of such decision streams in fact form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^2+1)$. The idea is that every corolla in these diagrams has either two possibilities, corresponding to $\yon^2$, or no possibilities, corresponding to $1$.
+
+\begin{exercise}
+\begin{enumerate}
+	\item Draw a level-3 abbreviation of a decision stream of type $\yon^2+1$.
+	\item Draw a level-4 abbreviation of a decision stream of type $\yon$.
+	\item Draw a level-3 abbreviation of a decision stream of type $\nn\yon^2$ by labeling every node with a natural number.
+	\qedhere
+\end{enumerate}
+\end{exercise}
+
+But decisions aren't just about choosing; they're also about trying to accomplish something. The logic of accomplishment is exceptionally rich in this setting. We will concentrate on what we call a \emph{win condition}, which is a subgraph of the decision stream with the property that if $n$ is winning node, then any child of $n$ is also a winning node. 
+\[\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+  \node (root) {$\bullet$}
+    child {node {$\bullet$}
+    	child {node {$\bullet$}
+    		child {node {$\bullet$}
+  			}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+    	}
+    	child {node {$\bullet$}
+  			}
+    }
+    child {node {$\bullet$}
+    	child {node {$\bullet$}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+  		}
+  		child {node {$\bullet$}
+    		child {node {$\bullet$}
+  				child
+  				child
+  			}
+    		child {node {$\bullet$}
+  			}
+  		}
+  	}
+  ;
+ \begin{scope}[every node/.style={circle, inner sep=3pt, blue, draw}]
+  \node at (root-1-2)     {};
+  \node at (root-2-1-1-1) {};
+  \node at (root-2-1-1-2) {};
+  \node at (root-2-1-2-1) {};
+	\node at (root-2-2) 		{};
+  \node at (root-2-2-1) 	{};
+  \node at (root-2-2-2) 	{};
+  \node at (root-2-2-1-1) {};
+  \node at (root-2-2-1-2) {};
+ \end{scope}
+\end{tikzpicture}
+\]
+More formally, these are called \emph{sieves}; they form the elements of a logical system called a Heyting algebra: you can take any two sieves and form the intersection or union (which correspond to AND and OR), or even things like implication, negation, and existential and universal quantification. This will give us a calculus of win-conditions for any sort $p$ of decision stream.
 
 %---- Subsection ----%
 \subsection{Implementation}
 
+Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types. We will continue to use Agda.
+
+What we have been calling polynomials---things like $\yon^2+2\yon+1$---are often called \emph{containers} in the computer science literature. Here is some sample Agda code for something isomorphic to $\yon^2+2\yon+1$:
+\begin{agda}
+record Interface : Set where
+   field
+     pos : Set
+     dis : pos -> Set
+open Interface
+\end{agda}
 %---- Subsection ----%
 \subsection{Mathematical theory}
 

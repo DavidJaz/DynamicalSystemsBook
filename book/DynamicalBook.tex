@@ -77,6 +77,14 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
   
 % footnote
 	\makesavenoteenv{tabular}
+	
+% minted
+\newenvironment{agda}
+  {\VerbatimEnvironment
+  	\begin{minted}[escapeinside=??, mathescape=true,frame=single, framesep=5pt, tabsize=1
+	]{Agda}}
+  {\end{minted}}
+
 
 
 % tikz %
@@ -100,6 +108,8 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
   
 	\tikzcdset{arrow style=tikz, diagrams={>=To}}
 	
+	\input{tikz_stuff}
+	
 	
 
 % mdframed/tablefootnote%
@@ -112,9 +122,6 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 }
 \makeatother
 
-% TikZ Stuff
-
-\input{tikz_stuff}
 
 % Theorem environments
 
@@ -410,9 +417,11 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 
 % for making notes in text:
 \newcommand{\jaz}[1]{{\color{red} Jaz: {#1}}}
+\newcommand{\spiz}[1]{{\color{blue} Spiz: {#1}}}
 
 % lenses
 \newcommand{\lens}[2]{\begin{pmatrix}{#1} \\ {#2} \end{pmatrix}}
+\newcommand{\sys}{\Cat{Sys}}
 
 % ---- Changeable document parameters ---- %
 
