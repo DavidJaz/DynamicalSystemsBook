@@ -139,7 +139,7 @@ our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
 	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
 	\draw (X1_out1) to (Y_out1);
-  \draw let \p1=(X2.north east), \p2=(X1.south west), \n1=bbportlen, \n2=bby in
+  \draw let \p1=(X2.north east), \p2=(X1.south west), \n1=\bbportlen, \n2=\bby in
     (X2_out1) to[in=0] (\x1 + \n1, \y2 + \n2) to (\x2 - \n1, \y2 + \n2) to[out=180] (X1_in1);
   \draw (X2_out1) to (Y_out2);
 	\draw[label] 
