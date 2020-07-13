@@ -17,6 +17,8 @@ In each note topic, I think we should trade off with headers simply named
 
 ** Conventions for labelling:
    How should we label our equations, theorems, lemmas, propositions, etc
+   
+
 
 *** Jaz: 
     My usual convention is 
@@ -35,6 +37,14 @@ In each note topic, I think we should trade off with headers simply named
     C1:eqn:just.a.single.box
 
     Any ideas?
+
+*** Spiv: 
+My usual convention is 
+      kind.name_of_particular_item
+
+Diagram that's random
+      eqn.polynomial_misc958
+
 
 ** Drawing a mapsto nicely:
    (This is a real question, but also a nice way to demonstrate how org-mode hyperlinks work :) ) 
