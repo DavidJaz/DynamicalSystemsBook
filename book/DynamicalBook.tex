@@ -268,9 +268,9 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 % Adjunctions
 \newcommand{\adj}[5][30pt]{%[size] Cat L, Left, Right, Cat R.
 \begin{tikzcd}[ampersand replacement=\&, column sep=#1]
-  #2\ar[r, bend left=15, shift left=2pt, "#3"]
-  \ar[r, Rightarrow, shorten <=8pt, shorten >=8pt]\&
-  #5\ar[l, bend left=15, shift left=2pt, "#4"]
+  #2\ar[r, shift left=7pt, "#3"]
+  \ar[r, phantom, "\scriptstyle\Rightarrow"]\&
+  #5\ar[l, shift left=7pt, "#4"]
 \end{tikzcd}
 }
 
@@ -398,6 +398,8 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 
 \newcommand{\smset}{\Cat{Set}}
 \newcommand{\smcat}{\Cat{Cat}}
+\newcommand{\comon}{\Cat{Comon}(\poly)}
+
 
 \newcommand{\List}{\Fun{List}}
 \newcommand{\set}{\tn{-}\Cat{Set}}

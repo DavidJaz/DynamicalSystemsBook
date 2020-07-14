@@ -570,7 +570,7 @@ record Interface : Set where  -- an interface consists of
 \end{agda}  
 
 %---- Subsection ----%
-\subsection{Mathematical theory}
+\subsection{Mathematical theory}\label{subsec.math_theory}
 
 The applications of $\poly$ are quite diverse and interesting, including dynamics, data, and decisions. However it is how the mathematics of $\poly$ supports these applications that is so fantastic. For experts, here are some reasons for the excitement.
 
@@ -616,6 +616,10 @@ In fact it's a monoidal $*$-bifibration in the sense of \cite{shulman2008framed}
 Comonoids in $(\poly,\yon,\circ)$ are categories (up to isomorphism).
 \end{proposition}
 
+\begin{proposition}[Niu]
+The category $\comon$ has finite coproducts and products, and coproducts in $\comon$ agree with those in $\smcat$.
+\end{proposition}
+
 \begin{proposition}
 Suppose that the category $\cat{C}$ corresponds under \cref{prop.ahman_uustalu1}, to the comonoid $\com{C}$. Then there is an equivalence of categories
 \[
@@ -634,19 +638,33 @@ between that of bimodules between comonoids in $\poly$ and parametric right adjo
 \end{proposition}
 
 \begin{proposition}
-The functor $\Cat{Comon}(\poly)\to\poly$ has a right adjoint
+The functor $\comon\to\poly$ has a right adjoint
 \[
-\adjr{\poly}{\com{K}_-}{u_-}{\Cat{Comon}(\poly)}
+\adjr{\poly}{\com{K}_-}{u_-}{\comon},
 \]
+called the \emph{cofree comonoid} construction. It is lax monoidal with respect to $\otimes$.
 \end{proposition}
 
-\begin{proposition}[Niu, Johnstone-Power-Tsujishita-Watanabe-Worrell]
+\begin{proposition}
+The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the functor $u_\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
+\end{proposition}
+
+
+
+\begin{proposition}[Niu]\label{prop.sysp_is_topos}
 For any polynomial $p$, the category
 \[\sys(p)\cong\com{K}_p\set\]
 of dynamical systems on $p$ forms a topos.
 \end{proposition}
 
+\begin{proposition}\label{prop.poly_map_pregeo_topos}
+A morphism $f\colon p\to q$ of polynomials induces a pre-geometric morphism between their respective toposes
+\[
+\adj{\sys(p)}{}{}{\sys(q)}
+\]
+\end{proposition}
 
+If you skipped over any or all of that, no problem at all! We will get to everything in \cref{subsec.math_theory} over the next few chapters. In the mean time, the results we have just seen in particular say that there is a full-fledged logic of dynamical systems in any interface (\cref{prop.sysp_is_topos}), that these logics can be combined and compared (\cref{prop.poly_map_pregeo_topos})
 
 
 %-------- Section --------%
