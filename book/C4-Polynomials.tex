@@ -632,7 +632,7 @@ We will use the convention that the comonoid $\com{C}$ corresponds to category $
 \begin{proposition}[Garner]
 For any categories $\cat{C}$ and $\cat{D}$, there is an equivalence of categories
 \[
-\Cat{PRA}(\cat{C}\set,\cat{D}\set)\cong\Cat{Bimod}(\com{C},\com{D})
+\Cat{Bimod}(\com{C},\com{D})\cong\Cat{pra}(\cat{C}\set,\cat{D}\set)
 \]
 between that of bimodules between comonoids in $\poly$ and parametric right adjoints between copresheaf categories.
 \end{proposition}
@@ -646,7 +646,7 @@ called the \emph{cofree comonoid} construction. It is lax monoidal with respect 
 \end{proposition}
 
 \begin{proposition}
-The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the functor $u_\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
+The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the functor $u_-\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
 \end{proposition}
 
 
@@ -658,17 +658,22 @@ of dynamical systems on $p$ forms a topos.
 \end{proposition}
 
 \begin{proposition}\label{prop.poly_map_pregeo_topos}
-A morphism $f\colon p\to q$ of polynomials induces a pre-geometric morphism between their respective toposes
+A morphism $p\to q$ of polynomials induces a pre-geometric morphism between their respective toposes
 \[
-\adj{\sys(p)}{}{}{\sys(q)}
+\adj{\sys(p)}{}{}{\sys(q)}.
 \]
 \end{proposition}
 
-If you skipped over any or all of that, no problem at all! We will get to everything in \cref{subsec.math_theory} over the next few chapters. In the mean time, the results we have just seen in particular say that there is a full-fledged logic of dynamical systems in any interface (\cref{prop.sysp_is_topos}), that these logics can be combined and compared (\cref{prop.poly_map_pregeo_topos})
+If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will get to everything in the current section, \ref{subsec.math_theory}, over the next few chapters. To briefly summarize the results we have just seen, they say in particular that there is a full-fledged logic of dynamical systems inhabiting any interface (\cref{prop.sysp_is_topos}), that these logics can be combined and compared (\cref{prop.poly_map_pregeo_topos}), and that the whole story of dynamics carries a strong connection to database theory. There are many avenues for study, but we need to push forward.
+
+Let's begin.
 
 
 %-------- Section --------%
 \section{$\poly$ as a category}\label{sec.poly}
+
+
+
 
 %-------- Section --------%
 \section{Dynamical systems}
