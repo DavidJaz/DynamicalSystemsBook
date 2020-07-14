@@ -71,3 +71,13 @@ Diagram that's random
    
    This also lets us use the word "system" for short.
 
+* <2020-07-14 ter>  
+
+** Polynomials: are the coefficients sets or natural numbers?
+   
+
+*** Jaz:
+    Since the coefficients are sets, they should be drawn differently from natural numbers.
+
+    My suggestion is a bold-face
+
