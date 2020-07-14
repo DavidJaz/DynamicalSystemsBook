@@ -47,3 +47,4 @@ dis (constant x) _ = Void
 toFunctor : Interface -> Set -> Set
 toFunctor i x = [ p ∈ pos i ]×[ (dis i p -> x) ]
 
+

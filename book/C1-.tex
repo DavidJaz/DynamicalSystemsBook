@@ -13,6 +13,7 @@
 %------------ Chapter ------------%
 \chapter{Deterministic, Discrete-Time Systems}
 
+\section{Introduction}
 
 Here's a basic fact of life: \emph{things change}. And how things change most
 often depends on how they currently are. This is the basic idea underlying all the various notions of \emph{dynamical
@@ -238,25 +239,124 @@ the abstract language of composition: \emph{category theory}.
 \emph{Category theory} is the abstract study of composition.
 \end{informal}
 
+\section{Deterministic Systems}
 
 That's a lot of informal definitions, we are ready for something precise:
-\begin{definition}
-  A \emph{deterministic system} $\lens{u}{r} : \lens{S}{S} \leftrightarrows \lens{I}{O}$ consists of:
+\begin{definition}\label{def.deterministic_system}
+  A \emph{deterministic system} $\Sys{S}$, also written as $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}},$$ consists of:
   \begin{itemize}
-    \item A set $S$ of \emph{states}.
-    \item A set $O$ of \emph{values for exposed variables}, or \emph{outputs}
+    \item A set $\State{S}$ of \emph{states}.
+    \item A set $\Out{S}$ of \emph{values for exposed variables}, or \emph{outputs}
       for short.
-    \item A set $I$ of \emph{parameter values}, or \emph{inputs} for short.
-    \item A function $r : S \to O$, the \emph{exposed variable of state} or
-      \emph{readout} function which takes a state to the output it yields. 
-    \item A function $u : S \times I \to S$, the \emph{dynamics} or
+    \item A set $\In{S}$ of \emph{parameter values}, or \emph{inputs} for short.
+    \item A function $\expose{S} : \Set{State}_{\Sys{S}} \to \Set{Out}_{Sys{S}}$, the \emph{exposed variable of state} or
+      \emph{expose} function which takes a state to the output it yields. 
+    \item A function $\update{S} : \Set{State}_{\Sys{S}} \times \In{S} \to \State{S}$, the \emph{dynamics} or
       \emph{update} function which takes a state and a parameter and gives the
       next state.
   \end{itemize}
-  We refer to the pair $\lens{I}{O}$ of exposed variable and parameter values as
+  We refer to the pair $\lens{\In{S}}{\Out{S}}$ of exposed variable and parameter values as
   the \emph{interface} of the system.
 \end{definition}
 
+\begin{remark}
+  Deterministic systems are also known as \emph{Moore machines} and
+  \emph{deterministic automata}.
+\end{remark}
+
+\begin{example}\label{ex.clock_system}
+  The $\Sys{Clock}$ system can be seen as a deterministic system with:
+  \begin{itemize}
+  \item State set $\State{Clock} = \Set{Hours}$.
+  \item Output set $\Out{Clock} = \Set{Hours}$.
+  \item Input set $\In{Clock} = \{\ast\}$, a one element set.
+  \item Readout function $\expose{Clock} = \id_{S}$.
+  \item update function $\update{Clock} : \Set{hours} \times \{\ast\} \to \Set{Hours}$
+    defined by $\update{Clock}(t, \ast) = \fun{tick}(t)$.
+  \end{itemize}
+\end{example}
+
+Note that to say that a system doesn't have any parameters, we don't take the
+parameter set to be empty but instead take it to have a single dummy value. When
+we say that a system doesn't have any parameters, we are more precisely saying
+that the set of values the parameters can take is trivial --- that is, that
+there is no way to change the value of the parameters. 
+
+Also, we are just exposing the whole state with this system. Often our systems
+will expose their whole state, but sometimes it is useful to keep track of which
+variables are to be exposed for use in other systems, and which are just for use internally. 
+
+\begin{exercise}
+  Write out the other systems in the introduction in terms of
+  \cref{def.deterministic_system}. Really, this amounts to noticing which sets
+  are the sets of states, which are the sets of inputs, and what (implicitly)
+  are the sets of outputs.
+\end{exercise}
+
+\begin{example}
+  Deterministic systems don't have to have finite sets of states. The $\Sys{SIR}$ model
+  is an epimediological model used to study how a disease spreads through a
+  population. ``SIR'' stands for ``susceptible'', ``infected'', and, rather
+  ominously, ``removed''. This model is usually presented as a system of
+  differential equations --- what we will call a differential system --- and we will see it in that form in the next chapter.
+  But we can see a discrete approximation to this continuous model as a
+  deterministic system.
+
+  A state of the $\Sys{SIR}$ model is a choice of how many people are susceptible, how
+  many are infected, and how many are removed. That is,
+  $$\State{SIR} = \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\, \middle|\, s,\, i,\, r\in \rr\right\} = \rr^3.$$
+  is a 3 place vector of real numbers. We will expose the whole state, so
+  $\Out{SIR} = \State{SIR}$ and $\expose{SIR} = \id$.
+
+  The idea behind the $\Sys{SIR}$ model is that if a susceptible person comes in
+  contact with an infected person, then they have a chance of becoming infected
+  too. And, eventually, infected persons will be removed from the model, either
+  by recovering (a gentler way to read the ``R'') or by dieing. So we need two
+  parameters: the rate $a$ of infection and the rate $b$ of removal. So,
+  $$\In{SIR} = \left\{\begin{bmatrix} a \\ b \end{bmatrix}\, \middle|\, a,\, b \in \rr\right\} = \rr^2.$$
+
+  Now, we can show how a population will develop according to this model by
+  defining the update function:
+  \begin{align}\label{eqn.SIR_model_discrete}
+    \update{SIR} : \State{SIR} \times \In{SIR} &\to \State{SIR}\\
+    \left( \begin{bmatrix} s\\ i\\ r\\ \end{bmatrix},\, \begin{bmatrix}a \\ b \end{bmatrix} \right) &\mapsto \begin{bmatrix}s - a s i \\ i + a s i - b  i \\ r + i  b \end{bmatrix}
+  \end{align}
+
+  \jaz{For later today: plot a trajectory for this system}
+\end{example}
+
+If a deterministic system has a small finite set of states, then we can draw it
+entirely as a \emph{transition diagram}:
+
+\[
+\jaz{diag}
+\]
+
+This diagram describes the following system $\Sys{S}$:
+\begin{itemize}
+\item $\State{S} = \{A, B, C\}$.
+\item $\In{S} = \{\}$,
+\item $\Out{S} = \{\}$,
+\item \begin{align*}
+        \expose{S} : \State{S} &\to \Out{S} \\
+        &\mapsto
+      \end{align*}
+\item \begin{align*}
+        \update{S} : \State{S} \times \In{S} &\to \In{S} \\
+        &\mapsto
+      \end{align*}
+\end{itemize}
+
+To draw a transition diagram of a system $\Sys{S}$, we draw each state $s \in
+\State{S}$ as a bubble filled with the label $\expose{S}(s)$, and for each
+parameter $i \in \In{S}$ we draw an arrow from $s$ to $\update{S}(s, i)$.
+
+\begin{exercise}
+  Draw the $\Sys{Clock}$ system (\cref{ex.clock_system}) as a transition diagram.
+\end{exercise}
+
 \section{Wiring Together Systems with Lenses}
+
+
 
 \end{document}

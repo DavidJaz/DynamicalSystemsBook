@@ -81,3 +81,9 @@ Diagram that's random
 
     My suggestion is a bold-face
 
+
+*** Spiv:
+    I want to use natural numbers, as usually type-set, for my coefficients.
+
+    So we will be instead denoting natural numbers by a different font-face. 
+
