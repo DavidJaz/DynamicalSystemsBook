@@ -623,12 +623,30 @@ Suppose that the category $\cat{C}$ corresponds under \cref{prop.ahman_uustalu1}
 \]
 between $(\com{C},0)$-bimodules and $\cat{C}$-copresheaves.
 \end{proposition}
+We will use the convention that the comonoid $\com{C}$ corresponds to category $\cat{C}$, and similarly for $\com{D}$ and $\cat{D}$, etc. 
 
 \begin{proposition}[Garner]
-Bimodules between comonoids correspond to parametric right adjoints between the associated copresheaf categories.
+For any categories $\cat{C}$ and $\cat{D}$, there is an equivalence of categories
+\[
+\Cat{PRA}(\cat{C}\set,\cat{D}\set)\cong\Cat{Bimod}(\com{C},\com{D})
+\]
+between that of bimodules between comonoids in $\poly$ and parametric right adjoints between copresheaf categories.
 \end{proposition}
 
-This may be hard to parse right now, but we will explain it in \cref{??}. There we'll see that this is where database queries come in.
+\begin{proposition}
+The functor $\Cat{Comon}(\poly)\to\poly$ has a right adjoint
+\[
+\adjr{\poly}{\com{K}_-}{u_-}{\Cat{Comon}(\poly)}
+\]
+\end{proposition}
+
+\begin{proposition}[Niu, Johnstone-Power-Tsujishita-Watanabe-Worrell]
+For any polynomial $p$, the category
+\[\sys(p)\cong\com{K}_p\set\]
+of dynamical systems on $p$ forms a topos.
+\end{proposition}
+
+
 
 
 %-------- Section --------%
