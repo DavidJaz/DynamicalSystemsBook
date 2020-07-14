@@ -44,9 +44,9 @@ In standard font, 42 represents the usual natural number. In sans serif font \4\
 }
 in the associated poly. Intuitively, there are 42 situations in which you have a decision with three possibilities.
 
-\[
+\[\footnotesize
 \begin{tabular}{llll}
-\multicolumn{4}{c}{\large Terminology}\\
+\multicolumn{4}{c}{\normalsize Terminology}\\
 \textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Chapter-intuition}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
 Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
@@ -557,17 +557,73 @@ More formally, these are called \emph{sieves}; they form the elements of a logic
 
 Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types. We will continue to use Agda.
 
-What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science literature. Here is some sample Agda code that first implements interfaces in general, and then a specific one that's isomorphic to $\yon^\2+\2\yon+\1$:
+What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science literature. A container consists of a type $S$, usually called the type of \emph{shapes}, and a type $P(s)$ for each term $s:S$, called the type of positions in shape $s$. It's mildly unfortunate that the names clash with our own: for us a container-shape is a position and a container-position is a distinction.
+
+Luckily, the agda code is pretty easy to understand.
 \begin{agda}
 record Interface : Set where
    field
      pos : Set
      dis : pos -> Set
 open Interface
+\end{agda}  
+%\begin{agda}
+%---- Boilerplate sets ----
+%data Nat : Set
+%zero : Nat
+%succ : Nat -> Nat
+%
+%data Fin : (n : Nat) -> Set where
+%Fzero : Fin (succ zero)
+%Fsucc : (n : Nat) -> Fin n -> Fin (succ n)
+%
+%Void : Set
+%Void = Fin zero
+%
+%One : Set
+%One = Fin (succ zero)
+%
+%Two : Set
+%Two = Fin (succ (succ (zero)))
+%  
+%data Either (A : Set) (B : Set) : Set where
+%  Left  : A -> Either A B
+%  Right : B -> Either A B
+%  
+%---- Boilerplate poly ----
+%
+%record Interface : Set where
+%   field
+%     pos : Set
+%     dis : pos -> Set
+%open Interface
+%  
+%yon : Set -> Interface
+%pos (yon A) = One
+%dis (yon A) U  = A
+%
+%constant : Set -> Interface
+%pos (constant x) = x
+%dis (constant x) _ = Void
+%
+%infixl 4 _+_
+%_+_ : Interface -> Interface -> Interface
+%pos (i + j) = Either (pos i) (pos j)
+%dis (i + j) (Left x) = dis i x
+%dis (i + j) (Right x) = dis j x
+%
+%infixl 5 _×_
+%_×_ : Interface -> Interface -> Interface
+%pos (i × j) = Pair (pos i) (pos j)
+%dis (i × j) (x , y) = Pair (dis i x) (dis j y)
+%
+%
+%---- Finally, my interface y^2+2y+1 ----
+%
+%MyInterface : Interface
+%myInterface = (yon Two) + (constant Two) × (yon One) + (constant One)
+%\end{agda}
 
-MyInterface : Interface
-                     -- finish
-\end{agda}
 %---- Subsection ----%
 \subsection{Mathematical theory}
 
