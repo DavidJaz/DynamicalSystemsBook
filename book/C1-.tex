@@ -584,9 +584,10 @@ just like we wanted!
   city, and the rate $\ell_s$ at which susceptible people are leaving, and for the other
   two classes. Therefore,
   \begin{align*}
-    \State{SIR_{City}} &:= \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\, \middle|\, s,\, i,\, r\in \rr\right\} = \rr^3. \\
+    \State{SIR_{City}} &:= \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\; \middle|\; s,\, i,\, r\in \rr\right\} = \rr^3. \\
     \Out{SIR_{City}} &:= \State{SIR_{City}} \\
     \In{SIR_{City}} &:= \left\{ \begin{bmatrix} a \\ b \\ (e_s, e_i, e_r) \\ (\ell_s, \ell_i, \ell_r) \end{bmatrix}\, \middle|\, a,\,b\in \rr,\, \ell,\, e \in \rr^3 \right\}= \rr^2 \times \rr^3 \times \Out{SIR_{City}}\\
+    \In{SIR_{City}} &:= \left\{ \begin{bmatrix} a \\ b \\ e \\ \ell \end{bmatrix}\; \middle|\; a,\,b,\,e,\,\ell \in \Rb \right\}
     \expose{SIR_{City}} &:= \id \\
     \update{SIR_{City}}\left( \begin{bmatrix} s\\ i\\ r \end{bmatrix},\, \begin{bmatrix} a\\ b\\ e\\ \ell\end{bmatrix} \right) &:= \begin{bmatrix}s - asi + e_s - \ell_s s \\ i + asi - bi + e_i - \ell_i i \\ r + bi + e_r i - \ell_r r\end{bmatrix} 
   \end{align*}

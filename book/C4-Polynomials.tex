@@ -672,9 +672,105 @@ Let's begin.
 %-------- Section --------%
 \section{$\poly$ as a category}\label{sec.poly}
 
-In this section, we will set down the basic category-theoretic story, so that we can have a firm foundation from which to speak about dynamical systems.
 
-Assumin`
+In this section, we will set down the basic category-theoretic story of $\poly$, so that we can have a firm foundation from which to speak about dynamical systems, decisions, and data. We begin with the category $\smset$ of sets and functions, and what is arguably the fundamental theorem of category theory, the Yoneda lemma.
+
+%---- Subsection ----%
+\subsection{Representable functors and the Yoneda lemma}
+
+\begin{definition}
+Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.
+
+We refer to $\yon^S$ as the functor \emph{represented by} $S$.
+\end{definition}
+
+The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}.
+
+\begin{example}
+The functor that sends every set $X$ to $X\times X$, and sends $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable. 
+\end{example}
+
+\begin{exercise}
+For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, say what the representing set is.
+\begin{enumerate}
+	\item The identity functor $X\mapsto X$.
+	\item The constant functor $X\mapsto\2$.
+	\item The constant functor $X\mapsto\1$.
+	\item The constant functor $X\mapsto\0$.
+	\item The functor $X\mapsto X^\nn$.
+	\item The functor $X\mapsto 2^X$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}\label{prop.representable_nt}
+For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ the $X$-component $(\yon^f)_X\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
+\end{proposition}
+
+\begin{exercise}
+Prove that for any function $f\colon R\to S$, what we said was a natural transformation in \cref{prop.representable_nt} really is natural. That is, for any function $h\colon X\to Y$, show that the following diagram commutes:
+\[
+\begin{tikzcd}
+	X^S\ar[r, "h^S"]\ar[d, "X^f"']&
+	Y^S\ar[d, "Y^f"]\\
+	X^R\ar[r, "h^R"']&
+	Y^R\ar[ul, phantom, "?"]
+\end{tikzcd}
+\qedhere
+\]
+\end{exercise}
+
+\begin{exercise}
+Let $X=\{a,b,c\}$. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component of, i.e.\ the function $X^S\to X^R$ coming from, the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
+\begin{enumerate}
+	\item $R=\5$, $S=\5$, $f=\id$.
+	\item $R=\2$, $S=\1$, $f$ is the unique function.
+	\item $R=\1$, $S=\2$, $f(1)=1$.
+	\item $R=\1$, $S=\2$, $f(1)=2$.
+	\item $R=\0$, $S=\5$, $f$ is the unique function.
+	\item $R=\nn$, $S=\nn$, $f(n)=n+1$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Show that the construction in \cref{prop.representable_nt} is functorial
+\begin{equation}
+\yon^-\colon\smset\op\to\smset^\smset,
+\end{equation}
+as follows.
+\begin{enumerate}
+	\item Show that for any set $S$, we have $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
+	\item Show that for any functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}[Yoneda lemma]\label{lemma.yoneda}
+Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
+\begin{equation}\label{eqn.yoneda}
+F(S)\cong\Hom(\yon^S,F)
+\end{equation}
+where $\Hom$ denotes the set of natural transformations. Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
+\end{proposition}
+\begin{proof}[Sketch of proof]
+For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
+
+For any element $a\in F(S)$, there is a natural transformation $m_a\colon\yon^S\to F$ whose component on $X$ is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{***} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
+\end{proof}
+
+\begin{exercise}
+Whoever solves this exercise can say they've proved the Yoneda Lemma.
+\begin{enumerate}
+	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in \cref{lemma.yoneda} are natural in $X$.
+	\item Show that the two mappings from \cref{lemma.yoneda} are mutually inverse.
+	\item As a corollary of \cref{lemma.yoneda}, show that $\yon^-\colon\smset\op\to\smset^\smset$ is fully faithful, in particular that there is an isomorphism $\Hom(\yon^S,\yon^T)\cong S^T$.
+\end{enumerate}
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Polynomials: sums of representables}
+
 
 
 %-------- Section --------%

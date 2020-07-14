@@ -131,7 +131,9 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 \colorlet{theoremcolor}{white!92!blue}
 \colorlet{definitioncolor}{white!92!purple}
-\colorlet{examplecolor}{white!93!green}
+\colorlet{examplecolor}{white!91!green}
+\colorlet{exercisecolor}{white!96!green}
+
 
 \mdfdefinestyle{theoremframe}{
     linewidth=0pt,
@@ -165,10 +167,14 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
     innerrightmargin=0,
     }
 
-%\mdfdefinestyle{exerciseframe}{
-%    linecolor=white!93!yellow,
-%    backgroundcolor=white!93!yellow,
-%    }
+\mdfdefinestyle{exerciseframe}{
+    linewidth=0pt,
+    backgroundcolor=exercisecolor,
+    leftmargin=0,
+    innerleftmargin=0,
+    rightmargin=0,
+    innerrightmargin=0,
+    }
 
 \newtheoremstyle{plain}
   {-\topsep}		%space above
@@ -253,7 +259,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 	
 \newmdtheoremenv[style=exampleframe]{example}[equation]{Example}
 
-\newtheorem{exc-inner}[equation]{Exercise}
+\newmdtheoremenv[style=exerciseframe]{exc-inner}[equation]{Exercise}
 \newenvironment{exercise}[1][]{
   \def\qedsymbol{$\lozenge$}% Set the QED symbol. 
   \pushQED{\qed}
