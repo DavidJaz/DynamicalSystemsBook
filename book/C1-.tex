@@ -513,17 +513,17 @@ $\Sys{S_1} \otimes \Sys{S_2}$ is defined explicitly as follows:
 
 This can be expressed as the following wiring diagram:
 \begin{equation}\label{eqn.clock_system_box}
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
 	\node[bb={1}{1}] (X1) {$\Sys{S_1}$};
   \node[bb={1}{1}, below=2 of X1] (X2) {$\Sys{S_2}$};
-	\node[bb={2}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
+	\node[bb={0}{0}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\Sys{S_1 \otimes S_2}$};
   
-  \draw (Y_in1) to (X1_in1);
-  \draw (Y_in2) to (X2_in1);
+  \draw[shorten <=-3pt] (X1_in1-|Y.west) to (X1_in1);
+  \draw[shorten <=-3pt] (X2_in1-|Y.west) to (X2_in1);
 
-  \draw (X1_out1) to (Y_out1);
-  \draw (X2_out1) to (Y_out2);
+  \draw[shorten >=-3pt] (X1_out1) to (Y.east|-X1_out1);
+  \draw[shorten >=-3pt] (X2_out1) to (Y.east|-X2_out1);
 \end{tikzpicture}
 \end{equation}
 
