@@ -1,13 +1,17 @@
+% !TEX options=--shell-escape
+
 \documentclass[DynamicalBook]{subfiles}
 \begin{document}
 %
+
+
 
 
 \setcounter{chapter}{0}%Just finished 0.
 
 
 %------------ Chapter ------------%
-\chapter{Deterministic, Disrete-Time Systems}
+\chapter{Deterministic, Discrete-Time Systems}
 
 
 Here's a basic fact of life: \emph{things change}. And how things change most
@@ -75,7 +79,7 @@ refer to the whole system at once, we can box it up and write it like this:
 \end{tikzpicture}
 \end{equation}
 
-We imagine that the clock is going about its business inside the clock, and
+We imagine that the clock is going about its business inside the box, and
 that is shows the hour it is currently displaying on the outgoing wire.
 
 One issue with our clock is that it doesn't tell us whether it is morning or
@@ -93,7 +97,7 @@ our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
 \foreach \angle in {0,90,180,270}
   \draw[line width=2pt] (\angle:1.6cm) -- (\angle:2cm);
 \draw (0,0) -- (120:0.8cm);
-\node[draw, fill] at (330:.7cm) {$\color{white}\const{a.m}$};
+\node[draw, fill] at (330:.7cm) {$\color{white}\const{a.m.}$};
 \end{tikzpicture}
 \end{equation}
 
@@ -104,8 +108,8 @@ But this time, knowing how they are going to change also requires us to know the
 hour:
 \begin{align*}
   \fun{next} : \Set{Meridien} \times \Set{Hours} &\to \Set{Meridien} \\
-               (\const{a.m}, t) &\mapsto \begin{cases} \const{p.m.} &\mbox{if $t = 11$}\\ \const{a.m} &\mbox{otherwise}  \end{cases} \\
-               (\const{p.m}, t) &\mapsto \begin{cases} \const{a.m.} &\mbox{if $t = 11$}\\ \const{p.m} &\mbox{otherwise}  \end{cases}
+               (\const{a.m.}, t) &\mapsto \begin{cases} \const{p.m.} &\mbox{if $t = 11$}\\ \const{a.m.} &\mbox{otherwise}  \end{cases} \\
+               (\const{p.m.}, t) &\mapsto \begin{cases} \const{a.m.} &\mbox{if $t = 11$}\\ \const{p.m.} &\mbox{otherwise}  \end{cases}
 \end{align*}
 If it is $\const{a.m.}$ and the clock reads 8, then it will still be
 $\const{a.m.}$; but if it is $\const{a.m.}$ and the clock reads 11, then it will
@@ -135,12 +139,12 @@ our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
 \begin{equation}\label{eqn.clock_system_box}
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
 	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
-  	\node[bb={0}{1}, below=of X1] (X2) {$\Sys{Clock}$};
+  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
 	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
 	\draw (X1_out1) to (Y_out1);
-  \draw let \p1=(X2.north east), \p2=(X1.south west), \n1=\bbportlen, \n2=\bby in
-    (X2_out1) to[in=0] (\x1 + \n1, \y2 + \n2) to (\x2 - \n1, \y2 + \n2) to[out=180] (X1_in1);
+  \draw let \p1=(X1.south west), \p2=(X2.north east), \n1=\bbportlen, \n2=\bby in
+    (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
   \draw (X2_out1) to (Y_out2);
 	\draw[label] 
 		node [right=2pt of Y_out1] {$\Set{Meridien}$}
@@ -197,22 +201,23 @@ to open or close, the full diner system would be given by wiring the clock with 
 those input wires:
 \begin{equation}\label{eqn.diner_system_box}\tag{box1}
 \begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
-	\node[bb={1}{1}] (X) {$M$};
-	\draw[label] 
-		node [left=2pt of X_in1] {$A$}
-		node [right=2pt of X_out1] {$B$}
-		;
+  \node[bb={0}{2}](Clock) {$\Sys{ClockWithDisplay}$};
+  \node[bb={2}{1}, right=of Clock] (Diner) {$\Sys{Diner}$};
+  
+  \node[bb={0}{1}, fit={(Clock) (Diner)}] (Outer) {};
+
+  \draw (Clock_out1) to (Diner_in1);
+  \draw (Clock_out2) to (Diner_in2);
+  \draw (Diner_out1) to (Outer_out1);
+
+  \draw[label] node [right=2pt of Outer_out1] {$\Set{DinerState}$};
 \end{tikzpicture}
 \end{equation}
 If we want to, we can peak into the clock with display and see that it is itself
 made out of a clock wired to a display:
 \begin{equation}\label{eqn.diner_system_box}\tag{box1}
 \begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
-	\node[bb={1}{1}] (X) {$M$};
-	\draw[label] 
-		node [left=2pt of X_in1] {$A$}
-		node [right=2pt of X_out1] {$B$}
-		;
+
 \end{tikzpicture}
 \end{equation}
 
@@ -244,7 +249,7 @@ That's a lot of informal definitions, we are ready for something precise:
     \item A set $I$ of \emph{parameter values}, or \emph{inputs} for short.
     \item A function $r : S \to O$, the \emph{exposed variable of state} or
       \emph{readout} function which takes a state to the output it yields. 
-    \item A function $u : S \times I \to S$, the \emph{dynamics} of
+    \item A function $u : S \times I \to S$, the \emph{dynamics} or
       \emph{update} function which takes a state and a parameter and gives the
       next state.
   \end{itemize}

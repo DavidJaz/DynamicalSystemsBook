@@ -553,13 +553,16 @@ More formally, these are called \emph{sieves}; they form the elements of a logic
 
 Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types. We will continue to use Agda.
 
-What we have been calling polynomials---things like $\yon^2+2\yon+1$---are often called \emph{containers} in the computer science literature. Here is some sample Agda code for something isomorphic to $\yon^2+2\yon+1$:
+What we have been calling polynomials---things like $\yon^2+2\yon+1$---are often called \emph{containers} in the computer science literature. Here is some sample Agda code that first implements interfaces in general, and then a specific one that's isomorphic to $\yon^2+2\yon+1$:
 \begin{agda}
 record Interface : Set where
    field
      pos : Set
      dis : pos -> Set
 open Interface
+
+MyInterface : Interface
+                     -- finish
 \end{agda}
 %---- Subsection ----%
 \subsection{Mathematical theory}
