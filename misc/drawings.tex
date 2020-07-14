@@ -1,0 +1,62 @@
+\documentclass{memoir}
+
+\settrims{0pt}{0pt} % page and stock same size
+\settypeblocksize{*}{34.5pc}{*} % {height}{width}{ratio}
+\setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
+\setulmarginsandblock{1in}{1in}{*} % height of typeblock computed
+\setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
+\setheaderspaces{*}{1.5\onelineskip}{*} % {headdrop}{headsep}{ratio}
+\checkandfixthelayout
+
+\usepackage{tikz}
+\usepackage{ifthen}
+\usepackage{mathtools}
+\usepackage[prefix=tikzsym]{tikzsymbols}
+
+
+% tikz %
+  \usetikzlibrary{ 
+  	cd,
+  	math,
+  	decorations.markings,
+		decorations.pathreplacing,
+  	positioning,
+  	arrows.meta,
+  	shapes,
+		shadows,
+		shadings,
+  	calc,
+  	fit,
+  	quotes,
+  	intersections,
+    circuits,
+    circuits.ee.IEC
+  }
+  
+	\tikzcdset{arrow style=tikz, diagrams={>=To}}
+	
+	\input{../book/tikz_stuff}
+	
+	
+\newcommand{\LMO}[2][over]{\ifthenelse{\equal{#1}{over}}{\overset{#2}{\bullet}}{\underset{#2}{\bullet}}}
+
+\definecolor{dgreen}{rgb}{0.0, 0.5, 0.3} 
+	
+\begin{document}
+\title{Drawings}
+\date{\vspace{-.3in}}
+\maketitle
+
+\section*{Dynamical systems}
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMO{a}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMO{b}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMO{c}
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+\end{document}

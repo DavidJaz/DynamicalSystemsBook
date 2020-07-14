@@ -13,38 +13,55 @@ syntax Σ A (λ a → B) = [ a ∈ A ]×[ B ]
 Pair : Set -> Set -> Set
 Pair A B = [ _ ∈ A ]×[ B ]
 
-data Void : Set where
+data Nat : Set where
+  zero : Nat
+  succ : Nat -> Nat
 
+data Fin : (n : Nat) -> Set where
+  Fzero : Fin (succ zero)
+  Fsucc : (n : Nat) -> Fin n -> Fin (succ n)
 
-data Unit : Set where
-  ⊤ : Unit
+Void : Set
+Void = Fin zero
 
-record Interface : Set where
-   field
-     pos : Set
-     dis : pos -> Set
-open Interface
+One : Set
+One = Fin (succ zero)
+
+Two : Set
+Two = Fin (succ (succ (zero)))
 
 data Either (A : Set) (B : Set) : Set where
   Left  : A -> Either A B
   Right : B -> Either A B
 
+record Interface : Set where
+   field           
+     pos : Set
+     dis : pos -> Set
+open Interface
 
-
-_+_ : Interface -> Interface -> Interface
-pos (i + j) = Either (pos i) (pos j)
-dis (i + j) (Left x) = dis i x
-dis (i + j) (Right x) = dis j x
-
-_×_ : Interface -> Interface -> Interface
-pos (i × j) = Pair (pos i) (pos j)
-dis (i × j) (x , y) = Pair (dis i x) (dis j y)
+yon : Set -> Interface
+pos (yon A) = One
+dis (yon A) FZero = A
 
 constant : Set -> Interface
 pos (constant x) = x
 dis (constant x) _ = Void
 
+infixl 4 _+_
+_+_ : Interface -> Interface -> Interface
+pos (i + j) = Either (pos i) (pos j)
+dis (i + j) (Left x) = dis i x
+dis (i + j) (Right x) = dis j x
+
+infixl 5 _×_
+_×_ : Interface -> Interface -> Interface
+pos (i × j) = Pair (pos i) (pos j)
+dis (i × j) (x , y) = Pair (dis i x) (dis j y)
+
 toFunctor : Interface -> Set -> Set
 toFunctor i x = [ p ∈ pos i ]×[ (dis i p -> x) ]
 
+myInterface : Interface
+myInterface = (yon Two) + (constant Two) × (yon One) + (constant One)
 
