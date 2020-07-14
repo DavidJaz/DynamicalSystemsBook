@@ -18,7 +18,7 @@ The category of polynomial functors is a jackpot. Its beauty flows without bound
 
 In this chapter we will investigate a remarkable category called $\poly$. We will see its intimate relationship with both dynamic processes, data storage and transformations, and decision-making. We will see its intimate relationship with safety and decision-making. But our story begins with something quite humble: middle school algebra.
 \begin{align}\label{eqn.polynomial1892}
-\yon^2+\yon+1 \quad&\quad
+\yon^\2+\yon+\1 \quad&\quad
 \textit{polynomial}
 \intertext{
 All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be depicted as a set of mini-trees:
@@ -36,24 +36,28 @@ All our polynomials will involve one variable, $\yon$, chosen for reasons we'll 
 \end{align}
 More technically, mini-trees are called \emph{corollas}, so what we're calling a \emph{poly} is a set of corollas. 
 
-Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{possibilities}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two possibilities, one possibility, and no possibilities. Having two possibilities is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one possibility is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no possibilities is when you actually don't get through it: it's ``the end''. While the corollas $1,\yon,$ and $\yon^2$ are each interesting as decisions, their sum $\yon^2+\yon+1$ has very little theoretical interest; it's just a first example.
+Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{possibilities}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two possibilities, one possibility, and no possibilities. Having two possibilities is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one possibility is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no possibilities is when you actually don't get through it: it's ``the end''. While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
 
-In a polynomial like $42\yon^3+17\yon$, the pure power term $\yon^3$ has a coefficient of 42 next to it, so the corolla with three leaves shows up 42 times in the associated poly. Intuitively, there are 42 situations in which you have a decision with three possibilities.
+In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a coefficient of \4\2 next to it, so the corolla with three leaves shows up 42 times%
+\footnote{
+In standard font, 42 represents the usual natural number. In sans serif font \4\2 represents the set $\4\2=\{1,2,\ldots,42\}$ with 42 elements.
+}
+in the associated poly. Intuitively, there are 42 situations in which you have a decision with three possibilities.
 
 \[
 \begin{tabular}{llll}
 \multicolumn{4}{c}{\large Terminology}\\
 \textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Chapter-intuition}\\\hline
-Set of positions & $p(\ord{1})$ & Set of roots & Set of situations\\
+Set of positions & $p(\1)$ & Set of roots & Set of situations\\
 Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
 Distinction $\fun{d}\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Possibility
 \end{tabular}
 \]
 
-If you're wondering about the bold $\ord{1}$ and the upright $\fun{i}$, we'll get to all our notational conventions in \cref{sec.poly}.
+If you're wondering about the upright $\fun{i}$, we'll get to all our notational conventions in \cref{sec.poly}.
 
 \begin{exercise}
-Consider the polynomial $p\coloneqq2\yon^3+2\yon+1$ and the associated poly.
+Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated poly.
 \begin{enumerate}
 	\item Draw the poly whose name is $p$.
 	\item How many roots does this poly have?
@@ -61,11 +65,11 @@ Consider the polynomial $p\coloneqq2\yon^3+2\yon+1$ and the associated poly.
 	\item For each corolla in the poly, say how many leaves it has.
 	\item For each decision, how many possibilities does it have?
 \end{enumerate}
-Now referring instead to the polynomial $q\coloneqq\yon^\nn+4\yon$:
+Now referring instead to the polynomial $q\coloneqq\yon^\nn+\4\yon$:
 \begin{enumerate}[resume]
-	\item Does the polynomial $q$ have a pure-power summand $\yon^2$?
+	\item Does the polynomial $q$ have a pure-power summand $\yon^\2$?
 	\item Does the polynomial $q$ have a pure-power summand $\yon$?
-	\item Does the polynomial $q$ have a pure-power summand $4\yon$?
+	\item Does the polynomial $q$ have a pure-power summand $\4\yon$?
 	\qedhere
 \end{enumerate}
 
@@ -77,13 +81,13 @@ Mathematically and notationally we do not make a distinction between a poly and 
 \begin{exercise}
 If you were a suitor choosing the poly you love, aesthetically speaking, which would strike your interest? Answer by circling the associated polynomial:
 \begin{enumerate}
-	\item $\yon^2+\yon+1$
-	\item $\yon^2+3\yon^2+3\yon+1$
-	\item $\yon^2$
-	\item $\yon+1$
+	\item $\yon^\2+\yon+\1$
+	\item $\yon^\2+\3\yon^\2+\3\yon+\1$
+	\item $\yon^\2$
+	\item $\yon+\1$
 	\item $(\nn\yon)^\nn$
 	\item $S\yon^S$
-	\item $\yon^{100}+\yon^2+3\yon$
+	\item $\yon^{\1\0\0}+\yon^\2+\3\yon$
 	\item Your poly's name $p$ here.
 \end{enumerate}
 Any reason for your choice?
@@ -246,7 +250,7 @@ And there's even more that's wrong with the above description. Namely, when I mo
 \begin{example}
 Imagine a million little eyeballs, each of which has a tiny brain inside it, all together in a pond of eyeballs. All that an individual eyeball $e$ can do is open and close. When $e$ is open, it can make some distinction about all the rest of the eyeballs in view: maybe it can count how many are open, or maybe it can see whether just one certain eyeball $e'$ is open or closed. But when $e$ is closed, it can't see anything; whatever else is happening, it's all the same to $e$. All it can do in that state is process previous information.
 
-Each eyeball in this system will correspond to the polynomial $\yon^n+\yon$, which intuitively consists of two situations, one with $n$ possibilities, and the other with only one possibility.
+Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which intuitively consists of two situations, one with $n$-many possibilities, and the other with only one possibility.
 
 The point is, however, is that the other eyeballs can tell if $e$ is opened or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
 
@@ -482,13 +486,13 @@ These are patterned examples---and we'll understand what this pattern is more cl
 \end{tikzpicture}
 \]
 
-The set of such decision streams in fact form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^2+1)$. The idea is that every corolla in these diagrams has either two possibilities, corresponding to $\yon^2$, or no possibilities, corresponding to $1$.
+The set of such decision streams in fact form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that every corolla in these diagrams has either two possibilities, corresponding to $\yon^\2$, or no possibilities, corresponding to $\1=\yon^\0$.
 
 \begin{exercise}
 \begin{enumerate}
-	\item Draw a level-3 abbreviation of a decision stream of type $\yon^2+1$.
+	\item Draw a level-3 abbreviation of a decision stream of type $\yon^\2+\yon^\0$.
 	\item Draw a level-4 abbreviation of a decision stream of type $\yon$.
-	\item Draw a level-3 abbreviation of a decision stream of type $\nn\yon^2$ by labeling every node with a natural number.
+	\item Draw a level-3 abbreviation of a decision stream of type $\nn\yon^\2$ by labeling every node with a natural number.
 	\qedhere
 \end{enumerate}
 \end{exercise}
@@ -553,7 +557,7 @@ More formally, these are called \emph{sieves}; they form the elements of a logic
 
 Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types. We will continue to use Agda.
 
-What we have been calling polynomials---things like $\yon^2+2\yon+1$---are often called \emph{containers} in the computer science literature. Here is some sample Agda code that first implements interfaces in general, and then a specific one that's isomorphic to $\yon^2+2\yon+1$:
+What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science literature. Here is some sample Agda code that first implements interfaces in general, and then a specific one that's isomorphic to $\yon^\2+\2\yon+\1$:
 \begin{agda}
 record Interface : Set where
    field
