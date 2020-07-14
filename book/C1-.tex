@@ -249,6 +249,7 @@ be familiar with:
 \item What an isomorphism is.
 \item What a functor is.
 \item What a natural transformation is.
+\item What a terminal and an initial object are.
 \item What a product and a coproduct are.
 \item What a monad is, and it will help if you also know what a comomad is.
   \item What a monoidal category is.
@@ -260,13 +261,19 @@ Good introductions to category theory abound. One place to start is \emph{Seven
 We will be using cartesian categories quite a bit in the first few chapters.
 \begin{definition}\label{def.cartesian_category}
   A category $\cat{C}$ is \emph{cartesian} if every two objects $A$ and $B$ in
-  $\cat{C}$ have a product $A \times B$.
+  $\cat{C}$ have a product $A \times B$, and $\cat{C}$ has a terminal object
+  $\ord{1}$. Equivalently, $\cat{C}$ is cartesian if for any finite set $I$ and
+  $I$-indexed family $A_{(-)} : I \to \cat{C}$ of objects, there is a product
+  $\prod_{i \in I} A_i$ in $\cat{C}$.
 
   A functor $F : \cat{C} \to \cat{D}$ between cartesian categories is said to \emph{preserve products} if the
   map $(F\pi_A,\, F\pi_B) : F(A \times B) \to FA \times FB$ is an isomorphism
-  for all $A$ and $B$.
+  for all $A$ and $B$, and the terminal morphism $F\ord{1} \to \ord{1}$ is an isomorphism.
 \end{definition}
 
+We will also use some more advanced category theory, like indexed
+categories, double categories, and toposes. But we will introduce these concepts
+as we use them.
 \section{Deterministic Systems}
 
 That's a lot of informal definitions, we are ready for something precise:
@@ -328,7 +335,7 @@ variables are to be exposed for use in other systems, and which are just for use
   are the sets of outputs.
 \end{exercise}
 
-\begin{example}
+\begin{example}{SIR model}\label{ex.SIR_model_discrete}
   Deterministic systems don't have to have finite sets of states. The $\Sys{SIR}$ model
   is an epimediological model used to study how a disease spreads through a
   population. ``SIR'' stands for ``susceptible'', ``infected'', and, rather
@@ -484,7 +491,7 @@ lenses.
   to have passforward $f \times g$ and passback
   $$((b_1, b_2), (c_1, c_2)) \mapsto (f^{\sharp}(b_1, c_2), g^{\sharp}(b_2, c_2)).$$
 
-  Together with $\lens{\One}{\One}$, this gives $\Cat{Lens}_{\cat{C}}$ the
+  Together with $\lens{\ord{1}}{\ord{1}}$, this gives $\Cat{Lens}_{\cat{C}}$ the
   structure of a monoidal category.
 \end{definition}
 
@@ -493,7 +500,100 @@ lenses.
   $\Cat{Lens}_{\cat{C}}$ into a monoidal category theory in \cref{sec.lens_indexed_cat}.
 \end{remark}
 
-\subsection{Wiring diagrams a lenses in the category of arities}
+Given two dynamical systems $\Sys{S_1}$ and $\Sys{S_2}$, their parallel product
+$\Sys{S_1} \otimes \Sys{S_2}$ is defined explicitly as follows:
+\begin{itemize}
+\item $\State{S_1 \otimes S_2} := \State{S_1} \times \State{S_2}$.
+\item $\Out{S_1 \otimes S_2} := \Out{S_1} \times \Out{S_2}$.
+\item $\In{S_1 \otimes S_2} := \In{S_1} \times \In{S_2}$.
+\item $\expose{S_1 \otimes S_2}((s_1,\, s_2)) = (\expose{S_1}(s_1),\, \expose{S_2}(s_2))$.
+\item $\update{S_1 \otimes S_2}((s_1,\, s_2),\, (i_1,\, i_2)) =
+  (\update{S_1}(s_1,\, i_1),\, \update{S_2}(s_2,\, i_2))$.
+\end{itemize}
+
+This can be expressed as the following wiring diagram:
+\begin{equation}\label{eqn.clock_system_box}
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+	\node[bb={1}{1}] (X1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, below=2 of X1] (X2) {$\Sys{S_2}$};
+	\node[bb={2}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\Sys{S_1 \otimes S_2}$};
+  
+  \draw (Y_in1) to (X1_in1);
+  \draw (Y_in2) to (X2_in1);
+
+  \draw (X1_out1) to (Y_out1);
+  \draw (X2_out1) to (Y_out2);
+\end{tikzpicture}
+\end{equation}
+
+If we imagine physically wiring together our boxes, the first thing we would
+need to do is collect them together like this; then we can proceed to wire them.
+We will do exactly this with our systems: first we will take their parallel
+product, and then we compose it with a lens that represents the wiring diagram.
+
+\begin{example}
+ We can describe the $\Sys{ClockWithDisplay}$ system (reproduced below) as a
+ composite of lenses.
+\begin{equation}\label{eqn.clock_system_box2}
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
+  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
+	\draw (X1_out1) to (Y_out1);
+  \draw let \p1=(X1.south west), \p2=(X2.north east), \n1=\bbportlen, \n2=\bby in
+    (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
+  \draw (X2_out1) to (Y_out2);
+	\draw[label] 
+		node [right=2pt of Y_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out2] {$\Set{Hours}$}
+		;
+\end{tikzpicture}
+\end{equation}
+
+First, we take the parallel product of $\Sys{a.m./p.m.}$ and $\Sys{Clock}$ to get the system 
+$$\Sys{a.m./p.m.} \otimes \Sys{Clock} : \lens{\Set{Meridien} \times \Set{Hours}}{\Set{Meridien} \times \Set{Hours}} \leftrightarrows \lens{\Set{Hours} \times \ord{1}}{\Set{Meridien} \times \Set{Hours}}.$$
+
+Now, we will express the wiring diagram \cref{eqn.clock_system_box2} as a lens
+$$\lens{w^{\sharp}}{w} : \lens{\Set{Hours} \times \ord{1}}{\Set{Hours} \times \Set{Meridien}} \leftrightarrows \lens{\ord{1}}{\Set{Hours} \times \Set{Meridien}}.$$
+
+We do this by setting
+\begin{align*}
+  w(t, m) &:= (t, m), \mbox{ and} \\
+  w^{\sharp}((t, m), \ast) &:= (t, \ast). 
+\end{align*}
+We can then see that 
+$$\Sys{ClockWithDisplay} = \lens{w^{\sharp}}{w} \circ (\Sys{a.m./p.m} \otimes
+\Sys{Clock})$$
+just like we wanted!
+\end{example}
+
+\begin{example}[Multi-city SIR models]
+  
+  In \cref{ex.SIR_model_discrete}, we saw how a discrete version of the SIR
+  model can be seen as a deterministic system. This model assumes there is a
+  single population, but what if we wanted to study the spread of a disease
+  through multiple cities at the same time? For this, we will need to use a
+  mutli-city SIR model.
+
+  We'll begin by defining a single city SIR model; then we can make a multi-city
+  SIR model by wiring together single city SIR models! A single city SIR model
+  will still have the same states as the SIR model, but we will add additional
+  parameters. We need to know how many susceptible people are coming in to the
+  city, and the rate at which susceptible people are leaving, and for the other
+  two classes. Therefore,
+  \begin{align*}
+    \State{SIR_{City}} &:= \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\, \middle|\, s,\, i,\, r\in \rr\right\} = \rr^3. \\
+    \Out{SIR_{City}} &:= \State{SIR_{City}} \\
+    \In{SIR_{City}} &:= \left\{ \begin{bmatrix} a \\ b \\ e \\ \ell \end{bmatrix}\, \middle|\, a,\,b,\,e,\,\ell \in \Rb \right\}
+    \expose{SIR_{City}} &:= \id \\
+    \update{SIR_{City}}
+  \end{align*}
+
+\end{example}
+
+\subsection{Wiring diagrams a lenses in categories of arities}
 
 \subsection{CoKleisli categories and the Grothendieck construction: another way
   to look at lenses}\label{sec.lens_indexed_cat}
