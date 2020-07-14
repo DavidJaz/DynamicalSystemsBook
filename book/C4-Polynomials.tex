@@ -267,7 +267,7 @@ But $\poly$ is very versatile in its applications. Next we'll show how it relate
 Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put their data in a database. This requires organizing the little pieces into a conceptual structure. So when you hear ``database'', just think of it as a conceptual structure filled with examples.
 
 To fix a mental image, let's say that you need to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
-\[
+\begin{equation}\label{eqn.mytables}
 \begin{tabular}{ c | c  c  c}
   \textbf{Employee}&\textbf{FirstName}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
   1&Alan&101&2\\
@@ -287,7 +287,7 @@ To fix a mental image, let's say that you need to constantly look up employees, 
 %	IT\\[-3pt]
 %	\resizebox{!}{10pt}{$\vdots$}
 %\end{tabular}
-\]
+\end{equation}
 We can see it as being associated to the following conceptual scheme, also called a \emph{schema}:
 \begin{equation}\label{eqn.myschema}
 \tiny\cat{C}\coloneqq
@@ -302,6 +302,8 @@ We can see it as being associated to the following conceptual scheme, also calle
 }
 \end{equation}
 The equation at the bottom says that for any department $d$, if you ask for the admin person and see which department they work in, it's required to be $d$.
+
+What's called $\cat{C}$ in \eqref{eqn.myschema} is a \emph{finitely presented category}, and the database instance presented in \eqref{eqn.mytables} correspond to a functor $I\colon\cat{C}\to\smset$; it sends the object $\text{Employee}\in\cat{C}$ to the set $I(\text{Employee})\coloneqq\{1,2,3\}$. It sends the morphism $\text{Mngr}\colon\text{Employee}\to\text{Employee}$ to the function $I(\text{Mngr})\colon\{1,2,3\}\to\{1,2,3\}$ given by $I(1)=2$, $I(2)=2$, and $I(3)=3$. A functor $\cat{C}\to\smset$ is called a \emph{copresheaf on $\cat{C}$}. So the story of database schemas and their data can be based on the story of categories and their copresheaves.
 
 There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager''.
 \begin{minted}{mysql}
@@ -561,71 +563,91 @@ What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are of
 
 Luckily, the agda code is pretty easy to understand.
 \begin{agda}
-record Interface : Set where
-   field
-     pos : Set
-     dis : pos -> Set
-open Interface
+record Interface : Set where  -- an interface consists of 
+   field                      -- two fields
+     pos : Set                -- one called pos, a set, and
+     dis : pos -> Set         -- one called dis, that depends on pos
 \end{agda}  
-%\begin{agda}
-%---- Boilerplate sets ----
-%data Nat : Set
-%zero : Nat
-%succ : Nat -> Nat
-%
-%data Fin : (n : Nat) -> Set where
-%Fzero : Fin (succ zero)
-%Fsucc : (n : Nat) -> Fin n -> Fin (succ n)
-%
-%Void : Set
-%Void = Fin zero
-%
-%One : Set
-%One = Fin (succ zero)
-%
-%Two : Set
-%Two = Fin (succ (succ (zero)))
-%  
-%data Either (A : Set) (B : Set) : Set where
-%  Left  : A -> Either A B
-%  Right : B -> Either A B
-%  
-%---- Boilerplate poly ----
-%
-%record Interface : Set where
-%   field
-%     pos : Set
-%     dis : pos -> Set
-%open Interface
-%  
-%yon : Set -> Interface
-%pos (yon A) = One
-%dis (yon A) U  = A
-%
-%constant : Set -> Interface
-%pos (constant x) = x
-%dis (constant x) _ = Void
-%
-%infixl 4 _+_
-%_+_ : Interface -> Interface -> Interface
-%pos (i + j) = Either (pos i) (pos j)
-%dis (i + j) (Left x) = dis i x
-%dis (i + j) (Right x) = dis j x
-%
-%infixl 5 _×_
-%_×_ : Interface -> Interface -> Interface
-%pos (i × j) = Pair (pos i) (pos j)
-%dis (i × j) (x , y) = Pair (dis i x) (dis j y)
-%
-%
-%---- Finally, my interface y^2+2y+1 ----
-%
-%MyInterface : Interface
-%myInterface = (yon Two) + (constant Two) × (yon One) + (constant One)
-%\end{agda}
 
 %---- Subsection ----%
 \subsection{Mathematical theory}
+
+The applications of $\poly$ are quite diverse and interesting, including dynamics, data, and decisions. However it is how the mathematics of $\poly$ supports these applications that is so fantastic. For experts, here are some reasons for the excitement.
+
+\begin{proposition}
+$\poly$ is a biCartesian closed category, meaning it has sums, products, and exponential objects. It supports the simply typed lambda calculus.
+\end{proposition}
+
+In fact $\poly$ has infinite coproducts, infinite products, and is completely distributive. We'll explain all of this in \cref{??}; for now we continue with the highlights.
+
+\begin{proposition}
+Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal. Moreover $\otimes$ is also a closed monoidal structure and it distributes over $+$.
+\end{proposition}
+
+\begin{proposition}
+$\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:
+\begin{equation*}%\label{eqn.adjoints_galore}
+\begin{tikzcd}[column sep=60pt]
+  \smset
+  	\ar[r, shift left=7pt, "A" description]
+		\ar[r, shift left=-21pt, "A\yon"']&
+  \poly
+  	\ar[l, shift right=21pt, "p(\0)"']
+  	\ar[l, shift right=-7pt, "p(\1)" description]
+	\ar[l, phantom, "\scriptstyle\Leftarrow"]
+	\ar[l, phantom, shift left=14pt, "\scriptstyle\Rightarrow"]
+	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
+\end{tikzcd}
+\hspace{.6in}
+\adjr[50pt]{\smset\op}{\yon^A}{\Gamma p}{\poly}.
+\end{equation*}
+Each functor is labeled by where it sends $p\in\poly$ or $A\in\smset$.
+\end{proposition}
+
+There's a lot we're leaving out of this summary, just so we can hit the highlights.
+
+\begin{proposition}
+The functor $\poly\to\smset$ given by $p\mapsto p(\1)$ is a monoidal fibration.
+\end{proposition}
+
+In fact it's a monoidal $*$-bifibration in the sense of \cite{shulman2008framed}. But here's where things get really interesting.
+
+\begin{proposition}[Ahman-Uustalu]\label{prop.ahman_uustalu1}
+Comonoids in $(\poly,\yon,\circ)$ are categories (up to isomorphism).
+\end{proposition}
+
+\begin{proposition}
+Suppose that the category $\cat{C}$ corresponds under \cref{prop.ahman_uustalu1}, to the comonoid $\com{C}$. Then there is an equivalence of categories
+\[
+\Cat{Bimod}(\com{C},0)\cong\cat{C}\set
+\]
+between $(\com{C},0)$-bimodules and $\cat{C}$-copresheaves.
+\end{proposition}
+We will use the convention that the comonoid $\com{C}$ corresponds to category $\cat{C}$, and similarly for $\com{D}$ and $\cat{D}$, etc. 
+
+\begin{proposition}[Garner]
+For any categories $\cat{C}$ and $\cat{D}$, there is an equivalence of categories
+\[
+\Cat{PRA}(\cat{C}\set,\cat{D}\set)\cong\Cat{Bimod}(\com{C},\com{D})
+\]
+between that of bimodules between comonoids in $\poly$ and parametric right adjoints between copresheaf categories.
+\end{proposition}
+
+\begin{proposition}
+The functor $\Cat{Comon}(\poly)\to\poly$ has a right adjoint
+\[
+\adjr{\poly}{\com{K}_-}{u_-}{\Cat{Comon}(\poly)}
+\]
+\end{proposition}
+
+\begin{proposition}[Niu, Johnstone-Power-Tsujishita-Watanabe-Worrell]
+For any polynomial $p$, the category
+\[\sys(p)\cong\com{K}_p\set\]
+of dynamical systems on $p$ forms a topos.
+\end{proposition}
+
+
+
 
 %-------- Section --------%
 \section{$\poly$ as a category}\label{sec.poly}
