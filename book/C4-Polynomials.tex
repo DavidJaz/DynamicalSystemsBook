@@ -746,13 +746,13 @@ as follows.
 \end{enumerate}
 \end{exercise}
 
-\begin{proposition}[Yoneda lemma]\label{lemma.yoneda}
+\begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
 Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
 \begin{equation}\label{eqn.yoneda}
 F(S)\cong\Hom(\yon^S,F)
 \end{equation}
 where $\Hom$ denotes the set of natural transformations. Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
-\end{proposition}
+\end{lemma}
 \begin{proof}[Sketch of proof]
 For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
 
@@ -780,14 +780,16 @@ For example, in the following crazy polynomial
 \begin{equation}\label{eqn.crazy_poly}
 p\coloneqq\rr\yon^\zz+\3\yon^{\3}+A\yon+\sum_{i\in I}Q_i\yon^{R_i+Q_i^2},
 \end{equation}
-$\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\3$ denotes the set $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote some arbitrary sets that should have already been defined in order for \eqref{eqn.crazy_poly} to make sense. But what are $+$ and $\sum$?
+$\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\3$ denotes the set $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote some arbitrary sets that should have already been defined in order for \eqref{eqn.crazy_poly} to make sense.
 
-The polynomials we already understand at this point are the pure-power polynomials $\yon^A$ for some set $A$; they are functors $\yon^A\colon\smset\to\smset.$
-So to understand general polynomials like $p$, we just need to understand sums of functors. Sum is another name for \emph{coproduct}. It will be useful to discuss products of functors at the same time. However, we haven't discussed sums and products of sets yet, so we need to do that first.
+The polynomials we already understand at this point are the pure-power polynomials $\yon^A$ for some set $A$; they are representable functors $\yon^A\colon\smset\to\smset.$
+So to understand general polynomials like $p$, we just need to understand sums of functors. It will be useful to discuss products of functors at the same time. However, we haven't discussed sums and products of sets yet, so we need to do that first.
+
+\paragraph{Dependent sums and products of sets.}
 
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this \emph{$I$-indexed collection of sets} by $X\colon I\to\smset$ or more classically as $(X_i)_{i\in I}$. Choosing one element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from each set in the collection would be denoted $(x_i)_{i\in I}$, where each $x_i\in X_i$.
 
-\begin{definition}[Sums and products of sets]
+\begin{definition}[Dependent sums and products of sets]
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The sum $\sum_{i\in I}X_i$ (respectively, the \emph{product} $\prod_{i\in I}X_i$) of this collection is the set
 \[
 \sum_{i\in I}X_i=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
@@ -803,12 +805,27 @@ Its number of elements (cardinality) will always be the sum of the numbers of el
 \[\prod_{i\in \2}X_i=X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
 \end{example}
 
-\begin{exercise}
-When $I=\varnothing$, there is a unique collection $X\colon I\to\smset$; it is empty, i.e.\ it consists of no sets. What is the coproduct and product of this collection?
+
+\begin{exercise}\label{exc.on_sums_prods_sets}
+Let $I$ be a set and let $X_i=\1$ be a one-element set for each $i\in I$. 
+\begin{enumerate}
+	\item Show that there is an isomorphism of sets $I\cong\sum_{i\in I}\1$.
+	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in I}\1$.
+\end{enumerate}
+As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty collection of sets.
+\begin{enumerate}
+	\item Is it true that $X_i=\1$ for each $i\in I$?
+	\item Show that there is an isomorphism of sets $\0\cong\sum_{i\in\varnothing}X_i$.
+	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$.
+\qedhere
+\end{enumerate}
 \end{exercise}
 
+Where are we, and where are we going? We've define dependent sums and products of sets; that's where we are. Our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
 
-\begin{definition}[Sum and product of functors $\smset\to\smset$]\label{def.sum_prod}
+\paragraph{Dependent sums and products of functors $\smset\to\smset$.}
+
+\begin{definition}[Dependent sums and products of functors $\smset\to\smset$]\label{def.sum_prod}
 For any two functors $F,G\colon\smset\to\smset$, let
 \[
   (F+G)\colon\smset\to\smset
@@ -836,30 +853,97 @@ denote the functors that respectively assign to each $X\in\smset$ the sum and pr
 We denote by $\0,\1\colon\smset\to\smset$ the constant functors, which respectively assign $\0$ and $\1$ to each $X\in\smset$.
 \end{definition}
 
-\begin{exercise}\label{exc.zero_sums_and_prods}
-Let $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ the unique empty collection of sets.
-\begin{enumerate}
-	\item Show that there is an isomorphim of sets $\0\cong\sum_{i\in\varnothing}X_i$.
-	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
 \begin{proposition}
 Referring to the notation in \cref{def.sum_prod}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $\smset^\smset$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $\smset^\smset$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $\smset^\smset$.
 \end{proposition}
 \begin{proof}
-By \cref{ex.two_sums_and_prods,exc.zero_sums_and_prods}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $\smset^\smset$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $\smset^\smset$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
+By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $\smset^\smset$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $\smset^\smset$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
-So we've finally arrived: we can define the category of polynomial functors.
+We've finally arrived: we can define the category of polynomial functors!
+
+\paragraph{$\poly$, the category of polynomial functors}
 
 \begin{definition}[Polynomial functors]
-A \emph{polynomial functor} is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p_i)_i\in I$, and an isomorphism
-\[p\cong\sum_{i\in I}\yon^p_i.\]
+A \emph{polynomial functor} is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p_i)_{i\in I}$, and an isomorphism
+\[p\cong\sum_{i\in I}\yon^{p_i}\]
+to a sum of representables.
 A \emph{morphism of polynomial functors} is simply a natural transformation $p\to q$.
 \end{definition}
 
+So (up to isomorphism), a polynomial functor is just a sum of representables.
+
+\begin{example}\label{ex.pedantic_poly_eval}
+Consider the polynomial $\yon^\2+\2\yon+\1$. It denotes a functor $\smset\to\smset$; what does this functor do to the set $X\coloneqq\{a,b\}$? 
+To be very precise and pedantic, let's say
+\[
+I\coloneqq\4\qqand
+  p_1\coloneqq\2,\quad
+  p_2\coloneqq\1,\quad
+  p_3\coloneqq\1,\quad
+  p_4\coloneqq\0\
+\]
+so that $p\cong\sum_{i\in I}\yon^{p_i}$. Now we have
+\[
+p(X)\cong
+\{(1,a,a),(1,a,b),(1,b,a),(1,b,b),(2,a),(2,b),(3,a),(3,b),(4)\}.
+\]
+It has $(2^2+2+2+1)$-many, i.e.\ $9$, elements. The representable summand $\yon^A$ throws in all $A$-tuples from $X$, but it's indexed by the name of the summand. In particular if $A=\varnothing$ then it just records the empty tuple at that summand.
+\end{example}
+
+\begin{exercise}
+In the pedantic style of \cref{ex.pedantic_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows:
+\begin{enumerate}
+	\item $p\coloneqq\yon^\3$ and $X\coloneqq\{4,9\}.$
+	\item $p\coloneqq\3\yon^\2+\1$ and $X\coloneqq\{a\}$.
+	\item $p\coloneqq\0$ and $X\coloneqq\nn$.
+	\item $p\coloneqq\4$ and $X\coloneqq\nn$.
+	\item $p\coloneqq\yon$ and $X\coloneqq\nn$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}
+Suppose $p\coloneqq\yon^\2+\2\yon+1$. As a functor $\smset\to\smset$ it should be able to act not only on sets but on functions. Let $X\coloneqq\{a_1,a_2,b_1\}$, $Y\coloneqq\{a,b,c\}$ and $f\colon X\to Y$ the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$ is shown below
+\[
+\begin{tikzcd}[sep=3pt, shorten <=-5pt, shorten >=-5pt, dashed]
+\LMO{(1,a_1,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(1,a_1,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(1,a_1,b_1)}\ar[rrr, blue, bend left=25pt]&[30pt]&
+\LMO{(1,a,a)}&\LMO{(1,a,b)}&\LMO{(1,a,c)}&&
+\\
+\LMO{(1,a_2,a_1)}\ar[rrrru, blue, bend left=10pt]&\LMO{(1,a_2,a_2)}\ar[rrru, blue, bend left=10pt]&\LMO{(1,a_2,b_1)}\ar[rrru, blue, bend left=10pt]&&
+\LMO{(1,b,a)}&\LMO{(1,b,b)}&\LMO{(1,b,c)}&&
+\\
+\LMO{(1,b_1,a_1)}\ar[rrrru, blue, bend left=10pt]&\LMO{(1,b_1,a_2)}\ar[rrru, blue, bend left=10pt]&\LMO{(1,b_1,b_1)}\ar[rrru, blue, bend left=10pt]&&
+\LMO{(1,c,a)}&\LMO{(1,c,b)}&\LMO{(1,c,c)}&&
+\\
+\LMO{(2,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(2,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(2,b_1)}\ar[rrr, blue, bend left=25pt]&&
+\LMO{(2,a)}&\LMO{(2,b)}&\LMO{(2,c)}&&
+\\
+\LMO{(3,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(3,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(3,b_1)}\ar[rrr, blue, bend left=25pt]&&
+\LMO{(3,a)}&\LMO{(3,b)}&\LMO{(3,c)}&&
+\\&
+\LMO{(4)}\ar[rrrr, blue]&&&&\LMO{(4)}
+\end{tikzcd}
+\]
+\end{example}
+
+\begin{exercise}
+Let $p=\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induced function $p(f)\colon p(\1)\to p(\2)$.
+\end{exercise}
+
+\begin{proposition}
+Let $p\coloneqq\sum_{i\in I}\yon^{p_i}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
+\begin{equation}\label{eqn.sum_p1}
+p\cong\sum_{i\in p(\1)}\yon^{p_i}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+We need to show that $I\cong p(\1)$; the latter claim follows directly. In \cref{exc.on_sums_prods_sets} it was shown that $I\cong\sum_{i\in I}\1$, so we just need to show that $(\yon^A)(\1)\cong\1$ for any $A\in\smset$. But $1^A\cong 1$ because there is a unique function $A\to 1$ for any $A$.
+\end{proof}
+
+The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on.
+
+\paragraph{Morphisms between polynomial functors}
 
 %-------- Section --------%
 \section{Dynamical systems}
