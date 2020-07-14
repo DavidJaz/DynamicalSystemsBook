@@ -239,6 +239,34 @@ the abstract language of composition: \emph{category theory}.
 \emph{Category theory} is the abstract study of composition.
 \end{informal}
 
+\subsection{Category Theory}
+
+We'll be using the language of category theory quite freely in this book, and so
+we'll expect you to know the basics. These are the notions we will expect you to
+be familiar with:
+\begin{itemize}
+\item What a category is.
+\item What an isomorphism is.
+\item What a functor is.
+\item What a natural transformation is.
+\item What a product and a coproduct are.
+\item What a monad is, and it will help if you also know what a comomad is.
+  \item What a monoidal category is.
+\end{itemize}
+
+Good introductions to category theory abound. One place to start is \emph{Seven
+  Sketches: An invitation to applied category theory}.
+
+We will be using cartesian categories quite a bit in the first few chapters.
+\begin{definition}\label{def.cartesian_category}
+  A category $\cat{C}$ is \emph{cartesian} if every two objects $A$ and $B$ in
+  $\cat{C}$ have a product $A \times B$.
+
+  A functor $F : \cat{C} \to \cat{D}$ between cartesian categories is said to \emph{preserve products} if the
+  map $(F\pi_A,\, F\pi_B) : F(A \times B) \to FA \times FB$ is an isomorphism
+  for all $A$ and $B$.
+\end{definition}
+
 \section{Deterministic Systems}
 
 That's a lot of informal definitions, we are ready for something precise:
@@ -257,11 +285,18 @@ That's a lot of informal definitions, we are ready for something precise:
   \end{itemize}
   We refer to the pair $\lens{\In{S}}{\Out{S}}$ of exposed variable and parameter values as
   the \emph{interface} of the system.
+
+We can interpret this definition in any cartesian category $\cat{C}$; here, we
+have have used the category $\Cat{Set}$ of sets.
 \end{definition}
 
 \begin{remark}
-  Deterministic systems are also known as \emph{Moore machines} and
-  \emph{deterministic automata}.
+  Deterministic systems are also known as \emph{Moore machines} in the
+  literature. If the output set is taken to be $\{\const{true},
+  \const{false}\}$, then they are known as \emph{deterministic automata}.
+
+  Often, these definitions also include a \emph{start state} $s_0 \in \State{S}$
+  as part of the data. We don't do this.
 \end{remark}
 
 \begin{example}\label{ex.clock_system}
@@ -329,22 +364,38 @@ If a deterministic system has a small finite set of states, then we can draw it
 entirely as a \emph{transition diagram}:
 
 \[
-\jaz{diag}
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMO{a}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMO{b}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMO{b} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
 \]
 
 This diagram describes the following system $\Sys{S}$:
 \begin{itemize}
-\item $\State{S} = \{A, B, C\}$.
-\item $\In{S} = \{\}$,
-\item $\Out{S} = \{\}$,
-\item \begin{align*}
+\item $\State{S} = \{1, 2, 3\}$.
+\item $\In{S} = \{{\color{dgreen} \const{green},\, {\color{orange} \const{orange}}}\}$,
+\item $\Out{S} = \{a, b\}$,
+\item \[\begin{aligned}
         \expose{S} : \State{S} &\to \Out{S} \\
-        &\mapsto
-      \end{align*}
-\item \begin{align*}
+        1 &\mapsto a \\
+        2 &\mapsto b \\
+        3 &\mapsto b
+      \end{aligned} \quad\quad\quad\quad
+ \begin{aligned}
         \update{S} : \State{S} \times \In{S} &\to \In{S} \\
-        &\mapsto
-      \end{align*}
+        (1, {\color{dgreen} \const{green}}) &\mapsto 2 \\
+        (1, {\color{orange} \const{orange}}) &\mapsto 1 \\
+        (2, {\color{dgreen} \const{green}}) &\mapsto 3 \\
+        (2, {\color{orange} \const{orange}}) &\mapsto 1 \\
+        (3, {\color{dgreen} \const{green}}) &\mapsto 3 \\
+        (3, {\color{orange} \const{orange}}) &\mapsto 1 \\
+      \end{aligned}
+      \]
 \end{itemize}
 
 To draw a transition diagram of a system $\Sys{S}$, we draw each state $s \in
@@ -355,7 +406,98 @@ parameter $i \in \In{S}$ we draw an arrow from $s$ to $\update{S}(s, i)$.
   Draw the $\Sys{Clock}$ system (\cref{ex.clock_system}) as a transition diagram.
 \end{exercise}
 
+
 \section{Wiring Together Systems with Lenses}
+
+In the last section, we saw the formal definition of deterministic systems and a
+few examples of them. In this section, we'll see how to wire systems together to
+make more complex systems. We will do this using an interesting notion coming
+from the world of function programming: a \emph{lens}.
+
+A lens is a framework for bi-directional information passing.
+\[
+anatomy of a lens
+\]
+
+\begin{definition}\label{def.lens}
+  A \emph{lens} $\lens{f^{\sharp}}{f} : \lens{A}{B} \leftrightarrows
+  \lens{C}{D}$ in a cartesian category $\cat{C}$ consists of:
+  \begin{itemize}
+  \item A \emph{passforward} map $f : B \to D$, and
+    \item a \emph{passback} map $f^{\sharp} : B \times C \to A$
+  \end{itemize}
+\end{definition}
+
+The most useful thing about lenses is that they \emph{compose}.
+\begin{definition}\label{def.lens_composition}
+  Let $\lens{f^{\sharp}}{f} : \lens{A}{B} \leftrightarrows \lens{C}{D}$ and
+  $\lens{g^{\sharp}}{g} : \lens{C}{D} \leftrightarrows \lens{E}{F}$ be lenses in
+  a cartesian category $\cat{C}$. We define their composite
+  $$\lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f}$$
+  to have passforward $g \circ f$ and passback
+  $$(b, e) \mapsto f^{\sharp}(b, g^{\sharp}(f(b), e)).$$
+
+\end{definition}
+
+This gives us a category of lenses in any cartesian category $\cat{C}$.
+\begin{definition}\label{def.lens_category}
+Let $\cat{C}$ be a cartesian category. Then the category $\Cat{Lens}_{\cat{C}}$
+has:
+\begin{itemize}
+\item Objects the pairs $\lens{A}{B}$ of objects in $\cat{C}$.
+\item Arrows the lenses $\lens{f^{\sharp}}{f} : \lens{A}{B} \leftrightarrow \lens{C}{D}$.
+\item The identity lens is $\lens{\pi_2}{\id} : \lens{A}{B} \leftrightarrow
+  \lens{A}{B}$, where $\pi_2 : A \times B \to B$ is the projection.
+\end{itemize}
+\item Composition is given by lens composition as in \cref{def.lens_composition}.
+\end{definition}
+
+\begin{exercise}
+  Check that $\Cat{Lens}_{\cat{C}}$ is actually a category. That is, check that
+  lens composition is associative, and that the identity lens is an identity for it.
+\end{exercise}
+
+The reason we are interested in lenses and lens composition is because
+deterministic systems are themselves lenses. As written in
+\cref{def.deterministic_system}, a system $\Sys{S}$ is a lens
+$$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}}.$$
+In fact, the deterministic systems are precisely the lenses of the form
+$$\lens{S}{S} \leftrightarrows \lens{I}{O}$$
+whose domain has the same set in both positions. This means that we can compose
+a system $\Sys{S}$ with a lens $\lens{f^{\sharp}}{f} : \lens{\In{S}}{\Out{S}}
+\leftrightarrows \lens{I}{O}$ to get a new dynamical system
+$$\lens{f^{\sharp}}{f} \circ \lens{\update{S}}{\expose{S}} :
+\lens{\State{S}}{\State{S}} \leftrightarrows \lens{I}{O}$$
+with a new interface!
+
+We can use this observation to wire together different systems. But before we
+can do that, we need a way to combine two systems without having them interact.
+We will call this the \emph{parallel product}, and we will define it for general
+lenses.
+
+\begin{definition}
+  For lenses $\lens{f^{\sharp}}{f} : \lens{A_1}{B_2} \leftrightarrows \lens{C_1}{D_1}$ and
+  $\lens{g^{\sharp}}{g} : \lens{A_2}{B_2} \leftrightarrows \lens{C_2}{D_2}$, we
+  define their \emph{parallel product} $$\lens{f^{\sharp}}{f} \otimes
+  \lens{g^{\sharp}}{g} : \lens{A_1 \times A_2}{B_1 \times B_2} \leftrightarrows
+  \lens{C_1 \times C_2}{D_1 \times D_2}$$
+  to have passforward $f \times g$ and passback
+  $$((b_1, b_2), (c_1, c_2)) \mapsto (f^{\sharp}(b_1, c_2), g^{\sharp}(b_2, c_2)).$$
+
+  Together with $\lens{\One}{\One}$, this gives $\Cat{Lens}_{\cat{C}}$ the
+  structure of a monoidal category.
+\end{definition}
+
+\begin{remark}
+  We will show a slick way to prove that the parallel product does indeed make
+  $\Cat{Lens}_{\cat{C}}$ into a monoidal category theory in \cref{sec.lens_indexed_cat}.
+\end{remark}
+
+\subsection{Wiring diagrams a lenses in the category of arities}
+
+\subsection{CoKleisli categories and the Grothendieck construction: another way
+  to look at lenses}\label{sec.lens_indexed_cat}
+
 
 
 
