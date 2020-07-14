@@ -586,9 +586,9 @@ just like we wanted!
   \begin{align*}
     \State{SIR_{City}} &:= \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\, \middle|\, s,\, i,\, r\in \rr\right\} = \rr^3. \\
     \Out{SIR_{City}} &:= \State{SIR_{City}} \\
-    \In{SIR_{City}} &:= \left\{ \begin{bmatrix} a \\ b \\ e \\ \ell \end{bmatrix}\, \middle|\, a,\,b,\,e,\,\ell \in \Rb \right\}
+    \In{SIR_{City}} &:= \left\{ \begin{bmatrix} a \\ b \\ (e_s, e_i, e_r) \\ (\ell_s, \ell_i, \ell_r) \end{bmatrix}\, \middle|\, a,\,b,\,e,\,\ell \in \Rb \right\}
     \expose{SIR_{City}} &:= \id \\
-    \update{SIR_{City}}
+    \update{SIR_{City}}\left( \begin{bmatrix} s\\ i\\ r \end{bmatrix},\, \begin{bmatrix} a\\ b\\ e\\ \ell\end{bmatrix} \right) &:= \begin{bmatrix}s + \end{bmatrix} 
   \end{align*}
 
 \end{example}
