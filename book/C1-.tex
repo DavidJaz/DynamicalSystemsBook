@@ -266,9 +266,11 @@ We will be using cartesian categories quite a bit in the first few chapters.
   $I$-indexed family $A_{(-)} : I \to \cat{C}$ of objects, there is a product
   $\prod_{i \in I} A_i$ in $\cat{C}$.
 
-  A functor $F : \cat{C} \to \cat{D}$ between cartesian categories is said to \emph{preserve products} if the
+  A functor $F : \cat{C} \to \cat{D}$ between cartesian categories is said to be
+  \emph{cartesian} if the
   map $(F\pi_A,\, F\pi_B) : F(A \times B) \to FA \times FB$ is an isomorphism
-  for all $A$ and $B$, and the terminal morphism $F\ord{1} \to \ord{1}$ is an isomorphism.
+  for all $A$ and $B$, and the terminal morphism $F\ord{1} \to \ord{1}$ is an
+  isomorphism. 
 \end{definition}
 
 We will also use some more advanced category theory, like indexed
@@ -452,8 +454,8 @@ Let $\cat{C}$ be a cartesian category. Then the category $\Cat{Lens}_{\cat{C}}$
 has:
 \begin{itemize}
 \item Objects the pairs $\lens{A}{B}$ of objects in $\cat{C}$.
-\item Arrows the lenses $\lens{f^{\sharp}}{f} : \lens{A}{B} \leftrightarrow \lens{C}{D}$.
-\item The identity lens is $\lens{\pi_2}{\id} : \lens{A}{B} \leftrightarrow
+\item Arrows the lenses $\lens{f^{\sharp}}{f} : \lens{A}{B} \leftrightarrows \lens{C}{D}$.
+\item The identity lens is $\lens{\pi_2}{\id} : \lens{A}{B} \leftrightarrows
   \lens{A}{B}$, where $\pi_2 : A \times B \to B$ is the projection.
 \end{itemize}
 \item Composition is given by lens composition as in \cref{def.lens_composition}.
@@ -555,7 +557,7 @@ product, and then we compose it with a lens that represents the wiring diagram.
 First, we take the parallel product of $\Sys{a.m./p.m.}$ and $\Sys{Clock}$ to get the system 
 $$\Sys{a.m./p.m.} \otimes \Sys{Clock} : \lens{\Set{Meridien} \times \Set{Hours}}{\Set{Meridien} \times \Set{Hours}} \leftrightarrows \lens{\Set{Hours} \times \ord{1}}{\Set{Meridien} \times \Set{Hours}}.$$
 
-Now, we will express the wiring diagram \cref{eqn.clock_system_box2} as a lens
+Now, we will express the wiring pattern in \cref{eqn.clock_system_box2} as a lens
 $$\lens{w^{\sharp}}{w} : \lens{\Set{Hours} \times \ord{1}}{\Set{Hours} \times \Set{Meridien}} \leftrightarrows \lens{\ord{1}}{\Set{Hours} \times \Set{Meridien}}.$$
 
 We do this by setting
@@ -563,10 +565,78 @@ We do this by setting
   w(t, m) &:= (t, m), \mbox{ and} \\
   w^{\sharp}((t, m), \ast) &:= (t, \ast). 
 \end{align*}
+Seen as a wiring diagram on its own, $\lens{w^{\sharp}}{w}$ looks like this:
+\begin{equation}
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=2cm, bb port length=0, bb port sep=2, baseline=(Y.center)]
+  \node[bb={1}{2}]  (Mid) {};
+
+	\node[bb={0}{2}, fit={($(Mid.north west)+(-3,1)$) ($(Mid.north east)+(2,1)$) ($(Mid.south)+(0,-5)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\lens{w^{\sharp}}{w}$};
+
+
+  \draw (Mid_out1) to (Y_out1|-Mid_out1);
+  \draw (Mid_out2) to (Y_out1|-Mid_out2);
+  
+  
+  \draw let \p1=(Mid.south east), \p2=(Mid.south west), \n1=\bbportlen, \n2=\bby in
+    (Mid_out2) to[out=0, in=0] (\x1 + \n1, \y1-\n2) -- (\x2 - \n1, \y1 - \n2) to[out=180, in=180] (Mid_in1);
+
+	\draw[label] 
+		node [right=2pt of Y_out1|-Mid_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hours}$}
+		;
+\end{tikzpicture}
+\end{equation}
+
+
 We can then see that 
 $$\Sys{ClockWithDisplay} = \lens{w^{\sharp}}{w} \circ (\Sys{a.m./p.m} \otimes
 \Sys{Clock})$$
-just like we wanted!
+just like we wanted! In terms of wiring diagrams, this looks like:
+
+\begin{equation}\label{eqn.clock_system_box3}
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
+	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
+  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
+	\draw (X1_out1) to (Y_out1);
+  \draw let \p1=(X1.south west), \p2=(X2.north east), \n1=\bbportlen, \n2=\bby in
+    (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
+  \draw (X2_out1) to (Y_out2);
+	\draw[label] 
+		node [right=2pt of Y_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out2] {$\Set{Hours}$}
+		;
+\end{tikzpicture}
+\quad=\quad
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Y.center)]
+	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
+  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+
+  \node[dashed, bb={1}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}]  (Mid) {};
+  \node[above=0pt of Mid.south] (Label) {$\Sys{a.m./p.m.} \otimes \Sys{Clock}$};
+
+	\node[bb={0}{2}, fit={($(Mid.north west)+(-3,1)$) ($(Mid.north east)+(2,1)$) ($(Mid.south)+(0,-5)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\lens{w^{\sharp}}{w}$};
+
+	\draw (X1_out1) to (Mid_out1|-X1_out1);
+  \draw (X2_out1) to (Mid_out2|-X2_out1) coordinate (Midout);
+  \draw (Mid_in1|-X1_in1) coordinate (Midin) to (X1_in1);
+
+  \draw (Mid_out1|-X1_out1) to (Y_out1|-X1_out1);
+  \draw (Mid_out2|-X2_out1) to (Y_out1|-X2_out1);
+  
+  
+  \draw let \p1=(Mid.south east), \p2=(Mid.south west), \n1=\bbportlen, \n2=\bby in
+    (Midout) to[out=0, in=0] (\x1 + \n1, \y1-\n2) -- (\x2 - \n1, \y1 - \n2) to[out=180, in=180] (Midin);
+
+	\draw[label] 
+		node [right=2pt of Y_out1|-X1_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out2|-X2_out1] {$\Set{Hours}$}
+		;
+\end{tikzpicture}
+\end{equation}
 \end{example}
 
 \begin{example}[Multi-city SIR models]
@@ -577,37 +647,199 @@ just like we wanted!
   through multiple cities at the same time? For this, we will need to use a
   mutli-city SIR model.
 
-  We'll begin by defining a single city SIR model; then we can make a multi-city
-  SIR model by wiring together single city SIR models! A single city SIR model
-  will still have the same states as the SIR model, but we will add additional
-  parameters. We need to know how many susceptible people $e_s$ are coming in to the
-  city, and the rate $\ell_s$ at which susceptible people are leaving, and for the other
-  two classes. Therefore,
+  To define our multi-city SIR model, we'll first assume that we have a map of
+  all our cities, and that we know the rates of travel between cities. So, let's
+  say we're looking at Boston and New York City, and that we have flow rates
+  $f_{s,\Sys{Bos}\to \Sys{NYC}}$, $f_{i,\Sys{Bos}\to \Sys{NYC}}$ and
+  $f_{r,\Sys{Bos}\to \Sys{NYC}}$, and similarly flow rates from NYC to Boston.
+  We can draw a simple map as a labeled graph like this:
+  \[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \Sys{Boston} \ar[r, bend left, "f_{\Sys{Bos} \to \Sys{NYC}}"]\ar[r, bend right, leftarrow, "f_{\Sys{NYC} \to \Sys{Bos}}"'] & \Sys{NYC}
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+  \]
+  Later, in \cref{sec.population_flow_graph}, we will see this sort of diagram
+  as a \emph{population flow graph}. But for now, we'll just see how to turn it
+  into a deterministic system.
+  
+  To define each city as a system, we need to add parameters to each
+  corresponding to the incoming population. Since only one city is incoming to
+  Boston, we will only need one set of these parameters: $(e_s, e_i, e_r)$
+  corresponding to the inflow of each population class. 
   \begin{align*}
-    \State{SIR_{City}} &:= \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\, \middle|\, s,\, i,\, r\in \rr\right\} = \rr^3. \\
-    \Out{SIR_{City}} &:= \State{SIR_{City}} \\
-    \In{SIR_{City}} &:= \left\{ \begin{bmatrix} a \\ b \\ (e_s, e_i, e_r) \\ (\ell_s, \ell_i, \ell_r) \end{bmatrix}\, \middle|\, a,\,b\in \rr,\, \ell,\, e \in \rr^3 \right\}= \rr^2 \times \rr^3 \times \Out{SIR_{City}}\\
-    \expose{SIR_{City}} &:= \id \\
-    \update{SIR_{City}}\left( \begin{bmatrix} s\\ i\\ r \end{bmatrix},\, \begin{bmatrix} a\\ b\\ e\\ \ell\end{bmatrix} \right) &:= \begin{bmatrix}s - asi + e_s - \ell_s s \\ i + asi - bi + e_i - \ell_i i \\ r + bi + e_r i - \ell_r r\end{bmatrix} 
+    \State{Boston} &:= \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\, \middle|\, s,\, i,\, r\in \rr\right\} = \State{SIR}. \\
+    \Out{Boston} &:= \Out{SIR} = \State{Boston} \\
+    \In{Boston} &:= \left\{ \begin{bmatrix} a \\ b \\ (e_s, e_i, e_r)  \end{bmatrix}\, \middle|\, a,\,b\in \rr,\, e \in \rr^3 \right\}= \In{SIR} \times \Out{SIR}\\
+    \expose{Boston}\left( \begin{bmatrix} s \\ i \\ r \end{bmatrix}\right) &:= \id \\
+    \update{Boston}\left( \begin{bmatrix} s\\ i\\ r \end{bmatrix},\, \begin{bmatrix} a\\ b\\  e\end{bmatrix} \right) &:= \begin{bmatrix}s - asi + f_{s, \Sys{NYC}\to\Sys{Bos}}e_s - f_{s, \Sys{Bos}\to\Sys{NYC}} s \\ i + asi - bi + f_{i, \Sys{NYC}\to\Sys{Bos}}e_i - f_{i, \Sys{Bos}\to\Sys{NYC}} i \\ r + bi+ f_{r, \Sys{NYC}\to\Sys{Bos}}e_r - f_{r, \Sys{Bos}\to\Sys{NYC}} r \end{bmatrix} 
   \end{align*}
 
-If we make the definition $\Set{Rates} := \rr^2 \times \rr^3$ to keep track of
-the rates:
+We can define the $\Sys{NYC}$ system similarly, but with the flows rates
+switched around. In \cref{sec.population_flow_graphs}, we will see a general way
+to define these systems out of a \emph{population flow graph}, which could have
+many systems (and can allow populations to change classes while in transit at
+different rates depending on how they travel, like how one is more likely to get
+sick from an airborne disease in an airplane than by travelling in a personal
+vehicle).
+
+We can box up $\Sys{Boston}$ as:
 \begin{equation}\label{eqn.city_SIR_model_box}
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
-	\node[bb={2}{1}] (Sys) {$\Sys{SIR_{City}}$};
+	\node[bb={2}{1}] (Sys) {$\Sys{Boston}$};
 
 	\draw[label] 
-		node [right=2pt of Sys_out1] {$\Out{SIR_{City}}$}
+		node [right=2pt of Sys_out1] {$\Out{Boston}$}
 		node [left=2pt of Sys_in1] {$\Set{Rates}$}
-		node [left=2pt of Sys_in2] {$\Out{SIR_{City}}$}
+		node [left=2pt of Sys_in2] {$\Out{Boston}$}
 		;
     
 \end{tikzpicture}
 \end{equation}
+
+Now, suppose we want to model the spread of a disease through Boston and New
+York City. Each city will be modeled by $\Sys{SIR_{City}}$, and we will connect
+them so that the incoming population of one is set by the outflowing population
+of the other:
+\begin{equation}\label{eqn.multi_city_SIR_model}
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+  \node[bb={2}{1}] (Boston) {$\Sys{Boston}$};
+  \node[bb={2}{1}, below= 1cm of Boston] (NYC)  {$\Sys{NYC}$};
+
+  \node[bb={0}{0}, fit={($(Boston.north east) + (2, 1)$) ($(NYC.south west) - (2, 1)$)}] (Outer) {};
+  
+  \draw (Boston_out1) to (Outer.east|-Boston_out1);
+  \draw (NYC_out1) to (Outer.east|-NYC_out1);
+  \draw (Outer.west|-Boston_in1) to (Boston_in1);
+  \draw (Outer.west|-NYC_in1) to (NYC_in1);
+  
+  \draw let \p1=(Boston_out1), \p2=(NYC_in2), \n1=\bbportlen, \n2=\bby in
+    (Boston_out1) to[in=0] (\x1 - \n1, \y1 - .7cm) to (\x2 + \n1, \y1 - .7cm) to[out=180] (NYC_in2);
+  \draw let \p1=(NYC_out1), \p2=(Boston_in2), \n1=\bbportlen, \n2=\bby in
+    (NYC_out1) to[in=0] (\x1 - \n1, \y1 + .7cm) to (\x2 + \n1, \y1 + .7cm) to[out=180] (Boston_in2);
+\end{tikzpicture}
+\end{equation}
+If we want to have more than two cities (and we probably do), then we need to
+make sure we don't just copy the whole outflowing population to every other city 
+
 \end{example}
 
 \subsection{Wiring diagrams a lenses in categories of arities}
+
+Not all lenses are wiring diagrams. Since a lens $\lens{f^{sharp}}{f} :
+\lens{A^{-}}{A^{+}} \leftrightarrow \lens{B^{-}}{B^{+}}$ is a pair of arbitrary
+functions $f : A^+ \to B^+$ and $f^{\sharp} : A^+ \times B^- \to B^-$, all sorts
+of strange stuff can happen. In this section, we will pare our definition down
+to precisely those lenses which represent wiring diagrams. We will do this by
+picking an appropriate cartesian category $\cat{C}$ in which to take our lenses.
+
+We will work with the \emph{category of arities} (and variations on it). The
+category of arities is extremely important since it captures precisely the
+algebra of copying, deleting, and shuffling around variables. 
+
+\begin{definition}
+  The category $\arity$ of arities is the free cartesian category generated by
+  a single object $\XX$. That is, $\arity$ constains an object $\XX$, called
+  the \emph{generic object}, and for any finite set $I$, there is an $I$-fold
+  power $\XX^I$ of $\XX$. The only maps are those that can be defined from the
+  product structure by pairing and projection.
+  
+  Explicitly, $\arity$ is has:
+\begin{itemize}
+  \item Objects $\XX^{I}$ for any finite set $I$.
+  \item Arrows $f^{\ast} : \XX^{I} \to \XX^{J}$ for any function $f : J \to I$.
+  \item Composition defined by $g^{\ast} \circ f^{\ast} := (f \circ g)^{\ast}$
+    and $\id := \id^{\ast}$.
+\end{itemize}
+That is, $\arity \cong \Cat{Fin}\op$ is dual to the category of finite sets.
+The cartesian product in $\arity$ is given, in terms of index sets, by the following familiar formula:
+$$\XX^I \times \XX^J = \XX^{I + J}.$$
+\end{definition}
+
+Now, $\XX$ is just a formal object, so it doesn't have elements. But we can give
+a language for writing down the objects and arrows  of $\arity$ that makes it
+look like it does.
+Think of the elements of $\XX^I$ as finite lists of variables $\XX^I = (x_i \mid i \in
+I)$ indexed by the set $I$. Then for any reindexing function $f : J \to I$, we
+can see $f^{\ast}$ as a declaration of the list in $I$ followed by the resulting
+list you get by reindexing along $f$. For example,
+consider the function 
+\begin{align*}
+  f : \ord{3} &\to \ord{2} \\
+1 &\mapsto 2 \\
+2 &\mapsto 1 \\
+3 &\mapsto 2
+\end{align*}
+Then we can see $f^{\ast} : X^{\ord{2}} \to X^{\ord{3}}$ as the following list
+of variables:
+$$f^{\ast} = (x_1,\, x_2 \vdash x_2,\, x_1,\, x_2)$$
+In other words, $f$ says that the first slot of the resulting list will be
+filled by the second variable of the first, and the second slot will be filled
+by the first variable, and the third slot will be filled by the second variable.
+
+Composition is given by propagating the reindxing. If we have the function
+\begin{align*}
+  g : \ord{4} &\to \ord{3} \\
+  1,\, 2 &\mapsto 1 \\
+  3 &\mapsto 3 \\
+  4 &\mapsto 2
+\end{align*}
+Then we can see calculate $g^{\ast} \circ f^{\ast}$ by substituting variables
+using in $g^{\ast}$ for the variables in the right hand side of $f^{\ast}$:
+$$\frac{(x_1,\, x_2 \vdash x_2, x_1, x_2)\quad (x_1,\, x_2,\, x_3 \vdash x_1,\,
+  x_1,\, x_3,\, x_2)}{(x_1,\, x_2 \vdash x_2,\, x_2,\, x_2,\, x_1)}.$$
+We can see that this is equivalently $(f \circ g)^{\ast}$.
+
+\begin{exercise}
+  Express the following morphisms in $\arity$ in terms of lists of variables:
+  \begin{enumerate}
+    \item The terminal morphism $\XX^{\ord{2}} \to \XX^{\ord{0}}$.
+    \item The duplication morphism $!^{\ast} : \XX \to \XX^{\ord{2}}$ given by
+      $! : \ord{2} \to \ord{1}$. 
+    \item The swap morphisms $\fun{swap}^{\ast} : \XX^{\ord{2}} \to
+      \XX^{\ord{2}}$ given by $\fun{swap} : \ord{2} \to \ord{2}$ defined by $0
+      \mapsto 1$ and $1 \mapsto 0$.
+  \end{enumerate}
+\end{exercise}
+
+Because $\arity$ expresses the algebra of shuffling, copying, and deleting
+variables in the abstract, we can use it to define wiring diagrams.
+
+\begin{definition}\label{def.category_of_wiring_diagrams}
+  The category $\Cat{WD}$ of wiring diagrams is defined to be the category of
+  lenses in the category of arities $\arity$.
+  $$\Cat{WD} := \Cat{Lens}_{\arity}.$$
+\end{definition}
+
+
+
+That $\arity$ is the free cartesian category generated by a single object
+means that it satisfies a very useful universal property.
+\begin{proposition}[Universal property of $\arity$]
+  For any cartesian category $\cat{C}$ and object $C \in \cat{C}$, there is a
+  cartesian functor $\Fun{ev}_{C} : \arity \to \cat{C}$ which sends $\XX$ to $C$. This
+  functor is the unique such functor up to a unique natural isomorphism.
+\end{proposition}
+\begin{proof}{Proof Sketch}
+  The functor $\Fun{ev}_C$ can be defined by ``just substitute $C$ for $\XX$''.
+  Namely, we send 
+$$\XX^I \mapsto C^I$$
+and for every function $f^{\ast} : \XX^I \to \XX^J$, we send it to $f^{\ast} :
+C^I \to C^J$ defined by the universal property of the product in $\cat{C}$. This
+is cartesian because $C^{I + J} \cong C^I \times C^J$ in any cartesian category.
+It is unique up to a unique natural isomorphism because $\XX^I$ is the $I$-fold
+product of $\XX$, and so if $\XX \mapsto C$, then universal comparison maps
+between the image of $\XX^I$ and $C^I$ must be isomorphisms.
+\end{proof}
+
+We can think of the functor $\Fun{ev}_C : \arity \to \cat{C}$ as the functor
+which tells us how to interpret the abstract variables in $\arity$ as variables
+of type $C$. For example, the functor $\Fun{ev}_{\rr} : \arity \to \smset$ tells
+us how to interpret the abstract variables $(x_i \mid i \in I)$ in $\smset$ as
+variable real numbers $\{x_i \in \rr \mid i \in I\}$.
 
 \subsection{CoKleisli categories and the Grothendieck construction: another way
   to look at lenses}\label{sec.lens_indexed_cat}

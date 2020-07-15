@@ -73,7 +73,7 @@ Diagram that's random
 
 * <2020-07-14 ter>  
 
-** Polynomials: are the coefficients sets or natural numbers?
+** RESOLVED: Polynomials: are the coefficients sets or natural numbers?
    
 
 *** Jaz:
@@ -85,5 +85,20 @@ Diagram that's random
 *** Spiv:
     I want to use natural numbers, as usually type-set, for my coefficients.
 
-    So we will be instead denoting natural numbers by a different font-face. 
+    So we will be instead denoting natural numbers by a different font-face.
+
+*** Resolution:
+    We will use mathsf for ordinals. 
+
+    This has been added to the preamble.
+
+* <2020-07-15 qua> 
+
+  
+
+** TODO Jaz: Turing Machine Example
+
+** TODO Jaz: Clean up equations
+   You need to copy in     , baseline=(Y.center) 
+   into all the diagrams
 
