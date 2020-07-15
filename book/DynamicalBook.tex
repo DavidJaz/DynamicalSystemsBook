@@ -131,7 +131,9 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 \colorlet{theoremcolor}{white!92!blue}
 \colorlet{definitioncolor}{white!92!purple}
-\colorlet{examplecolor}{white!93!green}
+\colorlet{examplecolor}{white!91!green}
+\colorlet{exercisecolor}{white!96!green}
+
 
 \mdfdefinestyle{theoremframe}{
     linewidth=0pt,
@@ -165,10 +167,14 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
     innerrightmargin=0,
     }
 
-%\mdfdefinestyle{exerciseframe}{
-%    linecolor=white!93!yellow,
-%    backgroundcolor=white!93!yellow,
-%    }
+\mdfdefinestyle{exerciseframe}{
+    linewidth=0pt,
+    backgroundcolor=exercisecolor,
+    leftmargin=0,
+    innerleftmargin=0,
+    rightmargin=0,
+    innerrightmargin=0,
+    }
 
 \newtheoremstyle{plain}
   {-\topsep}		%space above
@@ -253,7 +259,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 	
 \newmdtheoremenv[style=exampleframe]{example}[equation]{Example}
 
-\newtheorem{exc-inner}[equation]{Exercise}
+\newmdtheoremenv[style=exerciseframe]{exc-inner}[equation]{Exercise}
 \newenvironment{exercise}[1][]{
   \def\qedsymbol{$\lozenge$}% Set the QED symbol. 
   \pushQED{\qed}
@@ -331,7 +337,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \newcommand{\Set}[1]{\mathsf{#1}}%a named set
 \newcommand{\ord}[1]{\mathsf{#1}}%an ordinal
 \newcommand{\cat}[1]{\mathcal{#1}}%a generic category
-\newcommand{\Cat}[1]{\mathbf{#1}}%a named category
+\newcommand{\Cat}[1]{\textbf{#1}}%a named category
 \newcommand{\fun}[1]{\mathrm{#1}}%a function
 \newcommand{\Fun}[1]{\mathrm{#1}}%a named functor
 \newcommand{\Sys}[1]{\mathsf{#1}}%dynamical system
@@ -399,6 +405,7 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\smset}{\Cat{Set}}
 \newcommand{\smcat}{\Cat{Cat}}
 \newcommand{\comon}{\Cat{Comon}(\poly)}
+\newcommand{\nat}{\Set{Nat}}
 
 
 \newcommand{\List}{\Fun{List}}
@@ -429,6 +436,9 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 
 \definecolor{dgreen}{rgb}{0.0, 0.5, 0.3} 
 \definecolor{dyellow}{rgb}{8.0, 0.74, 0} 
+
+\newcommand{\qand}{\quad\text{and}\quad}
+\newcommand{\qqand}{\qquad\text{and}\qquad}
  
 
 % Jaz macros %

@@ -65,3 +65,7 @@ toFunctor i x = [ p ∈ pos i ]×[ (dis i p -> x) ]
 myInterface : Interface
 myInterface = (yon Two) + (constant Two) × (yon One) + (constant One)
 
+record Lens (i : Interface) (j : Interface) : Set where
+   field 
+     passfwd : (pos i) -> (pos j)
+     passbck : (p : pos i) -> dis j (passfwd p) -> dis i p
