@@ -69,8 +69,8 @@ $$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
 Not the most dynamic of systems, but we have to start somewhere. If we want to
 refer to the whole system at once, we can box it up and write it like this:
 
-\begin{equation}\label{eqn.clock_system_box}\tag{Clock System}
-\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{equation}\label{eqn.clock_system_box}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
 	\node[bb={0}{1}] (X) {$\Sys{Clock}$};
 	\draw[label] 
 		node [right=2pt of X_out1] {$\Set{Hours}$}
@@ -85,8 +85,8 @@ One issue with our clock is that it doesn't tell us whether it is morning or
 evening. Being morning or evening is its own way that things might be, and we
 can see it as its own dynamical system. We might imagine a little addition to
 our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
-\begin{equation}\label{eqn.whole_clock}
-\begin{tikzpicture}[line cap=rect,line width=3pt]
+\[
+\begin{tikzpicture}[line cap=rect,line width=3pt, baseline=(0,0)]
 \filldraw [fill=cyan] (0,0) circle [radius=2cm];
 \foreach \angle [count=\xi] in {60,30,...,-270}
 {
@@ -98,7 +98,7 @@ our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
 \draw (0,0) -- (120:0.8cm);
 \node[draw, fill] at (330:.7cm) {$\color{white}\const{a.m.}$};
 \end{tikzpicture}
-\end{equation}
+\]
 
 We can see this little addition as a system in its own right; it is the system
 of $\const{a.m.}/\const{p.m.}$. The states of this system are
@@ -118,7 +118,7 @@ The thing to note about the dynamics of the $\const{a.m.}/\const{p.m.}$ system
 is that they depend on what hour it is. The hour is a \emph{parameter} for the
 dynamics of this system. We can draw this system as a box like this:
 \begin{equation}\label{eqn.am_pm_system_box}
-\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
 	\node[bb={1}{1}] (X) {$\Sys{a.m./p.m.}$};
 	\draw[label] 
 		node [left=2pt of X_in1] {$\Set{Hours}$}
@@ -136,7 +136,7 @@ We can now express our whole clock (\ref{eqn.whole_clock}) by wiring together
 our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
 
 \begin{equation}\label{eqn.clock_system_box}
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
 	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
   	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
 	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
@@ -181,8 +181,8 @@ The diner's dynamics are then
 \end{align*}
 
 Again, we can represent the diner by this box:
-\begin{equation}\label{eqn.diner_system_box}\tag{box1}
-\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{equation}\label{eqn.diner_system_box}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
 	\node[bb={2}{1}] (X) {$\Sys{Diner}$};
 	\draw[label] 
 		node [left=2pt of X_in1] {$\Set{Meridien}$}
@@ -198,8 +198,8 @@ meridien.
 Assuming that the diner has a clock on its wall which it uses to decide whether
 to open or close, the full diner system would be given by wiring the clock with display into
 those input wires:
-\begin{equation}\label{eqn.diner_system_box}\tag{box1}
-\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{equation}\label{eqn.diner_system_box}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Outer.center)]
   \node[bb={0}{2}](Clock) {$\Sys{ClockWithDisplay}$};
   \node[bb={2}{1}, right=of Clock] (Diner) {$\Sys{Diner}$};
   
@@ -214,9 +214,25 @@ those input wires:
 \end{equation}
 If we want to, we can peak into the clock with display and see that it is itself
 made out of a clock wired to a display:
-\begin{equation}\label{eqn.diner_system_box}\tag{box1}
-\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{equation}\label{eqn.diner_system_box}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.3cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Outer.center)]
+	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
+  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[dashed, bb={0}{2}, fit={($(X1.north west)+(0,1)$) ($(X1.north east)+(0,1)$) ($(X2.south)+(0,-3)$)}] (Clock) {};
+  \node[above=0pt of Clock.south] (Label) {$\Sys{ClockWithDisplay}$};
+	\draw (X1_out1) to (Clock_out1);
+  \draw let \p1=(X1.south west), \p2=(X2.north east), \n1=\bbportlen, \n2=\bby in
+    (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
+  \draw (X2_out1) to (Clock_out2);
+  \node[bb={2}{1}, right=of Clock] (Diner) {$\Sys{Diner}$};
+  
+  \node[bb={0}{1}, fit={(Clock) (Diner)}] (Outer) {};
 
+  \draw (Clock_out1) to (Diner_in1);
+  \draw (Clock_out2) to (Diner_in2);
+  \draw (Diner_out1) to (Outer_out1);
+
+  \draw[label] node [right=2pt of Outer_out1] {$\Set{DinerState}$};
 \end{tikzpicture}
 \end{equation}
 
@@ -247,7 +263,7 @@ position, and then moving according to the move command. As a function, this is:
 
 We can imagine that the system shows tape and the symbol under the read head. We can box this system up like so:
 \begin{equation}\label{eqn.turing_box}
-\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Tape.center)]
 \node[bb={2}{2}] (Tape) {$\Sys{Tape Machine}$};
 \draw[label]
   node[left=2pt of Tape_in1] {$\Set{Move}$}
@@ -261,7 +277,7 @@ We can imagine that the system shows tape and the symbol under the read head. We
 Now, we need one more simple ingredient to get our system going; a mysterious system of the
 form:
 \begin{equation}\label{eqn.turing_box2}
-\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Box.center)]
 \node[bb={1}{2}] (Box) {$\Sys{Mystery Box}$};
 \draw[label]
   node[right=2pt of Box_out1] {$\Set{Move}$}
@@ -289,7 +305,7 @@ mysterious sytem transitions to when input the symbol $i$ in state $s$:
 Mysterious in deed. But when we wire the two together, magic happens!
 
 \begin{equation}\label{eqn.full_turing_machine}
-\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=2pt, bb port sep=1]
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=2pt, bb port sep=1, baseline=(Outer.center)]
   \node[bb={1}{2}](Box) {$\Sys{Mystery Box}$};
   \node[bb={2}{2}, right=of Box] (Tape) {$\Sys{Tape Machine}$};
   
@@ -313,10 +329,6 @@ have very interesting behavior when plugged in to the right environment''.
 %%
 %% :CUSTOM_ID:cite-this.turing_machine
 %% 
-%% NOTE: I found this machine here:
-%%       http://www.ini.uzh.ch/~tneary/NearyWoods_FI2009.pdf
-%%       in section 3.4, named $U_{6, 4}$. The table is adapted from there
-%%  
 
 We call this way of putting together dynamical systems to make more complex
 systems \emph{composition}.
@@ -522,9 +534,6 @@ make more complex systems. We will do this using an interesting notion coming
 from the world of function programming: a \emph{lens}.
 
 A lens is a framework for bi-directional information passing.
-\[
-anatomy of a lens
-\]
 
 \begin{definition}\label{def.lens}
   A \emph{lens} $\lens{f^{\sharp}}{f} : \lens{A}{B} \leftrightarrows
@@ -636,7 +645,7 @@ product, and then we compose it with a lens that represents the wiring diagram.
  We can describe the $\Sys{ClockWithDisplay}$ system (reproduced below) as a
  composite of lenses.
 \begin{equation}\label{eqn.clock_system_box2}
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
 	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
   	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
 	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
@@ -786,7 +795,7 @@ vehicle).
 
 We can box up $\Sys{Boston}$ as:
 \begin{equation}\label{eqn.city_SIR_model_box}
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Boston.center)]
 	\node[bb={2}{1}] (Sys) {$\Sys{Boston}$};
 
 	\draw[label] 
@@ -803,7 +812,7 @@ York City. Each city will be modeled by $\Sys{SIR_{City}}$, and we will connect
 them so that the incoming population of one is set by the outflowing population
 of the other:
 \begin{equation}\label{eqn.multi_city_SIR_model}
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1]
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Outer.center)]
   \node[bb={2}{1}] (Boston) {$\Sys{Boston}$};
   \node[bb={2}{1}, below= 1cm of Boston] (NYC)  {$\Sys{NYC}$};
 

@@ -16,7 +16,8 @@ In each note topic, I think we should trade off with headers simply named
 * Dailies
 ** <2020-07-13 seg> 
   
-*** Conventions for labelling:
+*** DONE Conventions for labelling:
+    CLOSED: [2020-07-15 qua 23:40]
     How should we label our equations, theorems, lemmas, propositions, etc
    
 
@@ -47,14 +48,21 @@ In each note topic, I think we should trade off with headers simply named
        eqn.polynomial_misc958
 
 
-*** Drawing a mapsto nicely:
+*** DONE Drawing a mapsto nicely:
+    CLOSED: [2020-07-15 qua 23:40]
     (This is a real question, but also a nice way to demonstrate how org-mode hyperlinks work :) ) 
 
 **** Jaz:
      I'm having trouble drawing this mapsto nicely: [[file:~/Documents/Books/DynamicalSystemsBook/book/C1-.tex::#problem-drawing-mapsto-nicely][See situation here.]] 
     
      I want this to look nice, as in, to have the mapsto line up under the to, but I've never really known how to get that effect.
-*** Naming conventions for discrete-time dynamical systems
+
+   
+**** Jaz: RESOLVED
+     I believe it looks fine how I am doing it now <2020-07-15 qua> 
+
+*** DONE Naming conventions for discrete-time dynamical systems
+    CLOSED: [2020-07-15 qua 23:40]
     We have a number of discrete-time dynamical systems (in various doctrines). 
 
     We discussed it, and we came up with this convention:
@@ -74,7 +82,8 @@ In each note topic, I think we should trade off with headers simply named
 
 ** <2020-07-14 ter>  
 
-*** RESOLVED: Polynomials: are the coefficients sets or natural numbers?
+*** DONE Polynomials: are the coefficients sets or natural numbers?
+    CLOSED: [2020-07-15 qua 23:40]
    
 
 **** Jaz:
@@ -100,14 +109,16 @@ In each note topic, I think we should trade off with headers simply named
 *** DONE Jaz: Turing Machine Example
     CLOSED: [2020-07-15 qua 23:29]
 
-*** TODO Jaz: Clean up equations
+*** DONE Jaz: Clean up equations
+    CLOSED: [2020-07-16 qui 00:01]
     You need to copy in     , baseline=(Y.center) 
     into all the diagrams
    
     Also some of them say things like box1 in the tag, or just don't look good
 
    
-*** TODO Jaz: Deal with "Anatomy of a lens"
+*** DONE Jaz: Deal with "Anatomy of a lens"
+    CLOSED: [2020-07-16 qui 00:02]
     Think I'll just delete it.
 * Citations
 ** C1-
@@ -116,6 +127,6 @@ In each note topic, I think we should trade off with headers simply named
 
    
    I found this machine [[http://www.ini.uzh.ch/~tneary/NearyWoods_FI2009.pdf][here]]
- 
+   DOI 10.3233/FI-2009-0008
   in section 3.4, named $U_{6, 4}$. The table is adapted from there
   
