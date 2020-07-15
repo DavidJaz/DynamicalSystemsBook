@@ -70,8 +70,7 @@ record Lens (i : Interface) (j : Interface) : Set where
    field 
      passfwd : (pos i) -> (pos j)
      passbck : (p : pos i) -> dis j (passfwd p) -> dis i p
-
-
+   
 module _ (I : Set) (J : I → Set) (X : (i : I) (j : J i) -> Set) where
   to : ((i : I) -> [ j ∈ J i ]×[ X i j ])
      → [ f ∈ ((i : I) → J i) ]×[ ((i : I) → X i (f i)) ]
