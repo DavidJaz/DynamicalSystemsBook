@@ -7,6 +7,7 @@ record Σ (A : Set) (B : A -> Set) : Set where
   field
     fst : A
     snd : B fst
+open Σ
 
 syntax Σ A (λ a → B) = [ a ∈ A ]×[ B ]
 
@@ -69,3 +70,14 @@ record Lens (i : Interface) (j : Interface) : Set where
    field 
      passfwd : (pos i) -> (pos j)
      passbck : (p : pos i) -> dis j (passfwd p) -> dis i p
+
+
+module _ (I : Set) (J : I → Set) (X : (i : I) (j : J i) -> Set) where
+  to : ((i : I) -> [ j ∈ J i ]×[ X i j ])
+     → [ f ∈ ((i : I) → J i) ]×[ ((i : I) → X i (f i)) ]
+  to C = ((λ i → fst (C i))) , (λ i → snd (C i))
+
+  fro : [ f ∈ ((i : I) → J i) ]×[ ((i : I) → X i (f i)) ]
+      → ((i : I) -> [ j ∈ J i ]×[ X i j ])
+  fro (f , c) = λ i → (f i , c i)
+

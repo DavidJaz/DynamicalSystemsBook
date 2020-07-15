@@ -1,4 +1,3 @@
-% !TEX options=--shell-escape
 
 \documentclass[DynamicalBook]{subfiles}
 \begin{document}
@@ -727,16 +726,95 @@ make sure we don't just copy the whole outflowing population to every other city
 
 \end{example}
 
-\subsection{Wiring diagrams a lenses in categories of arities}
+\subsection{Wiring diagrams as lenses in categories of arities}
 
-Not all lenses are wiring diagrams. Since a lens $\lens{f^{sharp}}{f} :
-\lens{A^{-}}{A^{+}} \leftrightarrow \lens{B^{-}}{B^{+}}$ is a pair of arbitrary
-functions $f : A^+ \to B^+$ and $f^{\sharp} : A^+ \times B^- \to B^-$, all sorts
-of strange stuff can happen. In this section, we will pare our definition down
-to precisely those lenses which represent wiring diagrams. We will do this by
-picking an appropriate cartesian category $\cat{C}$ in which to take our lenses.
+We have been drawing a bunch of wiring diagrams so far, and we will continue to
+do so throughout the rest of the book. Its about time we explicitly described
+the rules one uses to draw these diagrams, and give a formal mathematical
+definition of them. 
 
-We will work with the \emph{category of arities} (and variations on it). The
+We'll begin by describing wiring diagrams and their category in informal terms.
+Then, we will see how diagrams relate to lenses in a particular category --- the
+category of \emph{arities} --- and finally give a formal definition of the
+category of wiring diagrams.
+
+
+\begin{informal}
+  A \emph{wiring diagram} is a diagram which consists of a number of \emph{inner
+  boxes}, each with some \emph{input ports} and some \emph{output ports}, wired
+together inside an \emph{outer box} which also has input and output ports. We can wire in the following ways:
+\begin{enumerate}
+  \item Every outer output port is wired to exactly one inner output port.
+  \item Every inner input port is wired to exactly one inner output port or an
+    outer input port.
+\end{enumerate}
+
+The category of wiring diagrams has boxes as its objects and wiring diagrams as
+its morphisms. Wiring diagrams are composed by filling the inner boxes with other wiring
+diagrams, and then erasing the middle layer of boxes.
+
+\begin{equation}\label{eqn.wiring_diagram_example_misc}
+\begin{tabular}{c|c|c}
+\small Boxes &\small Wiring Diagrams &\small Composition by nesting\\\hline
+~&&\\
+\parbox{.5in}{
+\begin{tikzpicture}[oriented WD, bby=1ex]
+  \node[bb={3}{2}] (X1) {};
+  \node[bb={1}{1}, below=.4cm of X1] (X2) {};
+  \node[bb={0}{2}, below=.4cm of X2] (X3) {};   
+\end{tikzpicture}
+}
+&
+\;\;\parbox{1.45in}{
+\begin{tikzpicture}[oriented WD,bb min width =.7cm, bb port sep =1, bbx=.6cm,bb port length=3pt] 
+  \node[bb port sep=1.6, bb={2}{2}] (X1) {};
+  \node[bb port sep=.8,bb={1}{1}, right=.7 of X1_out1] (X2) {};
+  \node[bb={1}{2}, fit={(X1) (X2) ($(X1.north)+(0,1)$)}] (Y) {};
+  \draw[ar] (Y_in1') to (X1_in2);
+  \draw[ar,pos=.8] (X1_out1) to (X2_in1);
+  \draw (X2_out1) to (Y_out1');
+  \draw[ar] (X1_out2) to (Y_out2');
+  \draw[ar] let \p1=(X2.north east), \p2=(X1.north west), \n1={\y2+\bby}, \n2=\bbportlen in
+          (X2_out1) to[in=0] (\x1+.7*\n2,\n1) -- (\x2-.7*\n2,\n1) to[out=180] (X1_in1);
+
+\end{tikzpicture}
+}
+&
+\;\;\parbox{1.2in}{
+\begin{tikzpicture}[oriented WD, bb small]
+  \node[bb={2}{2}] (X1) {};
+  \node[bb={1}{1}, fit={(X1) ($(X1.north)+(0,1)$)}, dashed] (Y1) {};
+  \node[bb={2}{1}, below right=4 and 0 of X1] (X2) {};
+  \node[bb={0}{2},below left=of X2] (X3) {};
+  \node[bb={1}{2}, fit=(X2) (X3), dashed] (Y2) {};
+  \node[bb={1}{2}, fit=(Y1) (Y2)] (Z) {};
+  \draw[ar] (Z_in1') to (Y2_in1);
+  \draw[ar] (Y2_in1') to (X2_in1);
+  \draw[ar] (X3_out1) to (X2_in2);
+  \draw[ar] (X3_out2) to (Y2_out2');
+  \draw (Y2_out2) to (Z_out2');
+  \draw[ar] (Y1_in1') to (X1_in2);
+  \draw (X1_out2) to (Y1_out1');
+  \draw[ar] (Y1_out1) to (Z_out1');
+  \draw (X2_out1) to (Y2_out1');
+  \draw[ar] let \p1=(Y2.north east), \p2=(Y1.south west), \n1={\y1+\bby}, \n2=\bbportlen in
+          (Y2_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (Y1_in1);
+  \draw[ar] let \p1=(X1.north east), \p2=(X1.north west), \n1={\y1+\bby}, \n2=\bbportlen in
+          (X1_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X1_in1);
+\end{tikzpicture}
+}
+\end{tabular}
+\end{equation}
+\end{informal}
+
+
+We now need to interpret our wiring diagrams as lenses. The diagram should
+express the flow of variables through the system; how they are to be copied from
+one port to another, how they are to be shuffled about, and (though we haven't
+had need for this yet) how they are to be deleted or forgotton.
+
+In order to capture this idea of copying, deleting, and shuffling around
+variables, we will work with the \emph{category of arities} (and variations on it). The
 category of arities is extremely important since it captures precisely the
 algebra of copying, deleting, and shuffling around variables. 
 
@@ -814,6 +892,24 @@ variables in the abstract, we can use it to define wiring diagrams.
   $$\Cat{WD} := \Cat{Lens}_{\arity}.$$
 \end{definition}
 
+This definition shows us that the wiring diagrams we have been using are
+precisely the lenses you can express if you only copy, delete, and shuffle
+around your variables. Here's how we interpret a lens
+$\lens{w^{\sharp\ast}}{w^{\ast}} : \lens{\XX^{A^{-}}}{\XX^{A^+}}
+\leftrightarrows \lens{\XX^{B^{-}}}{\lens{XX^{A^+}}}$ in $\Cat{Arity}$ as a
+wiring diagram:
+\begin{itemize}
+  \item First, we interpret the index set $A^-$ as the set of input ports of the
+    inner boxes, and the set $A^+$ as the set of output ports of the inner
+    boxes. Similarly, we see $B^-$ as the set of input ports of the outer box,
+    and $B^+$ as the set of output ports of the outer box.
+  \item Then we remember that $w^{\ast} :
+    \XX^{A^+} \to \XX^{B^+}$ comes from a reindexing function $w : B^+ \to A^+$)
+    as selecting for each outer output port $p \in B^+$, the unique inner output
+    port $w(p)$ it will be wired to.
+  \item Finally, we note that
+\end{itemize}
+
 
 
 That $\arity$ is the free cartesian category generated by a single object
@@ -823,7 +919,7 @@ means that it satisfies a very useful universal property.
   cartesian functor $\Fun{ev}_{C} : \arity \to \cat{C}$ which sends $\XX$ to $C$. This
   functor is the unique such functor up to a unique natural isomorphism.
 \end{proposition}
-\begin{proof}{Proof Sketch}
+\begin{proof}[Proof Sketch]
   The functor $\Fun{ev}_C$ can be defined by ``just substitute $C$ for $\XX$''.
   Namely, we send 
 $$\XX^I \mapsto C^I$$
@@ -869,3 +965,9 @@ variable real numbers $\{x_i \in \rr \mid i \in I\}$.
 \]
 
 \end{document}
+
+\iffalse
+Local Variables:
+TeX-command-extra-options: "-shell-escape"
+End:
+\fi
