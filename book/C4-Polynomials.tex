@@ -1121,13 +1121,60 @@ Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a m
 	\item Under what conditions is $f$ a monomorphism?
 	\item Under what conditions is $f$ an epimorphism? Hint: use \cref{exc.practice_sum_prod}, \#2.
 	\item Suppose $f$ is both a mono and an epi; it is an iso? (That is, is $\poly$ \emph{balanced}?)
-	\item Can every morphism in $\poly$ be factored as an epic followed by a monic?
+	\item Can every morphism in $\poly$ be factored as an epic followed by a monic? Hint: use \cref{exc.practice_sum_prod}, \#2 again.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Adjunctions and special polynomials}
+\subsection{Special polynomials and adjunctions}
+
+There are a few special classes of polynomials that are worth discussing: 
+\begin{enumerate}
+	\item constant polynomials $\0,\1,\2,A$; 
+	\item linear polynomials $\0,\yon, \2\yon, A\yon$;
+	\item pure-powers polynomials, $\1, \yon, \yon^\2, \yon^A$; and 
+	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
+\end{enumerate}
+The first two classes, constant and linear, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of something called ``bimorphic lenses'' inside $\poly$. We go through these four classes in order and then discuss some adjunctions that involve some of them.
+
+\begin{proposition}\label{prop.ff_const_set_to_poly}
+There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
+\end{proposition}
+\begin{proof}
+By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\0\to\0$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+\end{proof}
+
+\begin{proposition}\label{prop.ff_lin_set_to_poly}
+There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
+\end{proposition}
+\begin{proof}
+By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+\end{proof}
+
+\begin{theorem}
+$\poly$ has an adjoint quadruple with $\smset$:
+\begin{equation*}%\label{eqn.adjoints_galore}
+\begin{tikzcd}[column sep=60pt]
+  \smset
+  	\ar[r, shift left=7pt, "A" description]
+		\ar[r, shift left=-21pt, "A\yon"']&
+  \poly
+  	\ar[l, shift right=21pt, "p(\0)"']
+  	\ar[l, shift right=-7pt, "p(\1)" description]
+	\ar[l, phantom, "\scriptstyle\Leftarrow"]
+	\ar[l, phantom, shift left=14pt, "\scriptstyle\Rightarrow"]
+	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
+\end{tikzcd}
+\end{equation*}
+where the functors have been labeled by where they send $A\in\smset$ and $p\in \poly$. 
+
+Both rightward functors are fully faithful.
+\end{theorem}
+\begin{proof}
+\spiz{start}
+\end{proof}
+
 
 Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.
 
@@ -1152,6 +1199,15 @@ This follows from our main formula \cref{eqn.poly_maps_prod_sum}, since setting 
 
 %---- Subsection ----%
 \subsection{Limits and colimits in $\poly$}
+
+\begin{exercise}
+Prove the following:
+\begin{enumerate}
+	\item $\0$ is a initial object in $\poly$.
+	\item $\1$ is a terminal object in $\poly$.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 
 %-------- Section --------%
