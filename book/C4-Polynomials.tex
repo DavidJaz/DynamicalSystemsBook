@@ -5,6 +5,7 @@
 
 \setcounter{chapter}{3}%Just finished 3.
 
+\tableofcontents*
 
 %------------ Chapter ------------%
 \chapter{Polynomial functors and dynamics}
@@ -1075,11 +1076,32 @@ Any morphism $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ 
 Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map $p\to q$, i.e.\ an element of the set $\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
 \end{example}
 
-We saw in \cref{exc.apply0} that the constant terms of a polynomial $p$ are given by $p(\0)$. It turns out that's part of an adjunction:
+\begin{exercise}
+For each of the following $p,q$, count the number of morphisms $p\to q$:
+\begin{enumerate}
+	\item $p=\yon^3$, $q=\yon^4$.
+	\item $p=\yon^3+1$, $q=\yon^4$.
+	\item $p=\yon^3+1$, $q=\yon^4+1$.
+	\item $p=4\yon^3+3\yon^2+\yon$, $q=\yon$.
+	\item $p=4\yon^3$, $q=3\yon$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\paragraph{Monos and epis}
+
+\subsection{Adjunctions and special polynomials}
+
+Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.
+
+We saw in \cref{exc.apply0} that the constant terms of a polynomial $p$ are given by $p(\0)$. It turns out that's part of an adjunction.
 
 \begin{proposition}
-There is a fully faithful functor $\smset\to\poly$ sending $S\in\smset$ to the constant polynomial $S\yon^\0$, which we also denote by $S$.
-
+For any set $B$ there is an adjunction
+\[
+\adj{\smset}{A\yon^B}{p(B)}{\poly}
+\]
+where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
  
 \end{proposition}
 
