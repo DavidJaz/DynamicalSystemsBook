@@ -761,10 +761,10 @@ where $\nat$ denotes the set of natural transformations. Moreover, \eqref{eqn.yo
 \begin{proof}[Sketch of proof]
 For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
 
-For any element $a\in F(S)$, there is a natural transformation $m_a\colon\yon^S\to F$ whose component on $X$ is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{***} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
+For any element $a\in F(S)$, there is a natural transformation $m_a\colon\yon^S\to F$ whose component on $X$ is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
 \end{proof}
 
-\begin{exercise}
+\begin{exercise}\label{exc.finish_proof_yoneda}
 Whoever solves this exercise can say they've proved the Yoneda Lemma.
 \begin{enumerate}
 	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in \cref{lemma.yoneda} are natural in $X$.
@@ -1008,6 +1008,8 @@ We have the following isomorphisms
 This proves what we called the summary. It says that a morphism $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a function from $q_j\to p_i$; the first part determines $f_1$ (i.e.\ $f_1(i)=j$) and the second part just gives $f^\sharp_i$ directly for each $i$.
 \end{proof}
 
+\eqref{eqn.poly_maps_prod_sum} will be quite important to us; we will call it our \emph{main formula} for the set of polynomial maps.
+
 \paragraph{Working with $\sum$ and $\prod$ formulas.}
 Here's how to understand and work with a set that involves $\sum$'s and $\prod$'s, e.g.\ something like
 \begin{equation}\label{eqn.misc98339}
@@ -1057,17 +1059,42 @@ With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Back to maps of polynomials}
-After that interlude, you are hopefully more comfortable with \cref{eqn.poly_maps_prod_sum} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
+The following is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$.
 
-\begin{exercise}
-Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Is it true that the following are isomorphic?
+\begin{proposition}[Pushing $\prod$ past $\sum$]
+For any set $I$, collection of sets $\{J(i)\}_{i\in I}$ and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
+\begin{equation}\label{eqn.set_completely_distributive}
+\prod_{i\in I}\sum_{j\in J(i)}X(i,j)\cong\sum_{j\colon\prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j).
+\end{equation}
+\end{proposition}
+\begin{proof}
+This is almost trivial, once you understand what it's saying; for example once the statement is written, the proof is one line of agda code. An element of the left-hand side is, for each $i\in I$ a choice  of $j_i\in J(i)$ and an element $x_{i,j_i}\in X(i,j_i)$. An element of the right-hand side is a choice of, for each $i\in I$ an element $j(i)\in J(i)$, together with, for each $i$ in $I$ an element $x_{i,j(i)}\in X(i,j(i))$. These are in obvious bijection.
+\end{proof}
+Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating sums and products; using \cref{eqn.set_completely_distributive}, you can always put it into sums-then-products (``disjunctive normal'') form.
+
+When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} is much easier:
+\[
+\prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{j\colon I\to J}\;\prod_{i\in I}X(i,j).
+\]
+
+\paragraph{Back to maps of polynomials}
+After that interlude, you are hopefully more comfortable with our main formula \cref{eqn.poly_maps_prod_sum} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
+
+\begin{exercise}\label{exc.practice_sum_prod}
+Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. 
+\begin{enumerate}
+\item Is it true that the following are isomorphic?
 \[
   \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}
   \cong^?
   \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q_j}\sum_{c\in p_i}\1
 \]
-If so, say why; if not say why not.
+\item Here's another way to think of maps in $\poly$; it'll be useful in \cref{exc.mono_epi_poly}. Show that there is an isomorphism
+	\[
+	\poly(p,q)\cong\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q_j,\prod_{\{i\in p(\1)\mid i\mapsto j\}}p_i\Big).
+	\]
+	Say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$.
+\end{enumerate}
 \end{exercise}
 
 \begin{example}[Constants are sent to constants]
@@ -1088,8 +1115,18 @@ For each of the following $p,q$, count the number of morphisms $p\to q$:
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Monos and epis}
+\begin{exercise}\label{exc.mono_epi_poly}
+Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a morphism with notation as in \cref{eqn.colax_poly_map}.
+\begin{enumerate}
+	\item Under what conditions is $f$ a monomorphism?
+	\item Under what conditions is $f$ an epimorphism? Hint: use \cref{exc.practice_sum_prod}, \#2.
+	\item Suppose $f$ is both a mono and an epi; it is an iso? (That is, is $\poly$ \emph{balanced}?)
+	\item Can every morphism in $\poly$ be factored as an epic followed by a monic?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
+%---- Subsection ----%
 \subsection{Adjunctions and special polynomials}
 
 Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.
@@ -1102,16 +1139,29 @@ For any set $B$ there is an adjunction
 \adj{\smset}{A\yon^B}{p(B)}{\poly}
 \]
 where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
- 
-\end{proposition}
 
+When $B=\0$ or $B=\1$, the functor $A\yon^B$ is fully faithful.
+\end{proposition}
+\begin{proof}
+For any sets $A,B\in\smset$ and polynomial $q\sum_{j\in q(\1)}\yon^{q_j}$, we need to check that there is a natural isomorphism
+\[
+\smset(A,q(B))\cong\poly(A\yon^B,q).
+\]
+This follows from our main formula \cref{eqn.poly_maps_prod_sum}, since setting $p\coloneqq A\yon^B$ we have $p(\1)\cong A$ and $q(B)=\sum_{j\in q(\1)}B^{q_j}$.
+\end{proof}
+
+%---- Subsection ----%
+\subsection{Limits and colimits in $\poly$}
 
 
 %-------- Section --------%
 \section{Dynamical systems}
 
+%-------- Section --------%
+\section{Wiring together dynamical systems}
 
-
+%---- Subsection ----%
+\subsection{Dirichlet product}
 
 
 
