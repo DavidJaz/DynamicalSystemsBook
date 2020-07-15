@@ -215,10 +215,100 @@ those input wires:
 If we want to, we can peak into the clock with display and see that it is itself
 made out of a clock wired to a display:
 \begin{equation}\label{eqn.diner_system_box}\tag{box1}
-\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
 
 \end{tikzpicture}
 \end{equation}
+
+These examples are simple, but it doesn't take much more to get to some truly
+amazing phenomena. Consider this system: we have an infinite tape with a
+read-head at some position. On this infinite tape, we will write the symbols
+$a$, $b$, $c$, or $d$, or we will leave it blank: $\_$. Together, the state
+of the tape and the position of the read-head have states pairs $(\fun{T}, n)$ of a
+function $\fun{T} : \zz \to \{a, b,c,d\_\}$ telling us what symbol $\fun{T}(i)$ is drawn at
+position $i$ of the tape, and the position $n$ of the read-head:
+\begin{align*}
+  \Set{Symbol} &= \{a, b,c,d\_\}
+  \Set{Tape} &= \Set{Symbol}^{\zz}\\
+  \Set{Head} &= \zz
+\end{align*}
+The way this system can change is by reading in a move command and a
+write command. The move command will be either move left, a command of $-1$, or
+move right, a command of $1$:
+$\Set{Move} = \{-1, 1\}$. The write command will be one of the
+symbols that can be written on the tape: $\Set{Write} = \{0, 1,2,3\_\}$.
+
+The way this system changes is by writing the write command to the tape at that
+position, and then moving according to the move command. As a function, this is:
+\begin{align*}
+  \fun{execute} : \Set{Tape} \times \Set{Head} \times \Set{Move} \times \Set{Write} &\to \Set{Tape} \Set{Head} \\
+  ((\fun{T}, n), d, s) &\mapsto \left( i \mapsto \begin{cases} \fun{T}(i) &\mbox{if $i \neq n$} \\ s &\mbox{if $i = n$} \end{cases},\, n + d \right)
+\end{align*}
+
+We can imagine that the system shows tape and the symbol under the read head. We can box this system up like so:
+\begin{equation}\label{eqn.turing_box}
+\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\node[bb={2}{2}] (Tape) {$\Sys{Tape Machine}$};
+\draw[label]
+  node[left=2pt of Tape_in1] {$\Set{Move}$}
+  node[left=2pt of Tape_in2] {$\Set{Write}$}
+  node[right=2pt of Tape_out1] {$\Set{Tape}$}
+  node[right=2pt of Tape_out2] {$\Set{Symbol}$}
+;
+\end{tikzpicture}
+\end{equation}
+
+Now, we need one more simple ingredient to get our system going; a mysterious system of the
+form:
+\begin{equation}\label{eqn.turing_box2}
+\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1]
+\node[bb={1}{2}] (Box) {$\Sys{Mystery Box}$};
+\draw[label]
+  node[right=2pt of Box_out1] {$\Set{Move}$}
+  node[right=2pt of Box_out2] {$\Set{Write}$}
+  node[left=2pt of Box_in1] {$\Set{Symbol}$}
+;
+\end{tikzpicture}
+\end{equation}
+
+We can see that our mystery box will take in a symbol and put out a move command
+and a write command. The way our mystery box behaves is rather mysterious: here it is in a table,
+where the entry in the row $i$ and the column $s$ is written $(m,w):s'$ for the
+move command $m$, the write command $w$, and the next state $s'$ that our
+mysterious sytem transitions to when input the symbol $i$ in state $s$:
+\begin{equation}\label{eqn.turing_machine}
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+     & 1 & 2 & 3 & 4 & 5 & 6 \\\hline
+    a & (-1, b):1 & (1, a):1 & (-1, b):3  & (1, b):2 & (-1, b):6 & (-1, b):4 \\\hline     
+   b & (-1, a):1 & (1, a):2 & (-1, b):5  & (1, a):4 & (1, a):6 & (1, a): 5 \\\hline     
+   c & (1, d):2 & (1, d):2 & (-1, c):5 & (1,d):4 & (1, c):5 & (1, a):1 \\\hline     
+   d & (-1, c):1 & (1, a):5 & (-1, c):3 & (1,d):5 & (-1, b):3 & end \\\hline     
+  \end{tabular}
+\end{equation}
+Mysterious in deed. But when we wire the two together, magic happens!
+
+\begin{equation}\label{eqn.full_turing_machine}
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=2pt, bb port sep=1]
+  \node[bb={1}{2}](Box) {$\Sys{Mystery Box}$};
+  \node[bb={2}{2}, right=of Box] (Tape) {$\Sys{Tape Machine}$};
+  
+  \node[bb={0}{0}, fit={($(Tape.south east) + (0, -2)$) ($(MysteryBox.north west) + (-1, 1)$)}] (Outer) {};
+  \node[above=0pt of Outer.south] (Label) {$\Sys{Universal Turing Machine}$};
+
+  \draw (Box_out1) to (Tape_in1);
+  \draw (Box_out2) to (Tape_in2);
+
+  \draw (Tape_out1) to (Outer.east|-Tape_out1);
+  \draw (Tape_out2) to (Outer.east|-Tape_out2);
+
+  \draw let \p1=(Tape.south east), \p2=(Box.south west), \n1=\bbportlen, \n2=\bby in
+    (Tape_out2) to[in=0] (\x1 + \n1, \y1 - \n2 - 1) -- (\x2 - \n1, \y2 - \n2 - 1) to[out=180] (Box_in1);
+\end{tikzpicture}
+\end{equation}
+This is a universal Turing machine, capable of arbitrarily complex calculation
+(if we encode everything into this strange alphabet)! Even small systems can
+have very interesting behavior when plugged in to the right environment.
 
 We call this way of putting together dynamical systems to make more complex
 systems \emph{composition}.
@@ -236,6 +326,8 @@ the abstract language of composition: \emph{category theory}.
 \begin{informal}
 \emph{Category theory} is the abstract study of composition.
 \end{informal}
+
+
 
 \subsection{Category Theory}
 
@@ -284,9 +376,9 @@ That's a lot of informal definitions, we are ready for something precise:
     \item A set $\Out{S}$ of \emph{values for exposed variables}, or \emph{outputs}
       for short.
     \item A set $\In{S}$ of \emph{parameter values}, or \emph{inputs} for short.
-    \item A function $\expose{S} : \Set{State}_{\Sys{S}} \to \Set{Out}_{Sys{S}}$, the \emph{exposed variable of state} or
+    \item A function $\expose{S} : \State{S} \to \Out{S}$, the \emph{exposed variable of state} or
       \emph{expose} function which takes a state to the output it yields. 
-    \item A function $\update{S} : \Set{State}_{\Sys{S}} \times \In{S} \to \State{S}$, the \emph{dynamics} or
+    \item A function $\update{S} : \State{S} \times \In{S} \to \State{S}$, the \emph{dynamics} or
       \emph{update} function which takes a state and a parameter and gives the
       next state.
   \end{itemize}
@@ -691,7 +783,7 @@ We can box up $\Sys{Boston}$ as:
 
 	\draw[label] 
 		node [right=2pt of Sys_out1] {$\Out{Boston}$}
-		node [left=2pt of Sys_in1] {$\Set{Rates}$}
+		node [left=2pt of Sys_in1] {$\In{SIR}$}
 		node [left=2pt of Sys_in2] {$\Out{Boston}$}
 		;
     

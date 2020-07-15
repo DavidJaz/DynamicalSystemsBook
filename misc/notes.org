@@ -102,3 +102,8 @@ Diagram that's random
    You need to copy in     , baseline=(Y.center) 
    into all the diagrams
 
+
+** TODO Jaz: Change the convention on the arity-lenses
+
+** TODO The last diagram in the introduction
+   
