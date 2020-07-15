@@ -308,7 +308,15 @@ Mysterious in deed. But when we wire the two together, magic happens!
 \end{equation}
 This is a universal Turing machine, capable of arbitrarily complex calculation
 (if we encode everything into this strange alphabet)! Even small systems can
-have very interesting behavior when plugged in to the right environment.
+have very interesting behavior when plugged in to the right environment''.
+
+%%
+%% :CUSTOM_ID:cite-this.turing_machine
+%% 
+%% NOTE: I found this machine here:
+%%       http://www.ini.uzh.ch/~tneary/NearyWoods_FI2009.pdf
+%%       in section 3.4, named $U_{6, 4}$. The table is adapted from there
+%%  
 
 We call this way of putting together dynamical systems to make more complex
 systems \emph{composition}.
@@ -1113,27 +1121,5 @@ variable real numbers $\{x_i \in \rr \mid i \in I\}$.
   to look at lenses}\label{sec.lens_indexed_cat}
 
 
-
-\[
-\begin{tikzpicture}[oriented WD, align=center, font=\small]
-	\node[bb={1}{1}] (mach) {Processor};
-	\node[bb={1}{2}, right=2 of mach] (tape) {Tape};
-	\node[bb={0}{0}, inner ysep=20pt, inner xsep=50pt, fit=(mach) (tape)] (outer) {};
-	\begin{scope}[font=\tiny]
-  	\draw (mach_out1) -- node[above] {command:\\$\{L,R\}\times\{0,1,\_\}$} (tape_in1);
-		\draw let 
-			\p1 = (tape.south east), 
-			\p2 = (mach.south west), 
-			\n1 = \bbportlen, 
-			\n2 = \bby
-		in
-			(tape_out2) to [in=0] 
-			(\x1+\n1, \y1-1.3*\n2) -- node[pos=.45, above] {read-value:\\$\{0,1,\_\}$}
-			(\x2-\n1, \y1-1.3*\n2) to [out=180]
-			(mach_in1);
-		\draw (tape_out1) -- node[above] {whole tape:\\$\zz\to\{0,1,\_\}$} (tape_out1-|outer.east);
-	\end{scope}
-\end{tikzpicture}
-\]
 
 \end{document}
