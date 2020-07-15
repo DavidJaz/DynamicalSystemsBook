@@ -990,7 +990,7 @@ Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon
 where $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
 
 To summarize, we have an isomorphism
-\begin{equation}\label{eqn.poly_maps_prod_sum}
+\begin{equation}\label{eqn.main_formula}
 \poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.
 \end{equation}
 \end{proposition}
@@ -1008,7 +1008,7 @@ We have the following isomorphisms
 This proves what we called the summary. It says that a morphism $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a function from $q_j\to p_i$; the first part determines $f_1$ (i.e.\ $f_1(i)=j$) and the second part just gives $f^\sharp_i$ directly for each $i$.
 \end{proof}
 
-\eqref{eqn.poly_maps_prod_sum} will be quite important to us; we will call it our \emph{main formula} for the set of polynomial maps.
+\eqref{eqn.main_formula} will be quite important to us; we will call it our \emph{main formula} for the set of polynomial maps.
 
 \paragraph{Working with $\sum$ and $\prod$ formulas.}
 Here's how to understand and work with a set that involves $\sum$'s and $\prod$'s, e.g.\ something like
@@ -1078,7 +1078,7 @@ When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_complet
 \]
 
 \paragraph{Back to maps of polynomials}
-After that interlude, you are hopefully more comfortable with our main formula \cref{eqn.poly_maps_prod_sum} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
+After that interlude, you are hopefully more comfortable with our main formula \cref{eqn.main_formula} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
 
 \begin{exercise}\label{exc.practice_sum_prod}
 Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. 
@@ -1097,7 +1097,7 @@ Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}.
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[Constants are sent to constants]
+\begin{example}[Constants are sent to constants]\label{ex.const_to_const}
 Any morphism $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
 
 Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map $p\to q$, i.e.\ an element of the set $\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
@@ -1152,7 +1152,7 @@ There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
 By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{thm.adjoint_quadruple}
 $\poly$ has an adjoint quadruple with $\smset$:
 \begin{equation*}%\label{eqn.adjoints_galore}
 \begin{tikzcd}[column sep=60pt]
@@ -1172,13 +1172,26 @@ where the functors have been labeled by where they send $A\in\smset$ and $p\in \
 Both rightward functors are fully faithful.
 \end{theorem}
 \begin{proof}
-\spiz{start}
+For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; it is $\poly(A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly} give us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:
+\[
+\smset(A,p(\0))\cong\poly(A,p)\qquad
+\smset(p(\1),A)\cong\poly(p,A)\qquad
+\smset(A,p(\1))\cong\poly(A\yon,p).
+\]
+All three come from our main formula, \cref{eqn.main_formula}; we leave the details to the reader in \cref{exc.adjoint_quadruple}.
 \end{proof}
 
+\begin{exercise}\label{exc.adjoint_quadruple}
+Here we prove the remainder of \cref{thm.adjoint_quadruple} using \cref{eqn.main_formula}:
+\begin{enumerate}
+	\item Provide a natural isomorphism $\smset(A,p(\0))\cong\poly(A,p)$.
+	\item Provide a natural isomorphism $\smset(p(\1),A)\cong\poly(p,A)$.
+	\item Provide a natural isomorphism $\smset(A,p(\1))\cong\poly(A\yon,p)$.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
-Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.
-
-We saw in \cref{exc.apply0} that the constant terms of a polynomial $p$ are given by $p(\0)$. It turns out that's part of an adjunction.
+In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally, as we now see (though the fact that $p\mapsto p(\1)$ is also a right adjoint is special).
 
 \begin{proposition}
 For any set $B$ there is an adjunction
@@ -1186,16 +1199,43 @@ For any set $B$ there is an adjunction
 \adj{\smset}{A\yon^B}{p(B)}{\poly}
 \]
 where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
-
-When $B=\0$ or $B=\1$, the functor $A\yon^B$ is fully faithful.
 \end{proposition}
 \begin{proof}
-For any sets $A,B\in\smset$ and polynomial $q\sum_{j\in q(\1)}\yon^{q_j}$, we need to check that there is a natural isomorphism
+For any sets $A,B\in\smset$ and polynomial $q=\sum_{j\in q(\1)}\yon^{q_j}$, we need to check that there is a natural isomorphism
 \[
 \smset(A,q(B))\cong\poly(A\yon^B,q).
 \]
-This follows from our main formula \cref{eqn.poly_maps_prod_sum}, since setting $p\coloneqq A\yon^B$ we have $p(\1)\cong A$ and $q(B)=\sum_{j\in q(\1)}B^{q_j}$.
+This follows from our main formula \cref{eqn.main_formula}, since setting $p\coloneqq A\yon^B$ we have $p(\1)\cong A$ and $q(B)=\sum_{j\in q(\1)}B^{q_j}$.
 \end{proof}
+
+\begin{proposition}
+The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
+\[
+\adjr{\smset\op}{\yon^-}{\Gamma}{\poly}
+\]
+where $\Gamma(p)\coloneqq\prod_{i\in p(\1)}p_i$.
+\end{proposition}
+\begin{proof}
+We have the following chain of natural isomorphisms:
+\begin{align*}
+  \smset(A,\Gamma(p))&\cong
+  \Big(\prod_{i\in p(\1)}p_i\Big)^A
+  	&\text{Definition of function}\\&\cong
+  \prod_{i\in p(\1)}{p_i}^A
+  	&\text{Definition of product}\\&\cong
+  \prod_{i\in p(\1)}\sum_{j\in\1}{p_i}^A
+  	&\text{Trivial sum}\\&\cong
+  \poly(p,\yon^A).&\cref{eqn.main_formula}
+\qedhere
+\end{align*}
+
+\end{proof}
+
+
+
+\spiz{Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.}
+
+
 
 %---- Subsection ----%
 \subsection{Limits and colimits in $\poly$}
