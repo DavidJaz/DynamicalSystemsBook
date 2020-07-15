@@ -36,23 +36,26 @@ All our polynomials will involve one variable, $\yon$, chosen for reasons we'll 
 \end{align}
 More technically, mini-trees are called \emph{corollas}, so what we're calling a \emph{poly} is a set of corollas. 
 
-Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{possibilities}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two possibilities, one possibility, and no possibilities. Having two possibilities is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one possibility is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no possibilities is when you actually don't get through it: it's ``the end''. While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
+Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of options, or what we will call \emph{possibilities}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two possibilities, one possibility, and no possibilities. Having two possibilities is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one possibility is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no possibilities is when you actually don't get through it: it's ``the end''. While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
 
 In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a coefficient of \4\2 next to it, so the corolla with three leaves shows up 42 times%
 \footnote{
 In standard font, 42 represents the usual natural number. In sans serif font \4\2 represents the set $\4\2=\{1,2,\ldots,42\}$ with 42 elements.
 }
-in the associated poly. Intuitively, there are 42 situations in which you have a decision with three possibilities.
+in the associated poly. Intuitively, there are 42 situations in which you have a decision with three possibilities. When you put all those decisions together, you have the \emph{wheelhouse} associated to $p$. 
 
-\[\small
+Here is a table of terminology. The first column is book-wide terminology, the second is algebraic terminology about polynomials as in \eqref{eqn.polynomial1892}, the third is about the pictures of corollas as in \eqref{eqn.poly1892}, and the fourth column is intuitive terminology.
+
+\begin{equation}\label{eqn.table_terminology}
+\small
 \begin{tabular}{llll}
 \multicolumn{4}{c}{\normalsize Terminology}\\
-\textbf{Overarching} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Chapter-intuition}\\\hline
+\textbf{Interface} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Wheelhouse}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
 Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
-Distinction $\fun{d}\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Possibility
+Distinction $c\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Possibility
 \end{tabular}
-\]
+\end{equation}
 
 If you're wondering about the upright $\fun{i}$, we'll get to all our notational conventions in \cref{sec.poly}.
 
@@ -563,10 +566,11 @@ What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are of
 
 Luckily, the agda code is pretty easy to understand.
 \begin{agda}
-record Interface : Set where  -- an interface consists of 
-   field                      -- two fields
-     pos : Set                -- one called pos, a set, and
-     dis : pos -> Set         -- one called dis, that depends on pos
+record Wheelhouse : Set where  -- a wheelhouse consists of 
+   field                       -- two fields
+     decn : Set                -- one called decn, a set, and
+     posy : pos -> Set         -- one called posy,
+                               -- a set that depends on decn
 \end{agda}  
 
 %---- Subsection ----%
@@ -749,9 +753,9 @@ as follows.
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
 Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
 \begin{equation}\label{eqn.yoneda}
-F(S)\cong\Hom(\yon^S,F)
+F(S)\cong\nat(\yon^S,F)
 \end{equation}
-where $\Hom$ denotes the set of natural transformations. Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
+where $\nat$ denotes the set of natural transformations. Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
 \end{lemma}
 \begin{proof}[Sketch of proof]
 For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
@@ -764,7 +768,7 @@ Whoever solves this exercise can say they've proved the Yoneda Lemma.
 \begin{enumerate}
 	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in \cref{lemma.yoneda} are natural in $X$.
 	\item Show that the two mappings from \cref{lemma.yoneda} are mutually inverse.
-	\item As a corollary of \cref{lemma.yoneda}, show that $\yon^-\colon\smset\op\to\smset^\smset$ is fully faithful, in particular that there is an isomorphism $\Hom(\yon^S,\yon^T)\cong S^T$.
+	\item As a corollary of \cref{lemma.yoneda}, show that $\yon^-\colon\smset\op\to\smset^\smset$ is fully faithful, in particular that there is an isomorphism $\nat(\yon^S,\yon^T)\cong S^T$.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -931,7 +935,7 @@ Suppose $p\coloneqq\yon^\2+\2\yon+1$. As a functor $\smset\to\smset$ it should b
 Let $p=\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induced function $p(f)\colon p(\1)\to p(\2)$.
 \end{exercise}
 
-\begin{proposition}
+\begin{proposition}\label{prop.apply1}
 Let $p\coloneqq\sum_{i\in I}\yon^{p_i}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
 \begin{equation}\label{eqn.sum_p1}
 p\cong\sum_{i\in p(\1)}\yon^{p_i}.
@@ -943,10 +947,164 @@ We need to show that $I\cong p(\1)$; the latter claim follows directly. In \cref
 
 The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on.
 
-\paragraph{Morphisms between polynomial functors}
+\begin{exercise}\label{exc.apply0}
+We saw in \cref{prop.apply1} that for any polynomial $p$, e.g.\ $p=\yon^3+3\yon^2+4$, the set $p(\1)$ gives back the set of summands, in this case $\8$. 
+
+What does $p(\0)$ give you?
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Morphisms between polynomial functors}
+
+For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
+
+In particular, we're going to think about polynomials like $p$ and $q$ using the intuition from the beginning of the chapter, around the table in \eqref{eqn.table_terminology}. We said that we'd think of $p$ as a wheelhouse: a set of decisions you can make and what options you have. That is, $p(\1)$ is conceived as a set of decisions, and for every decision $i\in p(\1)$, we conceive of the set $p_i$ as the options or \emph{possibilities} available in that decision. Here's an alternative way to write $p$:
+\[
+\begin{tikzcd}
+p(\1)\ar[r, "p_-"]&\smset
+\end{tikzcd}
+\]
+Again, every decision $i\in p(\1)$ gets a set $p_i$ of possibilities: that's the whole content of $p$.
+
+The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q_j$ that $q$ could make among its possibilities is passed back as some choice $c\in p_i$ among $p$'s possibilities.
+
+\begin{agda}
+record Delegation (w : Wheelhouse) (w' : Wheelhouse) : Set where
+   field 
+     passfwd : (decn p) -> (decn q)
+     passbck : (d : decn p) -> posy q (passfwd d) -> posy p d
+\end{agda}
+
+Let's state this mathematically and prove it.
+
+\begin{proposition}\label{prop.poly_maps_colax_prod_sum}
+Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ be polynomials. A morphism $p\to q$ can be identified with a pair $(f_1,f^\sharp)$
+\begin{equation}\label{eqn.colax_poly_map}
+\begin{tikzcd}[column sep=small]
+	p(\1)\ar[dr, "p_-"']\ar[rr, "f_1"]&~&
+	q(\1)\ar[dl, "q_-"]\\&
+	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
+\end{tikzcd}
+\end{equation}
+where $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
+
+To summarize, we have an isomorphism
+\begin{equation}\label{eqn.poly_maps_prod_sum}
+\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+We have the following isomorphisms
+\begin{align*}
+  \poly(p,q)&=
+  \nat\Big(\sum_{i\in p(\1)}\yon^{p_i},\;\sum_{j\in q(\1)}\yon^{q_j}\Big)&
+  	\text{Definitions}\\&\cong
+  \prod_{i\in p(\1)}\nat\Big(\yon^{p_i},\sum_{j\in q(\1)}\yon^{q_j}\Big)&
+  	\text{Univ. prop. of coproduct}\\&\cong
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}&
+  	\text{Yoneda lemma}
+\end{align*}
+This proves what we called the summary. It says that a morphism $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a function from $q_j\to p_i$; the first part determines $f_1$ (i.e.\ $f_1(i)=j$) and the second part just gives $f^\sharp_i$ directly for each $i$.
+\end{proof}
+
+\paragraph{Working with $\sum$ and $\prod$ formulas.}
+Here's how to understand and work with a set that involves $\sum$'s and $\prod$'s, e.g.\ something like
+\begin{equation}\label{eqn.misc98339}
+\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
+\end{equation}
+To understand it, you ask ``what is involved in choosing an element of this set?'' 
+
+The answer given by the formula \eqref{eqn.misc98339} begins by saying ``To choose an element of \eqref{eqn.misc98339}, first..." and then you begin pronouncing the formula. Every time you see $\sum_{i\in I}...$, say ``choose an element $i\in I$; then, ...''. Every time you see $\prod_{j\in J}$, say ``for each $j\in J$, ...''. At the very end when you see some $X$, say ``conclude by choosing an element of $X$''.
+
+So the formula in \eqref{eqn.misc98339} would be pronounced as follows:
+\begin{quote}
+To choose an element of \eqref{eqn.misc98339}, first choose an element $i\in I$. Then, for every $j\in J(i)$, choose an element $k\in K(i,j)$; then, conclude by choosing an element of $X(i,j,k)$.
+\end{quote}
+Note that the choice of $k\in k(i,j)$ can depend on $i$ and $j$; it must be able to because these sets $K(i,j)$ can be different for different $i,j$.
+
+\begin{example}[Notation for $\sum\prod$ stuff]\label{ex.notation_sum_prod}
+Here we give notation for the elements of a set involving $\sum$'s and $\prod$'s such as that in \eqref{eqn.misc98339}.
+
+Let $I=\{1,2\}$, let $J(1)=\{j\}$ and $J(2)\coloneqq\{j,j'\}$, let $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, and $K(2,j')\coloneqq\{k'\}$, and let $X(i,j,k)=\{x,y\}$ for all $i,j,k$. Now the formula 
+\[\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)\]
+ has been given meaning as an actual set. Here is a list of all eight of its elements:
+\[
+\left\{
+\begin{gathered}
+	(1, j\mapsto(k_1,x)),\qquad
+	(1, j\mapsto(k_1,y)),\qquad
+	(1, j\mapsto(k_2,x)),\qquad
+	(1, j\mapsto(k_2,y)),\\
+	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\qquad
+	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\\
+	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\qquad
+	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x))
+\end{gathered}
+\right\}
+\]
+In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $j\in J(i)$ we chose an element $k\in K(i,j)$; then we concluded by choosing an element of $X(i,j,k)$.
+\end{example}
+
+\begin{exercise}
+With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
+\[\prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\]
+\begin{enumerate}
+	\item Pronounce it using the ``To choose an element'' formulation just below \eqref{eqn.misc98339}.
+	\item How many elements are in it?
+	\item Write out three of them.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\paragraph{Back to maps of polynomials}
+After that interlude, you are hopefully more comfortable with \cref{eqn.poly_maps_prod_sum} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
+
+\begin{exercise}
+Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Is it true that the following are isomorphic?
+\[
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}
+  \cong^?
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q_j}\sum_{c\in p_i}\1
+\]
+If so, say why; if not say why not.
+\end{exercise}
+
+\begin{example}[Constants are sent to constants]
+Any morphism $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
+
+Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map $p\to q$, i.e.\ an element of the set $\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
+\end{example}
+
+We saw in \cref{exc.apply0} that the constant terms of a polynomial $p$ are given by $p(\0)$. It turns out that's part of an adjunction:
+
+\begin{proposition}
+There is a fully faithful functor $\smset\to\poly$ sending $S\in\smset$ to the constant polynomial $S\yon^\0$, which we also denote by $S$.
+
+ 
+\end{proposition}
+
+
 
 %-------- Section --------%
 \section{Dynamical systems}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
