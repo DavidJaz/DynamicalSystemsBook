@@ -573,6 +573,24 @@ has:
   lens composition is associative, and that the identity lens is an identity for it.
 \end{exercise}
 
+Like any good categorical construction, $\Cat{Lens}_{\cat{C}}$ varies
+functorially in its variable cartesian category $\cat{C}$.
+\begin{proposition}[Functoriality of $\Cat{Lens}$]\label{prop.lens_functoriality}
+  Every cartesian functor $F : \cat{C} \to \cat{D}$ induces a functor
+  $\lens{F}{F} : \Cat{Lens}_{\cat{C}} \to \Cat{Lens}_{\cat{D}}$ given by
+  $$\lens{F}{F}\lens{f^{\sharp}}{f} = \lens{Ff^{\sharp} \circ \mu\inv}{Ff}$$
+  where $\mu = (F\pi_1,\, F\pi_2) : F(X \times Y) \xto{\sim} FX \times FY$ is
+  the isomorphism witnessing that $F$ preserves products.
+\end{proposition}
+\begin{proof}[Proof Sketch.]
+  Because lenses are defined just using the cartesian product, and $F$ preserves
+  these products, it commutes with everything in sight.
+\end{proof}
+
+\begin{exercise}
+  Complete the proof of \cref{prop.lens_functoriality} in full. 
+\end{exercise}
+
 The reason we are interested in lenses and lens composition is because
 deterministic systems are themselves lenses. As written in
 \cref{def.deterministic_system}, a system $\Sys{S}$ is a lens
@@ -599,6 +617,9 @@ lenses.
   \lens{C_1 \times C_2}{D_1 \times D_2}$$
   to have passforward $f \times g$ and passback
   $$((b_1, b_2), (c_1, c_2)) \mapsto (f^{\sharp}(b_1, c_2), g^{\sharp}(b_2, c_2)).$$
+  In terms of morphisms, this is
+  $$(B_1 \times B_2) \times (C_1 \times C_2) \xto{\sim} (B_1 \times C_1) \times
+  (B_2 \times C_2) \xto{f^{\sharp} \times g^{\sharp}} A_1 \times A_2.$$
 
   Together with $\lens{\ord{1}}{\ord{1}}$, this gives $\Cat{Lens}_{\cat{C}}$ the
   structure of a monoidal category.
@@ -608,6 +629,16 @@ lenses.
   We will show a slick way to prove that the parallel product does indeed make
   $\Cat{Lens}_{\cat{C}}$ into a monoidal category theory in \cref{sec.lens_indexed_cat}.
 \end{remark}
+
+
+\begin{proposition}\label{prop.lens_functoriality_monoidal}
+Let $F : \cat{C} \to \cat{D}$ be a cartesian functor. The induced functor
+$\lens{F}{F} : \Cat{Lens}{\cat{C}} \to \Cat{Lens}{\cat{D}}$ is strong monoidal
+with respect to the parallel product.
+\end{proposition}
+\begin{proof}
+  Since $F$ preserves products, and $$
+\end{proof}
 
 Given two dynamical systems $\Sys{S_1}$ and $\Sys{S_2}$, their parallel product
 $\Sys{S_1} \otimes \Sys{S_2}$ is defined explicitly as follows:
@@ -641,7 +672,7 @@ need to do is collect them together like this; then we can proceed to wire them.
 We will do exactly this with our systems: first we will take their parallel
 product, and then we compose it with a lens that represents the wiring diagram.
 
-\begin{example}
+\begin{example}\label{ex.ClockWithDisplay}
  We can describe the $\Sys{ClockWithDisplay}$ system (reproduced below) as a
  composite of lenses.
 \begin{equation}\label{eqn.clock_system_box2}
@@ -965,7 +996,7 @@ consider the function
 \end{align*}
 Then we can see $f^{\ast} : X^{\ord{2}} \to X^{\ord{3}}$ as the following list
 of variables:
-$$f^{\ast} = (x_1,\, x_2 \vdash x_2,\, x_1,\, x_2)$$
+$$f^{\ast} = (x_1,\, x_2 \mapsto x_2,\, x_1,\, x_2)$$
 In other words, $f$ says that the first slot of the resulting list will be
 filled by the second variable of the first, and the second slot will be filled
 by the first variable, and the third slot will be filled by the second variable.
@@ -979,8 +1010,8 @@ Composition is given by propagating the reindxing. If we have the function
 \end{align*}
 Then we can see calculate $g^{\ast} \circ f^{\ast}$ by substituting variables
 using in $g^{\ast}$ for the variables in the right hand side of $f^{\ast}$:
-$$\frac{(x_1,\, x_2 \vdash x_2, x_1, x_2)\quad (x_1,\, x_2,\, x_3 \vdash x_1,\,
-  x_1,\, x_3,\, x_2)}{(x_1,\, x_2 \vdash x_2,\, x_2,\, x_2,\, x_1)}.$$
+$$\frac{(x_1,\, x_2 \mapsto x_2, x_1, x_2)\quad (x_1,\, x_2,\, x_3 \mapsto x_1,\,
+  x_1,\, x_3,\, x_2)}{(x_1,\, x_2 \mapsto x_2,\, x_2,\, x_2,\, x_1)}.$$
 We can see that this is equivalently $(f \circ g)^{\ast}$.
 
 \begin{exercise}
@@ -1057,8 +1088,8 @@ following way:
 \end{tikzpicture}
 \quad\quad
 \begin{aligned}
-  w^{\ast} &= (a^+_1,\, a^+_2, a^+_3 \vdash  a_2^+,\, a^+_3)\\
-  w^{\sharp\ast} &= (a^+_1,\, a^+_2,\, a^+_3,\,a^+_4,\,b^-_1 \vdash a^+_2,\, a_1^+,\, b_1^-)
+  w^{\ast} &= (a^+_1,\, a^+_2, a^+_3 \mapsto  a_2^+,\, a^+_3)\\
+  w^{\sharp\ast} &= (a^+_1,\, a^+_2,\, a^+_3,\,a^+_4,\,b^-_1 \mapsto a^+_2,\, a_1^+,\, b_1^-)
 \end{aligned}
 \end{equation}
 
@@ -1089,9 +1120,9 @@ and vice versa:
   \leftrightarrows \lens{\XX^{\ord{2}}}{\XX^{\ord{1}}}$
   \[
     \begin{aligned}
-      w^{\ast} &= (a_1^+,\, a_2^+,\, a_{31}^+,\, a_{32}^+ \vdash a_{32}^+)\\
+      w^{\ast} &= (a_1^+,\, a_2^+,\, a_{31}^+,\, a_{32}^+ \mapsto a_{32}^+)\\
       w^{\sharp\ast} &= (a_1^+,\, a_2^+,\, a_{31}^+,\, a_{32}^+,\, b_1^-,\,
-      b_2^- \vdash a_{31}^+,\, b_1^-,\, b_2^-,\, a_1^+,\, a_2^+)
+      b_2^- \mapsto a_{31}^+,\, b_1^-,\, b_2^-,\, a_1^+,\, a_2^+)
     \end{aligned}
   \]
   %%
@@ -1103,7 +1134,7 @@ and vice versa:
 
 That $\arity$ is the free cartesian category generated by a single object
 means that it satisfies a very useful universal property.
-\begin{proposition}[Universal property of $\arity$]
+\begin{proposition}[Universal property of $\arity$]\label{prop.arity_universal_property}
   For any cartesian category $\cat{C}$ and object $C \in \cat{C}$, there is a
   cartesian functor $\Fun{ev}_{C} : \arity \to \cat{C}$ which sends $\XX$ to $C$. This
   functor is the unique such functor up to a unique natural isomorphism.
@@ -1124,7 +1155,96 @@ We can think of the functor $\Fun{ev}_C : \arity \to \cat{C}$ as the functor
 which tells us how to interpret the abstract variables in $\arity$ as variables
 of type $C$. For example, the functor $\Fun{ev}_{\rr} : \arity \to \smset$ tells
 us how to interpret the abstract variables $(x_i \mid i \in I)$ in $\smset$ as
-variable real numbers $\{x_i \in \rr \mid i \in I\}$.
+variable real numbers $\{x_i \in \rr \mid i \in I\}$. Under $\Fun{ev}_{C}$, the
+map of arities $(x_1,\, x_2,\, x_3 \mapsto x_2, x_2)$ gets sent to the actual map
+$C^{\ord{3}} \to C^T{\ord{2}}$ given by sending $(c_1,\, c_2,\, c_3)$ to
+$(c_2,\, c_2)$.
+
+By the functoriality of the lens construction, this means that given an object
+$C \in \cat{C}$ of a cartesian category of ``values that should be flowing on
+our wires'', we can interpret a wiring diagram as a lens in $\cat{C}$! We record
+this observation in the following proposition.
+\begin{proposition}\label{prop.wiring_diagram_as_lens}
+  Let $C \in \cat{C}$ be an object of a cartesian category. Then there is a
+  strong monoidal functor
+  $$\lens{\Fun{ev}_C}{\Fun{ev}_C} : \Cat{WD} \to \cat{C}$$
+  which interprets a wiring diagram as a lens in $\cat{C}$ with values in $C$
+  flowing along its wires.
+\end{proposition}
+\begin{proof}
+  This is just \cref{prop.lens_functoriality} (and
+  \cref{prop.lens_functoriality_moniodal}) applied to $\Fun{ev}_C : \arity \to
+  \cat{C}$ from \cref{prop.arity_universal_property}.
+\end{proof}
+
+This is how we can interpret a wiring diagram as a lens in whatever category we
+are working in. There is, however, a slight issue; in most of our previous
+examples, there have been many different types of signals flowing along the
+wires. We can fix this by using \emph{typed arities}. We will keep track of what
+type of signal is flowing along each wire, and only allow ourselves to connect
+wires that carry the same type of signal.
+
+\begin{definition}
+  Let $\cat{T}$ be a set of \emph{types}. The category $\arity_{\cat{T}}$ is the
+  free cartesian category generated by objects $\XX_{\tau}$ for each type $\tau
+  \in \cat{T}$. Explicitly, $\arity_{\cat{T}}$ has:
+  \begin{itemize}
+    \item Objects $\prod_{\tau \in \cat{T}} \XX_{\tau}^{I_\tau}$ for any typed
+      family finite sets $I_{(-)} : \cat{T} \to \Cat{Fin}$.
+    \item Arrows $f^{\ast} : \prod_{\tau \in \cat{T}} \XX^{I_\tau} \to
+      \prod_{\tau \in \cat{T}} \XX^{J_\tau}$ for any family of functions
+      $f_{\tau} : J_\tau \to I_{\tau}$ indexed by the types $\tau \in \cat{T}$.
+    \item Comopsition is given by $g^{\ast} \circ f^{\ast} = (f \circ g)^{\ast}$
+      where the family $f \circ g$ is defined pointwise by $(f \circ g)_\tau =
+      f_\tau \circ g_\tau$. The identity is given by $\id := \id^{\ast}$. 
+  \end{itemize}
+  That is, $\arity_{\cat{T}} \cong (\Cat{Fin} \downarrow \cat{T})\op$ is dual to
+  the category
+  $\Cat{Fin} \downarrow \cat{T}$ of \emph{$\cat{T}$-typed finite sets}, the slice category (a.k.a. comma category)
+  of the inclusion $\Cat{Fin} \hookrightarrow \Cat{Set}$ over the set $\cat{T}$
+  of types. We interpret the family $I_{(-)} : \cat{T} \to \Cat{Fin}$ as the
+  projection map $\sum_{\tau \in \cat{T}} I_\tau \to \cat{T}$. 
+\end{definition}
+
+\begin{exercise}
+  We blew through that isomorphism $\arity_{\cat{T}} \cong (\Cat{Fin} \downarrow
+  \cat{T})\op$ quickly, but its not trivial. Expand this out in full and check
+  that you understand it.
+\end{exercise}
+
+Note that $\arity = \arity_{\ord{1}}$ is the special case where we have a single
+type. Just as we wrote the morphisms in $\arity$ as $(x_1,\, x_2 \mapsto x_2,\,
+x_1,\, x_2)$, we can write the morphisms in $\arity_{\cat{T}}$ as
+$$(x_1 : \tau_1,\, x_2 : \tau_2,\, x_3 : \tau_2 \mapsto x_2 : \tau_2,\, x_1 :
+\tau_1,\, x_2 : \tau_1)$$
+where $\tau_1,\, \tau_2,\, \tau_3 \in \cat{T}$ are all (fixed, not variable) types.
+
+
+We check that $\arity_{\cat{T}}$ as we defined it does indeed have the correct
+universal property.
+\begin{proposition}\label{prop.arity_univeral_property_typed}
+  For any $\cat{T}$-indexed family of elements $C_{(-)} : \cat{T} \to \cat{C}$
+  in a cartesian category $\cat{C}$, there is a cartesian functor $\Fun{ev}_C :
+  \arity_{\cat{T}} \to \cat{C}$ sending $\XX_{\tau}$ to $C_{\tau}$. The functor
+  $\fun{ev}_C$ is the unique such functor up to a unique natural isomorphism.
+\end{proposition}
+
+\begin{corollary}\label{cor.arity_change_of_types}
+  For any function $f : \cat{T} \to \cat{T'}$, there is a change of type functor
+  $\ev{\XX_f} \arity_{\cat{T}} \to \arity_{\cat{T}}$
+\end{corollary}
+
+\begin{example}
+  We can describe the wiring diagram $\lens{w^{\sharp}}{w}$ in \cref{ex.ClockWithDisplay} as a lens in
+  a category of typed arities in the following way. We have two types:
+  $\Set{Meridien}$ and $\Set{Hours}$. So, $\cat{T} = \{\Set{Meridien},
+  \Set{Hours}\}$. Then
+  \begin{align*}
+    w &= (t : \Set{Hours},\, m : \Set{Meridien} \mapsto t : \Set{Hours},\, m : \Set{Meridien}) \\
+    w^{\sharp} &= (t : \Set{Hours},\, m : \Set{Meridien} \mapsto t : \Set{Hours})
+  \end{align*}
+  giving us a wiring diagram in $\Cat{WD}_{\cat{T}}$
+\end{example}
 
 \subsection{CoKleisli categories and the Grothendieck construction: another way
   to look at lenses}\label{sec.lens_indexed_cat}

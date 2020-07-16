@@ -120,6 +120,10 @@ In each note topic, I think we should trade off with headers simply named
 *** DONE Jaz: Deal with "Anatomy of a lens"
     CLOSED: [2020-07-16 qui 00:02]
     Think I'll just delete it.
+** <2020-07-16 qui> 
+*** TODO Change the convention in the arities section
+    instead of \vdash, do \mapsto, see how it looks
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction
