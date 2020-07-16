@@ -1127,6 +1127,58 @@ Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a m
 \end{exercise}
 
 %---- Subsection ----%
+\subsection{Limits, colimits, and cartesian closure}
+
+The category $\poly$ has limits and colimits and is Cartesian closed. Let's start off with something that fairly simple.
+
+\begin{exercise}
+Prove the following:
+\begin{enumerate}
+	\item $\0$ is a initial object in $\poly$.
+	\item $\1$ is a terminal object in $\poly$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}\label{prop.coprod_prod_poly}
+The category $\poly$ has coproducts and products.
+\end{proposition}
+\begin{proof}
+Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$. Their coproduct is
+\begin{equation}\label{eqn.sum_polys}
+\sum_{a\in A}p_a=\sum_{a\in A}\sum_{i\in p_a(\1)}\yon^{(p_a)_i}\cong\sum_{(a,i)\in\sum_{a\in A}p_a(\1)}\yon^{(p_a)_i}
+\end{equation}
+which is manifestly a sum of representables, i.e.\ a polynomial, and which one can check satisfies the universal property of coproduct; see \cref{exc.check_coprod_prod}.
+
+We claim that the product of this collection is
+\begin{equation}\label{eqn.prod_polys}
+\prod_{a\in A}p_a=
+\prod_{a\in A}\sum_{i\in p_a(\1)}\yon^{(p_a)_i}\cong
+\sum_{i\colon \prod_{a\in A}p_a(\1)}\yon^{\sum_{a\in A}p_{i(a)}}.
+\end{equation}
+Again, it is a sum of representables, so a polynomial, and one can check that it satisfies the universal property of product; see \cref{exc.check_coprod_prod}.
+\end{proof}
+
+\begin{exercise}\label{exc.check_coprod_prod}
+Finish the proof of \cref{prop.coprod_prod_poly} as follows.
+\begin{enumerate}
+	\item Show that \eqref{eqn.sum_polys} satisfies the universal property for coproduct of polynomials.
+	\item Show that \eqref{eqn.prod_polys} satisfies the universal property for coproduct of polynomials.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{theorem}
+$\poly$ has all limits.
+\end{theorem}
+\begin{proof}
+Recall that a category has all limits iff it has equalizers and products, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has equalizers. Let $f,g\colon p\tto q$ be two maps of polynomials. Let $E\inj p(\1)\tto q(\1)$ be an equalizer of the functions $f(\1),$ and $g(\1)$ in $\smset$. For each $e\in E$Define $p'$ as follows
+\[
+  p'\coloneqq\sum_{e\in E}\yon
+\]
+\end{proof}
+
+%---- Subsection ----%
 \subsection{Special polynomials and adjunctions}
 
 There are a few special classes of polynomials that are worth discussing: 
@@ -1191,14 +1243,14 @@ Here we prove the remainder of \cref{thm.adjoint_quadruple} using \cref{eqn.main
 \end{enumerate}
 \end{exercise}
 
-In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally, as we now see (though the fact that $p\mapsto p(\1)$ is also a right adjoint is special).
+In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is also a right adjoint---and hence that there is this \emph{quadruple} of adjunctions---is special to $A=\0,\1$.
 
-\begin{proposition}
-For any set $B$ there is an adjunction
-\[
-\adj{\smset}{A\yon^B}{p(B)}{\poly}
-\]
-where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
+
+\begin{proposition}\label{prop.two_var_adj}
+There is a two-variable adjunction between $\smset$, $\poly$, and $\poly$:
+\begin{align}\label{eqn.two_var_adj}
+\poly(Ap,q)\cong\poly(p,q^A)\cong\smset(A,\poly(p,q)).
+\end{align}
 \end{proposition}
 \begin{proof}
 For any sets $A,B\in\smset$ and polynomial $q=\sum_{j\in q(\1)}\yon^{q_j}$, we need to check that there is a natural isomorphism
@@ -1207,6 +1259,21 @@ For any sets $A,B\in\smset$ and polynomial $q=\sum_{j\in q(\1)}\yon^{q_j}$, we n
 \]
 This follows from our main formula \cref{eqn.main_formula}, since setting $p\coloneqq A\yon^B$ we have $p(\1)\cong A$ and $q(B)=\sum_{j\in q(\1)}B^{q_j}$.
 \end{proof}
+
+Using $p\coloneqq\yon^A$ and the Yoneda lemma, \cref{prop.two_var_adj} specializes to the following.
+
+
+\begin{corollary}\label{cor.substituting_adj}
+For any set $B$ there is an adjunction
+\[
+\adj{\smset}{A\yon^B}{p(B)}{\poly}
+\]
+where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
+\end{corollary}
+
+\begin{exercise}
+Prove \cref{***}
+\end{exercise}
 
 \begin{proposition}
 The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
@@ -1236,18 +1303,6 @@ We have the following chain of natural isomorphisms:
 \spiz{Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.}
 
 
-
-%---- Subsection ----%
-\subsection{Limits and colimits in $\poly$}
-
-\begin{exercise}
-Prove the following:
-\begin{enumerate}
-	\item $\0$ is a initial object in $\poly$.
-	\item $\1$ is a terminal object in $\poly$.
-\qedhere
-\end{enumerate}
-\end{exercise}
 
 
 %-------- Section --------%
