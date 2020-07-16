@@ -121,7 +121,8 @@ In each note topic, I think we should trade off with headers simply named
     CLOSED: [2020-07-16 qui 00:02]
     Think I'll just delete it.
 ** <2020-07-16 qui> 
-*** TODO Change the convention in the arities section
+*** DONE Jaz: Change the convention in the arities section
+    CLOSED: [2020-07-16 qui 15:49]
     instead of \vdash, do \mapsto, see how it looks
 
 * Citations
@@ -134,3 +135,5 @@ In each note topic, I think we should trade off with headers simply named
    DOI 10.3233/FI-2009-0008
   in section 3.4, named $U_{6, 4}$. The table is adapted from there
   
+*** Pseudo-functors and indexed categories
+    [[file:../book/C1-.tex::#cite-this.pseudo_functors][See it here.]]
