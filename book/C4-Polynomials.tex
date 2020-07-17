@@ -689,7 +689,38 @@ Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that s
 We refer to $\yon^S$ as the functor \emph{represented by} $S$.
 \end{definition}
 
-The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}.
+The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}. For now, here are some pictures for your eyes to gaze at; they are the poly's corresponding to various representables:
+\[
+\begin{tikzpicture}[trees, grow'=up, sibling distance=2mm]
+  \node["$\yon^{\5}$" below] (1) {$\bullet$} 
+    child foreach \i in {1,...,5}
+    ;
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[trees, grow'=up, sibling distance=1mm]
+  \node["$\yon^{\1\0}$" below] (1) {$\bullet$} 
+    child foreach \i in {1,...,10}
+    ;
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[trees, grow'=up, sibling distance=0.5mm]
+  \node["$\yon^{\2\0}$" below] (1) {$\bullet$} 
+    child foreach \i in {1,...,20}
+    ;
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[trees, grow'=up, sibling distance=0.25mm]
+  \node["$\yon^{\4\0}$" below] (1) {$\bullet$} 
+    child foreach \i in {1,...,40}
+    ;
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[trees, grow'=up, sibling distance=0.0625mm]
+  \node["$\yon^{[0,1]}$" below] (1) {$\bullet$} 
+    child foreach \i in {1,...,160}
+    ;
+\end{tikzpicture}
+\]
 
 \begin{example}
 The functor that sends every set $X$ to $X\times X$, and sends $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable. 
@@ -911,7 +942,7 @@ In the pedantic style of \cref{ex.pedantic_poly_eval}, write out all the element
 \begin{example}
 Suppose $p\coloneqq\yon^\2+\2\yon+1$. As a functor $\smset\to\smset$ it should be able to act not only on sets but on functions. Let $X\coloneqq\{a_1,a_2,b_1\}$, $Y\coloneqq\{a,b,c\}$ and $f\colon X\to Y$ the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$ is shown below
 \[
-\begin{tikzcd}[sep=3pt, shorten <=-5pt, shorten >=-5pt, dashed]
+\begin{tikzcd}[row sep=2pt, column sep=3pt, shorten <=-5pt, shorten >=-5pt, dashed]
 \LMO{(1,a_1,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(1,a_1,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(1,a_1,b_1)}\ar[rrr, blue, bend left=25pt]&[30pt]&
 \LMO{(1,a,a)}&\LMO{(1,a,b)}&\LMO{(1,a,c)}&&
 \\
@@ -1288,7 +1319,7 @@ We can draw the product of two polynomials in terms of their associated poly's. 
   };
 \end{tikzpicture}
 \]
-Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs of decisions, and for each pair we union the options.
+Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs of decisions, and for each pair we take the union the options.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$pq$" above] {
@@ -1341,6 +1372,85 @@ p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i\times q_j}.
 \end{definition}
 
 One should compare this with the formula for product of polynomials shown in \eqref{eqn.poly_times}. The difference is that Dirichlet product multiplies exponents where regular product adds them.
+
+\begin{example}
+We can draw the product of two polynomials in terms of their associated poly's. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$. In pictures, we take all pairs of decisions, and for each pair we take the product of the options.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$pq$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=1mm]
+    \node["\tiny {(1,1)}" below] (11) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+    ;
+    \node[right=1.5 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+    ;
+    \node[right=1.5 of 12, "\tiny {(1,3)}" below] (13) {$\bullet$} 
+    ;
+   \node[right=1.5 of 13, "\tiny {(2,1)}" below] (21) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+ 		;    
+		\node[right=1.5 of 21, "\tiny {(2,2)}" below] (22) {$\bullet$} 
+      child {}
+      child {}
+ 		;    
+    \node[right=1.5 of 22, "\tiny {(2,3)}" below] (23) {$\bullet$} 
+ 		;    
+	\end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+
+\end{example}
 
 \begin{exercise}
 Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\2\yon^\4$.
