@@ -135,7 +135,7 @@ our dynamics.
 We can now express our whole clock (\ref{eqn.whole_clock}) by wiring together
 our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
 
-\begin{equation}\label{eqn.clock_system_box}
+\begin{equation}\label{eqn.whole_clock_system_box}
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
 	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
   	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
@@ -277,7 +277,7 @@ We can imagine that the system shows tape and the symbol under the read head. We
 Now, we need one more simple ingredient to get our system going; a mysterious system of the
 form:
 \begin{equation}\label{eqn.turing_box2}
-\begin{tikzpicture}[oriented wd, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Box.center)]
+\begin{tikzpicture}[oriented WD, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Box.center)]
 \node[bb={1}{2}] (Box) {$\Sys{Mystery Box}$};
 \draw[label]
   node[right=2pt of Box_out1] {$\Set{Move}$}
@@ -309,7 +309,7 @@ Mysterious in deed. But when we wire the two together, magic happens!
   \node[bb={1}{2}](Box) {$\Sys{Mystery Box}$};
   \node[bb={2}{2}, right=of Box] (Tape) {$\Sys{Tape Machine}$};
   
-  \node[bb={0}{0}, fit={($(Tape.south east) + (0, -2)$) ($(MysteryBox.north west) + (-1, 1)$)}] (Outer) {};
+  \node[bb={0}{0}, fit={($(Tape.south east) + (0, -2)$) ($(Box.north west) + (-1, 1)$)}] (Outer) {};
   \node[above=0pt of Outer.south] (Label) {$\Sys{Universal Turing Machine}$};
 
   \draw (Box_out1) to (Tape_in1);
@@ -447,7 +447,7 @@ variables are to be exposed for use in other systems, and which are just for use
   are the sets of outputs.
 \end{exercise}
 
-\begin{example}{SIR model}\label{ex.SIR_model_discrete}
+\begin{example}[SIR model]\label{ex.SIR_model_discrete}
   Deterministic systems don't have to have finite sets of states. The $\Sys{SIR}$ model
   is an epimediological model used to study how a disease spreads through a
   population. ``SIR'' stands for ``susceptible'', ``infected'', and, rather
@@ -473,13 +473,14 @@ variables are to be exposed for use in other systems, and which are just for use
   defining the update function:
   \begin{align}\label{eqn.SIR_model_discrete}
     \update{SIR} : \State{SIR} \times \In{SIR} &\to \State{SIR}\\
-    \left( \begin{bmatrix} s\\ i\\ r\\ \end{bmatrix},\, \begin{bmatrix}a \\ b \end{bmatrix} \right) &\mapsto \begin{bmatrix}s - a s i \\ i + a s i - b  i \\ r + i  b \end{bmatrix}
+    \left( \begin{bmatrix} s\\ i\\ r\\ \end{bmatrix},\, \begin{bmatrix}a \\ b \end{bmatrix} \right) &\mapsto \begin{bmatrix}s - a s i \\ i + a s i - b  i \\ r + b i \end{bmatrix}
   \end{align}
 
   \jaz{For later today: plot a trajectory for this system}
 \end{example}
 
-If a deterministic system has a small finite set of states, then we can draw it
+\begin{example}\label{ex.transition_diagram_discrete}
+  If a deterministic system has a small finite set of states, then we can draw it
 entirely as a \emph{transition diagram}:
 
 \[
@@ -522,11 +523,49 @@ To draw a transition diagram of a system $\Sys{S}$, we draw each state $s \in
 parameter $i \in \In{S}$ we draw an arrow from $s$ to $\update{S}(s, i)$. For a
 diagram like this to be a transition diagram, every node must have an edge
 leaving it for each parameter.
+\end{example}
 
 \begin{exercise}
   Draw the $\Sys{Clock}$ system (\cref{ex.clock_system}) as a transition diagram.
 \end{exercise}
 
+\begin{example}[Deterministic Finite Automata]
+  A \emph{deterministic finite automaton} (DFA) is a simple model of computation.
+  Given our definition of deterministic system, DFAs are easy enough to define:
+  they are just the deterministic systems whose output values are either
+  $\const{true}$ or $\const{false}$. 
+
+  This means that the exposed variable of state $\expose{S} : \State{S} \to
+  \{\const{true},\, \const{false}\}$ is a boolean valued function. We say a
+  state $s$ is an \emph{accept state} if $\expose{S}(s) = \const{true}$, and a
+  \emph{reject state} if $\expose{S}(s) = \const{false}$.
+
+  The idea is that a DFA is a question answering machine. Given a starting state
+  $s_0$ and a sequence of input values $i_1, \ldots, i_n$, we get a sequence of
+  states by $s_{t+1}:= \update{S}(s_t, i_t)$. The answer to the question is
+  ``yes'' if $s_n$ is an accept state, and ``no'' if $s_n$ is a reject state.
+
+\end{example}
+
+There is an important special case of deterministic systems which appear very
+commonly in the literature: the \emph{closed} systems. These are the systems
+which have no parameters, and which expose no variables. They are closed off
+from their environment, and can't be wired into any other systems.
+
+When we say ``no'' in this way --- no parameters, no variables --- we should be
+careful with what we mean exactly. We mean that there is no \emph{variation} in
+the parameters or variables, that they are trivial. That is, we make the
+following definition.
+\begin{definition}
+  A deterministic system $\Sys{S}$ is \emph{closed} if both $\In{S}$ and
+  $\Out{S}$ have only one element. The data of a closed deterministic system is
+  given by the state space $\State{S}$ and the update function $\update{S} :
+  \State{S} \to \State{S}$.
+\end{definition}
+Note that ``no parameters'' doesn't mean that $\In{S}$ is empty; then we could
+never run the update function, because there would be no parameter we could plug
+in! Instead, we put a dummy value for the parameter and ask that the parameter
+is always set to the dummy value; then we can safely ignore it.
 
 \section{Wiring Together Systems with Lenses}
 
@@ -639,7 +678,7 @@ $\lens{F}{F} : \Cat{Lens}{\cat{C}} \to \Cat{Lens}{\cat{D}}$ is strong monoidal
 with respect to the parallel product.
 \end{proposition}
 \begin{proof}
-  Since $F$ preserves products, and $$
+  Since $F$ preserves products, and 
 \end{proof}
 
 Given two dynamical systems $\Sys{S_1}$ and $\Sys{S_2}$, their parallel product
@@ -828,7 +867,7 @@ vehicle).
 
 We can box up $\Sys{Boston}$ as:
 \begin{equation}\label{eqn.city_SIR_model_box}
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Boston.center)]
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Sys.center)]
 	\node[bb={2}{1}] (Sys) {$\Sys{Boston}$};
 
 	\draw[label] 
@@ -873,7 +912,12 @@ make sure we don't just copy the whole outflowing population to every other city
 We have been drawing a bunch of wiring diagrams so far, and we will continue to
 do so throughout the rest of the book. Its about time we explicitly described
 the rules one uses to draw these diagrams, and give a formal mathematical
-definition of them. 
+definition of them. The motto of this section is:
+\begin{quote}
+ \emph{
+    Wiring diagrams are lenses in free cartesian categories --- the categories of arities.
+  }
+\end{quote}
 
 We'll begin by describing wiring diagrams and their category in informal terms.
 Then, we will see how diagrams relate to lenses in a particular category --- the
@@ -1217,7 +1261,7 @@ wires that carry the same type of signal.
 
 \begin{exercise}
   We blew through that isomorphism $\arity_{\cat{T}} \cong (\Cat{Fin} \downarrow
-  \cat{T})\op$ quickly, but its not trivial. The category $\Cat{Fin} \downarrow
+  \cat{T})\op$ quickly, but its not entirely trivial. The category $\Cat{Fin} \downarrow
   \cat{T}$ has objects functions $\tau : I \to \cat{T}$ where $I$ is a finite
   set, and a morphism is a commuting triangle like this:
   \[
@@ -1274,7 +1318,7 @@ $(c_2,\, c_1,\, c_2)$
   We apply \cref{prop.arity_universal_property_typed} to the family $\XX_{f(-)}
   : \cat{T} \to \arity_{\cat{T'}}$ of objects of $\arity_{\cat{T'}}$. That is,
   we send
-  $$\prod_{i \in I} \XX_{\tau_i} \mapsto \prod_{i \in I} \XX_{\tau({f(i)}}.$$
+  $$\prod_{i \in I} \XX_{\tau_i} \mapsto \prod_{i \in I} \XX_{\tau({f(i))}}.$$
 \end{proof}
 
 We can now define the category of typed wiring diagrams to be the category of
@@ -1342,7 +1386,259 @@ lens in a cartesian category of our choosing.
   in $\arity_{\{\Out{SIR},\, \In{SIR} \}}$.
 \end{exercise}
 
-\subsection{CoKleisli categories and the Grothendieck construction: Another way
+\section{Mapping Systems: Trajectories, Steady States, and Periodic Orbits}  \label{sec.trajectories_discrete}
+
+So far, we have seen how to wire up dynamical systems. But we haven't seen our
+dynamical systems actually \emph{do anything}. In this section, we will begin to
+study the behavior of our dynamical systems. We will define the notions of
+trajectory, steady state, and periodic orbit of deterministic systems, and see
+all of these as examples of \emph{maps} of deterministic systems.
+
+A map $m$ from
+$\Sys{S}$ to $\Sys{T}$ is a function $m : \State{S} \to \State{T}$ which
+preserves the dynamics of the systems invovled (see
+\cref{def.system_map_discrete} for the full definition). Maps are so useful
+because they allow us to find ``$\Sys{S}$-shaped parts of the system
+$\Sys{T}$''. For example, a map from the clock system $\Sys{Clock}$ to a system
+$\Sys{S}$ will be sequence of states that loop back to the beginning after
+twelve steps.
+
+
+We will end the section by seeing how the steady states of a complex system formed by wiring together some
+component systems can be calculated from the steady states of the components.
+The calculation will turn out to be just a bit of matrix arithmetic! But that's
+getting ahead of ourselves.
+
+\subsection{Trajectories}
+
+In the introduction, we saw that the $\Sys{Clock}$ system
+\cref{eqn.clock_system_box} has behaves in this way if it starts at $3$ o'clock: 
+$$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
+\xmapsto{\fun{tick}} \cdots$$
+
+This sequence of states of the clock system, each following from the last by the
+dynamics of the system, is called a \emph{trajectory}. When our systems have
+input parameters, we will need to choose a sequence of input parameters to feed
+the system in order for the states to change.
+
+\begin{definition}
+ Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
+ \leftrightarrows \lens{\In{S}}{\Out{S}}$$
+ be a deterministic system. Suppose that $p : \nn \to \In{S}$ is a sequence of
+ parameters for $\Sys{S}$. Then a \emph{trajectory} of $\Sys{S}$ with parameters
+ $p$ is a sequence $s : \nn \to \State{S}$ of states so that
+ $$\update{S}(s_i, p_i) = s_{i + 1}$$
+ for all $i \in \nn$.
+
+ If $v : \nn \to \Out{S}$ is a sequence of output values for $\Sys{S}$, then a
+ \emph{$(p, v)$-trajectory} is a sequence of states $s : \nn \to \State{S}$ so
+ that
+ \begin{align*}
+   \update{S}(s_i, p_i) &= s_{i + 1}\\
+   \expose{S}(s_i) &= v_i
+ \end{align*}
+ for all $i \in \nn$.
+
+ All in all, we have a family of trajectories for the system $\Sys{S}$, indexed by pairs of input streams
+ and output streams:
+ $$\Set{Traj}(\Sys{S}) \to \In{S}^{\nn} \times \Out{S}^{\nn}.$$
+\end{definition}
+
+Its worth noting that a trajectory $s : \nn \to \State{S}$ in a deterministic system is determined
+entirely by its start state $s_0$. This is what makes deterministic systems
+deterministic; if you know the dynamics and you know what state the system is
+in, you know how it will continue to behave. 
+
+\begin{example}
+Consider the SIR model of \cref{ex.SIR_model_discrete}. Suppose that we let our
+parameters $(a, b) : \nn \to \In{\Sys{SIR}}$ be constant at $.2$ and $.3$
+respectively: that is, $a_t = .2$ and $
+b_t = .3$ for all $t$. Then a trajectory for $\Sys{SIR}$ with parameters $(a, b)$
+is a sequence of populations $(s, i, r) : \nn \to \State{SIR}$ such that
+$$\begin{bmatrix}s_{t+1}\\ i_{t+1}\\ r_{t+1} \end{bmatrix} = \begin{bmatrix}
+  s_t - .2s_t i_t\\ i_t + .2s_t i_t - .3i_t \\ r_t + .3i_t\end{bmatrix}$$
+
+Here is an example of such a trajectory with a $1000$ total people and one infected
+person to start, that is $(s_0, i_0, r_0) = (999, 1, 0)$.
+\[
+  \begin{tikzpicture}
+    %% horizontal axis
+    \draw[->] (0,0) to (11, 0);
+    \draw[label]
+      node at (11, -.3) {$t$};
+    \foreach \x in {1,...,10}
+      \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north] {$\x$};
+
+   %% vertical axis
+   \draw[->] (0,0) to (0, 11);
+   \draw[label] node at (-1, 11) {$(s, i, r)$};
+   \foreach \y in {1,...,10}
+   {
+     \pgfmathtruncatemacro{\display}{100*\y};
+     \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {$\display$};
+   }
+
+   %% plot
+   \tikzmath{
+     real \s; 
+     \s = 9.99;
+   
+     function srecusion(\x){
+       return {\x-1};
+     }
+     \foreach \t in {0,1,...,10}
+     {
+       \node[draw,circle,red] at (\t, \s) {};
+       \s = srecursion(\s);
+     }
+    }
+  \end{tikzpicture}
+\]
+\jaz{I don't know how to actually plot this...}
+\end{example}
+
+
+\begin{example}\label{ex.transition_diagram_discrete_traj}
+If a deterministic system is written as a transition diagram, then the
+trajectories in the system are paths through the diagram. Recall from
+\cref{ex.transition_diagram_discrete} this system:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMO{a}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMO{b}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMO{b} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+
+Suppose that $p : \nn \to \{{\color{dgreen} green}, {\color{orange} orange}\}$
+alternates between ${\color{dgreen} green}$ and ${\color{orange} orange}$. Then
+starting at the top left state, a trajectory would alternate between the top two
+states:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{a} \ar[r, dgreen, thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen,thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen, thick] & \cdots
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+
+\end{example}
+
+Knowing about trajectories can show us another important role that deterministic
+systems play: they are \emph{stream transformers}. From a stream $p : \nn \to
+\In{S}$ of inputs and a start state $s_0 \in \State{S}$, we get a trajectory $s
+: \nn \to \State{S}$ given recursively by
+\begin{align*}
+  s_{t+1} &:= \update{S}(s_t,\, p_t).
+\end{align*}
+We then get a stream $v : \nn \to \Out{S}$ of output values by defining
+$$v_t := \expose{S}(s_t).$$
+The system $\Sys{S}$ is a way of transforming streams of input parameters into
+streams of output values.
+\begin{proposition}[Deterministic systems as stream transformers]
+ Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
+ \leftrightarrows \lens{\In{S}}{\Out{S}}$$
+ be a deterministic system. Then for every $s_0 \in \State{S}$, we get a stream
+ transformation function
+ $$\fun{transform}_{\Sys{S}} : \In{S}^{\nn} \to \Out{S}^{\nn}$$
+ Given by
+ \begin{align*}
+   \fun{transform}_{\Sys{S}}(p)_0 &= \expose{S}(s_0)\\
+   \fun{transform}_{\Sys{S}}(p)_{t + 1} &= \expose{S}(\update{S}(s_t,\, p_t))
+ \end{align*}
+ where $s_{t+1} = \update{S}({s_t,\, p_t})$ is the trajectory given by $s_0$.
+\end{proposition}
+
+\begin{exercise}
+ How does the system of \cref{ex.transition_diagram_discrete_traj} act as a
+ stream transformer on the following streams:
+ \begin{enumerate}
+   \item $p_{2t} = {\color{dgreen} green}$ and $p_{2t + 1} = {\color{orange} orange}$.
+   \item $p_t = {\color{dgreen} green}$.
+   \item $p_0 = {\color{dgreen} green}$ and $p_t = {\color{orange} orange}$ for
+     all $t > 0$.
+ \end{enumerate}
+\end{exercise}
+
+
+
+
+\subsection{Steady states}
+
+A steady state of a system is a state which does not change. Steady states are
+important because they are guarantees of stability: if we are in a steady state,
+we know what we're going to get.
+
+\begin{definition}\label{def.steady_state_discrete}
+ Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
+ \leftrightarrows \lens{\In{S}}{\Out{S}}$$
+ be a deterministic system. For input parameter $i \in \In{S}$ and output value
+ $o \in \Out{S}$, an \emph{$(i,0)$-steady state} is a state $s \in \State{S}$
+ such that
+ \begin{align*}
+   \update{S}(s, i) &= s, \\
+   \expose{S}(s) &= o.
+ \end{align*}
+ All in all, we have a family of steady states indexed by input output pairs:
+ $$\Set{SteadyState}(\Sys{S}) \to \In{S} \times \Out{S}.$$
+\end{definition}
+
+\begin{remark}
+Its important to note that a steady state is relative to the input parameter
+chosen. For example, in \cref{ex.transition_diagram_discrete}, the top left
+state is steady for the input parameter ${\color{orange} orange}$ but not for
+the input parameter ${\color{dgreen} green}$.
+\end{remark}
+
+Unlike with trajectories, a system need not necessarily have \emph{any} steady
+states. For example, the $\Sys{Clock}$ has no steady states; it always keeps
+ticking to the next hour. 
+
+In the transition diagram of a finite deterministic system, steady states will be loops
+that begin and end at the same node. Since the system is finite, we can arrange
+the steady states into a $\In{S} \times \Out{S}$ matrix. For example, in
+\cref{ex.transition_diagram_discrete}, we get the following $\{{\color{dgreen}
+  green},\, {\color{orange} orange}\} \times \{a,\, b\}$ matrix:
+\begin{equation}\label{eqn.steady_state_matrix_transition_diagram_discrete}
+\kbordermatrix{
+  & {\color{dgreen} green} & {\color{orange} orange}\\
+  a & \emptyset & \left\{ \begin{tikzcd}\LMO{a} \ar[loop left, orange, thick] \end{tikzcd} \right\}  \\
+  b & \left\{ \begin{tikzcd}\LMO{b} \ar[loop left, dgreen, thick]\end{tikzcd} \right\}& \emptyset  \\
+}
+\end{equation}
+
+This is a ``matrix of sets'', in that the entries are the actual sets of steady
+states. If we just counted how many steady states there were for each
+input-output pair, we would get this matrix:
+\begin{equation}\label{eqn.steady_state_matrix_transition_diagram_discrete2}
+\kbordermatrix{
+  & {\color{dgreen} green} & {\color{orange} orange}\\
+  a & 0 & 1  \\
+  b & 1 & 0  \\
+}
+\end{equation}
+
+In \cref{sec.steady_states_matrix_arithmetic}, we'll see that each wiring
+diagram gives a formula for calculating the matrix of steady states of the
+composite system from the matrices of steady states of the inner systems. 
+
+
+\subsection{Periodic orbits}
+
+
+
+%%% write-here 
+\subsection{Maps of deterministic systems}
+
+\subsection{Steady states compose according to the laws of matrix arithmetic}\label{sec.steady_states_matrix_arithmetic}
+
+\section{CoKleisli categories and the Grothendieck construction: Another way
   to look at lenses}\label{sec.lens_indexed_cat}
 
   So far, we have seen how both deterministic systems and the wiring diagrams we
@@ -1368,7 +1664,7 @@ lens in a cartesian category of our choosing.
   Ultimately, this section will pave the way to the general framework for
   dynamical systems theory presented in \cref{chapter.7}.
 
-\subsubsection{Indexed categories and the Grothendieck construction}
+\subsection{Indexed categories and the Grothendieck construction}
 
 An \emph{indexed category} is a category which varies functorially over the
 objects of another category.
@@ -1457,7 +1753,7 @@ that the Grothendieck construction is a sort of sum.\footnote{The Grothendieck
 
 The confluence of notation with that of lenses is not accident. But note that
 here, we are writing $\lens{A}{C} \rightrightarrows \lens{A}{C}$ instead of
-$\lens{A}{C} \leftrightarrows \lens{A}{C}$; this will be come clear in
+$\lens{A}{C} \leftrightarrows \lens{A}{C}$; the reason for this will become clear in
 \cref{thm.lens_indexed_cat}, when we construct $\Cat{Lens}_{\cat{C}}$ as the
 Grothendieck construction of a particular indexed category.
 
@@ -1465,18 +1761,61 @@ Grothendieck construction of a particular indexed category.
 
 As with any categorical construction, the Grothendieck construction is
 functorial in its argument. To see how this works, we need to know what an
-indexed functor between indexed categories is.
+indexed functor between indexed categories is. 
 
 \begin{definition}
-  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$
+  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ and $\cat{B} : \cat{D}\op \to
+  \Cat{Cat}$ be indexed categories. An indexed functor $(F, \overline{F}) :
+  \cat{A} \to \cat{B}$ consists of a functor $F : \cat{C} \to \cat{D}$ together
+  with a pseudo-natural transformation\footnote{As with the psuedo-functoriality
+  of each indexed category, pseudo-naturality means naturality up to coherent
+  isomorphism. In many of our cases, we will have bona-fide naturality.} $\overline{F} : \cat{A} \Rightarrow
+  \cat{B} \circ F\op$. Explicitly, this is:
+  \begin{itemize}
+  \item A functor $F : \cat{C} \to \cat{D}$.
+  \item For each $C \in \cat{C}$, a functor $\overline{F}_C : \cat{A}(C) \to \cat{B}(FC)$.
+  \item For each $f : C \to C'$ in $\cat{C}$, a natural isomorphism $\phi_f :
+    \overline{F}_{C} \circ f^{\ast} \cong f^{\ast} \circ \overline{F}_{C'}$.
+  \item (Psuedo-naturality) These naturality isomorphisms are required to satisfy a coherence condition: For $g : C' \to C''$,
+    we need that
+    \[
+\begin{tikzcd}
+\cat{A}(C'') \arrow[d, "\overline{F}_{C''}"']  \arrow[rr, "(g
+\circ f)^\ast"{name=Top, below}, bend left=49]  &  & \cat{A}(C) \arrow[d,
+"\overline{F}_C"] \arrow[lld, "\phi_{gf}"', Rightarrow] \\
+\cat{A}(FC'')  \arrow[rr, "(g \circ
+f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
+                                                                          & \cat{A}(FC)                                                             
+\end{tikzcd}
+=
+\begin{tikzcd}
+\cat{A}(C'') \arrow[d, "\overline{F}_{C''}"'] \arrow[r, "g^\ast"] \arrow[rr, "(g
+\circ f)^\ast"{name=Top, below}, bend left=49] \ar[r, Rightarrow, from=Top,
+"\mu_{g, f}\inv"] & \cat{A}(C')  \arrow[r, "f^\ast"] \arrow[d, "\overline{F}_{C'}" description] \arrow[ld, "\phi_g"', Rightarrow] & \cat{A}(C) \arrow[d, "\overline{F}_C"] \arrow[ld, "\phi_f"', Rightarrow] \\
+\cat{A}(FC'') \arrow[r, "g^{\ast}"'] \arrow[rr, "(g \circ
+f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
+\cat{A}(FC') \arrow[Rightarrow, to=Bottom, "\mu_{g, f}"] \arrow[r, "f^{\ast}"']                                                                          & \cat{A}(FC)                                                             
+\end{tikzcd}
+    \]
+  \end{itemize}
 \end{definition}
 
+\begin{proposition}[Functoriality of the Grothendieck construction]\label{prop.groth_construction_functoriality}
+  Let $(F, \overline{F}) : \cat{A} \to \cat{B}$ be an indexed double functor.
+  Then there is a functor
+  $$\lens{\overline{F}}{F} : \int^{C : \cat{C}} \cat{A}(C) \to \int^{D :
+    \cat{D}} \cat{B}(D)$$
+  between their Grothendieck constructions given on objects by
+  $$\lens{\overline{F}}{F} \lens{A}{C} := \lens{\overline{F}A}{FC}.$$
+\end{proposition}
+\begin{proof}
+
+\end{proof}
 
 
 
-\subsubsection{CoKleisli categories and maps with context}\label{sec.context_indexed_cat}
+\subsection{CoKleisli categories and maps with context}\label{sec.context_indexed_cat}
   
 
-\Section{Trajectories, Steady States, and Periodic Orbits: Maps of Deterministic Systems}  \ref{sec.trajectories_discrete}
 
 \end{document}
