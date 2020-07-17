@@ -8,7 +8,7 @@
 \tableofcontents*
 
 %------------ Chapter ------------%
-\chapter{Polynomial functors and dynamics}\chapter{chapter.4}
+\chapter{Polynomial functors and dynamics}
 
 \slogan{
 The category of polynomial functors is a jackpot. Its beauty flows without bound.}
@@ -37,13 +37,13 @@ All our polynomials will involve one variable, $\yon$, chosen for reasons we'll 
 \end{align}
 More technically, mini-trees are called \emph{corollas}, so what we're calling a \emph{poly} is a set of corollas. 
 
-Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of options, or what we will call \emph{possibilities}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two possibilities, one possibility, and no possibilities. Having two possibilities is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one possibility is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no possibilities is when you actually don't get through it: it's ``the end''. While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
+Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two options, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end''. While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
 
 In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a coefficient of \4\2 next to it, so the corolla with three leaves shows up 42 times%
 \footnote{
 In standard font, 42 represents the usual natural number. In sans serif font \4\2 represents the set $\4\2=\{1,2,\ldots,42\}$ with 42 elements.
 }
-in the associated poly. Intuitively, there are 42 situations in which you have a decision with three possibilities. When you put all those decisions together, you have the \emph{wheelhouse} associated to $p$. 
+in the associated poly. Intuitively, there are 42 situations in which you have a decision with three options. When you put all those decisions together, you have the \emph{wheelhouse} associated to $p$. 
 
 Here is a table of terminology. The first column is book-wide terminology, the second is algebraic terminology about polynomials as in \eqref{eqn.polynomial1892}, the third is about the pictures of corollas as in \eqref{eqn.poly1892}, and the fourth column is intuitive terminology.
 
@@ -67,7 +67,7 @@ Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated poly.
 	\item How many roots does this poly have?
 	\item How many decisions does this represent?
 	\item For each corolla in the poly, say how many leaves it has.
-	\item For each decision, how many possibilities does it have?
+	\item For each decision, how many options does it have?
 \end{enumerate}
 Now referring instead to the polynomial $q\coloneqq\yon^\nn+\4\yon$:
 \begin{enumerate}[resume]
@@ -94,7 +94,7 @@ If you were a suitor choosing the poly you love, aesthetically speaking, which w
 	\item $\yon^{\1\0\0}+\yon^\2+\3\yon$
 	\item Your poly's name $p$ here.
 \end{enumerate}
-Any reason for your choice?
+Any reason for your choice? Draw a sketch of your poly.
 \end{exercise}
 
 Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. Remember, we spoke superlatively of $\poly$ at the beginning of this chapter,
@@ -105,7 +105,7 @@ and we have not yet begun to deliver. So let's introduce some of the application
 %---- Subsection ----%
 \subsection{Dynamical systems}
 
-Throughout this book, we've seen dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In the context of this chapter, we'll be looking mainly at deterministic systems, but with a lot of interesting new possibilities:
+Throughout this book, we've seen dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In the context of this chapter, we'll be looking mainly at deterministic systems, but with a lot of interesting new options:
 \begin{enumerate}
 	\item The interface of the system can change shape through time.
 	\item The wiring diagram connecting a bunch of systems can change in time.
@@ -254,7 +254,7 @@ And there's even more that's wrong with the above description. Namely, when I mo
 \begin{example}
 Imagine a million little eyeballs, each of which has a tiny brain inside it, all together in a pond of eyeballs. All that an individual eyeball $e$ can do is open and close. When $e$ is open, it can make some distinction about all the rest of the eyeballs in view: maybe it can count how many are open, or maybe it can see whether just one certain eyeball $e'$ is open or closed. But when $e$ is closed, it can't see anything; whatever else is happening, it's all the same to $e$. All it can do in that state is process previous information.
 
-Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which intuitively consists of two situations, one with $n$-many possibilities, and the other with only one possibility.
+Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which intuitively consists of two situations, one with $n$-many options, and the other with only one option.
 
 The point is, however, is that the other eyeballs can tell if $e$ is opened or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
 
@@ -492,7 +492,7 @@ These are patterned examples---and we'll understand what this pattern is more cl
 \end{tikzpicture}
 \]
 
-The set of such decision streams in fact form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that every corolla in these diagrams has either two possibilities, corresponding to $\yon^\2$, or no possibilities, corresponding to $\1=\yon^\0$.
+The set of such decision streams in fact form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that every corolla in these diagrams has either two options, corresponding to $\yon^\2$, or no options, corresponding to $\1=\yon^\0$.
 
 \begin{exercise}
 \begin{enumerate}
@@ -675,7 +675,7 @@ Let's begin.
 
 
 %-------- Section --------%
-\section{$\poly$ as a category}\label{sec.poly}
+\section{Introduction to $\poly$ as a category}\label{sec.poly}
 
 
 In this section, we will set down the basic category-theoretic story of $\poly$, so that we can have a firm foundation from which to speak about dynamical systems, decisions, and data. We begin with the category $\smset$ of sets and functions, and what is arguably the fundamental theorem of category theory, the Yoneda lemma.
@@ -777,7 +777,7 @@ Whoever solves this exercise can say they've proved the Yoneda Lemma.
 %---- Subsection ----%
 \subsection{Polynomials: sums of representables}
 
-We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name polynomial doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use this term.
+We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name ``polynomial'' doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use this term.
 
 So here's the deal. All of our polynomials will be polynomials in one variable, $\yon$; every other letter or number that shows up will represent a set.%
 \footnote{For those who clamor for polynomials in many variables, we will see in \cref{??} that the multivariable story falls out of the one-variable story.}
@@ -955,19 +955,20 @@ What does $p(\0)$ give you?
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Morphisms between polynomial functors}
+\subsection{Understanding morphisms between polynomial functors}
+\label{subsec.understanding_mor_poly}
 
 For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
 
-In particular, we're going to think about polynomials like $p$ and $q$ using the intuition from the beginning of the chapter, around the table in \eqref{eqn.table_terminology}. We said that we'd think of $p$ as a wheelhouse: a set of decisions you can make and what options you have. That is, $p(\1)$ is conceived as a set of decisions, and for every decision $i\in p(\1)$, we conceive of the set $p_i$ as the options or \emph{possibilities} available in that decision. Here's an alternative way to write $p$:
+In particular, we're going to think about polynomials like $p$ and $q$ using the intuition from the beginning of the chapter, around the table in \eqref{eqn.table_terminology}. We said that we'd think of $p$ as a wheelhouse: a set of decisions you can make and what options you have. That is, $p(\1)$ is conceived as a set of decisions, and for every decision $i\in p(\1)$, we conceive of the set $p_i$ as the options or \emph{options} available in that decision. Here's an alternative way to write $p$:
 \[
 \begin{tikzcd}
 p(\1)\ar[r, "p_-"]&\smset
 \end{tikzcd}
 \]
-Again, every decision $i\in p(\1)$ gets a set $p_i$ of possibilities: that's the whole content of $p$.
+Again, every decision $i\in p(\1)$ gets a set $p_i$ of options: that's the whole content of $p$.
 
-The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q_j$ that $q$ could make among its possibilities is passed back as some choice $c\in p_i$ among $p$'s possibilities.
+The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q_j$ that $q$ could make among its options is passed back as some choice $c\in p_i$ among $p$'s options.
 
 \begin{agda}
 record Delegation (w : Wheelhouse) (w' : Wheelhouse) : Set where
@@ -1008,7 +1009,129 @@ We have the following isomorphisms
 This proves what we called the summary. It says that a morphism $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a function from $q_j\to p_i$; the first part determines $f_1$ (i.e.\ $f_1(i)=j$) and the second part just gives $f^\sharp_i$ directly for each $i$.
 \end{proof}
 
-\eqref{eqn.main_formula} will be quite important to us; we will call it our \emph{main formula} for the set of polynomial maps.
+The formula in \eqref{eqn.main_formula} will be quite important to us; we will call it our \emph{main formula} for the set of polynomial maps.
+
+\begin{example}\label{ex.practice_with_poly_morphisms}
+Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+    \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+    ;
+    \node[right=.5 of 3,"\tiny 4" below] (4) {$\bullet$}
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+To give a morphism of polynomials $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q_j$ is passed back to one in $p_i$.
+
+How many ways are there to do this? Before answering this, let's just pick one.
+\[
+\begin{tikzpicture}
+	\node (p1) {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child {coordinate (11)}
+      child {coordinate (12)}
+      child {coordinate (13)};
+    \node[right=1.5 of 1, red!50!black, "\tiny 1" below] (2) {$\bullet$} 
+      child {coordinate (21)}
+      child {coordinate (22)}
+      child {coordinate (23)}
+      child {coordinate (24)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right]
+      \draw (21) to (13);
+      \draw (22) to (11);
+      \draw (23) to (13);
+      \draw (24) to (13);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p2) [right=1 of p1] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
+      child {coordinate (11)};
+    \node[right=of 1, red!50!black, "\tiny 1" below] (2) {$\bullet$} 
+      child {coordinate (21)}
+      child {coordinate (22)}
+      child {coordinate (23)}
+      child {coordinate (24)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right]
+      \draw (21) to (11);
+      \draw (22) to (11);
+      \draw (23) to (11);
+      \draw (24) to (11);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p3) [below right=-1.05cm and 1 of p2] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 3" below] (1) {$\bullet$} 
+      child {};
+    \node[right=of 1, red!50!black, "\tiny 4" below] (2) {$\bullet$} 
+		;
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+  \end{tikzpicture}	
+	};	
+\end{tikzpicture}
+\]
+This represents one morphism $p\to q$.
+
+So how many different morphisms are there from $p$ to $q$? One way to figure it out is to use the formula \eqref{eqn.main_formula}, but that might need some explaining; we go through such notation in an interlude after \cref{exc.practice_poly_maps}. For now, we can just count ``pre-theoretically''.
+
+The first $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. Delegating it to the first $q$-decision requires choosing how each of the four options $(q_1=\4)$ are to be assigned one of $p_1=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate all the ways to delegate the first $p$-decision: there are $3^4+3^2+3^0+3^0=92$. 
+
+The second $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. There are $1^4+1^2+1^0+1^0=4$ ways to do this; similarly there are four ways to delegate the third $p$-decision to a $q$-decision.
+
+In total, there are $92*4*4=1472$ morphisms $p\to q$, just twenty less than the number of years between Jesus's famous year and Columbus's famous year. Coincidence? 
+\end{example}
+
+\begin{exercise}\label{exc.practice_poly_maps}
+\begin{enumerate}
+	\item Draw the poly's (unions of corollas as in \cref{eqn.poly1892}) associated to $p\coloneqq\yon^3+\yon+1$, $q\coloneqq \yon^2+\yon^2+2$, and $r\coloneqq\yon^3$.
+	\item Give an example of a morphism $p\to q$ and draw it as we did in \cref{ex.practice_with_poly_morphisms}.
+	\item Explain your morphism as a ``delegation'' in the sense of \cref{subsec.understanding_mor_poly}.
+	\item Explain in those terms why there can't be any morphisms $p\to r$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isomorphism $p(A)\cong \poly(\yon^A,p)$.
+\begin{enumerate}
+	\item Choose a polynomial $p$ and draw the associated poly as well as $\yon^\2$.
+	\item Count all the maps $\yon^2\to p$.
+	\item Is it equal to $p(\2)$?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \paragraph{Working with $\sum$ and $\prod$ formulas.}
 Here's how to understand and work with a set that involves $\sum$'s and $\prod$'s, e.g.\ something like
@@ -1034,14 +1157,14 @@ Let $I=\{1,2\}$, let $J(1)=\{j\}$ and $J(2)\coloneqq\{j,j'\}$, let $K(1,j)\colon
 \[
 \left\{
 \begin{gathered}
-	(1, j\mapsto(k_1,x)),\qquad
-	(1, j\mapsto(k_1,y)),\qquad
-	(1, j\mapsto(k_2,x)),\qquad
-	(1, j\mapsto(k_2,y)),\\
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\qquad
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\\
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\qquad
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x))
+	\big(1, j\mapsto(k_1,x)\big),\qquad
+	\big(1, j\mapsto(k_1,y)\big),\qquad
+	\big(1, j\mapsto(k_2,x)\big),\qquad
+	\big(1, j\mapsto(k_2,y)\big),\\
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\\
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big)
 \end{gathered}
 \right\}
 \]
@@ -1054,7 +1177,7 @@ With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
 \begin{enumerate}
 	\item Pronounce it using the ``To choose an element'' formulation just below \eqref{eqn.misc98339}.
 	\item How many elements are in it?
-	\item Write out three of them.
+	\item Write out three of them in the style of \cref{ex.notation_sum_prod}.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -1080,6 +1203,279 @@ When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_complet
 \paragraph{Back to maps of polynomials}
 After that interlude, you are hopefully more comfortable with our main formula \cref{eqn.main_formula} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
 
+\begin{example}[Constants are sent to constants]\label{ex.const_to_const}
+Any morphism $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
+
+Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map $p\to q$, i.e.\ an element of the set $\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
+\end{example}
+
+\begin{exercise}
+For each of the following $p,q$, count the number of morphisms $p\to q$:
+\begin{enumerate}
+	\item $p=\yon^3$,\quad $q=\yon^4$.
+	\item $p=\yon^3+1$,\quad $q=\yon^4$.
+	\item $p=\yon^3+1$,\quad $q=\yon^4+1$.
+	\item $p=4\yon^3+3\yon^2+\yon$,\quad $q=\yon$.
+	\item $p=4\yon^3$,\quad $q=3\yon$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Prepare for dynamics}
+
+As beautiful as the category $\poly$ is---and to be clear we have not really begun to say what is so special about it---discussing its virtues is not our goal. We want to use it!
+
+Polynomial functors are a setting in which to speak about dynamics, data, and decision. We want the reader to understand this deeply as they go through the mathematics. So in order to make the story a bit more seamless, we discuss a few relevant aspects of $\poly$ that we can use immediately.
+
+
+\paragraph{Finite products}
+The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, is completely distributive, etc., etc. However, in order to tell a good story of dynamics, we only need finite products right now. These will be useful for letting many different interfaces control the same internal dynamics.
+
+\begin{proposition}\label{prop.poly_times}
+The category $\poly$ has finite products. 
+\end{proposition}
+\begin{proof}
+We will see that $\1$ is a terminal object and that the product of $p$ and $q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{i\in q(\1)}\yon^{q_i}$ are in standard notation, then
+\begin{equation}\label{eqn.poly_times}
+p\times q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i+q_j}.
+\end{equation}
+We leave the proof as an exercise; see \cref{exc.poly_times}.
+\end{proof}
+
+\begin{exercise}\label{exc.poly_times}
+Use \cref{eqn.main_formula} to prove \cref{prop.poly_times}. In particular:
+\begin{enumerate}
+	\item Prove that $\1$ is terminal in $\poly$.
+	\item Prove that for polynomials $p,q$, their product is given by the formula in \eqref{eqn.poly_times}.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+We will begin writing $pq$ rather than $p\times q$:
+\begin{equation} \tag{Notation}
+pq\coloneqq p\times q
+\end{equation}
+
+\begin{example}
+We can draw the product of two polynomials in terms of their associated poly's. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs of decisions, and for each pair we union the options.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$pq$" above] {
+	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+    \node["\tiny {(1,1)}" below] (11) {$\bullet$} 
+      child[blue!50!black] {}
+      child[blue!50!black] {}
+      child[blue!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {};
+    \node[right=1.5 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$} 
+      child[blue!50!black] {}
+      child[blue!50!black] {}
+      child[blue!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {};
+    \node[right=1.5 of 12, "\tiny {(1,3)}" below] (13) {$\bullet$} 
+      child[blue!50!black] {}
+      child[blue!50!black] {}
+      child[blue!50!black] {};
+    \node[right=1.5 of 13, "\tiny {(2,1)}" below] (21) {$\bullet$} 
+      child[blue!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {};
+    \node[right=1.5 of 21, "\tiny {(2,2)}" below] (22) {$\bullet$} 
+      child[blue!50!black] {}
+      child[red!50!black] {}
+      child[red!50!black] {};
+    \node[right=1.5 of 22, "\tiny {(2,3)}" below] (23) {$\bullet$} 
+      child[blue!50!black] {};
+	\end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+\end{example}
+
+
+\paragraph{Dirichlet product}
+There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel and then wiring them together.
+
+\begin{definition}\label{def.dirichlet}
+Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{Dirichlet product}, denoted $p\otimes q$ is given by the formula:
+\begin{equation}\label{eqn.dirichlet_def}
+p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i\times q_j}.
+\end{equation}
+\end{definition}
+
+One should compare this with the formula for product of polynomials shown in \eqref{eqn.poly_times}. The difference is that Dirichlet product multiplies exponents where regular product adds them.
+
+\begin{exercise}
+Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\2\yon^\4$.
+\begin{enumerate}
+	\item Draw $p$ and $q$ as poly's.
+	\item Draw $pq=p\times q$ as a poly.
+	\item Draw $p\otimes q$ as a poly.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Consider the polynomials $p\coloneqq \2\yon^\2+3\yon$ and $q\coloneqq\yon^\4+\3\yon^\3$.
+\begin{enumerate}
+	\item What is $p\times q$?
+	\item What is $p\otimes q$?
+	\item What is the product of the following purely formal expression we'll see \emph{only this once!}:
+	\[
+	(2\mdot2^\yon+3\mdot 1^\yon+\1) \cdot 
+	(1\mdot4^\yon+3\mdot 3^\yon+\2)
+	\]
+These are called Dirichlet series.
+	\item Do you see a connection between what the last two parts? If so, would you say that it justifies the name ``Dirichlet product'' for $\otimes$?
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+What is $(\3\yon^\5+\6\yon^\2)\otimes\4$? Hint: $\4=\4\yon^\0$.
+\end{exercise}
+
+\begin{exercise}\label{exc.prepare_poly_smc}
+Let $p,q,r\in\poly$ be any polynomials.
+\begin{enumerate}
+  \item Show that there is an isomorphism $p\otimes\yon\cong p$.
+  \item Show that there is an isomorphism $(p\otimes q)\otimes r\cong p\otimes (q\otimes r)$.
+  \item Show that there is an isomorphism $(p\otimes q)\cong(q\otimes p)$.
+ \qedhere
+\end{enumerate}
+\end{exercise}
+
+In \cref{exc.prepare_poly_smc} we have gone most of the way to proving that $(\poly,\otimes,\yon)$ is a symmetric monoidal category. We have not proven all the coherences between the various isomorphisms, but we ask the reader to take it on trust or to check it for themselves. 
+
+\begin{proposition}
+The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the Dirichlet product from \cref{def.dirichlet}.
+\end{proposition}
+
+\begin{exercise}
+\begin{enumerate}
+	\item If $p=A$ and $q=B$ are constant polynomials, what is $p\otimes q$?
+	\item If $p=A$ is constant and $q$ is arbitrary, what can you say about $p\otimes q$?
+	\item If $p=A\yon$ and $q=B\yon$ are linear polynomials, what is $p\otimes q$?
+	\item For arbitrary $p,q\in\poly$, what is the relationship between the sets $(p\otimes q)(\1)$ and $p(\1)\times q(\1)$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Show that for any $p_1,p_2,q\in\poly$ there is an isomorphism
+\[
+(p_1+p_2)\otimes q\cong (p_1\otimes q)+(p_2\otimes q)
+\qedhere
+\]
+\end{exercise}
+
+\paragraph{Bimorphic lenses}
+
+Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. The formula for morphisms between these is particularly simple:
+\[
+  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
+  \cong
+  \smset(A_1,A_2)\times\smset(A_1\times B_2,B_1)
+\]
+
+It says that to give a morphism from one monomial to another, you just need to give two functions. Let's rewrite it to make those two functions explicit:
+\[
+  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
+  \cong
+  \left\{
+    (f_1,f^\sharp)
+  \;\middle|\;
+  	\parbox{1.2in}{
+    $
+    \begin{aligned}
+  	  f_1&\colon A_1\to A_2\\
+  	  f^\sharp&\colon A_1\times B_2\to B_1
+    \end{aligned}
+    $
+  }
+  \right\}
+\]
+Ordinarily, the $f^\sharp$ is more involved in that its type depends on $f_1$, but for monomials every decision has the same number of options, so to speak.
+
+The monomials in $\poly$ and the morphisms between them forms a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The morphisms $A_1\yon^{B_1}\to A_2\yon^{B_2}$ break up into two functions which people give special names:
+\begin{align*}
+	\text{get}&\colon A_1\to A_2\\
+	\text{put}&\colon A_1\times B_2\to B_1
+\end{align*}
+We will use the term \emph{lens} when we want to remind the reader that morphisms between monomials are much simpler than those between arbitrary polynomials.
+
+
+%-------- Section --------%
+\section{Dynamical systems using $\poly$}
+
+
+%---- Subsection ----%
+\subsection{Moore machines}
+
+%---- Subsection ----%
+\subsection{Wiring diagrams}
+
+%---- Subsection ----%
+\subsection{Mode dependence}
+
+
+%-------- Section --------%
+\section{Bonus math about the category $\poly$}
+
+\begin{exercise}
+Show that the category $\poly$ has finite coproducts as follows.
+\begin{enumerate}
+	\item Show that $\0$ is an initial object in $\poly$, i.e.\ that for any polynomial $p$ there is a unique morphism $\0\to p$.
+	\item Show that the standard sum of polynomials $p_1+p_2$ is a coproduct of $p_1$ and $p_2$. That is, provide morphisms $p_1\to p_1+p_2\from p_2$ and show that for any other $q$ with morphisms $p_1\To{f_1} q\From{f_2} p_2$, there exists a unique morphism $p_1+p_2\to q$---shown dashed---making the following diagram commute 
+	\[
+	\begin{tikzcd}
+		p_1\ar[r]\ar[dr, "f_1"']&
+		p_1+p_2\ar[d, dashed]&
+		p_2\ar[l]\ar[dl, "f_2"]\\&
+		q
+	\end{tikzcd}
+	\qedhere
+	\]
+\end{enumerate}
+\end{exercise}
+
+
 \begin{exercise}\label{exc.practice_sum_prod}
 Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. 
 \begin{enumerate}
@@ -1097,23 +1493,7 @@ Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}.
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[Constants are sent to constants]\label{ex.const_to_const}
-Any morphism $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
 
-Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map $p\to q$, i.e.\ an element of the set $\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
-\end{example}
-
-\begin{exercise}
-For each of the following $p,q$, count the number of morphisms $p\to q$:
-\begin{enumerate}
-	\item $p=\yon^3$, $q=\yon^4$.
-	\item $p=\yon^3+1$, $q=\yon^4$.
-	\item $p=\yon^3+1$, $q=\yon^4+1$.
-	\item $p=4\yon^3+3\yon^2+\yon$, $q=\yon$.
-	\item $p=4\yon^3$, $q=3\yon$.
-\qedhere
-\end{enumerate}
-\end{exercise}
 
 \begin{exercise}\label{exc.mono_epi_poly}
 Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a morphism with notation as in \cref{eqn.colax_poly_map}.
@@ -1126,25 +1506,20 @@ Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a m
 \end{enumerate}
 \end{exercise}
 
+
+
 %---- Subsection ----%
 \subsection{Limits, colimits, and cartesian closure}
-
-The category $\poly$ has limits and colimits and is Cartesian closed. Let's start off with something that fairly simple.
-
-\begin{exercise}
-Prove the following:
-\begin{enumerate}
-	\item $\0$ is a initial object in $\poly$.
-	\item $\1$ is a terminal object in $\poly$.
-\qedhere
-\end{enumerate}
-\end{exercise}
 
 \begin{proposition}\label{prop.coprod_prod_poly}
 The category $\poly$ has coproducts and products.
 \end{proposition}
 \begin{proof}
-Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$. Their coproduct is
+Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$.%
+\footnote{
+This is potentially ambiguous notation because $p_i$ generally denotes the exponent of the $i$th summand of polynomial $p$; we apologize for this. To be clear, to each $a\in A$ there is an associated polynomial $p_a\in\poly$. To write out $p_a$ as a sum of representables, we would say $p_a=\sum_{i\in p_a(\1)}\yon^{(p_a)_i}$.
+}
+Their coproduct is
 \begin{equation}\label{eqn.sum_polys}
 \sum_{a\in A}p_a=\sum_{a\in A}\sum_{i\in p_a(\1)}\yon^{(p_a)_i}\cong\sum_{(a,i)\in\sum_{a\in A}p_a(\1)}\yon^{(p_a)_i}
 \end{equation}
@@ -1163,20 +1538,126 @@ Again, it is a sum of representables, so a polynomial, and one can check that it
 Finish the proof of \cref{prop.coprod_prod_poly} as follows.
 \begin{enumerate}
 	\item Show that \eqref{eqn.sum_polys} satisfies the universal property for coproduct of polynomials.
-	\item Show that \eqref{eqn.prod_polys} satisfies the universal property for coproduct of polynomials.
+	\item Show that \eqref{eqn.prod_polys} satisfies the universal property for product of polynomials.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-\begin{theorem}
-$\poly$ has all limits.
+\begin{exercise}
+Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p_i$ according to \cref{eqn.prod_polys}? Does it check out?
+\end{exercise}
+
+\begin{proposition}
+The category $\poly$ is completely distributive, i.e.\
+\spiz{finish}
+\end{proposition}
+
+For any two polynomials $q,r$, define $r^q\in\poly$ by the following formula
+\begin{equation}\label{eqn.exponential}
+  r^q\coloneqq\prod_{i\in q(\1)}r\circ(\yon+q_j)
+\end{equation}
+where $\circ$ denotes composition.
+
+Before proving that this really is an exponential in $\poly$, which we do in \cref{thm.poly_cart_closed}, we first get some practice with it.
+
+\begin{example}
+Let $A$ be a set. We've been writing the polynomial $A\yon^\0$ simply as $A$ and the polynomial $\yon^\1$ simply as $\yon$, so it better be true that the there is an isomorphism 
+\[\yon^A\cong (\yon^\1)^{(A\yon^\0)}\]
+in order for the notation to be consistent. Luckily, this is true. Checking \eqref{eqn.exponential}, we have
+\[(\yon^\1)^{A\yon^\0}=\prod_{a\in A}\yon\circ(\0+\yon)\cong\yon^A\]
+\end{example}
+
+\begin{exercise}
+Compute the following exponentials in $\poly$ using \eqref{eqn.exponential}:
+\begin{enumerate}
+	\item $p^\0$ for an arbitrary $p\in\poly$.
+	\item $p^\1$ for an arbitrary $p\in\poly$.
+	\item $\1^p$ for an arbitrary $p\in\poly$.
+	\item $A^p$ for an arbitrary $p\in\poly$ and $A\in\smset$.
+	\item $\yon^\yon$.
+	\item $\yon^{\4\yon}$.
+	\item $(\yon^A)^{\yon^B}$ for arbitrary sets $A,B\in\smset$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
+\begin{theorem}\label{thm.poly_cart_closed}
+The category $\poly$ is Cartesian closed. That is, we have a natural isomorphism
+\[
+  \poly(p,r^q)\cong\poly(p\times q,r),
+\]
+where $r^q$ is the polynomial defined in \eqref{eqn.exponential}.
 \end{theorem}
 \begin{proof}
-Recall that a category has all limits iff it has equalizers and products, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has equalizers. Let $f,g\colon p\tto q$ be two maps of polynomials. Let $E\inj p(\1)\tto q(\1)$ be an equalizer of the functions $f(\1),$ and $g(\1)$ in $\smset$. For each $e\in E$Define $p'$ as follows
-\[
-  p'\coloneqq\sum_{e\in E}\yon
-\]
+We have the following chain of natural isomorphisms
+\begin{align*}
+	\poly(p,r^q)&\cong
+	\poly\Big(p,\prod_{j\in q(\1)}r\circ (\yon+q_j)\Big)\\&\cong
+	\prod_{j\in q(\1)}\poly(p,r\circ(\yon+q_j))\\&\cong
+	\prod_{j\in q(\1)}\prod_{i\in p(\1)}\poly(\yon^{p_i},r\circ(\yon+q_j))\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r\circ(p_i+q_j)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\sum_{k\in r(\1)}(p_i+q_j)^{r_k}\\&\cong
+	\poly(p\times q,r).
+\end{align*}
+The last step uses \cref{eqn.main_formula,prop.poly_times}.
 \end{proof}
+
+
+\begin{exercise}
+Using \cref{eqn.exponential}, show that the functor $\smset\to\poly$ sends exponentials to exponentials.
+\end{exercise}
+
+\begin{theorem}\label{thm.poly_limits}
+The category $\poly$ has all limits.
+\end{theorem}
+\begin{proof}
+Recall that a category has all limits iff it has equalizers and products, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has equalizers. 
+
+Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. Let $E\to p(\1)\tto q(\1)$ be an equalizer of the functions $f_1(\1),$ and $f_2(\1)$ in $\smset$. For each $e\in E$, write $f(e)\coloneqq f_1(e)=f_2(e)$; we have two polynomial morphisms $\yon^{p_e}\tto\yon_{q_{f(e)}}$, i.e.\ two functions $q_{f(e)}\tto p_e$. Defining $p'_e\in\smset$ to be their coequalizer, we can define a polynomial $p'$ as follows:
+\[
+  p'\coloneqq\sum_{e\in E}\yon^{p'_e}
+\]
+which comes equipped with a morphism $g\colon p'\to p$. One can check that it is an equalizer of $f_1,f_2$; see \cref{exc.poly_limits}.
+\end{proof}
+
+\begin{exercise}\label{exc.poly_limits}
+Complete the proof of \cref{thm.poly_limits} as follows:
+\begin{enumerate}
+	\item We said that $p'$ comes equipped with a morphism $g\colon p'\to p$; what is it?
+	\item Show that $g\then f_1=g\then f_2$.
+	\item Show that $g$ is an equalizer of the pair $f_1,f_2$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+Arbitrary colimits will be much less useful to us than limits, so the following theorem is included only for completeness; the reader can feel free to skip it.
+\begin{theorem}\label{thm.poly_colimits}
+The category $\poly$ has all colimits.
+\end{theorem}
+\begin{proof}
+Recall that a category has all colimits iff it has coequalizers and coproducts, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has coequalizers.
+
+Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. The pair of functions
+\[f_1(\1),f_2(\1)\colon p(\1)\tto q(\1)\] 
+define a graph $G\colon\fbox{$\bullet\tto\bullet$}\to\smset$ whose set $C$ of connected components is given by the coequalizer $g\colon q(\1)\to C$ of $f_1(\1)$ and $f_2(\1)$. The coequalizer of $f_1$ and $f_2$ will turn out to be a $C$-indexed sum of representables, each of which is given by a limit of a diagram of representables from $p$ and $q$, but expressing this limit, as we proceed to do, is a bit involved.
+
+For each connected component $c\in C$, we have a connected subgraph $G_c\ss G$ with vertices $V_c\coloneqq g\inv(c)$ and edges $E_c\coloneqq f_1\inv(g\inv(c))=f_2\inv(g\inv(c))$. Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated representable $\yon^{p_e}$ (resp.\ $\yon^{q_v}$).
+
+The category of elements $\int G_c$ is a bipartite graph with objects $V+E$ and with two sorts of morphisms, $e\to f_1(e)$ and $e\to f_2(e)$, associated to each $e\in E_c$; all non-identity arrows point from an object in $E$ to an object in $V$. There is a functor $F\colon(\int G_c)\op\to\smset$ sending every $v\mapsto q_v$, every $e\mapsto p_e$, and every morphism to a function between them, namely either $(f_1^\sharp)_e\colon q_{f_1(e)}\to p_e$ or $(f_2^\sharp)_e\colon q_{f_2(e)}\to p_e$. Define $q'_c\in\smset$ to be the limit $q'_c\coloneqq\lim F\in\smset$ of $F$.
+
+We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'_c}$ is the coequalizer of $f_1$ and $f_2$. We leave the completion proof to the interested reader in \cref{exc.poly_colimits}.
+\end{proof}
+
+\begin{exercise}\label{exc.poly_colimits}
+Complete the proof of \cref{thm.poly_colimits} as follows:
+\begin{enumerate}
+	\item Provide a map $g\colon q\to q'$ and show that $f_1\then g=f_2\then g$.
+	\item Show that $g$ is a coequalizer of the pair $f_1,f_2$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 
 %---- Subsection ----%
 \subsection{Special polynomials and adjunctions}
@@ -1272,7 +1753,7 @@ where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
 \end{corollary}
 
 \begin{exercise}
-Prove \cref{***}
+Prove \cref{cor.substituting_adj}.
 \end{exercise}
 
 \begin{proposition}
@@ -1300,9 +1781,6 @@ We have the following chain of natural isomorphisms:
 
 
 
-\spiz{Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.}
-
-
 
 
 %-------- Section --------%
@@ -1310,9 +1788,6 @@ We have the following chain of natural isomorphisms:
 
 %-------- Section --------%
 \section{Wiring together dynamical systems}
-
-%---- Subsection ----%
-\subsection{Dirichlet product}
 
 
 
