@@ -1222,7 +1222,7 @@ For any set $I$, collection of sets $\{J(i)\}_{i\in I}$ and collection of sets $
 \end{equation}
 \end{proposition}
 \begin{proof}
-This is almost trivial, once you understand what it's saying; for example once the statement is written, the proof is one line of agda code. An element of the left-hand side is, for each $i\in I$ a choice  of $j_i\in J(i)$ and an element $x_{i,j_i}\in X(i,j_i)$. An element of the right-hand side is a choice of, for each $i\in I$ an element $j(i)\in J(i)$, together with, for each $i$ in $I$ an element $x_{i,j(i)}\in X(i,j(i))$. These are in obvious bijection.
+This is aLMOst trivial, once you understand what it's saying; for example once the statement is written, the proof is one line of agda code. An element of the left-hand side is, for each $i\in I$ a choice  of $j_i\in J(i)$ and an element $x_{i,j_i}\in X(i,j_i)$. An element of the right-hand side is a choice of, for each $i\in I$ an element $j(i)\in J(i)$, together with, for each $i$ in $I$ an element $x_{i,j(i)}\in X(i,j(i))$. These are in obvious bijection.
 \end{proof}
 Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating sums and products; using \cref{eqn.set_completely_distributive}, you can always put it into sums-then-products (``disjunctive normal'') form.
 
@@ -1559,31 +1559,229 @@ We will use the term \emph{lens} when we want to remind the reader that morphism
 Let's start putting all this $\poly$ stuff to use. 
 
 %---- Subsection ----%
-\subsection{Generalized Moore machines}
+\subsection{Moore machines}
 
-Remember Moore machines from \cref{def.deterministic_system}? If $A$, $B$, and $A$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
+Remember Moore machines from \cref{def.deterministic_system}? 
+
+\begin{definition}\label{def.moore_machine_again}
+If $A$, $B$, and $A$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
 \begin{align*}
 	\text{expose}&\colon S\to B\\
 	\text{update}&\colon S\times A\to S 
 \end{align*}
-Look familiar? 
+\end{definition}
 
-It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a map of polynomials
+Look familiar?  It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a map of polynomials
 \[
 S\yon^S\to B\yon^A
 \]
 or to say it another way, a lens from $(S,S)\to(A,B)$ in the sense of \cref{eqn.bimorphic_lens}.
 
-We can generalize both $S\yon^S$ and $B\yon^A$ in the definition, though the latter is much simpler and we'll spend much of the section on it. First let's briefly preview something we're going to spend a lot of time later, namely what's special about $S\yon^S$.
+\begin{example}\label{ex.Moore_three}
+Here's a picture of a Moore machine with $S\coloneqq\3$ states:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMO{b_1}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMO{b_2}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMO{b_2} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Each state is labeled by its exposed value, i.e.\ element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+
+You can imagine barking ``orange! orange! green! orange!'' etc. at this machine, and it running through states.
+\end{example}
+
+We can generalize both $S\yon^S$ and $B\yon^A$ in \cref{def.moore_machine_again}, though the latter is much simpler and we'll spend much of the section on it. First let's briefly preview something we're going to spend a lot of time later, namely what's special about $S\yon^S$.
+
+\begin{example}\label{ex.R2_moore}
+Here's a(n infinite) Moore machine with states $\rr^2$:
+\[
+\rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)]}
+\]
+Its output type is $\rr^2$, which we might think of as a position, and its input type is $[0,1]\times[0,2\pi]$, which we might think of a command to move a certain amount in a certain direction. The map itself is given by the lens:
+\begin{align*}
+  \text{get}\colon\rr^2&\to\rr^2&&
+  \text{put}\colon\rr^2\times[0,1]\times[0,2\pi]&\to\rr^2\\
+  (a,b)\mapsto(a,b)&&
+  (a,b,r,\theta)\mapsto(a+r\cos\theta,a+r\sin\theta)
+\end{align*}
+\end{example}
+
+\begin{exercise}
+Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Using the terminology from that example, modify the robot as follows.
+
+Add to its state a ``health meter'', which has a value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
+\end{exercise}
+
+\begin{exercise}\label{exc.file_reader}
+Let's say a file of length $n$ is a function $f\colon\ord{n}\to\2\5\6+\{\text{done}\}$; suppose given such a file and refer to elements of $\ord{n}=\{1,\ldots,n\}$ as positions. Make a robot (Moore machine) whose output type is \2\5\6 and whose input type is
+\[
+\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}
+\]
+Given an input, if it is of the form $(s,t)$ then the robot goes to position $s$ in the file and begins reading (assuming it receives the ``continue'' signal) one character at a time, until it reaches position $t$. Then it continually outputs ``done'' until it receives another $(s,t)$ pair.
+\end{exercise}
+
+When we get to generalized Moore machines, we will be able to let the robot ``close its port'', so that while it is reading it is not receiving signals; see \cref{ex.generalized_file_reader}.
+
+\begin{exercise}[Turing machine]
+
+\end{exercise}
 
 \paragraph{$S\yon^S$ is a comonad on $\smset$.}
 
-A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. 
-\spiz{start here}
+A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. We don't need this now, so we won't get into it here. But we will note that every comonad comes from an adjunction, and the adjunction corresponding to $S\yon^S$ is
+\[
+\adj{\smset}{-\times S}{-^S}{\smset}
+\]
+the ``curry/uncurry'' adjunction. In functional programming, the comonad $S\yon^S$ is called the \emph{state comonad},%
+\footnote{The comonad $S\yon^S$ is sometimes called the \emph{store} comonad.} 
+and the elements of $S$ are called states. It is no coincidence that we also refer to elements of $S$ as states. 
 
+Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1} they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
+\footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
+
+\paragraph{Regular languages}
+
+Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic finite state automaton. What is that?
+
+\begin{definition}\label{def.dfa}
+A \emph{deterministic finite state automaton} consists of
+\begin{enumerate}
+	\item a finite set $S$, elements of which are called \emph{states}
+	\item a finite set $A$, elements of which are called \emph{input symbols},
+	\item a function $u\colon S\times A\to S$, called the \emph{update function},
+	\item an element $s_0\in S$, called the \emph{initial state},
+	\item a subset $F\ss S$, called the \emph{accept states}.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+A deterministic finite state automaton can be identified with a pair of maps
+\[
+\yon\to S\yon^S\to \2\yon^A
+\]
+\end{proposition}
+\begin{proof}
+A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$. A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$---which can be identified with a subset of $S$---together with a function $S\times A\to S$, which is the rest of the required structure.
+\end{proof}
 
 
 \paragraph{Products}
+
+One thing we can use right away in our thinking about dynamical systems is products of polynomials. The universal property of products says that for any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$ there is a unique map $s\to p_1p_2$. In the context of Moore machines, we have the following.
+
+\begin{proposition}
+Suppose given an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1B_2)$-Moore machine, again with state set $S$.
+\end{proposition}
+\begin{proof}
+We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence by the universal property of products we have a map
+\[
+  S\yon^S\to
+  (B_1\yon^{A_1}\times(B_2\yon^{A_2})
+  \cong(B_1B_2)\yon^{A_1+A_2},
+\] 
+as desired.
+\end{proof}
+
+\begin{example}
+Consider two four-state dynamical systems $4\yon^4\to \rr\yon^{\{r,b\}}$ and $4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{3.14}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
+  	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
+  	\LMO[under]{1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
+  	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
+  \end{tikzcd}
+	};
+	\node[draw, right=of 1] {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{2}\ar[d, green!50!black]&
+  	\LMO{4}\ar[l, green!50!black]\\
+  	\LMO[under]{8}\ar[loop left, green!50!black]&
+  	\LMO[under]{16}\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+ \end{tikzpicture}
+\]
+
+The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+  	\LMO{(3.14,2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
+  	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
+  	\LMO[under]{(1.41,8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
+  	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+\end{example}
+
+In other words, if there are two or more interfaces that drive a single set of states, we can combine them.
+
+\begin{exercise}
+Let $f\colon S\yon^S\to B\yon^A$ be a Moore machine. Suppose we wanted to be able to pause it. That is, rather than pressing a button in $A$, we want to press a different button, ``pause", that does nothing to the machine. How do we get this pause-able machine from $f$?
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Generalized Moore machines}
+
+Everything we've done above was for interfaces of the form $B\yon^A$, i.e.\ monomials. But the theory certainly works just as well for an arbitrary $p$.
+
+\begin{definition}[Generalized Moore machine]\label{def.gen_moore}
+A \emph{generalized Moore machine} is a map of polynomials
+\[S\yon^S\to p\]
+for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states} and the polynomial $p$ is called the \emph{(poly-) interface}.
+\end{definition}
+
+What on earth do these things do? Let's start with something familiar.
+
+\begin{example}
+Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in ones language. For that, rather than use a map $S\yon^S\to 2\yon^A$, we could use a map
+\[
+(f_1,f^\sharp)\colon S\yon^S\to \yon^A+\1
+\]
+To give such a map, one first provides a function $f_1\colon S\to\2$; some elements of $S$ are sent to $1$ others are sent to $2$; those that are sent to $2$ are ``accepted''. This is captured by the fact that there are no options in the term $\1$, no input. On the other hand, those elements $s\in S$ that are sent to $f_1(s)=1$ then must assign a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$.
+\end{example}
+
+\begin{exercise}
+Consider the deterministic finite state automaton shown below
+\[
+\begin{tikzcd}[column sep=small]
+	\bullet\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bullet\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bullet
+\end{tikzcd}
+\]
+The state without any outgoing arrows is the accept state. Answer the following questions, in keeping with the notation from \cref{def.gen_moore}.
+
+\begin{enumerate}
+	\item What is $S$?
+	\item What is $A$?
+	\item Specify the morphism of polynomials $S\yon^S\to\yon^A+1$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Find what you think is an interesting generalization of deterministic finite state automata that you can model using generalized Moore machines.
+\end{exercise}
+
+\paragraph{More general systems}
+
+\begin{example}\label{ex.generalized_file_reader}
+In \cref{exc.file_reader} one is tasked with making a file reader. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
+
+\spiz{finish}
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{Wiring diagrams}
