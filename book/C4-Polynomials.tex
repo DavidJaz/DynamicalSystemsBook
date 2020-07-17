@@ -675,7 +675,7 @@ Let's begin.
 
 
 %-------- Section --------%
-\section{$\poly$ as a category}\label{sec.poly}
+\section{Introduction to $\poly$ as a category}\label{sec.poly}
 
 
 In this section, we will set down the basic category-theoretic story of $\poly$, so that we can have a firm foundation from which to speak about dynamical systems, decisions, and data. We begin with the category $\smset$ of sets and functions, and what is arguably the fundamental theorem of category theory, the Yoneda lemma.
@@ -777,7 +777,7 @@ Whoever solves this exercise can say they've proved the Yoneda Lemma.
 %---- Subsection ----%
 \subsection{Polynomials: sums of representables}
 
-We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name polynomial doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use this term.
+We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name ``polynomial'' doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use this term.
 
 So here's the deal. All of our polynomials will be polynomials in one variable, $\yon$; every other letter or number that shows up will represent a set.%
 \footnote{For those who clamor for polynomials in many variables, we will see in \cref{??} that the multivariable story falls out of the one-variable story.}
@@ -955,7 +955,7 @@ What does $p(\0)$ give you?
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Morphisms between polynomial functors}
+\subsection{Understanding morphisms between polynomial functors}
 
 For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
 
@@ -1034,14 +1034,14 @@ Let $I=\{1,2\}$, let $J(1)=\{j\}$ and $J(2)\coloneqq\{j,j'\}$, let $K(1,j)\colon
 \[
 \left\{
 \begin{gathered}
-	(1, j\mapsto(k_1,x)),\qquad
-	(1, j\mapsto(k_1,y)),\qquad
-	(1, j\mapsto(k_2,x)),\qquad
-	(1, j\mapsto(k_2,y)),\\
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\qquad
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\\
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)),\qquad
-	(2, j\mapsto(k_1,x), j'\mapsto(k_1,x))
+	\big(1, j\mapsto(k_1,x)\big),\qquad
+	\big(1, j\mapsto(k_1,y)\big),\qquad
+	\big(1, j\mapsto(k_2,x)\big),\qquad
+	\big(1, j\mapsto(k_2,y)\big),\\
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\\
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big)
 \end{gathered}
 \right\}
 \]
@@ -1054,7 +1054,7 @@ With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
 \begin{enumerate}
 	\item Pronounce it using the ``To choose an element'' formulation just below \eqref{eqn.misc98339}.
 	\item How many elements are in it?
-	\item Write out three of them.
+	\item Write out three of them in the style of \cref{ex.notation_sum_prod}.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -1080,23 +1080,6 @@ When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_complet
 \paragraph{Back to maps of polynomials}
 After that interlude, you are hopefully more comfortable with our main formula \cref{eqn.main_formula} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
 
-\begin{exercise}\label{exc.practice_sum_prod}
-Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. 
-\begin{enumerate}
-\item Is it true that the following are isomorphic?
-\[
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}
-  \cong^?
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q_j}\sum_{c\in p_i}\1
-\]
-\item Here's another way to think of maps in $\poly$; it'll be useful in \cref{exc.mono_epi_poly}. Show that there is an isomorphism
-	\[
-	\poly(p,q)\cong\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q_j,\prod_{\{i\in p(\1)\mid i\mapsto j\}}p_i\Big).
-	\]
-	Say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$.
-\end{enumerate}
-\end{exercise}
-
 \begin{example}[Constants are sent to constants]\label{ex.const_to_const}
 Any morphism $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
 
@@ -1115,6 +1098,83 @@ For each of the following $p,q$, count the number of morphisms $p\to q$:
 \end{enumerate}
 \end{exercise}
 
+%---- Subsection ----%
+\subsection{Prepare for dynamics}
+
+As beautiful as the category $\poly$ is---and to be clear we have not really begun to say what is so special about it---discussing its virtues is not our goal. We want to use it!
+
+Polynomial functors are a setting in which to speak about dynamics, data, and decision. We want the reader to understand this deeply as they go through the mathematics. So in order to make the story a bit more seamless, we discuss a few relevant aspects of $\poly$ that we can use immediately.
+
+
+\paragraph{Finite products}
+The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, is completely distributive, etc., etc. However, in order to tell a good story of dynamics, we only need finite products right now. These will be useful for letting many different interfaces control the same internal dynamics.
+
+\begin{proposition}\label{prop.poly_times}
+The category $\poly$ has finite products. 
+\end{proposition}
+\begin{proof}
+We will see that $\1$ is a terminal object and that the product of $p$ and q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{i\in q(\1)}\yon^{q_i}$, then
+\begin{equation}\label{eqn.poly_times}
+p\times q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i+q_j}.
+\end{equation}
+We leave the proof as an exercise; see \cref{exc.poly_times}.
+\end{proof}
+
+\begin{exercise}\label{exc.poly_times}
+Use \cref{eqn.main_formula} to prove \cref{prop.poly_times}. In particular:
+\begin{enumerate}
+	\item Prove that $\1$ is terminal in $\poly$.
+	\item Prove that for polynomials $p,q$, their product is given by the formula in \eqref{eqn.poly_times}.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\paragraph{Dirichlet product}
+There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel and then wiring them together.
+
+\begin{definition}
+Let $p$ and $q$ be polynomials. Their \emph{Dirichlet product} is given by
+\end{definition}
+
+\paragraph{Lenses}
+
+
+%-------- Section --------%
+\section{Dynamical systems using $\poly$}
+
+
+%---- Subsection ----%
+\subsection{Moore machines}
+
+%---- Subsection ----%
+\subsection{Wiring diagrams}
+
+%---- Subsection ----%
+\subsection{Mode dependence}
+
+
+%-------- Section --------%
+\section{Bonus math about the category $\poly$}
+
+\begin{exercise}\label{exc.practice_sum_prod}
+Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. 
+\begin{enumerate}
+\item Is it true that the following are isomorphic?
+\[
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}
+  \cong^?
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q_j}\sum_{c\in p_i}\1
+\]
+\item Here's another way to think of maps in $\poly$; it'll be useful in \cref{exc.mono_epi_poly}. Show that there is an isomorphism
+	\[
+	\poly(p,q)\cong\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q_j,\prod_{\{i\in p(\1)\mid i\mapsto j\}}p_i\Big).
+	\]
+	Say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$.
+\end{enumerate}
+\end{exercise}
+
+
+
 \begin{exercise}\label{exc.mono_epi_poly}
 Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a morphism with notation as in \cref{eqn.colax_poly_map}.
 \begin{enumerate}
@@ -1126,25 +1186,20 @@ Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a m
 \end{enumerate}
 \end{exercise}
 
+
+
 %---- Subsection ----%
 \subsection{Limits, colimits, and cartesian closure}
-
-The category $\poly$ has limits and colimits and is Cartesian closed. Let's start off with something that fairly simple.
-
-\begin{exercise}
-Prove the following:
-\begin{enumerate}
-	\item $\0$ is a initial object in $\poly$.
-	\item $\1$ is a terminal object in $\poly$.
-\qedhere
-\end{enumerate}
-\end{exercise}
 
 \begin{proposition}\label{prop.coprod_prod_poly}
 The category $\poly$ has coproducts and products.
 \end{proposition}
 \begin{proof}
-Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$. Their coproduct is
+Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$.%
+\footnote{
+This is potentially ambiguous notation because $p_i$ generally denotes the exponent of the $i$th summand of polynomial $p$; we apologize for this. To be clear, to each $a\in A$ there is an associated polynomial $p_a\in\poly$. To write out $p_a$ as a sum of representables, we would say $p_a=\sum_{i\in p_a(\1)}\yon^{(p_a)_i}$.
+}
+Their coproduct is
 \begin{equation}\label{eqn.sum_polys}
 \sum_{a\in A}p_a=\sum_{a\in A}\sum_{i\in p_a(\1)}\yon^{(p_a)_i}\cong\sum_{(a,i)\in\sum_{a\in A}p_a(\1)}\yon^{(p_a)_i}
 \end{equation}
@@ -1163,20 +1218,126 @@ Again, it is a sum of representables, so a polynomial, and one can check that it
 Finish the proof of \cref{prop.coprod_prod_poly} as follows.
 \begin{enumerate}
 	\item Show that \eqref{eqn.sum_polys} satisfies the universal property for coproduct of polynomials.
-	\item Show that \eqref{eqn.prod_polys} satisfies the universal property for coproduct of polynomials.
+	\item Show that \eqref{eqn.prod_polys} satisfies the universal property for product of polynomials.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-\begin{theorem}
-$\poly$ has all limits.
+\begin{exercise}
+Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p_i$ according to \cref{eqn.prod_polys}? Does it check out?
+\end{exercise}
+
+\begin{proposition}
+The category $\poly$ is completely distributive, i.e.\
+\spiz{finish}
+\end{proposition}
+
+For any two polynomials $q,r$, define $r^q\in\poly$ by the following formula
+\begin{equation}\label{eqn.exponential}
+  r^q\coloneqq\prod_{i\in q(\1)}r\circ(\yon+q_j)
+\end{equation}
+where $\circ$ denotes composition.
+
+Before proving that this really is an exponential in $\poly$, which we do in \cref{thm.poly_cart_closed}, we first get some practice with it.
+
+\begin{example}
+Let $A$ be a set. We've been writing the polynomial $A\yon^\0$ simply as $A$ and the polynomial $\yon^\1$ simply as $\yon$, so it better be true that the there is an isomorphism 
+\[\yon^A\cong (\yon^\1)^{(A\yon^\0)}\]
+in order for the notation to be consistent. Luckily, this is true. Checking \eqref{eqn.exponential}, we have
+\[(\yon^\1)^{A\yon^\0}=\prod_{a\in A}\yon\circ(\0+\yon)\cong\yon^A\]
+\end{example}
+
+\begin{exercise}
+Compute the following exponentials in $\poly$ using \eqref{eqn.exponential}:
+\begin{enumerate}
+	\item $p^\0$ for an arbitrary $p\in\poly$.
+	\item $p^\1$ for an arbitrary $p\in\poly$.
+	\item $\1^p$ for an arbitrary $p\in\poly$.
+	\item $A^p$ for an arbitrary $p\in\poly$ and $A\in\smset$.
+	\item $\yon^\yon$.
+	\item $\yon^{\4\yon}$.
+	\item $(\yon^A)^{\yon^B}$ for arbitrary sets $A,B\in\smset$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
+\begin{theorem}\label{thm.poly_cart_closed}
+The category $\poly$ is Cartesian closed. That is, we have a natural isomorphism
+\[
+  \poly(p,r^q)\cong\poly(p\times q,r),
+\]
+where $r^q$ is the polynomial defined in \eqref{eqn.exponential}.
 \end{theorem}
 \begin{proof}
-Recall that a category has all limits iff it has equalizers and products, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has equalizers. Let $f,g\colon p\tto q$ be two maps of polynomials. Let $E\inj p(\1)\tto q(\1)$ be an equalizer of the functions $f(\1),$ and $g(\1)$ in $\smset$. For each $e\in E$Define $p'$ as follows
-\[
-  p'\coloneqq\sum_{e\in E}\yon
-\]
+We have the following chain of natural isomorphisms
+\begin{align*}
+	\poly(p,r^q)&\cong
+	\poly\Big(p,\prod_{j\in q(\1)}r\circ (\yon+q_j)\Big)\\&\cong
+	\prod_{j\in q(\1)}\poly(p,r\circ(\yon+q_j))\\&\cong
+	\prod_{j\in q(\1)}\prod_{i\in p(\1)}\poly(\yon^{p_i},r\circ(\yon+q_j))\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r\circ(p_i+q_j)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\sum_{k\in r(\1)}(p_i+q_j)^{r_k}\\&\cong
+	\poly(p\times q,r).
+\end{align*}
+The last step uses \cref{eqn.main_formula,prop.poly_times}.
 \end{proof}
+
+
+\begin{exercise}
+Using \cref{eqn.exponential}, show that the functor $\smset\to\poly$ sends exponentials to exponentials.
+\end{exercise}
+
+\begin{theorem}\label{thm.poly_limits}
+The category $\poly$ has all limits.
+\end{theorem}
+\begin{proof}
+Recall that a category has all limits iff it has equalizers and products, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has equalizers. 
+
+Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. Let $E\to p(\1)\tto q(\1)$ be an equalizer of the functions $f_1(\1),$ and $f_2(\1)$ in $\smset$. For each $e\in E$, write $f(e)\coloneqq f_1(e)=f_2(e)$; we have two polynomial morphisms $\yon^{p_e}\tto\yon_{q_{f(e)}}$, i.e.\ two functions $q_{f(e)}\tto p_e$. Defining $p'_e\in\smset$ to be their coequalizer, we can define a polynomial $p'$ as follows:
+\[
+  p'\coloneqq\sum_{e\in E}\yon^{p'_e}
+\]
+which comes equipped with a morphism $g\colon p'\to p$. One can check that it is an equalizer of $f_1,f_2$; see \cref{exc.poly_limits}.
+\end{proof}
+
+\begin{exercise}\label{exc.poly_limits}
+Complete the proof of \cref{thm.poly_limits} as follows:
+\begin{enumerate}
+	\item We said that $p'$ comes equipped with a morphism $g\colon p'\to p$; what is it?
+	\item Show that $g\then f_1=g\then f_2$.
+	\item Show that $g$ is an equalizer of the pair $f_1,f_2$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+Arbitrary colimits will be much less useful to us than limits, so the following theorem is included only for completeness; the reader can feel free to skip it.
+\begin{theorem}\label{thm.poly_colimits}
+The category $\poly$ has all colimits.
+\end{theorem}
+\begin{proof}
+Recall that a category has all colimits iff it has coequalizers and coproducts, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has coequalizers.
+
+Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. The pair of functions
+\[f_1(\1),f_2(\1)\colon p(\1)\tto q(\1)\] 
+define a graph $G\colon\fbox{$\bullet\tto\bullet$}\to\smset$ whose set $C$ of connected components is given by the coequalizer $g\colon q(\1)\to C$ of $f_1(\1)$ and $f_2(\1)$. The coequalizer of $f_1$ and $f_2$ will turn out to be a $C$-indexed sum of representables, each of which is given by a limit of a diagram of representables from $p$ and $q$, but expressing this limit, as we proceed to do, is a bit involved.
+
+For each connected component $c\in C$, we have a connected subgraph $G_c\ss G$ with vertices $V_c\coloneqq g\inv(c)$ and edges $E_c\coloneqq f_1\inv(g\inv(c))=f_2\inv(g\inv(c))$. Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated representable $\yon^{p_e}$ (resp.\ $\yon^{q_v}$).
+
+The category of elements $\int G_c$ is a bipartite graph with objects $V+E$ and with two sorts of morphisms, $e\to f_1(e)$ and $e\to f_2(e)$, associated to each $e\in E_c$; all non-identity arrows point from an object in $E$ to an object in $V$. There is a functor $F\colon(\int G_c)\op\to\smset$ sending every $v\mapsto q_v$, every $e\mapsto p_e$, and every morphism to a function between them, namely either $(f_1^\sharp)_e\colon q_{f_1(e)}\to p_e$ or $(f_2^\sharp)_e\colon q_{f_2(e)}\to p_e$. Define $q'_c\in\smset$ to be the limit $q'_c\coloneqq\lim F\in\smset$ of $F$.
+
+We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'_c}$ is the coequalizer of $f_1$ and $f_2$. We leave the completion proof to the interested reader in \cref{exc.poly_colimits}.
+\end{proof}
+
+\begin{exercise}\label{exc.poly_colimits}
+Complete the proof of \cref{thm.poly_colimits} as follows:
+\begin{enumerate}
+	\item Provide a map $g\colon q\to q'$ and show that $f_1\then g=f_2\then g$.
+	\item Show that $g$ is a coequalizer of the pair $f_1,f_2$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 
 %---- Subsection ----%
 \subsection{Special polynomials and adjunctions}
@@ -1272,7 +1433,7 @@ where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
 \end{corollary}
 
 \begin{exercise}
-Prove \cref{***}
+Prove \cref{cor.substituting_adj}.
 \end{exercise}
 
 \begin{proposition}
@@ -1300,9 +1461,6 @@ We have the following chain of natural isomorphisms:
 
 
 
-\spiz{Discuss adjunctions with $\smset$ and $\smset\op$, two-variable adjunctions, and adjunctions with pointed sets op. Discuss constant, linear, affine, pure-power polynomials, monomials as lenses.}
-
-
 
 
 %-------- Section --------%
@@ -1310,9 +1468,6 @@ We have the following chain of natural isomorphisms:
 
 %-------- Section --------%
 \section{Wiring together dynamical systems}
-
-%---- Subsection ----%
-\subsection{Dirichlet product}
 
 
 
