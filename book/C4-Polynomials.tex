@@ -1448,6 +1448,9 @@ We will use the term \emph{lens} when we want to remind the reader that morphism
 %---- Subsection ----%
 \subsection{Moore machines}
 
+
+Products
+
 %---- Subsection ----%
 \subsection{Wiring diagrams}
 
@@ -1628,6 +1631,24 @@ Complete the proof of \cref{thm.poly_limits} as follows:
 	\item Show that $g\then f_1=g\then f_2$.
 	\item Show that $g$ is an equalizer of the pair $f_1,f_2$.
 \qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Let $p$ be any polynomial.
+\begin{enumerate}
+	\item There is a canonical choice of morphism $\eta\colon p\to p(\1)$; what is it?
+	\item Suppose given an element $i\in p(\1)$, i.e.\ a function $\1\to p(\1)$.
+	\item What is the pullback
+	\[
+	\begin{tikzcd}
+	?\ar[r]\ar[d]&
+	p\ar[d, "\eta"]\\
+	\1\ar[r, "i"']&
+	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
+	\end{tikzcd}
+	\qedhere
+	\]
 \end{enumerate}
 \end{exercise}
 
