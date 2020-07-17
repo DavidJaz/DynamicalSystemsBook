@@ -1544,28 +1544,49 @@ It says that to give a morphism from one monomial to another, you just need to g
 Ordinarily, the $f^\sharp$ is more involved in that its type depends on $f_1$, but for monomials every decision has the same number of options, so to speak.
 
 The monomials in $\poly$ and the morphisms between them forms a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The morphisms $A_1\yon^{B_1}\to A_2\yon^{B_2}$ break up into two functions which people give special names:
-\begin{align*}
+\begin{equation}\label{eqn.bimorphic_lens}
+\begin{aligned}
 	\text{get}&\colon A_1\to A_2\\
 	\text{put}&\colon A_1\times B_2\to B_1
-\end{align*}
+\end{aligned}
+\end{equation}
 We will use the term \emph{lens} when we want to remind the reader that morphisms between monomials are much simpler than those between arbitrary polynomials.
 
 
 %-------- Section --------%
 \section{Dynamical systems using $\poly$}
 
+Let's start putting all this $\poly$ stuff to use. 
 
 %---- Subsection ----%
-\subsection{Moore machines}
+\subsection{Generalized Moore machines}
+
+Remember Moore machines from \cref{def.deterministic_system}? If $A$, $B$, and $A$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
+\begin{align*}
+	\text{expose}&\colon S\to B\\
+	\text{update}&\colon S\times A\to S 
+\end{align*}
+Look familiar? 
+
+It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a map of polynomials
+\[
+S\yon^S\to B\yon^A
+\]
+or to say it another way, a lens from $(S,S)\to(A,B)$ in the sense of \cref{eqn.bimorphic_lens}.
+
+We can generalize both $S\yon^S$ and $B\yon^A$ in the definition, though the latter is much simpler and we'll spend much of the section on it. First let's briefly preview something we're going to spend a lot of time later, namely what's special about $S\yon^S$.
+
+\paragraph{$S\yon^S$ is a comonad on $\smset$.}
+
+A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. 
+\spiz{start here}
 
 
-Products
+
+\paragraph{Products}
 
 %---- Subsection ----%
 \subsection{Wiring diagrams}
-
-%---- Subsection ----%
-\subsection{Mode dependence}
 
 
 %-------- Section --------%
