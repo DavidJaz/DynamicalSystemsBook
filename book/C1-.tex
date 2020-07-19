@@ -86,7 +86,8 @@ evening. Being morning or evening is its own way that things might be, and we
 can see it as its own dynamical system. We might imagine a little addition to
 our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
 \[
-\begin{tikzpicture}[line cap=rect,line width=3pt, baseline=(0,0)]
+\begin{tikzpicture}[line cap=rect,line width=3pt, baseline=(bl)]
+\coordinate (bl) at (0,0);
 \filldraw [fill=cyan] (0,0) circle [radius=2cm];
 \foreach \angle [count=\xi] in {60,30,...,-270}
 {
