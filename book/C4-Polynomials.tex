@@ -1904,38 +1904,10 @@ to be the input.
 \begin{align*}
   \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\expose{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\expose{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
 \end{align*}
-
-Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
-\[
-(r_1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
-\]
-as follows.
-
-$$A + B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B \rangle$$
-
-$$A +_C B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B, \forall c
-\in C.
-\fun{inl}(f(c)) = \fun{inr}(g(c)) =\rangle$$
-
-
-On positions define
-\[
-	r_1(s,t)\coloneqq
-	\begin{cases}
-		\const{inl}\ f(s)&\tn{ if } s=t\\
-		\const{inr}\ f(s)&\tn{ if } s<t
-	\end{cases}
-\]
-
-\[
-	r^\sharp_{(t,t)}(s',t')\coloneqq (s',t')
-	\qquad
-	r^\sharp_{(s,t)}(1)\coloneqq (s+1,t)
-\]
 \end{example}
 
 \begin{exercise}
-Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\2\5\6$ when $o=100$.
+Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
 \end{exercise}
 
 %---- Subsection ----%
