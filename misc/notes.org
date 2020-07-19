@@ -135,6 +135,10 @@ In each note topic, I think we should trade off with headers simply named
     This means giving them before in the section on dynamical systems, and showing what the
     wired together system looks like.
 
+** <2020-07-19 dom> 
+
+*** TODO Jaz: Replace := with \coloneqq
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction

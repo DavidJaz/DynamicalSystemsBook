@@ -1872,13 +1872,46 @@ Add to \cref{ex.movement_options} as follows.
 \end{exercise}
 
 \begin{example}\label{ex.generalized_file_reader}
-In \cref{exc.file_reader} one is tasked with making a file reader, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
+In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileReader}$, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
+
+Let $State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
+current position $s$ and a terminal position $t$. For our interface, we'll have
+two modes, each of which exposes an ascii character:
+$$\Out{FileReader} = \langle \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} \rangle$$
+%%
+%% Jaz: In Haskell, this would read
+%%      data \Out{FileReader} = Accepting ascii | Busy ascii
+%%
+For our input, we need a family $\In{FileReader} : \Out{FileReader} \to \smset$.
+We'll define this by cases:
+\begin{align*}
+  \In{FileReader}(\fun{Accepting}(c)) &= \State{FileReader}, \\
+  \In{FileReader}(\fun{Busy}(c)) &= \ord{1}.
+\end{align*}
+
+Our file reader will be $\fun{Accepting}$ if its current position is the
+terminal position; otherwise, it will be $\fun{Busy}$. In either case, it will
+expose the ascii character at the current position.
+\begin{align*}
+  \expose{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
+\end{align*}
+
+While the file reader is $\fun{Busy}$, it will step forward through the file.
+When it is $\fun{Accepting}$, it will set its new current and terminal position
+to be the input. 
+\begin{align*}
+  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\expose{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\expose{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
+\end{align*}
 
 Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
 \[
 (r_1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
 \]
-as follows. On positions define
+as follows. 
+
+
+
+On positions define
 \[
 	r_1(s,t)\coloneqq
 	\begin{cases}
