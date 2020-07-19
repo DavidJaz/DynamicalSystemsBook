@@ -309,7 +309,7 @@ Mysterious in deed. But when we wire the two together, magic happens!
   \node[bb={1}{2}](Box) {$\Sys{Mystery Box}$};
   \node[bb={2}{2}, right=of Box] (Tape) {$\Sys{Tape Machine}$};
   
-  \node[bb={0}{0}, fit={($(Tape.south east) + (0, -2)$) ($(Box.north west) + (-1, 1)$)}] (Outer) {};
+  \node[bb={0}{0}, fit={($(Tape.south east) + (0, -2)$) ($(Box.north west) + (0, 1)$)}] (Outer) {};
   \node[above=0pt of Outer.south] (Label) {$\Sys{Universal Turing Machine}$};
 
   \draw (Box_out1) to (Tape_in1);
@@ -816,6 +816,40 @@ just like we wanted! In terms of wiring diagrams, this looks like:
 		;
 \end{tikzpicture}
 \end{equation}
+\end{example}
+
+\begin{example}\label{ex.wiring_transition_diagrams}
+Let's see what wiring together two deterministic systems presented as transition
+diagrams looks like. We'll calculate the following system from definitions of
+$\Sys{S_1}$ and $\Sys{S_2}$ below.
+\[
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
+  \node[bb={1}{1}] (S1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, right= of S1] (S2) {$\Sys{S_2}$};
+
+  \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
+
+  \draw (Outer_in1) to (S1_in1);
+  \draw (S1_out1) to (S2_in1);
+  \draw (S2_out1) to (Outer_out1);
+\end{tikzpicture}
+\]
+
+ First, let $\Set{Colors}
+= \{\Red, \Blue, \Green\}$ and let $\Set{Bool} = \{\const{true}, \const{false}\}$. Here is our first system
+$\Sys{S_1}$, which has interface $\lens{\Set{Bool}}{\Set{Colors}}$:
+\begin{equation}\label{eqn.wiring_transition_diagrams1}
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\t"] &  & \LMO{\Red} \ar[loop right, "\t"] \ar[dd, bend left, "\const{false}" ]\\
+    & & \\
+    \LMO{\Blue} \ar[loop left, "\f"] \ar[rr, leftarrow, bend left, "\f"] \ar[rr, leftarrow, bend right, "\t"'] & & \LMO{\Green}
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+
 \end{example}
 
 \begin{example}[Multi-city SIR models]\label{ex.multi_city_SIR_discrete}
@@ -1514,8 +1548,8 @@ trajectories in the system are paths through the diagram. Recall from
 \end{tikzpicture}
 \]
 
-Suppose that $p : \nn \to \{{\color{dgreen} green}, {\color{orange} orange}\}$
-alternates between ${\color{dgreen} green}$ and ${\color{orange} orange}$. Then
+Suppose that $p : \nn \to \{\Green, \Orange\}$
+alternates between $\Green$ and $\Orange$. Then
 starting at the top left state, a trajectory would alternate between the top two
 states:
 \[
@@ -1559,9 +1593,9 @@ streams of output values.
  How does the system of \cref{ex.transition_diagram_discrete_traj} act as a
  stream transformer on the following streams:
  \begin{enumerate}
-   \item $p_{2t} = {\color{dgreen} green}$ and $p_{2t + 1} = {\color{orange} orange}$.
-   \item $p_t = {\color{dgreen} green}$.
-   \item $p_0 = {\color{dgreen} green}$ and $p_t = {\color{orange} orange}$ for
+   \item $p_{2t} = \Green$ and $p_{2t + 1} = \Orange$.
+   \item $p_t = \Green$.
+   \item $p_0 = \Green$ and $p_t = \Orange$ for
      all $t > 0$.
  \end{enumerate}
 \end{exercise}
@@ -1592,8 +1626,8 @@ we know what we're going to get.
 \begin{remark}
 Its important to note that a steady state is relative to the input parameter
 chosen. For example, in \cref{ex.transition_diagram_discrete}, the top left
-state is steady for the input parameter ${\color{orange} orange}$ but not for
-the input parameter ${\color{dgreen} green}$.
+state is steady for the input parameter $\Orange$ but not for
+the input parameter $\Green$.
 \end{remark}
 
 Unlike with trajectories, a system need not necessarily have \emph{any} steady
@@ -1603,11 +1637,10 @@ ticking to the next hour.
 In the transition diagram of a finite deterministic system, steady states will be loops
 that begin and end at the same node. Since the system is finite, we can arrange
 the steady states into a $\In{S} \times \Out{S}$ matrix. For example, in
-\cref{ex.transition_diagram_discrete}, we get the following $\{{\color{dgreen}
-  green},\, {\color{orange} orange}\} \times \{a,\, b\}$ matrix:
+\cref{ex.transition_diagram_discrete}, we get the following $\{\Green,\, \Orange\} \times \{a,\, b\}$ matrix:
 \begin{equation}\label{eqn.steady_state_matrix_transition_diagram_discrete}
 \kbordermatrix{
-  & {\color{dgreen} green} & {\color{orange} orange}\\
+  & \Green & \Orange\\
   a & \emptyset & \left\{ \begin{tikzcd}\LMO{a} \ar[loop left, orange, thick] \end{tikzcd} \right\}  \\
   b & \left\{ \begin{tikzcd}\LMO{b} \ar[loop left, dgreen, thick]\end{tikzcd} \right\}& \emptyset  \\
 }
@@ -1618,7 +1651,7 @@ states. If we just counted how many steady states there were for each
 input-output pair, we would get this matrix:
 \begin{equation}\label{eqn.steady_state_matrix_transition_diagram_discrete2}
 \kbordermatrix{
-  & {\color{dgreen} green} & {\color{orange} orange}\\
+  & \Green & \Orange\\
   a & 0 & 1  \\
   b & 1 & 0  \\
 }

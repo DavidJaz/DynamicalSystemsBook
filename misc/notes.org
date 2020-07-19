@@ -125,6 +125,16 @@ In each note topic, I think we should trade off with headers simply named
     CLOSED: [2020-07-16 qui 15:49]
     instead of \vdash, do \mapsto, see how it looks
 
+** <2020-07-17 sex> 
+   
+*** Jaz:
+
+    I want to use examples from the steady states paper, particularly the ones on page 17,
+    in the section on steady states.
+
+    This means giving them before in the section on dynamical systems, and showing what the
+    wired together system looks like.
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction
