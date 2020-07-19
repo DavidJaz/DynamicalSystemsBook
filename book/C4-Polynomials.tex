@@ -1945,22 +1945,132 @@ Make a file reader that acts like that in \cref{ex.generalized_file_reader}, exc
 %-------- Section --------%
 \section{Bonus math about the category $\poly$}
 
-\begin{exercise}
-Show that the category $\poly$ has finite coproducts as follows.
+The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. 
+
+%---- Subsection ----%
+\subsection{Special polynomials and adjunctions}
+
+There are a few special classes of polynomials that are worth discussing: 
 \begin{enumerate}
-	\item Show that $\0$ is an initial object in $\poly$, i.e.\ that for any polynomial $p$ there is a unique morphism $\0\to p$.
-	\item Show that the standard sum of polynomials $p_1+p_2$ is a coproduct of $p_1$ and $p_2$. That is, provide morphisms $p_1\to p_1+p_2\from p_2$ and show that for any other $q$ with morphisms $p_1\To{f_1} q\From{f_2} p_2$, there exists a unique morphism $p_1+p_2\to q$---shown dashed---making the following diagram commute 
-	\[
-	\begin{tikzcd}
-		p_1\ar[r]\ar[dr, "f_1"']&
-		p_1+p_2\ar[d, dashed]&
-		p_2\ar[l]\ar[dl, "f_2"]\\&
-		q
-	\end{tikzcd}
-	\qedhere
-	\]
+	\item constant polynomials $\0,\1,\2,A$; 
+	\item linear polynomials $\0,\yon, \2\yon, A\yon$;
+	\item pure-powers polynomials, $\1, \yon, \yon^\2, \yon^A$; and 
+	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
+\end{enumerate}
+The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of something called ``bimorphic lenses'' inside $\poly$. We go through these four classes in order and then discuss some adjunctions that involve some of them.
+
+\begin{proposition}\label{prop.ff_const_set_to_poly}
+There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
+\end{proposition}
+\begin{proof}
+By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\0\to\0$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+\end{proof}
+
+\begin{proposition}\label{prop.ff_lin_set_to_poly}
+There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
+\end{proposition}
+\begin{proof}
+By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+\end{proof}
+
+\begin{theorem}\label{thm.adjoint_quadruple}
+$\poly$ has an adjoint quadruple with $\smset$:
+\begin{equation*}%\label{eqn.adjoints_galore}
+\begin{tikzcd}[column sep=60pt]
+  \smset
+  	\ar[r, shift left=7pt, "A" description]
+		\ar[r, shift left=-21pt, "A\yon"']&
+  \poly
+  	\ar[l, shift right=21pt, "p(\0)"']
+  	\ar[l, shift right=-7pt, "p(\1)" description]
+	\ar[l, phantom, "\scriptstyle\Leftarrow"]
+	\ar[l, phantom, shift left=14pt, "\scriptstyle\Rightarrow"]
+	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
+\end{tikzcd}
+\end{equation*}
+where the functors have been labeled by where they send $A\in\smset$ and $p\in \poly$. 
+
+Both rightward functors are fully faithful.
+\end{theorem}
+\begin{proof}
+For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; it is $\poly(A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly} give us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:
+\[
+\smset(A,p(\0))\cong\poly(A,p)\qquad
+\smset(p(\1),A)\cong\poly(p,A)\qquad
+\smset(A,p(\1))\cong\poly(A\yon,p).
+\]
+All three come from our main formula, \cref{eqn.main_formula}; we leave the details to the reader in \cref{exc.adjoint_quadruple}.
+\end{proof}
+
+\begin{exercise}\label{exc.adjoint_quadruple}
+Here we prove the remainder of \cref{thm.adjoint_quadruple} using \cref{eqn.main_formula}:
+\begin{enumerate}
+	\item Provide a natural isomorphism $\smset(A,p(\0))\cong\poly(A,p)$.
+	\item Provide a natural isomorphism $\smset(p(\1),A)\cong\poly(p,A)$.
+	\item Provide a natural isomorphism $\smset(A,p(\1))\cong\poly(A\yon,p)$.
+\qedhere
 \end{enumerate}
 \end{exercise}
+
+In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is also a right adjoint---and hence that there is this \emph{quadruple} of adjunctions---is special to $A=\0,\1$.
+
+Next we note that the set of polynomial morphisms $p\to q$ 
+
+\begin{proposition}\label{prop.two_var_adj}
+There is a two-variable adjunction between $\smset$, $\poly$, and $\poly$:
+\begin{align}\label{eqn.two_var_adj}
+\poly(Ap,q)\cong\poly(p,q^A)\cong\smset(A,\poly(p,q)).
+\end{align}
+\end{proposition}
+\begin{proof}
+For any sets $A,B\in\smset$ and polynomial $q=\sum_{j\in q(\1)}\yon^{q_j}$, we need to check that there is a natural isomorphism
+\[
+\smset(A,q(B))\cong\poly(A\yon^B,q).
+\]
+This follows from our main formula \cref{eqn.main_formula}, since setting $p\coloneqq A\yon^B$ we have $p(\1)\cong A$ and $q(B)=\sum_{j\in q(\1)}B^{q_j}$.
+\end{proof}
+
+Using $p\coloneqq\yon^A$ and the Yoneda lemma, \cref{prop.two_var_adj} specializes to the following.
+
+
+\begin{corollary}\label{cor.substituting_adj}
+For any set $B$ there is an adjunction
+\[
+\adj{\smset}{A\yon^B}{p(B)}{\poly}
+\]
+where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
+\end{corollary}
+
+\begin{exercise}
+Prove \cref{cor.substituting_adj}.
+\end{exercise}
+
+\begin{proposition}
+The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
+\[
+\adjr{\smset\op}{\yon^-}{\Gamma}{\poly}
+\]
+where $\Gamma(p)\coloneqq\prod_{i\in p(\1)}p_i$.
+\end{proposition}
+\begin{proof}
+We have the following chain of natural isomorphisms:
+\begin{align*}
+  \smset(A,\Gamma(p))&\cong
+  \Big(\prod_{i\in p(\1)}p_i\Big)^A
+  	&\text{Definition of function}\\&\cong
+  \prod_{i\in p(\1)}{p_i}^A
+  	&\text{Definition of product}\\&\cong
+  \prod_{i\in p(\1)}\sum_{j\in\1}{p_i}^A
+  	&\text{Trivial sum}\\&\cong
+  \poly(p,\yon^A).&\cref{eqn.main_formula}
+\qedhere
+\end{align*}
+
+\end{proof}
+
+
+
+
 
 
 \begin{exercise}\label{exc.practice_sum_prod}
@@ -1997,6 +2107,27 @@ Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a m
 
 %---- Subsection ----%
 \subsection{Limits, colimits, and cartesian closure}
+
+
+
+\begin{exercise}
+Show that the category $\poly$ has finite coproducts as follows.
+\begin{enumerate}
+	\item Show that $\0$ is an initial object in $\poly$, i.e.\ that for any polynomial $p$ there is a unique morphism $\0\to p$.
+	\item Show that the standard sum of polynomials $p_1+p_2$ is a coproduct of $p_1$ and $p_2$. That is, provide morphisms $p_1\to p_1+p_2\from p_2$ and show that for any other $q$ with morphisms $p_1\To{f_1} q\From{f_2} p_2$, there exists a unique morphism $p_1+p_2\to q$---shown dashed---making the following diagram commute 
+	\[
+	\begin{tikzcd}
+		p_1\ar[r]\ar[dr, "f_1"']&
+		p_1+p_2\ar[d, dashed]&
+		p_2\ar[l]\ar[dl, "f_2"]\\&
+		q
+	\end{tikzcd}
+	\qedhere
+	\]
+\end{enumerate}
+\end{exercise}
+
+
 
 \begin{proposition}\label{prop.coprod_prod_poly}
 The category $\poly$ has coproducts and products.
@@ -2163,136 +2294,6 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \end{enumerate}
 \end{exercise}
 
-
-%---- Subsection ----%
-\subsection{Special polynomials and adjunctions}
-
-There are a few special classes of polynomials that are worth discussing: 
-\begin{enumerate}
-	\item constant polynomials $\0,\1,\2,A$; 
-	\item linear polynomials $\0,\yon, \2\yon, A\yon$;
-	\item pure-powers polynomials, $\1, \yon, \yon^\2, \yon^A$; and 
-	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
-\end{enumerate}
-The first two classes, constant and linear, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of something called ``bimorphic lenses'' inside $\poly$. We go through these four classes in order and then discuss some adjunctions that involve some of them.
-
-\begin{proposition}\label{prop.ff_const_set_to_poly}
-There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
-\end{proposition}
-\begin{proof}
-By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\0\to\0$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
-\end{proof}
-
-\begin{proposition}\label{prop.ff_lin_set_to_poly}
-There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
-\end{proposition}
-\begin{proof}
-By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
-\end{proof}
-
-\begin{theorem}\label{thm.adjoint_quadruple}
-$\poly$ has an adjoint quadruple with $\smset$:
-\begin{equation*}%\label{eqn.adjoints_galore}
-\begin{tikzcd}[column sep=60pt]
-  \smset
-  	\ar[r, shift left=7pt, "A" description]
-		\ar[r, shift left=-21pt, "A\yon"']&
-  \poly
-  	\ar[l, shift right=21pt, "p(\0)"']
-  	\ar[l, shift right=-7pt, "p(\1)" description]
-	\ar[l, phantom, "\scriptstyle\Leftarrow"]
-	\ar[l, phantom, shift left=14pt, "\scriptstyle\Rightarrow"]
-	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
-\end{tikzcd}
-\end{equation*}
-where the functors have been labeled by where they send $A\in\smset$ and $p\in \poly$. 
-
-Both rightward functors are fully faithful.
-\end{theorem}
-\begin{proof}
-For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; it is $\poly(A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly} give us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:
-\[
-\smset(A,p(\0))\cong\poly(A,p)\qquad
-\smset(p(\1),A)\cong\poly(p,A)\qquad
-\smset(A,p(\1))\cong\poly(A\yon,p).
-\]
-All three come from our main formula, \cref{eqn.main_formula}; we leave the details to the reader in \cref{exc.adjoint_quadruple}.
-\end{proof}
-
-\begin{exercise}\label{exc.adjoint_quadruple}
-Here we prove the remainder of \cref{thm.adjoint_quadruple} using \cref{eqn.main_formula}:
-\begin{enumerate}
-	\item Provide a natural isomorphism $\smset(A,p(\0))\cong\poly(A,p)$.
-	\item Provide a natural isomorphism $\smset(p(\1),A)\cong\poly(p,A)$.
-	\item Provide a natural isomorphism $\smset(A,p(\1))\cong\poly(A\yon,p)$.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is also a right adjoint---and hence that there is this \emph{quadruple} of adjunctions---is special to $A=\0,\1$.
-
-
-\begin{proposition}\label{prop.two_var_adj}
-There is a two-variable adjunction between $\smset$, $\poly$, and $\poly$:
-\begin{align}\label{eqn.two_var_adj}
-\poly(Ap,q)\cong\poly(p,q^A)\cong\smset(A,\poly(p,q)).
-\end{align}
-\end{proposition}
-\begin{proof}
-For any sets $A,B\in\smset$ and polynomial $q=\sum_{j\in q(\1)}\yon^{q_j}$, we need to check that there is a natural isomorphism
-\[
-\smset(A,q(B))\cong\poly(A\yon^B,q).
-\]
-This follows from our main formula \cref{eqn.main_formula}, since setting $p\coloneqq A\yon^B$ we have $p(\1)\cong A$ and $q(B)=\sum_{j\in q(\1)}B^{q_j}$.
-\end{proof}
-
-Using $p\coloneqq\yon^A$ and the Yoneda lemma, \cref{prop.two_var_adj} specializes to the following.
-
-
-\begin{corollary}\label{cor.substituting_adj}
-For any set $B$ there is an adjunction
-\[
-\adj{\smset}{A\yon^B}{p(B)}{\poly}
-\]
-where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
-\end{corollary}
-
-\begin{exercise}
-Prove \cref{cor.substituting_adj}.
-\end{exercise}
-
-\begin{proposition}
-The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
-\[
-\adjr{\smset\op}{\yon^-}{\Gamma}{\poly}
-\]
-where $\Gamma(p)\coloneqq\prod_{i\in p(\1)}p_i$.
-\end{proposition}
-\begin{proof}
-We have the following chain of natural isomorphisms:
-\begin{align*}
-  \smset(A,\Gamma(p))&\cong
-  \Big(\prod_{i\in p(\1)}p_i\Big)^A
-  	&\text{Definition of function}\\&\cong
-  \prod_{i\in p(\1)}{p_i}^A
-  	&\text{Definition of product}\\&\cong
-  \prod_{i\in p(\1)}\sum_{j\in\1}{p_i}^A
-  	&\text{Trivial sum}\\&\cong
-  \poly(p,\yon^A).&\cref{eqn.main_formula}
-\qedhere
-\end{align*}
-
-\end{proof}
-
-
-
-
-
-%-------- Section --------%
-\section{Dynamical systems}
-
-%-------- Section --------%
-\section{Wiring together dynamical systems}
 
 
 
