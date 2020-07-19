@@ -820,10 +820,11 @@ just like we wanted! In terms of wiring diagrams, this looks like:
 
 \begin{example}\label{ex.wiring_transition_diagrams}
 Let's see what wiring together two deterministic systems presented as transition
-diagrams looks like. We'll calculate the following system from definitions of
+diagrams looks like. We'll calculate the following system $\Sys{S}$ from definitions of
 $\Sys{S_1}$ and $\Sys{S_2}$ below.
 \[
-\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
+\Sys{S} = 
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=center]
   \node[bb={1}{1}] (S1) {$\Sys{S_1}$};
   \node[bb={1}{1}, right= of S1] (S2) {$\Sys{S_2}$};
 
@@ -838,17 +839,37 @@ $\Sys{S_1}$ and $\Sys{S_2}$ below.
  First, let $\Set{Colors}
 = \{\Red, \Blue, \Green\}$ and let $\Set{Bool} = \{\const{true}, \const{false}\}$. Here is our first system
 $\Sys{S_1}$, which has interface $\lens{\Set{Bool}}{\Set{Colors}}$:
+\[
 \begin{equation}\label{eqn.wiring_transition_diagrams1}
-\begin{tikzpicture}
+$\Sys{S_1}$ \coloneqq \begin{tikzpicture}[baseline=center]
 	\node[draw] {
   \begin{tikzcd}[column sep=small]
-    \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\t"] &  & \LMO{\Red} \ar[loop right, "\t"] \ar[dd, bend left, "\const{false}" ]\\
+    \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
     & & \\
-    \LMO{\Blue} \ar[loop left, "\f"] \ar[rr, leftarrow, bend left, "\f"] \ar[rr, leftarrow, bend right, "\t"'] & & \LMO{\Green}
+    \LMO{\Blue} \ar[loop left, "\false"] \ar[rr, leftarrow, bend left, "\false"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\Green}
   \end{tikzcd}
   };
 \end{tikzpicture}
 \end{equation}
+\]
+Our second system $\Sys{S_2}$ will have interface
+$\lens{\Set{Colors}}{\Set{Bool}}$:
+\[
+\begin{equation}\label{eqn.wiring_transition_diagrams2}
+$\Sys{S_2}$ \coloneqq \begin{tikzpicture}[baseline=center]
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\true} \ar[out=120, in=90, loop, red] \ar[in=210, out=250, loop, blue] \ar[rr, bend left = 10, dgreen] \ar[rr, leftarrow, red, bend right= 10] \ar[ddr, leftarrow, dgreen, bend right= 10] &  & \LMO{\false} \ar[loop right, dgreen] \ar[ddl, blue, bend left= 10] \ar[ddl,red, leftarrow, bend right= 10]  \\
+    & & \\
+    & \LMO{\true} \ar[out=300, in=240, loop, blue] & 
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+\]
+
+The fully wired system $\Sys{S}$ will then have 12 states
+
 
 \end{example}
 
