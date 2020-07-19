@@ -1840,7 +1840,8 @@ Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}=\{1,\ldots,n\}$ 
 \]
 So $d(i)$ is the set of directions someone could move (or not move) if at position $i$.
 \[
-\begin{tikzpicture}[scale=.5]  \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
+\begin{tikzpicture}[scale=.5]
+  \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
 	\draw[->, red ] (-2.5,3.5) -- (-1.5, 3.5);
 	\draw[->, red ] (-2.5,3.5) -- (-1.5, 2.5);
 	\draw[->, red ] (-2.5,3.5) -- (-2.5, 2.5);
@@ -1874,10 +1875,11 @@ Add to \cref{ex.movement_options} as follows.
 \begin{example}\label{ex.generalized_file_reader}
 In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileReader}$, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
 
-Let $State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
+Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
 current position $s$ and a terminal position $t$. For our interface, we'll have
 two modes, each of which exposes an ascii character:
-$$\Out{FileReader} = \langle \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} \rangle$$
+\[\Out{FileReader} = \pair{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
+\]
 %%
 %% Jaz: In Haskell, this would read
 %%      data \Out{FileReader} = Accepting ascii | Busy ascii
