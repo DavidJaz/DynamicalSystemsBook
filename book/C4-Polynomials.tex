@@ -43,7 +43,7 @@ In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a
 \footnote{
 In standard font, 42 represents the usual natural number. In sans serif font \4\2 represents the set $\4\2=\{1,2,\ldots,42\}$ with 42 elements.
 }
-in the associated poly. Intuitively, there are 42 situations in which you have a decision with three options. When you put all those decisions together, you have the \emph{wheelhouse} associated to $p$. 
+in the associated poly. Intuitively, there are 42 situations in which you have a decision with three options. When you put all those decisions together, you have the \emph{arena} associated to $p$. 
 
 Here is a table of terminology. The first column is book-wide terminology, the second is algebraic terminology about polynomials as in \eqref{eqn.polynomial1892}, the third is about the pictures of corollas as in \eqref{eqn.poly1892}, and the fourth column is intuitive terminology.
 
@@ -567,7 +567,7 @@ What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are of
 
 Luckily, the agda code is pretty easy to understand.
 \begin{agda}
-record Wheelhouse : Set where  -- a wheelhouse consists of 
+record Wheelhouse : Set where  -- a arena consists of 
    field                       -- two fields
      decn : Set                -- one called decn, a set, and
      posy : pos -> Set         -- one called posy,
@@ -991,7 +991,7 @@ What does $p(\0)$ give you?
 
 For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
 
-In particular, we're going to think about polynomials like $p$ and $q$ using the intuition from the beginning of the chapter, around the table in \eqref{eqn.table_terminology}. We said that we'd think of $p$ as a wheelhouse: a set of decisions you can make and what options you have. That is, $p(\1)$ is conceived as a set of decisions, and for every decision $i\in p(\1)$, we conceive of the set $p_i$ as the options or \emph{options} available in that decision. Here's an alternative way to write $p$:
+In particular, we're going to think about polynomials like $p$ and $q$ using the intuition from the beginning of the chapter, around the table in \eqref{eqn.table_terminology}. We said that we'd think of $p$ as a arena: a set of decisions you can make and what options you have. That is, $p(\1)$ is conceived as a set of decisions, and for every decision $i\in p(\1)$, we conceive of the set $p_i$ as the options or \emph{options} available in that decision. Here's an alternative way to write $p$:
 \[
 \begin{tikzcd}
 p(\1)\ar[r, "p_-"]&\smset
@@ -1508,6 +1508,19 @@ The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $
 \end{exercise}
 
 \begin{exercise}
+Which of the following classes of polynomials are closed under $\otimes$? Note also whether they contain $\yon$.
+\begin{enumerate}
+	\item The set $\{A\yon^\0\mid A\in\smset\}$ of constant polynomials.
+	\item The set $\{A\yon\mid A\in\smset\}$ of linear polynomials.
+	\item The set $\{A\yon+B\mid A,B\in\smset\}$ of affine polynomials.
+	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadradic polynomials.
+	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials.
+	\item The set $\{p\in\poly\mid p(\1)\text{ is finite }\}$.
+\end{enumerate}
+What is the smallest class of polynomials that's closed under $\otimes$ and contains $\yon$?
+\end{exercise}
+
+\begin{exercise}
 Show that for any $p_1,p_2,q\in\poly$ there is an isomorphism
 \[
 (p_1+p_2)\otimes q\cong (p_1\otimes q)+(p_2\otimes q)
@@ -1544,28 +1557,349 @@ It says that to give a morphism from one monomial to another, you just need to g
 Ordinarily, the $f^\sharp$ is more involved in that its type depends on $f_1$, but for monomials every decision has the same number of options, so to speak.
 
 The monomials in $\poly$ and the morphisms between them forms a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The morphisms $A_1\yon^{B_1}\to A_2\yon^{B_2}$ break up into two functions which people give special names:
-\begin{align*}
+\begin{equation}\label{eqn.bimorphic_lens}
+\begin{aligned}
 	\text{get}&\colon A_1\to A_2\\
-	\text{put}&\colon A_1\times B_2\to B_1
-\end{align*}
+	\text{set}&\colon A_1\times B_2\to B_1
+\end{aligned}
+\end{equation}
+The idea is that each $A$-decision ``gets'' a $B$-decision, and every option there in $B$ ``sets'' an option back in $A$
+
 We will use the term \emph{lens} when we want to remind the reader that morphisms between monomials are much simpler than those between arbitrary polynomials.
+
+\begin{remark}
+Consider lenses between polynomials of the form $S\yon^S$. In terms of arenas, the set of options for each decision $s\in S$ is again just the set $S$ of decisions. So decisions are all about ``which $s\in S$ you're at, and which one you want to be at next".
+
+A lens, i.e.\ a polynomial map $(\text{get, set})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate $S$-decisions to $T$-decisions. Among them, some lenses are considered to be ``very well behaved'' because they give $T$ a more sensible form of control. Namely, they are the ones that satisfy the following for all $s\in S$ and $t,t'\in T$:
+\[
+	\text{get}(\text{set}(s,t))=t
+	\qquad
+  \text{set}(s,\text{get}(s))=s
+  \qquad
+  \text{set}(\text{set}(s,t),t')=\text{set}(s,t')
+\]
+We will see these emerge from more general theory in \cref{??}.
+\end{remark}
 
 
 %-------- Section --------%
 \section{Dynamical systems using $\poly$}
 
+Let's start putting all this $\poly$ stuff to use. 
 
 %---- Subsection ----%
 \subsection{Moore machines}
 
+Remember Moore machines from \cref{def.deterministic_system}? 
 
-Products
+\begin{definition}\label{def.moore_machine_again}
+If $A$, $B$, and $A$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
+\begin{align*}
+	\text{expose}&\colon S\to B\\
+	\text{update}&\colon S\times A\to S 
+\end{align*}
+\end{definition}
+
+Look familiar?  It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a map of polynomials
+\[
+S\yon^S\to B\yon^A
+\]
+or to say it another way, a lens from $(S,S)\to(A,B)$ in the sense of \cref{eqn.bimorphic_lens}.
+
+We can generalize both $S\yon^S$ and $B\yon^A$ in \cref{def.moore_machine_again}, though the latter is much simpler and we'll spend much of the section on it. After some examples, we'll briefly preview something we're going to spend a lot of time later, namely what's special about $S\yon^S$; then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same system.
+
+\begin{example}\label{ex.Moore_three}
+Here's a picture of a Moore machine with $S\coloneqq\3$ states:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMO{b_1}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMO{b_2}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMO{b_2} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Each state is labeled by its exposed value, i.e.\ element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+
+You can imagine barking ``orange! orange! green! orange!'' etc. at this machine, and it running through states.
+\end{example}
+
+\begin{example}\label{ex.R2_moore}
+Here's a(n infinite) Moore machine with states $\rr^2$:
+\[
+\rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)}
+\]
+Its output type is $\rr^2$, which we might think of as a position, and its input type is $[0,1]\times[0,2\pi]$, which we might think of a command to move a certain amount in a certain direction. The map itself is given by the lens:
+\begin{align*}
+  \rr^2&\To{\text{get}}\rr^2&
+  \rr^2\times[0,1]\times[0,2\pi]&\To{\text{put}}\rr^2\\
+  (a,b)&\mapsto(a,b)&
+  (a,b,r,\theta)&\mapsto(a+r\cos\theta, b+r\sin\theta)
+\end{align*}
+\end{example}
+
+\begin{exercise}
+Find $A,B\in\smset$ such that the following can be identified with a morphism $S\yon^S\to B\yon^A$:
+\begin{enumerate}
+	\item a discrete dynamical system, which consists of a set $S$ and a function $S\to S$.
+	\item a magma, which consists of a set $S$ and a function $S\times S\to S$.
+	\item a set $S$ and a subset $S'\ss S$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Using the terminology from that example, modify the robot as follows.
+
+Add to its state a ``health meter'', which has a value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
+\end{exercise}
+
+\begin{exercise}\label{exc.file_reader}
+Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$. Suppose given such a file and refer to elements of $\ord{n}=\{1,\ldots,n\}$ as positions. Make a robot (Moore machine) whose output type is $\Set{ascii}$ and whose input type is
+\[
+\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}
+\]
+Given an input, if it is of the form $(s,t)$ then the robot goes to position $s$ in the file and begins reading (assuming it receives the ``continue'' signal) one character at a time, until it reaches position $t$. Then it continually outputs ``done'' until it receives another $(s,t)$ pair.
+\end{exercise}
+
+When we get to generalized Moore machines, we will be able to let the robot ``close its port'', so that while it can't receive signals while it's busy reading; see \cref{ex.generalized_file_reader}.
+
+\begin{exercise}[Tape of a Turing machine]
+A Turing machine has a tape. The tape has a position for each integer, and each position holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from positions to values, but also a distinguished choice $c\in\zz$ of ``current'' position. Thus the set of states of the tape is $T\coloneqq V^\zz\times\zz$.
+
+The Turing machine interacts with the tape by asking for the value at the current position, an element of $V$, and by telling it to change the value there as well as whether to move left or right. Thus the output of the tape is $V$ and the input is $V\times\{L,R\}$.
+
+\begin{enumerate}
+	\item Give the form of the tape as a Moore machine, i.e.\ map of polynomials $t\colon S\yon^S\to p$ for appropriate $S\in S$ and $p\in\poly$.
+	\item Write down the specific $t$ that makes it act like a tape as specified above.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\paragraph{The polynomial $S\yon^S$ as a comonad on $\smset$.}
+
+A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. We don't need this now, so we won't get into it here. But we will note that every comonad comes from an adjunction, and the adjunction corresponding to $S\yon^S$ is
+\[
+\adj{\smset}{-\times S}{-^S}{\smset}
+\]
+the ``curry/uncurry'' adjunction. In functional programming, the comonad $S\yon^S$ is called the \emph{state comonad},%
+\footnote{The comonad $S\yon^S$ is sometimes called the \emph{store} comonad.} 
+and the elements of $S$ are called states. It is no coincidence that we also refer to elements of $S$ as states. 
+
+Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1} they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
+\footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
+
+\paragraph{Regular languages}
+
+Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic finite state automaton. What is that?
+
+\begin{definition}\label{def.dfa}
+A \emph{deterministic finite state automaton} consists of
+\begin{enumerate}
+	\item a finite set $S$, elements of which are called \emph{states}
+	\item a finite set $A$, elements of which are called \emph{input symbols},
+	\item a function $u\colon S\times A\to S$, called the \emph{update function},
+	\item an element $s_0\in S$, called the \emph{initial state},
+	\item a subset $F\ss S$, called the \emph{accept states}.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+A deterministic finite state automaton can be identified with a pair of maps
+\[
+\yon\to S\yon^S\to \2\yon^A
+\]
+\end{proposition}
+\begin{proof}
+A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$. A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$---which can be identified with a subset of $S$---together with a function $S\times A\to S$, which is the rest of the required structure.
+\end{proof}
+
+
+\paragraph{Products}
+
+One thing we can use right away in our thinking about dynamical systems is products of polynomials. The universal property of products says that for any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$ there is a unique map $s\to p_1p_2$. In the context of Moore machines, we have the following.
+
+\begin{proposition}
+Suppose given an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1B_2)$-Moore machine, again with state set $S$.
+\end{proposition}
+\begin{proof}
+We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence by the universal property of products we have a map
+\[
+  S\yon^S\to
+  (B_1\yon^{A_1}\times(B_2\yon^{A_2})
+  \cong(B_1B_2)\yon^{A_1+A_2},
+\] 
+as desired.
+\end{proof}
+
+\begin{example}
+Consider two four-state dynamical systems $4\yon^4\to \rr\yon^{\{r,b\}}$ and $4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{3.14}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
+  	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
+  	\LMO[under]{1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
+  	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
+  \end{tikzcd}
+	};
+	\node[draw, right=of 1] {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{2}\ar[d, green!50!black]&
+  	\LMO{4}\ar[l, green!50!black]\\
+  	\LMO[under]{8}\ar[loop left, green!50!black]&
+  	\LMO[under]{16}\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+ \end{tikzpicture}
+\]
+
+The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+  	\LMO{(3.14,2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
+  	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
+  	\LMO[under]{(1.41,8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
+  	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+\end{example}
+
+In other words, if there are two or more interfaces that drive a single set of states, we can combine them.
+
+
+
+\begin{exercise}[Toward event-based systems]
+Let $f\colon S\yon^S\to B\yon^A$ be a Moore machine. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
+
+So suppose we want to allow our machine not to do anything. That is, rather than needing to press a button in $A$ at each time step, we want to be able to \emph{not} press any button, in which case the machine just stays where it is. We want a new machine $f'\colon S\yon^S\to p$ that has this behavior; what is $p$ and what is $f'$?
+\end{exercise}
+
+
+
+%---- Subsection ----%
+\subsection{Generalized Moore machines}
+
+Everything we've done above was for interfaces of the form $B\yon^A$, i.e.\ for monomials. But the theory works just as well for an arbitrary $p$, a sum of monomials.
+
+\begin{definition}[Generalized Moore machine]\label{def.gen_moore}
+A \emph{generalized Moore machine} is a map of polynomials
+\[S\yon^S\to p\]
+for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states} and the polynomial $p$ is called the \emph{(poly-) interface}.
+\end{definition}
+
+What on earth do these things do? Let's start with something familiar.
+
+\begin{example}
+Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in ones language. For that, rather than use a map $S\yon^S\to 2\yon^A$, we could use a map
+\[
+(f_1,f^\sharp)\colon S\yon^S\to \yon^A+\1
+\]
+To give such a map, one first provides a function $f_1\colon S\to\2$; some elements of $S$ are sent to $1$ others are sent to $2$; those that are sent to $2$ are ``accepted''. This is captured by the fact that there are no options in the term $\1$, no input. On the other hand, those elements $s\in S$ that are sent to $f_1(s)=1$ then must assign a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$.
+\end{example}
+
+\begin{exercise}
+Consider the deterministic finite state automaton shown below
+\[
+\begin{tikzcd}[column sep=small]
+	\bullet\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bullet\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bullet
+\end{tikzcd}
+\]
+The state without any outgoing arrows is the accept state. Answer the following questions, in keeping with the notation from \cref{def.gen_moore}.
+
+\begin{enumerate}
+	\item What is $S$?
+	\item What is $A$?
+	\item Specify the morphism of polynomials $S\yon^S\to\yon^A+1$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Find what you think is an interesting generalization of deterministic finite state automata that you can model using generalized Moore machines.
+\end{exercise}
+
+\begin{example}\label{ex.movement_options}
+Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}=\{1,\ldots,n\}$ let $d(i)$ be the set
+\[
+	d(i)\coloneqq
+	\begin{cases}
+		\{0,1\}&\tn{ if }i=1\\
+		\{-1,0\}&\tn{ if }i=n\\
+		\{-1,0,1\}&\tn{ if } 1<i<n
+	\end{cases}
+\]
+So $d(i)$ is the set of directions someone could move (or not move) if at position $i$.
+\[
+\begin{tikzpicture}[scale=.5]  \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
+	\draw[->, red ] (-2.5,3.5) -- (-1.5, 3.5);
+	\draw[->, red ] (-2.5,3.5) -- (-1.5, 2.5);
+	\draw[->, red ] (-2.5,3.5) -- (-2.5, 2.5);
+	\draw[->, blue] (1.5, 0.5) -- (0.5, 0.5);
+	\draw[->, blue] (1.5, 0.5) -- (2.5, 0.5);
+	\draw[->, blue] (1.5, 0.5) -- (1.5, 1.5);
+	\draw[->, blue] (1.5, 0.5) -- (1.5,-0.5);
+	\draw[->, blue] (1.5, 0.5) -- (0.5, 1.5);
+	\draw[->, blue] (1.5, 0.5) -- (0.5,-0.5);
+	\draw[->, blue] (1.5, 0.5) -- (2.5, 1.5);
+	\draw[->, blue] (1.5, 0.5) -- (2.5,-0.5);
+\end{tikzpicture}
+\]
+Then a generalized Moore machine of the form $S\yon^S\to p$, where
+\[
+p= \sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{d(i)\times d(j)},
+\]
+is one that has more movement options when it is in the center of the grid than when it is on the sides or corners.
+\end{example}
+
+\begin{exercise}
+Add to \cref{ex.movement_options} as follows.
+\begin{enumerate}
+	\item Redefine $p$ so that at each grid value, the robot can receive not only the set of directions it can move in but also a reward value in $\rr$. 
+	\item Define the set $S$ of robot states so that an element $s\in S$ includes both the robot's position and a list of all reward values so far.
+	\item Define a morphism of polynomials $S\yon^S\to p$ in a way that respects positions and properly updates the robots list of rewards, but otherwise does anything you want.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}\label{ex.generalized_file_reader}
+In \cref{exc.file_reader} one is tasked with making a file reader, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
+
+Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
+\[
+(r_1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
+\]
+as follows. On positions define
+\[
+	r_1(s,t)\coloneqq
+	\begin{cases}
+		\const{inl}\ f(s)&\tn{ if } s=t\\
+		\const{inr}\ f(s)&\tn{ if } s<t
+	\end{cases}
+\]
+
+\[
+	r^\sharp_{(t,t)}(s',t')\coloneqq (s',t')
+	\qquad
+	r^\sharp_{(s,t)}(1)\coloneqq (s+1,t)
+\]
+\end{example}
+
+\begin{exercise}
+Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\2\5\6$ when $o=100$.
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{Wiring diagrams}
-
-%---- Subsection ----%
-\subsection{Mode dependence}
 
 
 %-------- Section --------%
