@@ -1641,13 +1641,23 @@ Its output type is $\rr^2$, which we might think of as a position, and its input
 \end{example}
 
 \begin{exercise}
+Find $A,B\in\smset$ such that the following can be identified with a morphism $S\yon^S\to B\yon^A$:
+\begin{enumerate}
+	\item a discrete dynamical system, which consists of a set $S$ and a function $S\to S$.
+	\item a magma, which consists of a set $S$ and a function $S\times S\to S$.
+	\item a set $S$ and a subset $S'\ss S$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
 Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Using the terminology from that example, modify the robot as follows.
 
 Add to its state a ``health meter'', which has a value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \end{exercise}
 
 \begin{exercise}\label{exc.file_reader}
-Let's say a file of length $n$ is a function $f\colon\ord{n}\to\2\5\6+\{\text{done}\}$; suppose given such a file and refer to elements of $\ord{n}=\{1,\ldots,n\}$ as positions. Make a robot (Moore machine) whose output type is \2\5\6 and whose input type is
+Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$. Suppose given such a file and refer to elements of $\ord{n}=\{1,\ldots,n\}$ as positions. Make a robot (Moore machine) whose output type is $\Set{ascii}$ and whose input type is
 \[
 \{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}
 \]
@@ -1657,7 +1667,7 @@ Given an input, if it is of the form $(s,t)$ then the robot goes to position $s$
 When we get to generalized Moore machines, we will be able to let the robot ``close its port'', so that while it can't receive signals while it's busy reading; see \cref{ex.generalized_file_reader}.
 
 \begin{exercise}[Tape of a Turing machine]
-A Turing machine has a tape. The tape has a position for each integer, and each position holds a value $v\in V=\{0,-,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from positions to values, but also a distinguished choice $c\in\zz$ of ``current'' position. Thus the set of states of the tape is $T\coloneqq V^\zz\times\zz$.
+A Turing machine has a tape. The tape has a position for each integer, and each position holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from positions to values, but also a distinguished choice $c\in\zz$ of ``current'' position. Thus the set of states of the tape is $T\coloneqq V^\zz\times\zz$.
 
 The Turing machine interacts with the tape by asking for the value at the current position, an element of $V$, and by telling it to change the value there as well as whether to move left or right. Thus the output of the tape is $V$ and the input is $V\times\{L,R\}$.
 
@@ -1862,10 +1872,31 @@ Add to \cref{ex.movement_options} as follows.
 \end{exercise}
 
 \begin{example}\label{ex.generalized_file_reader}
-In \cref{exc.file_reader} one is tasked with making a file reader. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
+In \cref{exc.file_reader} one is tasked with making a file reader, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
 
-\spiz{finish}
+Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
+\[
+(r_1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
+\]
+as follows. On positions define
+\[
+	r_1(s,t)\coloneqq
+	\begin{cases}
+		\const{inl}\ f(s)&\tn{ if } s=t\\
+		\const{inr}\ f(s)&\tn{ if } s<t
+	\end{cases}
+\]
+
+\[
+	r^\sharp_{(t,t)}(s',t')\coloneqq (s',t')
+	\qquad
+	r^\sharp_{(s,t)}(1)\coloneqq (s+1,t)
+\]
 \end{example}
+
+\begin{exercise}
+Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\2\5\6$ when $o=100$.
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{Wiring diagrams}
