@@ -2219,8 +2219,79 @@ Now each system is able to see the vector pointing from it to the other system (
 \end{align*}
 \end{example}
 
+\begin{exercise}
+Let $p,q\coloneqq\nn\yon^\nn$.
+\begin{enumerate}
+	\item Write a polynomial morphism $p\otimes q\to\yon$ that corresponds to the function $(a,b)\mapsto (b,a+b)$.
+	\item Write dynamical systems $\nn\yon^\nn\to p$ and $\nn\yon^\nn\to q$, each of which simply outputs the previous input.
+	\item Suppose each system starts in state $1\in\nn$. What is the trajectory of the $p$-system?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set and $d\colon X\times X\to\rr$ is a function satisfying the usual laws. Let's have robots interact in this space.
+
+Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and $a_0'\in A'$ be elements, each thought of as a default value. Let $p\coloneqq AX\yon^{A'X}$ and $p'\coloneqq A'X\yon^{AX}$, and imagine there are two robots, one with interface $p$ and one with interface $p'$.
+\begin{enumerate}
+	\item Write down a morphism $p\otimes p'\to\yon$ such that each robot receives the other's location, but that it only receives the other's signal when the locations $x,x'$ are sufficiently close, $d(x,x')<1$. Otherwise it receives the default signal.
+	\item Write down a morphism $p\otimes p'\to\yon^{[0,5]}$ where the value $s\in [0,5]$ is a scalar, allowing the signal to travel $s$ times further.
+	\item Suppose that each robot has a set $S,S'$ of private states. What functions are involved in providing a dynamical system $f\colon SX\yon^{SX}\to AX\yon^{A'X}$?
+	\item Change the setup in any way so that the robots only extend a port to hear the other's signal when the distance between them is less than 1. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}
+
+The Dirichlet monoidal product is closed, meaning that there is an operation, which we denote $[-,-]\colon\poly\op\times\poly\to\poly$ and an isomorphism
+\[
+  \poly(p\otimes q,r)\cong\poly(p,[q,r])
+\]
+natural in $p,q,r$. The closure operation is defined on $q,r$ as follows:
+\begin{equation}\label{eqn.dir_hom}
+	[q,r]\coloneqq\prod_{j\in q(\1)}r\circ(q_i\yon)
+\end{equation}
+
+\begin{example}
+For any $A\in\smset$ we have
+\[
+  [\yon^A,\yon]\cong A\yon
+  \qqand
+  [A\yon,\yon]\cong\yon^A.
+\]
+These both follow directly from \eqref{eqn.dir_hom}.
+\end{example}
+
+\begin{exercise}
+Calculate $[q,r]$ for $q,r\in\poly$ given as follows.
+\begin{enumerate}
+	\item $q\coloneqq 0$ and $r$ arbitrary.
+	\item $q\coloneqq 1$ and $r$ arbitrary.
+	\item $q\coloneqq\yon$ and $r$ arbitrary.
+	\item $q\coloneqq A$ and $r\coloneqq B$ for $A,B\in\smset$ (constants).
+	\item $q\coloneqq A\yon$ and $r\coloneqq B\yon$ for $A,B\in\smset$ (linears).
+	\item $q\coloneqq\2\yon^\3+\yon^\2$ and $r\coloneqq\4\yon^\2+\7$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}
+With $[-,-]$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
+\[
+	\poly(p\otimes q,r)\cong\poly(p,[q,r]).
+\]
+\end{proposition}
+\begin{proof}
+We have the following chain of natural isomorphisms:
+\begin{align*}
+	\poly(p\otimes q,r)&\cong
+	\poly\Big(\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_iq_j},r\Big)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_iq_j},r)\\&\cong
+	\prod_{i\in p(\1)}\poly\Big(\yon^{p_i},\prod_{j\in q(\1)}r\ci
+\end{align*}
+\end{proof}
 
 %-------- Section --------%
 \section{Bonus math about the category $\poly$}
