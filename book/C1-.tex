@@ -86,7 +86,7 @@ evening. Being morning or evening is its own way that things might be, and we
 can see it as its own dynamical system. We might imagine a little addition to
 our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
 \[
-\begin{tikzpicture}[line cap=rect,line width=3pt, baseline=(0,0)]
+\begin{tikzpicture}[line cap=rect,line width=3pt, baseline=center]
 \filldraw [fill=cyan] (0,0) circle [radius=2cm];
 \foreach \angle [count=\xi] in {60,30,...,-270}
 {
@@ -820,10 +820,43 @@ just like we wanted! In terms of wiring diagrams, this looks like:
 
 
 
-\begin{example}\label{ex.wiring_transition_diagrams}
-Let's see what wiring together two deterministic systems presented as transition
-diagrams looks like. We'll calculate the following system $\Sys{S}$ from definitions of
-$\Sys{S_1}$ and $\Sys{S_2}$ below.
+\begin{exercise}\label{ex.wiring_transition_diagrams}
+Here are two systems, $\Sys{S_1}$ and $\Sys{S_2}$ presented in terms of
+transition diagrams. The task is calculate the transition diagram of a system
+made by wiring them together.
+
+ First, let $\Set{Colors}
+= \{\Red, \Blue, \Green\}$ and let $\Set{Bool} = \{\const{true}, \const{false}\}$. Here is our first system
+$\Sys{S_1}$, which has interface $\lens{\Set{Bool}}{\Set{Colors}}$:
+
+\begin{equation}\label{eqn.wiring_transition_diagrams1}
+\Sys{S_1} \coloneqq \begin{tikzpicture}[baseline=center]
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
+    & & \\
+    \LMO{\Blue} \ar[loop left, "\false"] \ar[rr, leftarrow, bend left, "\false"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\Green}
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+
+Our second system $\Sys{S_2}$ will have interface
+$\lens{\Set{Colors}}{\Set{Bool}}$:
+
+\begin{equation}\label{eqn.wiring_transition_diagrams2}
+\Sys{S_2} \coloneqq \begin{tikzpicture}[baseline=center]
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\true} \ar[out=120, in=90, loop, red] \ar[in=210, out=250, loop, blue] \ar[rr, bend left = 10, dgreen] \ar[rr, leftarrow, red, bend right= 10] \ar[ddr, leftarrow, dgreen, bend right= 10] &  & \LMO{\false} \ar[loop right, dgreen] \ar[ddl, blue, bend left= 10] \ar[ddl,red, leftarrow, bend right= 10]  \\
+    & & \\
+    & \LMO{\true} \ar[out=300, in=240, loop, blue] & 
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+
+Write down the fully wired system
 \[
 \Sys{S} = 
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=center]
@@ -837,43 +870,7 @@ $\Sys{S_1}$ and $\Sys{S_2}$ below.
   \draw (S2_out1) to (Outer_out1);
 \end{tikzpicture}
 \]
-
- First, let $\Set{Colors}
-= \{\Red, \Blue, \Green\}$ and let $\Set{Bool} = \{\const{true}, \const{false}\}$. Here is our first system
-$\Sys{S_1}$, which has interface $\lens{\Set{Bool}}{\Set{Colors}}$:
-\[
-\begin{equation}\label{eqn.wiring_transition_diagrams1}
-$\Sys{S_1}$ \coloneqq \begin{tikzpicture}[baseline=center]
-	\node[draw] {
-  \begin{tikzcd}[column sep=small]
-    \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
-    & & \\
-    \LMO{\Blue} \ar[loop left, "\false"] \ar[rr, leftarrow, bend left, "\false"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\Green}
-  \end{tikzcd}
-  };
-\end{tikzpicture}
-\end{equation}
-\]
-Our second system $\Sys{S_2}$ will have interface
-$\lens{\Set{Colors}}{\Set{Bool}}$:
-\[
-\begin{equation}\label{eqn.wiring_transition_diagrams2}
-$\Sys{S_2}$ \coloneqq \begin{tikzpicture}[baseline=center]
-	\node[draw] {
-  \begin{tikzcd}[column sep=small]
-    \LMO{\true} \ar[out=120, in=90, loop, red] \ar[in=210, out=250, loop, blue] \ar[rr, bend left = 10, dgreen] \ar[rr, leftarrow, red, bend right= 10] \ar[ddr, leftarrow, dgreen, bend right= 10] &  & \LMO{\false} \ar[loop right, dgreen] \ar[ddl, blue, bend left= 10] \ar[ddl,red, leftarrow, bend right= 10]  \\
-    & & \\
-    & \LMO{\true} \ar[out=300, in=240, loop, blue] & 
-  \end{tikzcd}
-  };
-\end{tikzpicture}
-\end{equation}
-\]
-
-The fully wired system $\Sys{S}$ will then have 12 states
-
-
-\end{example}
+\end{exercise}
 
 \begin{example}[Multi-city SIR models]\label{ex.multi_city_SIR_discrete}
   
@@ -1684,10 +1681,36 @@ In \cref{sec.steady_states_matrix_arithmetic}, we'll see that each wiring
 diagram gives a formula for calculating the matrix of steady states of the
 composite system from the matrices of steady states of the inner systems. 
 
+\begin{exercise}\label{ex.find_steady_states1}
+  Write down the steady state matrices of systsm $\Sys{S_1}$ and $\Sys{S_2}$ from
+  \cref{ex.wiring_transition_diagrams}.
+\end{exercise}
 
 \subsection{Periodic orbits}
 
+Even if the behavior of a system isn't perfectly steady, it may continually
+repeat. To a reasonable approximation, the position of the earth around the sun
+follows a cycle that repeats every year. Using this as a paradigmatic example,
+we call these situations that repeat \emph{periodic orbits}.
 
+\begin{definition}[Periodic orbit] \label{def.periodic_orbit_discrete}
+  A $(p, v)$-trajectory $s : \nn \to \State{S}$ is \emph{periodic} if there
+  exists a time $t_0 \in \nn$ such that $s_{t_0} = s_0$.   
+  The \emph{period} of a periodic trajectory is the smallest positive $t_0$ so
+  that $s_{t_0} = S_0$. \end{definition}
+
+\begin{remark}
+  Note that a steady state is a periodic orbit with a period of $0$.
+\end{remark}
+
+\begin{definition}[Eventually periodic orbit] \label{def.eventually_periodic_orbit_discrete}
+A $(p, v)$-trajectory $s : \nn \to
+  \State{S}$ is \emph{eventually periodic} if there are times $t_0 < t_1 \in
+  \nn$ such that $s_{t_0} = s_{t_1}$. 
+
+The \emph{period} of an eventually periodic trajectory is
+  the smallest difference $t_1 - t_0$ between times such that $s_{t_0} = s_{t_1}$.
+\end{definition}
 
 %%% write-here 
 \subsection{Maps of deterministic systems}

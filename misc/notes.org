@@ -139,6 +139,16 @@ In each note topic, I think we should trade off with headers simply named
 
 *** TODO Jaz: Replace := with \coloneqq
 
+*** TODO Jaz: Finish example composing transition diagrams
+    I want to make a new keyword instead of \LMO that can allow me to have a state name and an output symbol.
+
+** <2020-07-20 seg>  
+
+*** Jaz: Eventually periodic orbit functor?
+    For each eventually periodic orbit that takes t steps to get to an orbit of period p, there is a representable indexed double functor.
+
+    Is there an indexed double functor that yields all eventually periodic orbits? Naively, I expect it to be a colimit over all the representable indexed double functor for each eventually periodic orbit. 
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction
