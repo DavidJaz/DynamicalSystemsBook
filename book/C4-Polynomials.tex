@@ -51,7 +51,7 @@ Here is a table of terminology. The first column is book-wide terminology, the s
 \small
 \begin{tabular}{llll}
 \multicolumn{4}{c}{\normalsize Terminology}\\
-\textbf{Interface} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Wheelhouse}\\\hline
+\textbf{Interface} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Arena}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
 Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
 Distinction $c\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Possibility
@@ -608,7 +608,7 @@ What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are of
 
 Luckily, the agda code is pretty easy to understand.
 \begin{agda}
-record Wheelhouse : Set where  -- a arena consists of 
+record Arena : Set where  -- a arena consists of 
    field                       -- two fields
      decn : Set                -- one called decn, a set, and
      posy : pos -> Set         -- one called posy,
@@ -1043,7 +1043,7 @@ Again, every decision $i\in p(\1)$ gets a set $p_i$ of options: that's the whole
 The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q_j$ that $q$ could make among its options is passed back as some choice $c\in p_i$ among $p$'s options.
 
 \begin{agda}
-record Delegation (w : Wheelhouse) (w' : Wheelhouse) : Set where
+record Delegation (w : Arena) (w' : Arena) : Set where
    field 
      passfwd : (decn p) -> (decn q)
      passbck : (d : decn p) -> posy q (passfwd d) -> posy p d
