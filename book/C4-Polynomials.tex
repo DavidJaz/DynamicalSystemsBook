@@ -2289,7 +2289,11 @@ We have the following chain of natural isomorphisms:
 	\poly(p\otimes q,r)&\cong
 	\poly\Big(\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_iq_j},r\Big)\\&\cong
 	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_iq_j},r)\\&\cong
-	\prod_{i\in p(\1)}\poly\Big(\yon^{p_i},\prod_{j\in q(\1)}r\ci
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p_iq_j)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_i},r\circ(q_j\yon))\\&\cong
+	\prod_{i\in p(\1)}\poly\Big(\yon^{p_i},\prod_{j\in q(\1)}r\circ(q_j\yon)\Big)\\&\cong
+	\poly(p,[q,r])
+	\qedhere
 \end{align*}
 \end{proof}
 
