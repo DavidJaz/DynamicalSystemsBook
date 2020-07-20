@@ -25,7 +25,7 @@ In this chapter we will investigate a remarkable category called $\poly$. We wil
 All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be depicted as a set of mini-trees:
 }
 \label{eqn.poly1892}
-\begin{tikzpicture}[trees, grow'=up]
+\begin{tikzpicture}[trees]
   \node (1) {$\bullet$} 
     child {}
     child {};
@@ -51,7 +51,7 @@ Here is a table of terminology. The first column is book-wide terminology, the s
 \small
 \begin{tabular}{llll}
 \multicolumn{4}{c}{\normalsize Terminology}\\
-\textbf{Interface} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Wheelhouse}\\\hline
+\textbf{Interface} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Arena}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
 Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
 Distinction $c\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Possibility
@@ -116,7 +116,7 @@ Throughout this book, we've seen dynamical systems---machines of various sorts--
 
 To give some intuition for the first two, imagine yourself as a system, wired up to other systems. You have some input ports: your eyes, your ears, etc., and you have some output ports: your speech, your gestures, etc. And you connect with other systems: your family, your colleagues, the GPS of your phone, etc.
 \begin{equation}\label{eqn.wired_forever}
-\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
 	\node[bb={2}{2}, green!25!black] (X11) {\tiny Alice};
 	\node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny you};
 	\node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny Bob};
@@ -330,23 +330,39 @@ Consider the following three trees, the first two are infinite (though that's ha
   level 1/.style={sibling distance=20mm},
   level 2/.style={sibling distance=10mm},
   level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
   \node[dgreen] (a) {$\bullet$}
     child {node[dgreen] {$\bullet$}
     	child {node[dgreen] {$\bullet$}
     		child {node[dgreen] {$\bullet$}
-  				child 
-  				child
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
   			}
     		child {node[dyellow] {$\bullet$}
-  				child 
-  				child
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
   			}
     	}
     	child {node[dyellow] {$\bullet$}
     		child {node[dgreen] {$\bullet$}
-  				child
-  				child
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
   			}
     		child  {node[red] {$\bullet$}}
     	}
@@ -354,12 +370,21 @@ Consider the following three trees, the first two are infinite (though that's ha
     child {node[dyellow] {$\bullet$}
     	child {node[dgreen] {$\bullet$}
     		child {node[dgreen] {$\bullet$}
-  				child
-  				child
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
   			}
     		child {node[dyellow] {$\bullet$}
-  				child
-  				child
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
   			}
   		}
   		child {node[red] {$\bullet$}
@@ -371,23 +396,39 @@ Consider the following three trees, the first two are infinite (though that's ha
   level 1/.style={sibling distance=13mm},
   level 2/.style={sibling distance=10mm},
   level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
 \node (b) [right=4 of a, dyellow] {$\bullet$}
   child {node[dgreen] {$\bullet$}
   	child {node[dgreen] {$\bullet$}
   		child {node[dgreen] {$\bullet$}
-				child
-				child
+  			child {node[dgreen] {$\bullet$}
+    			child {}
+    			child {}
+   			}
+ 				child {node[dyellow] {$\bullet$}
+   				child {}
+   				child {}
+   			}
 			}
-  		child {node[dyellow] {$\bullet$}
-				child
-				child
-			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
 		}
   	child {node[dyellow] {$\bullet$}
   		child {node[dgreen] {$\bullet$}
-				child
-				child
+  			child {node[dgreen] {$\bullet$}
+    			child {}
+    			child {}
+   			}
+ 				child {node[dyellow] {$\bullet$}
+   				child {}
+   				child {}
+   			}
 			}
   		child  {node[red] {$\bullet$}}
   	}
@@ -567,7 +608,7 @@ What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are of
 
 Luckily, the agda code is pretty easy to understand.
 \begin{agda}
-record Wheelhouse : Set where  -- a arena consists of 
+record Arena : Set where  -- a arena consists of 
    field                       -- two fields
      decn : Set                -- one called decn, a set, and
      posy : pos -> Set         -- one called posy,
@@ -1002,7 +1043,7 @@ Again, every decision $i\in p(\1)$ gets a set $p_i$ of options: that's the whole
 The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q_j$ that $q$ could make among its options is passed back as some choice $c\in p_i$ among $p$'s options.
 
 \begin{agda}
-record Delegation (w : Wheelhouse) (w' : Wheelhouse) : Set where
+record Delegation (w : Arena) (w' : Arena) : Set where
    field 
      passfwd : (decn p) -> (decn q)
      passbck : (d : decn p) -> posy q (passfwd d) -> posy p d
@@ -1449,8 +1490,14 @@ Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$. In pictures, we ta
 	};
 \end{tikzpicture}
 \]
-
 \end{example}
+
+\begin{exercise}
+What is the Dirichlet product of monomials
+\[
+A_1\yon^{B_1}\otimes A_2\yon^{B_2}?
+\]
+\end{exercise}
 
 \begin{exercise}
 Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\2\yon^\4$.
@@ -1491,11 +1538,23 @@ Let $p,q,r\in\poly$ be any polynomials.
 \end{enumerate}
 \end{exercise}
 
-In \cref{exc.prepare_poly_smc} we have gone most of the way to proving that $(\poly,\otimes,\yon)$ is a symmetric monoidal category. We have not proven all the coherences between the various isomorphisms, but we ask the reader to take it on trust or to check it for themselves. 
+In \cref{exc.prepare_poly_smc} we have gone most of the way to proving that $(\poly,\otimes,\yon)$ is a symmetric monoidal category. 
 
-\begin{proposition}
+\begin{proposition}\label{prop.dirichlet_monoidal}
 The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the Dirichlet product from \cref{def.dirichlet}.
 \end{proposition}
+\begin{proof}[Sketch of proof]
+Given morphisms of polynomials $f\colon p\to p'$ and $g\colon q\to q'$ we need to give a morphism $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
+\[
+(f\otimes g)_1(i,j)\coloneqq \big(f_1(i),g_1(j)\big)
+\]
+On directions at $(i,j)\in p(\1)\times q(\1)$, define
+\[
+  (f\otimes g)^\sharp_{(i,j)}(d,e)\coloneqq
+  \big(f^\sharp_i(d),g^\sharp_j(e)\big).
+\]
+We have not proven all the coherences between the various isomorphisms, but we ask the reader to take it on trust or to check it for themselves. 
+\end{proof}
 
 \begin{exercise}
 \begin{enumerate}
@@ -1507,13 +1566,14 @@ The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $
 \end{enumerate}
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise}\label{exc.dir_closed_classes}
 Which of the following classes of polynomials are closed under $\otimes$? Note also whether they contain $\yon$.
 \begin{enumerate}
 	\item The set $\{A\yon^\0\mid A\in\smset\}$ of constant polynomials.
 	\item The set $\{A\yon\mid A\in\smset\}$ of linear polynomials.
 	\item The set $\{A\yon+B\mid A,B\in\smset\}$ of affine polynomials.
 	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadradic polynomials.
+	\item The set $\{A\yon^B\mid A,B\in\smset\}$ of monomials.
 	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials.
 	\item The set $\{p\in\poly\mid p(\1)\text{ is finite }\}$.
 \end{enumerate}
@@ -1530,7 +1590,31 @@ Show that for any $p_1,p_2,q\in\poly$ there is an isomorphism
 
 \paragraph{Bimorphic lenses}
 
-Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. The formula for morphisms between these is particularly simple:
+Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
+\[
+\begin{tikzpicture}[trees, sibling distance=1mm]
+	\foreach \i in {1,...,5}
+	{
+    \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+    ;
+	};
+\end{tikzpicture}
+\]
+
+
+The formula for morphisms between these is particularly simple:
 \[
   \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
   \cong
@@ -1728,7 +1812,7 @@ Suppose given an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, eac
 We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence by the universal property of products we have a map
 \[
   S\yon^S\to
-  (B_1\yon^{A_1}\times(B_2\yon^{A_2})
+  (B_1\yon^{A_1})\times(B_2\yon^{A_2})
   \cong(B_1B_2)\yon^{A_1+A_2},
 \] 
 as desired.
@@ -1865,7 +1949,7 @@ is one that has more movement options when it is in the center of the grid than 
 \begin{exercise}
 Add to \cref{ex.movement_options} as follows.
 \begin{enumerate}
-	\item Redefine $p$ so that at each grid value, the robot can receive not only the set of directions it can move in but also a reward value in $\rr$. 
+	\item Redefine $p$ so that at each grid value, the robot can receive not only the set of directions it can move in but also a ``reward value'' $r\in\rr$. 
 	\item Define the set $S$ of robot states so that an element $s\in S$ includes both the robot's position and a list of all reward values so far.
 	\item Define a morphism of polynomials $S\yon^S\to p$ in a way that respects positions and properly updates the robots list of rewards, but otherwise does anything you want.
 \qedhere
@@ -1980,23 +2064,238 @@ There are three boxes shown in \eqref{eqn.control_diag}: the controller, the pla
 	\const{System} = C\yon^A.
 \end{equation}
 
+The wiring diagram itself is a morphism in $\poly$ of the form
+\[
+	w\colon\const{Plant}\otimes\const{Controller}\to\const{System}
+\]
+Since everything involved is a monomial---the Dirichlet product of monomials is a monomial---the whole wiring diagram $w$ is a lens $CB\yon^{ABC}\to C\yon^A$. This morphism says how wires are feeding from outputs to inputs. Like all lenses, it consists of two functions
+\[
+  \text{get}\colon CB\to C
+  \qqand
+  \text{put}\colon CBA\to ABC
+\]
+The first says ``inside the system you have boxes outputting values of type $C$ and $B$. The system needs to produce an output of type $B$; how shall I obtain it?'' The second says ``the system is providing an input value of type $A$, and inside the system you have boxes outputting values of type $C$ and $B$. These boxes need input values of type $A$, $B$, and $C$; how shall I obtain them?'' The answer of course is that \emph{get} is given by projection $(c,b)\mapsto c$ and \emph{put} is given by a permutation $(c,b,a)\mapsto (a,b,c)$. The wiring diagram is a picture that tells us which maps to use.
+
 \begin{exercise}
 \begin{enumerate}
 	\item Make a new wiring diagram like \eqref{eqn.control_diag} except where the controller also receives information of type $A'$ from the outside world.
 	\item What are the monomials in your diagram (replacing \eqref{eqn.basic_diagram})?
-	\item Make another wiring diagram in which $\const{System}$
+	\item What is the morphism of polynomials corresponding to this diagram?
 \qedhere
 \end{enumerate}
 \end{exercise}
 
+Now suppose given a dynamical system in each inner box:
+\[
+S\yon^S\To{f}\const{Plant}
+\qqand
+T\yon^T\To{g}\const{Controller}
+\]
+Then since $\otimes$ is a monoidal product on $\poly$ (see \cref{prop.dirichlet_monoidal}), we get a map
+\[
+S\yon^S\otimes T\yon^T\To{f\otimes g}\const{Plant}\otimes\const{Controller}
+\]
+In other words we have a morphism of polynomials $ST\yon^{ST}\to \const{Plant}\otimes\const{Controller}$; that's a new dynamical system with state space $ST=(S\times T)$; a state in it is just a pair of states, one in $S$ and one in $T$. Furthermore our wiring diagram already gave us a map $\const{Plant}\otimes\const{Controller}\to\const{System}$, so combining, we have a new system
+\[
+ST\yon^{ST}\to\const{System}.
+\]
 
+\begin{exercise}
+Consider the following wiring diagram.
+\[
+\begin{tikzpicture}[oriented WD, font=\footnotesize, bb port sep=1, bb port length=2.5pt, bb min width=.4cm, bby=.2cm, inner xsep=.2cm, x=.5cm, y=.3cm, text height=1.5ex, text depth=.5ex]
+   	\node[bb={2}{1}, fill=blue!10] (Trf) {$\const{Alice}$};
+  	\node[bb={1}{2}, fill=blue!10, below=1 of Trf] (Trg) {$\const{Bob}$};
+		\node[bb={2}{2}, fill=blue!10] at ($(Trf)!.5!(Trg)+(1.5,0)$) (Trh) {$\const{Carl}$}; 
+  	\node[bb={0}{0}, fit={($(Trf.north west)+(-.25,4)$) (Trg) ($(Trh.north east)+(.25,0)$)}] (Tr) {};
+		\node[below] at (Tr.north) {$\const{Team}$};
+  	\node[coordinate] at (Tr.west|-Trf_in2) (Tr_in1) {};
+  	\node[coordinate] at (Tr.west|-Trg_in1) (Tr_in2) {};
+  	\node[coordinate] at (Tr.east|-Trh_out2) (Tr_out1) {};
+  	\node at ($(Trg_out2)+(5pt,0)$) (dot) {$\bullet$};
+\begin{scope}[font=\tiny]
+  	\draw[shorten <=-2pt] (Tr_in1) -- node[below=-3pt] {$A$} (Trf_in2);
+  	\draw[shorten <=-2pt] (Tr_in2) -- node[below=-3pt] {$B$} (Trg_in1);
+		\draw (Trf_out1) to node[above=-3pt] {$D$} (Trh_in1);
+		\draw (Trg_out1) to node[above=-3pt] {$E$} (Trh_in2);
+  	\draw (Trg_out2) -- node[below=-3pt] {$F$} (dot.center);
+  	\draw[shorten >=-2pt] (Trh_out2) -- node[below=-3pt] {$G$} (Tr_out1);
+  	\draw let \p1=(Trh.east), \p2=(Trf.north west), \n1=\bbportlen, \n2=\bby in
+  		(Trh_out1) to[in=0] (\x1+\n1,\y2+\n2) -- node[pos=.3, below=-3pt] {$H$} (\x2-\n1,\y2+\n2) to[out=180] (Trf_in1);
+	\end{scope}
+\end{tikzpicture}
+\]
+\begin{enumerate}
+	\item Write out the polynomials for each of Alice, Bob, and Carl.
+	\item Write out the polynomial for the outer box, Team.
+	\item The wiring diagram constitutes a morphism $f$ in $\poly$; what is its type $f\colon ?\to ?$
+	\item What morphism is it?
+	\item Suppose we are given dynamical systems $A\yon^A\to\const{Alice}$, $B\yon^B\to\const{Bob}$, and $C\yon^C\to\const{Carl}$. What is the induced dynamical system on $\const{Team}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{General interaction}
 
+In general, we want systems that can change their interface---remove a port, add a port, change the type of a port, etc.---based on their internal states. But when such systems interact with others, the interaction pattern must be able to accommodate all of the various combinations of interfaces.
+
+\begin{example}
+Suppose given two interfaces $p$ and $p'$, having mode sets $M$ and $M'$ respectively
+\[
+	p\coloneqq \sum_{m\in M} B_m\yon^{A_m}
+	\qqand
+	p'\coloneqq \sum_{m'\in M'} B'_m\yon^{A'_m}
+\]
+The Dirichlet product of these is:
+\[
+p\otimes p'\cong \sum_{(m,m')\in MM'}B_mB'_m\yon^{A_mA'_m}
+\]
+so the interface $B_mB'_{m'}\yon^{A_mA'_{m'}}$ at each of these $(M\times M')$-many modes $(m,m')$ must be accommodated in any morphism $w\colon p\otimes p'\to q$. For example if $M=\2$ and $M'=\3$ then $w$ can be specified by six maps.
+\end{example}
+
+But in fact the possibilities for interaction are much more general than we have led the reader to believe. They may not be broken down into modes at all.
+
+\begin{example}
+Let $p\coloneqq B\yon^A$ and $p'=B'\yon^{A'}$. To give a morphism $f\colon p\otimes p'\to \yon$, one specifies a map $B\times B'\to \1$, which is no data, as well as a map $BB'\to AA'$. In other words, for every pair of outputs $(b,b')$ one specifies a pair of inputs $(a,a')$. 
+
+Let's think of elements of $B$ and $B'$ not as outputs, but as positions. 
+\[
+\begin{tikzpicture}[oriented WD, bb port length=0]
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$p$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$q$};
+	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
+	\node at (p_in1) {\faEye};
+	\node at (q_in1) {\faEye};
+\end{tikzpicture}
+\hspace{.5in}
+\begin{tikzpicture}[oriented WD, bb port length=0]
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$p$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$q$};
+	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
+	\node at (p_in1) {\faEye};
+	\node at (q_in1) {\faEye};
+\end{tikzpicture}
+\]
+Then given both positions $(b,b')$, the interaction pattern $f$ tells us what the two eyes see, i.e. what values of $(a,a')$ we get.
+\end{example}
+
+\begin{example}
+Suppose you have two systems $p,q$ each of type $p,q\coloneqq\rr^2\yon^{\rr^2-(0,0)}$. 
+\[
+\begin{tikzpicture}
+	\node (m1) {\faMotorcycle};
+	\node[above=-.15 of m1] (e1) {\faEye};
+	\node[draw, thick, blue!10, fit = (m1) (e1)] {};
+	\node[below right=0 and 1 of m1] (m2) {\scalebox{-1}[1]{\faMotorcycle}};
+	\node[above=-.15 of m2] (e2) {\faEye};
+	\node[draw, thick, blue!10, fit = (m2) (e2)] {};
+\end{tikzpicture}
+\]
+Taking all pairs of reals except $(0,0)$ corresponds to the fact that the eye cannot see that which is at the same position as the eye.
+
+Let's have the two systems constantly approaching each other with a force equal to the reciprocal of the squared distance between them. If they finally collide, let's have the whole thing come to a halt.
+
+To do this, we want the outer system to be of type $\{\const{go}\}\yon+\{\const{stop}\}$. The morphism $\rr^2\yon^{\rr^2-(0,0)}\otimes\rr^2\yon^{\rr^2-(0,0)}\to\{\const{go}\}\yon+\{\const{stop}\}$ is given on positions by
+\[
+  \big((x_1,y_1),(x_2,y_2)\big)\mapsto
+	\begin{cases}
+		(\const{stop},1)&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
+		(\const{go},1)&\mbox{ otherwise}.
+	\end{cases}
+\]
+On directions, we use the function
+\[
+  \big((x_1,y_1),(x_2,y_2)\big)\mapsto \big((x_2-x_1,y_2-y_1),(x_1-x_2,y_1-y_2)\big).
+\]
+Now each system is able to see the vector pointing from it to the other system (unless that vector is zero, in which case the whole thing has halted). Let's use these vectors to define the internal dynamics of each system. Each system will hold as its internal state its current position and velocity, i.e.\ $S=\rr^2\times\rr^2$. To define a map of polynomials $S\yon^S\to\rr^2\yon^{\rr^2-(0,0)}$ we simply output the current position and update the current velocity by adding a vector pointing to the other system and having appropriate magnitude:
+\begin{align*}
+	\rr^2\times\rr^2&\To{\text{get}}\rr^2\\
+	\big((x,y),(x',y')\big)&\Mapsto{\text{get}}(x,y)
+\end{align*}
+\begin{align*}
+	\rr^2\times\rr^2\times(\rr^2-(0,0))&\To{\text{put}}\rr^2\times\rr^2\\
+	\big((x,y),(x',y'),(a,b)\big)&\Mapsto{\text{put}}\left(x+x',y+y',x'+\frac{a}{(a^2+b^2)^{3/2}},y'+\frac{b}{(a^2+b^2)^{3/2}}\right)
+\end{align*}
+\end{example}
+
+\begin{exercise}
+Let $p,q\coloneqq\nn\yon^\nn$.
+\begin{enumerate}
+	\item Write a polynomial morphism $p\otimes q\to\yon$ that corresponds to the function $(a,b)\mapsto (b,a+b)$.
+	\item Write dynamical systems $\nn\yon^\nn\to p$ and $\nn\yon^\nn\to q$, each of which simply outputs the previous input.
+	\item Suppose each system starts in state $1\in\nn$. What is the trajectory of the $p$-system?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set and $d\colon X\times X\to\rr$ is a function satisfying the usual laws. Let's have robots interact in this space.
+
+Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and $a_0'\in A'$ be elements, each thought of as a default value. Let $p\coloneqq AX\yon^{A'X}$ and $p'\coloneqq A'X\yon^{AX}$, and imagine there are two robots, one with interface $p$ and one with interface $p'$.
+\begin{enumerate}
+	\item Write down a morphism $p\otimes p'\to\yon$ such that each robot receives the other's location, but that it only receives the other's signal when the locations $x,x'$ are sufficiently close, $d(x,x')<1$. Otherwise it receives the default signal.
+	\item Write down a morphism $p\otimes p'\to\yon^{[0,5]}$ where the value $s\in [0,5]$ is a scalar, allowing the signal to travel $s$ times further.
+	\item Suppose that each robot has a set $S,S'$ of private states. What functions are involved in providing a dynamical system $f\colon SX\yon^{SX}\to AX\yon^{A'X}$?
+	\item Change the setup in any way so that the robots only extend a port to hear the other's signal when the distance between them is less than 1. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}
+
+The Dirichlet monoidal product is closed, meaning that there is an operation, which we denote $[-,-]\colon\poly\op\times\poly\to\poly$ and an isomorphism
+\[
+  \poly(p\otimes q,r)\cong\poly(p,[q,r])
+\]
+natural in $p,q,r$. The closure operation is defined on $q,r$ as follows:
+\begin{equation}\label{eqn.dir_hom}
+	[q,r]\coloneqq\prod_{j\in q(\1)}r\circ(q_i\yon)
+\end{equation}
+
+\begin{example}
+For any $A\in\smset$ we have
+\[
+  [\yon^A,\yon]\cong A\yon
+  \qqand
+  [A\yon,\yon]\cong\yon^A.
+\]
+These both follow directly from \eqref{eqn.dir_hom}.
+\end{example}
+
+\begin{exercise}
+Calculate $[q,r]$ for $q,r\in\poly$ given as follows.
+\begin{enumerate}
+	\item $q\coloneqq 0$ and $r$ arbitrary.
+	\item $q\coloneqq 1$ and $r$ arbitrary.
+	\item $q\coloneqq\yon$ and $r$ arbitrary.
+	\item $q\coloneqq A$ and $r\coloneqq B$ for $A,B\in\smset$ (constants).
+	\item $q\coloneqq A\yon$ and $r\coloneqq B\yon$ for $A,B\in\smset$ (linears).
+	\item $q\coloneqq\2\yon^\3+\yon^\2$ and $r\coloneqq\4\yon^\2+\7$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}
+With $[-,-]$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
+\[
+	\poly(p\otimes q,r)\cong\poly(p,[q,r]).
+\]
+\end{proposition}
+\begin{proof}
+We have the following chain of natural isomorphisms:
+\begin{align*}
+	\poly(p\otimes q,r)&\cong
+	\poly\Big(\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_iq_j},r\Big)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_iq_j},r)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p_iq_j)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_i},r\circ(q_j\yon))\\&\cong
+	\prod_{i\in p(\1)}\poly\Big(\yon^{p_i},\prod_{j\in q(\1)}r\circ(q_j\yon)\Big)\\&\cong
+	\poly(p,[q,r])
+	\qedhere
+\end{align*}
+\end{proof}
 
 %-------- Section --------%
 \section{Bonus math about the category $\poly$}
@@ -2032,7 +2331,7 @@ By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a
 \begin{theorem}\label{thm.adjoint_quadruple}
 $\poly$ has an adjoint quadruple with $\smset$:
 \begin{equation*}%\label{eqn.adjoints_galore}
-\begin{tikzcd}[column sep=60pt]
+\begin{tikzcd}[column sep=60pt, background color=theoremcolor]
   \smset
   	\ar[r, shift left=7pt, "A" description]
 		\ar[r, shift left=-21pt, "A\yon"']&

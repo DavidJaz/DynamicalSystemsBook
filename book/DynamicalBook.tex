@@ -50,6 +50,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \usepackage{minted}
 \DeclareMathVersion{normal2}
 \usepackage{dutchcal}
+\usepackage{fontawesome}
 
 % For matrices with labeled columns and rows
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
@@ -361,6 +362,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \newcommand{\too}{\longrightarrow}
 \newcommand{\tto}{\rightrightarrows}
 \newcommand{\To}[1]{\xrightarrow{#1}}
+\renewcommand{\Mapsto}[1]{\xmapsto{#1}}
 \newcommand{\Tto}[3][13pt]{\begin{tikzcd}[sep=#1, cramped, ampersand replacement=\&, text height=1ex, text depth=.3ex]\ar[r, shift left=2pt, "#2"]\ar[r, shift right=2pt, "#3"']\&{}\end{tikzcd}}
 \newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
 \newcommand{\from}{\leftarrow}
@@ -496,13 +498,98 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 
 \title{\titlefont Categorical dynamics}
 
-\author{\LARGE David Jaz Myers \and \LARGE David I. Spivak}
+\author{\LARGE David Jaz Myers \and \LARGE David I. Spivak\normalsize}
 
+
+
+
+\posttitle{
+\vspace{.8in}
+\normalsize
+\[
+\begin{tikzpicture}[trees, scale=1.5]
+\begin{scope}[
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+  		}
+  		child {node[red] {$\bullet$}
+  		}
+  	}
+  ;
+\end{scope}
+\draw[blue, densely dotted] (current bounding box.south west) rectangle
+(current bounding box.north east);
+\end{tikzpicture}
+\]
+  \vspace{.5in}
+  \endgroup
+}
 
 
 \date{\vfill (Last updated: \today)}
 
+
+
 \maketitle
+
+
 \thispagestyle{empty}
 
 \subfile{C0-Preface}
