@@ -25,7 +25,7 @@ In this chapter we will investigate a remarkable category called $\poly$. We wil
 All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be depicted as a set of mini-trees:
 }
 \label{eqn.poly1892}
-\begin{tikzpicture}[trees, grow'=up]
+\begin{tikzpicture}[trees]
   \node (1) {$\bullet$} 
     child {}
     child {};
@@ -116,7 +116,7 @@ Throughout this book, we've seen dynamical systems---machines of various sorts--
 
 To give some intuition for the first two, imagine yourself as a system, wired up to other systems. You have some input ports: your eyes, your ears, etc., and you have some output ports: your speech, your gestures, etc. And you connect with other systems: your family, your colleagues, the GPS of your phone, etc.
 \begin{equation}\label{eqn.wired_forever}
-\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
 	\node[bb={2}{2}, green!25!black] (X11) {\tiny Alice};
 	\node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny you};
 	\node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny Bob};
@@ -330,23 +330,39 @@ Consider the following three trees, the first two are infinite (though that's ha
   level 1/.style={sibling distance=20mm},
   level 2/.style={sibling distance=10mm},
   level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
   \node[dgreen] (a) {$\bullet$}
     child {node[dgreen] {$\bullet$}
     	child {node[dgreen] {$\bullet$}
     		child {node[dgreen] {$\bullet$}
-  				child 
-  				child
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
   			}
     		child {node[dyellow] {$\bullet$}
-  				child 
-  				child
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
   			}
     	}
     	child {node[dyellow] {$\bullet$}
     		child {node[dgreen] {$\bullet$}
-  				child
-  				child
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
   			}
     		child  {node[red] {$\bullet$}}
     	}
@@ -354,12 +370,21 @@ Consider the following three trees, the first two are infinite (though that's ha
     child {node[dyellow] {$\bullet$}
     	child {node[dgreen] {$\bullet$}
     		child {node[dgreen] {$\bullet$}
-  				child
-  				child
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
   			}
     		child {node[dyellow] {$\bullet$}
-  				child
-  				child
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
   			}
   		}
   		child {node[red] {$\bullet$}
@@ -371,23 +396,39 @@ Consider the following three trees, the first two are infinite (though that's ha
   level 1/.style={sibling distance=13mm},
   level 2/.style={sibling distance=10mm},
   level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
 \node (b) [right=4 of a, dyellow] {$\bullet$}
   child {node[dgreen] {$\bullet$}
   	child {node[dgreen] {$\bullet$}
   		child {node[dgreen] {$\bullet$}
-				child
-				child
+  			child {node[dgreen] {$\bullet$}
+    			child {}
+    			child {}
+   			}
+ 				child {node[dyellow] {$\bullet$}
+   				child {}
+   				child {}
+   			}
 			}
-  		child {node[dyellow] {$\bullet$}
-				child
-				child
-			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
 		}
   	child {node[dyellow] {$\bullet$}
   		child {node[dgreen] {$\bullet$}
-				child
-				child
+  			child {node[dgreen] {$\bullet$}
+    			child {}
+    			child {}
+   			}
+ 				child {node[dyellow] {$\bullet$}
+   				child {}
+   				child {}
+   			}
 			}
   		child  {node[red] {$\bullet$}}
   	}
@@ -1984,7 +2025,7 @@ There are three boxes shown in \eqref{eqn.control_diag}: the controller, the pla
 \begin{enumerate}
 	\item Make a new wiring diagram like \eqref{eqn.control_diag} except where the controller also receives information of type $A'$ from the outside world.
 	\item What are the monomials in your diagram (replacing \eqref{eqn.basic_diagram})?
-	\item Make another wiring diagram in which $\const{System}$
+	\item Make another wiring diagram in which $\const{System}$ is a
 \qedhere
 \end{enumerate}
 \end{exercise}
