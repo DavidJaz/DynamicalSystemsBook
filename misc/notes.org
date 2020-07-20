@@ -137,10 +137,14 @@ In each note topic, I think we should trade off with headers simply named
 
 ** <2020-07-19 dom> 
 
-*** TODO Jaz: Replace := with \coloneqq
+*** DONE Jaz: Replace := with \coloneqq
+    CLOSED: [2020-07-20 seg 22:14]
 
-*** TODO Jaz: Finish example composing transition diagrams
+*** DONE Jaz: Finish example composing transition diagrams
+    CLOSED: [2020-07-20 seg 22:14]
     I want to make a new keyword instead of \LMO that can allow me to have a state name and an output symbol.
+
+    I ended up not doing this, and relegating this example to an exercise. <2020-07-20 seg> 
 
 ** <2020-07-20 seg>  
 
