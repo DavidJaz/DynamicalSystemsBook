@@ -1709,7 +1709,7 @@ A \emph{deterministic finite state automaton} consists of
 \begin{proposition}
 A deterministic finite state automaton can be identified with a pair of maps
 \[
-\yon\to S\yon^S\to \2\yon^A
+\yon\to S\yon^S\to \2\yon^A.
 \]
 \end{proposition}
 \begin{proof}
@@ -1797,7 +1797,7 @@ for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{st
 
 What on earth do these things do? Let's start with something familiar.
 
-\begin{example}
+\begin{example}\label{ex.regular_lang_stop}
 Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in ones language. For that, rather than use a map $S\yon^S\to 2\yon^A$, we could use a map
 \[
 (f_1,f^\sharp)\colon S\yon^S\to \yon^A+\1
@@ -1814,7 +1814,7 @@ Consider the deterministic finite state automaton shown below
 	\bullet
 \end{tikzcd}
 \]
-The state without any outgoing arrows is the accept state. Answer the following questions, in keeping with the notation from \cref{def.gen_moore}.
+The state without any outgoing arrows is the accept state. Answer the following questions, in keeping with the notation from \cref{ex.regular_lang_stop}.
 
 \begin{enumerate}
 	\item What is $S$?
@@ -1878,7 +1878,7 @@ In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileRead
 Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
 current position $s$ and a terminal position $t$. For our interface, we'll have
 two modes, each of which exposes an ascii character:
-\[\Out{FileReader} = \pair{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
+\[\Out{FileReader} = \present{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
 \]
 %%
 %% Jaz: In Haskell, this would read
@@ -1941,6 +1941,62 @@ Make a file reader that acts like that in \cref{ex.generalized_file_reader}, exc
 %---- Subsection ----%
 \subsection{Wiring diagrams}
 
+We want our dynamical systems to interact with each other.
+\begin{equation}\label{eqn.control_diag}
+\begin{tikzpicture}[oriented WD, baseline=(B)]
+	\node[bb={2}{1}, fill=blue!10] (plant) {\texttt{Plant}};
+	\node[bb={1}{1}, below left=-1 and 1 of plant, fill=blue!10]  (cont) {\texttt{Controller}};
+	\node[circle, inner sep=1.5pt, fill=black, right=.1] at (plant_out1) (pdot) {};
+	\node[bb={0}{0}, inner ysep=25pt, inner xsep=1cm, fit=(plant) (pdot) (cont)] (outer) {};
+	\coordinate (outer_out1) at (outer.east|-plant_out1);
+	\coordinate (outer_in1) at (outer.west|-plant_in1);
+	\begin{scope}[above, font=\footnotesize]
+  	\draw (outer_in1) -- node {$A$} (plant_in1);
+  	\draw (cont_out1) to node (B) {$B$} (plant_in2);
+  	\draw (plant_out1) to node {$C$} (outer_out1);
+  	\draw
+  		let 
+  			\p1 = (cont.south west-| pdot),
+  			\p2 = (cont.south west),
+  			\n1 = \bby,
+  			\n2 = \bbportlen
+  		in
+  			(pdot) to[out=0, in=0]
+  			(\x1+\n2, \y1-\n1) --
+  			(\x2-\n2, \y2-\n1) to[out=180, in=180]
+  			(cont_in1);
+		\end{scope}
+	\node[below=0of outer.north] {\texttt{System}};
+\end{tikzpicture}
+\end{equation}
+In this picture the plant is receiving information from the world outside the system, as well as from the controller. It's also producing information for the outside world which is being monitored by the controller.
+
+There are three boxes shown in \eqref{eqn.control_diag}: the controller, the plant, and the system. Each has inputs and outputs, and so we can consider the interface as a monomial.
+\begin{equation}\label{eqn.basic_diagram}
+	\const{Plant}=C\yon^{AB}
+	\qquad\quad
+	\const{Controller} = B\yon^C
+	\qquad\quad
+	\const{System} = C\yon^A.
+\end{equation}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Make a new wiring diagram like \eqref{eqn.control_diag} except where the controller also receives information of type $A'$ from the outside world.
+	\item What are the monomials in your diagram (replacing \eqref{eqn.basic_diagram})?
+	\item Make another wiring diagram in which $\const{System}$
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
+
+%---- Subsection ----%
+\subsection{General interaction}
+
+
+%---- Subsection ----%
+\subsection{Closure of $\otimes$}
 
 %-------- Section --------%
 \section{Bonus math about the category $\poly$}
