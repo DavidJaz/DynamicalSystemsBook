@@ -50,6 +50,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \usepackage{minted}
 \DeclareMathVersion{normal2}
 \usepackage{dutchcal}
+\usepackage{fontawesome}
 
 % For matrices with labeled columns and rows
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
@@ -361,6 +362,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \newcommand{\too}{\longrightarrow}
 \newcommand{\tto}{\rightrightarrows}
 \newcommand{\To}[1]{\xrightarrow{#1}}
+\renewcommand{\Mapsto}[1]{\xmapsto{#1}}
 \newcommand{\Tto}[3][13pt]{\begin{tikzcd}[sep=#1, cramped, ampersand replacement=\&, text height=1ex, text depth=.3ex]\ar[r, shift left=2pt, "#2"]\ar[r, shift right=2pt, "#3"']\&{}\end{tikzcd}}
 \newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
 \newcommand{\from}{\leftarrow}
@@ -572,7 +574,8 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
   	}
   ;
 \end{scope}
-\draw[thin, blue, densely dotted] (current bounding box.south west) rectangle(current bounding box.north east);
+\draw[thin, blue, densely dotted] (current bounding box.south west) rectangle
+(current bounding box.north east);
 \end{tikzpicture}
 \]
   \vspace{.5in}
