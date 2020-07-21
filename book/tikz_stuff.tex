@@ -43,6 +43,11 @@
      string decoration={\arrow{stealth};},
      string decoration pos/.store in=\stringdecpos,
      string decoration pos=.7,
+	 	 dot size/.store in=\dotsize,
+	   dot size=3pt,
+	 	 dot/.style={
+			 circle, draw, thick, inner sep=0, fill=black, minimum width=\dotsize
+	   },
      bbx/.store in=\bbx,
      bbx = 1.5cm,
      bby/.store in=\bby,
