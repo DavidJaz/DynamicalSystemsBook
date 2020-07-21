@@ -11,6 +11,7 @@
 %------------ Chapter ------------%
 \chapter{Deterministic Systems}\label{chapter.1}
 
+%-------- Section --------%
 \section{Introduction}
 
 Here's a basic fact of life: \emph{things change}. And how things change most
@@ -350,6 +351,7 @@ the abstract language of composition: \emph{category theory}.
 
 
 
+%---- Subsection ----%
 \subsection{Category Theory}
 
 We'll be using the language of category theory quite freely in this book, and so
@@ -387,7 +389,7 @@ We will also use some more advanced category theory, like indexed
 categories, double categories, and toposes. However, you don't need to know them up front; we will introduce these concepts
 as we use them.
 
-
+%-------- Section --------%
 \section{Deterministic systems}
 
 That's a lot of informal definitions, we are ready for something precise:
@@ -569,6 +571,7 @@ never run the update function, because there would be no parameter we could plug
 in! Instead, we put a dummy value for the parameter and ask that the parameter
 is always set to the dummy value; then we can safely ignore it.
 
+%-------- Section --------%
 \section{Wiring together systems with lenses}
 
 In the last section, we saw the formal definition of deterministic systems and a
@@ -576,6 +579,7 @@ few examples of them. In this section, we'll see how to wire systems together to
 make more complex systems. We will do this using an interesting notion coming
 from the world of function programming: a \emph{lens}.
 
+%---- Subsection ----%
 \subsection{Lenses and lens composition}\label{sec.lens_discrete}
 
 A lens is a framework for bi-directional information passing.
@@ -653,6 +657,7 @@ functorially in its variable cartesian category $\cat{C}$.
   Complete the proof of \cref{prop.lens_functoriality} in full. 
 \end{exercise}
 
+%---- Subsection ----%
 \subsection{Deterministic systems as lenses}
 
 The reason we are interested in lenses and lens composition is because
@@ -990,6 +995,7 @@ of the other:
 \end{equation}
 \end{example}
 
+%---- Subsection ----%
 \subsection{Wiring diagrams as lenses in categories of arities}
 
 
@@ -1473,7 +1479,8 @@ lens in a cartesian category of our choosing.
   in $\arity_{\{\Out{SIR},\, \In{SIR} \}}$.
 \end{exercise}
 
-\section[How systems behave: Trajectories, Steady States, etc.]{How systems behave: Trajectories, Steady States, and Periodic Orbits}  \label{sec.trajectories_discrete}
+%-------- Section --------%
+\section{[How systems behave: Trajectories, Steady States, etc.]{How systems behave: Trajectories, Steady States, and Periodic Orbits}  \label{sec.trajectories_discrete}
 
 So far, we have seen how to wire up dynamical systems. But we haven't seen our
 dynamical systems actually \emph{do anything}. In this section, we will begin to
@@ -1505,6 +1512,7 @@ This result will be a preview to our more general results in
 systems. But that's
 getting ahead of ourselves.
 
+%---- Subsection ----%
 \subsection{Trajectories}\label{sec.trajectory_discrete}
 
 In the introduction, we saw that the $\Sys{Clock}$ system
@@ -1663,6 +1671,7 @@ component systems, we get a trajectory of a whole wired system. Even better,
 every trajectory of the whole wired system can be calculated this way.
 
 
+%---- Subsection ----%
 \subsection{Steady states}
 
 A steady state of a system is a state which does not change. Steady states are
@@ -1815,6 +1824,7 @@ When we wire these together, we get this system:
   
 \end{exercise}
 
+%---- Subsection ----%
 \subsection{Periodic orbits}\label{sec.periodic_orbit_discrete}
 
 Even if the behavior of a system isn't perfectly steady, it may continually
@@ -1880,6 +1890,7 @@ The \emph{period} of an eventually periodic trajectory is
   the smallest difference $t_1 - t_0$ between times such that $s_{t_0} = s_{t_1}$.
 \end{definition}
 
+%---- Subsection ----%
 \subsection{Behaviors of deterministic systems}\label{sec.behaviors}
 
 In the previous
@@ -2367,6 +2378,7 @@ Let's see that this is indeed a good notion of sameness for systems.
     that $f_{\flat} = f_{\flat}' \circ \pi_2$. 
 \end{exercise}
 
+%---- Subsection ----%
 \subsection{Steady states compose according to the laws of matrix arithmetic}\label{sec.steady_states_matrix_arithmetic}
 
 
@@ -2433,6 +2445,7 @@ above matrix gives us the matrix
 \jaz{This is where I left off writing. Nothing after this should be considered ``written''.}
 
 %%% write-here 
+%-------- Section --------%
 \section{Behaviors of the whole from behaviors of the parts}\label{sec.representables}
 
 
@@ -2459,6 +2472,7 @@ above matrix gives us the matrix
   Ultimately, this section will pave the way to the general framework for
   dynamical systems theory presented in \cref{chapter.7}.
 
+%---- Subsection ----%
 \subsection{Indexed categories and the Grothendieck construction}\label{sec.indexed_categories}
 
 An \emph{indexed category} is a category which varies functorially over the
@@ -2609,13 +2623,17 @@ f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
 
 
 
+%---- Subsection ----%
 \subsection{CoKleisli categories and maps with context}\label{sec.context_indexed_cat}
 
+%---- Subsection ----%
 \subsection{The double category of arenas}
 
+%---- Subsection ----%
 \subsection{The indexed double category of deterministic systems}
 \label{sec.indexed_double_category_of_systems}
 
+%---- Subsection ----%
 \subsection{The main theorem: representable indexed double functors}
   
 
