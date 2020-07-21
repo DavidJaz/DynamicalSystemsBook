@@ -20,7 +20,7 @@ often depends on how they currently are. This is the basic idea underlying all t
 \begin{informal}\label{inf.dynam_sys}
   A \emph{dynamical system} consists of:
   \begin{itemize}
-  \item a notion of how things are, called the \emph{state}, and
+  \item a notion of how things can be, called the \emph{states}, and
   \item a notion of how things will change given how they are, called the \emph{dynamics}.
   \end{itemize}
   The dynamics of a system might also depend on some free \emph{parameters} that are imported from the environment, and
@@ -50,41 +50,44 @@ A paradigmatic example of this sort of dynamical system is a clock.
 
 Suppose that our clock has just an hour hand for now. Then we may collect all
 the way things can be for the clock into a set of hours:
-$$\Set{Hours} := \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}.$$
+$$\Set{Hour} := \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\}.$$
+This set $\Set{Hour}$ is the set of \emph{states} of our clock system.
 
-The set $\Set{Hours}$ is the set of \emph{states} of our clock system. If we know what hour it is, we also know what hour is coming next. So, this system has the following dynamics:
+If we know what hour it is, we also know what hour is coming next. So, this system has the following dynamics:
 %
 % :CUSTOM-ID: problem-with-drawing-mapsto-nicely
 %
-\begin{align*}
-  \fun{tick} : \Set{Hours} &\to \Set{Hours} \\
+\begin{align}\label{eqn.tick}
+  \fun{tick} : \Set{Hour} &\to \Set{Hour} \\\nonumber
                 t &\mapsto \begin{cases} t + 1 &\mbox{if $t < 12$}\\ 1 &\mbox{if $t = 12$}  \end{cases}
-\end{align*}
+\end{align}
 
-Here's a sample of the dynamics of the clock. Say we started at 3 o'clock:
-$$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
+Here's a sample of the dynamics of the clock. Say we started at the 10 o'clock state:
+$$10 \xmapsto{\fun{tick}} 11 \xmapsto{\fun{tick}} 12 \xmapsto{\fun{tick}} 1 \To{\fun{tick}} 2
 \xmapsto{\fun{tick}} \cdots$$
 
-Not the most dynamic of systems, but we have to start somewhere. If we want to
-refer to the whole system at once, we can box it up and write it like this:
+Ok, it's not the most dynamic of systems, but we have to start somewhere. If we want to
+refer to the whole system at once, we can box it up and draw it like this:
 
 \begin{equation}\label{eqn.clock_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
 	\node[bb={0}{1}] (X) {$\Sys{Clock}$};
 	\draw[label] 
-		node [right=2pt of X_out1] {$\Set{Hours}$}
+		node [right=2pt of X_out1] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
-
 We imagine that the clock is going about its business inside the box, and
-that is shows the hour it is currently displaying on the outgoing wire.
+that is shows the hour it is currently displaying on the outgoing wire. This outgoing wire constitutes the clock's exposed variable, but we'll explain that more later.
 
 One issue with our clock is that it doesn't tell us whether it is morning or
-evening. Being morning or evening is its own way that things might be, and we
-can see it as its own dynamical system. We might imagine a little addition to
-our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
-\[
+evening. Being morning or evening and going back and forth between them is another way that things might be and change, and hence we
+can see it as its own two-state dynamical system with states
+$$\Set{Meridien} = \{\const{a.m.}, \const{p.m.}\}.$$
+
+However, rather than have this be an independent system, we want to consider it as a little addition to
+our clock system, one that reads $\const{a.m.}$ or $\const{p.m.}$:
+\begin{equation}\label{eqn.whole_clock}
 \begin{tikzpicture}[line cap=rect,line width=3pt, baseline=(bl)]
 \coordinate (bl) at (0,0);
 \filldraw [fill=cyan] (0,0) circle [radius=2cm];
@@ -96,49 +99,43 @@ our clock that reads $\const{a.m.}$ or $\const{p.m.}$:
 \foreach \angle in {0,90,180,270}
   \draw[line width=2pt] (\angle:1.6cm) -- (\angle:2cm);
 \draw (0,0) -- (120:0.8cm);
-\node[draw, fill] at (330:.7cm) {${ \color{white}\const{a.m.} }$};
+\node[draw, fill] at (330:.7cm) {\small${ \color{white}\const{a.m.} }$};
 \end{tikzpicture}
-\]
-
-We can see this little addition as a system in its own right; it is the system
-of $\const{a.m.}/\const{p.m.}$. The states of this system are
-$$\Set{Meridien} = \{\const{a.m.}, \const{p.m.}\}.$$
-But this time, knowing how they are going to change also requires us to know the
-hour:
-\begin{align*}
-  \fun{next} : \Set{Meridien} \times \Set{Hours} &\to \Set{Meridien} \\
-               (\const{a.m.}, t) &\mapsto \begin{cases} \const{p.m.} &\mbox{if $t = 11$}\\ \const{a.m.} &\mbox{otherwise}  \end{cases} \\
+\end{equation}
+To connect the meridian to the clock means that the way the meridian changes should be based on the hour:
+\begin{align}\label{eqn.next}
+  \fun{next} : \Set{Meridien} \times \Set{Hour} &\to \Set{Meridien} \\\nonumber
+               (\const{a.m.}, t) &\mapsto \begin{cases} \const{p.m.} &\mbox{if $t = 11$}\\ \const{a.m.} &\mbox{otherwise}  \end{cases} \\\nonumber
                (\const{p.m.}, t) &\mapsto \begin{cases} \const{a.m.} &\mbox{if $t = 11$}\\ \const{p.m.} &\mbox{otherwise}  \end{cases}
-\end{align*}
+\end{align}
 If it is $\const{a.m.}$ and the clock reads 8, then it will still be
-$\const{a.m.}$; but if it is $\const{a.m.}$ and the clock reads 11, then it will
-switch on the next hour to $\const{p.m.}$.
+$\const{a.m.}$ at the next tick; but if it is $\const{a.m.}$ and the clock reads 11, then the next tick will switch the meridian to $\const{p.m.}$.
 
-The thing to note about the dynamics of the $\const{a.m.}/\const{p.m.}$ system
-is that they depend on what hour it is. The hour is a \emph{parameter} for the
-dynamics of this system. We can draw this system as a box like this:
+Again, the thing to note about the dynamics of the $\const{a.m.}/\const{p.m.}$ system
+is that they depend on what hour it is. The hour is imported as a \emph{parameter} for the
+dynamics of the meridian system. We can draw the meridian system as a box like this:
 \begin{equation}\label{eqn.am_pm_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
-	\node[bb={1}{1}] (X) {$\Sys{a.m./p.m.}$};
+	\node[bb={1}{1}, fill=blue!10] (X) {$\Sys{Meridien}$};
 	\draw[label] 
-		node [left=2pt of X_in1] {$\Set{Hours}$}
-		node [right=2pt of X_out1] {$\Set{Meridien}$}
+		node [left=2pt of X_in1] {$\Set{Hour}$}
+		node [right=2pt of X_out1] {$\Set{a.m./p.m.}$}
 		;
 \end{tikzpicture}
 \end{equation}
-We have the $\Set{Meridien}$ wire coming out, which carries the information of
+We have the $\Set{a.m./p.m.}$ wire coming out, which carries the information of
 whether it is $\const{a.m.}$ or $\const{p.m.}$, just like the clock. But we also
 have a wire coming in, which carries the hour that we need as a parameter for
 our dynamics.
 
 
-We can now express our whole clock (\ref{eqn.whole_clock}) by wiring together
-our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
+We can now express our whole clock \eqref{eqn.whole_clock} by wiring together
+our bare clock \eqref{eqn.clock_system_box} and the $\const{a.m.}/\const{p.m.}$ system:
 
 \begin{equation}\label{eqn.whole_clock_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
-	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
-  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{Meridian}$};
+  	\node[bb={0}{1}, fill=blue!10, below=2 of X1] (X2) {$\Sys{Clock}$};
 	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
 	\draw (X1_out1) to (Y_out1);
@@ -146,22 +143,23 @@ our bare clock and the $\const{a.m.}/\const{p.m.}$ system:
     (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
   \draw (X2_out1) to (Y_out2);
 	\draw[label] 
-		node [right=2pt of Y_out1] {$\Set{Meridien}$}
-		node [right=2pt of Y_out2] {$\Set{Hours}$}
+		node [right=2pt of Y_out1] {$\Set{a.m./p.m.}$}
+		node [right=2pt of Y_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
 
-This system has states
-$$\Set{HoursWithDisplay} := \Set{Hours} \times \Set{Meridien}$$
-consisting of a pair $(11, \const{a.m.})$ of an hour and a meridien reading.
+The resulting system has states
+$$\Set{HoursWithDisplay} := \Set{Hour} \times \Set{Meridien}$$
+each of which is a pair, e.g.\ $(11, \const{a.m.})$, consisting of an hour and a meridian reading.
 They update in a combined way, by using the hour shown on the clock face as the
-parameter we need for the $\const{a.m.}/\const{p.m.}$ system. In full, the
+parameter we need for the $\Sys{Meridian}$ system; this is expressed by having a wire from the output of $\Sys{Clock}$ to the input of $\Sys{Meridian}$. In full, the
 dynamics looks like this:
 \begin{align*}
   \fun{tick'} :\Set{HoursWithDisplay} &\to \Set{HoursWithDisplay} \\
   (t, m) &\mapsto (\fun{tick}(t), \fun{next}(t, m))
 \end{align*}
+where $\fun{tick}$ and $\fun{next}$ are as in \eqref{eqn.tick} and \eqref{eqn.next}.
 
 \begin{exercise}
   Expand the definition of the combined system out in full, and check that it
@@ -183,10 +181,10 @@ The diner's dynamics are then
 Again, we can represent the diner by this box:
 \begin{equation}\label{eqn.diner_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
-	\node[bb={2}{1}] (X) {$\Sys{Diner}$};
+	\node[bb={2}{1}, fill=blue!10] (X) {$\Sys{Diner}$};
 	\draw[label] 
-		node [left=2pt of X_in1] {$\Set{Meridien}$}
-		node [left=2pt of X_in2] {$\Set{Hours}$}
+		node [left=2pt of X_in1] {$\Set{Meridian}$}
+		node [left=2pt of X_in2] {$\Set{Hour}$}
 		node [right=2pt of X_out1] {$\Set{DinerState}$}
 		;
 \end{tikzpicture}
@@ -200,8 +198,8 @@ to open or close, the full diner system would be given by wiring the clock with 
 those input wires:
 \begin{equation}\label{eqn.diner_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Outer.center)]
-  \node[bb={0}{2}](Clock) {$\Sys{ClockWithDisplay}$};
-  \node[bb={2}{1}, right=of Clock] (Diner) {$\Sys{Diner}$};
+  \node[bb={0}{2}, fill=blue!10](Clock) {$\Sys{ClockWithDisplay}$};
+  \node[bb={2}{1}, fill=blue!10, right=of Clock] (Diner) {$\Sys{Diner}$};
   
   \node[bb={0}{1}, fit={(Clock) (Diner)}] (Outer) {};
 
@@ -216,15 +214,15 @@ If we want to, we can peak into the clock with display and see that it is itself
 made out of a clock wired to a display:
 \begin{equation}\label{eqn.diner_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.3cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Outer.center)]
-	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
-  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{Meridian}$};
+  	\node[bb={0}{1}, fill=blue!10, below=2 of X1] (X2) {$\Sys{Clock}$};
 	\node[dashed, bb={0}{2}, fit={($(X1.north west)+(0,1)$) ($(X1.north east)+(0,1)$) ($(X2.south)+(0,-3)$)}] (Clock) {};
   \node[above=0pt of Clock.south] (Label) {$\Sys{ClockWithDisplay}$};
 	\draw (X1_out1) to (Clock_out1);
   \draw let \p1=(X1.south west), \p2=(X2.north east), \n1=\bbportlen, \n2=\bby in
     (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
   \draw (X2_out1) to (Clock_out2);
-  \node[bb={2}{1}, right=of Clock] (Diner) {$\Sys{Diner}$};
+  \node[bb={2}{1}, fill=blue!10, right=of Clock] (Diner) {$\Sys{Diner}$};
   
   \node[bb={0}{1}, fit={(Clock) (Diner)}] (Outer) {};
 
@@ -238,33 +236,35 @@ made out of a clock wired to a display:
 
 These examples are simple, but it doesn't take much more to get to some truly
 amazing phenomena. Consider this system: we have an infinite tape with a
-read-head at some position. On this infinite tape, we will write the symbols
+read-head at some integer position. On this infinite tape, we will write the symbols
 $a$, $b$, $c$, or $d$, or we will leave it blank: $\_$. Together, the state
-of the tape and the position of the read-head have states pairs $(\fun{T}, n)$ of a
-function $\fun{T} : \zz \to \{a, b,c,d\_\}$ telling us what symbol $\fun{T}(i)$ is drawn at
-position $i$ of the tape, and the position $n$ of the read-head:
+of the tape and the position of the read-head have states pairs $(\fun{T}, n)$ consisting of a
+function $\fun{T} : \zz \to \{a, b,c,d,\_\}$, telling us what symbol $\fun{T}(i)$ is found at
+position $i$ of the tape, and a position $n$ of the read-head:
 \begin{align*}
-  \Set{Symbol} &= \{a, b,c,d\_\}
+  \Set{Symbol} &= \{a, b,c,d,\_\}\\
   \Set{Tape} &= \Set{Symbol}^{\zz}\\
   \Set{Head} &= \zz
 \end{align*}
-The way this system can change is by reading in a move command and a
-write command. The move command will be either move left, a command of $-1$, or
-move right, a command of $1$:
-$\Set{Move} = \{-1, 1\}$. The write command will be one of the
-symbols that can be written on the tape: $\Set{Write} = \{0, 1,2,3\_\}$.
+The parameters that this system needs in order to change are a move-command and a
+write-command. The move-command will be either move left or move right, encoded as $-1$ or $1$ respectively, and the write command will be one of the
+symbols that can be written on the tape:
+\[
+  \Set{Move}=\{-1,1\}\qqand
+  \Set{Write} = \{a,b,c,d,\_\}.
+\]
 
-The way this system changes is by writing the write command to the tape at that
+The way this system changes is by writing the write command to the tape at the current
 position, and then moving according to the move command. As a function, this is:
 \begin{align*}
-  \fun{execute} : \Set{Tape} \times \Set{Head} \times \Set{Move} \times \Set{Write} &\to \Set{Tape} \Set{Head} \\
-  ((\fun{T}, n), d, s) &\mapsto \left( i \mapsto \begin{cases} \fun{T}(i) &\mbox{if $i \neq n$} \\ s &\mbox{if $i = n$} \end{cases},\, n + d \right)
+  \fun{execute} : \Set{Head} \times \Set{Tape} \times \Set{Move} \times \Set{Write} &\to \Set{Head} \times \Set{Tape}\\
+  (n, i\mapsto \fun{T}(i), d, s) &\mapsto \left( n + d, i \mapsto \begin{cases} \fun{T}(i) &\mbox{if $i \neq n$} \\ s &\mbox{if $i = n$} \end{cases} \right).
 \end{align*}
 
-We can imagine that the system shows tape and the symbol under the read head. We can box this system up like so:
+We can imagine that the system exposes the tape and the symbol under its read head. We can box this system up and draw it like so:
 \begin{equation}\label{eqn.turing_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Tape.center)]
-\node[bb={2}{2}] (Tape) {$\Sys{Tape Machine}$};
+\node[bb={2}{2}, fill=blue!10] (Tape) {$\Sys{Tape Machine}$};
 \draw[label]
   node[left=2pt of Tape_in1] {$\Set{Move}$}
   node[left=2pt of Tape_in2] {$\Set{Write}$}
@@ -278,7 +278,7 @@ Now, we need one more simple ingredient to get our system going; a mysterious sy
 form:
 \begin{equation}\label{eqn.turing_box2}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Box.center)]
-\node[bb={1}{2}] (Box) {$\Sys{Mystery Box}$};
+\node[bb={1}{2}, fill=blue!10] (Box) {$\Sys{Mystery Box}$};
 \draw[label]
   node[right=2pt of Box_out1] {$\Set{Move}$}
   node[right=2pt of Box_out2] {$\Set{Write}$}
@@ -288,10 +288,10 @@ form:
 \end{equation}
 
 We can see that our mystery box will take in a symbol and put out a move command
-and a write command. The way our mystery box behaves is rather mysterious: here it is in a table,
-where the entry in the row $i$ and the column $s$ is written $(m,w):s'$ for the
+and a write command. The way our mystery box behaves is rather mysterious. It has six states $S\cong\6$, and its update rule is given by the following table,
+where the entry in the row $i$ and the column $s$ is written $(m,w):s'$ to express the
 move command $m$, the write command $w$, and the next state $s'$ that our
-mysterious sytem transitions to when input the symbol $i$ in state $s$:
+mysterious system transitions to when input the symbol $i$ in state $s$:
 \begin{equation}\label{eqn.turing_machine}
   \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
@@ -302,12 +302,12 @@ mysterious sytem transitions to when input the symbol $i$ in state $s$:
    d & (-1, c):1 & (1, a):5 & (-1, c):3 & (1,d):5 & (-1, b):3 & end \\\hline     
   \end{tabular}
 \end{equation}
-Mysterious in deed. But when we wire the two together, magic happens!
+Mysterious indeed. But when we wire the two together, magic happens!
 
 \begin{equation}\label{eqn.full_turing_machine}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=2pt, bb port sep=1, baseline=(Outer.center)]
-  \node[bb={1}{2}](Box) {$\Sys{Mystery Box}$};
-  \node[bb={2}{2}, right=of Box] (Tape) {$\Sys{Tape Machine}$};
+  \node[bb={1}{2}, fill=blue!10](Box) {$\Sys{Mystery Box}$};
+  \node[bb={2}{2}, fill=blue!10, right=of Box] (Tape) {$\Sys{Tape Machine}$};
   
   \node[bb={0}{0}, fit={($(Tape.south east) + (0, -2)$) ($(Box.north west) + (0, 1)$)}] (Outer) {};
   \node[above=0pt of Outer.south] (Label) {$\Sys{Universal Turing Machine}$};
@@ -322,9 +322,9 @@ Mysterious in deed. But when we wire the two together, magic happens!
     (Tape_out2) to[in=0] (\x1 + \n1, \y1 - \n2 - 1) -- (\x2 - \n1, \y2 - \n2 - 1) to[out=180] (Box_in1);
 \end{tikzpicture}
 \end{equation}
-This is a universal Turing machine, capable of arbitrarily complex calculation
-(if we encode everything into this strange alphabet)! Even small systems can
-have very interesting behavior when plugged in to the right environment''.
+This is a universal Turing machine, i.e.\ when we encode everything into this strange alphabet, it is capable of arbitrarily complex calculation! 
+\slogan{Even simple systems can
+have very interesting behavior when plugged in to the right environment.}
 
 %%
 %% :CUSTOM_ID:cite-this.turing_machine
@@ -335,12 +335,13 @@ systems \emph{composition}.
 \begin{informal}
   \emph{Composition} is the process by which some things are brought together to
   form bigger things.
-
-  Functions can be composed by $g \circ f(x) = g(f(x))$, and dynamical systems
-  can be composed by plugging in the variables of the states of some into the
-  parameters of others.
 \end{informal}
 
+
+Functions can be composed by $g \circ f(x) = g(f(x))$, and dynamical systems
+can be composed by plugging in the variables of the states of some into the
+parameters of others.
+  
 This book is all about composing dynamical systems. Because of this, we will use
 the abstract language of composition: \emph{category theory}.
 \begin{informal}
@@ -365,8 +366,7 @@ be familiar with:
   \item What a monoidal category is.
 \end{itemize}
 
-Good introductions to category theory abound. One place to start is \emph{Seven
-  Sketches: An invitation to applied category theory}.
+Good introductions to category theory abound. One place to start is \emph{An invitation to applied category theory} \cite{ong2019seven}.
 
 We will be using cartesian categories quite a bit in the first few chapters.
 \begin{definition}\label{def.cartesian_category}
@@ -377,15 +377,17 @@ We will be using cartesian categories quite a bit in the first few chapters.
   $\prod_{i \in I} A_i$ in $\cat{C}$.
 
   A functor $F : \cat{C} \to \cat{D}$ between cartesian categories is said to be
-  \emph{cartesian} if the
+  \emph{cartesian} if it preserves products and terminal objects, i.e.\ the
   map $(F\pi_A,\, F\pi_B) : F(A \times B) \to FA \times FB$ is an isomorphism
   for all $A$ and $B$, and the terminal morphism $F\ord{1} \to \ord{1}$ is an
   isomorphism. 
 \end{definition}
 
 We will also use some more advanced category theory, like indexed
-categories, double categories, and toposes. But we will introduce these concepts
+categories, double categories, and toposes. However, you don't need to know them up front; we will introduce these concepts
 as we use them.
+
+
 \section{Deterministic systems}
 
 That's a lot of informal definitions, we are ready for something precise:
@@ -421,11 +423,11 @@ have have used the category $\Cat{Set}$ of sets.
 \begin{example}\label{ex.clock_system}
   The $\Sys{Clock}$ system can be seen as a deterministic system with:
   \begin{itemize}
-  \item State set $\State{Clock} = \Set{Hours}$.
-  \item Output set $\Out{Clock} = \Set{Hours}$.
+  \item State set $\State{Clock} = \Set{Hour}$.
+  \item Output set $\Out{Clock} = \Set{Hour}$.
   \item Input set $\In{Clock} = \{\ast\}$, a one element set.
   \item Readout function $\expose{Clock} = \id_{S}$.
-  \item update function $\update{Clock} : \Set{hours} \times \{\ast\} \to \Set{Hours}$
+  \item update function $\update{Clock} : \Set{hours} \times \{\ast\} \to \Set{Hour}$
     defined by $\update{Clock}(t, \ast) = \fun{tick}(t)$.
   \end{itemize}
 \end{example}
@@ -749,16 +751,16 @@ product, and then we compose it with a lens that represents the wiring diagram.
   \draw (X2_out1) to (Y_out2);
 	\draw[label] 
 		node [right=2pt of Y_out1] {$\Set{Meridien}$}
-		node [right=2pt of Y_out2] {$\Set{Hours}$}
+		node [right=2pt of Y_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
 
 First, we take the parallel product of $\Sys{a.m./p.m.}$ and $\Sys{Clock}$ to get the system 
-$$\Sys{a.m./p.m.} \otimes \Sys{Clock} : \lens{\Set{Meridien} \times \Set{Hours}}{\Set{Meridien} \times \Set{Hours}} \leftrightarrows \lens{\Set{Hours} \times \ord{1}}{\Set{Meridien} \times \Set{Hours}}.$$
+$$\Sys{a.m./p.m.} \otimes \Sys{Clock} : \lens{\Set{Meridien} \times \Set{Hour}}{\Set{Meridien} \times \Set{Hour}} \leftrightarrows \lens{\Set{Hour} \times \ord{1}}{\Set{Meridien} \times \Set{Hour}}.$$
 
 Now, we will express the wiring pattern in \cref{eqn.clock_system_box2} as a lens
-$$\lens{w^{\sharp}}{w} : \lens{\Set{Hours} \times \ord{1}}{\Set{Hours} \times \Set{Meridien}} \leftrightarrows \lens{\ord{1}}{\Set{Hours} \times \Set{Meridien}}.$$
+$$\lens{w^{\sharp}}{w} : \lens{\Set{Hour} \times \ord{1}}{\Set{Hour} \times \Set{Meridien}} \leftrightarrows \lens{\ord{1}}{\Set{Hour} \times \Set{Meridien}}.$$
 
 We do this by setting
 \begin{align*}
@@ -783,7 +785,7 @@ Seen as a wiring diagram on its own, $\lens{w^{\sharp}}{w}$ looks like this:
 
 	\draw[label] 
 		node [right=2pt of Y_out1|-Mid_out1] {$\Set{Meridien}$}
-		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hours}$}
+		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
@@ -806,7 +808,7 @@ just like we wanted! In terms of wiring diagrams, this looks like:
   \draw (X2_out1) to (Y_out2);
 	\draw[label] 
 		node [right=2pt of Y_out1] {$\Set{Meridien}$}
-		node [right=2pt of Y_out2] {$\Set{Hours}$}
+		node [right=2pt of Y_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \quad=\quad
@@ -833,7 +835,7 @@ just like we wanted! In terms of wiring diagrams, this looks like:
 
 	\draw[label] 
 		node [right=2pt of Y_out1|-X1_out1] {$\Set{Meridien}$}
-		node [right=2pt of Y_out2|-X2_out1] {$\Set{Hours}$}
+		node [right=2pt of Y_out2|-X2_out1] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
@@ -1446,21 +1448,21 @@ lens in a cartesian category of our choosing.
 
 	\draw[label] 
 		node [right=2pt of Y_out1|-Mid_out1] {$\Set{Meridien}$}
-		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hours}$}
+		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
   from \cref{ex.ClockWithDisplay} as a lens in
   a category of typed arities in the following way. We have two types:
-  $\Set{Meridien}$ and $\Set{Hours}$. So, $\cat{T} = \{\Set{Meridien},
-  \Set{Hours}\}$. Then
+  $\Set{Meridien}$ and $\Set{Hour}$. So, $\cat{T} = \{\Set{Meridien},
+  \Set{Hour}\}$. Then
   \begin{align*}
-    w &= (t : \Set{Hours},\, m : \Set{Meridien} \mapsto t : \Set{Hours},\, m : \Set{Meridien}) \\
-    w^{\sharp} &= (t : \Set{Hours},\, m : \Set{Meridien} \mapsto t : \Set{Hours})
+    w &= (t : \Set{Hour},\, m : \Set{Meridien} \mapsto t : \Set{Hour},\, m : \Set{Meridien}) \\
+    w^{\sharp} &= (t : \Set{Hour},\, m : \Set{Meridien} \mapsto t : \Set{Hour})
   \end{align*}
   giving us a wiring diagram in $\Cat{WD}_{\cat{T}}$. We can then interepret
   this as the lens from $\cref{ex.ClockWithDisplay}$ as the image of this wiring
-  diagram which interprets the types $\Set{Meridien}$ and $\Set{Hours}$ as the
+  diagram which interprets the types $\Set{Meridien}$ and $\Set{Hour}$ as the
   actual sets $\{\const{a.m.},\const{p.m.}\}$ and $\{1, 2,\ldots, 12\}$.
 \end{example}
 
