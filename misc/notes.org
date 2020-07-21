@@ -153,6 +153,8 @@ In each note topic, I think we should trade off with headers simply named
 
     Is there an indexed double functor that yields all eventually periodic orbits? Naively, I expect it to be a colimit over all the representable indexed double functor for each eventually periodic orbit. 
 
+*** TODO Composition of wiring diagrams as nesting
+     This needs to be done more explicitly in the section on wiring diagrams as lenses in free cartesian categories.
 * Citations
 ** C1-
 *** Turing Machine in Introduction

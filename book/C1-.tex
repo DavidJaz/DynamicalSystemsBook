@@ -711,7 +711,7 @@ $\Sys{S_1} \otimes \Sys{S_2}$ is defined explicitly as follows:
 \end{itemize}
 
 This can be expressed as the following wiring diagram:
-\begin{equation}\label{eqn.clock_system_box}
+\begin{equation}\label{eqn.parallel_product_diagram}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
 	\node[bb={1}{1}] (X1) {$\Sys{S_1}$};
   \node[bb={1}{1}, below=2 of X1] (X2) {$\Sys{S_2}$};
@@ -983,9 +983,6 @@ of the other:
     (NYC_out1) to[in=0] (\x1 - \n1, \y1 + .7cm) to (\x2 + \n1, \y1 + .7cm) to[out=180] (Boston_in2);
 \end{tikzpicture}
 \end{equation}
-If we want to have more than two cities (and we probably do), then we need to
-make sure we don't just copy the whole outflowing population to every other city 
-
 \end{example}
 
 \subsection{Wiring diagrams as lenses in categories of arities}
@@ -1477,7 +1474,7 @@ behaviors our systems can have:
 trajectories, steady states, and periodic orbits.
 
 \begin{informal}
-  A \emph{behavior} of a dynamical system is a particular way its states could
+  A \emph{behavior} of a dynamical system is a particular way its states can
   change according to its dynamics.  
 
   There are different \emph{kinds of behavior} corresponding to the different
@@ -1485,9 +1482,9 @@ trajectories, steady states, and periodic orbits.
   repeat, or they stay the same despite changing conditions.
 \end{informal}
 
-In \sec{sec.behaviors}, we will give a formal definition of behavior of
+In \cref{sec.behaviors}, we will give a formal definition of behavior of
 dynamical system. We will see that the different kinds of behaviors ---
-trajectories, steady states, periodic orbits, etc. -- can each
+trajectories, steady states, periodic orbits, etc. --- can each
 be packaged up into a single system that \emph{represents} that kind of
 behavior. This system will behave in exactly that kind of way, and do nothing else.
 
