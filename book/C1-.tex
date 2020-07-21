@@ -1725,7 +1725,7 @@ going to get the same results. But it is possible for us to always get the same
 outputs for the same input even though the internal state keeps changing. These
 are special trajectories, and we call them \emph{steady looking} trajectories.
 
-\begin{definition}
+\begin{definition}\label{def.steady_looking_trajectory_discrete}
   For $i \in \In{S}$ and $o \in \Out{S}$ of a system $\Sys{S}$, a \emph{$\lens{i}{o}$-steady
     looking trajectory} is a sequence of states $s : \nn \to \State{S}$ such
   that
@@ -1907,10 +1907,10 @@ between the interfaces of systems.
 \Sys{T} \to \Sys{S}$, is a function $\phi : \State{T} \to \State{S}$ sending
 states of $\Sys{T}$ to states of $\Sys{S}$ which preserves the dynamics and
 exposed variables by satisfying the following equations:
-\begin{equation}\label{eqn.map_discrete}
+\begin{equation}\label{eqn.behavior_discrete}
 \begin{aligned}
   \expose{S}(\phi(t)) &= f(\expose{T}(t)), \\
-  \update{S}(\phi(t), f_{\flat}(t, i)) &= \phi(\update{T}(t, i))
+  \update{S}(\phi(t), f_{\flat}(\expose{T}(t), i)) &= \phi(\update{T}(t, i))
 \end{aligned}
 \end{equation}
 for all $t \in \State{T}$ and $i \in \In{T}$. We say that $\lens{f_{\flat}}{f}$
@@ -1986,7 +1986,7 @@ is a function $\gamma
 : \State{Time} \to 
 \State{S}$ satsifying some properties. But $\State{Time} = \nn$, so $\gamma :
 \nn \to \State{S}$ is a sequence of states in $\Sys{S}$. Now,
-\cref{eqn.map_discrete} becomes the equations:
+\cref{eqn.behavior_discrete} becomes the equations:
 \begin{align*}
   \expose{S}(\gamma(t)) &= v(t) \\
   \update{S}(\gamma(t), p(t)) &= \gamma(t + 1).
@@ -2048,7 +2048,7 @@ which are exactly the equations defining a $\lens{p}{v}$-trajectory from \cref{d
   Now, let's see what a $\lens{i}{o}$-behavior $s : \Sys{Fix} \to \Sys{S}$ is. It is
   a function $s : \State{Fix} \to \State{S}$ satisfying a few properties. But
   $\State{S} = \{\ast\}$ so $s : \{\ast\} \to \State{S}$ is a single state of
-  $\Sys{S}$. Then, \cref{eqn.map_discrete} becomes the equations
+  $\Sys{S}$. Then, \cref{eqn.behavior_discrete} becomes the equations
   \begin{align*}
     \expose{S}(s) &= o\\
     \update{S}(s, i) &= s
@@ -2118,7 +2118,7 @@ parameters and an $n$-length sequence of exposed values.
 A $\lens{p}{v}$-behavior $\gamma : \Sys{Clock_n} \to \Sys{S}$, then, is a function
 $\gamma : \State{Clock_n} \to \State{S}$ satisfying a few properties. Since
 $\State{Clock_n} = \ord{n}$, $\gamma : \ord{n} \to \State{S}$ is a $n$-length
-sequence of states of $S$, and \cref{eqn.map_discrete} become the equations
+sequence of states of $S$, and \cref{eqn.behavior_discrete} become the equations
 \begin{align*}
   \expose{S}(\gamma(t)) &= v(t) \\
   \update{S}(\gamma(t), p(t)) &= \begin{cases} \gamma(t + 1) \\ &\mbox{if $t < n$} \\
@@ -2128,6 +2128,97 @@ As we can see, this determines a sequence of length $n$ of states of $\Sys{S}$
 which repeats when it gets to the end. In other words, this is a periodic orbit
 with periodic parameters as in \cref{def.periodic_orbit_discrete}!
 \end{example}
+
+If we have a certain kind of behavior in mind, and we find a system $\Sys{T}$ so
+that behaviors of shape $\Sys{T}$ are precisely this kind of behavior, then we
+say that $\Sys{T}$ \emph{represents} that behavior. For example, we have just
+seen that:
+\begin{itemize}
+  \item The system $\Sys{Time} = \lens{\_ + 1}{\id} : \lens{\nn}{\nn} \leftrightarrows
+    \lens{\{\ast\}}{\nn}$ reprensents trajectories.
+  \item The system $\Sys{Fix} = \lens{\pi_2}{\id} : \lens{\{\ast\}}{\{\ast\}}
+    \leftrightarrows \lens{\{\ast\}}{\{\ast\}}$ represents steady states.
+  \item The systems $\Sys{Clock_n} = \lens{\_ + 1 \mod n}{\id} :
+    \lens{\ord{n}}{\ord{n}} \leftrightarrows \lens{\{\ast\}}{\ord{n}}$
+    represents periodic orbits with periodic parameters whose period is at most $n$.
+\end{itemize}
+
+Note that there is always a particularly simple behavior on a system: the
+identity behaviors $\id : \State{T} \to \State{T}$. This says that every system
+behaves as itself. In particular, there is a trajectory of $\Sys{Time}$ given by
+$\id : \Sys{Time} \to \Sys{Time}$ (namely, the trajectory $s_t = t$), and a
+steady state of $\Sys{Fix}$ given by $\id : \Sys{Fix} \to \Sys{Fix}$ (namely,
+the steady state $\ast$), etc. We refer to this behavior as the \emph{generic}
+behavior of that kind.
+
+\begin{exercise}\label{ex.find_representatives_discrete}
+  Find a representative system for the following kinds of behavior.
+  \begin{enumerate}
+    \item An eventually periodic orbit (see \cref{def.eventually_periodic_orbit_discrete}) that takes $n$ steps to get to a period
+      of size $m$.
+    \item A steady looking trajectory (see \cref{def.steady_looking_trajectory_discrete}).
+    \item A periodic orbit of period at most $n$ whose parameters aren't
+      necessarily also periodic (see \cref{def.periodic_orbit_discrete}).
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{ex.represents_what_discrete}
+  What kind of behaviors do the following systems represent? First, figure out
+  what kind of charts they have, and then see what a behavior with a given chart
+  is. Describe in your own words.
+
+  \begin{enumerate}
+  \item The system $\Sys{Plus}$ with:
+    \begin{itemize}
+    \item $\State{Plus} = \nn$.
+    \item $\Out{Plus} = \nn$.
+    \item $\In{Plus} = \nn$.
+    \item $\expose{Plus} = \id$.
+    \item $\update{Plus}(t, j) = t + i$.
+    \end{itemize}
+    %% A chart is a sequence of output values and an a $\nn \times \nn$ grid of
+    %% input values. A behavior is a sequence of states with those output values
+    %% where state $s_t$ updates on parameter $(t, j)$ to $s_{t + j}$.
+  \item The system $\Sys{T_n}$ with:
+    \begin{itemize}
+    \item $\State{T_n} = \nn$.
+    \item $\Out{T_n} = \{0, \ldots, n - 1\}$.
+    \item $\In{T_n} = \{\ast\}$.
+    \item $\expose{T_n}(t) = t \mod n$.
+    \item $\update{T_n}(t, \ast) = t + 1$.
+    \end{itemize}
+    %% Its a trajectory that looks periodic, and has periodic parameters.
+  \item The system $\Sys{XOR}$ with:
+    \begin{itemize}
+    \item $\State{XOR} = \Set{Bool} = \{\true,\, \false\}$.
+    \item $\Out{XOR} = \Set{Bool}$.
+    \item $\In{XOR} = \Set{Bool}$.
+    \item $\expose{XOR} = \id$.
+    \item \begin{aligned}
+        &\update{XOR}(\true, \true) &= \false, \\
+        &\update{XOR}(\false, \true) &= \true, \\
+        &\update{XOR}(\true, \false) &= \true, \\
+        &\update{XOR}(\false, \false) &= \false.
+          \end{aligned}
+    \end{itemize}
+  \item The system $\Sys{List_C}$ for a set of \emph{choices} $C$ with:
+    \begin{itemize}
+      \item $\State{List_C} = \Set{List}_C$ is the set of lists of elements in
+        $C$.
+      \item $\Out{List_C} = \Set{List}_C$.
+      \item $\In{List_C} = C$.
+      \item $\expose{List_C} = \id$.
+      \item $\update{List_C}(\ell, c) = c::\ell$, that is, we update a list by
+        appending the character $c \in C$ to the start.
+    \end{itemize}
+  \end{enumerate}
+\end{exercise}
+
+While every system $\Sys{T}$ represents some kind of behavior --- just take the kind of
+behavior to be exactly described by behaviors $\Sys{T} \to \Sys{S}$ --- we are
+most interested in those simple systems $\Sys{T}$ whose behavior we can fully
+understand. 
+
 
 We have written a behavior of shape $\Sys{T}$ in $\Sys{T}$ with an arrow $\phi :
 \Sys{T} \to \Sys{S}$. This suggests that there is a category with deterministic
@@ -2140,21 +2231,188 @@ systems as its objects and behaviors as its morphisms; and there is!
     \item Maps the \emph{charts} $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
       \rightright \lens{B^-}{B^+}$.
     \item Composition the composite of a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
-      \rightright \lens{B^-}{B^+}$ with a chart $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
-      \rightright \lens{C^-}{C^+}$ is 
+      \rightrightarrows \lens{B^-}{B^+}$ with a chart $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
+      \rightrightarrows \lens{C^-}{C^+}$ is 
 $$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{(a^+, a^-)
   \mapsto g_{\flat}(f(a^+), f_{\flat}(a^+, a^-))}{g \circ f}.$$
      \item The identity chart is $\lens{\pi_2}{\id} : \lens{A^-}{A^+}
        \rightrightarrows \lens{A^-}{A^+}$.
   \end{itemize}
 \end{definition}
+\begin{exercise}
+  Check that $\Cat{Chart}_{\cat{C}}$ is indeed a category.
+\end{exercise}
+
+\begin{proposition}
+  There is a category $\Cat{Sys}$ with deterministic systems as its objects and
+  where a map $\Sys{T} \to \Sys{S}$ is a pair consisting of a chart
+  $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}} \rightrightarrows
+  \lens{\In{S}}{\Out{S}}$ and a $\lens{f_{\flat}}{f}$-behavior $\phi : \Sys{T}
+  \to \Sys{S}$. Composition is given by composing both the charts and the
+  functions on states, and identities are given by the generic behaviors: the identity chart with the
+  identity function $\id : \State{T} \to \State{T}$.
+\end{proposition}
+\begin{proof}
+  We just need to check that the composite $\psi \circ \phi$ of two behaviors $\phi : \Sys{T} \to
+  \Sys{S}$ and $\psi : \Sys{S} \to \Sys{U}$ with charts $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}} \rightrightarrows
+  \lens{\In{S}}{\Out{S}}$ and $\lens{g_{\flat}}{g} : \lens{\In{S}}{\Out{S}} \rightrightarrows
+  \lens{\In{U}}{\Out{U}}$ is a behavior with chart $\lens{g_{\flat}}{g} \circ
+  \lens{f_{\flat}}{f}$. That is, we need to check that
+  \cref{eqn.behavior_discrete} is satisfied for $\psi \circ \phi$. We can do
+  this using the fact that it is satisfied for both $\psi$ and $\phi$.
+  \begin{align*}
+    \expose{U}(\psi(\phi(t))) &= \psi(\expose{S}(\phi(t))) \\
+                              &= \psi(\phi(\expose{T}(t))).\\
+  \end{align*}
+  \begin{align*}
+    \update{U}(\psi(\phi(t)), &g_{\flat}(f(\expose{T}(t)), f_{\flat}(\expose{T}(t), i)))  \\
+                              &=\update{U}(\psi(\phi(t)), g_{\flat}(\expose{S}(\phi(t)), f_{\flat}(\expose{T}(t), i))) \\
+                              &= \psi(\update{S}(\phi(t), f_{\flat}(\expose{T}(t), i))) \\
+    &= \psi(\phi(\update{T}(t, i))).
+  \end{align*}
+\end{proof}
+
+There are two different ways to understand what composition of behaviors means:
+one based on post-composition, and the other based on pre-composition.
+\begin{itemize}
+  \item We see that any behavior $\Sys{S} \to \Sys{U}$ gives a way of turning
+    behaviors of shape $\Sys{T}$ in $\Sys{S}$ to behaviors of shape $\Sys{T}$ in $\Sys{U}$.
+  \item We see that any behavior $\Sys{T} \to \Sys{S}$ gives a way of turning
+    any behavior of shape $\Sys{S}$ in $\Sys{U}$ into a behavior of shape $\Sys{T}$.
+\end{itemize}
+
+\begin{example}\label{ex.steady_state_gives_trajectory_discrete}
+  Any steady state $s$ can be seen as a particularly simple trajectory: $s_t =
+  s$ for all $t$. We have seen
+  that steady states are behaviors of shape $\Sys{Fix}$ in
+  \cref{ex.steady_state_as_behavior}. We can use composition of behaviors to
+  understand how steady states give rise to trajectories.
+
+  Now, the generic steady state $\ast$ of $\Sys{Fix}$ (that is, the identity behavior of
+  $\Sys{Fix}$) generates a trajectory $s : \nn \to \State{Fix}$ with input
+  parameters $p_t = \ast$ and $s_t = \ast$. This gives us a behavior $s :
+  \Sys{Time} \to \Sys{Fix}$.
+  
+  Now, for every steady state $\gamma : \Sys{Fix} \to \Sys{S}$, we may compose
+  to get a trajectory $\gamma \circ s : \Sys{Time} \to \Sys{S}$.
+\end{example}
+
+\begin{exercise}\label{ex.behaviors_as_change_of_kind_discrete}
+Adapt the argument of \cref{ex.steady_state_gives_trajectory_discrete} to show
+that
+\begin{enumerate}
+  \item Any eventually periodic orbit gives rise to a trajectory.
+  \item If $n$ divides $m$, then any orbit of period at most $n$ gives rise to
+    an orbit of period of most $m$.
+\end{enumerate}
+\end{exercise}
+
+\paragraph{Isomorphisms of Systems}
+
+Now that we have a category of systems and behaviors, category theory supplies
+us with a definition of isomorphism for systems. 
+\begin{definition}\label{def.isomorphism_of_systems_discrete}
+  An \emph{isomorphism} of a system $\Sys{T}$ with a system $\Sys{S}$ is a
+  a behavior $\phi : \Sys{T} \to \Sys{S}$ for which there is another behavior
+  $\phi\inv : \Sys{S} \to \Sys{T}$ such that $\phi \circ \phi \inv =
+  \id_{\Sys{S}}$ and $\phi \inv \circ \phi = \id_{\Sys{T}}$.
+\end{definition}
+
+Let's see that this is indeed a good notion of sameness for systems.
+\begin{proposition}\label{prop.isomorphism_of_systems_discrete}
+  A behavior $\phi : \Sys{T} \to \Sys{S}$ is an isomorphism if and only if the
+  following conditions hold:
+\begin{enumerate}
+  \item The map $\phi : \State{T} \to \State{S}$ is an isomorphism of sets --- a
+    bijection.
+  \item The chart $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}}
+    \rightrightarrows \lens{\In{S}}{\Out{S}}$ of $\phi$ is an isomorphism in
+    $\Cat{Chart}_{\smset}$. That is, $f : \Out{T} \to \Out{S}$ is a bijection
+    and there is a bijection $f_{\flat}' : \In{T} \to \Out{T}$ such that
+    $f_{\flat} = f_{\flat}' \circ \pi_2$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+  Since composition in the category of systems and behaviors is given by
+  composition of the underlying charts and maps, $\phi$ is an isomorphism of
+  systems if and only if its action on states is a bijection and its chart is an
+  isomorphism in the category of charts. It just remains to see that our
+  description of isomorphism of charts is accurate, which we leave to \cref{ex.isomorphism_in_category_of_charts}.
+\end{proof}
+
+\begin{exercise}\label{ex.isomorphism_in_category_of_charts}
+  Show that a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
+    \rightrightarrows \lens{B^-}{B^+}$ is an isomorphisms if and only if $f$ is
+    an isomorphisms and there is an isomorphism $f_{\flat}' : A^- \to B^-$ such
+    that $f_{\flat} = f_{\flat}' \circ \pi_2$. 
+\end{exercise}
+
+\subsection{Steady states compose according to the laws of matrix arithmetic}\label{sec.steady_states_matrix_arithmetic}
+
+
+We have seen how we can compose systems, and we have seen how systems behave. We
+have seen a certain composition of behaviors, a form of transitivity that says
+that if we have a $\Sys{T}$-shaped behavior in $\Sys{S}$ and a $\Sys{S}$-shaped
+behavior in $\Sys{U}$, then we get a $\Sys{T}$-shaped behavior in $\Sys{U}$. But
+how do behaviors of systems compose when we compose those systems?
+
+This question will be a major theme of this book. In this section we will give a
+taste by showing how steady states compose. Later, in \cref{sec.representables}, we will see a very abstract
+theorem that generalizes this to \emph{all behaviors}, not just steady states.
+But in order for that abstract theorem to make sense, we should see a concrete
+case in detail first.  
+
+Recall that the chart of a steady state $s \in \State{S}$ is the pair
+$\len{i}{o}$ with $o = \expose{S}(s)$ and $\update{S}(s, i) = s$. The set of all
+possible charts for steady states is therefore $\In{S} \times \Out{S}$, and the
+set of all steady states $\Set{Steady}_{\Sys{S}} = \Set{Sys}(\Sys{Fix}, \Sys{S})$ of $\Sys{S}$ admits a function
+$\Set{Steady}_{\Sys{S}} \to \In{S} \times \Out{S}$ sending each steady state to
+its chart. The inverse image of each chart $\lens{i}{o}$ under this function is
+the set $\Set{Steady}_{\Sys{S}}\lens{i}{o}$ of steady states with this chart.
+
+We can see this function $\Set{Steady}_{\Sys{S}} \to \In{S} \times \Out{S}$ as a
+\emph{matrix of sets} with $\Set{Steady}_{\Sys{S}}\lens{i}{o}$ in the row $i$
+and column $o$. For example, consider system $\Sys{S_1}$ of
+\cref{ex.wiring_transition_diagrams}:
+\begin{equation}\label{eqn.wiring_transition_diagrams_steady_diag1}
+\Sys{S_1} \coloneqq \begin{tikzpicture}[baseline=center]
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
+    & & \\
+    \LMO{\Blue} \ar[loop left, "\false"] \ar[rr, leftarrow, bend left, "\false"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\Green}
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+This has output value set $\Set{Colors} = \{\Blue, \Red, \Green\}$ and input
+parameter set $\Set{Bool} = \{\true, \false\}$. Here is its steady state matrix:
+\[ \Set{Steady}_{\Sys{S_1}} =
+  \kbordermatrix{
+    & \Blue & \Red & \Green \\
+    \true & \emptyset & \left\{ \begin{tikzcd} \LMO{\Red} \ar[loop right,
+        "\true"]\end{tikzcd} \right\}  & \emptyset \\
+    \false & \left\{ \begin{tikzcd} \LMO{\Blue} \ar[loop left,
+        "\false"] \end{tikzcd}, \begin{tikzcd} \LMO{\Blue} \ar[loop left,
+        "\false"] \end{tikzcd} \right\} & \emptyset & \emptyset
+}    
+\]
+If we just want to know how many $\lens{i}{o}$-steady states there are, and not
+precisely which states they are, we can always take the cardinality of the sets
+in our matrix of sets to get a bona-fide matrix of numbers. Doing this to the
+above matrix gives us the matrix
+ \[\kbordermatrix{
+    & \Blue & \Red & \Green \\
+    \true & 0 & 1 & 0 \\
+    \false & 2 & 0 & 0
+}    
+\]
+
 
 
 
 
 %%% write-here 
-\subsection{Steady states compose according to the laws of matrix arithmetic}\label{sec.steady_states_matrix_arithmetic}
-
 \section{The Indexed Double Category of Deterministic Systems}\label{sec.indexed_double_category_of_systems}
 
   So far, we have seen how both deterministic systems and the wiring diagrams we

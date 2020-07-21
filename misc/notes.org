@@ -155,6 +155,9 @@ In each note topic, I think we should trade off with headers simply named
 
 *** TODO Composition of wiring diagrams as nesting
      This needs to be done more explicitly in the section on wiring diagrams as lenses in free cartesian categories.
+** <2020-07-21 ter> 
+   
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction
