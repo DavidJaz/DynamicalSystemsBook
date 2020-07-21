@@ -17,21 +17,20 @@ Here's a basic fact of life: \emph{things change}. And how things change most
 often depends on how they currently are. This is the basic idea underlying all the various notions of \emph{dynamical
   system} that we will see in this book.
 
-\begin{informal}
+\begin{informal}\label{inf.dynam_sys}
   A \emph{dynamical system} consists of:
   \begin{itemize}
   \item a notion of how things are, called the \emph{state}, and
   \item a notion of how things will change given how they are, called the \emph{dynamics}.
   \end{itemize}
-  The dynamics of a system might also depend on some free \emph{parameters}, and
-  we will often only be interested in some particular \emph{variables} of the
-  state. 
+  The dynamics of a system might also depend on some free \emph{parameters} that are imported from the environment, and
+  we will often be interested in some particular \emph{variables} of the
+  state that are exposed to the environment. 
 \end{informal}
 
-In this chapter, we will see this idea in its
-most distilled form: we will know exactly how things are, and what they will be
-like next. That is, we'll be focusing on \emph{deterministic} dynamical systems,
-whose time steps forward in \emph{discrete} increments.
+In this chapter, we will see the idea from \cref{inf.dynam_sys} in its
+most distilled form: we will know exactly how things are, and exactly how they will change. That is, we'll be focusing on \emph{deterministic} dynamical systems,
+for which time steps forward in \emph{discrete} increments.
 
 
 A paradigmatic example of this sort of dynamical system is a clock.
