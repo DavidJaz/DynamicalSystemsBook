@@ -12,7 +12,7 @@
 \chapter{Deterministic Systems}\label{chapter.1}
 
 %-------- Section --------%
-\section{Introduction}
+\section{Introduction}\label{sec.chap1_intro}
 
 Here's a basic fact of life: \emph{things change}. And how things change most
 often depends on how they currently are. This is the basic idea underlying all the various notions of \emph{dynamical
@@ -72,7 +72,7 @@ refer to the whole system at once, we can box it up and draw it like this:
 
 \begin{equation}\label{eqn.clock_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
-	\node[bb={0}{1}] (X) {$\Sys{Clock}$};
+	\node[bb={0}{1}, fill=blue!10] (X) {$\Sys{Clock}$};
 	\draw[label] 
 		node [right=2pt of X_out1] {$\Set{Hour}$}
 		;
@@ -84,7 +84,7 @@ that is shows the hour it is currently displaying on the outgoing wire. This out
 One issue with our clock is that it doesn't tell us whether it is morning or
 evening. Being morning or evening and going back and forth between them is another way that things might be and change, and hence we
 can see it as its own two-state dynamical system with states
-$$\Set{Meridien} = \{\const{a.m.}, \const{p.m.}\}.$$
+$$\Set{a.m./p.m.} = \{\const{a.m.}, \const{p.m.}\}.$$
 
 However, rather than have this be an independent system, we want to consider it as a little addition to
 our clock system, one that reads $\const{a.m.}$ or $\const{p.m.}$:
@@ -105,7 +105,7 @@ our clock system, one that reads $\const{a.m.}$ or $\const{p.m.}$:
 \end{equation}
 To connect the meridian to the clock means that the way the meridian changes should be based on the hour:
 \begin{align}\label{eqn.next}
-  \fun{next} : \Set{Meridien} \times \Set{Hour} &\to \Set{Meridien} \\\nonumber
+  \fun{next} : \Set{a.m./p.m.} \times \Set{Hour} &\to \Set{a.m./p.m.} \\\nonumber
                (\const{a.m.}, t) &\mapsto \begin{cases} \const{p.m.} &\mbox{if $t = 11$}\\ \const{a.m.} &\mbox{otherwise}  \end{cases} \\\nonumber
                (\const{p.m.}, t) &\mapsto \begin{cases} \const{a.m.} &\mbox{if $t = 11$}\\ \const{p.m.} &\mbox{otherwise}  \end{cases}
 \end{align}
@@ -117,7 +117,7 @@ is that they depend on what hour it is. The hour is imported as a \emph{paramete
 dynamics of the meridian system. We can draw the meridian system as a box like this:
 \begin{equation}\label{eqn.am_pm_system_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
-	\node[bb={1}{1}, fill=blue!10] (X) {$\Sys{Meridien}$};
+	\node[bb={1}{1}, fill=blue!10] (X) {$\Sys{Meridian}$};
 	\draw[label] 
 		node [left=2pt of X_in1] {$\Set{Hour}$}
 		node [right=2pt of X_out1] {$\Set{a.m./p.m.}$}
@@ -151,7 +151,7 @@ our bare clock \eqref{eqn.clock_system_box} and the $\const{a.m.}/\const{p.m.}$ 
 \end{equation}
 
 The resulting system has states
-$$\Set{HoursWithDisplay} := \Set{Hour} \times \Set{Meridien}$$
+$$\Set{HoursWithDisplay} := \Set{Hour} \times \Set{a.m./p.m.}$$
 each of which is a pair, e.g.\ $(11, \const{a.m.})$, consisting of an hour and a meridian reading.
 They update in a combined way, by using the hour shown on the clock face as the
 parameter we need for the $\Sys{Meridian}$ system; this is expressed by having a wire from the output of $\Sys{Clock}$ to the input of $\Sys{Meridian}$. In full, the
@@ -184,7 +184,7 @@ Again, we can represent the diner by this box:
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
 	\node[bb={2}{1}, fill=blue!10] (X) {$\Sys{Diner}$};
 	\draw[label] 
-		node [left=2pt of X_in1] {$\Set{Meridian}$}
+		node [left=2pt of X_in1] {$\Set{a.m./p.m.}$}
 		node [left=2pt of X_in2] {$\Set{Hour}$}
 		node [right=2pt of X_out1] {$\Set{DinerState}$}
 		;
@@ -394,15 +394,17 @@ as we use them.
 
 That's a lot of informal definitions, we are ready for something precise:
 \begin{definition}\label{def.deterministic_system}
-  A \emph{deterministic system} $\Sys{S}$, also written as $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}},$$ consists of:
+  A \emph{deterministic system} $\Sys{S}$, also written as 
+  $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}},$$ 
+  consists of:
   \begin{itemize}
-    \item A set $\State{S}$ of \emph{states}.
-    \item A set $\Out{S}$ of \emph{values for exposed variables}, or \emph{outputs}
-      for short.
-    \item A set $\In{S}$ of \emph{parameter values}, or \emph{inputs} for short.
-    \item A function $\expose{S} : \State{S} \to \Out{S}$, the \emph{exposed variable of state} or
-      \emph{expose} function which takes a state to the output it yields. 
-    \item A function $\update{S} : \State{S} \times \In{S} \to \State{S}$, the \emph{dynamics} or
+    \item a set $\State{S}$ of \emph{states};
+    \item a set $\Out{S}$ of \emph{values for exposed variables}, or \emph{outputs}
+      for short;
+    \item a set $\In{S}$ of \emph{parameter values}, or \emph{inputs} for short;
+    \item a function $\expose{S} : \State{S} \to \Out{S}$, the \emph{exposed variable of state} or
+      \emph{expose} function, which takes a state to the output it yields; and
+    \item a function $\update{S} : \State{S} \times \In{S} \to \State{S}$, the \emph{dynamics} or
       \emph{update} function which takes a state and a parameter and gives the
       next state.
   \end{itemize}
@@ -424,35 +426,33 @@ have have used the category $\Cat{Set}$ of sets.
 
 \begin{example}\label{ex.clock_system}
   The $\Sys{Clock}$ system can be seen as a deterministic system with:
+  $$\lens{\fun{tick}}{\id} : \lens{\Set{Hour}}{\Set{Hour}} \fromto \lens{\{\ast\}}{\Set{Hour}}.$$
+  In other words, it consists of
   \begin{itemize}
-  \item State set $\State{Clock} = \Set{Hour}$.
+  \item State set $\State{Clock} = \Set{Hour} =\{1,2,\ldots,12\}$.
   \item Output set $\Out{Clock} = \Set{Hour}$.
   \item Input set $\In{Clock} = \{\ast\}$, a one element set.
-  \item Readout function $\expose{Clock} = \id_{S}$.
+  \item Readout function $\expose{Clock} = \id_{\Set{Hour}}$.
   \item update function $\update{Clock} : \Set{hours} \times \{\ast\} \to \Set{Hour}$
     defined by $\update{Clock}(t, \ast) = \fun{tick}(t)$.
   \end{itemize}
 \end{example}
 
-Note that to say that a system doesn't have any parameters, we don't take the
-parameter set to be empty but instead take it to have a single dummy value. When
-we say that a system doesn't have any parameters, we are more precisely saying
-that the set of values the parameters can take is trivial --- that is, that
-there is no way to change the value of the parameters. 
+Note that when we say that a system doesn't have any parameters, as in \cref{ex.clock_system}, we don't take the
+parameter set to be empty but instead take it to have a single dummy value $\{*\}$, the one-element ``hum of existence''. In other words, having ``no parameters'' really means that the parameters are unchanging, or that there is no way to change the value of the parameters.
 
-Also, we are just exposing the whole state with this system. Often our systems
-will expose their whole state, but sometimes it is useful to keep track of which
-variables are to be exposed for use in other systems, and which are just for use internally. 
+Also, we are just exposing the whole state with the system in \cref{ex.clock_system}. There is nothing preventing our systems
+from exposing their whole state, but often some aspects of the state are private, i.e.\ not exposed for use by other systems. 
 
-\begin{exercise}
-  Write out the other systems in the introduction in terms of
+\begin{exercise}\label{exc.clock_meridian_diner}
+  Write out the clock and meridian systems from \eqref{eqn.tick} and \eqref{eqn.next} in terms of
   \cref{def.deterministic_system}. Really, this amounts to noticing which sets
   are the sets of states, which are the sets of inputs, and what (implicitly)
   are the sets of outputs.
 \end{exercise}
 
 \begin{example}[SIR model]\label{ex.SIR_model_discrete}
-  Deterministic systems don't have to have finite sets of states. The $\Sys{SIR}$ model
+  The set of states for a deterministic system doesn't need to be finite. The $\Sys{SIR}$ model
   is an epimediological model used to study how a disease spreads through a
   population. ``SIR'' stands for ``susceptible'', ``infected'', and, rather
   ominously, ``removed''. This model is usually presented as a system of
@@ -462,15 +462,15 @@ variables are to be exposed for use in other systems, and which are just for use
 
   A state of the $\Sys{SIR}$ model is a choice of how many people are susceptible, how
   many are infected, and how many are removed. That is,
-  $$\State{SIR} = \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\, \middle|\, s,\, i,\, r\in \rr\right\} = \rr^3.$$
-  is a 3 place vector of real numbers. We will expose the whole state, so
+  $$\State{SIR} = \left\{\begin{bmatrix} s \\ i \\ r \end{bmatrix}\; \middle|\; s,\, i,\, r\in \rr\right\} \cong \rr^3.$$
+  is a 3-place vector of real numbers. We will again expose the whole state, so
   $\Out{SIR} = \State{SIR}$ and $\expose{SIR} = \id$.
 
   The idea behind the $\Sys{SIR}$ model is that if a susceptible person comes in
   contact with an infected person, then they have a chance of becoming infected
   too. And, eventually, infected persons will be removed from the model, either
-  by recovering (a gentler way to read the ``R'') or by dieing. So we need two
-  parameters: the rate $a$ of infection and the rate $b$ of removal. So,
+  by recovering (a gentler way to read the ``R'') or by dying. So we need two
+  parameters: the rate $a$ of infection and the rate $b$ of removal:
   $$\In{SIR} = \left\{\begin{bmatrix} a \\ b \end{bmatrix}\, \middle|\, a,\, b \in \rr\right\} = \rr^2.$$
 
   Now, we can show how a population will develop according to this model by
@@ -498,8 +498,11 @@ entirely as a \emph{transition diagram}:
   };
 \end{tikzpicture}
 \]
+Note that every node has an orange and a green arrow emanating from it, but that there are no rules on how many arrows point to it.
 
 This diagram describes the following system $\Sys{S}$:
+  $$\lens{\update{S}}{\expose{S}} : \lens{\{1, 2, 3\}}{\{1, 2, 3\}} \leftrightarrows \lens{\{{\color{dgreen} \const{green},\, {\color{orange} \const{orange}}}\}}{\{a, b\}}.$$ 
+That is, we have
 \begin{itemize}
 \item $\State{S} = \{1, 2, 3\}$.
 \item $\In{S} = \{{\color{dgreen} \const{green},\, {\color{orange} \const{orange}}}\}$,
@@ -508,7 +511,7 @@ This diagram describes the following system $\Sys{S}$:
         \expose{S} : \State{S} &\to \Out{S} \\
         1 &\mapsto a \\
         2 &\mapsto b \\
-        3 &\mapsto b
+        3 &\mapsto b \\~\\~\\~\\
       \end{aligned} \quad\quad\quad\quad
  \begin{aligned}
         \update{S} : \State{S} \times \In{S} &\to \In{S} \\
@@ -517,7 +520,7 @@ This diagram describes the following system $\Sys{S}$:
         (2, {\color{dgreen} \const{green}}) &\mapsto 3 \\
         (2, {\color{orange} \const{orange}}) &\mapsto 1 \\
         (3, {\color{dgreen} \const{green}}) &\mapsto 3 \\
-        (3, {\color{orange} \const{orange}}) &\mapsto 1 \\
+        (3, {\color{orange} \const{orange}}) &\mapsto 1
       \end{aligned}
       \]
 \end{itemize}
@@ -556,26 +559,37 @@ commonly in the literature: the \emph{closed} systems. These are the systems
 which have no parameters, and which expose no variables. They are closed off
 from their environment, and can't be wired into any other systems.
 
-When we say ``no'' in this way --- no parameters, no variables --- we should be
+As mentioned after \cref{ex.clock_system}, when we say ``no'' in this way --- no parameters, no variables --- we should be
 careful with what we mean exactly. We mean that there is no \emph{variation} in
 the parameters or variables, that they are trivial. That is, we make the
 following definition.
 \begin{definition}
   A deterministic system $\Sys{S}$ is \emph{closed} if both $\In{S}$ and
-  $\Out{S}$ have only one element. The data of a closed deterministic system is
-  given by the state space $\State{S}$ and the update function $\update{S} :
-  \State{S} \to \State{S}$.
+  $\Out{S}$ have only one element
+  \[\In{S}\cong\{*\}\cong\Out{S}.\]
 \end{definition}
-Note that ``no parameters'' doesn't mean that $\In{S}$ is empty; then we could
-never run the update function, because there would be no parameter we could plug
-in! Instead, we put a dummy value for the parameter and ask that the parameter
-is always set to the dummy value; then we can safely ignore it.
+
+\begin{exercise}
+Show that to give a closed system
+\[\lens{\update{S}}{\expose{S}}\colon\lens{\State{S}}{\State{S}}\fromto\lens{\{*\}}{\{*\}},\]
+one just needs to choose a set $\State{S}$ and an update function $\update{S} :  \State{S} \to \State{S}$.
+\end{exercise}
+
+\begin{exercise}
+What would happen to a system $\Sys{S}$ if its parameters or exposed variables were actually empty sets? Let's find out.
+\begin{enumerate}
+	\item Suppose $\In{S}=\varnothing$. Explain the content of a deterministic system \[\lens{\update{S}}{\expose{S}}\colon\lens{\State{S}}{\State{S}}\fromto\lens{\varnothing}{\{*\}}.\]
+	\item Suppose $\Out{S}=\varnothing$. Explain the content of a deterministic system \[\lens{\update{S}}{\expose{S}}\colon\lens{\State{S}}{\State{S}}\fromto\lens{\{*\}}{\varnothing}.
+	\qedhere
+\]	
+\end{enumerate}
+\end{exercise}
 
 %-------- Section --------%
 \section{Wiring together systems with lenses}
 
 In the last section, we saw the formal definition of deterministic systems and a
-few examples of them. In this section, we'll see how to wire systems together to
+few examples of them. In this section, we'll see how to wire systems together---as we did in \cref{sec.chap1_intro} for the clock and the universal Turing machine---to
 make more complex systems. We will do this using an interesting notion coming
 from the world of function programming: a \emph{lens}.
 
@@ -589,7 +603,7 @@ A lens is a framework for bi-directional information passing.
   \lens{B^-}{B^+}$ in a cartesian category $\cat{C}$ consists of:
   \begin{itemize}
   \item A \emph{passforward} map $f : A^+ \to B^+$, and
-    \item a \emph{passback} map $f^{\sharp} : A^+ \times B^- \to A^-$
+    \item a \emph{passback} map $f^{\sharp} : A^+ \times B^- \to A^-$.
   \end{itemize}
 \end{definition}
 
@@ -600,18 +614,41 @@ The most useful thing about lenses is that they \emph{compose}.
   a cartesian category $\cat{C}$. We define their composite
   $$\lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f}$$
   to have passforward $g \circ f$ and passback
-  $$(a^+, c^-) \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^-)).$$
-
+  $$(a^+, c^-) \mapsto f^{\sharp}\left(a^+, g^{\sharp}(f(a^+), c^-)\right).$$
 \end{definition}
+Here's a picture so that you can see the information flow for the composite of lenses:%
+\footnote{We draw this with a different style---green boxes, etc.---so that the reader will not confuse it with our usual wiring diagrams for systems. These are not dynamic in any way; everything below is just a set.}
+\begin{equation}\label{eqn.lens_drawing}
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (f) {$f$};
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen, right=1.5 of f] (g) {$g\vphantom{f}$};
+	\node[left=0 of f_in1] {$A^+$};
+	\node[right=0 of g_out1] {$C^+$};
+	\draw (f_out1) to node[above, font=\scriptsize] {$B^+$} (g_in1);
+%
+	\node[dot, right=6 of g] (dot) {};
+	\draw (dot.180) to +(180:5pt) coordinate (dot_in1) node[left] {$A^+$};
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] at ($(dot)+(1.5,-1.5)$) (f) {$f$};
+	\node[bb={2}{1}, rounded corners=5pt, draw=dgreen, below right=-1 and 2 of f] (g') {$g\shp$};
+	\draw (dot) to[out=-60, in=180] (f_in1);
+	\draw (f_out1) to node[above=5pt, pos=.6, font=\scriptsize] {$B^+$} (g'_in1);
+	\node[bb={2}{1}, rounded corners=5pt, draw=dgreen, above right=-1 and 2 of g'] (f') {$f\shp$};
+	\draw (dot) to [out=60, in=180] (f'_in1);
+	\draw (g'_out1) to[out=0, in=180] node[below=5pt, font=\scriptsize] {$B^-$} (f'_in2);
+	\draw (g'_in2) to (g'_in2-|dot_in1) node[left] {$C^-$};
+	\node[right=0 of f'_out1] {$A^-$};
+\end{tikzpicture}
+\end{equation}
 
 This gives us a category of lenses in any cartesian category $\cat{C}$.
+
 \begin{definition}\label{def.lens_category}
 Let $\cat{C}$ be a cartesian category. Then the category $\Cat{Lens}_{\cat{C}}$
 has:
 \begin{itemize}
-\item Objects the pairs $\lens{A^-}{A^+}$ of objects in $\cat{C}$, which we will
+\item as objects, the pairs $\lens{A^-}{A^+}$ of objects in $\cat{C}$, which we will
   call \emph{arenas}.
-\item Maps the lenses $\lens{f^{\sharp}}{f} : \lens{A^-}{A^+} \leftrightarrows \lens{B^-}{B^+}$.
+\item as morphisms, the lenses $\lens{f^{\sharp}}{f} : \lens{A^-}{A^+} \leftrightarrows \lens{B^-}{B^+}$.
 \item The identity lens is $\lens{\pi_2}{\id} : \lens{A^-}{A^+} \leftrightarrows
   \lens{A^-}{A^+}$, where $\pi_2 : A^+ \times A^- \to A^-$ is the projection.
 \end{itemize}
@@ -628,15 +665,19 @@ has:
     category}\footnote{A double category is like a category with two different
     kinds of morphisms and a way for them to commute. See
     \cref{def.double_category} for the precise definition and the accompanying
-    discussion.} $\Cat{Arena}$ which combines these two categories whose objects
+    discussion.} $\Cat{Arena}_\cat{C}$ which combines these two categories whose objects
   are arenas and which \emph{is} named after its objects. In
   \cref{sec.double_category_of_arenas}, we will explain the name ``arena'' and
   its role in the theory of dynamical systems.
 \end{remark}
 
 \begin{exercise}
-  Check that $\Cat{Lens}_{\cat{C}}$ is actually a category. That is, check that
-  lens composition is associative, and that the identity lens is an identity for it.
+  \begin{enumerate}
+  	\item Draw the composite of two lenses in the style of \eqref{eqn.lens_drawing}.
+   	\item Check that $\Cat{Lens}_{\cat{C}}$ is actually a category. That is, check that
+    lens composition is associative, and that the identity lens is an identity for it.
+  \qedhere
+  \end{enumerate}
 \end{exercise}
 
 Like any good categorical construction, $\Cat{Lens}_{\cat{C}}$ varies
@@ -654,7 +695,11 @@ functorially in its variable cartesian category $\cat{C}$.
 \end{proof}
 
 \begin{exercise}
-  Complete the proof of \cref{prop.lens_functoriality} in full. 
+ \begin{enumerate}
+ 	\item What does the functor $\lens FF: \Cat{Lens}_{\cat{C}} \to \Cat{Lens}_{\cat{D}}$ do on objects?
+	\item Complete the proof of \cref{prop.lens_functoriality}, by showing that $\lens FF$ really is a functor.
+	\qedhere
+\end{enumerate}
 \end{exercise}
 
 %---- Subsection ----%
@@ -664,21 +709,20 @@ The reason we are interested in lenses and lens composition is because
 deterministic systems are themselves lenses. As written in
 \cref{def.deterministic_system}, a system $\Sys{S}$ is a lens
 $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}}.$$
-In fact, the deterministic systems are precisely the lenses of the form
-$$\lens{S}{S} \leftrightarrows \lens{I}{O}$$
-whose domain has the same set in both positions. This means that we can compose
+In fact, the deterministic systems are precisely the lenses whose input arena is of the form $\lens SS$. This means that we can compose
 a system $\Sys{S}$ with a lens $\lens{f^{\sharp}}{f} : \lens{\In{S}}{\Out{S}}
 \leftrightarrows \lens{I}{O}$ to get a new dynamical system
 $$\lens{f^{\sharp}}{f} \circ \lens{\update{S}}{\expose{S}} :
 \lens{\State{S}}{\State{S}} \leftrightarrows \lens{I}{O}$$
 with a new interface!
 
-We can use this observation to wire together different systems. But before we
-can do that, we need a way to combine two systems without having them interact.
-We will call this the \emph{parallel product}, and we will define it for general
-lenses.
+We can use this observation to wire together different systems. We separate this into to phases: first we put two systems in parallel, then we wire them together using a lens. The first phase, combine two systems without having them interact, is achieved through what we call the \emph{parallel product} and denote $\otimes$. Two put two arenas $\lens{A_1}{B_1}$ and $\lens{A_2}{B_2}$ in parallel we just take their product in our cartesian category $\cat{C}$:
+\[
+\lens{A_1}{B_1}\otimes\lens{A_2}{B_2}\coloneqq\lens{A_1\times A_2}{B_1\times B_2}
+\]
+In \cref{def.lens_parallel} we define parallel product for morphisms in $\Cat{Lens}$, i.e.\ for general lenses.
 
-\begin{definition}
+\begin{definition}\label{def.lens_parallel}
   For lenses $\lens{f^{\sharp}}{f} : \lens{A_1}{B_2} \leftrightarrows \lens{C_1}{D_1}$ and
   $\lens{g^{\sharp}}{g} : \lens{A_2}{B_2} \leftrightarrows \lens{C_2}{D_2}$, we
   define their \emph{parallel product} $$\lens{f^{\sharp}}{f} \otimes
@@ -696,8 +740,12 @@ lenses.
 
 \begin{remark}
   We will show a slick way to prove that the parallel product does indeed make
-  $\Cat{Lens}_{\cat{C}}$ into a monoidal category theory in \cref{sec.indexed_double_category_of_systems}.
+  $\Cat{Lens}_{\cat{C}}$ into a monoidal category in \cref{sec.indexed_double_category_of_systems}.
 \end{remark}
+
+\begin{exercise}
+Show the parallel product of morphisms as in \cref{def.lens_parallel} using the string diagram notation from \eqref{eqn.lens_drawing}.
+\end{exercise}
 
 
 \begin{proposition}\label{prop.lens_functoriality_monoidal}
@@ -706,7 +754,7 @@ $\lens{F}{F} : \Cat{Lens}_{\cat{C}} \to \Cat{Lens}_{\cat{D}}$ is strong monoidal
 with respect to the parallel product.
 \end{proposition}
 \begin{proof}
-  Since $F$ preserves products, and 
+  Since $F$ preserves products, and \jaz{finish}.
 \end{proof}
 
 Given two dynamical systems $\Sys{S_1}$ and $\Sys{S_2}$, their parallel product
@@ -723,9 +771,9 @@ $\Sys{S_1} \otimes \Sys{S_2}$ is defined explicitly as follows:
 This can be expressed as the following wiring diagram:
 \begin{equation}\label{eqn.parallel_product_diagram}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
-	\node[bb={1}{1}] (X1) {$\Sys{S_1}$};
-  \node[bb={1}{1}, below=2 of X1] (X2) {$\Sys{S_2}$};
-	\node[bb={0}{0}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, fill=blue!10, below=1.5 of X1] (X2) {$\Sys{S_2}$};
+	\node[bb={0}{0}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-2)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\Sys{S_1 \otimes S_2}$};
   
   \draw[shorten <=-3pt] (X1_in1-|Y.west) to (X1_in1);
@@ -746,8 +794,8 @@ product, and then we compose it with a lens that represents the wiring diagram.
  composite of lenses.
 \begin{equation}\label{eqn.clock_system_box2}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
-	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
-  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{Meridian}$};
+  	\node[bb={0}{1}, fill=blue!10, below=2 of X1] (X2) {$\Sys{Clock}$};
 	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
 	\draw (X1_out1) to (Y_out1);
@@ -755,27 +803,27 @@ product, and then we compose it with a lens that represents the wiring diagram.
     (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
   \draw (X2_out1) to (Y_out2);
 	\draw[label] 
-		node [right=2pt of Y_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out1] {$\Set{a.m./p.m.}$}
 		node [right=2pt of Y_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
 
-First, we take the parallel product of $\Sys{a.m./p.m.}$ and $\Sys{Clock}$ to get the system 
-$$\Sys{a.m./p.m.} \otimes \Sys{Clock} : \lens{\Set{Meridien} \times \Set{Hour}}{\Set{Meridien} \times \Set{Hour}} \leftrightarrows \lens{\Set{Hour} \times \ord{1}}{\Set{Meridien} \times \Set{Hour}}.$$
+First, we take the parallel product of $\Sys{Meridian}$ and $\Sys{Clock}$ (see \cref{exc.clock_meridian_diner}) to get the system 
+$$\Sys{Meridian} \otimes \Sys{Clock} : \lens{\Set{a.m./p.m.} \times \Set{Hour}}{\Set{a.m./p.m.} \times \Set{Hour}} \leftrightarrows \lens{\1\times\Set{Hour}}{\Set{a.m./p.m.} \times \Set{Hour}}.$$
 
 Now, we will express the wiring pattern in \cref{eqn.clock_system_box2} as a lens
-$$\lens{w^{\sharp}}{w} : \lens{\Set{Hour} \times \ord{1}}{\Set{Hour} \times \Set{Meridien}} \leftrightarrows \lens{\ord{1}}{\Set{Hour} \times \Set{Meridien}}.$$
+$$\lens{w^{\sharp}}{w} : \lens{\1\times\Set{Hour}}{\Set{a.m./p.m.} \times \Set{Hour}} \leftrightarrows \lens{\ord{1}}{\Set{a.m./p.m.} \times \Set{Hour}}.$$
 
 We do this by setting
 \begin{align*}
-  w(t, m) &:= (t, m), \mbox{ and} \\
-  w^{\sharp}((t, m), \ast) &:= (t, \ast). 
+  w(m, h) &:= (m, h), \mbox{ and} \\
+  w^{\sharp}((m, h), \ast) &:= (\ast, h). 
 \end{align*}
 Seen as a wiring diagram on its own, $\lens{w^{\sharp}}{w}$ looks like this:
 \begin{equation}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=2cm, bb port length=0, bb port sep=2, baseline=(Y.center)]
-  \node[bb={1}{2}]  (Mid) {};
+  \node[bb={1}{2}, fill=blue!10]  (Mid) {$\Sys{Meridian}\otimes\Sys{Clock}$};
 
 	\node[bb={0}{2}, fit={($(Mid.north west)+(-3,1)$) ($(Mid.north east)+(2,1)$) ($(Mid.south)+(0,-5)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\lens{w^{\sharp}}{w}$};
@@ -789,7 +837,7 @@ Seen as a wiring diagram on its own, $\lens{w^{\sharp}}{w}$ looks like this:
     (Mid_out2) to[out=0, in=0] (\x1 + \n1, \y1-\n2) -- (\x2 - \n1, \y1 - \n2) to[out=180, in=180] (Mid_in1);
 
 	\draw[label] 
-		node [right=2pt of Y_out1|-Mid_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out1|-Mid_out1] {$\Set{a.m./p.m.}$}
 		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
@@ -797,14 +845,14 @@ Seen as a wiring diagram on its own, $\lens{w^{\sharp}}{w}$ looks like this:
 
 
 We can then see that 
-$$\Sys{ClockWithDisplay} = \lens{w^{\sharp}}{w} \circ (\Sys{a.m./p.m} \otimes
+$$\Sys{ClockWithDisplay} = \lens{w^{\sharp}}{w} \circ (\Sys{Meridian} \otimes
 \Sys{Clock})$$
 just like we wanted! In terms of wiring diagrams, this looks like:
 
 \begin{equation}\label{eqn.clock_system_box3}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
-	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
-  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{Meridian}$};
+  	\node[bb={0}{1}, fill=blue!10, below=2 of X1] (X2) {$\Sys{Clock}$};
 	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
 	\draw (X1_out1) to (Y_out1);
@@ -812,17 +860,17 @@ just like we wanted! In terms of wiring diagrams, this looks like:
     (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
   \draw (X2_out1) to (Y_out2);
 	\draw[label] 
-		node [right=2pt of Y_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out1] {$\Set{a.m./p.m.}$}
 		node [right=2pt of Y_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \quad=\quad
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Y.center)]
-	\node[bb={1}{1}] (X1) {$\Sys{a.m./p.m.}$};
-  	\node[bb={0}{1}, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{Meridian}$};
+  	\node[bb={0}{1}, fill=blue!10, below=2 of X1] (X2) {$\Sys{Clock}$};
 
   \node[dashed, bb={1}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}]  (Mid) {};
-  \node[above=0pt of Mid.south] (Label) {$\Sys{a.m./p.m.} \otimes \Sys{Clock}$};
+  \node[above=0pt of Mid.south] (Label) {$\Sys{Meridian} \otimes \Sys{Clock}$};
 
 	\node[bb={0}{2}, fit={($(Mid.north west)+(-3,1)$) ($(Mid.north east)+(2,1)$) ($(Mid.south)+(0,-5)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\lens{w^{\sharp}}{w}$};
@@ -839,12 +887,14 @@ just like we wanted! In terms of wiring diagrams, this looks like:
     (Midout) to[out=0, in=0] (\x1 + \n1, \y1-\n2) -- (\x2 - \n1, \y1 - \n2) to[out=180, in=180] (Midin);
 
 	\draw[label] 
-		node [right=2pt of Y_out1|-X1_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out1|-X1_out1] {$\Set{a.m./p.m.}$}
 		node [right=2pt of Y_out2|-X2_out1] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
 \end{example}
+
+\paragraph{Wiring together transition diagrams.}
 
 When a deterministic system is presented as a transition diagram (See
 \cref{ex.transition_diagram_discrete}), its dynamics is given by reading the
@@ -890,13 +940,14 @@ $\lens{\Set{Colors}}{\Set{Bool}}$:
 \end{tikzpicture}
 \end{equation}
 
-Write down the fully wired system
+\begin{enumerate}
+	\item Write down the transition diagram of the system obtained by connecting the above systems according to the following wiring diagram:
 \[
 \Sys{S} \coloneqq 
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
 , baseline=(Outer.center)]
-  \node[bb={1}{1}] (S1) {$\Sys{S_1}$};
-  \node[bb={1}{1}, right= of S1] (S2) {$\Sys{S_2}$};
+  \node[bb={1}{1}, fill=blue!10] (S1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, fill=blue!10, right= of S1] (S2) {$\Sys{S_2}$};
 
   \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
 
@@ -905,8 +956,10 @@ Write down the fully wired system
   \draw (S2_out1) to (Outer_out1);
 \end{tikzpicture}
 \]
-Explain how to understand the dynamics of this system in terms of the component
+	\item Explain how to understand the dynamics of this $\Sys{S}$ in terms of the component
 systems $\Sys{S_1}$ and $\Sys{S_2}$.
+\qedhere
+\end{enumerate}
 \end{exercise}
 
 \begin{example}[Multi-city SIR models]\label{ex.multi_city_SIR_discrete}
@@ -926,7 +979,7 @@ systems $\Sys{S_1}$ and $\Sys{S_2}$.
   \[
 \begin{tikzpicture}
 	\node[draw] {
-  \begin{tikzcd}[column sep=small]
+  \begin{tikzcd}
     \Sys{Boston} \ar[r, bend left, "f_{\Sys{Bos} \to \Sys{NYC}}"]\ar[r, bend right, leftarrow, "f_{\Sys{NYC} \to \Sys{Bos}}"'] & \Sys{NYC}
   \end{tikzcd}
   };
@@ -936,8 +989,8 @@ systems $\Sys{S_1}$ and $\Sys{S_2}$.
   as a \emph{population flow graph}. But for now, we'll just see how to turn it
   into a deterministic system.
   
-  To define each city as a system, we need to add parameters to each
-  corresponding to the incoming population. Since only one city is incoming to
+  To define each city as a system, we will add parameters to each
+  that express the incoming population. Since only one city is incoming to
   Boston, we will only need one set of these parameters: $(e_s, e_i, e_r)$
   corresponding to the inflow of each population class. 
   \begin{align*}
@@ -960,7 +1013,7 @@ We can box up $\Sys{Boston}$ as:
 \begin{equation}\label{eqn.city_SIR_model_box}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
 , bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Sys.center)]
-	\node[bb={2}{1}] (Sys) {$\Sys{Boston}$};
+	\node[bb={2}{1}, fill=blue!10] (Sys) {$\Sys{Boston}$};
 
 	\draw[label] 
 		node [right=2pt of Sys_out1] {$\Out{SIR}$}
@@ -977,8 +1030,8 @@ them so that the incoming population of one is set by the outflowing population
 of the other:
 \begin{equation}\label{eqn.multi_city_SIR_model}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Outer.center)]
-  \node[bb={2}{1}] (Boston) {$\Sys{Boston}$};
-  \node[bb={2}{1}, below= 1cm of Boston] (NYC)  {$\Sys{NYC}$};
+  \node[bb={2}{1}, fill=blue!10] (Boston) {$\Sys{Boston}$};
+  \node[bb={2}{1}, fill=blue!10, below= 1cm of Boston] (NYC)  {$\Sys{NYC}$};
 
   \node[bb={0}{0}, fit={($(Boston.north east) + (2, 1)$) ($(NYC.south west) - (2, 1)$)}] (Outer) {};
   
@@ -993,6 +1046,7 @@ of the other:
     (NYC_out1) to[in=0] (\x1 - \n1, \y1 + .7cm) to (\x2 + \n1, \y1 + .7cm) to[out=180] (Boston_in2);
 \end{tikzpicture}
 \end{equation}
+\spiz{Shouldn't we say that this does what we want? Maybe as an exercise?}
 \end{example}
 
 %---- Subsection ----%
@@ -1453,22 +1507,22 @@ lens in a cartesian category of our choosing.
     (Mid_out2) to[out=0, in=0] (\x1 + \n1, \y1-\n2) -- (\x2 - \n1, \y1 - \n2) to[out=180, in=180] (Mid_in1);
 
 	\draw[label] 
-		node [right=2pt of Y_out1|-Mid_out1] {$\Set{Meridien}$}
+		node [right=2pt of Y_out1|-Mid_out1] {$\Set{a.m./p.m.}$}
 		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hour}$}
 		;
 \end{tikzpicture}
 \end{equation}
   from \cref{ex.ClockWithDisplay} as a lens in
   a category of typed arities in the following way. We have two types:
-  $\Set{Meridien}$ and $\Set{Hour}$. So, $\cat{T} = \{\Set{Meridien},
+  $\Set{a.m./p.m.}$ and $\Set{Hour}$. So, $\cat{T} = \{\Set{a.m./p.m.},
   \Set{Hour}\}$. Then
   \begin{align*}
-    w &= (t : \Set{Hour},\, m : \Set{Meridien} \mapsto t : \Set{Hour},\, m : \Set{Meridien}) \\
-    w^{\sharp} &= (t : \Set{Hour},\, m : \Set{Meridien} \mapsto t : \Set{Hour})
+    w &= (t : \Set{Hour},\, m : \Set{a.m./p.m.} \mapsto t : \Set{Hour},\, m : \Set{a.m./p.m.}) \\
+    w^{\sharp} &= (t : \Set{Hour},\, m : \Set{a.m./p.m.} \mapsto t : \Set{Hour})
   \end{align*}
   giving us a wiring diagram in $\Cat{WD}_{\cat{T}}$. We can then interepret
   this as the lens from $\cref{ex.ClockWithDisplay}$ as the image of this wiring
-  diagram which interprets the types $\Set{Meridien}$ and $\Set{Hour}$ as the
+  diagram which interprets the types $\Set{a.m./p.m.}$ and $\Set{Hour}$ as the
   actual sets $\{\const{a.m.},\const{p.m.}\}$ and $\{1, 2,\ldots, 12\}$.
 \end{example}
 
@@ -1480,7 +1534,7 @@ lens in a cartesian category of our choosing.
 \end{exercise}
 
 %-------- Section --------%
-\section{[How systems behave: Trajectories, Steady States, etc.]{How systems behave: Trajectories, Steady States, and Periodic Orbits}  \label{sec.trajectories_discrete}
+\section[How systems behave: Trajectories, Steady States, etc.]{How systems behave: Trajectories, Steady States, and Periodic Orbits}  \label{sec.trajectories_discrete}
 
 So far, we have seen how to wire up dynamical systems. But we haven't seen our
 dynamical systems actually \emph{do anything}. In this section, we will begin to
