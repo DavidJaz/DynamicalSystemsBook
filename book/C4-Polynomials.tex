@@ -1052,7 +1052,7 @@ content of $p$.
   into the category of sets. the set $A^-_{a^+}$ that each direction $a^-$ lives in
   depends on the position $a^+ \in A^+$. We will write the arena $A^- : A^+ \to
   \smset$ as
-  $$\lens{A^-_{a}}{a \in A^+}.$$
+  \[\lens{A^-_{a}}{a \in A^+}.\]
 \end{definition}
 
 We have just noted that every polynomial $p$ gives an arena $\lens{p_i}{i \in p(\1)}$ whose positions are the decisions in the polynomial and whose directions
@@ -1073,10 +1073,10 @@ sort that we saw in earlier chapters is that the \emph{signature} of the
 passback can depend on which decision one is using. We will therefore refer to
 these lenses as \emph{dependent lenses}.
 \begin{definition}\label{def.dependent_lens}
-   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
-   \fromto \lens{B^-_{b}}{b \in B}$ consists of 
+   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
+   \fromto \lens{B^-_{b}}{b \in B^+}$ consists of 
 \begin{itemize}
-  \item a \emph{passforward} function $f^ : A^+ \to B^+$, and
+  \item a \emph{passforward} function $f^+ : A^+ \to B^+$, and
 \item a family of \emph{passback} functions $f^{\sharp} \in \prod_{a^+ \in A^+} (
   B^-_{f(a^+)} \to A^-_{a^+})$. That is, for every $a^+ \in A^+$, we have a
   passback function $f^{\sharp}(a^+, -) : B^-_{f(a^+)} \to A^-_{a^+}$.
@@ -1096,7 +1096,7 @@ This gives us the category of \emph{dependent lenses}.
   Using $\sum$s and $\prod$s, we can give a slick definition of depdentent lens.
   Show that a dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
    \fromto \lens{B^-_{b}}{b \in B^+}$ is equivalently an element of 
-$$\prod_{a^+ \in A^+} \sum_{b^+ \in B^+} (A^-_{a^+})^{(B^-_{b^+})}.$$
+\[\prod_{a \in A^+} \sum_{b \in B^+} (A^-_{a})^{(B^-_{b})}\quad.\qedhere\]
 \end{exercise}
 
 It seems we are observing that the category of polynomial functors is
@@ -2081,11 +2081,11 @@ Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{asci
 \]
 as follows.
 
-$$A + B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B \rangle$$
+\[A + B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B \rangle\]
 
-$$A +_C B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B, \forall c
+\[A +_C B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B, \forall c
 \in C.
-\fun{inl}(f(c)) = \fun{inr}(g(c)) \rangle$$
+\fun{inl}(f(c)) = \fun{inr}(g(c)) \rangle\]
 
 
 On positions define
