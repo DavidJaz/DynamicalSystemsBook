@@ -1272,6 +1272,25 @@ When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_complet
 \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{j\colon I\to J}\;\prod_{i\in I}X(i,j).
 \]
 
+\begin{exercise}\label{exc.practice_sum_prod}
+Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Recall from our main formula \eqref{eqn.main_formula} that there is an isomorphism $\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.$ 
+\begin{enumerate}
+\item Is it true that the following are isomorphic?
+\[
+  \poly(p,q)
+  \cong^?
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q_j}\sum_{c\in p_i}\1
+\]
+\item Is it true that there is an isomorphism
+	\begin{equation}\label{eqn.useful_misc472}
+	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q_j,\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p_i\Big).
+	\end{equation}
+\item If the answer to \#2 is ``yes'', then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no'', give intuition for why the two sets are not isomorphic.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
 \paragraph{Back to maps of polynomials}
 After that interlude, you are hopefully more comfortable with our main formula \cref{eqn.main_formula} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
 
@@ -1667,7 +1686,7 @@ We will see these emerge from more general theory in \cref{??}.
 
 
 %-------- Section --------%
-\section{Dynamical systems using $\poly$}
+\section{Dynamical systems using $\poly$}\label{sec.dynam_in_poly}
 
 Let's start putting all this $\poly$ stuff to use. 
 
@@ -2293,17 +2312,32 @@ Suppose now that we are given a function $i\colon V\to\nn$ that we think of as s
 Say that an interaction pattern $I\colon V\to\2^V$ \emph{respects} $i$ if we have an isomorphism $I(v)\cong\ord{i}(v)$ for each $v\in V$. Suppose given a function $I\colon \2^V\to (\2^V)^V$ such that for each element $s\in\2^V$, the interaction pattern $I_s\colon V\to \2^V$ respects $i$. In the case of \cref{exc.cellular_automata}, $I$ was a constant function. Now we can think of it like all the vertices are voting, via $I$, on the connection pattern. 
 
 We can put this all together by giving a morphism in $\poly$ of the form
-\[
+\begin{equation}\label{eqn.polymap_misc9237}
 \bigotimes_{v\in V}p_v\cong\2^V\yon^{\2^{\sum_{v\in V}\ord{i}(v)}}\too\yon.
-\]
+\end{equation}
 We can such a morphism with a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{i}(v)}$. Suppose given $s\in\2^V$, so that we have an isomorphism $I_s(v)\cong\ord{i}(v)$ for each $v\in V$; we want a function $g(s)\colon\sum_{v\in V}I_s(v)\to\2$. That is, for each $v$ we want a function
 \[
 g(s)_v\colon I_s(v)\to\2.
 \]
 But $I_s(v)\ss V$, so our function $s\colon V\to\2$ induces the desired function $I_s(v)\to\2$.
 
-We have accomplished our goal: the automata vote on their connection pattern.
+We have accomplished our goal: the automata vote on their connection pattern. Of course, we don't mean to imply that this vote needs to be democratic or fair in any way: it is an arbitrary function $I\colon \2^V\to(\2^V)^V$. It could be dictated by a given vertex $v_0\in V$ in the sense that its on/off state completely determines the connection pattern $V\times V\to \2$; this would be expressed by saying that $I$ factors as $\2^V\to\2^{v_0}\cong\2\To{I_0}(\2^V)^V$ for some $I_0$.
 \end{example}
+
+\begin{exercise}
+Change \cref{ex.cell_auto_vote_interaction} slightly by changing the outer box.
+\begin{enumerate}
+	\item First change it to $A\yon$ for some set $A$ of your choice, and update \eqref{eqn.polymap_misc9237} so that the system outputs some aspect of the current state $\2^V$.
+	\item What would it mean to change \eqref{eqn.polymap_misc9237} to a map $\bigotimes_{v\in V}p_v\to\yon^A$ for some $A$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{remark}
+In \cref{ex.cell_auto_vote_interaction} we discussed a very general sort of interaction. One could wonder if it could be made even more general, by not needing to fix $i\colon V\to\nn$ in advance, or by way of some even more general setup.
+
+There indeed may be ideas one could have in mind that simply cannot be expressed in $\poly$: it is one system. What's exciting about $\poly$ is that examples like \cref{ex.cell_auto_vote_interaction} show that it is quite general, and yet as we will see in \cref{sec.bonus_poly}, this single category has excellent formal properties. You can count on it not to crap out. On the spectrum from invention to discovery, $\poly$ itself is a discovery, and its application to dynamics (and later data and decision) are invention.
+\end{remark}
 
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}
@@ -2340,11 +2374,11 @@ Calculate $[q,r]$ for $q,r\in\poly$ given as follows.
 \end{enumerate}
 \end{exercise}
 
-\begin{proposition}
+\begin{proposition}\label{prop.dirichlet_closure}
 With $[-,-]$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
-\[
+\begin{equation}\label{eqn.poly_closure_brackets}
 	\poly(p\otimes q,r)\cong\poly(p,[q,r]).
-\]
+\end{equation}
 \end{proposition}
 \begin{proof}
 We have the following chain of natural isomorphisms:
@@ -2360,10 +2394,55 @@ We have the following chain of natural isomorphisms:
 \end{align*}
 \end{proof}
 
-%-------- Section --------%
-\section{Bonus math about the category $\poly$}
+\begin{exercise}\label{exc.poly_plug_1}
+Show that for any $p,q$ we have an isomorphism of sets
+\[
+\poly(p,q)\cong[p,q](\1).
+\]
+Hint: you can either use the formula \eqref{eqn.dir_hom}, or just use 
+\eqref{eqn.poly_closure_brackets} with the Yoneda lemma and the fact that $\yon\otimes p\cong p$.
+\end{exercise}
 
-The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. 
+
+For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
+\[
+  \fun{eval}\colon [p,q]\otimes p\too q.
+\]
+
+\begin{exercise}
+\begin{enumerate}
+	\item Obtain the evaluation map $\fun{eval}\colon [p,q]\otimes p\too q$ from \eqref{eqn.poly_closure_brackets}.
+	\item Show that for any $p,q,r$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to[q,r]$ such that the following diagram commutes
+	\[
+	\begin{tikzcd}
+		p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
+		{[q,r]}\otimes q\ar[r, "\fun{eval}"]&
+		r
+	\end{tikzcd}
+	\]
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}[Modeling your environment without knowing what it is]
+Let's imagine a robot whose interface is an arbitrary polynomial $p$. Let's imagine it is living together in a closed system
+\[
+	f\colon (q_1\otimes\cdots\otimes q_n)\otimes p\to \yon
+\]
+with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_1\otimes\cdots\otimes q_n)$. The interaction pattern induces a morphism $f'\colon q\to [p,\yon]$ such that the original system $f$ factors through the evaluation $[p,\yon]\otimes p\to \yon$.
+
+In other words $[p,\yon]$ holds within it all of the possible ways $p$ can interact with other systems in a closed box.%
+\footnote{And if you want the generic way $p$ to interact with other systems in a box $r$, just use $[p,r]$.}
+To investigate this just a bit, note that $[p,\yon]\cong\prod_{i\in p(\1)}p_i\yon$. That is, for each position in $p$ it produces a direction there, which is just what $p$ needs as input.
+
+Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,\yon)$. Then each state $s$ would include a guess $g(s)$ about what the state of the environment is in. This is not the real environment $q$, but just the environment as it affects $p$, namely $[p,\yon]$. The robot's states model environmental conditions.
+\end{example}
+
+
+%-------- Section --------%
+\section{Bonus math about the category $\poly$}\label{sec.bonus_poly}
+
+The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{chapter.5} if so inclined. Better yet might be to just gently leaf through it, to see how well-behaved and versatile this category is.
 
 %---- Subsection ----%
 \subsection{Special polynomials and adjunctions}
@@ -2375,7 +2454,19 @@ There are a few special classes of polynomials that are worth discussing:
 	\item pure-powers polynomials, $\1, \yon, \yon^\2, \yon^A$; and 
 	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
 \end{enumerate}
-The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of something called ``bimorphic lenses'' inside $\poly$. We go through these four classes in order and then discuss some adjunctions that involve some of them.
+The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of something called ``bimorphic lenses'' inside $\poly$.
+
+\begin{exercise}
+Which of the four classes above are closed under
+\begin{enumerate}
+	\item the cocartesian monoidal structure $(\0,+)$?
+	\item the cartesian monoidal structure $(\1,\times)$?
+	\item the Dirichlet monoidal structure $(\yon,\otimes)$?
+	\item composition of polynomials $p\circ q$?%
+	\footnote{Composition, together with the unit $\yon$, is in fact yet another monoidal structure, as we will see in \cref{chapter.5}.}
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \begin{proposition}\label{prop.ff_const_set_to_poly}
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
@@ -2393,7 +2484,7 @@ By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a
 
 \begin{theorem}\label{thm.adjoint_quadruple}
 $\poly$ has an adjoint quadruple with $\smset$:
-\begin{equation*}%\label{eqn.adjoints_galore}
+\begin{equation}\label{eqn.adjoints_galore}
 \begin{tikzcd}[column sep=60pt, background color=theoremcolor]
   \smset
   	\ar[r, shift left=7pt, "A" description]
@@ -2405,7 +2496,7 @@ $\poly$ has an adjoint quadruple with $\smset$:
 	\ar[l, phantom, shift left=14pt, "\scriptstyle\Rightarrow"]
 	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
 \end{tikzcd}
-\end{equation*}
+\end{equation}
 where the functors have been labeled by where they send $A\in\smset$ and $p\in \poly$. 
 
 Both rightward functors are fully faithful.
@@ -2430,26 +2521,25 @@ Here we prove the remainder of \cref{thm.adjoint_quadruple} using \cref{eqn.main
 \end{enumerate}
 \end{exercise}
 
-In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is also a right adjoint---and hence that there is this \emph{quadruple} of adjunctions---is special to $A=\0,\1$.
+In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is also a right adjoint---and hence that we have the \emph{quadruple} of adjunctions in \eqref{eqn.adjoints_galore}---is special to $A=\0,\1$.
 
 Next we note that the set of polynomial morphisms $p\to q$ 
 
 \begin{proposition}\label{prop.two_var_adj}
-There is a two-variable adjunction between $\smset$, $\poly$, and $\poly$:
+There is a two-variable adjunction between $\smset$, $\poly$, and $\poly$:%
+\footnote{The first set $\poly(Ap,q)$ involves the $A$-fold coproduct of $p$ and the middle set $\poly(p,q^A)$ involves the $A$-fold product of $q$, neither of which we have proven exists. For organizational purposes, we put that off until \cref{prop.coprod_prod_poly}.
+}
 \begin{align}\label{eqn.two_var_adj}
 \poly(Ap,q)\cong\poly(p,q^A)\cong\smset(A,\poly(p,q)).
 \end{align}
 \end{proposition}
 \begin{proof}
-For any sets $A,B\in\smset$ and polynomial $q=\sum_{j\in q(\1)}\yon^{q_j}$, we need to check that there is a natural isomorphism
-\[
-\smset(A,q(B))\cong\poly(A\yon^B,q).
-\]
-This follows from our main formula \cref{eqn.main_formula}, since setting $p\coloneqq A\yon^B$ we have $p(\1)\cong A$ and $q(B)=\sum_{j\in q(\1)}B^{q_j}$.
+Since $Ap$ is the $A$-fold coproduct of $p$ and $q^A$ is the $A$-fold product of $q$, the universal properties of coproduct and product give isomorphisms
+\[\poly(Ap,q)\cong\prod_{a\in A}\poly(p,q)\cong\poly(p,q^A).\]
+The middle set is in bijection with $\smset(A,\poly(p,q))$, completing the proof.
 \end{proof}
 
-Using $p\coloneqq\yon^A$ and the Yoneda lemma, \cref{prop.two_var_adj} specializes to the following.
-
+Replacing $q$ with $p$ and replacing $p$ with $\yon^B$ in \cref{prop.two_var_adj}, we obtain the following using the Yoneda lemma.
 
 \begin{corollary}\label{cor.substituting_adj}
 For any set $B$ there is an adjunction
@@ -2460,7 +2550,7 @@ where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
 \end{corollary}
 
 \begin{exercise}
-Prove \cref{cor.substituting_adj}.
+Prove \cref{cor.substituting_adj} from \cref{prop.two_var_adj}.
 \end{exercise}
 
 \begin{proposition}
@@ -2486,37 +2576,49 @@ We have the following chain of natural isomorphisms:
 
 \end{proof}
 
-
-
-
-
-
-\begin{exercise}\label{exc.practice_sum_prod}
-Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. 
-\begin{enumerate}
-\item Is it true that the following are isomorphic?
-\[
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}
-  \cong^?
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q_j}\sum_{c\in p_i}\1
-\]
-\item Here's another way to think of maps in $\poly$; it'll be useful in \cref{exc.mono_epi_poly}. Show that there is an isomorphism
-	\[
-	\poly(p,q)\cong\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q_j,\prod_{\{i\in p(\1)\mid i\mapsto j\}}p_i\Big).
-	\]
-	Say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$.
-\end{enumerate}
+\begin{exercise}
+Show that $\Gamma(p)\cong[p,\yon](\1)$ where $[-,-]$ is as in \cref{prop.dirichlet_closure}.
 \end{exercise}
 
+\paragraph{Epi-mono factorization.}
 
+\begin{proposition}
+Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism iff the function $f_1\colon p(\1)\to q(\1)$ is a monomorphism in $\smset$ and, for each $i\in p(\1)$ the function $f_i^\sharp\colon q_{f_1(i)}\to p_i$ is an epimorphism in $\smset$.
+\end{proposition}
+\begin{proof}
+\noindent$\Rightarrow$: Suppose that $f$ is a monomorphism. Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms. We need to show that for any $i\in p(\1)$ the function $f_i^\sharp\colon q_{f_1(i)}\to p_i$ is an epimorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p_i\tto A$ with $g^\sharp f_i^\sharp=h^\sharp f_i^\sharp$. They can be identified with morphisms $\yon^A\tto p$ whose compositions with $f$ are equal, hence $g=h$ by assumption, and hence $g^\sharp=h^\sharp$ as desired.
 
-\begin{exercise}\label{exc.mono_epi_poly}
+\noindent$\Leftarrow$: Suppose that $f_1$ is a monomorphism and that for each $i\in p(\1)$ the function $f_i^\sharp$ is an epimorphism. Let $r$ be a polynomial, $g,h\colon r\tto p$ two morphisms, and suppose $fg=fh$. Then $f_1g_1=f_1h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $g^\sharp_kf^\sharp_{g_1k}=h^\sharp_kf^\sharp_{g_1k}$ for any $k\in r(\1)$. But $f^\sharp_{g_1k}$ is an epimorphism, so in fact $g^\sharp_k=h^\sharp_k$, as desired.
+\end{proof}
+
+\begin{proposition}
+Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is an epimorphism iff the function $f_1\colon p(\1)\to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$ the induced function 
+\[
+f^\flat_j\colon q_j\to\prod_{\{i\in p(\1)\,\mid\, f_1(i)=j\}}p_i
+\]
+from \eqref{eqn.useful_misc472} is a monomorphism.
+\end{proposition}
+\begin{proof}
+\noindent$\Rightarrow$: Suppose that $f$ is an epimorphism. Since $p\mapsto p(\1)$ is a left adjoint (\cref{thm.adjoint_quadruple}), it preserves epimorphisms. We need to show that for any $j\in q(\1)$ the  function $f^\flat_j$ is a monomorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon A\tto q_j$ with $f^\flat_jg^\sharp=f^\flat_jh^\sharp$. They can be identified with morphisms $g,h\colon q\tto \yon^A+\1$, which send the $j$-component to the first component, $\yon^A$, and send all other component to the second component, $\1$. It is easy to check that $fg=fh$, hence $g=h$, and hence $g^\sharp=h^\sharp$ as desired.
+
+\noindent$\Leftarrow$: Suppose that $f_1$ is an epimorphism and that for each $j\in q(\1)$ the function $f^\flat_j$ is a monomorphism. Let $r$ be a polynomial, $g,h\colon q\tto r$ two morphisms, and suppose $gf=hf$. Then $g_1f_1=h_1f_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $f^\sharp_ig^\sharp_{fi}=f^\sharp_ih^\sharp_{fi}$ for any $i\in p(\1)$. Then, in particular, for any $j\in q(\1)$ the two composites
+\[
+\begin{tikzcd}
+	r_{g_1j}\ar[r, shift left, "g^\sharp_j"]\ar[r, shift right, "h^\sharp_j"']&q_j\ar[r, "f^\flat_j"]&\displaystyle\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}p_i
+\end{tikzcd}
+\]
+are equal, which implies that $g^\sharp_j=h^\sharp_j$ as desired.
+\end{proof}
+
+\begin{exercise}
+Suppose $f$ is both a mono and an epi; it is an iso? (That is, is $\poly$ \emph{balanced}?)
+\end{exercise}
+
+\begin{exercise}[Epi-mono factorization]\label{exc.mono_epi_poly}
 Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a morphism with notation as in \cref{eqn.colax_poly_map}.
 \begin{enumerate}
-	\item Under what conditions is $f$ a monomorphism?
-	\item Under what conditions is $f$ an epimorphism? Hint: use \cref{exc.practice_sum_prod}, \#2.
-	\item Suppose $f$ is both a mono and an epi; it is an iso? (That is, is $\poly$ \emph{balanced}?)
-	\item Can every morphism in $\poly$ be factored as an epic followed by a monic? Hint: use \cref{exc.practice_sum_prod}, \#2 again.
+	\item Can every morphism in $\poly$ be factored as an epic followed by a monic?
+	\item Is your factorization unique up to isomorphism?
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -2526,7 +2628,9 @@ Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a m
 %---- Subsection ----%
 \subsection{Limits, colimits, and cartesian closure}
 
+We will now see that $\poly$ has all limits and colimits, and moreover it is cartesian closed. In fact, it is locally cartesian closed, which means that $\poly$ is a model of dependent type theory.
 
+Let's begin with something fairly simple: that $+$ gives a coproduct in $\poly$. We could have said this elementary fact much earlier, but we were in a rush to get to the applications in \cref{sec.dynam_in_poly}.
 
 \begin{exercise}
 Show that the category $\poly$ has finite coproducts as follows.
@@ -2545,7 +2649,7 @@ Show that the category $\poly$ has finite coproducts as follows.
 \end{enumerate}
 \end{exercise}
 
-
+The general case of coproducts and products is not much harder.
 
 \begin{proposition}\label{prop.coprod_prod_poly}
 The category $\poly$ has coproducts and products.
