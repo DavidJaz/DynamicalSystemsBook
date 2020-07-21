@@ -1713,7 +1713,7 @@ You can imagine barking ``orange! orange! green! orange!'' etc. at this machine,
 \begin{example}\label{ex.R2_moore}
 Here's a(n infinite) Moore machine with states $\rr^2$:
 \[
-\rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)}
+\rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)}%]
 \]
 Its output type is $\rr^2$, which we might think of as a position, and its input type is $[0,1]\times[0,2\pi]$, which we might think of a command to move a certain amount in a certain direction. The map itself is given by the lens:
 \begin{align*}
@@ -1727,8 +1727,8 @@ Its output type is $\rr^2$, which we might think of as a position, and its input
 \begin{exercise}
 Find $A,B\in\smset$ such that the following can be identified with a morphism $S\yon^S\to B\yon^A$:
 \begin{enumerate}
-	\item a discrete dynamical system, which consists of a set $S$ and a function $S\to S$.
-	\item a magma, which consists of a set $S$ and a function $S\times S\to S$.
+	\item a \emph{discrete dynamical system}, i.e.\ a set $S$ and a function $S\to S$.
+	\item a \emph{magma}, i.e.\ a set $S$ and a function $S\times S\to S$.
 	\item a set $S$ and a subset $S'\ss S$.
 \qedhere
 \end{enumerate}
@@ -1801,7 +1801,7 @@ A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$. A map $S\y
 \end{proof}
 
 
-\paragraph{Products}
+\paragraph{Products: two interfaces operating on the same system.}
 
 One thing we can use right away in our thinking about dynamical systems is products of polynomials. The universal property of products says that for any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$ there is a unique map $s\to p_1p_2$. In the context of Moore machines, we have the following.
 
@@ -2135,6 +2135,49 @@ Consider the following wiring diagram.
 \end{enumerate}
 \end{exercise}
 
+\begin{exercise}[Cellular automata]\label{exc.cellular_automata}
+Let $G=(V,E)$ be a simple graph, i.e.\ $V,E\in\smset$ and $E\ss V\times V$. You can imagine it as a grid 
+\[
+\begin{tikzcd}[shift left=2pt]
+	\LMO{(1,1)}\ar[r]      \ar[d]&
+	\LMO{(1,2)}\ar[r]\ar[l]\ar[d]&
+	\LMO{(1,3)}\ar[r]\ar[l]\ar[d]&
+	\LMO{(1,4)}\ar[r]\ar[l]\ar[d]&
+	\LMO{(1,5)}      \ar[l]\ar[d]\\
+	\LMO{(2,1)}\ar[r]      \ar[d]\ar[u]&
+	\LMO{(2,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(2,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(2,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(2,5)}      \ar[l]\ar[d]\ar[u]\\
+	\LMO{(3,1)}\ar[r]      \ar[d]\ar[u]&
+	\LMO{(3,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(3,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(3,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(3,5)}      \ar[l]\ar[d]\ar[u]\\
+	\LMO{(4,1)}\ar[r]      \ar[d]\ar[u]&
+	\LMO{(4,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(4,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(4,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
+	\LMO{(4,5)}      \ar[l]\ar[d]\ar[u]\\
+	\LMO{(5,1)}\ar[r]            \ar[u]&
+	\LMO{(5,2)}\ar[r]\ar[l]      \ar[u]&
+	\LMO{(5,3)}\ar[r]\ar[l]      \ar[u]&
+	\LMO{(5,4)}\ar[r]\ar[l]      \ar[u]&
+	\LMO{(5,5)}      \ar[l]      \ar[u]
+\end{tikzcd}
+\]
+finite or infinite, or just an arbitrary graph. For every vertex $v$, the set of vertices $v'$ for which $(v',v)\in E$, i.e.\ for which there is an edge $v'\to v$, is denoted
+\[I(v)\coloneq\{v'\mid (v',v)\in E\}.\]
+For each $v\in V$, let $p_v\coloneqq \2\yon^{\2^{I(v)}}$; it ``outputs'' a color $\2\cong\{\const{black},\const{white}\}$ and inputs a function $I(v)\to\2$, specifying what all the neighbors are outputting.
+\begin{enumerate}
+	\item In the drawn grid, what is $I(1,1)$? What is $I(2,2)$?
+	\item Specify a morphism $g\colon \bigotimes_{v\in V}p_v\to\yon$ that passes to each vertex $v$ the colors of its neighbors in $I(v)$.
+	\item Suppose that for each vertex $v\in V$ you are given a function $f_v\colon 2^{I(v)}\to\2$. Use it to construct a dynamical system $f'_v\colon\2\yon^\2\to p_v$ that updates its state in keeping with $f_v$ and outputs its state directly.
+	\item Briefly look up cellular automata in a reference of your choice. Would you say that the dynamical system $\bigotimes_{v\in V}\2\yon^\2\To{\bigotimes f'_v}\bigotimes_{v\in V}p_v\To{g}\yon$ we obtain by wiring together the dynamical systems in the specified way does the same thing as the cellular automata in your reference?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 %---- Subsection ----%
 \subsection{General interaction}
 
@@ -2242,6 +2285,26 @@ Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and 
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[Cellular automata who vote on their interaction pattern]\label{ex.cell_auto_vote_interaction}
+Recall from \cref{exc.cellular_automata} how we constructed cellular automata on a graph $G=(V,E)$. Here $E\ss V\times V$, or equivalently what we might call an \emph{interaction pattern} $I\colon V\to \2^V$, specifies the incoming neighbors $I(v)$ of each $v\in V$.
+
+Suppose now that we are given a function $i\colon V\to\nn$ that we think of as specifying the number $i(v)$ of neighbors each $v\in V$ accepts. Let $\ord{i}(v)=\{1,2,\ldots, i(v)\}$. We will be interested in the polynomial $p_v\coloneqq\2\yon^{\2^{\ord{i}(v)}}$ for each $v$; it represents an interface that outputs a color $\2\cong\{\const{black},\const{white}\}$ and that inputs a function $\ord{i}(v)\to\2$, meant to give the colors of the neighboring vertices.
+
+Say that an interaction pattern $I\colon V\to\2^V$ \emph{respects} $i$ if we have an isomorphism $I(v)\cong\ord{i}(v)$ for each $v\in V$. Suppose given a function $I\colon \2^V\to (\2^V)^V$ such that for each element $s\in\2^V$, the interaction pattern $I_s\colon V\to \2^V$ respects $i$. In the case of \cref{exc.cellular_automata}, $I$ was a constant function. Now we can think of it like all the vertices are voting, via $I$, on the connection pattern. 
+
+We can put this all together by giving a morphism in $\poly$ of the form
+\[
+\bigotimes_{v\in V}p_v\cong\2^V\yon^{\2^{\sum_{v\in V}\ord{i}(v)}}\too\yon.
+\]
+We can such a morphism with a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{i}(v)}$. Suppose given $s\in\2^V$, so that we have an isomorphism $I_s(v)\cong\ord{i}(v)$ for each $v\in V$; we want a function $g(s)\colon\sum_{v\in V}I_s(v)\to\2$. That is, for each $v$ we want a function
+\[
+g(s)_v\colon I_s(v)\to\2.
+\]
+But $I_s(v)\ss V$, so our function $s\colon V\to\2$ induces the desired function $I_s(v)\to\2$.
+
+We have accomplished our goal: the automata vote on their connection pattern.
+\end{example}
+
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}
 
@@ -2292,7 +2355,7 @@ We have the following chain of natural isomorphisms:
 	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p_iq_j)\\&\cong
 	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_i},r\circ(q_j\yon))\\&\cong
 	\prod_{i\in p(\1)}\poly\Big(\yon^{p_i},\prod_{j\in q(\1)}r\circ(q_j\yon)\Big)\\&\cong
-	\poly(p,[q,r])
+	\poly(p,[q,r]).&
 	\qedhere
 \end{align*}
 \end{proof}
