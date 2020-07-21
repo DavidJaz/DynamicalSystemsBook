@@ -1254,17 +1254,26 @@ With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
 \end{enumerate}
 \end{exercise}
 
-The following is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$.
+The following is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. It is almost trivial, once you understand what it's saying; for example once the statement is written in agda, its proof is one short line of agda code. 
 
-\begin{proposition}[Pushing $\prod$ past $\sum$]
-For any set $I$, collection of sets $\{J(i)\}_{i\in I}$ and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
+\begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
+For any set $I$, collection of sets $\{J(i)\}_{i\in I}$, and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
 \begin{equation}\label{eqn.set_completely_distributive}
-\prod_{i\in I}\sum_{j\in J(i)}X(i,j)\cong\sum_{j\colon\prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j).
+\sum_{j\colon\prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j(i))
+\cong
+\prod_{i\in I}\sum_{j\in J(i)}X(i,j).
 \end{equation}
 \end{proposition}
 \begin{proof}
-This is almost trivial, once you understand what it's saying; for example once the statement is written, the proof is one line of agda code. An element of the left-hand side is, for each $i\in I$ a choice  of $j_i\in J(i)$ and an element $x_{i,j_i}\in X(i,j_i)$. An element of the right-hand side is a choice of, for each $i\in I$ an element $j(i)\in J(i)$, together with, for each $i$ in $I$ an element $x_{i,j(i)}\in X(i,j(i))$. These are in obvious bijection.
+We start with the function from left to right. To give such a function it suffices by the universal property of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
+\[
+  \prod_{i\in I}X(i,j_0(i))\to 
+  X(i_0,j_0(i_0))\to
+  \sum_{j\in J(i_0)}X(i_0,j).
+\]
+We have now given the function from left to right. To go the other way, \spiz{finish}.
 \end{proof}
+
 Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating sums and products; using \cref{eqn.set_completely_distributive}, you can always put it into sums-then-products (``disjunctive normal'') form.
 
 When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} is much easier:
@@ -2649,7 +2658,7 @@ Show that the category $\poly$ has finite coproducts as follows.
 \end{enumerate}
 \end{exercise}
 
-The general case of coproducts and products is not much harder.
+The general case of coproducts and products is not much more difficult.
 
 \begin{proposition}\label{prop.coprod_prod_poly}
 The category $\poly$ has coproducts and products.
@@ -2687,11 +2696,36 @@ Finish the proof of \cref{prop.coprod_prod_poly} as follows.
 Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p_i$ according to \cref{eqn.prod_polys}? Does it check out?
 \end{exercise}
 
-\begin{proposition}
-The category $\poly$ is completely distributive, i.e.\
-\spiz{finish}
+\begin{proposition}\label{prop.completely_distributive}
+The category $\poly$ is completely distributive, i.e.\ for any set $A$, sets $(B_a)_{a\in A}$, and polynomials $(p_{(a,b)})_{a\in A, b\in B_a}$, there is an isomorphism
+\[
+  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a))}
+  \cong
+	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b)}
+\]
 \end{proposition}
+\begin{proof}
+By the universal property of coproducts and products, to provide a morphism $\sum_{b\colon\prod_{a\in A}B(a)}\prod_{a\in A}p_{(a,b)}
+  \to	\prod_{a\in A}\sum_{b\in B(a)}p_{(a,b)}$, it suffices to fix an arbitrary $b_0\in\prod_{a\in A}B(a)$ and $a_0\in A$ and provide a morphism $\prod_{a\in A}p_{(a,b_0(a))}\to\sum_{b\in B(a_0)}p_{(a_0,b)}$. We do so by first projecting onto the $a_0$-factor $\prod_{a\in A}p_{(a,b_0(a))}\to p_{(a_0, b_0(a_0))}$ and then including into the $b_0(a_0)$-summand $p_{(a_0,b_0(a_0))}\to\sum_{b\in B(a_0)}p_{(a_0,b)}$. This establishes the morphism.
+  
+  To see that it is an isomorphism in $\poly$, i.e.\ a natural isomorphism of functors, it suffices to check it on components. So fix $X\in\smset$. The induced map
+  \[
+  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a))}
+  \cong
+	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b)}
+  \]
+  is exactly as in \cref{prop.push_prod_sum_set}, which we proved is an isomorphism. This completes the proof.
+\end{proof}
 
+\begin{exercise}
+How is the usual distributive law,
+\[
+p(q+r)\cong pq+pr
+\]
+for $p,q,r\in\poly$, a special case of \cref{prop.completely_distributive}?
+\end{exercise}
+
+\paragraph{Cartesian closure}
 For any two polynomials $q,r$, define $r^q\in\poly$ by the following formula
 \begin{equation}\label{eqn.exponential}
   r^q\coloneqq\prod_{i\in q(\1)}r\circ(\yon+q_j)
@@ -2816,8 +2850,42 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \end{enumerate}
 \end{exercise}
 
+\subsection{Local cartesian closure}
 
+\begin{theorem}
+The category $\poly$ is locally cartesian closed. That is, for any morphism $f\colon p\to q$, the functor $f^*\colon\poly/q\to\poly/p$ given by pulling back $q'\to q$ along $f$ is both a left and a right adjoint:
+\[
+\begin{tikzcd}[column sep=50pt, background color=theoremcolor]
+	\poly/p\ar[r, shift left=14pt, "f_!"]\ar[r, shift right=14pt, "f_*"']&
+	\poly/q\ar[l, "f^*" description]\ar[l, phantom, shift left=7pt, "\Rightarrow"]\ar[l, phantom, shift right=7pt, "\Leftarrow"]
+\end{tikzcd}
+\]
+\end{theorem}
+\begin{proof}
+Fix $e\colon p'\to p$ and $g\colon q'\to q$.
+\[
+\begin{tikzcd}
+	p'\ar[d, "e"']&q'\ar[d, "g"]\\
+	p\ar[r, "f"']&q
+\end{tikzcd}
+\]
+By the universal property of pullback, $f^*$ is always right adjoint to the functor $f_!(e)\coloneqq fe$ given by composing with $f$:
+\[
+\poly(e, f^*g)\cong\poly(fe,g).
+\]
+We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous isomorphism establishing it as right adjoint to $f^*$. We take the formula for this desired isomorphism and use it to define $f_*$:
+\begin{align*}
+	(\poly/p)(f^*q', p')&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g(j')=f(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g(j')=j\}}\;\sum_{\{i'\in f_*p(\1)\,\mid\,e'(i')= j\}}\;(q_j/\smset)\left((f_*p')_{i'}, q'_{j'}\right)\\&\cong
+	(\poly/q)(q',f_*p')
+\end{align*}
+Thus we define
+\[f_*p'(\1)\coloneqq\sum_{j\in q(\1)}\prod_{\{i\in p(\1)\,\mid\,f(i)=j\}}\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\1.\] 
+For each $i'\in f_*p'(\1)$ define $(f_*p')_{i'}$ to be the coproduct in $q_j/\smset$ of \spiz{finish}
 
+\end{proof}
 
 
 
