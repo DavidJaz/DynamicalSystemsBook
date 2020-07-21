@@ -1330,12 +1330,38 @@ The following is sometimes called the \emph{type-theoretic axiom of choice} or t
 \begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
 For any set $I$, collection of sets $\{J(i)\}_{i\in I}$, and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
 \begin{equation}\label{eqn.set_completely_distributive}
-\sum_{j\colon\prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j(i))
+\sum_{j\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j(i))
 \cong
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j).
 \end{equation}
 \end{proposition}
 \begin{proof}
+We'll do this the old-fashioned way: by giving a map from left to right, and a
+map from right to left, and showing that they are mutually inverse. 
+
+First, let's go from left to right. An element of the set on the left is a pair
+of a function $j \in \prod_{i \in I}J(i)$ together with a function $f \in
+\prod_{i \in I} X(i, j(i))$. We then get an element of the set on the right as follows:
+$$i \mapsto (j(i), f(i)).$$
+
+Now, let's go right to left. An element of the set on the right is a function $f
+\in \prod_{i \in I} \sum_{j \in J(i)} X(i, j)$. We can then form the following
+pair in the left hand set:
+$$((i \mapsto \pi_1f(i)), (i \mapsto \pi_2f(i)))$$
+where $\pi_1f(i)$ is the first component of the pair $f(i)$ and $\pi_2f(i)$
+is the second component.
+
+Now, we just need to check that a round trip takes us back where we were. If we
+start on the left, our round trip gives us the pair
+$$((i \mapsto \pi_1(j(i), f(i))), (i \mapsto \pi_2(j(i), f(i)))).$$
+But $\pi_1(j(i), f(i)) = j(i)$ and $\pi_2(j(i), f(i)) = f(i)$ by definition, so
+we're back where we started. On the other hand, starting on the right gives us
+the function
+$$i \mapsto (\pi_1f(i), \pi_2f(i)).$$
+But again, since $f(i)$ is the pairing of its components $\pi_1(f(i))$ and
+$\pi_2(f(i))$, we're back where we started.
+
+\iffalse
 We start with the function from left to right. To give such a function it suffices by the universal property of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
 \[
   \prod_{i\in I}X(i,j_0(i))\to 
@@ -1343,6 +1369,7 @@ We start with the function from left to right. To give such a function it suffic
   \sum_{j\in J(i_0)}X(i_0,j).
 \]
 We have now given the function from left to right. To go the other way, \spiz{finish}.
+\fi
 \end{proof}
 
 Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating sums and products; using \cref{eqn.set_completely_distributive}, you can always put it into sums-then-products (``disjunctive normal'') form.
@@ -1624,7 +1651,9 @@ Consider the polynomials $p\coloneqq \2\yon^\2+3\yon$ and $q\coloneqq\yon^\4+\3\
 	(1\mdot4^\yon+3\mdot 3^\yon+\2)
 	\]
 These are called Dirichlet series.
-	\item Do you see a connection between what the last two parts? If so, would you say that it justifies the name ``Dirichlet product'' for $\otimes$?
+	\item Do you see a connection between what the last two parts? If so, would
+    you say that it justifies the name ``Dirichlet product'' as another name for
+    the parallel product $\otimes$?
 \end{enumerate}
 \end{exercise}
 

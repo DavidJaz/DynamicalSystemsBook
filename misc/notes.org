@@ -156,7 +156,71 @@ In each note topic, I think we should trade off with headers simply named
 *** TODO Composition of wiring diagrams as nesting
      This needs to be done more explicitly in the section on wiring diagrams as lenses in free cartesian categories.
 ** <2020-07-21 ter> 
-   
+*** Jaz: C4 edits
+**** TODO The "main formula" in 4.2.3
+     This main formula is really saying that a polynomial morphism is a dependent lens. But sometimes it also means this particular presentation of that fact. It needs to be teased out which is which:
+
+***** TODO 4.70 "Prove that for polynomials p,q, their product is given by the formula in"
+      I.e. use the fact that they are dependent lenses, and prove this fact for the dependent lens category.
+
+**** TODO "morphism of polynomials" (also, "map" versus "morphism", let's pick one)
+     When do we mean a natural transformation between polynomial functors and when do we mean a dependent lens?
+
+     We should also make it excessively clear that we are going to blur the difference between the two after we prove the equivalence of poly with dependent lenses.
+***** TODO Example 4.56 "To give a morphism of polynomials..."
+      One in fact gives a dependent lens between their arenas.
+
+***** TODO Ex 4.66 "Constants are sent to constants":  
+      "Any morphism"
+      Here its a natural transformation at first (constants must get sent to constants?) but then "let's more generally say...we have a map... i.e. and element of the set [of dependent lenses]" so its a dependent lens. 
+
+**** TODO "poly" --> "arena" 
+     almost always. See eg ex.4.58 "draw the associated poly"
+     he means draw the associated arena as a set of corollas.
+
+
+**** TODO Dirichlet product -> Parallel product
+     
+**** TODO "Bimorphic lenses" 
+     This should be moved into the part about dependent lenses, to show that lenses are a special case of dependent lenses.
+
+     Move the chatting about the historical name of lenses to chapter 1, only cite Hedges for history (or, if desired, for further reading).
+
+     "We will use the term lens when we want to remind the reader that morphisms between monomials are much simpler.." probably a bad idea, just use dependent lens in general, and I would recommend using "lens" as a shorthand for dependent lens (e.g. 'a lens between polynomials').
+
+**** TODO Lens pairing
+     All pairing of lens like objects should be vertical.
+     
+***** TODO Bimorphic lenses
+      Few issues here.
+
+***** TODO Moore Machines
+      Few issues here e.g. (A, B)-machines.
+
+**** TODO "Moore Machines"
+     Needs to be renamed to "determinsitic system"
+     Definition should be the one from chapter 1.
+
+     Most examples could appear in chapter 1 as well, the examples here should be focused on translating the lessons of chapter 1 into the polynomial framework.
+
+***** TODO "here's a picture of a moore machine with"
+      This example is also in chapter 1, and should probably just refer back.
+
+***** TODO "such that the following can be identified with a morphisms"
+      Should probably be moved to chapter 1 (also problem 3 will be hard to answer)
+
+      
+      
+**** TODO "Generalized Moore Machines"
+     Should be changed to dependent systems.
+
+     
+**** TODO ASK SPIV 4.3.3. Wiring Diagrams
+     The way wiring diagrams are discussed here names the boxes directly, i.e. each interface is named, and then they are filled with anonymous systems.
+
+     The way I was doing it in C1 was that the boxes are filled with the systems, and are themselves nameless.
+
+    ASK SPIV: Which way does he prefer? I lean to the one I used, since I don't think the controller is the interface but rather then entire system wired into that interface, and same with the box labeled "system" in 4.3.3 but which does not in fact refer to a system. 
 
 * Citations
 ** C1-
