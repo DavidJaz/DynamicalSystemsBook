@@ -1073,8 +1073,8 @@ sort that we saw in earlier chapters is that the \emph{signature} of the
 passback can depend on which decision one is using. We will therefore refer to
 these lenses as \emph{dependent lenses}.
 \begin{definition}\label{def.dependent_lens}
-   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
-   \fromto \lens{B^-_{b}}{b \in B}$ consists of 
+   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
+   \fromto \lens{B^-_{b}}{b \in B^+}$ consists of 
 \begin{itemize}
   \item a \emph{passforward} function $f^ : A^+ \to B^+$, and
 \item a family of \emph{passback} functions $f^{\sharp} \in \prod_{a^+ \in A^+} (
@@ -1082,7 +1082,7 @@ these lenses as \emph{dependent lenses}.
   passback function $f^{\sharp}(a^+, -) : B^-_{f(a^+)} \to A^-_{a^+}$.
 \end{itemize}
 
-The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
+The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
    \fromto \lens{B^-_{b}}{b \in B^+}$ with the dependent lens $\lens{f^{\sharp}}{f} : \lens{B^-_{b}}{b \in B^+}
    \fromto \lens{C^-_{c}}{c \in C^+}$ is given by 
 \[
@@ -1092,7 +1092,7 @@ The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in
 This gives us the category of \emph{dependent lenses}.
 \end{definition}
 
-\begin{exercise}
+\begin{exercise}\label{ex.dependent_lens_calculation}
   Using $\sum$s and $\prod$s, we can give a slick definition of depdentent lens.
   Show that a dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
    \fromto \lens{B^-_{b}}{b \in B^+}$ is equivalently an element of 
@@ -1113,7 +1113,18 @@ To summarize, we have an isomorphism
 and composition of polynomial morphisms corresponds to composition of dependent lenses.
 \end{proposition}
 \begin{proof}
-We have the following isomorphisms
+We have an assignment $p \mapsto \lens{p_i}{i \in p(\1)}$ which sends an object
+of $\poly$ --- a polynomial functor --- to an object of the category of
+dependent lenses --- an arena. We want to show that this object assignment gives
+an equivalence of categories. First, we can note that it is surjective up to isomorphism on
+objects, since to every arena $\lens{A^-_{a}}{a \in A^+}$ we get the polynomial
+functor
+$$\sum_{a \in A^+} \yon^{A^-_{a}}$$
+and if we take the arena corresponding to the polynomial, we back where we
+started since $\sum_{a \in A^+} \1^{A^-_{a}} \cong A^+$.
+ 
+Next, we'll show that the set of natural transformations $\poly(p,q)$ between polynomial functors $p$
+and $q$ is isomorphic to the set of dependent lenses between their arenas. We have the following isomorphisms
 \begin{align*}
   \poly(p,q)&=
   \nat\Big(\sum_{i\in p(\1)}\yon^{p_i},\;\sum_{j\in q(\1)}\yon^{q_j}\Big)&
@@ -1123,10 +1134,17 @@ We have the following isomorphisms
   \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}&
   	\text{Yoneda lemma}
 \end{align*}
-This proves the first part of we called the summary. It says that a morphism $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a function from $q_j\to p_i$; the first part determines $f$ (i.e.\ $f(i)=j$) and the second part just gives $f^\sharp_i$ directly for each $i$.
+This proves the first part of we called the summary. It says that a morphism
+$p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
+function from $q_j\to p_i$; the first part determines $f$ (i.e.\ $f(i)=j$) and
+the second part just gives $f^\sharp_i$ directly for each $i$.
 
-Next, we need to show that the composition of polynomial morphisms corresponds
-to the composition of dependent lenses. We leave this to \cref{ex.poly_dependent_lens_functoriality}.
+We can now note that by \cref{ex.dependent_lens_calculation}, $\prod_{i\in
+  p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$ is isomorphic to the set of dependent
+lenses $\lens{p_i}{i \in p(\1)} \fromto \lens{q_j}{j \in q(\1)}$.
+
+Finally, it remains to show that these isomorphisms are functorial. We leave
+this to \cref{ex.poly_dependent_lens_functoriality}
 \end{proof}
 
 \begin{exercise}\label{ex.poly_dependent_lens_functoriality}
