@@ -33,9 +33,10 @@ All our polynomials will involve one variable, $\yon$, chosen for reasons we'll 
     child {};
   \node[right=.5 of 2] (3) {$\bullet$};
 \end{tikzpicture}
-\quad&\quad\textit{poly}
+\quad&\quad\textit{arena}
 \end{align}
-More technically, mini-trees are called \emph{corollas}, so what we're calling a \emph{poly} is a set of corollas. 
+More technically, mini-trees are called \emph{corollas}, so what we're calling an
+\emph{arena}, in this chapter, is a set of corollas. 
 
 Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two options, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end''. While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
 
@@ -43,7 +44,7 @@ In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a
 \footnote{
 In standard font, 42 represents the usual natural number. In sans serif font \4\2 represents the set $\4\2=\{1,2,\ldots,42\}$ with 42 elements.
 }
-in the associated poly. Intuitively, there are 42 situations in which you have a decision with three options. When you put all those decisions together, you have the \emph{arena} associated to $p$. 
+in the associated arena. Intuitively, there are 42 situations in which you have a decision with three options. When you put all those decisions together, you have the \emph{arena} associated to $p$. 
 
 Here is a table of terminology. The first column is book-wide terminology, the second is algebraic terminology about polynomials as in \eqref{eqn.polynomial1892}, the third is about the pictures of corollas as in \eqref{eqn.poly1892}, and the fourth column is intuitive terminology.
 
@@ -51,14 +52,13 @@ Here is a table of terminology. The first column is book-wide terminology, the s
 \small
 \begin{tabular}{llll}
 \multicolumn{4}{c}{\normalsize Terminology}\\
-\textbf{Arena} & \textbf{Polynomial} $p$ & \textbf{Poly} & \textbf{Intuition}\\\hline
+\textbf{Arena} (General) & \textbf{Polynomial} $p$ & \textbf{Decision Trees} & \textbf{Intuition}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
-Interface in position $\fun{i}$ & Pure power summand $\yon^{p_\fun{i}}$ & Corolla & Decision\\
-Distinction $c\in p_\fun{i}$ & Element of $p_\fun{i}$ & Leaf & Possibility
+Interface in position $i$ & Pure power summand $\yon^{p_i}$ & Corolla & Decision\\
+Direction $c\in p_i$ & Element of $p_i$ & Leaf & Possibility
 \end{tabular}
 \end{equation}
 
-If you're wondering about the upright $\fun{i}$, we'll get to all our notational conventions in \cref{sec.poly}.
 
 \begin{exercise}
 Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated poly.
@@ -1027,18 +1027,36 @@ What does $p(\0)$ give you?
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Understanding morphisms between polynomial functors}
+\subsection{Morphisms between polynomial functors are dependent lenses}
 \label{subsec.understanding_mor_poly}
 
 For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
 
-In particular, we're going to think about polynomials like $p$ and $q$ using the intuition from the beginning of the chapter, around the table in \eqref{eqn.table_terminology}. We said that we'd think of $p$ as a arena: a set of decisions you can make and what options you have. That is, $p(\1)$ is conceived as a set of decisions, and for every decision $i\in p(\1)$, we conceive of the set $p_i$ as the options or \emph{options} available in that decision. Here's an alternative way to write $p$:
+In particular, we're going to think about polynomials like $p$ and $q$ using the
+intuition from the beginning of the chapter, around the table in
+\eqref{eqn.table_terminology}. We said that we'd think of $p$ as a arena: a set
+of decisions you can make and what options you have. That is, $p(\1)$ is
+conceived as a set of decisions, and for every decision $i\in p(\1)$, we
+conceive of the set $p_i$ as the options or \emph{options} available in that
+decision. Here's how we write $p$ as an arena:
 \[
 \begin{tikzcd}
 p(\1)\ar[r, "p_-"]&\smset
 \end{tikzcd}
 \]
-Again, every decision $i\in p(\1)$ gets a set $p_i$ of options: that's the whole content of $p$.
+Again, every decision $i\in p(\1)$ gets a set $p_i$ of options: that's the whole
+content of $p$.
+\begin{definition}\label{def.arena_poly}
+  An \emph{arena} for the dependent doctrine is a \emph{dependent set} $A^-_{(-)} :
+  A^+ \to \smset$; that is, functor from the discrete category on a set $A^+$
+  into the category of sets. the set $A^-_{a^+}$ that each direction $a^-$ lives in
+  depends on the position $a^+ \in A^+$. We will write the arena $A^- : A^+ \to
+  \smset$ as
+  $$\lens{A^-_{a}}{a \in A^+}.$$
+\end{definition}
+
+We have just noted that every polynomial $p$ gives an arena $\lens{p_i}{i \in p(\1)}$ whose positions are the decisions in the polynomial and whose directions
+are the options.
 
 The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q_j$ that $q$ could make among its options is passed back as some choice $c\in p_i$ among $p$'s options.
 
@@ -1049,23 +1067,50 @@ record Delegation (w : Arena) (w' : Arena) : Set where
      passbck : (d : decn p) -> posy q (passfwd d) -> posy p d
 \end{agda}
 
-Let's state this mathematically and prove it.
+This structure of passing information forward and backwards should look
+familiar; its a sort of lens! The difference between this sort of lens and the
+sort that we saw in earlier chapters is that the \emph{signature} of the
+passback can depend on which decision one is using. We will therefore refer to
+these lenses as \emph{dependent lenses}.
+\begin{definition}\label{def.dependent_lens}
+   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
+   \fromto \lens{B^-_{b}}{b \in B}$ consists of 
+\begin{itemize}
+  \item a \emph{passforward} function $f^ : A^+ \to B^+$, and
+\item a family of \emph{passback} functions $f^{\sharp} \in \prod_{a^+ \in A^+} (
+  B^-_{f(a^+)} \to A^-_{a^+})$. That is, for every $a^+ \in A^+$, we have a
+  passback function $f^{\sharp}(a^+, -) : B^-_{f(a^+)} \to A^-_{a^+}$.
+\end{itemize}
+
+The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
+   \fromto \lens{B^-_{b}}{b \in B^+}$ with the dependent lens $\lens{f^{\sharp}}{f} : \lens{B^-_{b}}{b \in B^+}
+   \fromto \lens{C^-_{c}}{c \in C^+}$ is given by 
+\[
+  \lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f} \coloneqq \lens{(a^+, c^-)
+    \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^-))}{g \circ f}.
+\]
+This gives us the category of \emph{dependent lenses}.
+\end{definition}
+
+\begin{exercise}
+  Using $\sum$s and $\prod$s, we can give a slick definition of depdentent lens.
+  Show that a dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
+   \fromto \lens{B^-_{b}}{b \in B^+}$ is equivalently an element of 
+$$\prod_{a^+ \in A^+} \sum_{b^+ \in B^+} (A^-_{a^+})^{(B^-_{b^+})}.$$
+\end{exercise}
+
+It seems we are observing that the category of polynomial functors is
+equivalent to the category of dependent lenses! Let's state this mathematically and prove it.
 
 \begin{proposition}\label{prop.poly_maps_colax_prod_sum}
-Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ be polynomials. A morphism $p\to q$ can be identified with a pair $(f_1,f^\sharp)$
-\begin{equation}\label{eqn.colax_poly_map}
-\begin{tikzcd}[column sep=small]
-	p(\1)\ar[dr, "p_-"']\ar[rr, "f_1"]&~&
-	q(\1)\ar[dl, "q_-"]\\&
-	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
-\end{tikzcd}
-\end{equation}
-where $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
+Taking a polynomial $p$ to its arena $\lens{p_i}{i \in p(\1)}$ gives
+an equivalence between $\poly$ and the category of dependent lenses.
 
 To summarize, we have an isomorphism
 \begin{equation}\label{eqn.main_formula}
 \poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.
 \end{equation}
+and composition of polynomial morphisms corresponds to composition of dependent lenses.
 \end{proposition}
 \begin{proof}
 We have the following isomorphisms
@@ -1078,8 +1123,16 @@ We have the following isomorphisms
   \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}&
   	\text{Yoneda lemma}
 \end{align*}
-This proves what we called the summary. It says that a morphism $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a function from $q_j\to p_i$; the first part determines $f_1$ (i.e.\ $f_1(i)=j$) and the second part just gives $f^\sharp_i$ directly for each $i$.
+This proves the first part of we called the summary. It says that a morphism $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a function from $q_j\to p_i$; the first part determines $f$ (i.e.\ $f(i)=j$) and the second part just gives $f^\sharp_i$ directly for each $i$.
+
+Next, we need to show that the composition of polynomial morphisms corresponds
+to the composition of dependent lenses. We leave this to \cref{ex.poly_dependent_lens_functoriality}.
 \end{proof}
+
+\begin{exercise}\label{ex.poly_dependent_lens_functoriality}
+Complete the proof of \cref{prop.poly_maps_colax_prod_sum}.
+\end{exercise}
+
 
 The formula in \eqref{eqn.main_formula} will be quite important to us; we will call it our \emph{main formula} for the set of polynomial maps.
 
@@ -1430,17 +1483,22 @@ Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs o
 \end{example}
 
 
-\paragraph{Dirichlet product}
+\paragraph{Parallel product}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel and then wiring them together.
 
 \begin{definition}\label{def.dirichlet}
-Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{Dirichlet product}, denoted $p\otimes q$ is given by the formula:
+Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{parallel product}, denoted $p\otimes q$ is given by the formula:
 \begin{equation}\label{eqn.dirichlet_def}
 p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i\times q_j}.
 \end{equation}
 \end{definition}
 
-One should compare this with the formula for product of polynomials shown in \eqref{eqn.poly_times}. The difference is that Dirichlet product multiplies exponents where regular product adds them.
+One should compare this with the formula for product of polynomials shown in \eqref{eqn.poly_times}. The difference is that parallel product multiplies exponents where regular product adds them.
+
+\begin{remark}
+  The reason we call this the parallel product is because it generalizes the
+  parallel product for lenses in \cref{sec.lens_discrete}.
+\end{remark}
 
 \begin{example}
 We can draw the product of two polynomials in terms of their associated poly's. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
