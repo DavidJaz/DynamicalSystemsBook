@@ -387,7 +387,7 @@ We will be using cartesian categories quite a bit in the first few chapters.
 We will also use some more advanced category theory, like indexed
 categories, double categories, and toposes. But we will introduce these concepts
 as we use them.
-\section{Deterministic Systems}
+\section{Deterministic systems}
 
 That's a lot of informal definitions, we are ready for something precise:
 \begin{definition}\label{def.deterministic_system}
@@ -568,12 +568,14 @@ never run the update function, because there would be no parameter we could plug
 in! Instead, we put a dummy value for the parameter and ask that the parameter
 is always set to the dummy value; then we can safely ignore it.
 
-\section{Wiring Together Systems with Lenses}
+\section{Wiring together systems with lenses}
 
 In the last section, we saw the formal definition of deterministic systems and a
 few examples of them. In this section, we'll see how to wire systems together to
 make more complex systems. We will do this using an interesting notion coming
 from the world of function programming: a \emph{lens}.
+
+\subsection{Lenses and lens composition}
 
 A lens is a framework for bi-directional information passing.
 
@@ -650,6 +652,8 @@ functorially in its variable cartesian category $\cat{C}$.
   Complete the proof of \cref{prop.lens_functoriality} in full. 
 \end{exercise}
 
+\subsection{Deterministic systems as lenses}
+
 The reason we are interested in lenses and lens composition is because
 deterministic systems are themselves lenses. As written in
 \cref{def.deterministic_system}, a system $\Sys{S}$ is a lens
@@ -692,7 +696,7 @@ lenses.
 
 \begin{proposition}\label{prop.lens_functoriality_monoidal}
 Let $F : \cat{C} \to \cat{D}$ be a cartesian functor. The induced functor
-$\lens{F}{F} : \Cat{Lens}{\cat{C}} \to \Cat{Lens}{\cat{D}}$ is strong monoidal
+$\lens{F}{F} : \Cat{Lens}_{\cat{C}} \to \Cat{Lens}_{\cat{D}}$ is strong monoidal
 with respect to the parallel product.
 \end{proposition}
 \begin{proof}
@@ -1455,7 +1459,10 @@ lens in a cartesian category of our choosing.
     w &= (t : \Set{Hours},\, m : \Set{Meridien} \mapsto t : \Set{Hours},\, m : \Set{Meridien}) \\
     w^{\sharp} &= (t : \Set{Hours},\, m : \Set{Meridien} \mapsto t : \Set{Hours})
   \end{align*}
-  giving us a wiring diagram in $\Cat{WD}_{\cat{T}}$. We will interpret 
+  giving us a wiring diagram in $\Cat{WD}_{\cat{T}}$. We can then interepret
+  this as the lens from $\cref{ex.ClockWithDisplay}$ as the image of this wiring
+  diagram which interprets the types $\Set{Meridien}$ and $\Set{Hours}$ as the
+  actual sets $\{\const{a.m.},\const{p.m.}\}$ and $\{1, 2,\ldots, 12\}$.
 \end{example}
 
 \begin{exercise}
@@ -1826,7 +1833,9 @@ we call these situations that repeat \emph{periodic orbits}.
 \begin{remark}
   Note that when we say that a periodic orbit has periodic parameters, we assume
   that they are periodic with the same period. This has important but subtle
-  consequences for our theorems concerning the composition of behaviors in \cref{sec.representables}.
+  consequences for our theorems concerning the composition of behaviors in
+  \cref{sec.representables}. We explain the difference in a more precise manner
+  in \cref{rmk.periodic_parameters_versus_not}.
 \end{remark}
 
 \begin{remark}
@@ -2162,6 +2171,16 @@ behavior of that kind.
   \end{enumerate}
 \end{exercise}
 
+\begin{remark}\label{rmk.periodic_parameters_versus_not}
+As \cref{ex.find_representatives_discrete} shows, the difference between a
+periodic orbit and a periodic orbit with periodic parameters can be surmised
+precisely by noting that they are represented by systems with different
+interfaces. The dynamics of the systems are the same, but the interfaces (and
+accordingly, the exposed variable) are different; this explains how the
+difference between a periodic orbit and a periodic orbit with periodic
+parameters is all in the chart.
+\end{remark}
+
 \begin{exercise}\label{ex.represents_what_discrete}
   What kind of behaviors do the following systems represent? First, figure out
   what kind of charts they have, and then see what a behavior with a given chart
@@ -2174,7 +2193,7 @@ behavior of that kind.
     \item $\Out{Plus} = \nn$.
     \item $\In{Plus} = \nn$.
     \item $\expose{Plus} = \id$.
-    \item $\update{Plus}(t, j) = t + i$.
+    \item $\update{Plus}(t, j) = t + j$.
     \end{itemize}
     %% A chart is a sequence of output values and an a $\nn \times \nn$ grid of
     %% input values. A behavior is a sequence of states with those output values
@@ -2220,7 +2239,7 @@ most interested in those simple systems $\Sys{T}$ whose behavior we can fully
 understand. 
 
 
-We have written a behavior of shape $\Sys{T}$ in $\Sys{T}$ with an arrow $\phi :
+We have written a behavior of shape $\Sys{T}$ in $\Sys{S}$ with an arrow $\phi :
 \Sys{T} \to \Sys{S}$. This suggests that there is a category with deterministic
 systems as its objects and behaviors as its morphisms; and there is!
 
@@ -2288,7 +2307,7 @@ one based on post-composition, and the other based on pre-composition.
   \cref{ex.steady_state_as_behavior}. We can use composition of behaviors to
   understand how steady states give rise to trajectories.
 
-  Now, the generic steady state $\ast$ of $\Sys{Fix}$ (that is, the identity behavior of
+  The generic steady state $\ast$ of $\Sys{Fix}$ (that is, the identity behavior of
   $\Sys{Fix}$) generates a trajectory $s : \nn \to \State{Fix}$ with input
   parameters $p_t = \ast$ and $s_t = \ast$. This gives us a behavior $s :
   \Sys{Time} \to \Sys{Fix}$.
@@ -2409,11 +2428,11 @@ above matrix gives us the matrix
 \]
 
 
-
-
+\jaz{This is where I left off writing. Nothing after this should be considered ``written''.}
 
 %%% write-here 
-\section{The Indexed Double Category of Deterministic Systems}\label{sec.indexed_double_category_of_systems}
+\section{Behaviors of the whole from behaviors of the parts}\label{sec.representables}
+
 
   So far, we have seen how both deterministic systems and the wiring diagrams we
   used to compose them can be seen as lenses. Clearly, lenses will play a
@@ -2590,10 +2609,14 @@ f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
 
 \subsection{CoKleisli categories and maps with context}\label{sec.context_indexed_cat}
 
-\subsection{The Double Category of Arenas}
+\subsection{The double category of arenas}
+
+\subsection{The indexed double category of deterministic systems}
+\label{sec.indexed_double_category_of_systems}
+
+\subsection{The main theorem: representable indexed double functors}
   
-\section{Behaviors of the whole from behaviors of the parts: representable
-  indexed double functors}\label{sec.representables}
+
 
 
 \end{document}
