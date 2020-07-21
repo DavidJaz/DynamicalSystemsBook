@@ -2213,12 +2213,12 @@ parameters is all in the chart.
     \item $\Out{XOR} = \Set{Bool}$.
     \item $\In{XOR} = \Set{Bool}$.
     \item $\expose{XOR} = \id$.
-    \item \begin{aligned}
+    \item \[\begin{aligned}
         &\update{XOR}(\true, \true) &= \false, \\
         &\update{XOR}(\false, \true) &= \true, \\
         &\update{XOR}(\true, \false) &= \true, \\
         &\update{XOR}(\false, \false) &= \false.
-          \end{aligned}
+          \end{aligned}\]
     \end{itemize}
   \item The system $\Sys{List_C}$ for a set of \emph{choices} $C$ with:
     \begin{itemize}
@@ -2382,7 +2382,7 @@ But in order for that abstract theorem to make sense, we should see a concrete
 case in detail first.  
 
 Recall that the chart of a steady state $s \in \State{S}$ is the pair
-$\len{i}{o}$ with $o = \expose{S}(s)$ and $\update{S}(s, i) = s$. The set of all
+$\lens{i}{o}$ with $o = \expose{S}(s)$ and $\update{S}(s, i) = s$. The set of all
 possible charts for steady states is therefore $\In{S} \times \Out{S}$, and the
 set of all steady states $\Set{Steady}_{\Sys{S}} = \Set{Sys}(\Sys{Fix}, \Sys{S})$ of $\Sys{S}$ admits a function
 $\Set{Steady}_{\Sys{S}} \to \In{S} \times \Out{S}$ sending each steady state to
@@ -2394,7 +2394,8 @@ We can see this function $\Set{Steady}_{\Sys{S}} \to \In{S} \times \Out{S}$ as a
 and column $o$. For example, consider system $\Sys{S_1}$ of
 \cref{ex.wiring_transition_diagrams}:
 \begin{equation}\label{eqn.wiring_transition_diagrams_steady_diag1}
-\Sys{S_1} \coloneqq \begin{tikzpicture}[baseline=center]
+\Sys{S_1} \coloneqq \begin{tikzpicture}[baseline=(Center)]
+  \coordinate (Center) at (0,0);
 	\node[draw] {
   \begin{tikzcd}[column sep=small]
     \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
