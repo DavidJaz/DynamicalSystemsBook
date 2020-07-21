@@ -593,7 +593,7 @@ The most useful thing about lenses is that they \emph{compose}.
   a cartesian category $\cat{C}$. We define their composite
   $$\lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f}$$
   to have passforward $g \circ f$ and passback
-  $$(a^+, c^-) \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^_)).$$
+  $$(a^+, c^-) \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^-)).$$
 
 \end{definition}
 
@@ -854,8 +854,8 @@ made by wiring them together.
 $\Sys{S_1}$, which has interface $\lens{\Set{Bool}}{\Set{Colors}}$:
 
 \begin{equation}\label{eqn.wiring_transition_diagrams1}
-\Sys{S_1} \coloneqq \begin{tikzpicture}[baseline=center]
-	\node[draw] {
+\Sys{S_1} \coloneqq \begin{tikzpicture}[baseline=(bl)]
+	\node[draw] (bl) {
   \begin{tikzcd}[column sep=small]
     \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
     & & \\
@@ -869,8 +869,8 @@ Our second system $\Sys{S_2}$ will have interface
 $\lens{\Set{Colors}}{\Set{Bool}}$:
 
 \begin{equation}\label{eqn.wiring_transition_diagrams2}
-\Sys{S_2} \coloneqq \begin{tikzpicture}[baseline=center]
-	\node[draw] {
+\Sys{S_2} \coloneqq \begin{tikzpicture}[baseline=(bl)]
+	\node[draw] (bl) {
   \begin{tikzcd}[column sep=small]
     \LMO{\true} \ar[out=120, in=90, loop, red] \ar[in=210, out=250, loop, blue] \ar[rr, bend left = 10, dgreen] \ar[rr, leftarrow, red, bend right= 10] \ar[ddr, leftarrow, dgreen, bend right= 10] &  & \LMO{\false} \ar[loop right, dgreen] \ar[ddl, blue, bend left= 10] \ar[ddl,red, leftarrow, bend right= 10]  \\
     & & \\
@@ -884,7 +884,7 @@ Write down the fully wired system
 \[
 \Sys{S} \coloneqq 
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
-, baseline=center]
+, baseline=(Outer.center)]
   \node[bb={1}{1}] (S1) {$\Sys{S_1}$};
   \node[bb={1}{1}, right= of S1] (S2) {$\Sys{S_2}$};
 
@@ -1562,20 +1562,20 @@ person to start, that is $(s_0, i_0, r_0) = (999, 1, 0)$.
      \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {$\display$};
    }
 
-   %% plot
-   \tikzmath{
-     real \s; 
-     \s = 9.99;
-   
-     function srecusion(\x){
-       return {\x-1};
-     }
-     \foreach \t in {0,1,...,10}
-     {
-       \node[draw,circle,red] at (\t, \s) {};
-       \s = srecursion(\s);
-     }
-    }
+%   %% plot
+%   \tikzmath{
+%     real \s; 
+%     \s = 9.99;
+%   
+%     function srecusion(\x){
+%       return {\x-1};
+%     }
+%     \foreach \t in {0,1,...,10}
+%     {
+%       \node[draw,circle,red] at (\t, \s) {};
+%       \s = srecursion(\s);
+%     }
+%    }
   \end{tikzpicture}
 \]
 \jaz{I don't know how to actually plot this...}
@@ -1748,7 +1748,7 @@ Consider the wiring diagram:
 \[
 \Sys{S} \coloneqq 
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
-, baseline=center]
+, baseline=(Outer.center)]
   \node[bb={1}{1}] (S1) {$\Sys{S_1}$};
   \node[bb={1}{1}, right= of S1] (S2) {$\Sys{S_2}$};
 
@@ -1887,7 +1887,7 @@ To get started, we will give a formal definition of behavior of deterministic
 system. Before we do this, we need to define another sort of map that can go
 between the interfaces of systems.
 \begin{definition}[Category of charts]\label{def.chart_discrete}
-  A \emph{chart} $\lens{f_{\flat}}{f} : \lens{A^_}{A^+} \rightrightarrows
+  A \emph{chart} $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \rightrightarrows
   \lens{B^-}{B^+}$ in a cartesian category $\cat{C}$ is a pair of maps $f : A^+ \to B^+$ and $f_{\flat} : A^+
   \times A^- \to B^-$. Note that \emph{this is not a lens}.
 
@@ -1953,7 +1953,7 @@ shape of $\Sys{Time}$ to appear in the transition diagram of $\Sys{S}$, like
 this:
 \[
 \begin{tikzpicture}[baseline=(Center)]
-  coordinate (Center) at (0,0);
+  \coordinate (Center) at (0,0);
 	\node[draw] (Diag1) {
   \begin{tikzcd}[column sep=small]
     \LMO{0} \ar[r, red, thick] & \LMO{1} \ar[r, red, thick] & \LMO{2} \ar[r, red, thick] & \LMO{3} \ar[r, red, thick] & \LMO{4} \ar[r, red, thick] & \cdots
@@ -1968,7 +1968,7 @@ this:
 \LMO{} \arrow[u] \arrow[ru, red] &                             &                             &                             &       
 \end{tikzcd}
   };
-  \draw[->] (Diag1) to (Diag2);
+  \draw[->, shorten <=2pt, shorten >=2pt] (Diag1) to (Diag2);
 \end{tikzpicture}
 \]
 
@@ -2229,10 +2229,10 @@ systems as its objects and behaviors as its morphisms; and there is!
   \begin{itemize}
     \item Objects the \emph{arenas} $\lens{A^-}{A^+}$, pairs of objects in $\cat{C}$.
     \item Maps the \emph{charts} $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
-      \rightright \lens{B^-}{B^+}$.
+      \tto \lens{B^-}{B^+}$.
     \item Composition the composite of a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
-      \rightrightarrows \lens{B^-}{B^+}$ with a chart $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
-      \rightrightarrows \lens{C^-}{C^+}$ is 
+      \tto \lens{B^-}{B^+}$ with a chart $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
+      \tto \lens{C^-}{C^+}$ is 
 $$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{(a^+, a^-)
   \mapsto g_{\flat}(f(a^+), f_{\flat}(a^+, a^-))}{g \circ f}.$$
      \item The identity chart is $\lens{\pi_2}{\id} : \lens{A^-}{A^+}
@@ -2590,7 +2590,7 @@ f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
 
 \subsection{CoKleisli categories and maps with context}\label{sec.context_indexed_cat}
 
-\susbection{The Double Category of Arenas}
+\subsection{The Double Category of Arenas}
   
 \section{Behaviors of the whole from behaviors of the parts: representable
   indexed double functors}\label{sec.representables}
