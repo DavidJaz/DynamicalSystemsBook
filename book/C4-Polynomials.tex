@@ -1080,8 +1080,8 @@ content of $p$.
 \begin{definition}\label{def.arena_poly}
   An \emph{arena} for the dependent doctrine is a \emph{dependent set} $A^-_{(-)} :
   A^+ \to \smset$; that is, functor from the discrete category on a set $A^+$
-  into the category of sets. the set $A^-_{a^+}$ that each direction $a^-$ lives in
-  depends on the position $a^+ \in A^+$. We will write the arena $A^- : A^+ \to
+  into the category of sets. the set $A^-_{a}$ that each direction $a^-$ lives in
+  depends on the position $a \in A^+$. We will write the arena $A^- : A^+ \to
   \smset$ as
   \[\lens{A^-_{a}}{a \in A^+}.\]
 \end{definition}
@@ -1108,22 +1108,37 @@ these lenses as \emph{dependent lenses}.
    \fromto \lens{B^-_{b}}{b \in B^+}$ consists of 
 \begin{itemize}
   \item a \emph{passforward} function $f^+ : A^+ \to B^+$, and
-\item a dependent \emph{passback} fucntion $f^{\sharp} : (a^+ \in A) \to  (
-  B^-_{f(a^+)} \to A^-_{a^+})$. That is, for every $a^+ \in A^+$, we have a
-  passback function $f^{\sharp}(a^+, -) : B^-_{f(a^+)} \to A^-_{a^+}$.
+\item a dependent \emph{passback} fucntion $f^{\sharp} : (a \in A^+) \to  (
+  B^-_{f(a)} \to A^-_{a})$. That is, for every $a \in A^+$, we have a
+  passback function $f^{\sharp}(a, -) : B^-_{f(a)} \to A^-_{a}$.
 \end{itemize}
 
 The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
    \fromto \lens{B^-_{b}}{b \in B^+}$ with the dependent lens $\lens{f^{\sharp}}{f} : \lens{B^-_{b}}{b \in B^+}
    \fromto \lens{C^-_{c}}{c \in C^+}$ is given by 
 \[
-  \lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f} \coloneqq \lens{(a^+, c^-)
-    \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^-))}{g \circ f}.
+  \lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f} \coloneqq \lens{(a, c^-)
+    \mapsto f^{\sharp}(a, g^{\sharp}(f(a), c^-))}{g \circ f}.
 \]
 This gives us the category of \emph{dependent lenses} $\Cat{DLens}$.
 \end{definition}
 
+
+
+\begin{remark}
+Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ be polynomials. We can think of a dependent lens $p\to q$ as in \cref{def.dependent_lens} diagrammatically as follows:
+\begin{equation}\label{eqn.colax_poly_map}
+\begin{tikzcd}[column sep=small]
+	p(\1)\ar[dr, "p_-"']\ar[rr, "f_1"]&~&
+	q(\1)\ar[dl, "q_-"]\\&
+	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
+\end{tikzcd}
+\end{equation}
+That is, $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
+\end{remark}
+
 Dependent lenses are indeed a generalization of the lenses we saw in \cref{def.lens}.
+
 \begin{proposition}\label{prop.lenses_are_dependent_lenses}
   There is a fully faithful inclusion $\Cat{Lens}_{\smset} \hookrightarrow
   \Cat{DLens}$ interpreting the coKleisli arena $\lens{A^-}{A^+}$ as the \emph{constant}
@@ -1136,6 +1151,8 @@ Dependent lenses are indeed a generalization of the lenses we saw in \cref{def.l
   dependent arenas $\lens{A^-}{a \in A^+}$ and $\lens{B^-}{b \in B^+}$. Then a
   dependent lens $\lens{f^{\sharp}}{f} : $
 \end{proof}
+
+
 
 \begin{lemma}\label{lem.dependent_lens_calculation}
   Using $\sum$s and $\prod$s, we can give a slick definition of dependent lens.
@@ -3012,6 +3029,43 @@ Let $p$ be any polynomial.
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[Pullbacks in $\poly$]\label{ex.pullbacks_in_poly}
+Given polynomials $q,q',r$ and dependent lenses $q\To{f} r\From{f'} q'$, the pullback 
+\[
+\begin{tikzcd}
+	p\ar[r]\ar[d]&
+	q'\ar[d, "f'"]\\
+	q\ar[r, "f"']&
+	r\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\]
+ is given as follows. The set of positions in $p$ is the pullback of the positions of $q$ and $q'$ over those of $r$. On each position $(i, i')$ with $f_1(i)=f'_1(i')$, we take the directions set of $p$ in that position to be the  pushout of the directions $q_i$ and $q'_{i'}$ over $r_{f_1(i)}=r_{f_1'(i')}$:
+\[
+\begin{tikzcd}
+	p(\1)\ar[r]\ar[d]&
+	q'(\1)\ar[d, "f_1'"]\\
+	q(\1)\ar[r, "f_1"']&
+	r(\1)\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\qqand
+\begin{tikzcd}
+	p_{(i,i')}\ar[r]\ar[d]&
+	q'_{i'}\ar[d, "(f')_{i'}^\sharp"]\\
+	q_i\ar[r, "f^\sharp_i"']&
+	r_{f_1(i)}\ar[from = ul, phantom, very near end, "\ulcorner"]
+\end{tikzcd}
+\]
+\end{example}
+
+\begin{exercise}
+Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yon+\1$.
+\begin{enumerate}
+	\item Choose morphisms $f\colon q\to r$ and $f'\colon q'\to r$ and write them down.
+	\item Find the pullback of your diagram.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 Arbitrary colimits will be much less useful to us than limits, so the following theorem is included only for completeness; the reader can feel free to skip it.
 \begin{theorem}\label{thm.poly_colimits}
 The category $\poly$ has all colimits.
@@ -3042,7 +3096,7 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 %---- Subsection ----%
 \subsection{Local cartesian closure}
 
-\begin{theorem}
+\begin{theorem}\label{thm.poly_lcc}
 The category $\poly$ is locally cartesian closed. That is, for any morphism $f\colon p\to q$, the functor $f^*\colon\poly/q\to\poly/p$ given by pulling back $q'\to q$ along $f$ is both a left and a right adjoint:
 \[
 \begin{tikzcd}[column sep=50pt, background color=theoremcolor]
@@ -3087,7 +3141,45 @@ Again, $q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}$ is the coproduct of the $p'_{i'(i)
 %---- Subsection ----%
 \subsection{Monoidal $*$-bifibration over $\smset$}
 
-\spiz{finish}
+We will see that the functor $p\mapsto p(\1)$ has special properties making it what
+\cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
+
+For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$. Then we get a new polynomial $f^*p$ with positions $A$. The notation here agrees with that in \cref{thm.poly_lcc}: it is given by a pullback
+\[
+\begin{tikzcd}
+	f^*p\ar[r, "\fun{cart}"]\ar[d]&
+	p\ar[d, "\eta_p"]\\
+	A\ar[r, "f"']&
+	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\]
+Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}_a^\sharp\colon p_{f(a)}\to(f^*p)_a$ is an isomorphism too.
+
+\begin{definition}[Vertical, cartesian]
+Let $f\colon p\to q$ be a morphism of polynomials. It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism. It is called \emph{cartesian} if, for each $i\in p(\1)$ the function $f^\sharp_i\colon q_{f(i)}\to p_i$ is an isomorphism.
+\end{definition}
+
+\begin{proposition}
+Every morphism in $\poly$ can be uniquely factored as a vertical morphism followed by a cartesian morphism.
+\end{proposition}
+\begin{proof}
+Recall from \cref{eqn.colax_poly_map} that a morphism in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
+\[
+\begin{tikzcd}[column sep=small]
+	p(\1)\ar[dr, bend right, "p_-"']\ar[rr, "f_1"]&~&
+	q(\1)\ar[dl, bend left, "q_-"]\\&
+	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
+\end{tikzcd}
+\hspace{1in}
+\begin{tikzcd}
+	p(\1)\ar[dr, bend right, "p_-"']\ar[r, equal, ""' name=equal]&
+	p(\1)\ar[d, "q_{f_1(-)}" description]\ar[r, "f_1"]&
+	q(\1)\ar[dl, bend left, "q_-"]\\&
+	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
+\end{tikzcd}
+\]
+The object $\lens{q_{f_1i}}{i\in p(\1)}$ is clearly unique up to isomorphism.
+\end{proof}
 
 
 
