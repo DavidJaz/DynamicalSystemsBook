@@ -91,3 +91,12 @@ sep=0pt,
   }
   
 
+\newcommand{\boxofbullets}[6][.5]{% [y-spacing] {number of bullets} {left endpoint} {label} {text} {position}
+	\foreach \i [evaluate=\i as \y using {#1*((#2-1)/2-\i)}] in {1,...,#2}{
+		\node (pt_#4_\i) at ($(0,\y)+#3$) {$\bullet$};
+		\node[#6, font=\tiny] at ($(0,\y)+#3$) {#5$_\i$};
+	}
+	\node[draw, rounded corners, inner xsep=5pt, inner ysep=0pt, fit={(pt_#4_1) (pt_#4_#2)}] (box_#4) {};
+}
+
+

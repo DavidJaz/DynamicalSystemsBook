@@ -1058,22 +1058,22 @@ We have been drawing a bunch of wiring diagrams so far, and we will continue to
 do so throughout the rest of the book. Its about time we explicitly described
 the rules one uses to draw these diagrams, and give a formal mathematical
 definition of them. The motto of this section is:
-\begin{quote}
- \emph{
-    Wiring diagrams are lenses in free cartesian categories --- the categories of arities.
+\slogan{
+    A wiring diagram is just a lenses in a free cartesian category --- a category of \emph{arities.}
   }
-\end{quote}
 
 We'll begin by describing wiring diagrams and their category in informal terms.
-Then, we will see how diagrams relate to lenses in a particular category --- the
+Then, we will see how diagrams relate to lenses in a particular category --- which we call the
 category of \emph{arities} --- and finally give a formal definition of the
 category of wiring diagrams.
 
 
 \begin{informal}
   A \emph{wiring diagram} is a diagram which consists of a number of \emph{inner
-  boxes}, each with some \emph{input ports} and some \emph{output ports}, wired
-together inside an \emph{outer box} which also has input and output ports. We can wire in the following ways:
+  boxes}, each with some \emph{input ports} and some \emph{output ports}, that are wired
+together inside an \emph{outer box}, which also has input and output ports. This gives four types of ports: inner (box) input (port), inner output, outer input, and outer output. 
+
+We can wire in the following ways:
 \begin{enumerate}
   \item Every outer output port is wired to exactly one inner output port.
   \item Every inner input port is wired to exactly one inner output port or an
@@ -1090,16 +1090,16 @@ diagrams, and then erasing the middle layer of boxes.
 ~&&\\
 \parbox{.5in}{
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bby=1ex]
-  \node[bb={3}{2}] (X1) {};
-  \node[bb={1}{1}, below=.4cm of X1] (X2) {};
-  \node[bb={0}{2}, below=.4cm of X2] (X3) {};   
+  \node[bb={3}{2}, fill=blue!10] (X1) {};
+  \node[bb={1}{1}, fill=blue!10, below=.4cm of X1] (X2) {};
+  \node[bb={0}{2}, fill=blue!10, below=.4cm of X2] (X3) {};   
 \end{tikzpicture}
 }
 &
 \;\;\parbox{1.45in}{
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby},bb min width =.7cm, bb port sep =1, bbx=.6cm,bb port length=3pt] 
-  \node[bb port sep=1.6, bb={2}{2}] (X1) {};
-  \node[bb port sep=.8,bb={1}{1}, right=.7 of X1_out1] (X2) {};
+  \node[bb port sep=1.6, fill=blue!10, bb={2}{2}] (X1) {};
+  \node[bb port sep=.8,bb={1}{1}, fill=blue!10, right=.7 of X1_out1] (X2) {};
   \node[bb={1}{2}, fit={(X1) (X2) ($(X1.north)+(0,1)$)}] (Y) {};
   \draw[ar] (Y_in1') to (X1_in2);
   \draw[ar,pos=.8] (X1_out1) to (X2_in1);
@@ -1113,11 +1113,11 @@ diagrams, and then erasing the middle layer of boxes.
 &
 \;\;\parbox{1.2in}{
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb small]
-  \node[bb={2}{2}] (X1) {};
-  \node[bb={1}{1}, fit={(X1) ($(X1.north)+(0,1)$)}, dashed] (Y1) {};
-  \node[bb={2}{1}, below right=4 and 0 of X1] (X2) {};
-  \node[bb={0}{2},below left=of X2] (X3) {};
-  \node[bb={1}{2}, fit=(X2) (X3), dashed] (Y2) {};
+  \node[bb={2}{2}, fill=blue!10] (X1) {};
+  \node[bb={1}{1}, fit={(X1) ($(X1.north)+(0,1)$)}, densely dotted] (Y1) {};
+  \node[bb={2}{1}, fill=blue!10, below right=4 and 0 of X1] (X2) {};
+  \node[bb={0}{2}, fill=blue!10, below left=of X2] (X3) {};
+  \node[bb={1}{2}, fit=(X2) (X3), densely dotted] (Y2) {};
   \node[bb={1}{2}, fit=(Y1) (Y2)] (Z) {};
   \draw[ar] (Z_in1') to (Y2_in1);
   \draw[ar] (Y2_in1') to (X2_in1);
@@ -1138,7 +1138,7 @@ diagrams, and then erasing the middle layer of boxes.
 \end{equation}
 \end{informal}
 
- Wiring diagrams should
+ Wiring diagrams are designed to
 express the flow of variables through the system; how they are to be copied from
 one port to another, how they are to be shuffled about, and (though we haven't
 had need for this yet) how they are to be deleted or forgotton.
@@ -1161,44 +1161,70 @@ categories of arities, which are the free cartesian categories.
   
   Explicitly, $\arity$ is has:
 \begin{itemize}
-  \item Objects $\XX^{I}$ for any finite set $I$.
+  \item Objects $\{\XX^{I}\mid I \text{ a finite set}\}$.
   \item Maps $f^{\ast} : \XX^{I} \to \XX^{J}$ for any function $f : J \to I$.
   \item Composition defined by $g^{\ast} \circ f^{\ast} := (f \circ g)^{\ast}$
     and $\id := \id^{\ast}$.
 \end{itemize}
-That is, $\arity \cong \Cat{Fin}\op$ is dual to the category of finite sets.
 The cartesian product in $\arity$ is given, in terms of index sets, by the following familiar formula:
 $$\XX^I \times \XX^J = \XX^{I + J}.$$
 \end{definition}
+
+This might clarify things a bit.
+
+\begin{proposition}
+$\arity$ is isomorphic to the opposite of the category finite sets
+\[\arity\cong\finset\op.\]
+\end{proposition}
 
 Now, $\XX$ is just a formal object, so it doesn't have elements. But we can give
 a language for writing down the objects and arrows  of $\arity$ that makes it
 look like it does.
 Think of the elements of $\XX^I$ as finite lists of variables $\XX^I = (x_i \mid i \in
 I)$ indexed by the set $I$. Then for any reindexing function $f : J \to I$, we
-can see $f^{\ast}$ as a declaration of the list in $I$ followed by the resulting
-list you get by reindexing along $f$. For example,
-consider the function 
-\begin{align*}
-  f : \ord{3} &\to \ord{2} \\
-1 &\mapsto 2 \\
-2 &\mapsto 1 \\
-3 &\mapsto 2
-\end{align*}
-Then we can see $f^{\ast} : X^{\ord{2}} \to X^{\ord{3}}$ as the following list
-of variables:
-$$f^{\ast} = (x_1,\, x_2 \mapsto x_2,\, x_1,\, x_2)$$
+can see $f^{\ast}$ as telling us how $J$-variables are assigned $I$-variables. For example,
+consider the function $f : \ord{3}\to \ord{2}$ given by $1\mapsto 2$, $2 \mapsto 1$, and $3\mapsto 2$
+\[
+\begin{tikzpicture}
+	\boxofbullets{3}{(0,0)}{y}{$y$}{right=0pt};
+	\boxofbullets{2}{(-2,0)}{x}{$x$}{left=0pt};
+	\draw[blue, dashed, |->] (pt_y_1) -- (pt_x_1);
+	\draw[blue, dashed, |->] (pt_y_2) -- (pt_x_1);
+	\draw[blue, dashed, |->] (pt_y_3) -- (pt_x_2);
+	\node[below=0 of box_y] (lab y) {$\XX^\3$};
+	\node at (lab y-|box_x) (lab x) {$\XX^\2$};
+	\draw[->] (lab x) -- (lab y);
+\end{tikzpicture}
+\]
 In other words, $f$ says that the first slot of the resulting list will be
 filled by the second variable of the first, and the second slot will be filled
-by the first variable, and the third slot will be filled by the second variable.
+by the first variable, and the third slot will be filled by the second variable.\spiz{Jaz, maybe you want to take a look and make sure this still reads the way you want.}
 
-Composition is given by propagating the reindxing. If we have the function
-\begin{align*}
-  g : \ord{4} &\to \ord{3} \\
-  1,\, 2 &\mapsto 1 \\
-  3 &\mapsto 3 \\
-  4 &\mapsto 2
-\end{align*}
+
+Composition is of course just given by composing functions in the opposite direction.
+%given by propagating the reindexing. If we have the function
+%\begin{align*}
+%  g : \ord{4} &\to \ord{3} \\
+%  1,\, 2 &\mapsto 1 \\
+%  3 &\mapsto 3 \\
+%  4 &\mapsto 2
+%\end{align*}
+For example, given $g\colon\4\to\3$ as follows
+\[
+\begin{tikzpicture}
+	\boxofbullets{4}{(0,0)}{z}{$z$}{right=0pt};
+	\boxofbullets{3}{(-2,0)}{y}{$y$}{left=0pt};
+	\draw[blue, dashed, |->] (pt_z_1) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_z_2) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_z_3) -- (pt_y_2);
+	\draw[blue, dashed, |->] (pt_z_4) -- (pt_y_1);
+	\node[below=0 of box_z] (lab z) {$\XX^\4$};
+	\node at (lab z-|box_y) (lab y) {$\XX^\3$};
+	\draw[->] (lab y) -- (lab z);
+	
+\end{tikzpicture}
+\]
+
 Then we can see calculate $g^{\ast} \circ f^{\ast}$ by substituting variables
 using in $g^{\ast}$ for the variables in the right hand side of $f^{\ast}$:
 $$\frac{(x_1,\, x_2 \mapsto x_2, x_1, x_2)\quad (x_1,\, x_2,\, x_3 \mapsto x_1,\,
@@ -1281,7 +1307,7 @@ following way:
      node[right= 4pt of X1_in2] (label1) {$a^-_3$}
      node[left= 2pt of Y_in1] (label1) {$b^-_1$}
      node[right= 2pt of Y_out1] (label1) {$b^+_1$}
-     node[right= 2pt of Y_out2] (label1) {$b^+_1$}
+     node[right= 2pt of Y_out2] (label1) {$b^+_2$}
    ;
 \end{tikzpicture}
 \quad\quad
