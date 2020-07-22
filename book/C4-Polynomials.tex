@@ -1176,7 +1176,7 @@ dependent lenses --- an arena. We want to show that this object assignment gives
 an equivalence of categories. First, we can note that it is surjective up to isomorphism on
 objects, since to every arena $\lens{A^-_{a}}{a \in A^+}$ we get the polynomial
 functor
-$$\sum_{a \in A^+} \yon^{A^-_{a}}$$
+\[\sum_{a \in A^+} \yon^{A^-_{a}}\]
 and if we take the arena corresponding to the polynomial, we back where we
 started since $\sum_{a \in A^+} \1^{A^-_{a}} \cong A^+$.
  
@@ -1407,34 +1407,34 @@ map from right to left, and showing that they are mutually inverse.
 First, let's go from left to right. An element of the set on the left is a pair
 of a function $j \in \prod_{i \in I}J(i)$ together with a function $f \in
 \prod_{i \in I} X(i, j(i))$. We then get an element of the set on the right as follows:
-$$i \mapsto (j(i), f(i)).$$
+\[i \mapsto (j(i), f(i)).\]
 
 Now, let's go right to left. An element of the set on the right is a function $f
 \in \prod_{i \in I} \sum_{j \in J(i)} X(i, j)$. We can then form the following
 pair in the left hand set:
-$$((i \mapsto \pi_1f(i)), (i \mapsto \pi_2f(i)))$$
+\[((i \mapsto \pi_1f(i)), (i \mapsto \pi_2f(i)))\]
 where $\pi_1f(i)$ is the first component of the pair $f(i)$ and $\pi_2f(i)$
 is the second component.
 
 Now, we just need to check that a round trip takes us back where we were. If we
 start on the left, our round trip gives us the pair
-$$((i \mapsto \pi_1(j(i), f(i))), (i \mapsto \pi_2(j(i), f(i)))).$$
+\[((i \mapsto \pi_1(j(i), f(i))), (i \mapsto \pi_2(j(i), f(i)))).\]
 But $\pi_1(j(i), f(i)) = j(i)$ and $\pi_2(j(i), f(i)) = f(i)$ by definition, so
 we're back where we started. On the other hand, starting on the right gives us
 the function
-$$i \mapsto (\pi_1f(i), \pi_2f(i)).$$
+\[i \mapsto (\pi_1f(i), \pi_2f(i)).\]
 But again, since $f(i)$ is the pairing of its components $\pi_1(f(i))$ and
 $\pi_2(f(i))$, we're back where we started.
 
-\iffalse
+\erase{
 We start with the function from left to right. To give such a function it suffices by the universal property of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
 \[
   \prod_{i\in I}X(i,j_0(i))\to 
   X(i_0,j_0(i_0))\to
   \sum_{j\in J(i_0)}X(i_0,j).
 \]
-We have now given the function from left to right. To go the other way, \spiz{finish}.
-\fi
+We have now given the function from left to right. To go the other way..
+}
 \end{proof}
 
 \begin{exercise}\label{ex.dependent_lens_calculation}
@@ -3039,6 +3039,7 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \end{enumerate}
 \end{exercise}
 
+%---- Subsection ----%
 \subsection{Local cartesian closure}
 
 \begin{theorem}
@@ -3062,24 +3063,31 @@ By the universal property of pullback, $f^*$ is always right adjoint to the func
 \[
 \poly(e, f^*g)\cong\poly(fe,g).
 \]
-We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous isomorphism establishing it as right adjoint to $f^*$. We take the formula for this desired isomorphism and use it to define $f_*$:
+We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous isomorphism establishing it as right adjoint to $f^*$. We first establish some notation. Given a set $Q$ and sets $(P'_i)_{i\in I}$, each equipped with a map $Q\to P'_i$, let $Q/\sum_{i\in I}P'_i$ denote the coproduct in $Q/\smset$, or equivalently the wide pushout of sets $P'_i$ with apex $Q$. Then we have the following formula for $f_*p'$, which we write in larger font for clarity:
+\[
+f_*p'\coloneqq
+\scalebox{1.3}{$\displaystyle
+\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_1\inv(j)}e_1\inv(i)}\;\yon^{q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}}.
+$}
+\]
+Again, $q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}$ is the coproduct of the $p'_{i'(i)}$, taken in $q_j/\smset$. We now have a chain of natural isomorphisms
 \begin{align*}
 	(\poly/p)(f^*q', p')&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g(j')=f(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g(j')=j\}}\;\sum_{\{i'\in f_*p(\1)\,\mid\,e'(i')= j\}}\;(q_j/\smset)\left((f_*p')_{i'}, q'_{j'}\right)\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(p_i/\smset)(p'_{i'},p_i+_{q_{fi}}q'_{j'})\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;\prod_{i\in f_1\inv(j)}\;(q_j/\smset)(p'_{i'(i)},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;(q_j/\smset)\Big(\sum_{i\in f_1\inv(j)}p'_{i'(i)},q'_{j'}\Big)\\&\cong
 	(\poly/q)(q',f_*p')
+	&\qedhere
 \end{align*}
-Thus we define
-\[f_*p'(\1)\coloneqq\sum_{j\in q(\1)}\prod_{\{i\in p(\1)\,\mid\,f(i)=j\}}\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\1.\] 
-For each $i'\in f_*p'(\1)$ define $(f_*p')_{i'}$ to be the coproduct in $q_j/\smset$ of \spiz{finish}
-
 \end{proof}
 
 
+%---- Subsection ----%
+\subsection{Monoidal $*$-bifibration over $\smset$}
 
-
-
+\spiz{finish}
 
 
 
