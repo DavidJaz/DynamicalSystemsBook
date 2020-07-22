@@ -1211,27 +1211,32 @@ Composition is of course just given by composing functions in the opposite direc
 %  3 &\mapsto 3 \\
 %  4 &\mapsto 2
 %\end{align*}
-For example, given $g\colon\4\to\3$ as follows
+For example, given some $g\colon\4\to\3$, we just compose to get our map $\XX^\2\to\XX^\4$.
 \[
 \begin{tikzpicture}
+	\boxofbullets{2}{(-4,0)}{x}{$x$}{left=0pt};
+	\boxofbullets[1.2]{3}{(-2,0)}{y}{$y$}{above=0pt};
 	\boxofbullets{4}{(0,0)}{z}{$z$}{right=0pt};
-	\boxofbullets{3}{(-2,0)}{y}{$y$}{left=0pt};
 	\draw[blue, dashed, |->] (pt_z_1) -- (pt_y_1);
 	\draw[blue, dashed, |->] (pt_z_2) -- (pt_y_1);
 	\draw[blue, dashed, |->] (pt_z_3) -- (pt_y_2);
 	\draw[blue, dashed, |->] (pt_z_4) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_y_1) -- (pt_x_1);
+	\draw[blue, dashed, |->] (pt_y_2) -- (pt_x_1);
+	\draw[blue, dashed, |->] (pt_y_3) -- (pt_x_2);
 	\node[below=0 of box_z] (lab z) {$\XX^\4$};
 	\node at (lab z-|box_y) (lab y) {$\XX^\3$};
+	\node at (lab z-|box_x) (lab x) {$\XX^\2$};
 	\draw[->] (lab y) -- (lab z);
-	
+	\draw[->] (lab x) -- (lab y);	
 \end{tikzpicture}
 \]
 
-Then we can see calculate $g^{\ast} \circ f^{\ast}$ by substituting variables
-using in $g^{\ast}$ for the variables in the right hand side of $f^{\ast}$:
-$$\frac{(x_1,\, x_2 \mapsto x_2, x_1, x_2)\quad (x_1,\, x_2,\, x_3 \mapsto x_1,\,
-  x_1,\, x_3,\, x_2)}{(x_1,\, x_2 \mapsto x_2,\, x_2,\, x_2,\, x_1)}.$$
-We can see that this is equivalently $(f \circ g)^{\ast}$.
+%Then we can see calculate $g^{\ast} \circ f^{\ast}$ by substituting variables
+%using in $g^{\ast}$ for the variables in the right hand side of $f^{\ast}$:
+%$$\frac{(x_1,\, x_2 \mapsto x_2, x_1, x_2)\quad (x_1,\, x_2,\, x_3 \mapsto x_1,\,
+%  x_1,\, x_3,\, x_2)}{(x_1,\, x_2 \mapsto x_2,\, x_2,\, x_2,\, x_1)}.$$
+%We can see that this is equivalently $(f \circ g)^{\ast}$.
 
 \begin{exercise}
   Express the following morphisms in $\arity$ in terms of lists of variables:
