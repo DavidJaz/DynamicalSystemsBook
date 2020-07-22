@@ -2978,18 +2978,24 @@ By the universal property of pullback, $f^*$ is always right adjoint to the func
 \[
 \poly(e, f^*g)\cong\poly(fe,g).
 \]
-We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous isomorphism establishing it as right adjoint to $f^*$. We take the formula for this desired isomorphism and use it to define $f_*$:
+We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous isomorphism establishing it as right adjoint to $f^*$. We first establish some notation. Given a set $Q$ and sets $(P'_i)_{i\in I}$, each equipped with a map $Q\to P'_i$, let $Q/\sum_{i\in I}P'_i$ denote the coproduct in $Q/\smset$, or equivalently the wide pushout of sets $P'_i$ with apex $Q$. Then we have the following formula for $f_*p'$, which we write in larger font for clarity:
+\[
+f_*p'\coloneqq
+\scalebox{1.3}{$\displaystyle
+\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_1\inv(j)}e_1\inv(i)}\;\yon^{q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}}.
+$}
+\]
+Again, $q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}$ is the coproduct of the $p'_{i'(i)}$, taken in $q_j/\smset$. We now have a chain of natural isomorphisms
 \begin{align*}
 	(\poly/p)(f^*q', p')&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g(j')=f(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g(j')=j\}}\;\sum_{\{i'\in f_*p(\1)\,\mid\,e'(i')= j\}}\;(q_j/\smset)\left((f_*p')_{i'}, q'_{j'}\right)\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(p_i/\smset)(p'_{i'},p_i+_{q_{fi}}q'_{j'})\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;\prod_{i\in f_1\inv(j)}\;(q_j/\smset)(p'_{i'(i)},q'_{j'})\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;(q_j/\smset)\Big(\sum_{i\in f_1\inv(j)}p'_{i'(i)},q'_{j'}\Big)\\&\cong
 	(\poly/q)(q',f_*p')
+	&\qedhere
 \end{align*}
-Thus we define
-\[f_*p'(\1)\coloneqq\sum_{j\in q(\1)}\prod_{\{i\in p(\1)\,\mid\,f(i)=j\}}\sum_{\{i'\in p'(\1)\,\mid\,e(i')=i\}}\1.\] 
-For each $i'\in f_*p'(\1)$ define $(f_*p')_{i'}$ to be the coproduct in $q_j/\smset$ of \spiz{finish}
-
 \end{proof}
 
 
