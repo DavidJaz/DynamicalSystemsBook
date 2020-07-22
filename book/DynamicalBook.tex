@@ -467,9 +467,9 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 % lenses
 \newcommand{\lens}[2]{
   \relax\if@display
-     \begin{pmatrix}{#1} \\ {#2} \end{pmatrix}
+     \begin{pmatrix}{\vphantom{f_f^f}#1} \\ {\vphantom{f_f^f}#2} \end{pmatrix}
   \else
-     \begin{psmallmatrix}{#1} \\ {#2} \end{psmallmatrix}
+     \begin{psmallmatrix}{\vphantom{f}#1} \\ {\vphantom{f}#2} \end{psmallmatrix}
   \fi
 }
 

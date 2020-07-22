@@ -389,6 +389,12 @@ We will also use some more advanced category theory, like indexed
 categories, double categories, and toposes. However, you don't need to know them up front; we will introduce these concepts
 as we use them.
 
+While we're at it, here's some notation we'll use repeatedly throughout the book. The $n$th ordinal is denoted $\ord{n}$. It is defined to be the set
+\[
+\ord{n}\coloneqq\{1,2,\ldots,n\}.
+\]
+So $\ord{0}$ is the empty set, $\ord{1}$ is a one-element set, etc.
+
 %-------- Section --------%
 \section{Deterministic systems}
 
@@ -1619,12 +1625,11 @@ the system in order for the states to change.
  Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
  \leftrightarrows \lens{\In{S}}{\Out{S}}$$
  be a deterministic system. Suppose that $p : \nn \to \In{S}$ is a sequence of
- parameters for $\Sys{S}$. Then a \emph{trajectory} of $\Sys{S}$ with parameters
- $p$ is a sequence $s : \nn \to \State{S}$ of states so that
+ parameters for $\Sys{S}$. Then a \emph{$p$-trajectory} of $\Sys{S}$ is a sequence $s : \nn \to \State{S}$ of states so that
  $$\update{S}(s_i, p_i) = s_{i + 1}$$
  for all $i \in \nn$.
 
- If $v : \nn \to \Out{S}$ is a sequence of output values for $\Sys{S}$, then a
+ If additionally $v : \nn \to \Out{S}$ is a sequence of output values for $\Sys{S}$, then a
  \emph{$\lens{p}{v}$-trajectory} is a sequence of states $s : \nn \to \State{S}$ so
  that
  \begin{align*}
@@ -1637,7 +1642,7 @@ the system in order for the states to change.
 Its worth noting that a trajectory $s : \nn \to \State{S}$ in a deterministic system is determined
 entirely by its start state $s_0$. This is what makes deterministic systems
 deterministic; if you know the dynamics and you know what state the system is
-in, you know how it will continue to behave. 
+in, you know how it will continue to behave. We'll relax this condition later in \cref{??}.
 
 \begin{example}
 Consider the SIR model of \cref{ex.SIR_model_discrete}. Suppose that we let our
@@ -1706,13 +1711,13 @@ trajectories in the system are paths through the diagram. Recall from
 
 Suppose that $p : \nn \to \{\Green, \Orange\}$
 alternates between $\Green$ and $\Orange$. Then
-starting at the top left state, a trajectory would alternate between the top two
+starting at the top right state, a trajectory quickly settles into alternating between the top two
 states:
 \[
 \begin{tikzpicture}
 	\node[draw] {
   \begin{tikzcd}[column sep=small]
-    \LMO{a} \ar[r, dgreen, thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen,thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen, thick] & \cdots
+    \LMO{b} \ar[r, dgreen, thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen,thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen, thick] & \cdots
   \end{tikzcd}
   };
 \end{tikzpicture}
@@ -1746,13 +1751,14 @@ streams of output values.
 \end{proposition}
 
 \begin{exercise}
- How does the system of \cref{ex.transition_diagram_discrete_traj} act as a
+ Say how the system of \cref{ex.transition_diagram_discrete_traj} acts as a
  stream transformer on the following streams:
  \begin{enumerate}
    \item $p_{2t} = \Green$ and $p_{2t + 1} = \Orange$.
    \item $p_t = \Green$.
    \item $p_0 = \Green$ and $p_t = \Orange$ for
      all $t > 0$.
+     \qedhere
  \end{enumerate}
 \end{exercise}
 
@@ -1765,8 +1771,7 @@ every trajectory of the whole wired system can be calculated this way.
 \subsection{Steady states}
 
 A steady state of a system is a state which does not change. Steady states are
-important because they are guarantees of stability: if we are in a steady state,
-we know what we're going to get.
+important because they are guarantees of stability: a vase in a steady state is doing great, a heart in a steady state is in need of attention.
 
 \begin{definition}\label{def.steady_state_discrete}
  Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
@@ -1824,13 +1829,13 @@ composite system from the matrices of steady states of the inner systems.
   \cref{ex.wiring_transition_diagrams}? What about the combined system $\Sys{S}$?
 \end{exercise}
 
-\paragraph{Steady looking trajectories}
+\paragraph{Steady-looking trajectories.}
 
 The reason we are interested in steady states is that they are highly
 predictable; if we know we are in a steady state, then we know we are always
 going to get the same results. But it is possible for us to always get the same
 outputs for the same input even though the internal state keeps changing. These
-are special trajectories, and we call them \emph{steady looking} trajectories.
+are special trajectories, and we call them \emph{steady-looking} trajectories.
 
 \begin{definition}\label{def.steady_looking_trajectory_discrete}
   For $i \in \In{S}$ and $o \in \Out{S}$ of a system $\Sys{S}$, a \emph{$\lens{i}{o}$-steady
@@ -1841,11 +1846,11 @@ are special trajectories, and we call them \emph{steady looking} trajectories.
     \expose{S}(s_t) &= o
   \end{align*}
   for all $t \in \nn$. We call the pair $\lens{i}{o}$ the \emph{chart} of the
-  steady looking trajectory $s$.
+  steady-looking trajectory $s$.
 \end{definition}
 
 While the steady states of a wired together system can be calculated from those
-of its components, this is not true for steady looking trajectories.
+of its components, this is not true for steady-looking trajectories.
 Intuitively, this is because the internal systems can be exposing changing
 outputs between eachother even while the eventual external output remains
 unchanged.
@@ -1867,10 +1872,10 @@ Consider the wiring diagram:
 \end{tikzpicture}
 \]
 
-Find systems $\Sys{S_1}$ and $\Sys{S_2}$ and a steady looking trajectory of the
-wired system $\Sys{S}$ which is not steady looking on the component systems.
-
-\iffalse
+Find systems $\Sys{S_1}$ and $\Sys{S_2}$ and a steady-looking trajectory of the
+wired system $\Sys{S}$ which is not steady-looking on the component systems.
+\qedhere
+\erase{
 %% Here is my start at a solution
 Here are two systems, $\Sys{S_1}$ and $\Sys{S_2}$ presented in terms of
 transition diagrams. 
@@ -1907,10 +1912,10 @@ When we wire these together, we get this system:
     \LMO{\true} \ar[loop left, "\false"] \ar[rr, bend left, "\true"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\true} \ar[loop right, "\false"]
   \end{tikzcd}
   };
-  As we can see, there is a $(\true, \true)$-steady looking trajectory which hops between these two states, but always outputs $\true$ on an input of $\true$. However, the output of component system $\Sys{S_1}$ is alternating between $\Blue$ and $\Red$ as this trajectory progresses, so it is not steady looking when restricted to $\Sys{S_1}$.
+  As we can see, there is a $(\true, \true)$-steady-looking trajectory which hops between these two states, but always outputs $\true$ on an input of $\true$. However, the output of component system $\Sys{S_1}$ is alternating between $\Blue$ and $\Red$ as this trajectory progresses, so it is not steady-looking when restricted to $\Sys{S_1}$.
 \end{tikzpicture}
 \end{equation}
-\fi
+}%erased
   
 \end{exercise}
 
@@ -1920,14 +1925,13 @@ When we wire these together, we get this system:
 Even if the behavior of a system isn't perfectly steady, it may continually
 repeat. To a reasonable approximation, the position of the earth around the sun
 follows a cycle that repeats every year. Using this as a paradigmatic example,
-we call these situations that repeat \emph{periodic orbits}.
+we call these behaviors that repeat \emph{periodic orbits}.
 
 \begin{definition}[Periodic orbit] \label{def.periodic_orbit_discrete}
   A $\lens{p}{v}$-trajectory $s : \nn \to \State{S}$ is \emph{periodic} if there
-  exists a time $t_0 \in \nn$ such that $s_{t_0} = s_0$. If the sequence of
+  exists a time $t_0 \in \nn_{\geq1}$, called the \emph{period}, such that $s_{t_0} = s_0$. If the sequence of
   parameters $p : \nn \to \In{S}$ is also periodic with the same period (in that $p_{t_0} = p_0$ as well), then we say that $s$ has \emph{periodic parameters}.
-  The \emph{period} of a periodic trajectory is the smallest positive $t_0$ so
-  that $s_{t_0} = S_0$.
+  
 
 \end{definition}
 
@@ -1935,12 +1939,12 @@ we call these situations that repeat \emph{periodic orbits}.
   Note that when we say that a periodic orbit has periodic parameters, we assume
   that they are periodic with the same period. This has important but subtle
   consequences for our theorems concerning the composition of behaviors in
-  \cref{sec.representables}. We explain the difference in a more precise manner
+  \cref{sec.representables}. We explain the difference \spiz{difference between what?} in a more precise manner
   in \cref{rmk.periodic_parameters_versus_not}.
 \end{remark}
 
 \begin{remark}
-  Note that a steady state is a periodic orbit with periodic parameters that has
+  Note that a steady state is a periodic orbit (with periodic parameters) that has
   a period of $1$. 
 \end{remark}
 
@@ -1973,7 +1977,7 @@ they eventually end up in a repeating cycle of states.
 \begin{definition}[Eventually periodic orbit] \label{def.eventually_periodic_orbit_discrete}
 A $\lens{p}{v}$-trajectory $s : \nn \to
   \State{S}$ is \emph{eventually periodic} if there are times $t_0 < t_1 \in
-  \nn$ such that $s_{t_0} = s_{t_1}$. If the sequence of
+  \nn$ such that $s_{t_0} = s_{t_1}$ \spiz{is this right?}. If the sequence of
   parameters $p : \nn \to \In{S}$ is also eventually periodic with the same period (in that $p_{t_0} = p_{t_1}$), then we say that $s$ has \emph{eventually periodic parameters}.
 
 The \emph{period} of an eventually periodic trajectory is
@@ -1988,9 +1992,8 @@ In the previous
 we saw a number of different kinds of behaviors of dynamical systems. Not only
 were there a lot of definitions in those sections, each of those definitions had
 slight variants (like periodic orbits versus periodic orbits with periodic
-parameters, or steady states versus steady looking trajectories). In this
-section, we'll define a behavior and see that we can package each definition of a certain kind of
-behavior into a single system that \emph{represents} that kind of
+parameters, or steady states versus steady-looking trajectories). In this
+section, we'll define a general notion of behavior and see that we can package each of the above sorts of behavior into a single system in its own right, one that \emph{represents} that sort of
 behavior. The representative system of a certain kind of behavior behaves in
 exactly that way, and does nothing else.
 
@@ -2001,9 +2004,15 @@ between the interfaces of systems.
   A \emph{chart} $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \rightrightarrows
   \lens{B^-}{B^+}$ in a cartesian category $\cat{C}$ is a pair of maps $f : A^+ \to B^+$ and $f_{\flat} : A^+
   \times A^- \to B^-$. Note that \emph{this is not a lens}.
-
- 
 \end{definition}
+
+\begin{exercise}
+\begin{enumerate}
+	\item How many lenses are there $\lens{f^\sharp}{f}\colon\lens{\3}{\2}\fromto\lens{\4}{\3}$?
+	\item How many charts are there $\lens{f^\flat}{f}\colon\lens{\3}{\2}\tto\lens{\4}{\3}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \begin{definition}[Behavior of deterministic systems] \label{def.behavior_discrete}
   Let $\Sys{T}$ and $\Sys{S}$ be deterministic systems. Given a chart of interfaces $\lens{f_{\flat}}{f}:
@@ -2020,7 +2029,7 @@ exposed variables by satisfying the following equations:
 \end{aligned}
 \end{equation}
 for all $t \in \State{T}$ and $i \in \In{T}$. We say that $\lens{f_{\flat}}{f}$
-is the chart of the behavior $\phi$.
+is the chart of the behavior $\phi$.\spiz{Can this be written as a commutative diagram?}
 \end{definition}
 
 \begin{remark}
@@ -2033,11 +2042,11 @@ is the chart of the behavior $\phi$.
  Let's make this definition feel real with a few examples.
 
 \begin{example}\label{ex.trajectory_as_behavior_discrete}
-  Let $\Sys{Time}$ be the system with
+  Let $\Sys{Time}$ be the system $\lens{t\mapsto t+1}{\id}\colon\lens{\nn}{\nn}\fromto\lens{\{\fun{tick}\}}{\nn}$, i.e.\ with
 \begin{itemize}
 \item $\State{Time} \coloneqq \nn$,
 \item $\Out{Time} \coloneqq \nn$,
-\item $\In{Time} \coloneqq \{\ast\}$,
+\item $\In{Time} \coloneqq \{\fun{tick}\}$,
 \item $\expose{Time} = \id$,
 \item $\update{Time}(t, \ast) = t + 1$.
 \end{itemize}
@@ -2047,14 +2056,14 @@ As a transition diagram, $\Sys{Time}$ looks like this:
 \[
 \begin{tikzpicture}
 	\node[draw] {
-  \begin{tikzcd}[column sep=small]
-    \LMO{0} \ar[r, thick] & \LMO{1} \ar[r,  thick] & \LMO{2} \ar[r, thick] & \LMO{3} \ar[r, thick] & \LMO{4} \ar[r, thick] & \cdots
+  \begin{tikzcd}[column sep=30pt]
+    \LMO{0} \ar[r, thick, "\fun{tick}"] & \LMO{1} \ar[r,  thick, "\fun{tick}"] & \LMO{2} \ar[r, thick, "\fun{tick}"] & \LMO{3} \ar[r, thick, "\fun{tick}"] & \LMO{4} \ar[r, thick, "\fun{tick}"] & \cdots
   \end{tikzcd}
   };
 \end{tikzpicture}
 \]
 
-Let's see what a behavior of shape $\Sys{Time}$ in $\Sys{S}$ will be. We will expect the
+Let's see what a behavior of shape $\Sys{Time}$ in $\Sys{S}$ will be \spiz{what's $\Sys{S}$, arbitrary?}. We will expect the
 shape of $\Sys{Time}$ to appear in the transition diagram of $\Sys{S}$, like
 this:
 \[
@@ -2080,7 +2089,7 @@ this:
 
 First, we need to know what a chart $\lens{f_{\flat}}{f} :
 \lens{\In{Time}}{\Out{Time}} \rightrightarrows \lens{\In{S}}{\Out{S}}$ is like. Since
-$\Out{Time} = \nn$ and $\In{Time} = \ord{1}$, this means $f : \nn \to \Out{S}$
+$\Out{Time} = \nn$ and $\In{Time} \cong \ord{1}$, this means $f : \nn \to \Out{S}$
 is a sequence of outputs, and $f_{\flat} : \nn \times \ord{1} \to \In{S}$ is a
 sequence of input parameters. We might as well instead call $f$ our sequence of
 exposed values $v$, and $f_{\flat}$ our sequence of input parameters $p$, so
@@ -2122,7 +2131,7 @@ which are exactly the equations defining a $\lens{p}{v}$-trajectory from \cref{d
 \end{tikzpicture}
 \]
 
-  A behavior $s : \Sys{Fix} \to \Sys{S}$ should be a loop like this in the transition
+  A behavior $s : \Sys{Fix} \to \Sys{S}$ in an arbitrary system $\Sys{S}$ should be a loop of this shape within the transition
   diagram of $\Sys{S}$: a steady state.
 \[
 \begin{tikzpicture}
@@ -2191,14 +2200,14 @@ $\Sys{Clock}_4$ looks like as a transition diagram:
 \]
 
 A behavior $\gamma : \Sys{Clock_n} \to \Sys{S}$ should be a cycle like this in the
-transition diagram of $\Sys{S}$: a periodic orbit.
+transition diagram of $\Sys{S}$: a periodic orbit. We can see the $\Sys{Clock_\4}$-behavior inside the system shown right:
 \[
 \begin{tikzpicture}
 	\node[draw] (Diag1) {
   \begin{tikzcd}[sep=small]
-    \LMO{1} \ar[rr, bend left, "\ast"] & & \LMO{2} \ar[dd, bend left, "\ast"] \\
+    \LMO{1} \ar[rr, bend left, red, "\ast"] & & \LMO{2} \ar[dd, bend left, red, "\ast"] \\
     & & \\
-\LMO{3} \ar[rr, leftarrow, bend right, "\ast"'] \ar[uu, bend left, "\ast"] & & \LMO{4}
+\LMO{3} \ar[rr, leftarrow, bend right, red, "\ast"'] \ar[uu, bend left, red, "\ast"] & & \LMO{4}
   \end{tikzcd}
   };
   \node[draw, right= of Diag1] (Diag2) {\begin{tikzcd}[sep=small]
@@ -2227,7 +2236,7 @@ $\State{Clock_n} = \ord{n}$, $\gamma : \ord{n} \to \State{S}$ is a $n$-length
 sequence of states of $S$, and \cref{eqn.behavior_discrete} become the equations
 \begin{align*}
   \expose{S}(\gamma(t)) &= v(t) \\
-  \update{S}(\gamma(t), p(t)) &= \begin{cases} \gamma(t + 1) \\ &\mbox{if $t < n$} \\
+  \update{S}(\gamma(t), p(t)) &= \begin{cases} \gamma(t + 1) &\mbox{if $t < n$} \\
 \gamma(1) &\mbox{if $t = n$} \end{cases}.
 \end{align*}
 As we can see, this determines a sequence of length $n$ of states of $\Sys{S}$
@@ -2241,30 +2250,30 @@ say that $\Sys{T}$ \emph{represents} that behavior. For example, we have just
 seen that:
 \begin{itemize}
   \item The system $\Sys{Time} = \lens{\_ + 1}{\id} : \lens{\nn}{\nn} \leftrightarrows
-    \lens{\{\ast\}}{\nn}$ reprensents trajectories.
+    \lens{\{\ast\}}{\nn}$ represents trajectories.
   \item The system $\Sys{Fix} = \lens{\pi_2}{\id} : \lens{\{\ast\}}{\{\ast\}}
     \leftrightarrows \lens{\{\ast\}}{\{\ast\}}$ represents steady states.
   \item The systems $\Sys{Clock_n} = \lens{\_ + 1 \mod n}{\id} :
     \lens{\ord{n}}{\ord{n}} \leftrightarrows \lens{\{\ast\}}{\ord{n}}$
-    represents periodic orbits with periodic parameters whose period is at most $n$.
+    represents periodic orbits with periodic parameters whose period divides $n$.
 \end{itemize}
 
 Note that there is always a particularly simple behavior on a system: the
 identity behaviors $\id : \State{T} \to \State{T}$. This says that every system
-behaves as itself. In particular, there is a trajectory of $\Sys{Time}$ given by
-$\id : \Sys{Time} \to \Sys{Time}$ (namely, the trajectory $s_t = t$), and a
-steady state of $\Sys{Fix}$ given by $\id : \Sys{Fix} \to \Sys{Fix}$ (namely,
-the steady state $\ast$), etc. We refer to this behavior as the \emph{generic}
-behavior of that kind.
+behaves as itself. In particular, $\Sys{Time}$ has a trajectory behavior given by
+$\id : \Sys{Time} \to \Sys{Time}$ (namely, the trajectory $s_t = t$), and $\Sys{Fix}$ has a steady state behavior given by $\id : \Sys{Fix} \to \Sys{Fix}$ (namely,
+the steady state $\ast$), etc. We refer to the identity behavior of $\Sys{T}$ as the \emph{generic}
+behavior of type $\Sys{T}$.
 
 \begin{exercise}\label{ex.find_representatives_discrete}
   Find a representative system for the following kinds of behavior.
   \begin{enumerate}
     \item An eventually periodic orbit (see \cref{def.eventually_periodic_orbit_discrete}) that takes $n$ steps to get to a period
       of size $m$.
-    \item A steady looking trajectory (see \cref{def.steady_looking_trajectory_discrete}).
+    \item A steady-looking trajectory (see \cref{def.steady_looking_trajectory_discrete}).
     \item A periodic orbit of period at most $n$ whose parameters aren't
       necessarily also periodic (see \cref{def.periodic_orbit_discrete}).
+     \qedhere
   \end{enumerate}
 \end{exercise}
 
@@ -2385,6 +2394,7 @@ $$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{(a^+, a^-)
                               &=\update{U}(\psi(\phi(t)), g_{\flat}(\expose{S}(\phi(t)), f_{\flat}(\expose{T}(t), i))) \\
                               &= \psi(\update{S}(\phi(t), f_{\flat}(\expose{T}(t), i))) \\
     &= \psi(\phi(\update{T}(t, i))).
+    &\qedhere
   \end{align*}
 \end{proof}
 
@@ -2392,16 +2402,16 @@ There are two different ways to understand what composition of behaviors means:
 one based on post-composition, and the other based on pre-composition.
 \begin{itemize}
   \item We see that any behavior $\Sys{S} \to \Sys{U}$ gives a way of turning
-    behaviors of shape $\Sys{T}$ in $\Sys{S}$ to behaviors of shape $\Sys{T}$ in $\Sys{U}$.
+    $\Sys{T}$-shaped behaviors in $\Sys{S}$ to $\Sys{T}$-shaped behaviors in $\Sys{U}$.
   \item We see that any behavior $\Sys{T} \to \Sys{S}$ gives a way of turning
-    any behavior of shape $\Sys{S}$ in $\Sys{U}$ into a behavior of shape $\Sys{T}$.
+    $\Sys{S}$-shaped behaviors in $\Sys{U}$ into $\Sys{T}$-shaped behaviors in $\Sys{U}$.
 \end{itemize}
 
 \begin{example}\label{ex.steady_state_gives_trajectory_discrete}
   Any steady state $s$ can be seen as a particularly simple trajectory: $s_t =
-  s$ for all $t$. We have seen
-  that steady states are behaviors of shape $\Sys{Fix}$ in
-  \cref{ex.steady_state_as_behavior}. We can use composition of behaviors to
+  s$ for all $t$. We have seen in
+  \cref{ex.steady_state_as_behavior}
+  that steady states are $\Sys{Fix}$-shaped behaviors. We can use composition of behaviors to
   understand how steady states give rise to trajectories.
 
   The generic steady state $\ast$ of $\Sys{Fix}$ (that is, the identity behavior of
@@ -2420,6 +2430,7 @@ that
   \item Any eventually periodic orbit gives rise to a trajectory.
   \item If $n$ divides $m$, then any orbit of period at most $n$ gives rise to
     an orbit of period of most $m$.
+\qedhere
 \end{enumerate}
 \end{exercise}
 
@@ -2470,14 +2481,13 @@ Let's see that this is indeed a good notion of sameness for systems.
 We have seen how we can compose systems, and we have seen how systems behave. We
 have seen a certain composition of behaviors, a form of transitivity that says
 that if we have a $\Sys{T}$-shaped behavior in $\Sys{S}$ and a $\Sys{S}$-shaped
-behavior in $\Sys{U}$, then we get a $\Sys{T}$-shaped behavior in $\Sys{U}$. But
-how do behaviors of systems compose when we compose those systems?
+behavior in $\Sys{U}$, then we get a $\Sys{T}$-shaped behavior in $\Sys{U}$. But what's the relationship between composing systems and composing their behaviors?
 
 This question will be a major theme of this book. In this section we will give a
 taste by showing how steady states compose. Later, in \cref{sec.representables}, we will see a very abstract
-theorem that generalizes this to \emph{all behaviors}, not just steady states.
-But in order for that abstract theorem to make sense, we should see a concrete
-case in detail first.  
+theorem that generalizes what we do here for steady states to something that works for \emph{all behaviors}.
+But in order for that abstract theorem to make sense, we should first see the concrete
+case of steady states in detail.  
 
 Recall that the chart of a steady state $s \in \State{S}$ is the pair
 $\lens{i}{o}$ with $o = \expose{S}(s)$ and $\update{S}(s, i) = s$. The set of all
@@ -2503,8 +2513,9 @@ and column $o$. For example, consider system $\Sys{S_1}$ of
   };
 \end{tikzpicture}
 \end{equation}
+\spiz{Now I see why you want both states and outputs. The two element set in ``(false, blue)'', consisting of the same thing written twice, is kinda weird..}
 This has output value set $\Set{Colors} = \{\Blue, \Red, \Green\}$ and input
-parameter set $\Set{Bool} = \{\true, \false\}$. Here is its steady state matrix:
+parameter set $\Set{Bool} = \{\true, \false\}$. Here is its $(2\times 3)$ steady state matrix:
 \[ \Set{Steady}_{\Sys{S_1}} =
   \kbordermatrix{
     & \Blue & \Red & \Green \\
@@ -2568,7 +2579,7 @@ objects of another category.
 
 \begin{definition}
   An \emph{indexed category} $\cat{A} : \cat{C}\op \to \Cat{Cat}$ is a
-  contravariant (pseudo-)functor\footnote{A pseudo-functor is like a functor,
+  contravariant (pseudo-) functor\footnote{A pseudo-functor is like a functor,
     but it only satisfies the functoriality conditions up to isomorphism, and
     these isomorphisms must satisfy some laws that make them ``cohere''. The
     indexed categories we will see in \cref{chapter.1,chapter.2,chapter.3}
