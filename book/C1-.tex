@@ -1048,7 +1048,9 @@ of the other:
 \end{example}
 
 \begin{exercise}
-  Calculate the whole system 
+  Calculate the update function of the whole system
+  \cref{eqn.multi_city_SIR_model}. Do you see the population flowing between the
+  two cities?
 \end{exercise}
 %---- Subsection ----%
 \subsection{Wiring diagrams as lenses in categories of arities}
@@ -1914,7 +1916,7 @@ follows a cycle that repeats every year. Using this as a paradigmatic example,
 we call these situations that repeat \emph{periodic orbits}.
 
 \begin{definition}[Periodic orbit] \label{def.periodic_orbit_discrete}
-  A $(p, v)$-trajectory $s : \nn \to \State{S}$ is \emph{periodic} if there
+  A $\lens{p}{v}$-trajectory $s : \nn \to \State{S}$ is \emph{periodic} if there
   exists a time $t_0 \in \nn$ such that $s_{t_0} = s_0$. If the sequence of
   parameters $p : \nn \to \In{S}$ is also periodic with the same period (in that $p_{t_0} = p_0$ as well), then we say that $s$ has \emph{periodic parameters}.
   The \emph{period} of a periodic trajectory is the smallest positive $t_0$ so
@@ -1962,7 +1964,7 @@ periodic. We call these trajectories \emph{eventually} periodic orbits, since
 they eventually end up in a repeating cycle of states.
 
 \begin{definition}[Eventually periodic orbit] \label{def.eventually_periodic_orbit_discrete}
-A $(p, v)$-trajectory $s : \nn \to
+A $\lens{p}{v}$-trajectory $s : \nn \to
   \State{S}$ is \emph{eventually periodic} if there are times $t_0 < t_1 \in
   \nn$ such that $s_{t_0} = s_{t_1}$. If the sequence of
   parameters $p : \nn \to \In{S}$ is also eventually periodic with the same period (in that $p_{t_0} = p_{t_1}$), then we say that $s$ has \emph{eventually periodic parameters}.
@@ -1997,13 +1999,8 @@ between the interfaces of systems.
 \end{definition}
 
 \begin{definition}[Behavior of deterministic systems] \label{def.behavior_discrete}
-  Let $\Sys{T}$ and $\Sys{S}$ be deterministic systems. A \emph{chart
-    of interfaces} $\lens{f_{\flat}}{f} :
-  \lens{\In{T}}{\Out{T}} \rightrightarrows \lens{\In{S}}{\Out{S}}$ is a pair of
-  functions $f : \Out{T} \to \Out{S}$ and $f_{\flat} : \Out{T} \times \In{S} \to
-  \In{S}$. Note that this \emph{is not a lens}!
-
-  Given a chart $\lens{f_{\flat}}{f}$, a $\lens{f_{\flat}}{f}$-\emph{behavior of
+  Let $\Sys{T}$ and $\Sys{S}$ be deterministic systems. Given a chart of interfaces $\lens{f_{\flat}}{f}:
+  \lens{\In{T}}{\Out{T}} \rightrightarrows \lens{\In{S}}{\Out{S}}$, a $\lens{f_{\flat}}{f}$-\emph{behavior of
   shape $\Sys{T}$ in $\Sys{S}$}, written
  $\phi :
 \Sys{T} \to \Sys{S}$, is a function $\phi : \State{T} \to \State{S}$ sending
