@@ -480,7 +480,6 @@ from exposing their whole state, but often some aspects of the state are private
     \left( \begin{bmatrix} s\\ i\\ r\\ \end{bmatrix},\, \begin{bmatrix}a \\ b \end{bmatrix} \right) &\mapsto \begin{bmatrix}s - a s i \\ i + a s i - b  i \\ r + b i \end{bmatrix}
   \end{align}
 
-  \jaz{For later today: plot a trajectory for this system}
 \end{example}
 
 \begin{example}\label{ex.transition_diagram_discrete}
@@ -576,7 +575,7 @@ one just needs to choose a set $\State{S}$ and an update function $\update{S} : 
 \end{exercise}
 
 \begin{exercise}
-What would happen to a system $\Sys{S}$ if its parameters or exposed variables were actually empty sets? Let's find out.
+What would happen to a system $\Sys{S}$ if its set of parameters or output values were actually empty sets? Let's find out.
 \begin{enumerate}
 	\item Suppose $\In{S}=\varnothing$. Explain the content of a deterministic system \[\lens{\update{S}}{\expose{S}}\colon\lens{\State{S}}{\State{S}}\fromto\lens{\varnothing}{\{*\}}.\]
 	\item Suppose $\Out{S}=\varnothing$. Explain the content of a deterministic system \[\lens{\update{S}}{\expose{S}}\colon\lens{\State{S}}{\State{S}}\fromto\lens{\{*\}}{\varnothing}.
@@ -1046,9 +1045,11 @@ of the other:
     (NYC_out1) to[in=0] (\x1 - \n1, \y1 + .7cm) to (\x2 + \n1, \y1 + .7cm) to[out=180] (Boston_in2);
 \end{tikzpicture}
 \end{equation}
-\spiz{Shouldn't we say that this does what we want? Maybe as an exercise?}
 \end{example}
 
+\begin{exercise}
+  Calculate the whole system 
+\end{exercise}
 %---- Subsection ----%
 \subsection{Wiring diagrams as lenses in categories of arities}
 
