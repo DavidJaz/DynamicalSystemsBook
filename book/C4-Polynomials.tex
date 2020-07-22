@@ -52,7 +52,7 @@ Here is a table of terminology. The first column is book-wide terminology, the s
 \small
 \begin{tabular}{llll}
 \multicolumn{4}{c}{\normalsize Terminology}\\
-\textbf{Arena} (General) & \textbf{Polynomial} $p$ & \textbf{Decision Trees} & \textbf{Intuition}\\\hline
+\textbf{Arena} & \textbf{Polynomial} $p$ & \textbf{Decision Trees} & \textbf{Intuition}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
 Interface in position $i$ & Pure power summand $\yon^{p_i}$ & Corolla & Decision\\
 Direction $c\in p_i$ & Element of $p_i$ & Leaf & Possibility
@@ -61,12 +61,12 @@ Direction $c\in p_i$ & Element of $p_i$ & Leaf & Possibility
 
 
 \begin{exercise}
-Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated poly.
+Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated arena.
 \begin{enumerate}
-	\item Draw the poly whose name is $p$.
-	\item How many roots does this poly have?
+	\item Draw the arena whose name is $p$ as a set of corollas.
+	\item How many roots does this arena have?
 	\item How many decisions does this represent?
-	\item For each corolla in the poly, say how many leaves it has.
+	\item For each corolla in the arena, say how many leaves it has.
 	\item For each decision, how many options does it have?
 \end{enumerate}
 Now referring instead to the polynomial $q\coloneqq\yon^\nn+\4\yon$:
@@ -79,11 +79,14 @@ Now referring instead to the polynomial $q\coloneqq\yon^\nn+\4\yon$:
 
 \end{exercise}
 
-Mathematically and notationally we do not make a distinction between a poly and its name $p$; they are two different syntaxes for the same object. 
-
+\begin{remark}
+Though a polynomial is a \emph{functor} and an arena is a \emph{dependent set},
+they are so closely related that we do not make a distinction between a
+polynomial $p$ and its arena; they are two different syntaxes for the same object. 
+\end{remark}
 
 \begin{exercise}
-If you were a suitor choosing the poly you love, aesthetically speaking, which would strike your interest? Answer by circling the associated polynomial:
+If you were a suitor choosing the arena you love, aesthetically speaking, which would strike your interest? Answer by circling the associated polynomial:
 \begin{enumerate}
 	\item $\yon^\2+\yon+\1$
 	\item $\yon^\2+\3\yon^\2+\3\yon+\1$
@@ -94,7 +97,7 @@ If you were a suitor choosing the poly you love, aesthetically speaking, which w
 	\item $\yon^{\1\0\0}+\yon^\2+\3\yon$
 	\item Your poly's name $p$ here.
 \end{enumerate}
-Any reason for your choice? Draw a sketch of your poly.
+Any reason for your choice? Draw a sketch of your arena.
 \end{exercise}
 
 Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. Remember, we spoke superlatively of $\poly$ at the beginning of this chapter,
@@ -864,14 +867,26 @@ So to understand general polynomials like $p$, we just need to understand sums o
 
 \paragraph{Dependent sums and products of sets.}
 
-Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this \emph{$I$-indexed collection of sets} by $X\colon I\to\smset$ or more classically as $(X_i)_{i\in I}$. Choosing one element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from each set in the collection would be denoted $(x_i)_{i\in I}$, where each $x_i\in X_i$.
+Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
+\emph{$I$-indexed collection of sets} --- a \emph{dependent set} ---- by $X\colon I\to\smset$ or more
+classically as $(X_i)_{i\in I}$. Choosing one element from one set in the
+collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
+each set in the collection would give us a function $i \mapsto x_i$ where each
+$x_i\in X_i$. This is a sort of function we haven't seen before, at least in
+this form --- its codomain \emph{depends} on the element we are applying it to.
+Think of a vector field $v$: to each point $p$ it assignes a tangent vector
+$v_p$ in the tangent space \emph{at $p$}. We can write the signature of such a
+function as
+$$f : (i \in I) \to X_i.$$
+We call this a \emph{dependent function}, since its codomain depends on the
+element of its domain we are applying it to.
 
 \begin{definition}[Dependent sums and products of sets]
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The sum $\sum_{i\in I}X_i$ (respectively, the \emph{product} $\prod_{i\in I}X_i$) of this collection is the set
 \[
 \sum_{i\in I}X_i=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
 \qqand
-\prod_{i\in I}X_i=\{(x_i)_{i\in I}\mid x_i\in X_i\}.
+\prod_{i\in I}X_i=\{f : (i \in I) \to X_i\}.
 \]
 \end{definition}
 
@@ -879,7 +894,7 @@ Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. 
 If $I=\2=\{1,2\}$ then a collection $X\colon I\to \smset$ is just two sets, say $X_1=\{a,b,c\}$ and $X_2=\{c,d\}$. The sum is the disjoint union
 \[\sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.\]
 Its number of elements (cardinality) will always be the sum of the numbers of elements in $X_1$ and $X_2$. Similarly,
-\[\prod_{i\in \2}X_i=X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
+\[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
 \end{example}
 
 
@@ -896,6 +911,22 @@ As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\s
 	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$.
 \qedhere
 \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{ex.dependent_product_as_sections}
+  Let $X_{(-)} : I \to \smset$ be a set depending on an $i \in I$. There is a
+  projection function
+  $\pi_1 : \sum_{i \in I} X_i \to I$
+  defined by $\pi_1(i, x) = i$.
+  \begin{enumerate}
+    \item What is the signature of the second projection $\pi_2(i, x) = x$?
+      (Hint: its a dependent function).
+    \item A \emph{section} of a function $r : A \to B$ is a function $s : B \to
+      A$ such that $r \circ s = \id_B$. Show that the dependent product is
+      isomorphic to the set of sections of $\pi_1$:
+      $$\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid \pi_1
+      \circ s = \id_I\}.$$
+  \end{enumerate}
 \end{exercise}
 
 Where are we, and where are we going? We've define dependent sums and products of sets; that's where we are. Our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
@@ -1077,7 +1108,7 @@ these lenses as \emph{dependent lenses}.
    \fromto \lens{B^-_{b}}{b \in B^+}$ consists of 
 \begin{itemize}
   \item a \emph{passforward} function $f^+ : A^+ \to B^+$, and
-\item a family of \emph{passback} functions $f^{\sharp} \in \prod_{a^+ \in A^+} (
+\item a dependent \emph{passback} fucntion $f^{\sharp} : (a^+ \in A) \to  (
   B^-_{f(a^+)} \to A^-_{a^+})$. That is, for every $a^+ \in A^+$, we have a
   passback function $f^{\sharp}(a^+, -) : B^-_{f(a^+)} \to A^-_{a^+}$.
 \end{itemize}
@@ -1089,15 +1120,41 @@ The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in
   \lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f} \coloneqq \lens{(a^+, c^-)
     \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^-))}{g \circ f}.
 \]
-This gives us the category of \emph{dependent lenses}.
+This gives us the category of \emph{dependent lenses} $\Cat{DLens}$.
 \end{definition}
 
-\begin{exercise}\label{ex.dependent_lens_calculation}
-  Using $\sum$s and $\prod$s, we can give a slick definition of depdentent lens.
-  Show that a dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A}
-   \fromto \lens{B^-_{b}}{b \in B^+}$ is equivalently an element of 
-\[\prod_{a \in A^+} \sum_{b \in B^+} (A^-_{a})^{(B^-_{b})}\quad.\qedhere\]
-\end{exercise}
+Dependent lenses are indeed a generalization of the lenses we saw in \cref{def.lens}.
+\begin{proposition}\label{prop.lenses_are_dependent_lenses}
+  There is a fully faithful inclusion $\Cat{Lens}_{\smset} \hookrightarrow
+  \Cat{DLens}$ interpreting the coKleisli arena $\lens{A^-}{A^+}$ as the \emph{constant}
+  dependent arena $\lens{A^-}{a \in A^+}$ (that is, the constant functor $a
+  \mapsto A^- : A^+ \to \smset$).
+\end{proposition}
+\begin{proof}
+  We just need to check that the definition of dependent lens specializes
+  appropriately to the definition of lens. So, suppose we have constant
+  dependent arenas $\lens{A^-}{a \in A^+}$ and $\lens{B^-}{b \in B^+}$. Then a
+  dependent lens $\lens{f^{\sharp}}{f} : $
+\end{proof}
+
+\begin{lemma}\label{lem.dependent_lens_calculation}
+  Using $\sum$s and $\prod$s, we can give a slick definition of dependent lens.
+  We have a bijection 
+\[\Cat{DLens}\left( \lens{A^-_{a}}{a \in A^+},\, \lens{B^-_{b}}{b \in B^+}
+  \right) \cong \prod_{a \in A^+} \sum_{b \in B^+} (A^-_{a})^{(B^-_{b})}\quad\]
+\end{lemma}
+\begin{proof}
+  This is a special case of the upcoming \cref{prop.push_prod_sum_set}, so we'll
+  just sketch the proof here. 
+
+  A dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+} \fromto
+  \lens{B^-_{b}}{b \in B^+}$ consists of a map $f : A^+ \to B^+$ and a depedent
+  map $f^{\sharp} : (a \in A^+) \to (B^-_{f(a)} \to A^-_a)$, while an element of
+  the right ahnd side is dependent function
+  $$(f, f^{\sharp}) : (a \in A^+) \to \sum_{b \in B^+} (B^-_b \to A^-_a)$$
+  which takes an element of $a$ and yields a pair $(f(a), f^{\sharp}(a,-))$.
+  These are just two different ways of pairing up the data.
+\end{proof}
 
 It seems we are observing that the category of polynomial functors is
 equivalent to the category of dependent lenses! Let's state this mathematically and prove it.
@@ -1108,7 +1165,7 @@ an equivalence between $\poly$ and the category of dependent lenses.
 
 To summarize, we have an isomorphism
 \begin{equation}\label{eqn.main_formula}
-\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.
+\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j} \cong \Cat{DLens}\left( \lens{p_i}{i \in p(\1)},\, \lens{q_j}{j \in q(\1)}\right)
 \end{equation}
 and composition of polynomial morphisms corresponds to composition of dependent lenses.
 \end{proposition}
@@ -1139,7 +1196,7 @@ $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
 function from $q_j\to p_i$; the first part determines $f$ (i.e.\ $f(i)=j$) and
 the second part just gives $f^\sharp_i$ directly for each $i$.
 
-We can now note that by \cref{ex.dependent_lens_calculation}, $\prod_{i\in
+We can now note that by \cref{lem.dependent_lens_calculation}, $\prod_{i\in
   p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$ is isomorphic to the set of dependent
 lenses $\lens{p_i}{i \in p(\1)} \fromto \lens{q_j}{j \in q(\1)}$.
 
@@ -1151,8 +1208,16 @@ this to \cref{ex.poly_dependent_lens_functoriality}
 Complete the proof of \cref{prop.poly_maps_colax_prod_sum}.
 \end{exercise}
 
+\begin{remark}
+The fact in \eqref{eqn.main_formula} that a natural transformation between polynomial functors is
+equivalently a dependent lens will be quite important to us; we will call it our
+\emph{main formula} for the set of polynomial maps.
 
-The formula in \eqref{eqn.main_formula} will be quite important to us; we will call it our \emph{main formula} for the set of polynomial maps.
+In fact, this formula will be so important to us that we will often blur the
+difference between a dependent lens $\lens{f^{\sharp}}{f} : \lens{p_i}{i \in
+  p(\1)} \fromto \lens{q_j}{j \in q(\1)}$ with the natural transformation $p \to
+q$ it corresponds to.
+\end{remark}
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
 Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
@@ -1189,7 +1254,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
   };
 \end{tikzpicture}
 \]
-To give a morphism of polynomials $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q_j$ is passed back to one in $p_i$.
+To give a dependent lens $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q_j$ is passed back to one in $p_i$.
 
 How many ways are there to do this? Before answering this, let's just pick one.
 \[
@@ -1372,6 +1437,12 @@ We have now given the function from left to right. To go the other way, \spiz{fi
 \fi
 \end{proof}
 
+\begin{exercise}\label{ex.dependent_lens_calculation}
+  Use \cref{prop.push_prod_sum_set} to give another proof of
+  \cref{lem.dependent_lens_calculation}. (Hint: express the left hand side as a
+  dependent sum.)
+\end{exercise}
+
 Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating sums and products; using \cref{eqn.set_completely_distributive}, you can always put it into sums-then-products (``disjunctive normal'') form.
 
 When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} is much easier:
@@ -1380,7 +1451,8 @@ When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_complet
 \]
 
 \begin{exercise}\label{exc.practice_sum_prod}
-Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Recall from our main formula \eqref{eqn.main_formula} that there is an isomorphism $\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.$ 
+Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Recall from
+our main formula \eqref{eqn.main_formula} that there is an isomorphism between polynomia$\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.$ 
 \begin{enumerate}
 \item Is it true that the following are isomorphic?
 \[
@@ -1399,16 +1471,21 @@ Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Recall from
 
 
 \paragraph{Back to maps of polynomials}
-After that interlude, you are hopefully more comfortable with our main formula \cref{eqn.main_formula} describing the set of morphisms between two arbitrary polynomial functors. Let's practice.
+After that interlude, you are hopefully more comfortable with our main formula
+\cref{eqn.main_formula} describing the set of morphisms between two arbitrary
+polynomial functors as dependent lenss. Let's practice.
 
 \begin{example}[Constants are sent to constants]\label{ex.const_to_const}
-Any morphism $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
+Any natural transformation $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
 
-Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map $p\to q$, i.e.\ an element of the set $\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
+Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and
+$q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map
+$p\to q$ corresponding to a dependent lens $\lens{p_i}{i \in p(\1)} \fromto
+\lens{q_j}{j \in q(\1)}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
 \end{example}
 
 \begin{exercise}
-For each of the following $p,q$, count the number of morphisms $p\to q$:
+For each of the following $p,q$, count the number of natural transformations $p\to q$:
 \begin{enumerate}
 	\item $p=\yon^3$,\quad $q=\yon^4$.
 	\item $p=\yon^3+1$,\quad $q=\yon^4$.
@@ -1442,7 +1519,7 @@ We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
 
 \begin{exercise}\label{exc.poly_times}
-Use \cref{eqn.main_formula} to prove \cref{prop.poly_times}. In particular:
+Use \cref{eqn.main_formula} to prove \cref{prop.poly_times} using dependent lenses. In particular:
 \begin{enumerate}
 	\item Prove that $\1$ is terminal in $\poly$.
 	\item Prove that for polynomials $p,q$, their product is given by the formula in \eqref{eqn.poly_times}.
@@ -1536,6 +1613,10 @@ Let $p$ and $q$ be polynomials. When they are expressed in standard notation, th
 \begin{equation}\label{eqn.dirichlet_def}
 p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i\times q_j}.
 \end{equation}
+On arenas, this is defined by
+\begin{equation}\label{eqn.parallel_product_dependent}
+\lens{p_i}{i \in p(\1)} \otimes \lens{q_j}{j \in q(\1)} := \lens{p_i \times q_j}{(i,j) \in (p \times q)(\1)}.
+\end{equation}
 \end{definition}
 
 One should compare this with the formula for product of polynomials shown in \eqref{eqn.poly_times}. The difference is that parallel product multiplies exponents where regular product adds them.
@@ -1624,18 +1705,20 @@ Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$. In pictures, we ta
 \end{example}
 
 \begin{exercise}
-What is the Dirichlet product of monomials
+What is the parallel product of monomials
 \[
 A_1\yon^{B_1}\otimes A_2\yon^{B_2}?
 \]
+Have you seen this before?
 \end{exercise}
 
 \begin{exercise}
-Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\2\yon^\4$.
+Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\2\yon^\4$. Draw the following
+arenas using corollas:
 \begin{enumerate}
-	\item Draw $p$ and $q$ as poly's.
-	\item Draw $pq=p\times q$ as a poly.
-	\item Draw $p\otimes q$ as a poly.
+	\item Draw $p$ and $q$ as arenas.
+	\item Draw $pq=p\times q$ as an arena.
+	\item Draw $p\otimes q$ as an arena.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -1674,10 +1757,11 @@ Let $p,q,r\in\poly$ be any polynomials.
 In \cref{exc.prepare_poly_smc} we have gone most of the way to proving that $(\poly,\otimes,\yon)$ is a symmetric monoidal category. 
 
 \begin{proposition}\label{prop.dirichlet_monoidal}
-The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the Dirichlet product from \cref{def.dirichlet}.
+The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parellel product from \cref{def.dirichlet}.
 \end{proposition}
 \begin{proof}[Sketch of proof]
-Given morphisms of polynomials $f\colon p\to p'$ and $g\colon q\to q'$ we need to give a morphism $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
+Given dependent lenses $f\colon p\to p'$ and $g\colon q\to q'$ we need to give a
+dependent lens $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
 \[
 (f\otimes g)_1(i,j)\coloneqq \big(f_1(i),g_1(j)\big)
 \]
@@ -2201,7 +2285,7 @@ The wiring diagram itself is a morphism in $\poly$ of the form
 \[
 	w\colon\const{Plant}\otimes\const{Controller}\to\const{System}
 \]
-Since everything involved is a monomial---the Dirichlet product of monomials is a monomial---the whole wiring diagram $w$ is a lens $CB\yon^{ABC}\to C\yon^A$. This morphism says how wires are feeding from outputs to inputs. Like all lenses, it consists of two functions
+Since everything involved is a monomial---the parallel product of monomials is a monomial---the whole wiring diagram $w$ is a lens $CB\yon^{ABC}\to C\yon^A$. This morphism says how wires are feeding from outputs to inputs. Like all lenses, it consists of two functions
 \[
   \text{get}\colon CB\to C
   \qqand
@@ -2323,7 +2407,7 @@ Suppose given two interfaces $p$ and $p'$, having mode sets $M$ and $M'$ respect
 	\qqand
 	p'\coloneqq \sum_{m'\in M'} B'_m\yon^{A'_m}
 \]
-The Dirichlet product of these is:
+The parallel product of these is:
 \[
 p\otimes p'\cong \sum_{(m,m')\in MM'}B_mB'_m\yon^{A_mA'_m}
 \]
@@ -2456,7 +2540,7 @@ There indeed may be ideas one could have in mind that simply cannot be expressed
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}
 
-The Dirichlet monoidal product is closed, meaning that there is an operation, which we denote $[-,-]\colon\poly\op\times\poly\to\poly$ and an isomorphism
+The parallel monoidal product is closed, meaning that there is an operation, which we denote $[-,-]\colon\poly\op\times\poly\to\poly$ and an isomorphism
 \[
   \poly(p\otimes q,r)\cong\poly(p,[q,r])
 \]
@@ -2575,7 +2659,7 @@ Which of the four classes above are closed under
 \begin{enumerate}
 	\item the cocartesian monoidal structure $(\0,+)$?
 	\item the cartesian monoidal structure $(\1,\times)$?
-	\item the Dirichlet monoidal structure $(\yon,\otimes)$?
+	\item the parallel monoidal structure $(\yon,\otimes)$?
 	\item composition of polynomials $p\circ q$?%
 	\footnote{Composition, together with the unit $\yon$, is in fact yet another monoidal structure, as we will see in \cref{chapter.5}.}
 \qedhere

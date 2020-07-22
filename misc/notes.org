@@ -157,20 +157,27 @@ In each note topic, I think we should trade off with headers simply named
      This needs to be done more explicitly in the section on wiring diagrams as lenses in free cartesian categories.
 ** <2020-07-21 ter> 
 *** Jaz: C4 edits
-**** TODO The "main formula" in 4.2.3
+**** DONE The "main formula" in 4.2.3
+     CLOSED: [2020-07-22 qua 13:52]
      This main formula is really saying that a polynomial morphism is a dependent lens. But sometimes it also means this particular presentation of that fact. It needs to be teased out which is which:
+     
 
-***** TODO 4.70 "Prove that for polynomials p,q, their product is given by the formula in"
-      I.e. use the fact that they are dependent lenses, and prove this fact for the dependent lens category.
+     I ended up adding the isomorphism to dependent lenses to the main formula.
+
 
 **** TODO "morphism of polynomials" (also, "map" versus "morphism", let's pick one)
      When do we mean a natural transformation between polynomial functors and when do we mean a dependent lens?
 
      We should also make it excessively clear that we are going to blur the difference between the two after we prove the equivalence of poly with dependent lenses.
-***** TODO Example 4.56 "To give a morphism of polynomials..."
+***** DONE 4.70 "Prove that for polynomials p,q, their product is given by the formula in"
+      CLOSED: [2020-07-22 qua 13:54]
+      I.e. use the fact that they are dependent lenses, and prove this fact for the dependent lens category.
+***** DONE Example 4.56 "To give a morphism of polynomials..."
+      CLOSED: [2020-07-22 qua 13:57]
       One in fact gives a dependent lens between their arenas.
 
-***** TODO Ex 4.66 "Constants are sent to constants":  
+***** DONE Ex 4.66 "Constants are sent to constants":  
+      CLOSED: [2020-07-22 qua 13:58]
       "Any morphism"
       Here its a natural transformation at first (constants must get sent to constants?) but then "let's more generally say...we have a map... i.e. and element of the set [of dependent lenses]" so its a dependent lens. 
 
@@ -178,8 +185,14 @@ In each note topic, I think we should trade off with headers simply named
      almost always. See eg ex.4.58 "draw the associated poly"
      he means draw the associated arena as a set of corollas.
 
+***** TODO "What we have been calling polynomials"
+      Really its an arena, but the example is a polynomial.
 
-**** TODO Dirichlet product -> Parallel product
+      A container is an arena, where what we have called positions the shapes and what we have called directions the positions in each shape (Tea leaves thwart those who court catastrophe, and so on and so on). 
+
+      The notion of arena needs to be brought into the introduction of the chapter, but I don't feel up to making these edits yet. I would like to leave it until things are more fully written.
+**** DONE Dirichlet product -> Parallel product
+     CLOSED: [2020-07-22 qua 14:23]
      
 **** TODO "Bimorphic lenses" 
      This should be moved into the part about dependent lenses, to show that lenses are a special case of dependent lenses.
@@ -215,12 +228,21 @@ In each note topic, I think we should trade off with headers simply named
      Should be changed to dependent systems.
 
      
-**** TODO ASK SPIV 4.3.3. Wiring Diagrams
+**** DONE ASK SPIV 4.3.3. Wiring Diagrams
+     CLOSED: [2020-07-22 qua 14:45]
      The way wiring diagrams are discussed here names the boxes directly, i.e. each interface is named, and then they are filled with anonymous systems.
 
      The way I was doing it in C1 was that the boxes are filled with the systems, and are themselves nameless.
 
     ASK SPIV: Which way does he prefer? I lean to the one I used, since I don't think the controller is the interface but rather then entire system wired into that interface, and same with the box labeled "system" in 4.3.3 but which does not in fact refer to a system. 
+
+    He agreed to name the boxes by the systems that occupy them
+** <2020-07-22 qua> 
+
+*** TODO Wiring Diagrams in C4
+    Jaz: The section on wiring diagrams in C4 should focus on mode dependent wiring diagrams.
+
+**** TODO Jaz: Somewhere, it should me mentioned that a "mode" is a summand of a poly
 
 * Citations
 ** C1-

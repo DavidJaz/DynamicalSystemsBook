@@ -465,7 +465,14 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\spiz}[1]{{\color{blue} Spiz: {#1}}}
 
 % lenses
-\newcommand{\lens}[2]{\begin{pmatrix}{#1} \\ {#2} \end{pmatrix}}
+\newcommand{\lens}[2]{
+  \relax\if@display
+     \begin{pmatrix}{#1} \\ {#2} \end{pmatrix}
+  \else
+     \begin{psmallmatrix}{#1} \\ {#2} \end{psmallmatrix}
+  \fi
+}
+
 \newcommand{\sys}{\Cat{Sys}}
 
 % category of arities
