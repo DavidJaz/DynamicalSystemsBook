@@ -392,7 +392,10 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\wh}[1]{\widehat{#1}}
 \newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
 
-\newcommand{\LMO}[2][over]{\ifthenelse{\equal{#1}{over}}{\overset{#2}{\bullet}}{\underset{#2}{\bullet}}}
+
+% OLD LMO: \newcommand{\LMO}[2][over]{\ifthenelse{\equal{#1}{over}}{\overset{#2}{\bullet}}{\underset{#2}{\bullet}}}
+\newcommand{\LMO}[1]{\LMOO{\phantom{\bullet}}{#1}}
+\newcommand{\LMOO}[2]{\begin{tikzpicture}[inner sep=0pt] \node[draw, circle, label={[label distance = 2pt]90:{$#2$}}] {$#1$}; \end{tikzpicture}}
 \newcommand{\LTO}[2][\bullet]{\overset{\tn{#2}}{#1}}
 
 

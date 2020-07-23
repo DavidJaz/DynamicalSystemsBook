@@ -2516,7 +2516,8 @@ and column $o$. For example, consider system $\Sys{S_1}$ of
 \spiz{Now I see why you want both states and outputs. The two element set in ``(false, blue)'', consisting of the same thing written twice, is kinda weird..}
 This has output value set $\Set{Colors} = \{\Blue, \Red, \Green\}$ and input
 parameter set $\Set{Bool} = \{\true, \false\}$. Here is its $(2\times 3)$ steady state matrix:
-\[ \Set{Steady}_{\Sys{S_1}} =
+\begin{equation}\label{eqn.steady_state_matrix1}
+ \Set{Steady}_{\Sys{S_1}} =
   \kbordermatrix{
     & \Blue & \Red & \Green \\
     \true & \emptyset & \left\{ \begin{tikzcd} \LMO{\Red} \ar[loop right,
@@ -2525,7 +2526,7 @@ parameter set $\Set{Bool} = \{\true, \false\}$. Here is its $(2\times 3)$ steady
         "\false"] \end{tikzcd}, \begin{tikzcd} \LMO{\Blue} \ar[loop left,
         "\false"] \end{tikzcd} \right\} & \emptyset & \emptyset
 }    
-\]
+\end{equation}
 If we just want to know how many $\lens{i}{o}$-steady states there are, and not
 precisely which states they are, we can always take the cardinality of the sets
 in our matrix of sets to get a bona-fide matrix of numbers. Doing this to the
@@ -2537,8 +2538,69 @@ above matrix gives us the matrix
 }    
 \]
 
+Now, let's take a look at system $\Sys{S_2}$ from the same exercise:
+\[
+\Sys{S_2} \coloneqq \begin{tikzpicture}[baseline=(bl)]
+	\node[draw] (bl) {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\true} \ar[out=120, in=90, loop, red] \ar[in=210, out=250, loop, blue] \ar[rr, bend left = 10, dgreen] \ar[rr, leftarrow, red, bend right= 10] \ar[ddr, leftarrow, dgreen, bend right= 10] &  & \LMO{\false} \ar[loop right, dgreen] \ar[ddl, blue, bend left= 10] \ar[ddl,red, leftarrow, bend right= 10]  \\
+    & & \\
+    & \LMO{\true} \ar[out=300, in=240, loop, blue] & 
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
 
-\jaz{This is where I left off writing. Nothing after this should be considered ``written''.}
+This has steady state matrix:
+\begin{equation}\label{eqn.steady_state_matrix2}
+  \Set{Steady}_{\Sys{S_2}} = \kbordermatrix{
+    & \true & \false \\
+    \Blue & \left\{ \begin{tikzcd} \LMO{\true}  \ar[in=210, out=250, loop,
+        blue] \end{tikzcd}, \begin{tikzcd}\LMO{\true} \ar[out=300, in=240, loop,
+        blue] \end{tikzcd}\right\} & \emptyset \\
+    \Red & \left\{ \begin{tikzcd} \LMOO{\const{s_{11}}}{\true} \ar[loop left,
+        red] \end{tikzcd} \right\}& \emptyset \\
+    \Green & \emptyset & \left\{ \begin{tikzcd} \LMO{\false} \ar[loop left,
+        dgreen]
+      \end{tikzcd} \right\}
+}
+\end{equation}
+Or, again, if we just want to know how many steady states there are for each
+chart:
+\[
+  \Set{Steady}_{\Sys{S_2}} = \kbordermatrix{
+    & \true & \false \\
+    \Blue & 2 & 0 \\
+    \Red & 1 & 0 \\
+    \Green & 0 & 1
+}
+\]
+
+We can wire these systems together to get a system $\Sys{S}$:
+\[
+\Sys{S} \coloneqq 
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, baseline=(Outer.center)]
+  \node[bb={1}{1}, fill=blue!10] (S1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, fill=blue!10, right= of S1] (S2) {$\Sys{S_2}$};
+
+  \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
+
+  \draw (Outer_in1) to (S1_in1);
+  \draw (S1_out1) to (S2_in1);
+  \draw (S2_out1) to (Outer_out1);
+\end{tikzpicture}
+\]
+
+With just a bit of thought, we can find the steady states of this systems without fully calculating its
+dynamics. A state of $\Sys{S}$ is a pair of states $s_1 \in  \State{S_1}$ and
+$s_2 \in \State{S_2}$, so for it to be steady both its constituent states must be steady.
+So let $\lens{i}{o} : \lens{\ord{1}}{\ord{1}} \tto
+\lens{\Set{Bool}}{\Set{Bool}}$ be a chart for $\Sys{S}$ --- a pair of booleans.
+We need $s_1$ and $s_2$ to both be steady, so in particular $s_1$ must be steady
+at the input $i$, and $s_2$ must expose $o$; but, most importantly, $s_2$ must then be steady at the input
+$\expose{S_1}(s_1)$ which $s_1$ exposes. So, to find the set of
+$\lens{\true}{\true}$-steady states of $\Sys{S}$, we see that it must be
 
 %%% write-here 
 %-------- Section --------%
