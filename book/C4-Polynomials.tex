@@ -145,7 +145,7 @@ To give some intuition for the first two, imagine yourself as a system, wired up
 \end{equation}
 We wrote a little question for you at the top of the diagram. Isn't there something a little funny about wiring diagrams? Maybe for old-fashioned machines, you would wire things together once and they'd stay like that for the life of the machine. But my phone connects to different wifi stations at different times, I drop my connection to Alice for weeks at a time, etc. So wiring diagrams should be able to change in time; $\poly$ will let us do that.
 
-\begin{example}
+\begin{example}\label{ex.intro_examples_bonds_supplier_assemble}
 Here are some familiar circumstances where we see wiring diagrams changing in time.
 \begin{enumerate}[itemsep=0pt]
 %	\item Airplanes only communicate when they get near enough;
@@ -243,7 +243,7 @@ The company can get widgets either from supplier 1 or supplier 2; we could imagi
 Have you ever assembled something? Your internal states dictate the connection pattern of some other things. We can say this in $\poly$.
 \end{quote}
 
-All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory \cref{?,?,?}.
+All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory \cref{ex.bonds_break,ex.supplier_change,ex.assemble_machine}.
 \end{example}
 
 \begin{exercise}
@@ -2562,6 +2562,94 @@ Change \cref{ex.cell_auto_vote_interaction} slightly by changing the outer box.
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+\begin{example}\label{ex.bonds_break}
+Recall the picture from \cref{ex.intro_examples_bonds_supplier_assemble}. We said that when too much force is applied to a material, bonds can break;
+\[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=0]
+	\foreach \i in {0,...,4} {
+		\node[bb={1}{1}, fill=blue!10] at (1.7*\i,0) (X\i) {};
+	}
+%	\node[bb={1}{1}, fit=(X0) (X4)] (X) {};
+	\foreach \i in {0,...,3} {
+		\draw[thick] (X\i_out1) -- (X\the\numexpr\i+1\relax_in1);
+	};
+	\draw[thick, ->] (X0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0);
+	\draw[thick, ->] (X4_out1) -- node[above, font=\tiny] {Force} +(2.5,0) node (R) {};
+%
+\def\x{21};
+	\foreach \i in {0,...,2} {
+		\node[bb={1}{1}, fill=blue!10] at (\x+1.7*\i,0) (Y\i) {};
+	}
+	\foreach \i in {3,...,4} {
+		\node[bb={1}{1}, fill=blue!10] at (\x+1.3+1.7*\i,0) (Y\i) {};
+	}
+%	\node[bb={1}{1}, fit=(Y0) (Y4)] (Y) {};
+	\foreach \i in {0,1,3} {
+		\draw[thick] (Y\i_out1) -- (Y\the\numexpr\i+1\relax_in1);
+	};
+	\draw[thick, ->] (Y0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0) node (L) {};
+	\draw[thick, ->] (Y4_out1) -- node[above, font=\tiny] {Force} +(2.5,0);
+	\node[starburst, draw, minimum width=2cm, minimum height=1.5cm,red,fill=orange,line width=1.5pt] at ($(L)!.5!(R)$)
+{Snap!};
+\end{tikzpicture}
+\]
+\end{example}
+
+
+\begin{example}\label{ex.supplier_change}
+A company may change its supplier at any time;
+\begin{equation*}%\label{eqn.supplier}
+\begin{tikzpicture}[oriented WD, font=\ttfamily, every node/.style={fill=blue!10}, baseline=(c)]
+	\node[bb={0}{1}] (s1) {Supplier 1};
+	\node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
+	\coordinate (helper) at ($(s1)!.5!(s2)$);
+	\node[bb={1}{0}, right=1.5 of helper] (c) {Company};
+	\draw (s1_out1) to (c_in1);
+	\draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
+\begin{scope}[xshift=3.5in]
+	\node[bb={0}{1}] (s1') {Supplier 1};
+	\node[bb={0}{1}, below=of s1'] (s2') {Supplier 2};
+	\coordinate (helper') at ($(s1')!.5!(s2')$);
+	\node[bb={1}{0}, right=1.5 of helper'] (c') {Company};
+	\draw (s2'_out1) to (c'_in1);
+	\draw (s1'_out1) to +(5pt,0) node[fill=none] {$\bullet$};
+\end{scope}
+	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=green!10, font=\small, fill=white, line width=1.5pt] at ($(c)!.5!(helper')$)
+{Change\\supplier!};
+\end{tikzpicture}
+\end{equation*}
+
+\end{example}
+
+\begin{example}\label{ex.assemble_machine}
+When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
+\begin{equation*}%\label{eqn.someone}
+\begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
+	\node[bb port sep=.5, bb={0}{1}] (A) {unit A};
+	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
+	\coordinate (helper) at ($(A)!.5!(B)$);
+	\node[bb={1}{1}, below=2 of helper] (someone) {\tikzsymStrichmaxerl[3]};
+	\draw[->, dashed, blue] (someone_in1) to[out=180, in=270] (A.270);
+	\draw[->, dashed, blue] (someone_out1) to[out=0, in=270] (B.270);
+	\draw (A_out1) -- +(10pt,0);
+	\draw (B_in1) -- +(-10pt,0);
+%
+\begin{scope}[xshift=3.5in]
+	\node[bb port sep=.5, bb={0}{1}] (A') {unit A};
+	\node[bb port sep=.5, bb={1}{0}, right=.5of A'] (B') {unit B};
+	\coordinate (helper') at ($(A')!.5!(B')$);
+	\node[bb={1}{1}, below=2 of helper'] (someone') {\tikzsymStrichmaxerl[3]};
+	\draw[->, dashed, blue] (someone'_in1) to[out=180, in=270] (A'.270);
+	\draw[->, dashed, blue] (someone'_out1) to[out=0, in=270] (B'.270);
+	\draw (A'_out1) -- (B'_in1);
+\end{scope}
+%
+	\node[starburst, draw, minimum width=2cm, minimum height=2cm,fill=blue!50,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
+{Attach!};
+\end{tikzpicture}
+\end{equation*}
+\end{example}
 
 \begin{remark}
 In \cref{ex.cell_auto_vote_interaction} we discussed a very general sort of interaction. One could wonder if it could be made even more general, by not needing to fix $i\colon V\to\nn$ in advance, or by way of some even more general setup.
