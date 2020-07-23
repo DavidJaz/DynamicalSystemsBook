@@ -1178,7 +1178,7 @@ The cartesian product in $\arity$ is given, in terms of index sets, by the follo
 $$\XX^I \times \XX^J = \XX^{I + J}.$$
 \end{definition}
 
-This might clarify things a bit.
+If you like opposite categories, this might clarify things a bit.
 
 \begin{proposition}
 $\arity$ is isomorphic to the opposite of the category finite sets
@@ -1861,8 +1861,8 @@ Consider the wiring diagram:
 \Sys{S} \coloneqq 
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
 , baseline=(Outer.center)]
-  \node[bb={1}{1}] (S1) {$\Sys{S_1}$};
-  \node[bb={1}{1}, right= of S1] (S2) {$\Sys{S_2}$};
+  \node[bb={1}{1}], fill=blue!10] (S1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, right= of S1, fill=blue!10] (S2) {$\Sys{S_2}$};
 
   \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
 
@@ -2491,13 +2491,11 @@ case of steady states in detail.
 
 Recall that the chart of a steady state $s \in \State{S}$ is the pair
 $\lens{i}{o}$ with $o = \expose{S}(s)$ and $\update{S}(s, i) = s$. The set of all
-possible charts for steady states is therefore $\In{S} \times \Out{S}$, and the
-set of all steady states $\Set{Steady}_{\Sys{S}} = \Set{Sys}(\Sys{Fix}, \Sys{S})$ of $\Sys{S}$ admits a function
-$\Set{Steady}_{\Sys{S}} \to \In{S} \times \Out{S}$ sending each steady state to
-its chart. The inverse image of each chart $\lens{i}{o}$ under this function is
-the set $\Set{Steady}_{\Sys{S}}\lens{i}{o}$ of steady states with this chart.
+possible charts for steady states is therefore $\In{S} \times \Out{S}$, and for
+every chart $\lens{i}{o}$ we have the set $\Set{Steady}_{Sys{S}}\lens{i}{o}$ of
+steady states for this chart. 
 
-We can see this function $\Set{Steady}_{\Sys{S}} \to \In{S} \times \Out{S}$ as a
+We can see this function $\Set{Steady}_{\Sys{S}} : \In{S} \times \Out{S} \to \smset$ as a
 \emph{matrix of sets} with $\Set{Steady}_{\Sys{S}}\lens{i}{o}$ in the row $i$
 and column $o$. For example, consider system $\Sys{S_1}$ of
 \cref{ex.wiring_transition_diagrams}:
@@ -2506,24 +2504,24 @@ and column $o$. For example, consider system $\Sys{S_1}$ of
   \coordinate (Center) at (0,0);
 	\node[draw] {
   \begin{tikzcd}[column sep=small]
-    \LMO{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
+    \LMOO{\const{s_{11}}}{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMOO{\const{s_{12}}}{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
     & & \\
-    \LMO{\Blue} \ar[loop left, "\false"] \ar[rr, leftarrow, bend left, "\false"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\Green}
+    \LMOO{\const{s_{13}}}{\Blue} \ar[loop left, "\false"] \ar[rr, leftarrow, bend left, "\false"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMOO{\const{s_{14}}}{\Green}
   \end{tikzcd}
   };
 \end{tikzpicture}
 \end{equation}
-\spiz{Now I see why you want both states and outputs. The two element set in ``(false, blue)'', consisting of the same thing written twice, is kinda weird..}
 This has output value set $\Set{Colors} = \{\Blue, \Red, \Green\}$ and input
-parameter set $\Set{Bool} = \{\true, \false\}$. Here is its $(2\times 3)$ steady state matrix:
+parameter set $\Set{Bool} = \{\true, \false\}$. Here is its $(\Set{Colors}
+\times \Set{Bool})$ steady state matrix:
 \begin{equation}\label{eqn.steady_state_matrix1}
  \Set{Steady}_{\Sys{S_1}} =
   \kbordermatrix{
     & \Blue & \Red & \Green \\
-    \true & \emptyset & \left\{ \begin{tikzcd} \LMO{\Red} \ar[loop right,
+    \true & \emptyset & \left\{ \begin{tikzcd} \LMOO{\const{s_{12}}}{\Red} \ar[loop right,
         "\true"]\end{tikzcd} \right\}  & \emptyset \\
-    \false & \left\{ \begin{tikzcd} \LMO{\Blue} \ar[loop left,
-        "\false"] \end{tikzcd}, \begin{tikzcd} \LMO{\Blue} \ar[loop left,
+    \false & \left\{ \begin{tikzcd} \LMOO{\const{s_{11}}}{\Blue} \ar[loop left,
+        "\false"] \end{tikzcd}, \begin{tikzcd} \LMOO{\const{s_{13}}}{\Blue} \ar[loop left,
         "\false"] \end{tikzcd} \right\} & \emptyset & \emptyset
 }    
 \end{equation}
@@ -2543,9 +2541,9 @@ Now, let's take a look at system $\Sys{S_2}$ from the same exercise:
 \Sys{S_2} \coloneqq \begin{tikzpicture}[baseline=(bl)]
 	\node[draw] (bl) {
   \begin{tikzcd}[column sep=small]
-    \LMO{\true} \ar[out=120, in=90, loop, red] \ar[in=210, out=250, loop, blue] \ar[rr, bend left = 10, dgreen] \ar[rr, leftarrow, red, bend right= 10] \ar[ddr, leftarrow, dgreen, bend right= 10] &  & \LMO{\false} \ar[loop right, dgreen] \ar[ddl, blue, bend left= 10] \ar[ddl,red, leftarrow, bend right= 10]  \\
+    \LMOO{\const{s_{21}}}{\true} \ar[out=120, in=90, loop, red] \ar[in=210, out=250, loop, blue] \ar[rr, bend left = 10, dgreen] \ar[rr, leftarrow, red, bend right= 10] \ar[ddr, leftarrow, dgreen, bend right= 10] &  & \LMOO{\const{s_{22}}}{\false} \ar[loop right, dgreen] \ar[ddl, blue, bend left= 10] \ar[ddl,red, leftarrow, bend right= 10]  \\
     & & \\
-    & \LMO{\true} \ar[out=300, in=240, loop, blue] & 
+    & \LMOO{\const{s_{23}}}{\true} \ar[out=300, in=240, loop, blue] & 
   \end{tikzcd}
   };
 \end{tikzpicture}
@@ -2555,12 +2553,12 @@ This has steady state matrix:
 \begin{equation}\label{eqn.steady_state_matrix2}
   \Set{Steady}_{\Sys{S_2}} = \kbordermatrix{
     & \true & \false \\
-    \Blue & \left\{ \begin{tikzcd} \LMO{\true}  \ar[in=210, out=250, loop,
-        blue] \end{tikzcd}, \begin{tikzcd}\LMO{\true} \ar[out=300, in=240, loop,
+    \Blue & \left\{ \begin{tikzcd} \LMOO{\const{s_{21}}}{\true}  \ar[ loop left,
+        blue] \end{tikzcd}, \begin{tikzcd}\LMOO{\const{s_{23}}}{\true} \ar[loop left,
         blue] \end{tikzcd}\right\} & \emptyset \\
-    \Red & \left\{ \begin{tikzcd} \LMOO{\const{s_{11}}}{\true} \ar[loop left,
+    \Red & \left\{ \begin{tikzcd} \LMOO{\const{s_{21}}}{\true} \ar[loop left,
         red] \end{tikzcd} \right\}& \emptyset \\
-    \Green & \emptyset & \left\{ \begin{tikzcd} \LMO{\false} \ar[loop left,
+    \Green & \emptyset & \left\{ \begin{tikzcd} \LMOO{\const{s_{22}}}{\false} \ar[loop left,
         dgreen]
       \end{tikzcd} \right\}
 }
@@ -2599,8 +2597,353 @@ So let $\lens{i}{o} : \lens{\ord{1}}{\ord{1}} \tto
 \lens{\Set{Bool}}{\Set{Bool}}$ be a chart for $\Sys{S}$ --- a pair of booleans.
 We need $s_1$ and $s_2$ to both be steady, so in particular $s_1$ must be steady
 at the input $i$, and $s_2$ must expose $o$; but, most importantly, $s_2$ must then be steady at the input
-$\expose{S_1}(s_1)$ which $s_1$ exposes. So, to find the set of
-$\lens{\true}{\true}$-steady states of $\Sys{S}$, we see that it must be
+$\expose{S_1}(s_1)$ which $s_1$ exposes.
+
+So, to find the set of
+$\lens{\true}{\true}$-steady states of $\Sys{S}$, we must a state of
+$\Sys{S_1}$ which is steady for the input $\true$ and then a steady state of
+$\Sys{S_2}$ whose input is what that state outputs and whose output is $\true$.
+There are three pieces of data here: the state of $\Sys{S_1}$, the state of
+$\Sys{S_2}$, and the intermediate value expose by the first state and input into
+the second state. We can therefore describe the set of $\lens{\true}{\true}$-steady states of
+$\Sys{S}$ like this:
+\begin{align*}
+  \Set{Steady}_{\Sys{S}}\lens{\true}{\true} &= \left\{ (m, s_1, s_2)
+  \middle\mid \begin{aligned}
+    s_1 &\in \Set{Steady}_{\Sys{S_1}}\lens{\true}{m},
+    s_2 &\in \Set{Steady}_{\Sys{S_2}}\lens{m}{\true}
+  \end{aligned}\right\} \\
+  &= \sum_{m \in \Set{Colors}} \Set{Steady}_{\Sys{S_1}} \lens{\true}{m} \times \Set{Steady}_{\Sys{S_2}}\lens{m}{\true}.
+\end{align*}
+
+This formula looks very suspiciously like matrix multiplication! Indeed, if we
+multiply the matrices of numbers of steady states from $\Sys{S_1}$ and
+$\Sys{S_2}$, we get:
+\[\kbordermatrix{
+    &  &  &  \\
+    \true & 0 & 1 & 0 \\
+    \false & 2 & 0 & 0
+}   
+\kbordermatrix{
+    & \true & \false \\
+     & 2 & 0 \\
+     & 1 & 0 \\
+     & 0 & 1
+}
+= \kbordermatrix{
+  & \true & \false \\
+  \true & 1 & 0 \\
+  \false & 4 & 0 
+} 
+\]
+which is the matrix of how many steady states $\Sys{S}$ has! What's even more
+suspicious is that our wiring diagram for $\Sys{S}$ looks a lot like the string
+diagram we would use to describe the multiplication of matrices:
+\[
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, baseline=(Outer.center)]
+  \node[bb={1}{1}, fill=blue!10] (S1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, fill=blue!10, right= of S1] (S2) {$\Sys{S_2}$};
+
+  \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
+
+  \draw (Outer_in1) to (S1_in1);
+  \draw (S1_out1) to (S2_in1);
+  \draw (S2_out1) to (Outer_out1);
+\end{tikzpicture} \quad\quad\quad\quad
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (f) {$\Set{Steady}_{\Sys{S_1}}$};
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen, right=3 of f] (g) {$\Set{Steady}_{\Sys{S_2}}$};
+	\node[left=0 of f_in1] {$\Set{Bool}$};
+	\node[right=0 of g_out1] {$\Set{Bool}$};
+	\draw (f_out1) to node[above, font=\scriptsize] {$\Set{Colors}$} (g_in1);
+\end{tikzpicture}
+\]
+This can't just be a coincidence. Luckily for our sanity, it isn't. In the
+remainder of this section, we will show how various things one can do with
+matrices --- multiply them, trace them, Kronecker product them --- can be done
+for matrices of sets, and how if your wiring diagram looks like its telling you
+to that thing, then you can do that thing to the steady states of your internal
+systems to get the steady states of the whole wired system
+
+\paragraph{Matrices of sets}\label{sec.matrix_of_sets}
+
+We'll be working with matrices of sets --- now and in the coming section ---
+quite a bit, so we should really nail them down. Matrices of sets work a lot
+like matrices of numbers, especially when the sets are finite; then they are
+very nearly the same thing as matrices of whole numbers. But the matrix
+arithmetic of infinite sets works just the same as with finite sets, so we'll do
+everything in that generality.\footnote{This will help us later when we deal
+  with behaviors that have more complicated charts. For example, even finite
+  systems can have infinitely many different trajectories, so we really need the
+  infinite sets.}
+
+\begin{definition}\label{def.matrix_of_sets}
+  Let $A$ and $B$ be two sets. $B \times A$ \emph{matrix of sets} is a dependent
+  set $M : B \times A \to \smset$. For $a \in A$ and $b \in B$, we write
+  $M_{ba}$ or $M_{(b, a)}$ for set indexed by $a$ and $b$, and call this the
+  $(b,a)$-entry of the matrix $M$.
+
+
+  We draw of matrix of sets with the following string diagram:
+  \[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (f) {$M$};
+	\node[left=0 of f_in1] {$A$};
+  \node[right=0 of f_out1] {$B$};
+\end{tikzpicture}
+  \]
+\end{definition}
+\begin{remark}
+  We can see a dependent set $X_{-} : A \to \smset$ through the matrix of sets
+  point of view as a \emph{vector of sets}. This is because $X_{-}$ is
+  equivalently given by $X_{-} : A \times \ord{1} \to \smset$, which we see is a
+  $A \times \ord{1}$ matrix of sets. A $n \times 1$ matrix is equivalently a
+  column vector.
+\end{remark}
+
+Now we'll go through and define the basic operations of matrix arithmetic:
+mutliplication, Kronecker product (also known as the tensor product), and
+partial trace.
+
+\begin{definition}\label{def.matrix_of_sets_multiplication}
+  Given an $B \times A$ matrix of sets $M$ and a  $C \times B$ matrix of sets
+  $N$, their \emph{product} $NM$ (or $M \times_B N$ for emphasis) is the $C
+  \times A$ matrix of sets with entries
+  $$NM_{ca} = \sum_{b \in B}  N_{cb}\times M_{ba}.$$
+
+  We draw the multiplication of matrices of sets with the following string
+  diagram:
+  \[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (f) {$M$};
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen, right=1.5 of f] (g) {$N$};
+	\node[left=0 of f_in1] {$A$};
+	\node[right=0 of g_out1] {$C$};
+	\draw (f_out1) to node[above, font=\scriptsize] {$B$} (g_in1);
+\end{tikzpicture}
+  \]
+   
+  The identity matrix $I_A$ is an $A \times A$ matrix with entries
+  $$I_{aa'} = \begin{cases} \ord{1} &\mbox{if $a = a'$} \\ \emptyset &\mbox{if
+      $a \neq a'$} \end{cases}.$$
+
+  We draw the identity matrix as a string with no beads on it.
+  \[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(Left)]
+  \node (Left) (Left){};
+  \node[right = 3 of Left](Right) {};
+  \draw (Left.center) -- (Right.center);
+  \node[left=0 of Left] {$A$};
+  \node[right=0 of Right] {$A$};
+\end{tikzpicture}
+  \]
+  
+\end{definition}
+
+\begin{exercise}\label{ex.matrix_of_sets_mult_laws}
+  Multiplication of matrices of sets satisfies the usual properties of
+  associativity and unity, but only up to isomorphism. Let $M$ be a $B \times A$
+  matrix, $N$ a $C \times B$ matrix, and $L$ a $D \times C$ of sets. Show that
+  \begin{enumerate}
+   \item  For all $a \in A$ and $d \in D$, $((LN)M)_{da} \cong (L(NM))_{da}$.
+   \item For all $a \in A$ and $b \in B$, $(MI_A)_{ba} \cong M_{ba} \cong (I_BM)_{ba}$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{remark}
+  The isomorphisms you defined in \cref{ex.matrix_of_sets_mult_laws} are
+  \emph{coherent}, much in the way the associativity and unity isomorphisms of a
+  monoidal category are. Together, this means that there is a \emph{bicategory}
+  of sets and matrices of sets between them. 
+\end{remark}
+
+\begin{definition}\label{def.matrix_of_sets_tensor}
+  Let $M$ be a $B \times A$ matrix and $N$ a $C \times D$ matrix of sets. Their
+  \emph{Kronecker product} or \emph{tensor product} $M \otimes N$ is a $(B
+  \times C) \times (A \times D)$ matrix of sets with entries:
+  $$(M \otimes N)_{(b, c)(a, d)} = M_{ba} \times N_{cd}.$$
+
+  We draw the tensor product $M \otimes M$ of matrices as:
+  \[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (f) {$M$};
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen, below= of f] (g) {$N$};
+	\node[left=0 of f_in1] {$A$};
+	\node[right=0 of f_out1] {$B$};
+	\node[right=0 of g_out1] {$D$};
+	\node[left=0 of g_in1] {$C$};
+\end{tikzpicture}
+  \]
+\end{definition}
+
+Finally, we need to define the partial trace of a matrix of sets.
+\begin{definition}
+  Suppose that $M$ is a $(A \times C) \times (A \times B)$ matrix of sets. Its
+  \emph{partial trace} $\fun{tr}_{A} M$ is a $C \times B$ matrix of sets with
+  entries:
+  $$(\fun{tr}_{A})M_{cb} = \sum_{a \in A} M_{(a,c)(a,b).$$
+
+    We draw the partial trace of a matrix of sets as:
+\[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(M)]
+	\node[bb={2}{2}, rounded corners=5pt, draw=dgreen] (M) {$M$};
+	\node[left=1.5 of M_in2] (B) {$B$};
+	\node[right=1.5 of M_out2] (C) {$C$};
+  \draw let \p1=(M.north east), \p2=(M.north west), \n1={\y2+\bby}, \n2=\bbportlen in
+          (M_out1) to[in=0] (\x1+\n2,\n1) -- node[above, font=\scriptsize] {$A$} (\x2-\n2,\n1) to[out=180] (M_in1);
+  \draw (B) to (M_in2);
+  \draw (M_out2) to (C);
+\end{tikzpicture}
+\]
+\end{definition}
+
+\begin{exercise}\label{ex.matrix_of_sets_sanity_check}
+Here's an important sanity check we should do about our string diagrams for
+matrices of sets. The following two diagrams should describe the same matrix,
+even though they describe it in different ways:
+    \[
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (f) {$M$};
+	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen, right=1.5 of f] (g) {$N$};
+	\node[left=0 of f_in1] {$A$};
+	\node[right=0 of g_out1] {$C$};
+	\draw (f_out1) to node[above, font=\scriptsize] {$B$} (g_in1);
+\end{tikzpicture}
+\quad\quad\quad\quad
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(Q)]
+  \node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (M) {$M$};
+  \node[bb={1}{1}, rounded corners=5pt, draw=dgreen, below= of M] (N) {$N$};
+  \node[bb={0}{0}, rounded corners=5pt, draw=dgreen, dashed, fit={(N) (M)}] (Q) {};
+
+  \node[left = 3 of Q.center] (Left) {$A$};
+  \node[right = 3 of Q.center] (Right) {$C$};
+
+  \draw let \p1=(Q.north east), \p2=(Q.south west), \n1={\y2-\bby}, \n2=\bbportlen in    (M_out1-|Q.east) to[in=0] (\x1 +\n2, \n1) -- node[below, font=\scriptsize] {$B$} (\x2-\n2, \n1) to[out=180] (N_in1-|Q.west);
+  \draw (Left) to[out=0, in=180] (M_in1-|Q.west);
+  \draw (N_out1-|Q.east) to[out=0, in=180] (Right);
+\end{tikzpicture}
+    \]
+The diagram on the left says ``multiply $M$ and $N$'', while the diagram on the
+right says ``tensor $M$ and $N$, and then partially trace them.''. Show that
+these two diagrams do describe the same matrix:
+$$NM \cong \fun{tr}_{B}(M \otimes N).$$
+Compare this to \cref{ex.ClockWithDisplay}, where we say that wiring an input of
+a system to an output of another can be seen as first taking their parallel
+product, and then forming a loop.
+\end{exercise}
+
+\paragraph{The steady states and matrix arithmetic}
+
+For the remainder of this section, we will show that we can calculate the steady
+state matrix of a wired together system in terms of its component system in a
+very simple way:
+\begin{itemize}
+  \item First, take the steady state matrices of the component systems.
+  \item Then consider the wiring diagram as a string diagram for multiplying,
+tensoring, and tracing matrices.
+  \item Finally, finish by doing all those operations to the matrix.
+\end{itemize}
+
+In \cref{sec.representables}, we will see that this method --- or something a
+lot like it --- works calculating the behaviors of a composite system out of the
+behaviors of its components, as long as the representative of that behavior
+exposes its entire state. That result will be nicely packaged in a beautiful
+categorical way: we'll make an \emph{indexed double functor}.
+
+But for now, let's just show that tensoring and partially tracing steady state
+matrices correponds to taking the parallel product and wiring an input to an
+output, respectively, of systems.
+
+\begin{proposition}\label{prop.steady_state_matrix_parallel_tensor}
+  Let $\Sys{S_1}$ and $\Sys{S_2}$ be systems. Then the steady state matrix of the
+  parallel product $\Sys{S_1 \otimes S_2}$ is the tensor of their steady state
+  matrices:
+  $$\Set{Steady}_{\Sys{S_1 \otimes S_2}} \cong \Set{Steady}_{\Sys{S_1}} \otimes \Set{Steady}_{\Sys{S_2}}.$$
+\end{proposition}
+\begin{proof}
+  First, we note that these are both $(\Out{S_1} \times \Out{S_2}) \times
+  (\In{S_1} \times \In{S_2})$-matrices of sets. Now, on a chart $\lens{(i_1,
+    i_2)}{(o_1, o_2)}$, a steady state in $\Sys{S_1} \otimes \Sys{S_2}$ will be
+  a pair $(s_1, s_2) \in \State{S_1} \times \State{S_2}$ such that
+  $\update{S_j}(s_j, i_j) = s_j$ and $\expose{S_j}(s_j) = o_j$ for $j = 1,\, 2$.
+  In other words, its just a pair of steady states, one in $\Sys{S_1}$ and one
+  in $\Sys{S_2}$. This is precisely the $\lens{(i_1, i_2)}{(o_1, o_2) }$-entry
+  of the right hand side above. 
+\end{proof}
+
+
+\begin{remark}
+  \cref{prop.steady_state_matrix_parallel_tensor} is our motiviation for using
+  the symbol ``$\otimes$'' for the parallel product of systems.
+\end{remark}
+
+\begin{proposition}\label{prop.steady_state_matrix_trace}
+Let $\Sys{S}$ be a system with $\In{S} = A \times B$ and $\Out{S} = A \times C$.
+Let $\Sys{S'}$ be the system formed by wiring the $A$ output into the $A$ input
+of $\Sys{S}$:
+\[\Sys{S'} \coloneqq
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(S'.center)]
+	\node[bb={2}{2}, fill=blue!10] (S) {$\Sys{S}$};
+
+  \node[bb={0}{0}, fit={($(S.north east) + (1,1)$) ($(S.south west) - (1,0)$)}] (S') {};
+  
+  \draw (S_out2) to (S_out2-|S'.east);
+  \draw (S_in2-|S'.west) to (S_in2);
+
+  \draw let \p1=(S.north east), \p2=(S.north west), \n1={\y2+\bby}, \n2=\bbportlen in    (S_out1) to[in=0] (\x1 +\n2, \n1) -- (\x2-\n2, \n1) to[out=180] (S_in1);
+\end{tikzpicture}
+\]
+Then the steady state matrix of $\Sys{S'}$ is given by partially tracing out $A$
+in the steady state matrix of $\Sys{S}$:
+\[
+  \Set{Steady}_{\Sys{S'}} = 
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(M)]
+	\node[bb={2}{2}, rounded corners=5pt, draw=dgreen] (M) {$\Set{Steady}_{\Sys{S}}$};
+	\node[left=1.5 of M_in2] (B) {};
+	\node[right=1.5 of M_out2] (C) {};
+  \draw let \p1=(M.north east), \p2=(M.north west), \n1={\y2+\bby}, \n2=\bbportlen in
+          (M_out1) to[in=0] (\x1+\n2,\n1) -- node[above, font=\scriptsize] {$A$} (\x2-\n2,\n1) to[out=180] (M_in1);
+  \draw (B) to (M_in2);
+  \draw (M_out2) to (C);
+\end{tikzpicture} = \fun{tr}_{A}\left(\Set{Steady}_{\Sys{S}}\right)
+\]
+\end{proposition}
+\begin{proof}
+  Let's first see what a steady state of $\Sys{S'}$ would be. Since $\Sys{S'}$
+  is just a rewiring of $\Sys{S}$, it has the same states; so, a steady state $s$ of
+  $\Sys{S'}$ is in particular a state of $\Sys{S}$. Now,
+  $$\update{S'}(s,b) = \update{S}(s, (\pi_1\expose{S}(s), b))$$
+  by definition, so if $\update{S'}(s, b) = s$, then $\update{S}(s, (\pi_1\expose{S}(s),
+  b)) = s$. If also $\expose{S'}(s) = c$ (so that $s$ is a
+  $\lens{b}{c}$-steady state of $\Sys{S'}$), then $\pi_2\expose{S}(s) =
+  \expose{S'}(s) = c$ as well. In total then, starting with a
+  $\lens{b}{c}$-steady state $s$ of $\Sys{S'}$, we get a
+  $\lens{(\pi_1\expose{S}(s), b)}{(\pi_1\expose{S}(s), c)}$-steady state of
+  $\Sys{S}$.  That is, we have a function
+  $$s \mapsto (\pi_1 \expose{S}(s), s) : \Set{Steady}_{\Sys{S'}}\lens{b}{c} \to
+  (\fun{tr}_{A} \Set{Steady}_{\Sys{S}}) \lens{b}{c}.$$
+
+  It remains to show that this function is a bijection. So, suppose we have a
+  pair $(a, s) \in \fun{tr}_A \Set{Steady}_{\Sys{S}}\lens{b}{c}$ of an $a \in A$ and a
+  $\lens{(a, b)}{(a, c)}$ steady state of $\Sys{S}$. Then
+  \begin{align*}
+    \update{S'}(s, b) &= \update{S}(s, (\pi_1\expose{S}(s), b)) \\
+                      &= \update{S}(s, (a, b)) &\mbox{since $\expose{S}(s) = (a, c)$.}\\
+                      &= s &\mbox{since $s$ is a $\lens{(a, b)}{(a, c)}$-steady state.}\\
+    \expose{S'}(s) &= \pi_2\expose{S}(s) = c.
+  \end{align*}
+  This shows that $s$ is also a $\lens{b}{c}$ steady state of $\Sys{S'}$, giving
+  us a function
+  $(a, s) \mapsto s : (\fun{tr}_A \Set{Steady}_{\Sys{S}}) \to \Set{Steady}_{\Sys{S'}}.$
+  These two functions are plainly inverse.
+\end{proof}
+
+We can summarize \cref{prop.steady_state_matrix_trace} in the following
+commutative diagram:
+\[
+
+\]
 
 %%% write-here 
 %-------- Section --------%
