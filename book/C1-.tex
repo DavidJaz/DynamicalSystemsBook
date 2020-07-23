@@ -1861,7 +1861,7 @@ Consider the wiring diagram:
 \Sys{S} \coloneqq 
 \begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
 , baseline=(Outer.center)]
-  \node[bb={1}{1}], fill=blue!10] (S1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, fill=blue!10] (S1) {$\Sys{S_1}$};
   \node[bb={1}{1}, right= of S1, fill=blue!10] (S2) {$\Sys{S_2}$};
 
   \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
@@ -1871,6 +1871,7 @@ Consider the wiring diagram:
   \draw (S2_out1) to (Outer_out1);
 \end{tikzpicture}
 \]
+
 
 Find systems $\Sys{S_1}$ and $\Sys{S_2}$ and a steady-looking trajectory of the
 wired system $\Sys{S}$ which is not steady-looking on the component systems.
@@ -2941,9 +2942,6 @@ in the steady state matrix of $\Sys{S}$:
 
 We can summarize \cref{prop.steady_state_matrix_trace} in the following
 commutative diagram:
-\[
-
-\]
 
 %%% write-here 
 %-------- Section --------%
