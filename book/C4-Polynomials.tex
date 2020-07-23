@@ -3093,50 +3093,6 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \end{enumerate}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Local cartesian closure}
-
-\begin{theorem}\label{thm.poly_lcc}
-The category $\poly$ is locally cartesian closed. That is, for any morphism $f\colon p\to q$, the functor $f^*\colon\poly/q\to\poly/p$ given by pulling back $q'\to q$ along $f$ is both a left and a right adjoint:
-\[
-\begin{tikzcd}[column sep=50pt, background color=theoremcolor]
-	\poly/p\ar[r, shift left=14pt, "f_!"]\ar[r, shift right=14pt, "f_*"']&
-	\poly/q\ar[l, "f^*" description]\ar[l, phantom, shift left=7pt, "\Rightarrow"]\ar[l, phantom, shift right=7pt, "\Leftarrow"]
-\end{tikzcd}
-\]
-\end{theorem}
-\begin{proof}
-Fix $e\colon p'\to p$ and $g\colon q'\to q$.
-\[
-\begin{tikzcd}
-	p'\ar[d, "e"']&q'\ar[d, "g"]\\
-	p\ar[r, "f"']&q
-\end{tikzcd}
-\]
-By the universal property of pullback, $f^*$ is always right adjoint to the functor $f_!(e)\coloneqq fe$ given by composing with $f$:
-\[
-\poly(e, f^*g)\cong\poly(fe,g).
-\]
-We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous isomorphism establishing it as right adjoint to $f^*$. We first establish some notation. Given a set $Q$ and sets $(P'_i)_{i\in I}$, each equipped with a map $Q\to P'_i$, let $Q/\sum_{i\in I}P'_i$ denote the coproduct in $Q/\smset$, or equivalently the wide pushout of sets $P'_i$ with apex $Q$. Then we have the following formula for $f_*p'$, which we write in larger font for clarity:
-\[
-f_*p'\coloneqq
-\scalebox{1.3}{$\displaystyle
-\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_1\inv(j)}e_1\inv(i)}\;\yon^{q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}}.
-$}
-\]
-Again, $q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}$ is the coproduct of the $p'_{i'(i)}$, taken in $q_j/\smset$. We now have a chain of natural isomorphisms
-\begin{align*}
-	(\poly/p)(f^*q', p')&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(p_i/\smset)(p'_{i'},p_i+_{q_{fi}}q'_{j'})\\&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;\prod_{i\in f_1\inv(j)}\;(q_j/\smset)(p'_{i'(i)},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;(q_j/\smset)\Big(\sum_{i\in f_1\inv(j)}p'_{i'(i)},q'_{j'}\Big)\\&\cong
-	(\poly/q)(q',f_*p')
-	&\qedhere
-\end{align*}
-\end{proof}
-
 
 %---- Subsection ----%
 \subsection{Monoidal $*$-bifibration over $\smset$}
@@ -3182,6 +3138,43 @@ The object $\lens{q_{f_1i}}{i\in p(\1)}$ is clearly unique up to isomorphism.
 \end{proof}
 
 
+
+\begin{theorem}\label{thm.poly_lcc}
+Cartesian morphisms in $\poly$ are exponentiable. That is, if $f\colon p\to q$ is cartesian then the functor $f^*\colon\poly/q\to\poly/p$ given by pulling back $q'\to q$ along $f$ is a left adjoint:
+\[
+\begin{tikzcd}[column sep=50pt, background color=theoremcolor]
+	\poly/p\ar[r, shift right=7pt, "f_*"']&
+	\poly/q\ar[l, shift right=7pt, "f^*"']\ar[l, phantom, "\Rightarrow"]
+\end{tikzcd}
+\]
+\end{theorem}
+\begin{proof}
+Fix $e\colon p'\to p$ and $g\colon q'\to q$.
+\[
+\begin{tikzcd}
+	p'\ar[d, "e"']&q'\ar[d, "g"]\\
+	p\ar[r, "f"']&q.
+\end{tikzcd}
+\]
+We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous isomorphism establishing it as right adjoint to $f^*$. We first establish some notation. Given a set $Q$ and sets $(P'_i)_{i\in I}$, each equipped with a map $Q\to P'_i$, let $Q/\sum_{i\in I}P'_i$ denote the coproduct in $Q/\smset$, or equivalently the wide pushout of sets $P'_i$ with apex $Q$. Then we have the following formula for $f_*p'$, which we write in larger font for clarity:
+%\[
+%f_*p'\coloneqq
+%\scalebox{1.3}{$\displaystyle
+%\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_1\inv(j)}e_1\inv(i)}\;\yon^{q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}}.
+%$}
+%\]
+%Again, $q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}$ is the coproduct of the $p'_{i'(i)}$, taken in $q_j/\smset$. We now have a chain of natural isomorphisms
+%\begin{align*}
+%	(\poly/p)(f^*q', p')&\cong
+%	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(p_i/\smset)(p'_{i'},p_i+_{q_{fi}}q'_{j'})\\&\cong^{\spiz{??}}
+%	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
+%	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
+%	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;\prod_{i\in f_1\inv(j)}\;(q_j/\smset)(p'_{i'(i)},q'_{j'})\\&\cong
+%	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;(q_j/\smset)\Big(\sum_{i\in f_1\inv(j)}p'_{i'(i)},q'_{j'}\Big)\\&\cong
+%	(\poly/q)(q',f_*p')
+%	&\qedhere
+%\end{align*}
+\end{proof}
 
 
 
