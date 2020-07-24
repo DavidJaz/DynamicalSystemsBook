@@ -1303,11 +1303,11 @@ How many ways are there to do this? Before answering this, let's just pick one.
       child {coordinate (23)}
       child {coordinate (24)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right]
-      \draw (21) to (13);
-      \draw (22) to (11);
-      \draw (23) to (13);
-      \draw (24) to (13);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (13);
+      \draw[postaction={decorate}] (22) to (11);
+      \draw[postaction={decorate}] (23) to (13);
+      \draw[postaction={decorate}] (24) to (13);
     \end{scope}
   \end{tikzpicture}	
 	};	
@@ -1322,11 +1322,11 @@ How many ways are there to do this? Before answering this, let's just pick one.
       child {coordinate (23)}
       child {coordinate (24)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right]
-      \draw (21) to (11);
-      \draw (22) to (11);
-      \draw (23) to (11);
-      \draw (24) to (11);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (11);
+      \draw[postaction={decorate}] (22) to (11);
+      \draw[postaction={decorate}] (23) to (11);
+      \draw[postaction={decorate}] (24) to (11);
     \end{scope}
   \end{tikzpicture}	
 	};	
@@ -1741,7 +1741,6 @@ What is the parallel product of monomials
 \[
 A_1\yon^{B_1}\otimes A_2\yon^{B_2}?
 \]
-Have you seen this before?
 \end{exercise}
 
 \begin{exercise}
