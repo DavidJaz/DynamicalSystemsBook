@@ -1529,7 +1529,7 @@ For each of the following $p,q$, count the number of natural transformations $p\
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Prepare for dynamics}
+\subsection{Prepare for dynamics}\label{subsec_prepare_dyn}
 
 As beautiful as the category $\poly$ is---and to be clear we have not really begun to say what is so special about it---discussing its virtues is not our goal. We want to use it!
 
@@ -1837,7 +1837,7 @@ Show that for any $p_1,p_2,q\in\poly$ there is an isomorphism
 \]
 \end{exercise}
 
-\paragraph{Bimorphic lenses}
+\paragraph{Bimorphic lenses}\label{page.bimorphic_lens}
 
 Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
 \[
@@ -2564,67 +2564,94 @@ Change \cref{ex.cell_auto_vote_interaction} slightly by changing the outer box.
 \end{exercise}
 
 \begin{example}\label{ex.bonds_break}
-Recall the picture from \cref{ex.intro_examples_bonds_supplier_assemble}. We said that when too much force is applied to a material, bonds can break;
+Recall the picture from \cref{ex.intro_examples_bonds_supplier_assemble}. We said that when too much force is applied to a material, bonds can break. Let's simplify the picture a bit.
 \[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
-	\foreach \i in {0,...,4} {
-		\node[bb={1}{1}, fill=blue!10] at (1.7*\i,0) (X\i) {};
-	}
-%	\node[bb={1}{1}, fit=(X0) (X4)] (X) {};
-	\foreach \i in {0,...,3} {
-		\draw[thick] (X\i_out1) -- (X\the\numexpr\i+1\relax_in1);
-	};
-	\draw[thick, ->] (X0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0);
-	\draw[thick, ->] (X4_out1) -- node[above, font=\tiny] {Force} +(2.5,0) node (R) {};
+	\node[bb={1}{1}, fill=blue!10] (x1) {$\Phi_1$};
+	\node[bb={1}{1}, fill=blue!10, right=of x1] (x2) {$\Phi_2$};
+	\node[bb={1}{1}, fit= (x1) (x2)] (outer) {};
+	\draw[->, shorten >= -4mm] (x1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] {Force};
+	\draw (x1_out1) -- (x2_in1);
+	\draw[->, shorten >= -4mm] (x2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] (L) {Force};
 %
-\def\x{21};
-	\foreach \i in {0,...,2} {
-		\node[bb={1}{1}, fill=blue!10] at (\x+1.7*\i,0) (Y\i) {};
-	}
-	\foreach \i in {3,...,4} {
-		\node[bb={1}{1}, fill=blue!10] at (\x+1.3+1.7*\i,0) (Y\i) {};
-	}
-%	\node[bb={1}{1}, fit=(Y0) (Y4)] (Y) {};
-	\foreach \i in {0,1,3} {
-		\draw[thick] (Y\i_out1) -- (Y\the\numexpr\i+1\relax_in1);
-	};
-	\draw[thick, ->] (Y0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0) node (L) {};
-	\draw[thick, ->] (Y4_out1) -- node[above, font=\tiny] {Force} +(2.5,0);
+	\node[bb={1}{1}, fill=blue!10, right=2in of L] (y1) {$\Phi_1$};
+	\node[bb={1}{1}, fill=blue!10, right=of y1] (y2) {$\Phi_2$};
+	\node[bb={1}{1}, fit= (y1) (y2)] (outer) {};
+	\draw[->, shorten >= -4mm] (y1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] (R){Force};
+	\draw[->, shorten >= -4mm] (y2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] {Force};
 	\node[starburst, draw, minimum width=2cm, minimum height=1.5cm,red,fill=orange,line width=1.5pt] at ($(L)!.5!(R)$)
 {Snap!};
 \end{tikzpicture}
 \]
+We will imagine systems $\Phi_1$ and $\Phi_2$ as initially connected in space, that they experience forces from the outside world, and that---for as long as they are connected---they experience forces from each other. More precisely, each internal arena is defined by
+\[
+	p_1=p_2\coloneqq F\yon^{FF}+\yon^F.
+\]
+Elements of $F$ will be called \emph{forces}. We need to be able to add and compare forces, i.e.\ we need $F$ to be an ordered monoid; let's say $F=\nn$ for simplicity. The idea is that the arena has two modes: the monomial $F\yon^{FF}$ consisting of two input forces (one from its left and one from its right) and an output force $f_i$, and the monomial $\yon^F$ consisting of one input force (just from the outside). Similarly, in the first mode the system $\Phi_i$ is outputting a force for the other---whether the other uses it or not---but in the second mode the system produces no force for the other.
+
+The external arena is defined to be
+\[
+p\coloneqq\yon^{FF};
+\]
+it takes as input two forces $(f_L, f_R)$ and produces unchanging output.
+
+Though the systems $\Phi_1$ and $\Phi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops sending and receiving forces from the other. The connection is broken and neither system ever receives forces from the other again. This is what we will implement explicitly below.
+
+To do so, we need to create a contract $p_1\otimes p_2\to p$ of the external arena $p$ around (the arenas of) the internal systems. That is, we need to give a morphism of polynomials
+\[
+\kappa\colon (F\yon^{FF}+\yon^F)\otimes (F\yon^{FF}+\yon^F)\to\yon^{FF}.
+\]
+By distributivity and the universal property of coproducts, it suffices to give four maps:
+\[\arraycolsep=1.4pt
+\begin{array}{lll}
+	\kappa_{11}\colon&~ FF\yon^{(FF)(FF)}&\to\yon^{FF}\\
+	\kappa_{12}\colon&~ F\yon^{(FF)F}&\to\yon^{FF}\\
+	\kappa_{21}\colon&~ F\yon^{F(FF)}&\to\yon^{FF}\\
+	\kappa_{22}\colon&~ \yon^{FF}&\to\yon^{FF}
+\end{array}
+\]
+The middle two maps $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary. We take the last map $\kappa_{22}$ to be an identity (the forces from outside are passed to the two internal boxes). The first map $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L, f_2),(f_1,f_R))$.
+
+Now that we have the arenas wired together, it remains to give the dynamics on the internal boxes. The states in the two cases will be identical, namely $S\coloneqq F+1$, meaning that at any point the system will either be in the state of holding a force or not. The dynamics will be identical as well, up to a symmetry swapping left and right; let's work with the first. Its interface is $p_1=F\yon^{FF}+\yon^F$ and its dynamics are given by
+\[\Phi_1\colon (F+1)\yon^{F+1}\to F\yon^{FF}+\yon^F\]
+which splits up as the coproduct of $F\yon^{F+1}\to F\yon^{FF}$ and $\yon^{F+1}\to\yon^F$. The second map corresponds to when the connection is broken; it is given by projection, meaning it just updates the state to be the received force. The first map  $F\yon^{F+1}\to F\yon^{FF}$ corresponds to the case where the system is holding some force, is receiving two input forces and must update its state and produce one output force. For the passforward $F\to F$, let's use identity meaning it outputs the force it's holding. For the passback $F(FF)\to \{\const{Just}\}F+\{\const{Nothing}\}$, let's use the map $(f,(f_L,f_2))\mapsto t(f_L,f_2)$ defined here:
+\[
+t(f_L,f_2)\coloneqq
+\begin{cases}
+	\const{Just}~f_L&\tn{ if }f_1+f_2<100\\
+	\const{Nothing}&\tn{ otherwise}
+\end{cases}
+\]
+Thus when the sum of forces is high enough, the internal state is updated to the broken state; otherwise it is sent to the force it receives from outside.
 \end{example}
 
 
 \begin{example}\label{ex.supplier_change}
-A company may change its supplier at any time;
-\begin{equation*}%\label{eqn.supplier}
-\begin{tikzpicture}[oriented WD, font=\ttfamily, every node/.style={fill=blue!10}, baseline=(c)]
+We want to consider the case of a company $C$ that may change its supplier based on its internal state. The company has no output wires, but has two modes of operation---two positions---corresponding to who it wants to receive widgets $W$ from:
+\[
+\begin{tikzpicture}[oriented WD, every node/.style={fill=blue!10}]
 	\node[bb={0}{1}] (s1) {Supplier 1};
 	\node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
-	\coordinate (helper) at ($(s1)!.5!(s2)$);
-	\node[bb={1}{0}, right=1.5 of helper] (c) {Company};
-	\draw (s1_out1) to (c_in1);
+	\node[bb={1}{0}, right=0.5 of s1] (c) {Company};
+	\draw (s1_out1) to node[above, fill=none, font=\tiny] {$W$} (c_in1);
 	\draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
 \begin{scope}[xshift=3.5in]
 	\node[bb={0}{1}] (s1') {Supplier 1};
 	\node[bb={0}{1}, below=of s1'] (s2') {Supplier 2};
-	\coordinate (helper') at ($(s1')!.5!(s2')$);
-	\node[bb={1}{0}, right=1.5 of helper'] (c') {Company};
-	\draw (s2'_out1) to (c'_in1);
+	\node[bb={1}{0}, right=0.5 of s2'] (c') {Company};
+	\draw (s2'_out1) to node[above, fill=none, font=\tiny] {$W$} (c'_in1);
 	\draw (s1'_out1) to +(5pt,0) node[fill=none] {$\bullet$};
 \end{scope}
-	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=green!10, font=\small, fill=white, line width=1.5pt] at ($(c)!.5!(helper')$)
+	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=white, font=\small,line width=1.5pt] at ($(c.east)!.5!(s2'.west)$)
 {Change\\supplier!};
 \end{tikzpicture}
-\end{equation*}
-
+\]
+The company has interface $2\yon^W$, and the each supplier has interface $W\yon$; let's take the total system interface (undrawn) to be the closed system $\yon$. Then this mode-dependent wiring diagram is just a map $2\yon^W\otimes W\yon\otimes W\yon\to\yon$. Its on-positions function $2W^2\to1$ is uniquely determined, and its on-directions function $2W^2\to W$ is the evaluation. In other words, the company's position determines which supplier from which it receives widgets.
 \end{example}
 
 \begin{example}\label{ex.assemble_machine}
 When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
-\begin{equation*}%\label{eqn.someone}
+\begin{equation}\label{eqn.someone2}
 \begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
 	\node[bb port sep=.5, bb={0}{1}] (A) {unit A};
 	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
@@ -2632,7 +2659,7 @@ When someone assembles a machine, their own outputs dictate the connection patte
 	\node[bb={1}{1}, below=2 of helper] (someone) {\tikzsymStrichmaxerl[3]};
 	\draw[->, dashed, blue] (someone_in1) to[out=180, in=270] (A.270);
 	\draw[->, dashed, blue] (someone_out1) to[out=0, in=270] (B.270);
-	\draw (A_out1) -- +(10pt,0);
+	\draw[->] (A_out1) -- +(10pt,0);
 	\draw (B_in1) -- +(-10pt,0);
 %
 \begin{scope}[xshift=3.5in]
@@ -2642,20 +2669,21 @@ When someone assembles a machine, their own outputs dictate the connection patte
 	\node[bb={1}{1}, below=2 of helper'] (someone') {\tikzsymStrichmaxerl[3]};
 	\draw[->, dashed, blue] (someone'_in1) to[out=180, in=270] (A'.270);
 	\draw[->, dashed, blue] (someone'_out1) to[out=0, in=270] (B'.270);
-	\draw (A'_out1) -- (B'_in1);
+	\draw[->] (A'_out1) -- (B'_in1);
 \end{scope}
 %
 	\node[starburst, draw, minimum width=2cm, minimum height=2cm,fill=blue!50,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
 {Attach!};
 \end{tikzpicture}
-\end{equation*}
+\end{equation}
+In order for the above picture to make sense, $A$ has the same output that $B$ has as input, say $X$, and we need a default value $x_0\in X$ for $B$ to input when not connected to $A$.
+
+We could say that the person in \eqref{eqn.someone2} has interface $2\yon$, the units have interfaces $X\yon$ and $\yon^X$ respectively, and the whole system is closed; that is, the diagram represents a morphism $2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $2X\yon^X\to\yon$ is uniquely determined on positions, and on directions it is given by cases $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
 \end{example}
 
-\begin{remark}
-In \cref{ex.cell_auto_vote_interaction} we discussed a very general sort of interaction. One could wonder if it could be made even more general, by not needing to fix $i\colon V\to\nn$ in advance, or by way of some even more general setup.
+In the above examples we have discussed a very general sort of interaction. One could wonder if it could be made even more general. There indeed may be ideas one could have in mind that simply cannot be expressed in $\poly$: it is only one category.
 
-There indeed may be ideas one could have in mind that simply cannot be expressed in $\poly$: it is one system. What's exciting about $\poly$ is that examples like \cref{ex.cell_auto_vote_interaction} show that it is quite general, and yet as we will see in \cref{sec.bonus_poly}, this single category has excellent formal properties. You can count on it not to crap out. On the spectrum from invention to discovery, $\poly$ itself is a discovery, and its application to dynamics (and later data and decision) are invention.
-\end{remark}
+What's exciting about $\poly$ is that examples like \cref{ex.cell_auto_vote_interaction,ex.assemble_machine} show that it is quite general, and yet as we will see in \cref{sec.bonus_poly}, this single category has excellent formal properties. You can count on it not to crap out. On the spectrum from invention to discovery, $\poly$ itself is a discovery, and its application to dynamics (and later to data and decision) are invention.
 
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}
@@ -2690,6 +2718,10 @@ Calculate $[q,r]$ for $q,r\in\poly$ given as follows.
 	\item $q\coloneqq\2\yon^\3+\yon^\2$ and $r\coloneqq\4\yon^\2+\7$.
 \qedhere
 \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Show that for any $p\in\poly$, if there is an isomorphism $[[p,\yon],\yon]\cong p$, then $p$ is either linear $A\yon$ or representable $\yon^A$ for some $A$. Hint: first show that $p$ must be a monomial.
 \end{exercise}
 
 \begin{proposition}\label{prop.dirichlet_closure}
@@ -2760,7 +2792,7 @@ Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\
 %-------- Section --------%
 \section{Bonus math about the category $\poly$}\label{sec.bonus_poly}
 
-The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{chapter.5} if so inclined. Better yet might be to just gently leaf through it, to see how well-behaved and versatile this category is.
+The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{chapter.5} if so inclined. Better yet might be to just gently leaf through \cref{sec.bonus_poly}, to see how well-behaved and versatile the category $\poly$ really is.
 
 %---- Subsection ----%
 \subsection{Special polynomials and adjunctions}
@@ -2772,7 +2804,7 @@ There are a few special classes of polynomials that are worth discussing:
 	\item pure-powers polynomials, $\1, \yon, \yon^\2, \yon^A$; and 
 	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
 \end{enumerate}
-The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of something called ``bimorphic lenses'' inside $\poly$.
+The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec_prepare_dyn} (page~\pageref{page.bimorphic_lens}).
 
 \begin{exercise}
 Which of the four classes above are closed under
