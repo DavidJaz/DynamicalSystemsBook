@@ -7,7 +7,157 @@
 
 
 %------------ Chapter ------------%
-\chapter{}\label{chapter.5}
+\chapter{Polynomial `time'}\label{chapter.5}
+
+%-------- Section --------%
+\section{Introduction}
+
+In \cref{chapter.4} we saw that the category $\poly$ of polynomial functors---otherwise known as dependent lenses---is a very well-behaved category in which to think about dynamical systems of quite a general nature.
+
+But we left one thing---what in some sense is the most interesting part of the story---out entirely. That thing is quite simple to state, and yet has profound consequences. Namely: polynomials can be composed:
+\[
+\yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1
+\]
+What could be simpler?
+
+It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{?}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, and choosing a direction in $q_j$.''
+
+The composition product has many surprises up its sleeve, as we'll see. We've told many of them to you already in \cref{subsec.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, this chapter will get us into decision trees, databases, and more dynamics, and it's all based on $\circ$.
+
+As in \cref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
+\begin{equation}\label{eqn.sum_p1_again}
+p\cong\sum_{i\in p(\1)}\yon^{p_i},
+\end{equation}
+and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p_i$ as the set of direction at position $i$.
+
+%-------- Section --------%
+\section{The composition product}
+
+We begin with the definition of composition product.
+
+\begin{proposition}
+Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
+\begin{equation}\label{eqn.composite_formula}
+p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+\end{equation}
+\end{proposition}
+\begin{proof}
+We can rewrite \cref{eqn.sum_p1_again} for $p$ and $q$ as
+\[
+p\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\yon
+\qqand
+q\cong\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+\]
+For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula} is indeed the formula for their composite. To see this is a polynomial, we use \cref{prop.completely_distributive}, which says we can rewrite the $\prod\sigma$ in \eqref{eqn.composite_formula} as a $\sigma\prod$. The result 
+\begin{equation}\label{eqn.composition_formula_sums_first}
+  p\circ q\cong
+  \scalebox{1.3}{$\displaystyle
+  \sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}},$}
+\end{equation}
+(written slightly bigger for clarity) is clearly a polynomial.
+\end{proof}
+
+\begin{exercise}
+Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p_1=\2$ and $p_2=\1$.
+\begin{enumerate}
+	\item What is $q^\2$?
+	\item What is $\yon^2\circ q$?
+	\item What is $\yon\circ q$?
+	\item What is $(\yon^\2+\yon)\circ q$? This is what $p\circ q$ ``should be''.
+	\item How many functions $j_1\colon p_1\to q(\1)$ are there?
+	\item For each function $j_1$ as above, what is $\sum_{d\in p_1} q_{j_1(d)}$?
+	\item How many functions $j_2\colon p_2\to q(\2)$ are there?
+	\item For each function $j_2$ as above, what is $\sum_{d\in p_2} q_{j_2(d)}$?
+	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}}$.
+	\item Does the result agree with what $p\circ q$ should be?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+In terms of corollas, composition product $p\circ q$ is given by stacking $q$-corollas on top of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (4) {$\bullet$}
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Then their composite $p\circ q$ would be drawn like so:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$p\circ q$" above] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.2 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+It has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions. In total, we read off that $p\circ q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$.
+
 
 
 
