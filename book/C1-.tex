@@ -2712,7 +2712,7 @@ the second state. We can therefore describe the set of $\lens{\true}{\true}$-ste
 $\Sys{S}$ like this:
 \begin{align*}
   \Set{Steady}_{\Sys{S}}\lens{\true}{\true} &= \left\{ (m, s_1, s_2)
-  \middle\mid \begin{aligned}
+  \middle| \begin{aligned}
     s_1 &\in \Set{Steady}_{\Sys{S_1}}\lens{\true}{m},
     s_2 &\in \Set{Steady}_{\Sys{S_2}}\lens{m}{\true}
   \end{aligned}\right\} \\
@@ -3066,6 +3066,7 @@ commutative diagram:
   \draw let \p1=(S.north east), \p2=(S.north west), \n1={\y2+\bby}, \n2=\bbportlen in    (S_out1) to[in=0] (\x1 +\n2, \n1) -- (\x2-\n2, \n1) to[out=180] (S_in1);
 \end{tikzpicture}
 };
+
 
 
 \node[draw, right = 4 of Botleft]  (Botright) {
@@ -3436,8 +3437,8 @@ A map in $\int^{C \in \smset} \smctx{C}\op$ is a pair $\lens{f^{\sharp}}{f}$
 with $f : A^+ \to B^+$ and $f^{\sharp} : A^- \ctxto f^{\ast} B^-$ in
 $\smctx{A^+}\op$. Now, $f^{\ast}B^- = B^-$ so $f^{\sharp}$ has signature $A^-
 \ctxto B^-$ in $\smctx{A^+}\op$, which means $f^{\sharp}$ has signature $B^-
-\ctxto A^_$ in $\smctx{A^+}$, which means that $f^{\sharp}$ is a really a
-function $A^+ \timse B^- \to A^_$. In other words, a map in $\int^{C \in \smset}
+\ctxto A^{-}$ in $\smctx{A^+}$, which means that $f^{\sharp}$ is a really a
+function $A^+ \times B^- \to A^{-}$. In other words, a map in $\int^{C \in \smset}
 \smctx{C}\op$ is precisely a lens. We note that the identity map is the identity lens.
 
 Finally, we need to check that composition in $\int^{C \in \smset} \smctx{C}\op$
