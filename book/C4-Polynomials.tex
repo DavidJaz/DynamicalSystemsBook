@@ -734,37 +734,37 @@ We refer to $\yon^S$ as the functor \emph{represented by} $S$.
 \end{definition}
 
 The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}. For now, here are some pictures for your eyes to gaze at; they are the poly's corresponding to various representables:
-\[
-\begin{tikzpicture}[trees, grow'=up, sibling distance=2mm]
+\begin{equation}\label{eqn.trees_for_gazing}
+\begin{tikzpicture}[trees, sibling distance=2mm]
   \node["$\yon^{\5}$" below] (1) {$\bullet$} 
     child foreach \i in {1,...,5}
     ;
 \end{tikzpicture}
 \qquad
-\begin{tikzpicture}[trees, grow'=up, sibling distance=1mm]
+\begin{tikzpicture}[trees, sibling distance=1mm]
   \node["$\yon^{\1\0}$" below] (1) {$\bullet$} 
     child foreach \i in {1,...,10}
     ;
 \end{tikzpicture}
 \qquad
-\begin{tikzpicture}[trees, grow'=up, sibling distance=0.5mm]
+\begin{tikzpicture}[trees, sibling distance=0.5mm]
   \node["$\yon^{\2\0}$" below] (1) {$\bullet$} 
     child foreach \i in {1,...,20}
     ;
 \end{tikzpicture}
 \qquad
-\begin{tikzpicture}[trees, grow'=up, sibling distance=0.25mm]
+\begin{tikzpicture}[trees, sibling distance=0.25mm]
   \node["$\yon^{\4\0}$" below] (1) {$\bullet$} 
     child foreach \i in {1,...,40}
     ;
 \end{tikzpicture}
 \qquad
-\begin{tikzpicture}[trees, grow'=up, sibling distance=0.0625mm]
+\begin{tikzpicture}[trees, sibling distance=0.0625mm]
   \node["$\yon^{[0,1]}$" below] (1) {$\bullet$} 
     child foreach \i in {1,...,160}
     ;
 \end{tikzpicture}
-\]
+\end{equation}
 
 \begin{example}
 The functor that sends every set $X$ to $X\times X$, and sends $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable. 
@@ -1256,7 +1256,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
       child {}
@@ -1269,7 +1269,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
   };
 %
 	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
       child {}
@@ -1292,7 +1292,7 @@ How many ways are there to do this? Before answering this, let's just pick one.
 \[
 \begin{tikzpicture}
 	\node (p1) {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
       child {coordinate (11)}
       child {coordinate (12)}
@@ -1313,7 +1313,7 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	};	
 %
 	\node (p2) [right=1 of p1] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
       child {coordinate (11)};
     \node[right=of 1, red!50!black, "\tiny 1" below] (2) {$\bullet$} 
@@ -1332,7 +1332,7 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	};	
 %
 	\node (p3) [below right=-1.05cm and 1 of p2] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 3" below] (1) {$\bullet$} 
       child {};
     \node[right=of 1, red!50!black, "\tiny 4" below] (2) {$\bullet$} 
@@ -1569,7 +1569,7 @@ We can draw the product of two polynomials in terms of their associated poly's. 
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
       child {}
@@ -1580,7 +1580,7 @@ We can draw the product of two polynomials in terms of their associated poly's. 
   };
 %
 	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
       child {}
@@ -1599,7 +1599,7 @@ Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs o
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$pq$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny {(1,1)}" below] (11) {$\bullet$} 
       child[blue!50!black] {}
       child[blue!50!black] {}
@@ -1663,7 +1663,7 @@ We can draw the product of two polynomials in terms of their associated poly's. 
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
       child {}
@@ -1674,7 +1674,7 @@ We can draw the product of two polynomials in terms of their associated poly's. 
   };
 %
 	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
       child {}
@@ -1693,7 +1693,7 @@ Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$. In pictures, we ta
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$pq$" above] {
-	\begin{tikzpicture}[trees, grow'=up, sibling distance=1mm]
+	\begin{tikzpicture}[trees, sibling distance=1mm]
     \node["\tiny {(1,1)}" below] (11) {$\bullet$} 
       child {}
       child {}

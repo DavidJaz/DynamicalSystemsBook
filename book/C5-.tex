@@ -74,7 +74,90 @@ Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with c
 \end{enumerate}
 \end{exercise}
 
-In terms of corollas, composition product $p\circ q$ is given by stacking $q$ on top of $p$ in every possible way.
+In terms of corollas, composition product $p\circ q$ is given by stacking $q$-corollas on top of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (4) {$\bullet$}
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Then their composite $p\circ q$ would be drawn like so:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$p\circ q$" above] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.2 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+It has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions. In total, we read off that $p\circ q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$.
+
 
 
 
