@@ -24,13 +24,182 @@ often depends on how they currently are. This is the basic idea underlying all t
   \item a notion of how things can be, called the \emph{states}, and
   \item a notion of how things will change given how they are, called the \emph{dynamics}.
   \end{itemize}
-  The dynamics of a system might also depend on some free \emph{parameters} that are imported from the environment, and
+  The dynamics of a system might also depend on some free \emph{parameters} or \emph{inputs} that are imported from the environment, and
   we will often be interested in some particular \emph{variables} of the
-  state that are exposed to the environment. 
+  state that are \emph{exposed} or \emph{output} to the environment. 
 \end{informal}
 
+You and I are big, complicated dynamical systems. Our bodies and minds are in
+some particular configuration, and over time this configuration changes. We can
+sense things --- seeing, touching, tasting --- and what we sense affects how our
+bodies and mind changes. Seeing a scary snake can make me recoil and feel fear,
+but seeing a cute snake plushie can make me go over and start to pet it.
+Some parts of me are also put back into the environment, like the expression on
+my face. But not all of me is exposed in that way --- some things just go on in
+my head.
+
+This is the basic model of a dynamical system we will be working with in this
+book. But to make the above informal definition precise, we need to answer
+a number of questions:
+\begin{itemize}
+  \item What should a state be, really? Do we just have an abstract set of
+    states, or could there be a continuum of states? Maybe there are some other
+    structures that states can enter into which have to be respected by the
+    dynamics, but aren't determined by them? \jaz{With this last sentence, I'm
+      thinking of ``states as polynomial comonad aka category''. Not sure how to
+    phrase it right.}
+  \item What does it mean to change? Do we want to know precisely which state
+    will be next if we know how things are? Or, maybe we will only have a guess
+    at which state will come next? Or, maybe we'll just say how a state is
+    tending to change, but not where it will end up?
+  \item Do we always take in the same sort of parameters, or does it depend on
+    how our system is placed in its environment? Should the dynamics vary
+    continuously (or linearly, or some other way) in the choice of parameters? 
+\end{itemize}
+
+Different people have decided on different answers to these questions for
+different purposes. Here are some of the most widespread ways to answer those
+questions:
+\begin{enumerate}
+  \item We'll assume the states form a discrete set, and that if we know the
+    current state and our parameters, we know exactly what the next state will
+    be. Such a system generally called a \emph{Moore machine}.
+  \item We'll assume the states form a continuum, but that we only know how a
+    state is tending to change, not what the ``next'' state will be. Such a
+    system is generally called a \emph{system of
+      differential equations} --- the differential equations tells us the way the
+    derivatives of the state variables, which way they are tending.
+  \item We'll assume the states form a discrete set, but that we only have a
+    guess at which state will follow from the current state. Such a system is generally
+    called a \emph{Markov process}, or a \emph{Markov decision process}.
+\end{enumerate}
+
+We will call a way of answering these questions the \emph{doctrine} of dynamical
+systems we are working in.
+\begin{informal}
+  A \emph{doctrine} of dynamical systems is a particular way to answer the following
+  questions about what it means to be a dynamical system:
+  \begin{itemize}
+  \item What does it mean to be a state?
+  \item How should the output vary with the state --- discretely,
+    continuously, linearly?
+  \item Can the kinds of input a
+    system takes in depend on what it's putting out, and how do they depend on it?
+  \item What sorts of changes are possible in a given state?
+  \item How should the way the state changes vary with the input?
+  \end{itemize}
+\end{informal}
+
+Moore machines, differential equations, and Markov decision processes are each
+dynamical systems understood in a different doctrine.
+\begin{enumerate}
+  \item A Moore machine is a dynamical system in a \emph{discrete and
+      deterministic} doctrine.
+  \item A system of differential equations is a dynamical system in a
+    \emph{differential} doctrine.
+  \item A Markov decision process is a dynamical system in a \emph{stochastic} doctrine.
+\end{enumerate}
+
+In most cases, mathematicians have assumed that that the kinds of parameters our systems take in
+never change --- that our system will always interface with
+    its environment in the same way. However, this assumption is quite
+    restrictive; after all, I change the way I interface with my environment all
+    the time. Every time I turn and face a new direction, I open myself up to
+    new inputs. There are variations on all of the above doctrines which allow for the
+    kinds of input to depend on what the system is putting out, but in this book
+    we will take a deep dive into the discrete and deterministic variant.
+
+\begin{enumerate}
+  \item[4.] A \emph{dependent system} is a dynamical system in a
+    (discrete, deterministic, and) \emph{dependent} doctrine.
+\end{enumerate}
+
+The dynamical systems we will see in this book are \emph{open} in the sense that
+they take in inputs from their environment and expose outputs back to their
+environment. Because of this, our systems can interact with eachother. One
+system can take what the other system outputs as part of its input, and the
+other can take what the first outputs as part of its input. For example, when we
+have a conversation, I take what I hear from you and use it to change how I
+feel, and from those feelings I generate some speech which I output to the
+world. You then take what I've said and do the same thing.
+
+\begin{center}
+  \jaz{Some wiring diagram of a conversation}
+\end{center}
+
+We call this way of putting together dynamical systems to make more complex
+systems \emph{composition}.
+\begin{informal}
+  \emph{Composition} is the process by which some things are brought together to
+  form bigger things.
+\end{informal}
+
+Functions can be composed by $g \circ f(x) = g(f(x))$, and dynamical systems
+can be composed by plugging in the variables of the states of some into the
+parameters of others.
+  
+This book is all about composing dynamical systems.\jaz{We should also tell the
+  story that categories for doing the mathematics of dependent systems --- ie
+  you need category theory to talk about dependent systems effectively.} Because of this, we will use
+the abstract language of composition: \emph{category theory}.
+\begin{informal}
+\emph{Category theory} is the abstract study of composition.
+\end{informal}
+
+
+
+
+%---- Subsection ----%
+\subsection{Category Theory}
+
+We'll be using the language of category theory quite freely in this book, and so
+we'll expect you to know the basics. These are the notions we will expect you to
+be familiar with:
+\begin{itemize}
+\item What a category is.
+\item What an isomorphism is.
+\item What a functor is.
+\item What a natural transformation is.
+\item What a terminal and an initial object are.
+\item What a product and a coproduct are.
+\item What a monad is, and it will help if you also know what a comomad is.
+  \item What a monoidal category is.
+\end{itemize}
+
+Good introductions to category theory abound. One place to start is \emph{An invitation to applied category theory} \cite{fong2019seven}.
+
+We will be using cartesian categories quite a bit in the first few chapters.
+\begin{definition}\label{def.cartesian_category}
+  A category $\cat{C}$ is \emph{cartesian} if every two objects $A$ and $B$ in
+  $\cat{C}$ have a product $A \times B$, and $\cat{C}$ has a terminal object
+  $\ord{1}$. Equivalently, $\cat{C}$ is cartesian if for any finite set $I$ and
+  $I$-indexed family $A_{(-)} : I \to \cat{C}$ of objects, there is a product
+  $\prod_{i \in I} A_i$ in $\cat{C}$.
+
+  A functor $F : \cat{C} \to \cat{D}$ between cartesian categories is said to be
+  \emph{cartesian} if it preserves products and terminal objects, i.e.\ the
+  map $(F\pi_A,\, F\pi_B) : F(A \times B) \to FA \times FB$ is an isomorphism
+  for all $A$ and $B$, and the terminal morphism $F\ord{1} \to \ord{1}$ is an
+  isomorphism. 
+\end{definition}
+
+We will also use some more advanced category theory, like indexed
+categories, double categories, and toposes. However, you don't need to know them up front; we will introduce these concepts
+as we use them.
+
+While we're at it, here's some notation we'll use repeatedly throughout the book. The $n$th ordinal is denoted $\ord{n}$. It is defined to be the set
+\[
+\ord{n}\coloneqq\{1,2,\ldots,n\}.
+\]
+So $\ord{0}$ is the empty set, $\ord{1}$ is a one-element set, etc.
+
+%-------- Section --------%
+\section{Deterministic systems}\label{sec.deterministic_system}
+
 In this chapter, we will see the idea from \cref{inf.dynam_sys} in its
-most distilled form: we will know exactly how things are, and exactly how they will change. That is, we'll be focusing on \emph{deterministic} dynamical systems,
+most distilled form: we will know exactly how things are, and exactly how they
+will change. That is, we'll be working in the \emph{deterministic} doctrine of
+dynamical systems,
 for which time steps forward in \emph{discrete} increments.
 
 
@@ -330,74 +499,6 @@ have very interesting behavior when plugged in to the right environment.}
 %%
 %% :CUSTOM_ID:cite-this.turing_machine
 %% 
-
-We call this way of putting together dynamical systems to make more complex
-systems \emph{composition}.
-\begin{informal}
-  \emph{Composition} is the process by which some things are brought together to
-  form bigger things.
-\end{informal}
-
-
-Functions can be composed by $g \circ f(x) = g(f(x))$, and dynamical systems
-can be composed by plugging in the variables of the states of some into the
-parameters of others.
-  
-This book is all about composing dynamical systems. Because of this, we will use
-the abstract language of composition: \emph{category theory}.
-\begin{informal}
-\emph{Category theory} is the abstract study of composition.
-\end{informal}
-
-
-
-%---- Subsection ----%
-\subsection{Category Theory}
-
-We'll be using the language of category theory quite freely in this book, and so
-we'll expect you to know the basics. These are the notions we will expect you to
-be familiar with:
-\begin{itemize}
-\item What a category is.
-\item What an isomorphism is.
-\item What a functor is.
-\item What a natural transformation is.
-\item What a terminal and an initial object are.
-\item What a product and a coproduct are.
-\item What a monad is, and it will help if you also know what a comomad is.
-  \item What a monoidal category is.
-\end{itemize}
-
-Good introductions to category theory abound. One place to start is \emph{An invitation to applied category theory} \cite{fong2019seven}.
-
-We will be using cartesian categories quite a bit in the first few chapters.
-\begin{definition}\label{def.cartesian_category}
-  A category $\cat{C}$ is \emph{cartesian} if every two objects $A$ and $B$ in
-  $\cat{C}$ have a product $A \times B$, and $\cat{C}$ has a terminal object
-  $\ord{1}$. Equivalently, $\cat{C}$ is cartesian if for any finite set $I$ and
-  $I$-indexed family $A_{(-)} : I \to \cat{C}$ of objects, there is a product
-  $\prod_{i \in I} A_i$ in $\cat{C}$.
-
-  A functor $F : \cat{C} \to \cat{D}$ between cartesian categories is said to be
-  \emph{cartesian} if it preserves products and terminal objects, i.e.\ the
-  map $(F\pi_A,\, F\pi_B) : F(A \times B) \to FA \times FB$ is an isomorphism
-  for all $A$ and $B$, and the terminal morphism $F\ord{1} \to \ord{1}$ is an
-  isomorphism. 
-\end{definition}
-
-We will also use some more advanced category theory, like indexed
-categories, double categories, and toposes. However, you don't need to know them up front; we will introduce these concepts
-as we use them.
-
-While we're at it, here's some notation we'll use repeatedly throughout the book. The $n$th ordinal is denoted $\ord{n}$. It is defined to be the set
-\[
-\ord{n}\coloneqq\{1,2,\ldots,n\}.
-\]
-So $\ord{0}$ is the empty set, $\ord{1}$ is a one-element set, etc.
-
-%-------- Section --------%
-\section{Deterministic systems}
-
 That's a lot of informal definitions, we are ready for something precise:
 \begin{definition}\label{def.deterministic_system}
   A \emph{deterministic system} $\Sys{S}$, also written as 
@@ -591,7 +692,7 @@ What would happen to a system $\Sys{S}$ if its set of parameters or output value
 \end{exercise}
 
 %-------- Section --------%
-\section{Wiring together systems with lenses}
+\section{Wiring together systems with lenses}\label{sec.wiring_discrete_systems}
 
 In the last section, we saw the formal definition of deterministic systems and a
 few examples of them. In this section, we'll see how to wire systems together---as we did in \cref{sec.chap1_intro} for the clock and the universal Turing machine---to
@@ -1576,7 +1677,7 @@ lens in a cartesian category of our choosing.
 \end{exercise}
 
 %-------- Section --------%
-\section[How systems behave: Trajectories, Steady States, etc.]{How systems behave: Trajectories, Steady States, and Periodic Orbits}  \label{sec.trajectories_discrete}
+\section[How systems behave: Trajectories, Steady States, etc.]{How systems behave: Trajectories, Steady States, and Periodic Orbits}  \label{sec.behavior_discrete}
 
 So far, we have seen how to wire up dynamical systems. But we haven't seen our
 dynamical systems actually \emph{do anything}. In this section, we will begin to
@@ -1940,7 +2041,8 @@ we call these behaviors that repeat \emph{periodic orbits}.
   Note that when we say that a periodic orbit has periodic parameters, we assume
   that they are periodic with the same period. This has important but subtle
   consequences for our theorems concerning the composition of behaviors in
-  \cref{sec.representables}. We explain the difference \spiz{difference between what?} in a more precise manner
+  \cref{sec.representables}. We explain the difference between a periodic orbit
+  and a periodic orbit with periodic parameters in a more precise manner
   in \cref{rmk.periodic_parameters_versus_not}.
 \end{remark}
 
@@ -2783,7 +2885,7 @@ Finally, we need to define the partial trace of a matrix of sets.
   Suppose that $M$ is a $(A \times C) \times (A \times B)$ matrix of sets. Its
   \emph{partial trace} $\fun{tr}_{A} M$ is a $C \times B$ matrix of sets with
   entries:
-  $$(\fun{tr}_{A})M_{cb} = \sum_{a \in A} M_{(a,c)(a,b).$$
+  $$(\fun{tr}_{A})M_{cb} = \sum_{a \in A} M_{(a,c)(a,b)}.$$
 
     We draw the partial trace of a matrix of sets as:
 \[
@@ -2834,7 +2936,7 @@ a system to an output of another can be seen as first taking their parallel
 product, and then forming a loop.
 \end{exercise}
 
-\paragraph{The steady states and matrix arithmetic}
+\paragraph{Steady states and matrix arithmetic}
 
 For the remainder of this section, we will show that we can calculate the steady
 state matrix of a wired together system in terms of its component system in a
@@ -2942,34 +3044,171 @@ in the steady state matrix of $\Sys{S}$:
 
 We can summarize \cref{prop.steady_state_matrix_trace} in the following
 commutative diagram:
+\begin{equation}\label{eqn.steady_state_matrix_compose}
+\begin{tikzpicture}
+\node[draw] (Topleft) {
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(S)]
+	\node[bb={2}{2}, fill=blue!10] (S) {$\Sys{S}$};
+\end{tikzpicture}
 
-%%% write-here 
+};
+
+
+\node[draw, below = 4 of Topleft] (Botleft) {
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(S'.center)]
+	\node[bb={2}{2}, fill=blue!10] (S) {$\Sys{S}$};
+
+  \node[bb={0}{0}, fit={($(S.north east) + (1,1)$) ($(S.south west) - (1,0)$)}] (S') {};
+  
+  \draw (S_out2) to (S_out2-|S'.east);
+  \draw (S_in2-|S'.west) to (S_in2);
+
+  \draw let \p1=(S.north east), \p2=(S.north west), \n1={\y2+\bby}, \n2=\bbportlen in    (S_out1) to[in=0] (\x1 +\n2, \n1) -- (\x2-\n2, \n1) to[out=180] (S_in1);
+\end{tikzpicture}
+};
+
+
+\node[draw, right = 4 of Botleft]  (Botright) {
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(M)]
+	\node[bb={2}{2}, rounded corners=5pt, draw=dgreen] (M) {$\Set{Steady}_{\Sys{S}}$};
+	\node[left=1.5 of M_in2] (B) {};
+	\node[right=1.5 of M_out2] (C) {};
+  \draw let \p1=(M.north east), \p2=(M.north west), \n1={\y2+\bby}, \n2=\bbportlen in
+          (M_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (M_in1);
+  \draw (B) to (M_in2);
+  \draw (M_out2) to (C);
+\end{tikzpicture}
+};
+
+\node[draw] at (Botright|-Topleft)(Topright) {
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
+	\node[bb={2}{2}, rounded corners=5pt, draw=dgreen] (f) {$\Set{Steady}_{\Sys{S}}$};
+\end{tikzpicture}
+};
+
+\draw[->, shorten <= 5pt, shorten >= 5pt] (Topleft) to node[above] {$\Set{Steady}$} (Topright);
+\draw[->, shorten <= 5pt, shorten >= 5pt] (Botleft) to node[below] {$\Set{Steady}$} (Botright);
+\draw[->, shorten <= 5pt, shorten >= 5pt] (Topleft) to coordinate[left] (Leftlabel) (Botleft);
+\draw[->, shorten <= 5pt, shorten >= 5pt] (Topright) to coordinate[right] (Rightlabel) (Botright);
+
+\node[left = 0 of Leftlabel] {
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(S'.center)]
+	\node[bb={2}{2}, fill=blue!10, dashed] (S) {};
+
+  \node[bb={0}{0}, fit={($(S.north east) + (1,1)$) ($(S.south west) - (1,0)$)}] (S') {};
+  
+  \draw (S_out2) to (S_out2-|S'.east);
+  \draw (S_in2-|S'.west) to (S_in2);
+
+  \draw let \p1=(S.north east), \p2=(S.north west), \n1={\y2+\bby}, \n2=\bbportlen in    (S_out1) to[in=0] (\x1 +\n2, \n1) -- (\x2-\n2, \n1) to[out=180] (S_in1);
+\end{tikzpicture}
+};
+\node[right= 0 of Rightlabel] {
+\begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(M)]
+	\node[bb={2}{2}, rounded corners=5pt, draw=dgreen, dashed] (M) {$\phantom{\Set{Steady}_{\Sys{S}}}$};
+	\node[left=1.5 of M_in2] (B) {$B$};
+	\node[right=1.5 of M_out2] (C) {$C$};
+  \draw let \p1=(M.north east), \p2=(M.north west), \n1={\y2+\bby}, \n2=\bbportlen in
+          (M_out1) to[in=0] (\x1+\n2,\n1) -- node[above, font=\scriptsize] {$A$} (\x2-\n2,\n1) to[out=180] (M_in1);
+  \draw (B) to (M_in2);
+  \draw (M_out2) to (C);
+\end{tikzpicture}
+};
+\end{tikzpicture}
+\end{equation}
+
+The horizontal maps take the steady states of a system, while the vertical map
+on the left wires together the system with that wiring diagram, and the vertical
+map on the right applies that transformation of the matrix. In the next section,
+we will see how this square can be interepreted as a naturality condition in a
+\emph{indexed double functor}.
+
+One thing to notice here is that taking the partial trace (the right vertical
+arrow in the diagram) is itself given by multiplying by a certain matrix.
+\begin{proposition}\label{prop.trace_multiplying_by_matrix}
+  Let $M$ be a $(A \times C) \times (A \times B)$ matrix of sets. Let
+  $\Set{Tr}^A$ be the $\big(C \times B \big) \times \big((A \times C) \times (A
+  \times B)\big)$ matrix of sets with entries:
+  \[
+    \Set{Tr}A{A}_{(c, b)((a,c'),(a', b'))} \coloneqq \begin{cases} 
+      \ord{1} &\mbox{if $a = a'$, $b = b'$, and $c = c'$.} \\
+      \emptyset &\mbox{otherwise.}
+    \end{cases} 
+\]
+  Then, considering $M$ as a $\big((A \times C) \times (A \times B)\big) \times
+  \ord{1}$ matrix of sets, taking its trace is given by multiplying by $\Set{Tr}^A$:
+$$\fun{tr}_{A}M \cong \Set{Tr}^A M$$
+\end{proposition}
+\begin{proof}
+  Let's calculate that matrix product on the right.
+  \begin{align*}
+    (\Set{Tr}^A M)_{(c, b)} &= \sum_{((a, c'), (a', b')) \in (A \times C) \times (A \times B)} \Set{Tr}^A_{(c,b)((a, c'),(a', b'))} \times M_{(a,c')(a',b')} \\
+  \end{align*}
+  Now, since $\Set{Tr}^A_{(c,b)((a,c'),(a',b'))}$ is a one element set (if $a =
+  a'$, $c = c'$, and $b = b'$) and is empty otherwise, the inner expression has
+  the elements of $M_{(a,c')(a', b')}$ if and only if $a = a'$, $b = b'$, and $c
+  = c'$ and is otherwise empty. So, we conclude that
+  \[
+\sum_{((a, c'), (a', b')) \in (A \times C) \times (A \times B)}
+\Set{Tr}^A_{(c,b)((a, c'),(a', b'))} \times M_{(a,c')(a',b')} \cong M_{(a, c)(a,
+  b)}.
+\]
+As desired.
+\end{proof}
+
 %-------- Section --------%
 \section{Behaviors of the whole from behaviors of the parts}\label{sec.representables}
 
+Let's take stock of where we've been so far this chapter.
+\begin{itemize}
+  \item In \cref{sec.deterministic_system}, we saw the definition of a
+    \emph{deterministic system}.
+  \item In \cref{sec.wiring_sytems_discrete}, we learned about \emph{lenses}. We saw how systems can be
+    interpreted as special sorts of lenses, and how we can wire together systems
+    using lens composition.
+  \item In \cref{sec.behavior_discrete}, we learned about behaviors and \emph{charts}. We saw
+    how to define behaviors of systems using the notion of chart. Finally, we
+    saw how the steady states of wired together systems can be calculated from their
+    component systems with matrix arithmetic.
+\end{itemize}
 
-  So far, we have seen how both deterministic systems and the wiring diagrams we
-  used to compose them can be seen as lenses. Clearly, lenses will play a
-  central role in our story of composing dynamical systems. For this reason, we
-  will here give another construction of the category of lenses as the
-  \emph{Grothendieck construction} of a certain \emph{indexed category}.
+The two sorts of composition we have seen so far --- lens composition and chart
+composition --- mirror the two sorts of composition at play in systems theory:
+\begin{itemize}
+  \item We can compose \emph{systems} by wiring them together. This uses lens composition.
+  \item We can compose \emph{behaviors} of systems like we compose functions.
+    This uses chart composition.
+\end{itemize}
 
-  We take this detour into the abstract for two main reasons:
-  \begin{enumerate}
-    \item In the subsequent chapters, we will see variations on the notion of
-      lens. In \cref{chapter.3} we will see \emph{monadic lenses} which
-      will allow for non-deterministic or stochastic maps. In \cref{chapter.4},
-      we will encounter \emph{dependent lenses}, which are equivalently natural
-      transformations between polynomial functors. The construction in this
-      section will generalize elegantly to all these examples.
-    \item The notion of a \emph{map} between dynamical systems --- which
-      includes the notions of trajectories, steady states, and periodic orbits
-      --- is best formalized by a related construction \cref{def.double_cat_arena_discrete} which uses the
-      Grothendieck construction. In \cref{sec.trajectories_discrete}, we will
-      see how these concepts work for deterministic system.
-  \end{enumerate}
-  Ultimately, this section will pave the way to the general framework for
-  dynamical systems theory presented in \cref{chapter.7}.
+In this section, we will see how these two sorts of composition interact.
+Because there are two sorts of composition involved, we will use the notion of a
+\emph{double category}. A double category is like a category, but there are two
+sorts of map between the objects, and there is a notion of interaction between
+these two sorts of map. We'll get to see that behaviors $\phi : \Sys{T} \to
+\Sys{S}$ of systems
+(\cref{def.behavior_discrete}) are squares
+\[
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi}{\phi}"] \ar[r,
+    shift right]
+    \ar[d, shift right, "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+    shift left] & \lens{\In{S}}{\Out{S}}
+  \end{tikzcd}
+\]
+in the double category of \emph{arenas}, \cref{def.double_category_of_arenas}.
+
+Along the way, we'll see a new interpretation of the categories of lenses and
+charts which explain why they seem so eerily familiar. We will see them as
+instances of a very general construction that forms a category out of an
+\emph{indexed category}: the \emph{Grothendieck construction}. We take this
+detour into the abstract because when we move to different doctrines in later
+chapter, the particular notion of lens and chart might change, but they will
+always be built out of an indexed category in the way we will see in this section.
+
+
 
 %---- Subsection ----%
 \subsection{Indexed categories and the Grothendieck construction}\label{sec.indexed_categories}
@@ -3011,22 +3250,45 @@ objects of another category.
 
 Indexed categories are quite common throughout mathematics. We will construct a
 particular example for our own purposes in \cref{sec.context_indexed_cat}, and
-more throughout the book. We will put off examples until then, and just concern
-ourselves with the Grothendieck construction.
+more throughout the book.
+
+\begin{example}\label{ex.indexed_cat_of_dependent_sets}
+  Recall that a \emph{dependent set} is a function $X : A \to \smset$ from a set
+  into the category of sets. We have an indexed category of dependent sets
+  $$\smset^{(-)} : \smset\op \to \Cat{Cat}$$
+  which is defined as follows:
+  \begin{itemize}
+    \item To each set $A$, we assign the category $\smset^A$ of sets indexed by
+      $A$. The objects of $\smset^A$ are the sets $X : A \to \smset$ indexed by
+      $A$, and a map $f : X \to Y$ is a family of maps $f_a : X_a \to Y_a$
+      indexed by the elements $a \in A$. Composition is given componentwise: $(g
+      \circ f)_a = g_a \circ f_a$.
+    \item To every function $f : A' \to A$, we get a reindexing functor
+$$f^{\ast} : \smset^A \to \smset^{A'}$$
+   Given by precomposition: $X \mapsto X \circ f$. The indexed set $X \circ f :
+   A' \to \smset$ is the set $X_{f(a')}$ on the index $a' \in A'$. The families
+   of functions get reindexed the same way.
+     \item Since our reindexing is just given by precomposition, it is clearly
+       functorial on the nose (that is, not just up to isomorphism).
+  \end{itemize}
+  We will return to this example in much greater detail in \cref{chapter.4}.
+\end{example} 
+
 
 If we have an family of sets $A : I \to \Cat{Set}$ indexed by a set $I$, we can
 form the disjoint union $\sum_{i \in I} A_i$, together with the projection $\pi
 : \sum_{i \in I} A_i \to I$ sending each $a \in A_i$ to $i$. The Grothendieck
-construction is a generalization of this construction to indexed categories,
-rather than just indexed sets. Namely, we will take an indexed category $\cat{A}
+construction is a generalization of this construction to indexed categories. Namely, we will take an indexed category $\cat{A}
 : \cat{C} \to \Cat{Cat}$ and form a new category
 
 $$\int^{C : \cat{C}} \cat{A}(C)$$
-which we think of as a ``union'' off all the categories $\cat{A}(C)$, but not
+which we think of as a ``union'' off all the categories $\cat{A}(C)$. But this
+``union'' will not be
 disjoint since there will be morphisms from objects in $\cat{A}(C)$ to objects
 in $\cat{A}(C')$. This is why we use the integral notation; we want to suggest
 that the Grothendieck construction is a sort of sum.\footnote{The Grothendieck
-  construction is an example of a \emph{lax colimit} in 2-category theory.}
+  construction is an example of a \emph{lax colimit} in 2-category theory,
+  another sense in which it is a `sort of sum'.}
 \begin{definition}\label{def.grothendieck_construction}
   Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category. The
   \emph{Grothendieck construction} of $\cat{A}$
@@ -3059,81 +3321,238 @@ that the Grothendieck construction is a sort of sum.\footnote{The Grothendieck
   coherence conditions on $\gamma$ and $\iota$).
 \end{exercise}
 
-The confluence of notation with that of lenses is not accident. But note that
-here, we are writing $\lens{A}{C} \rightrightarrows \lens{A}{C}$ instead of
-$\lens{A}{C} \leftrightarrows \lens{A}{C}$; the reason for this will become clear in
-\cref{thm.lens_indexed_cat}, when we construct $\Cat{Lens}_{\cat{C}}$ as the
-Grothendieck construction of a particular indexed category.
+The confluence of notation with that of charts is no accident. Indeed, we will
+see in the next subsection that the category of charts can be described as the
+Grothendieck construction of a certain indexed category.
 
+%---- Subsection ----%
+\subsection{Sets with context, charts, and lenses}\label{sec.context_indexed_cat}
 
-
-As with any categorical construction, the Grothendieck construction is
-functorial in its argument. To see how this works, we need to know what an
-indexed functor between indexed categories is. 
+In this section, we will see how both the category $\Cat{Chart}$ and
+$\Cat{Lens}$ of charts and lenses in the category of sets can be described using
+the Grothendieck construction. To do this, we need some other categories named
+after their maps (rather than their objects): 
+\emph{category of sets and functions with context $C$} for some a given set $C$. 
 
 \begin{definition}
-  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ and $\cat{B} : \cat{D}\op \to
-  \Cat{Cat}$ be indexed categories. An indexed functor $(F, \overline{F}) :
-  \cat{A} \to \cat{B}$ consists of a functor $F : \cat{C} \to \cat{D}$ together
-  with a pseudo-natural transformation\footnote{As with the psuedo-functoriality
-  of each indexed category, pseudo-naturality means naturality up to coherent
-  isomorphism. In many of our cases, we will have bona-fide naturality.} $\overline{F} : \cat{A} \Rightarrow
-  \cat{B} \circ F\op$. Explicitly, this is:
+  Let $C$ be a set. The \emph{category $\smctx{C}$ of sets and functions with context $C$}
+  is the category defined by:
   \begin{itemize}
-  \item A functor $F : \cat{C} \to \cat{D}$.
-  \item For each $C \in \cat{C}$, a functor $\overline{F}_C : \cat{A}(C) \to \cat{B}(FC)$.
-  \item For each $f : C \to C'$ in $\cat{C}$, a natural isomorphism $\phi_f :
-    \overline{F}_{C} \circ f^{\ast} \cong f^{\ast} \circ \overline{F}_{C'}$.
-  \item (Psuedo-naturality) These naturality isomorphisms are required to satisfy a coherence condition: For $g : C' \to C''$,
-    we need that
-    \[
-\begin{tikzcd}
-\cat{A}(C'') \arrow[d, "\overline{F}_{C''}"']  \arrow[rr, "(g
-\circ f)^\ast"{name=Top, below}, bend left=49]  &  & \cat{A}(C) \arrow[d,
-"\overline{F}_C"] \arrow[lld, "\phi_{gf}"', Rightarrow] \\
-\cat{A}(FC'')  \arrow[rr, "(g \circ
-f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
-                                                                          & \cat{A}(FC)                                                             
-\end{tikzcd}
-=
-\begin{tikzcd}
-\cat{A}(C'') \arrow[d, "\overline{F}_{C''}"'] \arrow[r, "g^\ast"] \arrow[rr, "(g
-\circ f)^\ast"{name=Top, below}, bend left=49] \ar[r, Rightarrow, from=Top,
-"\mu_{g, f}\inv"] & \cat{A}(C')  \arrow[r, "f^\ast"] \arrow[d, "\overline{F}_{C'}" description] \arrow[ld, "\phi_g"', Rightarrow] & \cat{A}(C) \arrow[d, "\overline{F}_C"] \arrow[ld, "\phi_f"', Rightarrow] \\
-\cat{A}(FC'') \arrow[r, "g^{\ast}"'] \arrow[rr, "(g \circ
-f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
-\cat{A}(FC') \arrow[Rightarrow, to=Bottom, "\mu_{g, f}"] \arrow[r, "f^{\ast}"']                                                                          & \cat{A}(FC)                                                             
-\end{tikzcd}
-    \]
+    \item Objects are sets.
+    \item Maps $f : X \ctxto Y$ are functions $f : C \times X \to Y$.
+    \item The composite $g \circ f$ of $f : X \ctxto Y$ and $g : Y \ctxto Z$ is
+      the function
+       $$(c, x) \mapsto g(c, f(c, x)) : C \times X \to Z.$$
+       Diagrammatically, this is the composite:
+       $$C \times X \xto{\Delta_C \times X} C \times C \times X \xto{C \times f}
+       C \times Y \xto{g} Z.$$
+    \item The identity $\id : X \ctxto X$ is the second projection $\pi_2 : C
+      \times X \to X$.
   \end{itemize}
 \end{definition}
 
-\begin{proposition}[Functoriality of the Grothendieck construction]\label{prop.groth_construction_functoriality}
-  Let $(F, \overline{F}) : \cat{A} \to \cat{B}$ be an indexed double functor.
-  Then there is a functor
-  $$\lens{\overline{F}}{F} : \int^{C : \cat{C}} \cat{A}(C) \to \int^{D :
-    \cat{D}} \cat{B}(D)$$
-  between their Grothendieck constructions given on objects by
-  $$\lens{\overline{F}}{F} \lens{A}{C} \coloneqq \lens{\overline{F}A}{FC}.$$
+\begin{exercise}
+  Check that $\smctx{C}$, as defined, really is a category. That is,
+  \begin{enumerate}
+    \item For $f : X \ctxto Y$, $g : Y \ctxto Z$, and $h : Z \ctxto W$, check
+      that $h \circ (g \circ f) = (h \circ g) \circ f$.
+    \item For $f : X \ctxto Y$, check that $f \circ \id_X = f = \id_Y \circ f$.
+  \end{enumerate}
+\end{exercise}
+
+Together, we can arrange the categories of sets and functions with context into
+an indexed category.
+\begin{definition}
+  The \emph{indexed category of sets and functions with context}
+  $$\smctx{-} : \smset\op \to \Cat{Cat}$$
+  is defined by:
+  \begin{itemize}
+    \item For a set $C$, we have the category $\smctx{C}$.
+    \item For a function $r : C' \to C$, we get a functor
+      $$r^{\ast} : \smctx{C} \to \smctx{C'}$$
+      given by sending each object to itself, but each morphism $f : C \times X
+      \to Y$ in $\smctx{C}$ to the morphism $r^{\ast}f \coloneqq f \circ (r \times X)$:
+      $$C' \times X \xto{r \times X} C \times X \xto{f} Y.$$
+  \end{itemize}
+  We note that this is evidently functorial.
+\end{definition}
+
+Now we can see why the category of charts and the category of lenses are so
+eerily similar: one will be the Grothendieck construction of $\smctx{-}$, and
+the other will be the Grothendieck construction of its dual $\smctx{-}\op$.
+\begin{proposition}\label{prop.charts_as_groth_construction}
+  The category $\Cat{Chart}$ of charts in the category of sets
+  (\cref{def.category_of_charts}) is the Grothendieck construction of $\smctx{-}
+  : \smset\op \to \Cat{Cat}$:
+  $$\Cat{Chart} = \int^{C \in \smset} \smctx{C}.$$
 \end{proposition}
 \begin{proof}
+  We will expand the definition of the Grothendieck construction, and see that
+  it gives us precisely \cref{def.category_of_charts}.
 
+  First, the objects of $\int^{C \in \smset} \smctx{C}$ are pairs of sets
+  $\lens{A^-}{A^+}$, since the objects of $\smctx{A^+}$ are just sets
+  themselves. So far so good.
+
+  Next, a map $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$
+  in $\int^{C \in \smset} \smctx{C}$ is a pair of maps $f : A^+ \to B^+$ and
+  $f_{\flat} : A^- \ctxto f^{\ast} B^-$ in $\smctx{A^+}$. But $f^{\ast}B^- =
+  B^-$ by the definition of the reindexing functor $f^{\ast}$, so by the
+  definition of map with context $A^+$, we see that $f_{\flat} : A^+ \times A^-
+  \to B^-$. In other words, the maps in $\int^{C \in \smset} \smctx{C}$ are
+  precisely the charts. We note that the identity map in the Grothendieck
+  construction is the identity chart.
+
+  Finally, we should check that composition of charts is given by composition in
+  the Grothendieck construction. Suppose that $\lens{f_{\flat}}{f} :
+  \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$ and $\lens{g_{\flat}}{g} :
+  \lens{B^-}{B^+} \tto \lens{C^-}{C^+}$ are charts. Then their composite
+  in $\int^{C \in \smset} \smctx{C}$ is given by
+  $$\lens{f^{\ast}g_{\flat} \circ f_{\flat}}{g \circ f}.$$
+  Well, the bottom is all good, what about the top? Expanding the definition, we
+  see that $f^{\ast}g_{\flat} = g_{\flat} \circ (f \times B^-)$, so that
+  $f^{\ast}g_{\flat} \circ f_{\flat}$ is the map given by
+  $$(a^+, a^-) \mapsto g_{\flat}(f(a^+), f_{\flat}(a^+, a^-)),$$
+  which is precisely how we defined composition of charts!
 \end{proof}
 
+  
+The only difference between the category of charts and the category of lenses is
+that for lenses, the maps on top go backwards.
+\begin{proposition}\label{prop.lenses_as_groth_construction}
+  The category $\Cat{Lens}$ of lenses in the category of sets is the
+  Grothendieck construction of the indexed category of \emph{opposites} of the
+  categories of sets and functions with context:
+  $$\Cat{Lens} = \int^{C \in \smset} \smctx{C}\op.$$
+\end{proposition}
+\begin{proof}
+As with \cref{prop.charts_as_groth_construction}, we will simply expand the
+definition of the right hand side, and see that it is precisely the category of lenses.
+
+The objects of $\int^{C \in \smset} \smctx{C}\op$ are pairs $\lens{A^-}{A^+}$ of
+sets. All good so far.
+
+A map in $\int^{C \in \smset} \smctx{C}\op$ is a pair $\lens{f^{\sharp}}{f}$
+with $f : A^+ \to B^+$ and $f^{\sharp} : A^- \ctxto f^{\ast} B^-$ in
+$\smctx{A^+}\op$. Now, $f^{\ast}B^- = B^-$ so $f^{\sharp}$ has signature $A^-
+\ctxto B^-$ in $\smctx{A^+}\op$, which means $f^{\sharp}$ has signature $B^-
+\ctxto A^_$ in $\smctx{A^+}$, which means that $f^{\sharp}$ is a really a
+function $A^+ \timse B^- \to A^_$. In other words, a map in $\int^{C \in \smset}
+\smctx{C}\op$ is precisely a lens. We note that the identity map is the identity lens.
+
+Finally, we need to check that composition in $\int^{C \in \smset} \smctx{C}\op$
+is lens composition. Suppose that $\lens{f^{\sharp}}{f} :
+  \lens{A^-}{A^+} \fromto \lens{B^-}{B^+}$ and $\lens{g^{\sharp}}{g} :
+  \lens{B^-}{B^+} \from \lens{C^-}{C^+}$ are lenses. In $\int^{C \in \smset}
+  \smctx{C}\op$, their composite is
+$$\lens{f^{\ast}g^{\sharp} \circ f^{\sharp}}{g \circ f}.$$
+  The bottom is all good, we just need to check that the top --- which,
+  remember, lives in $\smctx{A^+}\op$ --- is correct. Since the composite up top
+  is in
+  the opposite, we are really calculating $f^{\sharp} \circ f^{\ast} g^{\sharp}$
+  in $\smctx{A^+}$. By definition, this is
+$$(a^+, c^-) \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^-))$$
+which is precisely their composite as lenses!
+\end{proof}
+
+\begin{exercise}\label{ex.really_understand_charts_as_groth_construction}
+  Make sure you \emph{really} understand \cref{prop.charts_as_groth_construction,prop.lenses_as_groth_construction}.
+\end{exercise}
+
 
 
 %---- Subsection ----%
-\subsection{CoKleisli categories and maps with context}\label{sec.context_indexed_cat}
+\subsection{Dealing with two kinds of composition: Double categories}
 
-%---- Subsection ----%
-\subsection{The double category of arenas}
+In this section, we will introduce the notion of \emph{double category} to help
+us deal with our two kinds of composition: the composition of systems, and the
+composition of behaviors.
+
+\begin{definition}
+  A \emph{double category} $\cat{D}$ has:
+  \begin{itemize}
+    \item A class $\const{ob}\cat{D}$ of \emph{objects}.
+    \item A \emph{horizontal} category $h \cat{D}$ whose objects are those of
+      $\cat{D}$. We call the maps in $h\cat{D}$ the \emph{horizontal} maps of $\cat{D}$.
+    \item A \emph{vertical} category $v \cat{D}$ whose objects are those of
+      $\cat{D}$. We call the maps in $v\cat{D}$ the \emph{vertical} maps of $\cat{D}$.
+    \item For vertical maps $j : A \to B$ and $k : C \to D$ and horizontal maps
+      $f : A \to C$ and $g : B \to D$, there is a set of
+      \emph{squares}
+      \[
+        \begin{tikzcd}[sep=small]
+          A \ar[dd, "j"'] \ar[rr, "f"] & & B \ar[dd, "k"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+      \]
+    \item Squares can be composed both horizontally and vertically:
+        \[
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j"'] \ar[rr, "f_1"] & & A_2 \ar[dd, "k"]  \ar[rr, "f_2"]&
+          & A_3 \ar[dd, "\ell"]\\
+           & \alpha &  & \beta &\\
+          B_1 \ar[rr, "g_1"'] & & B_2 \ar[rr, "f_2"] & & B_3
+        \end{tikzcd} \mapsto
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j"'] \ar[rr, "f_2 f_1"] & & A_3 \ar[dd, "\ell"] \\
+           & \alpha \mid \beta & \\
+          B_1 \ar[rr, "g_2 g_1"'] & & B_3
+        \end{tikzcd}
+        \]
+        \[
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j_1"'] \ar[rr, "f"] & & A_2 \ar[dd, "k_1"]  \\
+           & \alpha &  \\
+           B_1 \ar[dd, "j_1"'] \ar[rr, "g"] & & B_2 \ar[dd, "k_2"]\\
+           & \beta & \\
+           C_1 \ar[rr, "h"']& & C_2
+        \end{tikzcd} \mapsto
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j_2 j_1"'] \ar[rr, "f"] & & A_3 \ar[dd, "k_2 k_1"] \\
+           & \frac{\alpha}{\beta} & \\
+          C_1 \ar[rr, "h"'] & & B_3
+        \end{tikzcd}
+        \]
+      \item For every vertical map $j : A \to B$, there is an identity square
+        \[
+        \begin{tikzcd}[sep=small]
+          A \ar[dd, "j"'] \ar[rr, equals] & & A \ar[dd, "j"] \\
+           & j & \\
+          B \ar[rr, equals] & & B
+        \end{tikzcd}
+        \]
+        which we will also refer to as $j$, for convenience. Similarly, for
+        every horizontal map $f : A \to B$, there is an identity square
+        \[
+        \begin{tikzcd}[sep=small]
+          A \ar[rr, "f"] \ar[dd, equals] & & A \ar[dd, equals] \\
+           & f & \\
+          B \ar[rr, "f"] & & B
+        \end{tikzcd}
+        \]
+        which we will also refer to as $f$, for convenience.
+      \item Vertical and horizontal composition is associative and unital, and
+        the \emph{interchange law} holds. That is:
+        \begin{itemize}
+          \item For horizontally composable squares $\alpha$, $\beta$, and
+            $\gamma$, $$(\alpha \mid \beta) \mid \gamma = \alpha \mid (\beta \mid
+            \gamma).$$
+          \item For vertically composable squares $\alpha$, $\beta$, and
+            $\gamma$,
+        \end{itemize}
+  \end{itemize}
+\end{definition}
+
+
+%% write-here
 
 %---- Subsection ----%
 \subsection{The indexed double category of deterministic systems}
 \label{sec.indexed_double_category_of_systems}
 
 %---- Subsection ----%
-\subsection{The main theorem: representable indexed double functors}
+\subsection{The big theorem: representable indexed double functors}
   
 
 

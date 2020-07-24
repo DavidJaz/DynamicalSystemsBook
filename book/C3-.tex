@@ -9,6 +9,75 @@
 %------------ Chapter ------------%
 \chapter{}\label{chapter.3}
 
+%-------- Section --------%
+\section{Introduction}
+
+
+%-------- Section --------%
+\section{Monadic Doctrines: Non-determinism, stochasticity, and more}
+
+
+%---- Subsection ----%
+\subsection{Change of doctine}
+
+
+\paragraph{Functoriality of the Grothendieck construction}
+As with any categorical construction, the Grothendieck construction is
+functorial in its argument. To see how this works, we need to know what an
+indexed functor between indexed categories is. 
+
+\begin{definition}
+  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ and $\cat{B} : \cat{D}\op \to
+  \Cat{Cat}$ be indexed categories. An indexed functor $(F, \overline{F}) :
+  \cat{A} \to \cat{B}$ consists of a functor $F : \cat{C} \to \cat{D}$ together
+  with a pseudo-natural transformation\footnote{As with the psuedo-functoriality
+  of each indexed category, pseudo-naturality means naturality up to coherent
+  isomorphism. In many of our cases, we will have bona-fide naturality.} $\overline{F} : \cat{A} \Rightarrow
+  \cat{B} \circ F\op$. Explicitly, this is:
+  \begin{itemize}
+  \item A functor $F : \cat{C} \to \cat{D}$.
+  \item For each $C \in \cat{C}$, a functor $\overline{F}_C : \cat{A}(C) \to \cat{B}(FC)$.
+  \item For each $f : C \to C'$ in $\cat{C}$, a natural isomorphism $\phi_f :
+    \overline{F}_{C} \circ f^{\ast} \cong f^{\ast} \circ \overline{F}_{C'}$.
+  \item (Psuedo-naturality) These naturality isomorphisms are required to satisfy a coherence condition: For $g : C' \to C''$,
+    we need that
+    \[
+\begin{tikzcd}
+\cat{A}(C'') \arrow[d, "\overline{F}_{C''}"']  \arrow[rr, "(g
+\circ f)^\ast"{name=Top, below}, bend left=49]  &  & \cat{A}(C) \arrow[d,
+"\overline{F}_C"] \arrow[lld, "\phi_{gf}"', Rightarrow] \\
+\cat{A}(FC'')  \arrow[rr, "(g \circ
+f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
+                                                                          & \cat{A}(FC)                                                             
+\end{tikzcd}
+=
+\begin{tikzcd}
+\cat{A}(C'') \arrow[d, "\overline{F}_{C''}"'] \arrow[r, "g^\ast"] \arrow[rr, "(g
+\circ f)^\ast"{name=Top, below}, bend left=49] \ar[r, Rightarrow, from=Top,
+"\mu_{g, f}\inv"] & \cat{A}(C')  \arrow[r, "f^\ast"] \arrow[d, "\overline{F}_{C'}" description] \arrow[ld, "\phi_g"', Rightarrow] & \cat{A}(C) \arrow[d, "\overline{F}_C"] \arrow[ld, "\phi_f"', Rightarrow] \\
+\cat{A}(FC'') \arrow[r, "g^{\ast}"'] \arrow[rr, "(g \circ
+f)^{\ast}"'{name=Bottom, above}, bend right=49]                          &
+\cat{A}(FC') \arrow[Rightarrow, to=Bottom, "\mu_{g, f}"] \arrow[r, "f^{\ast}"']                                                                          & \cat{A}(FC)                                                             
+\end{tikzcd}
+    \]
+  \end{itemize}
+\end{definition}
+
+\begin{proposition}[Functoriality of the Grothendieck construction]\label{prop.groth_construction_functoriality}
+  Let $(F, \overline{F}) : \cat{A} \to \cat{B}$ be an indexed double functor.
+  Then there is a functor
+  $$\lens{\overline{F}}{F} : \int^{C : \cat{C}} \cat{A}(C) \to \int^{D :
+    \cat{D}} \cat{B}(D)$$
+  between their Grothendieck constructions given on objects by
+  $$\lens{\overline{F}}{F} \lens{A}{C} \coloneqq \lens{\overline{F}A}{FC}.$$
+\end{proposition}
+\begin{proof}
+
+\end{proof}
 
 
 \end{document}
+
+
+%-------- Section --------%
+\section{Hierarchical Planning}

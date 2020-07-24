@@ -421,6 +421,7 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\comon}{\Cat{Comon}(\poly)}
 \newcommand{\nat}{\Set{Nat}}
 \newcommand{\finset}{\Cat{FinSet}}
+\newcommand{\smctx}[1]{\Cat{Ctx}_{#1}}
 
 \newcommand{\List}{\Fun{List}}
 \newcommand{\set}{\tn{-}\Cat{Set}}
@@ -468,6 +469,10 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
   \ext@arrow 0395\xmapstofill@{#1}{#2}%
 }
 \newcommand{\xto}[1]{\xrightarrow{#1}}
+
+
+\newcommand{\ctxto}{\wavyto} % b/c I can't figure out what I really want to use
+                             % for this...
 
 \newcommand{\shp}{^\sharp}
 
