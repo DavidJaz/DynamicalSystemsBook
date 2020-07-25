@@ -1972,6 +1972,14 @@ Its output type is $\rr^2$, which we might think of as a position, and its input
 \end{align*}
 \end{example}
 
+\begin{example}[From functions to Moore machines]\label{ex.funs_to_moore}
+For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $A$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. It is given by the map $(f,f^\sharp)\colon A\yon^A\to B\yon^A$ that on positions is $f$, and for each $a\in A$ the on-directions map $f^\sharp_a\colon A\to A$ is the identity on $A$.
+\end{example}
+
+\begin{exercise}\label{exc.funs_to_moore}
+For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. What is it?
+\end{exercise}
+
 \begin{exercise}
 Find $A,B\in\smset$ such that the following can be identified with a morphism $S\yon^S\to B\yon^A$:
 \begin{enumerate}
@@ -2155,6 +2163,18 @@ The state without any outgoing arrows is the accept state. Answer the following 
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+\begin{example}[Inputting a start state]
+Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to system that starts not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
+
+Let $S'\coloneqq S+\1$, so that the start state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a morphism
+\[
+S'\yon^{S'}\to\yon+\yon^S
+\]
+that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ forever after.
+
+To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we update the state from a state in $S$ we'll just do whatever our original dynamical system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
+\end{example}
 
 \begin{exercise}
 Find what you think is an interesting generalization of deterministic finite state automata that you can model using generalized Moore machines.
@@ -2380,6 +2400,45 @@ Consider the following wiring diagram.
 	\item What morphism is it?
 	\item Suppose we are given dynamical systems $A\yon^A\to\const{Alice}$, $B\yon^B\to\const{Bob}$, and $C\yon^C\to\const{Carl}$. What is the induced dynamical system on $\const{Team}$?
 \qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Long division]
+\begin{enumerate}
+	\item Come up with a function ``divmod'' of type $\nn\times\nn_{\geq1}\to\nn\times\nn$ and which, for example, sends $(10,7)$ to $(1,3)$ and $(30,7)$ to $(4,2)$.
+	\item Use \cref{exc.funs_to_moore} to turn it into a dynamical system.
+	\item Interpret the following wiring diagram:
+\[
+\begin{tikzpicture}[oriented WD, bb small]
+	\node[bb port sep=3, fill=blue!10, bb={2}{2}] (divmod) {divmod};
+	\node[bb={0}{1}, fill=blue!10, left=of divmod_in2] (7) {$7$};
+	\node[bb port sep=2, bb={2}{1}, fill=blue!10, below right=-1 and 3 of divmod_out2] (times) {$*$};
+	\node[bb={0}{1}, fill=blue!10, below left=-1 and 1 of times_in2] (10) {$10$};
+	\node[bb={0}{0}, inner xsep=\bbx, fit=(divmod) (times)(7) (10)] (outer) {};
+	\coordinate (outer_in1) at (outer.west|-divmod_in1);
+	\coordinate (outer_out1) at (outer.east|-divmod_out1);
+	\coordinate (outer_out2) at (outer.east|-times_out1);
+	\draw (outer_in1) -- (divmod_in1);
+	\draw (7_out1) -- (divmod_in2);
+	\draw (10_out1) -- (times_in2);
+	\draw (divmod_out1) -- (outer_out1);
+	\draw (divmod_out2) to (times_in1);
+	\draw (times_out1) -- (outer_out2);
+\end{tikzpicture}
+\]
+	\item Use the above and a diagram of the following form to create a function that spits out the base-10 digits of $1/7$.
+\[
+\begin{tikzpicture}[oriented WD]
+	\node[bb={1}{2}, fill=blue!10] (inner) {};
+	\node[bb={0}{0}, inner xsep=1cm, inner ysep=1cm] (outer) {};
+	\coordinate (outer_out1) at (outer.east|-inner_out1);
+	\draw[shorten >=-3pt] (inner_out1) -- (outer_out1);
+	\draw 
+		let \p1=(inner.south east), \p2=(inner.south west), \n1=\bbportlen, \n2=\bby in
+		(inner_out2) to[in=0] (\x1+\n1,\y1-\n2) -- (\x2-\n1,\y1-\n2) to[out=180] (inner_in1);
+		\node[right, font=\footnotesize] at (outer_out1) {$0.142857142857142857\cdots$};
+\end{tikzpicture}
+\]
 \end{enumerate}
 \end{exercise}
 
@@ -2696,7 +2755,7 @@ natural in $p,q,r$. The closure operation is defined on $q,r$ as follows:
 	[q,r]\coloneqq\prod_{j\in q(\1)}r\circ(q_i\yon)
 \end{equation}
 
-\begin{example}
+\begin{example}\label{ex.double_dual}
 For any $A\in\smset$ we have
 \[
   [\yon^A,\yon]\cong A\yon
@@ -2771,6 +2830,13 @@ For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
 	\]
 \qedhere
 \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+	\item For any $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is identity, using eval and \cref{ex.double_dual}.
+	\item Show that maps of the four types $\kappa_{11}$, $\kappa_{12}$, $\kappa_{21}$, $\kappa_{22}$ shown in \cref{ex.bonds_break} can be obtained by tensoring together identity maps and eval maps.
+\qedhere
 \end{exercise}
 
 \begin{example}[Modeling your environment without knowing what it is]

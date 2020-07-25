@@ -14,8 +14,8 @@
 We are receptive to patterns; in fact we find that our thoughts are operating on them constantly. What patterns are you picking up on right now? Maybe you can stick with one or more of them as we try to tell a story about patterns in the abstract.
 
 Each pattern has a certain sort of shape---a certain repetitiveness---like the rational number
-\[\frac{1}{7}=.142857142857142857.\cdots\]
-Do you follow along with the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? That's a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
+\[\frac{1}{7}=.142857142857142857\cdots\]
+Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? That's a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
 \[
 \begin{tikzpicture}[trees, scale=1.5]
 \begin{scope}[
@@ -84,13 +84,13 @@ Do you follow along with the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, a
   	}
   ;
 \end{scope}
-\draw[blue, densely dotted] (current bounding box.south west) rectangle
-(current bounding box.north east);
+%\draw[blue, densely dotted] (current bounding box.south west) rectangle
+%(current bounding box.north east);
 \end{tikzpicture}
 \]
-Do you follow along with the fact that the tree sitting at every green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
+Do you pick up on the fact that the tree sitting at every green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
 
-When someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}. If they pick up on something again and again, it's a pattern alright. 
+When someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}. If they pick up on something again and again, it's a pattern. 
 
 Isn't it true that in some sense a pattern is dynamic, that it's not a still-life, but more like a movie? And in some sense don't we move \emph{with} this pattern, either caught up in it like a nightmare replaying endlessly or skillfully manifesting it like a star basketball player making another beautiful point? Good or bad, to our benefit or loss, we notice and pick up on the pattern, and it carry its load. Maybe we could say that it's like the pattern is a molecule and some part of us is like a receptor for this kind of molecule.
 
@@ -133,7 +133,7 @@ and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll re
 
 We begin with the definition of composition product.
 
-\begin{proposition}
+\begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
 \begin{equation}\label{eqn.composite_formula}
 p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
@@ -367,14 +367,16 @@ Choose a polynomial $p$ and draw $p\circ\1$ in the style of \cref{ex.apply_2}.
 \end{exercise}
 
 \paragraph{Monoidal structure of $(\circ,\yon)$.}
-The technical claim is that $\circ$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. Let's start with functoriality.
+The technical claim is that $\circ$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
-For any $f\colon p\to q$ and $f'\colon p'\to q'$, we want to define a morphism $(f\circ f')\colon(p\circ p')\to(q\circ q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
+However, even though the formal theory of functors and natural transformations knocks the monoidality of $\circ$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
 
-Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $q$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in q(\1)$. Then every option $e\in q_{f_1(i)}$ there is passed back to an option $f^\sharp(e)\in p_i$. Let's start with an example and then give the general method.
+For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(f\circ g)\colon(p\circ q)\to(p'\circ q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
+
+Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'_{f_1(i)}$ there is passed back to an option $f^\sharp(d)\in p_i$. Let's start with an example and then give the general method.
 
 \begin{example}
-Let's take $p\coloneqq \yon^\2+\yon$, $p'\coloneqq\yon^\2+\yon$, $q\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
+Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p) [draw, blue!50!black, "$p$" above] {
@@ -387,7 +389,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $p'\coloneqq\yon^\2+\yon$, $q\coloneqq\yon
   \end{tikzpicture}
   };
 %
-	\node (p') [draw, blue, above=1 of p, "$p'$" above] {
+	\node (q) [draw, red!50!black, above=1 of p, "$q$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -396,7 +398,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $p'\coloneqq\yon^\2+\yon$, $q\coloneqq\yon
       child {};
   \end{tikzpicture}
   };
-	\node (q) [draw, red!50!black, right=3 of p, "$q$" above] {
+	\node (p') [draw, blue, right=3 of p, "$p'$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -406,7 +408,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $p'\coloneqq\yon^\2+\yon$, $q\coloneqq\yon
       child {};
   \end{tikzpicture}
   };
-	\node (q') [draw, red, above=1 of q, "$q'$" above] {
+	\node (q') [draw, red, above=1 of p', "$q'$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {};
@@ -416,57 +418,57 @@ Let's take $p\coloneqq \yon^\2+\yon$, $p'\coloneqq\yon^\2+\yon$, $q\coloneqq\yon
   };
 \end{tikzpicture}
 \]
-For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give a way to delegate from $(p\circ p')$ to $q\circ q'$. Let's draw $p\circ p'$ and $q\circ q'$.
+For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give a way to delegate from $(p\circ q)$ to $p'\circ q'$. Let's draw $p\circ q$ and $p'\circ q'$.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p\circ p'$" above] {
+	\node (p1) [draw, "$p\circ q$" above] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=8mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
       	child
 				child
 			}
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
       	child
 				child
 			};
 %
     \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
 				child
 				child
 			}
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
 				child
 			};
 %
     \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
       	child
 			}
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
 				child
 				child
 			};
 %
     \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
       	child
 			}
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
 				child
 			};
 %
     \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
       	child
       	child
 			};
 %
     \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[blue] {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
       	child
 			};
   \end{tikzpicture}
@@ -475,11 +477,11 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
 \]
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$q\circ q'$" above] {
+	\node (p1) [draw, "$p'\circ q'$" above] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=4mm},
 	  level 2/.style={sibling distance=2.5mm}]
-    \node[red!50!black] (1) {$\bullet$} 
+    \node[blue] (1) {$\bullet$} 
       child {node[red] {$\bullet$} 
       	child
 			}
@@ -490,7 +492,7 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
 				child
 			};
 %
-    \node[red!50!black, right=1.4 of 1] (2) {$\bullet$} 
+    \node[blue, right=1.4 of 1] (2) {$\bullet$} 
       child {node[red] {$\bullet$} 
       	child
 			}
@@ -500,7 +502,7 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
       child {node[red] {$\bullet$} 
 			};
 %
-    \node[red!50!black, right=1.4 of 2] (3) {$\bullet$} 
+    \node[blue, right=1.4 of 2] (3) {$\bullet$} 
       child {node[red] {$\bullet$} 
       	child
 			}
@@ -510,7 +512,7 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
 				child
 			};
 %
-    \node[red!50!black, right=1.4 of 3] (4) {$\bullet$} 
+    \node[blue, right=1.4 of 3] (4) {$\bullet$} 
       child {node[red] {$\bullet$} 
       	child
 			}
@@ -519,7 +521,7 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
       child {node[red] {$\bullet$} 
 			};
 %
-    \node[red!50!black, right=1.4 of 4] (5) {$\bullet$} 
+    \node[blue, right=1.4 of 4] (5) {$\bullet$} 
       child {node[red] {$\bullet$} 
 			}
       child {node[red] {$\bullet$} 
@@ -529,7 +531,7 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
 				child
 			};
 %
-    \node[red!50!black, right=1.4 of 5] (6) {$\bullet$} 
+    \node[blue, right=1.4 of 5] (6) {$\bullet$} 
       child {node[red] {$\bullet$} 
 			}
       child {node[red] {$\bullet$} 
@@ -538,7 +540,7 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
       child {node[red] {$\bullet$} 
 			};
 %
-    \node[red!50!black, right=1.4 of 6] (7) {$\bullet$} 
+    \node[blue, right=1.4 of 6] (7) {$\bullet$} 
       child {node[red] {$\bullet$} 
 			}
       child {node[red] {$\bullet$} 
@@ -547,19 +549,19 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
       	child
 			};
 %
-    \node[red!50!black, right=1.4 of 7] (8) {$\bullet$} 
+    \node[blue, right=1.4 of 7] (8) {$\bullet$} 
       child {node[red] {$\bullet$} 
 			}
       child {node[red] {$\bullet$} 
 			}
       child {node[red] {$\bullet$} 
 			};
-    \node[red!50!black, right=1 of 8] (9) {$\bullet$} 
+    \node[blue, right=1 of 8] (9) {$\bullet$} 
       child {node[red] {$\bullet$} 
       	child
 			}
 			;
-    \node[red!50!black, right=.8 of 9] (10) {$\bullet$} 
+    \node[blue, right=.8 of 9] (10) {$\bullet$} 
       child {node[red] {$\bullet$} 
 			}
 			;
@@ -568,15 +570,15 @@ For any way to delegate from $p$ to $q$ and $p'$ to $q'$, we're supposed to give
 \end{tikzpicture}
 \]
 
-Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\colon p\to q$ and $f'\colon p'\to q'$. Let's just pick something relatively at random
+Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\colon p\to p'$ and $g\colon q\to q'$. Let's just pick something relatively at random
 \[
 \begin{tikzpicture}
-	\node (p1) {\raisebox{.3cm}{$f\colon p\to q\hphantom{''}$}\qquad
+	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
       child {coordinate (11)}
       child {coordinate (12)};
-    \node[right=1.5 of 1, red!50!black, "\tiny 1" below] (2) {$\bullet$} 
+    \node[right=1.5 of 1, blue, "\tiny 1" below] (2) {$\bullet$} 
       child {coordinate (21)}
       child {coordinate (22)}
       child {coordinate (23)};
@@ -593,7 +595,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
       child {coordinate (11)};
-    \node[right=of 1, red!50!black, "\tiny 2" below] (2) {$\bullet$}
+    \node[right=of 1, blue, "\tiny 2" below] (2) {$\bullet$}
       child {coordinate (21)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
     \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
@@ -601,9 +603,9 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 		\end{scope}
   \end{tikzpicture}	
 	};	
-	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$f'\colon p'\to q'$}\qquad
+	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[blue, "\tiny 1" below] (1) {$\bullet$} 
+    \node[red!50!black, "\tiny 1" below] (1) {$\bullet$} 
       child {coordinate (11)}
       child {coordinate (12)};
     \node[right=1.5 of 1, red, "\tiny 1" below] (2) {$\bullet$} 
@@ -617,7 +619,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 %
 	\node (p4) [below right=-1.05 and 1 of p3] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[blue, "\tiny 2" below] (1) {$\bullet$} 
+    \node[red!50!black, "\tiny 2" below] (1) {$\bullet$} 
       child {coordinate (11)};
     \node[right=of 1, red, "\tiny 2" below] (2) {$\bullet$};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
@@ -629,15 +631,31 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 \end{example}
 
 
+\begin{exercise}
+Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $f\colon q\to p\circ q$ and $g\colon q\to q\circ r$. Does the following diagram necessarily commute?
+\[
+\begin{tikzcd}
+	q\ar[r, "g"]\ar[d, "f"']&
+	q\circ r\ar[d, "f\circ r"]\\
+	p\circ q\ar[r, "p\circ g"']&
+	p\circ q\circ r
+\end{tikzcd}
+\qedhere
+\]
+\end{exercise}
 
-\begin{proposition}
-Composition product, together with $\yon$, forms a monoidal structure $(\yon,\circ)$ on $\poly$.
-\end{proposition}
-\begin{proof}
-\spiz{finish}
-\end{proof}
 
 
+
+
+
+
+
+
+%-------- Section --------%
+\section{Bimodules}
+
+Bimodules with carrier $\yon$
 
 
 
