@@ -7,18 +7,112 @@
 
 
 %------------ Chapter ------------%
-\chapter{Polynomial `time'}\label{chapter.5}
+\chapter{Patterns}\label{chapter.5}
+
+\slogan{What is a pattern?}
+
+We are receptive to patterns; in fact we find that our thoughts are operating on them constantly. What are you picking up on right now? Maybe you can stick with it as we go on.
+
+Each pattern has a certain sort of shape---a certain repetitiveness---like the rational number
+\[\frac{1}{7}=.142857142857142857\cdots\]
+or like the tree
+\[
+\begin{tikzpicture}[trees, scale=1.5]
+\begin{scope}[
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+  		}
+  		child {node[red] {$\bullet$}
+  		}
+  	}
+  ;
+\end{scope}
+\draw[blue, densely dotted] (current bounding box.south west) rectangle
+(current bounding box.north east);
+\end{tikzpicture}
+\]
+When someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}. If they pick up on it again and again, it's a pattern. 
+
+Isn't it true that in some sense a pattern is dynamic, that it's not a still-life, but more like a movie? And in some sense don't we move \emph{with} this pattern, either caught up in it like a nightmare replaying endlessly or skillfully manifesting it like a star basketball player making another beautiful point. Good or bad, to our benefit or loss, we notice and pick up on the pattern, and it carry its load. Maybe we could say that it's like the pattern is a molecule and some part of us is a receptor for this kind of molecule.
+
+Our lives are patterned, and so are the lives of our machines and computer programs. Day in and day out, our billions of receptors pick up on patterns in what we call reality, catching on to existing possibilities there. Day in and day out, our cars and boats and web browsers latch onto patterns and make them available to thought. Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We are like a sort of ``module'' sitting between two worlds, one called real and one called mind.
+
+\bigskip
+
+A distilled version of the story so far---up to the end of the last paragraph---can be formalized mathematically, and we do so in this chapter. That is, we'll discuss the sense in which \emph{bimodules} $m$ (playing the role of ``us'' in the above story) sit between two realm. From one realm (playing the role of ``reality''), the bimodule $m$ ``picks up'' patterns. The other realm (playing the role of ``mind'') operates and moves through these patterns. The two sides are not symmetric.
+
+A relatively concise mathematical way to tell the above story is that the comonoids $\com{C}$ in the monoidal category $(\poly,\yon,\circ)$ can be identified with categories $\cat{C}$. The cofree comonoid $\cofree{p}$ on an arbitrary polynomial $p$ will be particularly interesting from a dynamics point of view, lending itself to much of the language of ``patterns'' used in the story above. Copresheaves $\Phi\colon\cat{C}_p\to\smset$ on these categories can be identified with dependent dynamical systems in the sense of \cref{def.gen_moore}. The bimodules $\cofree{q}\tickar[m]\cofree{p}$ between comonoids $\cofree{q}$ and $\cofree{p}$ correspond to parametric right adjoints $\cofree{p}\set\to\cofree{q}\set$ between the associated copresheaf categories, allowing us to migrate a dynamical system $\Phi$ of type $p$ to one of type $q$. One can describe this migration, this parametric right adjoint, in terms of receptors---or what database theorists call ``frozen instances''---picking up patterns in $\Phi$ and then sorting and operating on these patterns using the morphisms of the target category $\cofree{q}$.
+
+Our goal in this chapter is to say the above carefully and with plenty of examples.
 
 %-------- Section --------%
-\section{Introduction}
+\section{Humble beginnings}
 
 In \cref{chapter.4} we saw that the category $\poly$ of polynomial functors---otherwise known as dependent lenses---is a very well-behaved category in which to think about dynamical systems of quite a general nature.
 
 But we left one thing---what in some sense is the most interesting part of the story---out entirely. That thing is quite simple to state, and yet has profound consequences. Namely: polynomials can be composed:
 \[
-\yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1
+\yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1.
 \]
-What could be simpler?
+What could be simpler?%
+\footnote{If you're thinking ``What could be more boring?'', don't forget that our job is to connect this to the material in \cref{***}. If that payoff doesn't intrigue you, then this chapter is not for you.}
 
 It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{?}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, and choosing a direction in $q_j$.''
 

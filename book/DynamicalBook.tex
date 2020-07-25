@@ -372,8 +372,8 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \newcommand{\inj}{\rightarrowtail}
 \newcommand{\wavyto}{\rightsquigarrow}
 \newcommand{\lollipop}{\multimap}
-\newcommand{\tickar}{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
-replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
+\newcommand{\tickar}[1][]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "#1"]\&{}\end{tikzcd}}
 \newcommand{\imp}{\Rightarrow}
 \renewcommand{\iff}{\Leftrightarrow}
 \newcommand{\down}{\mathbin{\downarrow}}
@@ -456,6 +456,7 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\qqand}{\qquad\text{and}\qquad}
 
 \newcommand{\mdot}{{\cdot}}
+\newcommand{\cofree}[1]{\com{C}_{#1}}
  
 
 % Jaz macros %
