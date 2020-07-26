@@ -375,7 +375,7 @@ For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(
 
 Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'_{f_1(i)}$ there is passed back to an option $f^\sharp(d)\in p_i$. Let's start with an example and then give the general method.
 
-\begin{example}
+\begin{example}\label{ex.circ_prod_on_morphisms}
 Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
@@ -556,15 +556,15 @@ For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give
 			}
       child {node[red] {$\bullet$} 
 			};
+%
     \node[blue, right=1 of 8] (9) {$\bullet$} 
       child {node[red] {$\bullet$} 
       	child
-			}
-			;
+			};
+%
     \node[blue, right=.8 of 9] (10) {$\bullet$} 
       child {node[red] {$\bullet$} 
-			}
-			;
+			};
   \end{tikzpicture}
   };
 \end{tikzpicture}
@@ -627,9 +627,156 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 	};	
 \end{tikzpicture}
 \]
-\spiz{finish}
+Then we can form the induced delegation (morphism / dependent lens) $f\circ g\colon (p\circ q)\to (p'\circ q')$ as follows. For each two-level tree (position in $p\circ q$, we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
+
+Our pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
+\[
+	\begin{tikzpicture}[trees]
+	\begin{scope}[
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] (11') {$\bullet$} 
+      	child {coordinate (11)}
+				child {coordinate (12)}
+			}
+      child {node[red!50!black] (12') {$\bullet$} 
+      	child {coordinate (13)}
+				child {coordinate (14)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] (21') {$\bullet$} 
+      	child {coordinate (21)}
+				child {coordinate (22)}
+			}
+      child {node[red!50!black] (22') {$\bullet$} 
+      	child {coordinate (23)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] (31') {$\bullet$} 
+      	child {coordinate (31)}
+			}
+      child {node[red!50!black] (32') {$\bullet$} 
+      	child {coordinate (32)}
+				child {coordinate (33)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] (41') {$\bullet$} 
+      	child {coordinate (41)}
+			}
+      child {node[red!50!black] (42') {$\bullet$} 
+      	child {coordinate (42)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] (51') {$\bullet$} 
+      	child {coordinate (51)}
+				child {coordinate (52)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] (61') {$\bullet$} 
+      	child {coordinate (61)}
+			};
+		\end{scope}
+%%
+		\begin{scope}[		
+		level 1/.style={sibling distance=4mm},
+	  level 2/.style={sibling distance=2.5mm}]
+	    \node[blue, right=2 of 1] (1') {$\bullet$} 
+      child {node[red] (1'1') {$\bullet$} 
+      	child {coordinate (1'1)}
+			}
+      child {node[red] (1'2') {$\bullet$} 
+      	child {coordinate (1'2)}
+			}
+      child {node[red] (1'3') {$\bullet$} 
+      	child {coordinate (1'3)}
+			};
+%
+    \node[blue, right=2 of 2] (2') {$\bullet$} 
+      child {node[red] (2'1') {$\bullet$} 
+			}
+      child {node[red] (2'2') {$\bullet$} 
+			}
+      child {node[red] (2'3') {$\bullet$} 
+      	child {coordinate (2'1)}
+			};
+%
+    \node[blue, right=2 of 3] (3') {$\bullet$} 
+      child {node[red] (3'1') {$\bullet$} 
+      	child {coordinate (3'1)}
+			}
+      child {node[red] (3'2') {$\bullet$} 
+      	child {coordinate (3'2)}
+			}
+      child {node[red] (3'3') {$\bullet$} 
+			};
+%
+    \node[blue, right=2 of 4] (4') {$\bullet$} 
+      child {node[red] (4'1') {$\bullet$} 
+			}
+      child {node[red] (4'2') {$\bullet$} 
+			}
+      child {node[red] (4'3') {$\bullet$} 
+			};
+%
+    \node[blue, right=2 of 5] (5') {$\bullet$} 
+      child {node[red] (5'1') {$\bullet$} 
+      	child {coordinate (5'1)}
+			};
+%
+    \node[blue, right=2 of 6] (6') {$\bullet$} 
+      child {node[red] (6'1') {$\bullet$} 
+			};
+%
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (3) -- (3');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (4) -- (4');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (5) -- (5');
+%\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
+    \begin{scope}[densely dotted, bend right=15pt, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (1'1') to (12');
+      \draw[postaction={decorate}] (1'2') to (12');
+      \draw[postaction={decorate}] (1'3') to (11');
+      \draw[postaction={decorate}] (1'1) to (14);
+      \draw[postaction={decorate}] (1'2) to (14);
+      \draw[postaction={decorate}] (1'3) to (12);
+%
+      \draw[postaction={decorate}] (2'1') to (22');
+      \draw[postaction={decorate}] (2'2') to (22');
+      \draw[postaction={decorate}] (2'3') to (21');
+      \draw[postaction={decorate}] (2'1) to (23);
+%
+      \draw[postaction={decorate}] (3'1') to (32');
+      \draw[postaction={decorate}] (3'2') to (32');
+      \draw[postaction={decorate}] (3'3') to (31');
+      \draw[postaction={decorate}] (3'1) to (33);
+      \draw[postaction={decorate}] (3'2) to (33);
+%
+      \draw[postaction={decorate}] (4'1') to (42');
+      \draw[postaction={decorate}] (4'2') to (42');
+      \draw[postaction={decorate}] (4'3') to (41');
+%
+      \draw[postaction={decorate}] (5'1') to (51');
+      \draw[postaction={decorate}] (5'1) to (52);
+%
+      \draw[postaction={decorate}] (6'1') to (61');
+    \end{scope}
+
+	\end{scope}
+  \end{tikzpicture}
+\]
+Again, we're not making up these rules; it's a tree representation of how natural transformations $f$ and $g$ compose to form $f\circ g$.
 \end{example}
 
+\begin{exercise}
+With $p,q,p',q'$ and $f,g$ as in \cref{ex.circ_prod_on_morphisms}, draw $g\circ f\colon (q\circ p)\to (q'\circ p')$ in terms of trees as in the example.
+\end{exercise}
 
 \begin{exercise}
 Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $f\colon q\to p\circ q$ and $g\colon q\to q\circ r$. Does the following diagram necessarily commute?
