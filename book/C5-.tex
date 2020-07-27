@@ -380,9 +380,9 @@ Choose a polynomial $p$ and draw $p\tri\1$ in the style of \cref{ex.apply_2}.
 
 \begin{exercise}
 Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
-\[
+\begin{equation}\label{eqn.monomials_and_comp}
 	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
-\]
+\end{equation}
 If so, why? If not, give a counterexample.
 \end{exercise}
 
@@ -808,11 +808,10 @@ Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $
 	p\tri q\tri r\ar[ul, phantom, "?"]
 \end{tikzcd}
 \]
-That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?%
-\footnote{Note that leaving $\circ$ open for use as composition of maps is helping us here.}
+That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?
 \end{exercise}
 
-\paragraph{Pronouncing polynomial composites}
+\paragraph{Pronouncing polynomial composites.}
 
 We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
 \[p=\sum_{i\in p(\1)}\prod_{d\in p_i}\yon\]
@@ -839,31 +838,60 @@ For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.
 Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
 \end{exercise}
 
-
 %-------- Section --------%
 \section{Comonoids in $\poly$}
 
 The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. From there, all heaven breaks loose.
 
 \begin{definition}[Comonoid]
-A \emph{comonoid} in a monoidal category $(\cat{C},I,\tri)$%
-\footnote{We use the symbol $\tri$ here as our monoidal product, to remind the reader that it need not be (and in our case with $\tri$ will not be) symmetric. Moreover, writing $c\tri d$ looks a little like trees growing as you move right.
-}
-is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\tri c$ are maps, such that the following diagrams commute:
+A \emph{comonoid} in a monoidal category $(\cat{C},I,\lhd)$
+is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\lhd c$ are maps, such that the following diagrams commute:
 \[
-\begin{tikzcd}[background color=theoremcolor]
+\begin{tikzcd}[background color=definitioncolor, row sep=large]
 	c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\\&
-	c\tri c\ar[ul, "\epsilon\tri c"]\ar[ur, "c\tri\epsilon"']
+	c\lhd c\ar[ul, "\epsilon\lhd c"]\ar[ur, "c\lhd\epsilon"']
 \end{tikzcd}
 \hspace{.6in}
-\begin{tikzcd}
+\begin{tikzcd}[row sep=large]
 	c\ar[r, "\delta"]\ar[d, "\delta"']&
-	c\tri c\ar[d, "c\tri\delta"]\\
-	c\tri c\ar[r, "\delta\tri c"']&
-	c\tri c\tri c
+	c\lhd c\ar[d, "c\lhd\delta"]\\
+	c\lhd c\ar[r, "\delta\lhd c"']&
+	c\lhd c\lhd c
 \end{tikzcd}
 \]
+We refer to comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as \emph{polynomial comonoids}.
 \end{definition}
+
+\begin{example}[$\delta^{n}$ notation]
+Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the two ways to get a map $c\to c\tri c\tri c$ have the same result. This is true for any $n\in\nn$: we get an induced map $c\to c\tripow{n+1}$, which by mild abuse of notation we denote $\delta^n$:
+\[
+	c\To{\delta}c\tri c\To{c\tri\delta}c\tri c\tri c\To{c\tripow{2}\tri\delta}\cdots\To{c\tripow{n}\tri\delta}c\tripow{(n+1)}.
+\]
+In particular, we have $\delta^1=\delta$ and we may write $\delta^0\coloneqq\id_c$ and $\delta^{-1}\coloneqq\epsilon$.
+\end{example}
+
+Polynomial comonoids are usually called \emph{polynomial comonads}. Though polynomials $p$ can be interpreted as polynomial \emph{functors} $p\colon\smset\to\smset$, we do not generally emphasize this part of the story; we use it when it comes in handy, but generally we think of polynomials more as dependent arenas, or sets of corollas. For this reason, we don't use 
+
+\begin{example}
+Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure, as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
+\begin{align*}
+	S&\To{\epsilon'} S&
+	S&\To{\delta'}\sum_{s_1\in S}\prod_{s_2\in S}\sum_{s_3\in S}\prod_{s_4\in S}S\\
+\intertext{We take $\epsilon'$ to be the identity and we take $\delta'$ to be}
+	s&\Mapsto{\epsilon'} s&
+  s&\Mapsto{\delta'} (s_1\coloneqq s, s_2\mapsto (s_3\coloneqq s_2, s_4\mapsto s_4)).
+\end{align*}
+As you can see, both $\epsilon$ and $\delta$ are given by passing elements of $S$ along in a completely straightforward way.
+\end{example}
+
+\begin{exercise}
+Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomials $\delta^n\colon p\to p\tripow{n+1}$.
+\end{exercise}
+
+\begin{example}[Picturing the comonoid $S\yon^S$]
+
+\end{example}
+
 
 %-------- Section --------%
 \section{Bimodules}
