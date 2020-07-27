@@ -171,20 +171,20 @@ p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\y
 Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p_1=\2$ and $p_2=\1$.
 \begin{enumerate}
 	\item What is $q^\2$?
-	\item What is $\yon^2\circ q$?
-	\item What is $\yon\circ q$?
-	\item What is $(\yon^\2+\yon)\circ q$? This is what $p\circ q$ ``should be''.
+	\item What is $\yon^2\tri q$? 
+	\item What is $\yon\tri q$?
+	\item What is $(\yon^\2+\yon)\tri q$? This is what $p\tri q$ ``should be''.
 	\item How many functions $j_1\colon p_1\to q(\1)$ are there?
 	\item For each function $j_1$ as above, what is $\sum_{d\in p_1} q_{j_1(d)}$?
 	\item How many functions $j_2\colon p_2\to q(\2)$ are there?
 	\item For each function $j_2$ as above, what is $\sum_{d\in p_2} q_{j_2(d)}$?
 	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}}$.
-	\item Does the result agree with what $p\circ q$ should be?
+	\item Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-In terms of corollas, composition product $p\circ q$ is given by grafting $q$-corollas onto the tips of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
+In terms of corollas, composition product $p\tri q$ is given by grafting $q$-corollas onto the tips of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
 \begin{equation}\label{eqn.pq_misc39}
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -209,10 +209,10 @@ In terms of corollas, composition product $p\circ q$ is given by grafting $q$-co
   };
 \end{tikzpicture}
 \end{equation}
-Then their composite $p\circ q$ would be drawn like so:
+Then their composite $p\tri q$ would be drawn like so:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p\circ q$" above] {
+	\node (p1) [draw, "$p\tri q$" above] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=8mm},
 	  level 2/.style={sibling distance=2.5mm}]
@@ -266,16 +266,16 @@ Then their composite $p\circ q$ would be drawn like so:
   };
 \end{tikzpicture}
 \]
-It has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions. In total, we read off that $p\circ q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$.
+It has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions. In total, we read off that $p\tri q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$.
 
 \begin{exercise}
 Use $p,q$ as in \cref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the following.
 \begin{enumerate}
-	\item Draw $q\circ p$.
-	\item Draw $p\circ p$.
-	\item Draw $p\circ p\circ 1$.
-	\item Draw $r\circ r$.
-	\item Draw $r\circ r\circ r$.
+	\item Draw $q\tri p$.
+	\item Draw $p\tri p$.
+	\item Draw $p\tri p\tri 1$.
+	\item Draw $r\tri r$.
+	\item Draw $r\tri r\tri r$.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -283,7 +283,7 @@ Use $p,q$ as in \cref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the followin
 \begin{example}\label{ex.apply_2}
 For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon\smset\to\smset$ is a functor! In particular, by this point you've seen us write $p(\1)$ hundreds of times. But we've also seen that $X$ is itself a polynomial, namely a constant one.
 
-It's not hard to see that $p(X)\cong p\circ X$. Here's a picture, where $p\coloneqq\yon^\3+\yon+\1$ and $X\coloneqq\2$.
+It's not hard to see that $p(X)\cong p\tri X$. Here's a picture, where $p\coloneqq\yon^\3+\yon+\1$ and $X\coloneqq\2$.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -310,10 +310,10 @@ It's not hard to see that $p(X)\cong p\circ X$. Here's a picture, where $p\colon
   };
 \end{tikzpicture}
 \]
-Let's see how $(\yon^\3+\yon+\1)\circ\2$ looks.
+Let's see how $(\yon^\3+\yon+\1)\tri\2$ looks.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p\circ X$" above] {
+	\node (p1) [draw, "$p\tri X$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black] (1) {$\bullet$} 
       child {node[red!50!black] {$\bullet$}}
@@ -356,12 +356,12 @@ Let's see how $(\yon^\3+\yon+\1)\circ\2$ looks.
 	};
 \end{tikzpicture}
 \]
-It has $11$ positions and no open leaves, which means it's a set (constant polynomial), namely $p\circ X\cong \1\1$.
+It has $11$ positions and no open leaves, which means it's a set (constant polynomial), namely $p\tri X\cong \1\1$.
 
-We could also draw $X\circ p$, since both are perfectly valid polynomials. Here it is:
+We could also draw $X\tri p$, since both are perfectly valid polynomials. Here it is:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p2) [draw, red!50!black, "$X\circ p$" above] {
+	\node (p2) [draw, red!50!black, "$X\tri p$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$};
     \node[right=.5 of 1,"\tiny 2" below] (4) {$\diamond$};
@@ -375,23 +375,23 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 \end{example}
 
 \begin{exercise}
-Choose a polynomial $p$ and draw $p\circ\1$ in the style of \cref{ex.apply_2}.
+Choose a polynomial $p$ and draw $p\tri\1$ in the style of \cref{ex.apply_2}.
 \end{exercise}
 
 \begin{exercise}
-Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\circ B$, i.e.\ that there is a bijection:
+Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
 \[
-	\poly(A\yon^B,p)\cong^?\poly(A,p\circ B)
+	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
 \]
 If so, why? If not, give a counterexample.
 \end{exercise}
 
-\paragraph{Monoidal structure $(\poly,\circ,\yon)$.}
-The technical claim is that $\circ$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
+\paragraph{Monoidal structure $(\poly,\tri,\yon)$.}
+The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
-However, even though the formal theory of functors and natural transformations knocks the monoidality of $\circ$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
+However, even though the formal theory of functors and natural transformations knocks the monoidality of $\tri$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
 
-For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(f\circ g)\colon(p\circ q)\to(p'\circ q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
+For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
 
 Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'_{f_1(i)}$ there is passed back to an option $f^\sharp(d)\in p_i$. Let's start with an example and then give the general method.
 
@@ -438,10 +438,10 @@ Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon
   };
 \end{tikzpicture}
 \]
-For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give a way to delegate from $(p\circ q)$ to $p'\circ q'$. Let's draw $p\circ q$ and $p'\circ q'$.
+For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give a way to delegate from $(p\tri q)$ to $(p'\tri q')$. Let's draw $p\tri q$ and $p'\tri q'$.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p\circ q$" above] {
+	\node (p1) [draw, "$p\tri q$" above] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=8mm},
 	  level 2/.style={sibling distance=2.5mm}]
@@ -497,7 +497,7 @@ For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give
 \]
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p'\circ q'$" above] {
+	\node (p1) [draw, "$p'\tri q'$" above] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=4mm},
 	  level 2/.style={sibling distance=2.5mm}]
@@ -647,7 +647,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 	};	
 \end{tikzpicture}
 \]
-Then we can form the induced delegation (morphism / dependent lens) $f\circ g\colon (p\circ q)\to (p'\circ q')$ as follows. For each two-level tree (position in $p\circ q$, we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
+Then we can form the induced delegation (morphism / dependent lens) $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$, we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
 
 Our pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
 \[
@@ -791,62 +791,63 @@ Our pictures below leave out the fact that the red corollas on the right are sel
 	\end{scope}
   \end{tikzpicture}
 \]
-Again, we're not making up these rules; it's a tree representation of how natural transformations $f$ and $g$ compose to form $f\circ g$.
+Again, we're not making up these rules; it's a tree representation of how natural transformations $f$ and $g$ compose to form $f\tri g$.
 \end{example}
 
 \begin{exercise}
-With $p,q,p',q'$ and $f,g$ as in \cref{ex.circ_prod_on_morphisms}, draw $g\circ f\colon (q\circ p)\to (q'\circ p')$ in terms of trees as in the example.
+With $p,q,p',q'$ and $f,g$ as in \cref{ex.circ_prod_on_morphisms}, draw $g\tri f\colon (q\tri p)\to (q'\tri p')$ in terms of trees as in the example.
 \end{exercise}
 
 \begin{exercise}
-Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $f\colon q\to p\circ q$ and $g\colon q\to q\circ r$. Does the following diagram necessarily commute?
+Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$. Does the following diagram necessarily commute?
 \[
 \begin{tikzcd}
 	q\ar[r, "g"]\ar[d, "f"']&
-	q\circ r\ar[d, "f\circ r"]\\
-	p\circ q\ar[r, "p\circ g"']&
-	p\circ q\circ r\ar[ul, phantom, "?"]
+	q\tri r\ar[d, "f\tri r"]\\
+	p\tri q\ar[r, "p\tri g"']&
+	p\tri q\tri r\ar[ul, phantom, "?"]
 \end{tikzcd}
-\qedhere
 \]
+That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?%
+\footnote{Note that leaving $\circ$ open for use as composition of maps is helping us here.}
 \end{exercise}
 
 \paragraph{Pronouncing polynomial composites}
 
-We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\circ q$ or $p\circ p\circ q\circ p$. We pronounce the polynomial
+We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
 \[p=\sum_{i\in p(\1)}\prod_{d\in p_i}\yon\]
 as ``a choice of $p$-position $i$ and, for every direction $d\in p_i$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
 
-To pronounce composites of polynomials $p\circ q$, we pronounce almost all of $p$, except we replace ``future'' with $q$. More precisely, to pronounce $p\circ q$, which has the formula
-\[p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon,
+To pronounce composites of polynomials $p\tri q$, we pronounce almost all of $p$, except we replace ``future'' with $q$. More precisely, to pronounce $p\tri q$, which has the formula
+\[p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon,
 \]
 we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p_i$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q_j$ there, a future.
 
 \begin{exercise}
 \begin{enumerate}
-	\item Let $p$ be an arbitrary polynomial. Write out the English pronunciation of $p\circ p\circ p$.
-	\item Pronouncing the unique element of $\1$ as ``completion'', write out the pronunciation of $p\circ p\circ \1$.
-	\item Pronouncing $\prod_{d\in\varnothing}\yon$ as ``with no directions to travel, a complete dissociation from any purported future'', write out the pronunciation of $p\circ p\circ\yon^\0$.
-	\item With the ``dissociation'' language, pronounce $p\circ\1\circ p$, and see if it makes sense with the fact that $p\circ\1\circ p\cong p\circ \1$.
+	\item Let $p$ be an arbitrary polynomial. Write out the English pronunciation of $p\tri p\tri p$.
+	\item Pronouncing the unique element of $\1$ as ``completion'', write out the pronunciation of $p\tri p\tri \1$.
+	\item Pronouncing $\prod_{d\in\varnothing}\yon$ as ``with no directions to travel, a complete dissociation from any purported future'', write out the pronunciation of $p\tri p\tri\yon^\0$.
+	\item With the ``dissociation'' language, pronounce $p\tri\1\tri p$, and see if it makes sense with the fact that $p\tri\1\tri p\cong p\tri \1$.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-For any $n\in\nn$, let $p\circpow{n}$ denote the $n$-fold $\circ$ power of $p$, e.g.\ $p\circpow{3}\coloneqq p\circ p\circ p$. In particular, $p\circpow{1}\coloneqq p$ and $p\circpow{0}\coloneqq\yon$. We might think of $p\circpow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. That is, we pronounce $p\circpow{n}$
+For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.g.\ $p\tripow{3}\coloneqq p\tri p\tri p$. In particular, $p\tripow{1}\coloneqq p$ and $p\tripow{0}\coloneqq\yon$. We might think of $p\tripow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. That is, we pronounce $p\tripow{n}$
 
 \begin{exercise}
-Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\circ q)\circpow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
+Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
 \end{exercise}
 
 
 %-------- Section --------%
 \section{Comonoids in $\poly$}
 
-The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\circ)$ can be identified with categories. From there, all heaven breaks loose.
+The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. From there, all heaven breaks loose.
 
 \begin{definition}[Comonoid]
 A \emph{comonoid} in a monoidal category $(\cat{C},I,\tri)$%
-\footnote{We use the symbol $\tri$ here as our monoidal product, to remind the reader that it need not be (and in our case with $\circ$ will not be) symmetric. Moreover, writing $c\tri d$ looks a little like trees growing as you move right.
+\footnote{We use the symbol $\tri$ here as our monoidal product, to remind the reader that it need not be (and in our case with $\tri$ will not be) symmetric. Moreover, writing $c\tri d$ looks a little like trees growing as you move right.
 }
 is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\tri c$ are maps, such that the following diagrams commute:
 \[
