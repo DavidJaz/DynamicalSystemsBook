@@ -135,9 +135,9 @@ We begin with the definition of composition product.
 
 \begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
-\begin{equation}\label{eqn.composite_formula}
+\[
 p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
-\end{equation}
+\]
 \end{proposition}
 \begin{proof}
 We can rewrite \cref{eqn.sum_p1_again} for $p$ and $q$ as
@@ -154,6 +154,18 @@ For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\
 \end{equation}
 (written slightly bigger for clarity) is clearly a polynomial.
 \end{proof}
+
+The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or collections of corollas. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition namely
+\[
+p\tri q\coloneqq p\circ q.
+\]
+The symbol $\tri$ looks a bit like the composition symbol, in that it is an open shape, and when handwriting it fast, it's ok if it morphs into a $\circ$, but we'll soon see that it is quite evocative in terms of trees, and again it leaves $\circ$ for other uses.
+
+We repeat the important formulas from \cref{prop.poly_closed_comp} in the new notation:
+\begin{equation}\label{eqn.composite_formula}
+p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+\end{equation}
+
 
 \begin{exercise}
 Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p_1=\2$ and $p_2=\1$.
@@ -172,7 +184,7 @@ Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with c
 \end{enumerate}
 \end{exercise}
 
-In terms of corollas, composition product $p\circ q$ is given by stacking $q$-corollas on top of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
+In terms of corollas, composition product $p\circ q$ is given by grafting $q$-corollas onto the tips of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
 \begin{equation}\label{eqn.pq_misc39}
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -366,7 +378,15 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 Choose a polynomial $p$ and draw $p\circ\1$ in the style of \cref{ex.apply_2}.
 \end{exercise}
 
-\paragraph{Monoidal structure of $(\circ,\yon)$.}
+\begin{exercise}
+Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\circ B$, i.e.\ that there is a bijection:
+\[
+	\poly(A\yon^B,p)\cong^?\poly(A,p\circ B)
+\]
+If so, why? If not, give a counterexample.
+\end{exercise}
+
+\paragraph{Monoidal structure $(\poly,\circ,\yon)$.}
 The technical claim is that $\circ$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
 However, even though the formal theory of functors and natural transformations knocks the monoidality of $\circ$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
@@ -785,19 +805,64 @@ Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $
 	q\ar[r, "g"]\ar[d, "f"']&
 	q\circ r\ar[d, "f\circ r"]\\
 	p\circ q\ar[r, "p\circ g"']&
-	p\circ q\circ r
+	p\circ q\circ r\ar[ul, phantom, "?"]
 \end{tikzcd}
 \qedhere
 \]
 \end{exercise}
 
+\paragraph{Pronouncing polynomial composites}
+
+We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\circ q$ or $p\circ p\circ q\circ p$. We pronounce the polynomial
+\[p=\sum_{i\in p(\1)}\prod_{d\in p_i}\yon\]
+as ``a choice of $p$-position $i$ and, for every direction $d\in p_i$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
+
+To pronounce composites of polynomials $p\circ q$, we pronounce almost all of $p$, except we replace ``future'' with $q$. More precisely, to pronounce $p\circ q$, which has the formula
+\[p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon,
+\]
+we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p_i$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q_j$ there, a future.
+
+\begin{exercise}
+\begin{enumerate}
+	\item Let $p$ be an arbitrary polynomial. Write out the English pronunciation of $p\circ p\circ p$.
+	\item Pronouncing the unique element of $\1$ as ``completion'', write out the pronunciation of $p\circ p\circ \1$.
+	\item Pronouncing $\prod_{d\in\varnothing}\yon$ as ``with no directions to travel, a complete dissociation from any purported future'', write out the pronunciation of $p\circ p\circ\yon^\0$.
+	\item With the ``dissociation'' language, pronounce $p\circ\1\circ p$, and see if it makes sense with the fact that $p\circ\1\circ p\cong p\circ \1$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+For any $n\in\nn$, let $p\circpow{n}$ denote the $n$-fold $\circ$ power of $p$, e.g.\ $p\circpow{3}\coloneqq p\circ p\circ p$. In particular, $p\circpow{1}\coloneqq p$ and $p\circpow{0}\coloneqq\yon$. We might think of $p\circpow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. That is, we pronounce $p\circpow{n}$
+
+\begin{exercise}
+Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\circ q)\circpow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
+\end{exercise}
 
 
+%-------- Section --------%
+\section{Comonoids in $\poly$}
 
+The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\circ)$ can be identified with categories. From there, all heaven breaks loose.
 
-
-
-
+\begin{definition}[Comonoid]
+A \emph{comonoid} in a monoidal category $(\cat{C},I,\tri)$%
+\footnote{We use the symbol $\tri$ here as our monoidal product, to remind the reader that it need not be (and in our case with $\circ$ will not be) symmetric. Moreover, writing $c\tri d$ looks a little like trees growing as you move right.
+}
+is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\tri c$ are maps, such that the following diagrams commute:
+\[
+\begin{tikzcd}[background color=theoremcolor]
+	c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\\&
+	c\tri c\ar[ul, "\epsilon\tri c"]\ar[ur, "c\tri\epsilon"']
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}
+	c\ar[r, "\delta"]\ar[d, "\delta"']&
+	c\tri c\ar[d, "c\tri\delta"]\\
+	c\tri c\ar[r, "\delta\tri c"']&
+	c\tri c\tri c
+\end{tikzcd}
+\]
+\end{definition}
 
 %-------- Section --------%
 \section{Bimodules}
