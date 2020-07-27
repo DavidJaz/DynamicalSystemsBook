@@ -9,6 +9,9 @@
 %------------ Chapter ------------%
 \chapter{Patterns}\label{chapter.5}
 
+%-------- Section --------%
+\section{Introduction}\label{sec.c5_intro}
+
 \slogan{What is a pattern?}
 
 We are receptive to patterns; in fact we find that our thoughts are operating on them constantly. What patterns are you picking up on right now? Maybe you can stick with one or more of them as we try to tell a story about patterns in the abstract.
@@ -107,7 +110,7 @@ A relatively concise mathematical way to tell the above story is that the comono
 Our goal in this chapter is to say the above carefully and with plenty of examples.
 
 %-------- Section --------%
-\section{Humble beginnings}
+\section{The composition product}
 
 In \cref{chapter.4} we saw that the category $\poly$ of polynomial functors---otherwise known as dependent lenses---is a very well-behaved category in which to think about dynamical systems of quite a general nature.
 
@@ -116,7 +119,7 @@ But we left one thing---what in some sense is the most interesting part of the s
 \yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1.
 \]
 What could be simpler?%
-\footnote{If you're thinking ``What could be more boring?'', don't forget that our job is to connect this to the material in \cref{***}. If that payoff doesn't intrigue you, then this chapter is not for you.}
+\footnote{If you're thinking ``What could be more boring?'', don't forget that our job is to connect this to the material in \cref{sec.c5_intro}. If that payoff doesn't intrigue you, then this chapter is not for you.}
 
 It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{?}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, and choosing a direction in $q_j$.''
 
@@ -128,9 +131,7 @@ p\cong\sum_{i\in p(\1)}\yon^{p_i},
 \end{equation}
 and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p_i$ as the set of direction at position $i$.
 
-%-------- Section --------%
-\section{The composition product}
-
+\paragraph{Defining the composition product}
 We begin with the definition of composition product.
 
 \begin{proposition}\label{prop.poly_closed_comp}
@@ -384,6 +385,16 @@ Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that
 	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
 \end{equation}
 If so, why? If not, give a counterexample.
+\end{exercise}
+
+\begin{exercise}\label{ex.compose_yon}
+For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\cong\yon\tri p$.
+\begin{enumerate}
+	\item Thinking of polynomials as functors $\smset\to\smset$, what functor does $\yon$ represent?
+	\item Why is $p\cong\yon$ isomorphic to $p$?
+	\item In terms of tree pictures, draw $\yon\tri p$ and $p\tri\yon$, and explain pictorially how to see the isomorphisms $\yon\tri p\cong p\cong p\tri\yon$.
+\qedhere
+\end{enumerate}
 \end{exercise}
 
 \paragraph{Monoidal structure $(\poly,\tri,\yon)$.}
@@ -846,19 +857,19 @@ The most surprising aspects of $\poly$ really begin with its comonoids. In 2018,
 \begin{definition}[Comonoid]
 A \emph{comonoid} in a monoidal category $(\cat{C},I,\lhd)$
 is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\lhd c$ are maps, such that the following diagrams commute:
-\[
+\begin{equation}\label{eqn.comonoid_diagrams}
 \begin{tikzcd}[background color=definitioncolor, row sep=large]
-	c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\\&
+	\yon\tri c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\tri\yon\\&
 	c\lhd c\ar[ul, "\epsilon\lhd c"]\ar[ur, "c\lhd\epsilon"']
 \end{tikzcd}
 \hspace{.6in}
 \begin{tikzcd}[row sep=large]
-	c\ar[r, "\delta"]\ar[d, "\delta"']&
+	c\vphantom{\yon}\ar[r, "\delta"]\ar[d, "\delta"']&
 	c\lhd c\ar[d, "c\lhd\delta"]\\
 	c\lhd c\ar[r, "\delta\lhd c"']&
 	c\lhd c\lhd c
 \end{tikzcd}
-\]
+\end{equation}
 We refer to comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as \emph{polynomial comonoids}.
 \end{definition}
 
@@ -872,8 +883,8 @@ In particular, we have $\delta^1=\delta$ and we may write $\delta^0\coloneqq\id_
 
 Polynomial comonoids are usually called \emph{polynomial comonads}. Though polynomials $p$ can be interpreted as polynomial \emph{functors} $p\colon\smset\to\smset$, we do not generally emphasize this part of the story; we use it when it comes in handy, but generally we think of polynomials more as dependent arenas, or sets of corollas. For this reason, we don't use 
 
-\begin{example}
-Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure, as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
+\begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
+Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
 \begin{align*}
 	S&\To{\epsilon'} S&
 	S&\To{\delta'}\sum_{s_1\in S}\prod_{s_2\in S}\sum_{s_3\in S}\prod_{s_4\in S}S\\
@@ -885,13 +896,212 @@ As you can see, both $\epsilon$ and $\delta$ are given by passing elements of $S
 \end{example}
 
 \begin{exercise}
-Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomials $\delta^n\colon p\to p\tripow{n+1}$.
+Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomials $\delta^n\colon p\to p\tripow{(n+1)}$ set-theoretically, e.g.\ as in \cref{ex.state_comonad_1}
 \end{exercise}
 
-\begin{example}[Picturing the comonoid $S\yon^S$]
+\begin{example}[Picturing the comonoid $S\yon^S$]\label{ex.picturing_SyS}
+Let's see this whole thing in pictures. First of all, let's take $S\coloneqq\3$ and draw $\3\yon^\3$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$\3\yon^\3$" above] {
+  \begin{tikzpicture}[trees, sibling distance=4mm]
+  	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+  	{
+      \node["\tiny \i" below, \c] at (1.8*\i,0) {$\bullet$} 
+        child [red]
+        child [dgreen]
+        child [blue]
+      ;
+  	};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+By assigning the arrows colors, we are implicitly using the isomorphism between the set of positions and the set of directions in each position. The comonoid structure of $S\yon^S$ relies on this isomorphism, so it is fair.
 
+The map $\epsilon\colon S\yon^S\to \yon$ can be drawn as follows:
+\[
+\begin{tikzpicture}[trees, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+	{
+  	\node["\tiny \i" below, \c] (\i) at (3*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=of \i] (y\i) {$\bullet$}
+  		child{coordinate (y\i')}
+  		;
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (y\i);
+	\draw[densely dotted, postaction={decorate}] (y\i') to (\i\i);
+	};
+\end{tikzpicture}
+\]
+It picks out one direction at each position, namely the one of the same color.
+
+The map $\delta\colon S\yon^S\to (S\yon^S)\tripow{2}$ can be drawn as follows:
+\[
+\begin{tikzpicture}[trees, 
+  level 1/.style={sibling distance=5mm},
+  level 2/.style={sibling distance=1.5mm},
+	bend right=60, 
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+	{
+  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
+  		child [red] {node (S\i1) {$\bullet$} 
+				child [red] {coordinate (\i11)}
+				child [dgreen] {coordinate (\i12)} 
+				child [blue] {coordinate (\i13)}
+				}
+  		child [dgreen] {node (S\i2) {$\bullet$} 
+				child [red] {coordinate (\i21)}
+				child [dgreen] {coordinate (\i22)} 
+				child [blue] {coordinate (\i23)}
+				}
+  		child [blue] {node (S\i3) {$\bullet$} 
+				child [red] {coordinate (\i31)}
+				child [dgreen] {coordinate (\i32)} 
+				child [blue] {coordinate (\i33)}
+				}
+  		;
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
+	\foreach \j in {1,2,3}
+	{
+		\foreach \k\d in {1/red, 2/dgreen, 3/blue}
+		{
+			\draw[densely dotted, postaction={decorate}, \d] (\i\j\k) to (\i\k);
+		};
+	};
+	};
+\end{tikzpicture}
+\]
+Note that $(S\yon^S)\tripow{2}$ has $SS^S$, or in this case $\8\1$ many trees, only three of which are being pointed to by $\delta$. That is, there is in general no rule that says the color of arrows should agree in any sense with the color of what it points to, but for the comonoid structure on $S\yon^S$, such a rule does hold.
+
+It remains to check the comonoid laws, the three commutative diagrams in \eqref{eqn.comonoid_diagrams}. The first two say that the composites
+\[
+S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\id\tri\epsilon}S\yon^S
+\qqand
+S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\epsilon\tri \id}S\yon^S
+\]
+are the identity. Let's return to the case $S=\3$. Then the second map in each case involves 81 different assignments, but only three of them will matter. Technically, we can use \cref{prop.vert_cart_factorization} to disregard all but three positions in $(S\yon^S)\tripow{2}\cong SS^S\yon^{SS}$. Since all three are strongly similar, we will draw only the red case. We also only draw the relevant passback maps.
+\[
+\begin{tikzpicture}[trees, 
+  level 1/.style={sibling distance=5mm},
+  level 2/.style={sibling distance=1.5mm},
+	bend right=60, 
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red}
+	{
+  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
+  		child [red] {node (S\i1) {$\bullet$} 
+				child [red] {coordinate (\i11)}
+				child [dgreen] {coordinate (\i12)} 
+				child [blue] {coordinate (\i13)}
+				}
+  		child [dgreen] {node (S\i2) {$\bullet$} 
+				child [red] {coordinate (\i21)}
+				child [dgreen] {coordinate (\i22)} 
+				child [blue] {coordinate (\i23)}
+				}
+  		child [blue] {node (S\i3) {$\bullet$} 
+				child [red] {coordinate (\i31)}
+				child [dgreen] {coordinate (\i32)} 
+				child [blue] {coordinate (\i33)}
+				}
+  		;
+  	\node[\c] (\i') at (8*\i, 0) {$\bullet$} 
+      child [red] {node[black] {$\bullet$}
+      	child [black] {coordinate (11'')}
+			}
+      child [dgreen] {node[black] {$\bullet$}
+      	child [black] {coordinate (12'')}
+			}
+      child [blue] {node[black] {$\bullet$}
+      	child [black] {coordinate (13'')}
+			}
+     	;
+		;
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (SS\i) -- (\i');
+		\foreach \j in {1,2,3}
+		{
+		\draw[densely dotted, postaction={decorate}] (1\j'') to (1\j\j);
+		\draw[densely dotted, postaction={decorate}] (1\j\j) to (1\j);
+		};
+	};
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[trees, 
+  level 1/.style={sibling distance=5mm},
+  level 2/.style={sibling distance=1.5mm},
+	bend right=60, 
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red}
+	{
+  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
+  		child [red] {node (S\i1) {$\bullet$} 
+				child [red] {coordinate (\i11)}
+				child [dgreen] {coordinate (\i12)} 
+				child [blue] {coordinate (\i13)}
+				}
+  		child [dgreen] {node (S\i2) {$\bullet$} 
+				child [red] {coordinate (\i21)}
+				child [dgreen] {coordinate (\i22)} 
+				child [blue] {coordinate (\i23)}
+				}
+  		child [blue] {node (S\i3) {$\bullet$} 
+				child [red] {coordinate (\i31)}
+				child [dgreen] {coordinate (\i32)} 
+				child [blue] {coordinate (\i33)}
+				}
+  		;
+  	\node[black] (\i') at (8*\i, 0) {$\bullet$}
+			child {node[red] {$\bullet$} 
+        child [red] {coordinate (11'')}
+        child [dgreen] {coordinate (12'')}
+        child [blue] {coordinate (13'')}
+      }
+     	;
+		;
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (SS\i) -- (\i');
+		\foreach \j in {1,2,3}
+		{
+		\draw[densely dotted, postaction={decorate}] (1\j'') to (11\j);
+		\draw[densely dotted, postaction={decorate}] (11\j) to (1\j);
+		};
+	};
+\end{tikzpicture}
+\]
 \end{example}
 
+\begin{exercise}
+Let $S=\2$ and $c\coloneqq \2\yon^\2$.
+\begin{enumerate}
+	\item Draw $c$.
+	\item Which two maps $ c\to c\tripow{3}$ are supposed to be equal by associativity?
+	\item Draw these two maps in the style of \cref{ex.picturing_SyS}.
+	\item Are they equal?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 %-------- Section --------%
 \section{Bimodules}
