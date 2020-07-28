@@ -1342,7 +1342,7 @@ we say that $(c',\delta')$ is the \emph{fleece comagma} of $\com{C}$.
 
 By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
 
-\begin{example}[Associativity]
+\begin{example}[Associativity]\label{ex.associativity_pics}
 Consider the non-category drawn here:
 \[
 \boxCD{examplecolor}{
@@ -1389,7 +1389,7 @@ Every symbol used there, other than $\yon$, including ``$g\circ f$'' is a formal
 \end{tikzpicture}
 \]
 We'll draw the map $\delta'\colon p'\to p'\tri p'$ using arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $g\circ f$ and $h\circ g$ are longer, and $i$ and $j$ are longest.
-\[
+\begin{equation}\label{eqn.delta_misc33}
 \begin{tikzpicture}[trees, bend right=60,
 level 1/.style={sibling distance=5mm},
 level 2/.style={sibling distance=2.5mm}]
@@ -1413,7 +1413,7 @@ level 2/.style={sibling distance=2.5mm}]
 	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
 	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
 %
-	\node [blue, right=2 of A2] (B1) {$\bullet$}
+	\node [blue, right=1.5 of A2] (B1) {$\bullet$}
 		child[level distance=4mm] {coordinate (B11)}
 		child[level distance=8mm] {coordinate (B12)};
 	\node [blue, right=1.5 of B1] (B2) {$\bullet$}
@@ -1424,7 +1424,7 @@ level 2/.style={sibling distance=2.5mm}]
 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (B1) -- (B2);
 	\draw[densely dotted, postaction={decorate}] (B21) to (B12);
 %
-	\node [dgreen, right=2 of B2] (C1) {$\bullet$}
+	\node [dgreen, right=1.5 of B2] (C1) {$\bullet$}
 		child[level distance=4mm] {coordinate (C11)};
 	\node[right=1 of C1, dgreen] (C2) {$\bullet$}
 		child[level distance=4mm] {node {$\bullet$}
@@ -1435,10 +1435,10 @@ level 2/.style={sibling distance=2.5mm}]
 	\node [right=1 of D1] (D2) {$\bullet$};
 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
 \end{tikzpicture}
-\]
+\end{equation}
 One should check in the red position that $h\circ(g\circ f)$ is going to $i$ and that $(h\circ g)\circ f$ is going to $j$.
 
-Now we draw $(\delta\tri c)\circ\delta$ and $(c\tri\delta)\circ\delta$ and see that they disagree at the $A$ position. First we draw $(\delta\tri c)\circ\delta$ which does $\delta$ first, then copies the 
+Now we draw $(\delta\tri c)\circ\delta$ and $(c\tri\delta)\circ\delta$ and see that they disagree at the $A$ position. Here is $(\delta\tri c)\circ\delta$ whose second map $\delta\tri c$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
 \[
 \begin{tikzpicture}[trees, bend right=60,
 level 1/.style={sibling distance=5mm},
@@ -1448,23 +1448,89 @@ level 2/.style={sibling distance=2.5mm}]
 		child[level distance =8mm] {coordinate (A12)}
 		child[level distance =12mm] {coordinate (A13)}
 		child[level distance =12mm] {coordinate (A14)};
+%
 	\node [right=2.5 of A1, red] (A2) {$\bullet$}
 		child[level distance =4mm] {node [blue]{$\bullet$}
 			child[level distance=4mm] {coordinate (A21)}
 			child[level distance=8mm] {coordinate (A22)}
 		}
+		child[level distance =8mm] {node [dgreen] (A23') {$\bullet$}
+			child[level distance=4mm] {coordinate (A23)}
+		}
+		child[level distance =12mm] {node (A24') {$\bullet$}}
+		child[level distance =12mm] {node (A25') {$\bullet$}};			
+%
+	\node [right=3.5 of A2, red] (A3) {$\bullet$}
+		child[level distance =4mm] {node [blue]{$\bullet$}
+			child[level distance=4mm] {node [dgreen] (A31') {$\bullet$}
+				child [level distance=4mm] {coordinate (A31)}}
+			child[level distance=8mm] {node (A32') {$\bullet$}}
+		}
 		child[level distance =8mm] {node [dgreen] {$\bullet$}
+			child[level distance=4mm] {node (A33') {$\bullet$}}
+		}
+		child[level distance =12mm] {node {$\bullet$}}
+		child[level distance =12mm] {node {$\bullet$}};			
+%
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
+	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+	\draw[densely dotted, bend right=20, dashed] (A31') to (A23');
+	\draw[densely dotted, bend right=20, dashed] (A32') to (A25');
+	\draw[densely dotted, bend right=20, dashed] (A33') to (A24');
+	\draw[densely dotted, postaction={decorate}] (A31) to (A23);
+\end{tikzpicture}
+\]
+We can see that the unique leaf of $c\tri c\tri c$ is mapping to $i$. Now we draw $(c\tri\delta)\circ\delta$. Its second map $c\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
+\[
+\begin{tikzpicture}[trees, bend right=60,
+level 1/.style={sibling distance=5mm},
+level 2/.style={sibling distance=2.5mm}]
+	\node [red] (A1) {$\bullet$}
+		child[level distance =4mm] {coordinate (A11)}
+		child[level distance =8mm] {coordinate (A12)}
+		child[level distance =12mm] {coordinate (A13)}
+		child[level distance =12mm] {coordinate (A14)};
+%
+	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+		child[level distance =4mm] {node [blue]{$\bullet$}
+			child[level distance=4mm] {coordinate (A21)}
+			child[level distance=8mm] {coordinate (A22)}
+		}
+		child[level distance =8mm] {node [dgreen]  {$\bullet$}
 			child[level distance=4mm] {coordinate (A23)}
 		}
 		child[level distance =12mm] {node {$\bullet$}}
 		child[level distance =12mm] {node {$\bullet$}};			
+%
+	\node [right=3.5 of A2, red] (A3) {$\bullet$}
+		child[level distance =4mm] {node [blue]{$\bullet$}
+			child[level distance=4mm] {node [dgreen] {$\bullet$}
+				child [level distance=4mm] {coordinate (A31)}}
+			child[level distance=8mm] {node {$\bullet$}}
+		}
+		child[level distance =8mm] {node [dgreen] {$\bullet$}
+			child[level distance=4mm] {node {$\bullet$}}
+		}
+		child[level distance =12mm] {node {$\bullet$}}
+		child[level distance =12mm] {node {$\bullet$}};			
+%
 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
 	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
 	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
 	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+	\draw[densely dotted, postaction={decorate}] (A31) to (A22);
 \end{tikzpicture}
 \]
+We can see that the unique leaf of $c\tri c\tri c$ is mapping to $j$.
 \end{example}
+
+\begin{exercise}
+In \cref{ex.associativity_pics} we have maps $(\delta\tri c)\circ\delta$ and $(c\tri\delta)\circ\delta$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $h\circ (g\circ f)$, and which corresponds to composing to the right, e.g.\ $(h\circ g)\circ f$?
+\end{exercise}
 
 
 %-------- Section --------%
