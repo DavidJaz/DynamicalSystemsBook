@@ -430,7 +430,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 
 
-\newcommand{\boxCD}[2][black]{\fcolorbox{#1}{white}{\begin{varwidth}{\textwidth}\centering #2\end{varwidth}}}
+\newcommand{\boxCD}[3][black] % [border color] {interior color} {math text}
+{\fcolorbox{#1}{#2}{\begin{varwidth}{\textwidth}\centering #3\end{varwidth}}}
 
 \newcommand{\erase}[2][]{{\color{red}#1}}
 \newcommand{\showhide}[2]{#1}
@@ -548,76 +549,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \vspace{.8in}
 \normalsize
 \[
-\begin{tikzpicture}[trees, scale=1.5]
-\begin{scope}[
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm},
-  level 5/.style={sibling distance=1.25mm}]
-  \node[dgreen] (a) {$\bullet$}
-    child {node[dgreen] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
-     			}
-    			child  {node[red] {$\bullet$}}
-  			}
-    	}
-    	child {node[dyellow] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child  {node[red] {$\bullet$}}
-    	}
-    }
-    child {node[dyellow] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
-     			}
-    			child  {node[red] {$\bullet$}}
-  			}
-  		}
-  		child {node[red] {$\bullet$}
-  		}
-  	}
-  ;
-\end{scope}
-\draw[blue, densely dotted] (current bounding box.south west) rectangle
-(current bounding box.north east);
-\end{tikzpicture}
+\coverpic
 \]
   \vspace{.5in}
   \endgroup
