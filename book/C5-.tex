@@ -7,18 +7,119 @@
 
 
 %------------ Chapter ------------%
-\chapter{Polynomial `time'}\label{chapter.5}
+\chapter{Patterns}\label{chapter.5}
 
 %-------- Section --------%
-\section{Introduction}
+\section{Introduction}\label{sec.c5_intro}
+
+\slogan{What is a pattern?}
+
+We are receptive to patterns; in fact we find that our thoughts are operating on them constantly. What patterns are you picking up on right now? Maybe you can stick with one or more of them as we try to tell a story about patterns in the abstract.
+
+Each pattern has a certain sort of shape---a certain repetitiveness---like the rational number
+\[\frac{1}{7}=.142857142857142857\cdots\]
+Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
+\[
+\begin{tikzpicture}[trees, scale=1.5]
+\begin{scope}[
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+  		}
+  		child {node[red] {$\bullet$}
+  		}
+  	}
+  ;
+\end{scope}
+%\draw[blue, densely dotted] (current bounding box.south west) rectangle
+%(current bounding box.north east);
+\end{tikzpicture}
+\]
+Do you pick up on the fact that every tree sitting at a green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
+
+When someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}. If they pick up on something again and again, it's a pattern. 
+
+Isn't it true that in some sense a pattern is dynamic, that it's not a still-life, but more like a movie? And in some sense don't we move \emph{with} this pattern, either caught up in it like a nightmare replaying endlessly or skillfully manifesting it like a star basketball player making another beautiful point? Good or bad, to our benefit or loss, we notice and pick up on the pattern, and we carry its load. Maybe we could say that it's like the pattern is a molecule and some part of us is like a receptor for this kind of molecule.
+
+Our lives are patterned, and so are the lives of our machines and computer programs. Day in and day out, our billions of receptors pick up on patterns in what we call reality, catching on to existing possibilities there. Day in and day out, our cars and boats and web browsers latch onto patterns and make them available to thought; thought plays the role of a pilot sitting in the cockpit.
+
+Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We pick up patterns and we operate on them. We are like a sort of ``module'' bridging two realms, one called reality and one called mind.
+
+\bigskip
+
+A distilled version of the story so far---up to the end of the last paragraph---can be formalized mathematically, and we do so in this chapter. That is, we'll discuss the sense in which \emph{bimodules} $m$ (playing the role of ``us'' in the above story) sit between two toposes (``realms''). From one realm (playing the role of ``reality''), the bimodule $m$ ``picks up'' patterns. The other realm (playing the role of ``mind'') operates and moves through these patterns. Though the mind realm need not be any smaller than the reality realm, the two sides of this story are not symmetric in terms of how they interact with $m$.
+
+A relatively concise mathematical way to tell the above story is that the comonoids $\com{C}$ in the monoidal category $(\poly,\yon,\circ)$ can be identified with categories $\cat{C}$. The cofree comonoid $\cofree{p}$ on an arbitrary polynomial $p$ will be particularly interesting from a dynamics point of view, lending itself to much of the language of ``patterns'' used in the story above. Copresheaves $\Phi\colon\cat{C}_p\to\smset$ on these categories can be identified with dependent dynamical systems in the sense of \cref{def.gen_moore}. The bimodules $\cofree{q}\tickar[m]\cofree{p}$ between comonoids $\cofree{q}$ and $\cofree{p}$ correspond to parametric right adjoints $\cofree{p}\set\to\cofree{q}\set$ between the associated copresheaf categories, allowing us to migrate a dynamical system $\Phi$ of type $p$ to one of type $q$. One can describe this migration, this parametric right adjoint, in terms of receptors---or what database theorists call ``frozen instances''---picking up patterns in $\Phi$ and then sorting them into copresheaves on the target category $\cofree{q}$.
+
+Our goal in this chapter is to say the above carefully and with plenty of examples.
+
+%-------- Section --------%
+\section{The composition product}
 
 In \cref{chapter.4} we saw that the category $\poly$ of polynomial functors---otherwise known as dependent lenses---is a very well-behaved category in which to think about dynamical systems of quite a general nature.
 
 But we left one thing---what in some sense is the most interesting part of the story---out entirely. That thing is quite simple to state, and yet has profound consequences. Namely: polynomials can be composed:
 \[
-\yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1
+\yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1.
 \]
-What could be simpler?
+What could be simpler?%
+\footnote{If you're thinking ``What could be more boring?'', don't forget that our job is to connect this to the material in \cref{sec.c5_intro}. If that payoff doesn't intrigue you, then this chapter is not for you.}
 
 It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{?}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, and choosing a direction in $q_j$.''
 
@@ -30,16 +131,14 @@ p\cong\sum_{i\in p(\1)}\yon^{p_i},
 \end{equation}
 and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p_i$ as the set of direction at position $i$.
 
-%-------- Section --------%
-\section{The composition product}
-
+\paragraph{Defining the composition product}
 We begin with the definition of composition product.
 
-\begin{proposition}
+\begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
-\begin{equation}\label{eqn.composite_formula}
+\[
 p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
-\end{equation}
+\]
 \end{proposition}
 \begin{proof}
 We can rewrite \cref{eqn.sum_p1_again} for $p$ and $q$ as
@@ -57,25 +156,37 @@ For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\
 (written slightly bigger for clarity) is clearly a polynomial.
 \end{proof}
 
+The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or collections of corollas. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition namely
+\[
+p\tri q\coloneqq p\circ q.
+\]
+The symbol $\tri$ looks a bit like the composition symbol, in that it is an open shape, and when handwriting it fast, it's ok if it morphs into a $\circ$, but we'll soon see that it is quite evocative in terms of trees, and again it leaves $\circ$ for other uses.
+
+We repeat the important formulas from \cref{prop.poly_closed_comp} in the new notation:
+\begin{equation}\label{eqn.composite_formula}
+p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+\end{equation}
+
+
 \begin{exercise}
 Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p_1=\2$ and $p_2=\1$.
 \begin{enumerate}
 	\item What is $q^\2$?
-	\item What is $\yon^2\circ q$?
-	\item What is $\yon\circ q$?
-	\item What is $(\yon^\2+\yon)\circ q$? This is what $p\circ q$ ``should be''.
+	\item What is $\yon^2\tri q$? 
+	\item What is $\yon\tri q$?
+	\item What is $(\yon^\2+\yon)\tri q$? This is what $p\tri q$ ``should be''.
 	\item How many functions $j_1\colon p_1\to q(\1)$ are there?
 	\item For each function $j_1$ as above, what is $\sum_{d\in p_1} q_{j_1(d)}$?
 	\item How many functions $j_2\colon p_2\to q(\2)$ are there?
 	\item For each function $j_2$ as above, what is $\sum_{d\in p_2} q_{j_2(d)}$?
 	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}}$.
-	\item Does the result agree with what $p\circ q$ should be?
+	\item Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-In terms of corollas, composition product $p\circ q$ is given by stacking $q$-corollas on top of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
-\[
+In terms of corollas, composition product $p\tri q$ is given by grafting $q$-corollas onto the tips of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
+\begin{equation}\label{eqn.pq_misc39}
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
@@ -98,11 +209,11 @@ In terms of corollas, composition product $p\circ q$ is given by stacking $q$-co
   \end{tikzpicture}
   };
 \end{tikzpicture}
-\]
-Then their composite $p\circ q$ would be drawn like so:
+\end{equation}
+Then their composite $p\tri q$ would be drawn like so:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p\circ q$" above] {
+	\node (p1) [draw, "$p\tri q$" above] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=8mm},
 	  level 2/.style={sibling distance=2.5mm}]
@@ -156,8 +267,846 @@ Then their composite $p\circ q$ would be drawn like so:
   };
 \end{tikzpicture}
 \]
-It has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions. In total, we read off that $p\circ q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$.
+It has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions. In total, we read off that $p\tri q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$.
 
+\begin{exercise}
+Use $p,q$ as in \cref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the following.
+\begin{enumerate}
+	\item Draw $q\tri p$.
+	\item Draw $p\tri p$.
+	\item Draw $p\tri p\tri 1$.
+	\item Draw $r\tri r$.
+	\item Draw $r\tri r\tri r$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}\label{ex.apply_2}
+For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon\smset\to\smset$ is a functor! In particular, by this point you've seen us write $p(\1)$ hundreds of times. But we've also seen that $X$ is itself a polynomial, namely a constant one.
+
+It's not hard to see that $p(X)\cong p\tri X$. Here's a picture, where $p\coloneqq\yon^\3+\yon+\1$ and $X\coloneqq\2$.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+      ;
+    \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$} 
+      ;
+  \end{tikzpicture}
+  };
+%
+	\node (p2) [draw, red!50!black, right=2 of p1, "$X$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$};
+    \node[right=.5 of 1,"\tiny 2" below] (4) {$\diamond$};
+    \node[above=10pt of 4] {};
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Let's see how $(\yon^\3+\yon+\1)\tri\2$ looks.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$p\tri X$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\bullet$}};
+    \node[blue!50!black, right=of 1] (2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\diamond$}};
+    \node[blue!50!black, right=of 2] (3) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\bullet$}};
+    \node[blue!50!black, right=of 3] (4) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\diamond$}};
+    \node[blue!50!black, right=of 4] (5) {$\bullet$} 
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\bullet$}};
+    \node[blue!50!black, right=of 5] (6) {$\bullet$} 
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\bullet$}}
+      child {node[red!50!black] {$\diamond$}};
+    \node[blue!50!black, right=of 6] (7) {$\bullet$} 
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\bullet$}};
+    \node[blue!50!black, right=of 7] (8) {$\bullet$} 
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\diamond$}}
+      child {node[red!50!black] {$\diamond$}};
+    \node[blue!50!black, right=.8 of 8] (9) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}};
+    \node[blue!50!black, right=.6 of 9] (10) {$\bullet$} 
+      child {node[red!50!black] {$\diamond$}};
+    \node[blue!50!black, right=.6 of 10] (11) {$\bullet$};
+	\end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+It has $11$ positions and no open leaves, which means it's a set (constant polynomial), namely $p\tri X\cong \1\1$.
+
+We could also draw $X\tri p$, since both are perfectly valid polynomials. Here it is:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p2) [draw, red!50!black, "$X\tri p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$};
+    \node[right=.5 of 1,"\tiny 2" below] (4) {$\diamond$};
+    \node[above=10pt of 4] {};
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Each of the open leaves in $X$---of which there are none---is filled with a corolla from $p$.
+\end{example}
+
+\begin{exercise}
+Choose a polynomial $p$ and draw $p\tri\1$ in the style of \cref{ex.apply_2}.
+\end{exercise}
+
+\begin{exercise}
+Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
+\begin{equation}\label{eqn.monomials_and_comp}
+	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
+\end{equation}
+If so, why? If not, give a counterexample.
+\end{exercise}
+
+\begin{exercise}\label{ex.compose_yon}
+For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\cong\yon\tri p$.
+\begin{enumerate}
+	\item Thinking of polynomials as functors $\smset\to\smset$, what functor does $\yon$ represent?
+	\item Why is $p\cong\yon$ isomorphic to $p$?
+	\item In terms of tree pictures, draw $\yon\tri p$ and $p\tri\yon$, and explain pictorially how to see the isomorphisms $\yon\tri p\cong p\cong p\tri\yon$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\paragraph{Monoidal structure $(\poly,\tri,\yon)$.}
+The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
+
+However, even though the formal theory of functors and natural transformations knocks the monoidality of $\tri$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
+
+For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
+
+Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'_{f_1(i)}$ there is passed back to an option $f^\sharp(d)\in p_i$. Let's start with an example and then give the general method.
+
+\begin{example}\label{ex.circ_prod_on_morphisms}
+Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (q) [draw, red!50!black, above=1 of p, "$q$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+	\node (p') [draw, blue, right=3 of p, "$p'$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+      child {};
+  \end{tikzpicture}
+  };
+	\node (q') [draw, red, above=1 of p', "$q'$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give a way to delegate from $(p\tri q)$ to $(p'\tri q')$. Let's draw $p\tri q$ and $p'\tri q'$.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$p\tri q$" above] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			};
+%
+    \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+			};
+%
+    \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+			};
+%
+    \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+      	child
+			};
+%
+    \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$p'\tri q'$" above] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=4mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue] (1) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+				child
+			};
+%
+    \node[blue, right=1.4 of 1] (2) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1.4 of 2] (3) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+				child
+			};
+%
+    \node[blue, right=1.4 of 3] (4) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1.4 of 4] (5) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+				child
+			};
+%
+    \node[blue, right=1.4 of 5] (6) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1.4 of 6] (7) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			};
+%
+    \node[blue, right=1.4 of 7] (8) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1 of 8] (9) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			};
+%
+    \node[blue, right=.8 of 9] (10) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+
+Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\colon p\to p'$ and $g\colon q\to q'$. Let's just pick something relatively at random
+\[
+\begin{tikzpicture}
+	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child {coordinate (11)}
+      child {coordinate (12)};
+    \node[right=1.5 of 1, blue, "\tiny 1" below] (2) {$\bullet$} 
+      child {coordinate (21)}
+      child {coordinate (22)}
+      child {coordinate (23)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (12);
+      \draw[postaction={decorate}] (22) to (12);
+      \draw[postaction={decorate}] (23) to (11);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p2) [below right=-1.3 and 1 of p1] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
+      child {coordinate (11)};
+    \node[right=of 1, blue, "\tiny 2" below] (2) {$\bullet$}
+      child {coordinate (21)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (11);
+		\end{scope}
+  \end{tikzpicture}	
+	};	
+	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[red!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child {coordinate (11)}
+      child {coordinate (12)};
+    \node[right=1.5 of 1, red, "\tiny 1" below] (2) {$\bullet$} 
+      child {coordinate (21)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (12);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p4) [below right=-1.05 and 1 of p3] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[red!50!black, "\tiny 2" below] (1) {$\bullet$} 
+      child {coordinate (11)};
+    \node[right=of 1, red, "\tiny 2" below] (2) {$\bullet$};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+  \end{tikzpicture}	
+	};	
+\end{tikzpicture}
+\]
+Then we can form the induced delegation (morphism / dependent lens) $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$, we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
+
+Our pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
+\[
+	\begin{tikzpicture}[trees]
+	\begin{scope}[
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] (11') {$\bullet$} 
+      	child {coordinate (11)}
+				child {coordinate (12)}
+			}
+      child {node[red!50!black] (12') {$\bullet$} 
+      	child {coordinate (13)}
+				child {coordinate (14)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] (21') {$\bullet$} 
+      	child {coordinate (21)}
+				child {coordinate (22)}
+			}
+      child {node[red!50!black] (22') {$\bullet$} 
+      	child {coordinate (23)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] (31') {$\bullet$} 
+      	child {coordinate (31)}
+			}
+      child {node[red!50!black] (32') {$\bullet$} 
+      	child {coordinate (32)}
+				child {coordinate (33)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] (41') {$\bullet$} 
+      	child {coordinate (41)}
+			}
+      child {node[red!50!black] (42') {$\bullet$} 
+      	child {coordinate (42)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] (51') {$\bullet$} 
+      	child {coordinate (51)}
+				child {coordinate (52)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] (61') {$\bullet$} 
+      	child {coordinate (61)}
+			};
+		\end{scope}
+%%
+		\begin{scope}[		
+		level 1/.style={sibling distance=4mm},
+	  level 2/.style={sibling distance=2.5mm}]
+	    \node[blue, right=2 of 1] (1') {$\bullet$} 
+      child {node[red] (1'1') {$\bullet$} 
+      	child {coordinate (1'1)}
+			}
+      child {node[red] (1'2') {$\bullet$} 
+      	child {coordinate (1'2)}
+			}
+      child {node[red] (1'3') {$\bullet$} 
+      	child {coordinate (1'3)}
+			};
+%
+    \node[blue, right=2 of 2] (2') {$\bullet$} 
+      child {node[red] (2'1') {$\bullet$} 
+			}
+      child {node[red] (2'2') {$\bullet$} 
+			}
+      child {node[red] (2'3') {$\bullet$} 
+      	child {coordinate (2'1)}
+			};
+%
+    \node[blue, right=2 of 3] (3') {$\bullet$} 
+      child {node[red] (3'1') {$\bullet$} 
+      	child {coordinate (3'1)}
+			}
+      child {node[red] (3'2') {$\bullet$} 
+      	child {coordinate (3'2)}
+			}
+      child {node[red] (3'3') {$\bullet$} 
+			};
+%
+    \node[blue, right=2 of 4] (4') {$\bullet$} 
+      child {node[red] (4'1') {$\bullet$} 
+			}
+      child {node[red] (4'2') {$\bullet$} 
+			}
+      child {node[red] (4'3') {$\bullet$} 
+			};
+%
+    \node[blue, right=2 of 5] (5') {$\bullet$} 
+      child {node[red] (5'1') {$\bullet$} 
+      	child {coordinate (5'1)}
+			};
+%
+    \node[blue, right=2 of 6] (6') {$\bullet$} 
+      child {node[red] (6'1') {$\bullet$} 
+			};
+%
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (3) -- (3');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (4) -- (4');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (5) -- (5');
+%\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
+    \begin{scope}[densely dotted, bend right=15pt, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (1'1') to (12');
+      \draw[postaction={decorate}] (1'2') to (12');
+      \draw[postaction={decorate}] (1'3') to (11');
+      \draw[postaction={decorate}] (1'1) to (14);
+      \draw[postaction={decorate}] (1'2) to (14);
+      \draw[postaction={decorate}] (1'3) to (12);
+%
+      \draw[postaction={decorate}] (2'1') to (22');
+      \draw[postaction={decorate}] (2'2') to (22');
+      \draw[postaction={decorate}] (2'3') to (21');
+      \draw[postaction={decorate}] (2'1) to (23);
+%
+      \draw[postaction={decorate}] (3'1') to (32');
+      \draw[postaction={decorate}] (3'2') to (32');
+      \draw[postaction={decorate}] (3'3') to (31');
+      \draw[postaction={decorate}] (3'1) to (33);
+      \draw[postaction={decorate}] (3'2) to (33);
+%
+      \draw[postaction={decorate}] (4'1') to (42');
+      \draw[postaction={decorate}] (4'2') to (42');
+      \draw[postaction={decorate}] (4'3') to (41');
+%
+      \draw[postaction={decorate}] (5'1') to (51');
+      \draw[postaction={decorate}] (5'1) to (52);
+%
+      \draw[postaction={decorate}] (6'1') to (61');
+    \end{scope}
+
+	\end{scope}
+  \end{tikzpicture}
+\]
+Again, we're not making up these rules; it's a tree representation of how natural transformations $f$ and $g$ compose to form $f\tri g$.
+\end{example}
+
+\begin{exercise}
+With $p,q,p',q'$ and $f,g$ as in \cref{ex.circ_prod_on_morphisms}, draw $g\tri f\colon (q\tri p)\to (q'\tri p')$ in terms of trees as in the example.
+\end{exercise}
+
+\begin{exercise}
+Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$. Does the following diagram necessarily commute?
+\[
+\begin{tikzcd}
+	q\ar[r, "g"]\ar[d, "f"']&
+	q\tri r\ar[d, "f\tri r"]\\
+	p\tri q\ar[r, "p\tri g"']&
+	p\tri q\tri r\ar[ul, phantom, "?"]
+\end{tikzcd}
+\]
+That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?
+\end{exercise}
+
+\paragraph{Pronouncing polynomial composites.}
+
+We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
+\[p=\sum_{i\in p(\1)}\prod_{d\in p_i}\yon\]
+as ``a choice of $p$-position $i$ and, for every direction $d\in p_i$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
+
+To pronounce composites of polynomials $p\tri q$, we pronounce almost all of $p$, except we replace ``future'' with $q$. More precisely, to pronounce $p\tri q$, which has the formula
+\[p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon,
+\]
+we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p_i$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q_j$ there, a future.
+
+\begin{exercise}
+\begin{enumerate}
+	\item Let $p$ be an arbitrary polynomial. Write out the English pronunciation of $p\tri p\tri p$.
+	\item Pronouncing the unique element of $\1$ as ``completion'', write out the pronunciation of $p\tri p\tri \1$.
+	\item Pronouncing $\prod_{d\in\varnothing}\yon$ as ``with no directions to travel, a complete dissociation from any purported future'', write out the pronunciation of $p\tri p\tri\yon^\0$.
+	\item With the ``dissociation'' language, pronounce $p\tri\1\tri p$, and see if it makes sense with the fact that $p\tri\1\tri p\cong p\tri \1$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.g.\ $p\tripow{3}\coloneqq p\tri p\tri p$. In particular, $p\tripow{1}\coloneqq p$ and $p\tripow{0}\coloneqq\yon$. We might think of $p\tripow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. That is, we pronounce $p\tripow{n}$
+
+\begin{exercise}
+Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
+\end{exercise}
+
+%-------- Section --------%
+\section{Comonoids in $\poly$}
+
+The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. From there, all heaven breaks loose.
+
+\begin{definition}[Comonoid]
+A \emph{comonoid} in a monoidal category $(\cat{C},I,\lhd)$
+is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\lhd c$ are maps, such that the following diagrams commute:
+\begin{equation}\label{eqn.comonoid_diagrams}
+\begin{tikzcd}[background color=definitioncolor, row sep=large]
+	\yon\tri c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\tri\yon\\&
+	c\lhd c\ar[ul, "\epsilon\lhd c"]\ar[ur, "c\lhd\epsilon"']
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}[row sep=large]
+	c\vphantom{\yon}\ar[r, "\delta"]\ar[d, "\delta"']&
+	c\lhd c\ar[d, "c\lhd\delta"]\\
+	c\lhd c\ar[r, "\delta\lhd c"']&
+	c\lhd c\lhd c
+\end{tikzcd}
+\end{equation}
+We refer to comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as \emph{polynomial comonoids}.
+\end{definition}
+
+\begin{example}[$\delta^{n}$ notation]
+Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the two ways to get a map $c\to c\tri c\tri c$ have the same result. This is true for any $n\in\nn$: we get an induced map $c\to c\tripow{n+1}$, which by mild abuse of notation we denote $\delta^n$:
+\[
+	c\To{\delta}c\tri c\To{c\tri\delta}c\tri c\tri c\To{c\tripow{2}\tri\delta}\cdots\To{c\tripow{n}\tri\delta}c\tripow{(n+1)}.
+\]
+In particular, we have $\delta^1=\delta$ and we may write $\delta^0\coloneqq\id_c$ and $\delta^{-1}\coloneqq\epsilon$.
+\end{example}
+
+Polynomial comonoids are usually called \emph{polynomial comonads}. Though polynomials $p$ can be interpreted as polynomial \emph{functors} $p\colon\smset\to\smset$, we do not generally emphasize this part of the story; we use it when it comes in handy, but generally we think of polynomials more as dependent arenas, or sets of corollas. For this reason, we don't use 
+
+\begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
+Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
+\begin{align*}
+	S&\To{\epsilon'} S&
+	S&\To{\delta'}\sum_{s_1\in S}\prod_{s_2\in S}\sum_{s_3\in S}\prod_{s_4\in S}S\\
+\intertext{We take $\epsilon'$ to be the identity and we take $\delta'$ to be}
+	s&\Mapsto{\epsilon'} s&
+  s&\Mapsto{\delta'} (s_1\coloneqq s, s_2\mapsto (s_3\coloneqq s_2, s_4\mapsto s_4)).
+\end{align*}
+As you can see, both $\epsilon$ and $\delta$ are given by passing elements of $S$ along in a completely straightforward way.
+\end{example}
+
+\begin{exercise}
+Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomials $\delta^n\colon p\to p\tripow{(n+1)}$ set-theoretically, e.g.\ as in \cref{ex.state_comonad_1}
+\end{exercise}
+
+\begin{example}[Picturing the comonoid $S\yon^S$]\label{ex.picturing_SyS}
+Let's see this whole thing in pictures. First of all, let's take $S\coloneqq\3$ and draw $\3\yon^\3$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$\3\yon^\3$" above] {
+  \begin{tikzpicture}[trees, sibling distance=4mm]
+  	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+  	{
+      \node["\tiny \i" below, \c] at (1.8*\i,0) {$\bullet$} 
+        child [red]
+        child [dgreen]
+        child [blue]
+      ;
+  	};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+By assigning the arrows colors, we are implicitly using the isomorphism between the set of positions and the set of directions in each position. The comonoid structure of $S\yon^S$ relies on this isomorphism, so it is fair.
+
+The map $\epsilon\colon S\yon^S\to \yon$ can be drawn as follows:
+\[
+\begin{tikzpicture}[trees, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+	{
+  	\node["\tiny \i" below, \c] (\i) at (3*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=of \i] (y\i) {$\bullet$}
+  		child{coordinate (y\i')}
+  		;
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (y\i);
+	\draw[densely dotted, postaction={decorate}] (y\i') to (\i\i);
+	};
+\end{tikzpicture}
+\]
+It picks out one direction at each position, namely the one of the same color.
+
+The map $\delta\colon S\yon^S\to (S\yon^S)\tripow{2}$ can be drawn as follows:
+\[
+\begin{tikzpicture}[trees, 
+  level 1/.style={sibling distance=5mm},
+  level 2/.style={sibling distance=1.5mm},
+	bend right=60, 
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+	{
+  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
+  		child [red] {node (S\i1) {$\bullet$} 
+				child [red] {coordinate (\i11)}
+				child [dgreen] {coordinate (\i12)} 
+				child [blue] {coordinate (\i13)}
+				}
+  		child [dgreen] {node (S\i2) {$\bullet$} 
+				child [red] {coordinate (\i21)}
+				child [dgreen] {coordinate (\i22)} 
+				child [blue] {coordinate (\i23)}
+				}
+  		child [blue] {node (S\i3) {$\bullet$} 
+				child [red] {coordinate (\i31)}
+				child [dgreen] {coordinate (\i32)} 
+				child [blue] {coordinate (\i33)}
+				}
+  		;
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
+	\foreach \j in {1,2,3}
+	{
+		\foreach \k\d in {1/red, 2/dgreen, 3/blue}
+		{
+			\draw[densely dotted, postaction={decorate}, \d] (\i\j\k) to (\i\k);
+		};
+	};
+	};
+\end{tikzpicture}
+\]
+Note that $(S\yon^S)\tripow{2}$ has $SS^S$, or in this case $\8\1$ many trees, only three of which are being pointed to by $\delta$. That is, there is in general no rule that says the color of arrows should agree in any sense with the color of what it points to, but for the comonoid structure on $S\yon^S$, such a rule does hold.
+
+It remains to check the comonoid laws, the three commutative diagrams in \eqref{eqn.comonoid_diagrams}. The first two say that the composites
+\[
+S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\id\tri\epsilon}S\yon^S
+\qqand
+S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\epsilon\tri \id}S\yon^S
+\]
+are the identity. Let's return to the case $S=\3$. Then the second map in each case involves 81 different assignments, but only three of them will matter. Technically, we can use \cref{prop.vert_cart_factorization} to disregard all but three positions in $(S\yon^S)\tripow{2}\cong SS^S\yon^{SS}$. Since all three are strongly similar, we will draw only the red case. We also only draw the relevant passback maps.
+\[
+\begin{tikzpicture}[trees, 
+  level 1/.style={sibling distance=5mm},
+  level 2/.style={sibling distance=1.5mm},
+	bend right=60, 
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red}
+	{
+  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
+  		child [red] {node (S\i1) {$\bullet$} 
+				child [red] {coordinate (\i11)}
+				child [dgreen] {coordinate (\i12)} 
+				child [blue] {coordinate (\i13)}
+				}
+  		child [dgreen] {node (S\i2) {$\bullet$} 
+				child [red] {coordinate (\i21)}
+				child [dgreen] {coordinate (\i22)} 
+				child [blue] {coordinate (\i23)}
+				}
+  		child [blue] {node (S\i3) {$\bullet$} 
+				child [red] {coordinate (\i31)}
+				child [dgreen] {coordinate (\i32)} 
+				child [blue] {coordinate (\i33)}
+				}
+  		;
+  	\node[\c] (\i') at (8*\i, 0) {$\bullet$} 
+      child [red] {node[black] {$\bullet$}
+      	child [black] {coordinate (11'')}
+			}
+      child [dgreen] {node[black] {$\bullet$}
+      	child [black] {coordinate (12'')}
+			}
+      child [blue] {node[black] {$\bullet$}
+      	child [black] {coordinate (13'')}
+			}
+     	;
+		;
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (SS\i) -- (\i');
+		\foreach \j in {1,2,3}
+		{
+		\draw[densely dotted, postaction={decorate}] (1\j'') to (1\j\j);
+		\draw[densely dotted, postaction={decorate}] (1\j\j) to (1\j);
+		};
+	};
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[trees, 
+  level 1/.style={sibling distance=5mm},
+  level 2/.style={sibling distance=1.5mm},
+	bend right=60, 
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	\foreach \i/\c in {1/red}
+	{
+  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
+  		child [red] {node (S\i1) {$\bullet$} 
+				child [red] {coordinate (\i11)}
+				child [dgreen] {coordinate (\i12)} 
+				child [blue] {coordinate (\i13)}
+				}
+  		child [dgreen] {node (S\i2) {$\bullet$} 
+				child [red] {coordinate (\i21)}
+				child [dgreen] {coordinate (\i22)} 
+				child [blue] {coordinate (\i23)}
+				}
+  		child [blue] {node (S\i3) {$\bullet$} 
+				child [red] {coordinate (\i31)}
+				child [dgreen] {coordinate (\i32)} 
+				child [blue] {coordinate (\i33)}
+				}
+  		;
+  	\node[black] (\i') at (8*\i, 0) {$\bullet$}
+			child {node[red] {$\bullet$} 
+        child [red] {coordinate (11'')}
+        child [dgreen] {coordinate (12'')}
+        child [blue] {coordinate (13'')}
+      }
+     	;
+		;
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
+  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (SS\i) -- (\i');
+		\foreach \j in {1,2,3}
+		{
+		\draw[densely dotted, postaction={decorate}] (1\j'') to (11\j);
+		\draw[densely dotted, postaction={decorate}] (11\j) to (1\j);
+		};
+	};
+\end{tikzpicture}
+\]
+\end{example}
+
+\begin{exercise}
+Let $S=\2$ and $c\coloneqq \2\yon^\2$.
+\begin{enumerate}
+	\item Draw $c$.
+	\item Which two maps $ c\to c\tripow{3}$ are supposed to be equal by associativity?
+	\item Draw these two maps in the style of \cref{ex.picturing_SyS}.
+	\item Are they equal?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+%-------- Section --------%
+\section{Bimodules}
+
+Bimodules with carrier $\yon$
 
 
 
