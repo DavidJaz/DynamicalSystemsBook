@@ -48,7 +48,6 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \usepackage[varg,bigdelims]{newpxmath}
 \usepackage{mathrsfs}
 \usepackage{minted}
-\DeclareMathVersion{normal2}
 \usepackage{dutchcal}
 \usepackage{fontawesome}
 
@@ -56,7 +55,9 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
 %\usepackage{accents}
 %\usepackage{eucal}
-\usepackage{esint}
+
+% MathVersion kludge
+\DeclareMathVersion{normal2}
 
 
 
@@ -513,7 +514,10 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\Orange}{{\color{orange} \const{orange}}}
 
 % Grothendieck double construction:
-%\newcommand{\sqiint}{\square\kern-1.03em{\iint}}
+\newcommand{\rectangle}{{%
+  \ooalign{$\sqsubset\mkern3mu$\cr$\mkern3mu\sqsupset$\cr}%
+}}
+\newcommand{\sqiint}{{\rectangle}\kern-1.2em{\iint}}
 
 % ---- Changeable document parameters ---- %
 
@@ -635,20 +639,33 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \tableofcontents*
 
 \mainmatter
+\mathversion{normal2}
 \subfile{C1-}
+\mathversion{normal}
 
+\mathversion{normal2}
 \subfile{C2-}
+\mathversion{normal}
 
+\mathversion{normal2}
 \subfile{C3-}
+\mathversion{normal}
 
-%\mathversion{normal2}
+\mathversion{normal2}
 \subfile{C4-Polynomials}
+\mathversion{normal}
 
+\mathversion{normal2}
 \subfile{C5-}
+\mathversion{normal}
 
+\mathversion{normal2}
 \subfile{C6-}
+\mathversion{normal}
 
+\mathversion{normal2}
 \subfile{C7-}
+\mathversion{normal}
 
 \appendix
 \begingroup
