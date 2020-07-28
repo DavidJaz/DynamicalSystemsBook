@@ -244,6 +244,45 @@ In each note topic, I think we should trade off with headers simply named
 
 **** TODO Jaz: Somewhere, it should me mentioned that a "mode" is a summand of a poly
 
+** <2020-07-27 seg> 
+
+*** Jaz: On the chapters
+
+   Spiv mentioned today that he's worried the chapters are a little long. I will try to organize my thoughts on this here:
+
+   Here are the topics I want to discuss in the (current) order I want to discuss them:
+   Current chapter breaks are marked with "---" and things which are currently (<2020-07-27 seg>) written are marked with an x.
+
+x  Deterministic systems.
+x  Wiring together systems with lenses.
+x  Behaviors of systems.
+x  The double category of arenas and what that means for behaviors of wired systems.
+   The indexed double category of deterministic systems.
+   Representable indexed double functors.
+   ---
+   (First order, ordinary) differential equations.
+   The doctrine of differential equations, and the formal definition of doctrine.
+   What the representable indexed double functors mean for the differential doctrine (composing bifurcation diagrams).
+   Approximating differential equations by deterministic systems: the Euler method as a map of doctrines.
+   Behavior types and interpreting differential and deterministic systems as them with an indexed double functor.
+   ---
+   Non-deterministic and stochastic systems.
+   The monadic doctrine, and change of doctrine along monad morphisms.
+   Hierarchical planning of multi-agent stochastic systems.
+   --- (Appendix?)
+   2-functorial construction of the indexed double category of systems in a given doctrine.
+   Construction of the representable indexed double functors.
+
+   The ordering and chapter breaks in these concepts could change (though the ordering should be changed with care). 
+
+
+
+** <2020-07-28 ter> 
+
+*** TODO Moore machine to circuit implementation
+
+   [[file:../book/C1-.tex::#moore-machine-example][Check it out here]]
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction
@@ -256,3 +295,6 @@ In each note topic, I think we should trade off with headers simply named
   
 *** Pseudo-functors and indexed categories
     [[file:../book/C1-.tex::#cite-this.pseudo_functors][See it here.]]
+*** Profunctors
+
+    [[file:../book/C1-.tex::#cite-me.profunctors][Find it here]]

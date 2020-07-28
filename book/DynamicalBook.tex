@@ -56,6 +56,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
 %\usepackage{accents}
 %\usepackage{eucal}
+\usepackage{esint}
 
 
 
@@ -372,13 +373,13 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \newcommand{\inj}{\rightarrowtail}
 \newcommand{\wavyto}{\rightsquigarrow}
 \newcommand{\lollipop}{\multimap}
-\newcommand{\tickar}{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
-replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
+\newcommand{\tickar}{\xtickar{}}
 \newcommand{\imp}{\Rightarrow}
 \renewcommand{\iff}{\Leftrightarrow}
 \newcommand{\down}{\mathbin{\downarrow}}
 \newcommand{\fromto}{\leftrightarrows}
-
+\newcommand{\xtickar}[1]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 
 
@@ -474,6 +475,8 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\ctxto}{\wavyto} % b/c I can't figure out what I really want to use
                              % for this...
 
+\newcommand{\xequals}[1]{\overset{#1}{=\joinrel=}}
+
 \newcommand{\shp}{^\sharp}
 
 % for making notes in text:
@@ -499,11 +502,14 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \newcommand{\true}{\const{true}}
 \newcommand{\false}{\const{false}}
 
-% $Colors
+% Colors
 \newcommand{\Red}{{\color{red} \const{red}}}
 \newcommand{\Blue}{{\color{blue} \const{blue}}}
 \newcommand{\Green}{{\color{dgreen}\const{green}} }
 \newcommand{\Orange}{{\color{orange} \const{orange}}}
+
+% Grothendieck double construction:
+%\newcommand{\sqiint}{\square\kern-1.03em{\iint}}
 
 % ---- Changeable document parameters ---- %
 
@@ -524,7 +530,8 @@ replacement=\&]{}\ar[r,tick]\&{}\end{tikzcd}}
 \title{\titlefont Categorical dynamics}
 \title{\titlefont Categorical Systems Theory}
 
-\author{\LARGE David Jaz Myers \and \LARGE David I. Spivak\normalsize}
+% \author{\LARGE David Jaz Myers \and \LARGE David I. Spivak\normalsize}
+\author{\LARGE $\text{David} \circ (\text{Jaz Myers} \otimes \text{I. Spivak})$\normalsize}
 
 
 
