@@ -297,15 +297,15 @@ To fix a mental image, let's say that you need to constantly look up employees, 
 \end{equation}
 We can see it as being associated to the following conceptual scheme, also called a \emph{schema}:
 \begin{equation}\label{eqn.myschema}
-\tiny\cat{C}\coloneqq
-\boxCD{
+\cat{C}\coloneqq
+\boxCD{white}{
 \begin{tikzcd}[row sep=large, ampersand replacement = \&]
  	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{FirstName}"']\ar[loop left, "\text{Mngr}"]\&\&
   \LTO{Department}\ar[ll, shift left, "\text{Admin}"]\ar[dl, bend left, "\text{Name}"]\\
   \&\LTO[\circ]{String}
 \end{tikzcd}
-\\~\\\tiny
-  Department.Admin.WorksIn = Department
+\leavevmode\\\bigskip
+\text{Department.Admin.WorksIn = Department}
 }
 \end{equation}
 The equation at the bottom says that for any department $d$, if you ask for the admin person and see which department they work in, it's required to be $d$.
@@ -684,6 +684,11 @@ For any categories $\cat{C}$ and $\cat{D}$, there is an equivalence of categorie
 \Cat{Bimod}(\com{C},\com{D})\cong\Cat{pra}(\cat{C}\set,\cat{D}\set)
 \]
 between that of bimodules between comonoids in $\poly$ and parametric right adjoints between copresheaf categories.
+\end{proposition}
+
+\begin{proposition}[Niu]
+For any category $\cat{C}$ the category of left $\com{C}$-modules is equivalent to the category of functors $\cat{C}\to\poly$,
+\[\Cat{Bimod}(\com{C},\yon)\cong\Cat{Fun}(\cat{C},\poly).\]
 \end{proposition}
 
 \begin{proposition}
@@ -2837,6 +2842,7 @@ For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
 	\item For any $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is identity, using eval and \cref{ex.double_dual}.
 	\item Show that maps of the four types $\kappa_{11}$, $\kappa_{12}$, $\kappa_{21}$, $\kappa_{22}$ shown in \cref{ex.bonds_break} can be obtained by tensoring together identity maps and eval maps.
 \qedhere
+\end{enumerate}
 \end{exercise}
 
 \begin{example}[Modeling your environment without knowing what it is]

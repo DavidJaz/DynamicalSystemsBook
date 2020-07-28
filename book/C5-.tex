@@ -614,7 +614,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
       child {coordinate (22)}
       child {coordinate (23)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+    \begin{scope}[densely dotted, bend right]
       \draw[postaction={decorate}] (21) to (12);
       \draw[postaction={decorate}] (22) to (12);
       \draw[postaction={decorate}] (23) to (11);
@@ -629,7 +629,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
     \node[right=of 1, blue, "\tiny 2" below] (2) {$\bullet$}
       child {coordinate (21)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+    \begin{scope}[densely dotted, bend right]
       \draw[postaction={decorate}] (21) to (11);
 		\end{scope}
   \end{tikzpicture}	
@@ -642,7 +642,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
     \node[right=1.5 of 1, red, "\tiny 1" below] (2) {$\bullet$} 
       child {coordinate (21)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+    \begin{scope}[densely dotted, bend right]
       \draw[postaction={decorate}] (21) to (12);
     \end{scope}
   \end{tikzpicture}	
@@ -658,7 +658,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 	};	
 \end{tikzpicture}
 \]
-Then we can form the induced delegation (morphism / dependent lens) $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$, we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
+Then we can form the induced delegation (morphism / dependent lens) $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$), we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
 
 Our pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
 \[
@@ -770,7 +770,7 @@ Our pictures below leave out the fact that the red corollas on the right are sel
 \draw[|->, shorten <= 3pt, shorten >= 3pt] (4) -- (4');
 \draw[|->, shorten <= 3pt, shorten >= 3pt] (5) -- (5');
 %\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
-    \begin{scope}[densely dotted, bend right=15pt, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+    \begin{scope}[densely dotted, bend right=15pt]
       \draw[postaction={decorate}] (1'1') to (12');
       \draw[postaction={decorate}] (1'2') to (12');
       \draw[postaction={decorate}] (1'3') to (11');
@@ -921,7 +921,7 @@ By assigning the arrows colors, we are implicitly using the isomorphism between 
 
 The map $\epsilon\colon S\yon^S\to \yon$ can be drawn as follows:
 \[
-\begin{tikzpicture}[trees, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+\begin{tikzpicture}[trees, bend right]
 	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
 	{
   	\node["\tiny \i" below, \c] (\i) at (3*\i, 0) {$\bullet$} 
@@ -944,8 +944,7 @@ The map $\delta\colon S\yon^S\to (S\yon^S)\tripow{2}$ can be drawn as follows:
 \begin{tikzpicture}[trees, 
   level 1/.style={sibling distance=5mm},
   level 2/.style={sibling distance=1.5mm},
-	bend right=60, 
-	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	bend right=60]
 	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
 	{
   	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
@@ -995,7 +994,7 @@ are the identity. Let's return to the case $S=\3$. Then the second map in each c
   level 1/.style={sibling distance=5mm},
   level 2/.style={sibling distance=1.5mm},
 	bend right=60, 
-	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	]
 	\foreach \i/\c in {1/red}
 	{
   	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
@@ -1047,7 +1046,7 @@ are the identity. Let's return to the case $S=\3$. Then the second map in each c
   level 1/.style={sibling distance=5mm},
   level 2/.style={sibling distance=1.5mm},
 	bend right=60, 
-	decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+	]
 	\foreach \i/\c in {1/red}
 	{
   	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
@@ -1090,18 +1089,383 @@ are the identity. Let's return to the case $S=\3$. Then the second map in each c
 	};
 \end{tikzpicture}
 \]
+We do not show associativity here, but instead leave it to the reader in \cref{ex.state_comonoid_assoc}.
 \end{example}
 
-\begin{exercise}
-Let $S=\2$ and $c\coloneqq \2\yon^\2$.
+\begin{exercise}\label{ex.state_comonoid_assoc}
+Let $S\coloneqq\2$ and $c\coloneqq \2\yon^\2$.
 \begin{enumerate}
 	\item Draw $c$.
-	\item Which two maps $ c\to c\tripow{3}$ are supposed to be equal by associativity?
+	\item We know $c$ is supposed to be the carrier of a comonoid $(c,\epsilon,\delta)$. Which two maps $ c\to c\tripow{3}$ are supposed to be equal by associativity?
 	\item Draw these two maps in the style of \cref{ex.picturing_SyS}.
 	\item Are they equal?
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+Once you know that these all important $S\yon^S$-things are comonoids in $\poly$, it's interesting to ask ``what are all the comonoids in $\poly$?'' Let's discuss another one before answering the question in generality.
+
+\begin{example}[A simple comonoid that's not $S\yon^S$]
+The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
+
+Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isomorphic to $\yon^\2+\yon$, but its notation is meant to remind the reader of the walking arrow category
+\[
+\cat{W}\coloneqq\boxCD{examplecolor}{
+$A\Too{f}B$
+}
+\]
+We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w$:
+\[
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node["\tiny $A$" below, red] (1) {$\bullet$} 
+      child  {coordinate (iA) \idchild}
+      child {coordinate (f)};
+    \node[right=.8 of 1,"\tiny $B$" below, blue] (2) {$\bullet$} 
+      child  {coordinate (iB) \idchild};
+    \node[below left=0 of iA, font=\tiny] {$i_A$};
+    \node[below left=0 of iB, font=\tiny] {$i_B$};
+    \node[below right=0 of f, font=\tiny] {$f$};
+  \end{tikzpicture}
+\]
+
+We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w_o$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
+\[
+\begin{tikzpicture}[trees, bend right=60]
+  \node[red] (1) {$\bullet$} 
+  	child  {coordinate (11) \idchild}
+    child {coordinate (12)};
+  \node[right=1.5 of 1] (1y) {$\bullet$}
+  	child {coordinate (1y1)};
+%
+  \node[right=2 of 1y, blue] (2) {$\bullet$} 
+  	child  {coordinate (21) \idchild};
+  \node[right=1.5 of 2] (2y) {$\bullet$}
+  	child {coordinate (2y1)};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1y);
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2y);
+	\draw[densely dotted, postaction={decorate}] (1y1) to (11);
+	\draw[densely dotted, postaction={decorate}] (2y1) to (21);
+\end{tikzpicture}
+\]
+Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\tri w$ to see what it looks like.
+\[
+	\begin{tikzpicture}[trees,
+	  level 1/.style={sibling distance=5mm},
+  	level 2/.style={sibling distance=2.5mm}]
+    \node[red] (1) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			};
+    \node[right=1 of 1, red] (2) {$\bullet$} 
+      child  {
+        node [red]{$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=1 of 2, red] (3) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+				\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child {\idchild}
+      	child {}
+			};
+    \node[right=1 of 3, red] (4) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=1 of 4, blue] (5) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			};
+    \node[right=1 of 5, blue] (6) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			};
+  \end{tikzpicture}
+\]
+The map $\delta$ is going to tell us both about codomains and composition. Here it is:
+\[
+\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {coordinate (2A3) \idchild}
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+%
+  \node[right=2 of 2A, blue] (1B) {$\bullet$} 
+  	child  {coordinate (1B1) \idchild};
+  \node[right=1.5 of 1B, blue] (2B) {$\bullet$} 
+  	child {node [blue] {$\bullet$} 
+    child  {coordinate (2B1) \idchild}
+		\idchild
+	};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1B) -- (2B);
+	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
+\end{tikzpicture}
+\]
+The on-positions map selects, for each position (either $A$ or $B$) the two-level tree starting at that position and having the correct codomains: the identity arrow on $A$ points to the corolla for $A$; the $f$ map points to the corolla for $B$; and the identity arrow on $B$ points to the corolla for $B$. The on-directions maps assign the correct composites.
+
+It remains to check that $(w,\epsilon,\delta)$ really is a comonoid, i.e.\ that the diagrams in \eqref{eqn.comonoid_diagrams} commute. We will check unitality only for $A$; it is easier for $B$.
+\[
+\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {coordinate (2A3) \idchild}
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+	\node (3A) [right=1.5 of 2A, red] {$\bullet$}
+		child {
+			node {$\bullet$}
+			child {coordinate (3A1)}
+		\idchild
+		}
+		child {
+			node {$\bullet$}
+			child {coordinate (3A2)}
+		};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
+	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
+	\draw[densely dotted, postaction={decorate}] (3A2) to (2A3);
+\end{tikzpicture}
+\hspace{1in}
+\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {coordinate (2A3) \idchild}
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+	\node (3A) [right=1.5 of 2A] {$\bullet$}
+		child {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (3A1) \idchild}
+      	child {coordinate (3A2)}
+		};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
+	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
+	\draw[densely dotted, postaction={decorate}] (3A2) to (2A2);
+\end{tikzpicture}
+\]
+In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{W}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
+\end{example}
+
+\begin{exercise}
+Write out the data $(c,\epsilon,\delta)$ for the comonoid corresponding to the category 
+\[\boxCD{exercisecolor}{$B\From{f}A\To{g}C$}\]
+For this exercise, you are not being asked to check the unitality or associativity conditions.
+\end{exercise}
+
+
+\begin{exercise}\label{ex.fleece}
+\begin{enumerate}
+	\item Use \cref{ex.const_to_const} to show that for any polynomial comonad $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
+	\item Let $c'\coloneqq c/\yon$. Show there is a canonical vertical morphism $\phi_c\colon c\to c'$.
+	\item Show that $\phi_c$ is an epimorphism.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}\label{def.fleece}
+Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to c'$ be as in \cref{***}. We refer to the polynomial $c'$ as the \emph{fleece} of $c$. 
+
+If there exists a map $\delta'\colon c'\to c'\tri c'$ making the diagram
+\[
+\begin{tikzcd}
+	c\ar[r, "\delta"]\ar[d, "\phi_c"']&
+	c\tri c\ar[d, "\phi_c\tri\phi_c"]\\
+	c'\ar[r, "\delta'"']&
+	c'\tri c'
+\end{tikzcd}
+\]
+commute,%
+\footnote{Note that such a morphism $\delta'$ must be unique since $\phi_c$ is an epimorphism.}
+we say that $(c',\delta')$ is the \emph{fleece comagma} of $\com{C}$.
+\end{definition}
+
+By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
+
+\begin{example}[Associativity]
+Consider the non-category drawn here:
+\[
+\boxCD{examplecolor}{
+\begin{tikzcd}[ampersand replacement=\&]
+	A\ar[r, "f"]\ar[rrr, bend left, "i"]\ar[rrr, bend right, "j"]\&
+	B\ar[r, "g"]\&
+	C\ar[r, "h"]\&
+	D
+\end{tikzcd}
+\leavevmode\\\bigskip
+$h\circ(g\circ f)=i\qqand (h\circ g)\circ f=j$
+}
+\]
+We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\delta'\colon p'\to p'\tri p'$; see \cref{def.fleece}. Let's rename $p'$ to an isomorphic polynomial with more names around:
+\[
+p'\coloneqq\{A\}\yon^{\{f,g\circ f, i, j\}}+\{B\}\yon^{\{g,h\circ g\}}+C\yon^{\{h\}}+\{D\}.
+\]
+Every symbol used there, other than $\yon$, including ``$g\circ f$'' is a formal just a variable name. Here's a picture of $p'$:
+\[
+\begin{tikzpicture}[trees, level distance=1cm, sibling distance=1cm]
+	\node["\tiny $A$" below, red] (A) {$\bullet$}
+  	child {coordinate (1)}
+		child {coordinate (2)}
+		child {coordinate (3)}
+		child {coordinate (4)};
+%
+	\node["\tiny $B$" below, blue, right=4 of A] (B) {$\bullet$}
+		child {coordinate (B1)}
+		child {coordinate (B2)};
+%
+	\node["\tiny $C$" below, dgreen, right=3 of B] (C) {$\bullet$}
+		child {coordinate (C1)};
+%
+	\node["\tiny $D$" below, right=2 of C] (D) {$\bullet$};
+	\begin{scope}[font=\scriptsize]
+  	\node[below left=1mm of 1] {$f$};
+  	\node[below left=1mm of 2] {$g{\circ} f$};
+  	\node[below right=1mm of 3] {$i$};
+  	\node[below right=1mm of 4] {$j$};
+  	\node[below left=1mm of B1] {$g$};
+  	\node[below right=1mm of B2] {$h{\circ} g$};
+  	\node[below left=1mm of C1] {$h$};
+	\end{scope}
+\end{tikzpicture}
+\]
+We'll draw the map $\delta'\colon p'\to p'\tri p'$ using arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $g\circ f$ and $h\circ g$ are longer, and $i$ and $j$ are longest.
+\[
+\begin{tikzpicture}[trees, bend right=60,
+level 1/.style={sibling distance=5mm},
+level 2/.style={sibling distance=2.5mm}]
+	\node [red] (A1) {$\bullet$}
+		child[level distance =4mm] {coordinate (A11)}
+		child[level distance =8mm] {coordinate (A12)}
+		child[level distance =12mm] {coordinate (A13)}
+		child[level distance =12mm] {coordinate (A14)};
+	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+		child[level distance =4mm] {node [blue]{$\bullet$}
+			child[level distance=4mm] {coordinate (A21)}
+			child[level distance=8mm] {coordinate (A22)}
+		}
+		child[level distance =8mm] {node [dgreen] {$\bullet$}
+			child[level distance=4mm] {coordinate (A23)}
+		}
+		child[level distance =12mm] {node {$\bullet$}}
+		child[level distance =12mm] {node {$\bullet$}};			
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%
+	\node [blue, right=2 of A2] (B1) {$\bullet$}
+		child[level distance=4mm] {coordinate (B11)}
+		child[level distance=8mm] {coordinate (B12)};
+	\node [blue, right=1.5 of B1] (B2) {$\bullet$}
+		child[level distance=4mm] {node[dgreen] {$\bullet$}
+			child {coordinate (B21)}
+		}
+		child[level distance=8mm] {node {$\bullet$}};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (B1) -- (B2);
+	\draw[densely dotted, postaction={decorate}] (B21) to (B12);
+%
+	\node [dgreen, right=2 of B2] (C1) {$\bullet$}
+		child[level distance=4mm] {coordinate (C11)};
+	\node[right=1 of C1, dgreen] (C2) {$\bullet$}
+		child[level distance=4mm] {node {$\bullet$}
+	};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (C1) -- (C2);
+%
+	\node [right=1 of C2] (D1) {$\bullet$};
+	\node [right=1 of D1] (D2) {$\bullet$};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
+\end{tikzpicture}
+\]
+One should check in the red position that $h\circ(g\circ f)$ is going to $i$ and that $(h\circ g)\circ f$ is going to $j$.
+
+Now we draw $(\delta\tri c)\circ\delta$ and $(c\tri\delta)\circ\delta$ and see that they disagree at the $A$ position. First we draw $(\delta\tri c)\circ\delta$ which does $\delta$ first, then copies the 
+\[
+\begin{tikzpicture}[trees, bend right=60,
+level 1/.style={sibling distance=5mm},
+level 2/.style={sibling distance=2.5mm}]
+	\node [red] (A1) {$\bullet$}
+		child[level distance =4mm] {coordinate (A11)}
+		child[level distance =8mm] {coordinate (A12)}
+		child[level distance =12mm] {coordinate (A13)}
+		child[level distance =12mm] {coordinate (A14)};
+	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+		child[level distance =4mm] {node [blue]{$\bullet$}
+			child[level distance=4mm] {coordinate (A21)}
+			child[level distance=8mm] {coordinate (A22)}
+		}
+		child[level distance =8mm] {node [dgreen] {$\bullet$}
+			child[level distance=4mm] {coordinate (A23)}
+		}
+		child[level distance =12mm] {node {$\bullet$}}
+		child[level distance =12mm] {node {$\bullet$}};			
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+\end{tikzpicture}
+\]
+\end{example}
+
 
 %-------- Section --------%
 \section{Bimodules}

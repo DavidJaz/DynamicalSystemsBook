@@ -20,9 +20,11 @@
 	sibling distance=.5cm,
 %	every child/.style={fill},
 	edge from parent/.style={shorten <= -2pt, draw, ->},
-	grow'=up
+	grow'=up,
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}
 	}
 }
+\newcommand{\idchild}{edge from parent[double, -]}
   	
   \tikzset{
      oriented WD/.style={%everything after equals replaces "oriented WD" in key.

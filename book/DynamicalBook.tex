@@ -429,7 +429,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 
 
-\newcommand{\boxCD}[2][black]{\fcolorbox{#1}{white}{\begin{varwidth}{\textwidth}\centering #2\end{varwidth}}}
+\newcommand{\boxCD}[3][black] % [border color] {interior color} {math text}
+{\fcolorbox{#1}{#2}{\begin{varwidth}{\textwidth}\centering #3\end{varwidth}}}
 
 \newcommand{\erase}[2][]{{\color{red}#1}}
 \newcommand{\showhide}[2]{#1}
