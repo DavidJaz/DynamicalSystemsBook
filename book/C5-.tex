@@ -1317,15 +1317,15 @@ For this exercise, you are not being asked to check the unitality or associativi
 
 \begin{exercise}\label{ex.fleece}
 \begin{enumerate}
-	\item Use \cref{ex.const_to_const} to show that for any polynomial comonad $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
-	\item Let $\fl{c}\coloneqq c/\yon$. Show there is a canonical vertical morphism $\phi_c\colon c\to \fl{c}$.
+	\item Use \cref{ex.const_to_const} to show that for any polynomial comonoid $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
+	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\phi_c\colon c\to \fl{c}$ such that the induced map $(\phi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\phi_c$ is a product projection.
 	\item Show that $\phi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
 \begin{definition}\label{def.fleece}
-Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$. 
+Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\phi_c$ as the \emph{fleecing map}.
 
 If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
 \[
@@ -1357,14 +1357,14 @@ Consider the non-category drawn here:
 $h\circ(g\circ f)=i\qqand (h\circ g)\circ f=j$
 }
 \]
-We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\3+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
+We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\4+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
 \[
 \fl{p}\coloneqq\{A\}\yon^{\{f,g\circ f, i, j\}}+\{B\}\yon^{\{g,h\circ g\}}+C\yon^{\{h\}}+\{D\}.
 \]
 Every symbol used there, excluding $\yon$, +, $\{$, and $\}$, but including ``$f$'' and ``$g\circ f$'', etc., is just a variable name. Below is a picture of $\fl{p}$, where we use arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $g\circ f$ and $h\circ g$ are longer, and $i$ and $j$ are longest:
 \[
 \begin{tikzpicture}[rounded corners]
-\node[draw, "$\fl{p}=$" left] {
+\node[draw, "$\fl{p}$" above] {
 \begin{tikzpicture}[trees, sibling distance=1cm]
 	\node["\tiny $A$" below, red] (A) {$\bullet$}
   	child[level distance=4mm] {coordinate (1)}
@@ -1441,9 +1441,10 @@ level 2/.style={sibling distance=2.5mm}]
 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
 \end{tikzpicture}
 \end{equation}
-One should check in the red position that $h\circ(g\circ f)$ is going to $i$ and that $(h\circ g)\circ f$ is going to $j$.
+One should check in the red position that $h\circ(g\circ f)$ is going to $i$ and that $(h\circ g)\circ f$ is going to $j$. This should cause a failure in the associativity of $\delta$ and hence of $\fl{\delta}$.%
+\footnote{Note that if $\fl{\delta}$ is not associative, then $\delta$ cannot be associative either; see \cref{ex.fleece_assoc}.}
 
-Now we draw $(\delta\tri c)\circ\delta$ and $(c\tri\delta)\circ\delta$ and see that they disagree at the $A$ position. Here is $(\delta\tri c)\circ\delta$ whose second map $\delta\tri c$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
+Now we draw $(\delta\tri \fl{p})\circ\delta$ and $(\fl{p}\tri\delta)\circ\delta$ and see that they disagree at the $A$ position. Here is $(\delta\tri \fl{p})\circ\delta$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
 \[
 \begin{tikzpicture}[trees, bend right=60,
 level 1/.style={sibling distance=5mm},
@@ -1488,7 +1489,7 @@ level 2/.style={sibling distance=2.5mm}]
 	\draw[densely dotted, postaction={decorate}] (A31) to (A23);
 \end{tikzpicture}
 \]
-We can see that the unique leaf of $c\tri c\tri c$ is mapping to $i$. Now we draw $(c\tri\delta)\circ\delta$. Its second map $c\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
+We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $i$. Now we draw $(\fl{p}\tri\delta)\circ\delta$. Its second map $\fl{p}\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
 \[
 \begin{tikzpicture}[trees, bend right=60,
 level 1/.style={sibling distance=5mm},
@@ -1530,13 +1531,30 @@ level 2/.style={sibling distance=2.5mm}]
 	\draw[densely dotted, postaction={decorate}] (A31) to (A22);
 \end{tikzpicture}
 \]
-We can see that the unique leaf of $c\tri c\tri c$ is mapping to $j$.
+We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $j$.
 \end{example}
+
+\begin{exercise}\label{ex.fleece_assoc}
+Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_pics}.
+\begin{enumerate}
+	\item Redraw \cref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
+	\item Use \cref{ex.fleece,def.fleece} to show that if $\delta$ is associative then $\fl{\delta}$ must be too.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \begin{exercise}
 In \cref{ex.associativity_pics} we have maps $(\delta\tri c)\circ\delta$ and $(c\tri\delta)\circ\delta$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $h\circ (g\circ f)$, and which corresponds to composing to the right, e.g.\ $(h\circ g)\circ f$?
 \end{exercise}
 
+
+
+%-------- Section --------%
+\section{Cofree comonoids}
+
+\begin{proposition}
+Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is epic.
+\end{proposition}
 
 %-------- Section --------%
 \section{Bimodules}
