@@ -1600,9 +1600,9 @@ There is an equivalence of categories
 This will be proved in \cref{??}.
 \end{proof}
 
-\paragraph{Constructing comonoids from categories}
+\paragraph{Constructing comonoids from categories.}
 
-Given a category $\cat{C}$ with notation as in \cref{def.cofunctor}, we will first construct a corresponding comonoid $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$. We usually denote objects of $\cat{C}$ by $i,j$ rather than $c$ so as not to confuse with $\ema{c}$. 
+Given a category $\cat{C}$ with notation as in \cref{def.cofunctor}, we will construct a corresponding comonoid $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$. We usually denote objects of $\cat{C}$ by $i,j$ rather than $c$ so as not to confuse with $\ema{c}$. 
 
 For any object $i\in C_0$, define
 \[C_i\coloneqq\{m\in C_1\mid\dom(m)=i\}.\]
@@ -1629,21 +1629,49 @@ Before specifying the morphism $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$, let's
   \sum_{i\in C_0}\;\sum_{i'\colon C_i\to C_0}\yon^{\sum_{m\in C_i}C_{i(m)}}
 \end{align*}
 We define the on-positions function $\delta_1\colon\ema{c}(\1)\to(\ema{c}\tri\ema{c})(\1)$ by
-\[\delta_1(i)\coloneqq (i,m\mapsto\cod(m))\]
+\begin{equation}\label{eqn.emanation_cat_delta}
+\delta_1(i)\coloneqq (i,m\mapsto\cod(m))
+\end{equation}
 which assigns to each object $i\in C_0$ the function taking the codomain $\cod(m)$ of every morphism $m\colon i\to\cod(m)$ emanating from it. At the position $i\in\ema{c}(\1)$, define the on-directions function $\delta^\sharp\colon(\ema{c}\tri\ema{c})_{\delta_1(i)}\to\ema{c}_i$ by
-\begin{align*}
-  \sum_{m\in C_i}C_{\cod(m)}&\To{\delta^\sharp_i}C_i\\
+\begin{align}\nonumber
+  \sum_{m\in C_i}C_{\cod(m)}&\To{\delta^\sharp_i}C_i\\\label{eqn.emanation_cat_delta_sharp}
   (m,m')&\Mapsto{\delta^\sharp_i} m\then m'.
-\end{align*}
+\end{align}
 In other words $\delta_1$ is given by taking codomains and $\delta^\sharp$ is given by taking composites.
 
 \begin{proposition}
 Let $\cat{C}$ be a category and let $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ be defined as above. Then $\com{C}$ is a comonoid in $\poly$.
 \end{proposition}
 \begin{proof}[Proof sketch]
-It remains to check the unitality and associativity.
+It remains to check the unitality and associativity. The morphisms $\ema{c}\tri\epsilon$ and $\epsilon\tri \ema{c}$ are defined as follows:
+\begin{align*}
+	\sum_{i\in C_0}\sum_{i'\colon C_i\to C_0}\yon^{\sum_{m\in C_i}C_{i'(m)}}&
+	\too
+	\sum_{i\in C_0}\yon^{C_i}\\
+	(i,i')&\Mapsto{\ema{c}\tri\epsilon}
+	(i,m\mapsto (m,\id_{i'(m)}))\\
+	(i,i')&\Mapsto{\epsilon\tri\ema{c}}
+	(i'(\id_i), m\mapsto(\id_i, m))
+\intertext{Composing with $\delta$, which sends $i\mapsto(i,\cod,(m,m')\mapsto(m\then m'))$, we obtain}
+	(i,\cod)&\Mapsto{\ema{c}\tri\epsilon}
+	(i,m\mapsto (m\then\id_{\cod(m)}))\\
+	(i,\cod)&\Mapsto{\epsilon\tri\ema{c}}
+	(\cod(\id_i), m\mapsto(\id_i\then m))
+\end{align*}
+both of which are the identity on $\ema{c}$, namely $i\mapsto(i, m\mapsto m)$.
 
+We leave the proof of associativity to \cref{ex.comonoid_cat_assoc}.
 \end{proof}
+
+\begin{exercise}\label{ex.comonoid_cat_assoc}
+Show that for any category $\cat{C}$, if $\ema{c}$ is the associated emanation polynomial and $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ is the morphism as described in \eqref{eqn.emanation_cat_delta} and \eqref{eqn.emanation_cat_delta_sharp}, then $\delta$ is associative, i.e.\ satisfies the second commutative diagram from \cref{eqn.comonoid_diagrams}.
+\end{exercise}
+
+\paragraph{Constructing categories from comonoids.}
+
+Given a comonoid $\com{C}\coloneqq(c,\epsilon,\delta)$, we now construct a corresponding category $\cat{C}$. Its objects are given by $C_0\coloneqq c(\1)$ and its morphisms are given by $\sum_{i\in C_0}(c_i)$. The domain of each morphism is $\dom(i,m)\coloneqq i$. The identities will be given by $\epsilon$, the codomains will be given by $\delta_1$, and the composites will be given by $\delta^\sharp$.
+
+
 
 %-------- Section --------%
 \section{Cofree comonoids}
