@@ -3011,7 +3011,7 @@ Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism
 \noindent$\Leftarrow$: Suppose that $f_1$ is a monomorphism and that for each $i\in p(\1)$ the function $f_i^\sharp$ is an epimorphism. Let $r$ be a polynomial, $g,h\colon r\tto p$ two morphisms, and suppose $fg=fh$. Then $f_1g_1=f_1h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $g^\sharp_kf^\sharp_{g_1k}=h^\sharp_kf^\sharp_{g_1k}$ for any $k\in r(\1)$. But $f^\sharp_{g_1k}$ is an epimorphism, so in fact $g^\sharp_k=h^\sharp_k$, as desired.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{prop.epis_in_poly}
 Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is an epimorphism iff the function $f_1\colon p(\1)\to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$ the induced function 
 \[
 f^\flat_j\colon q_j\to\prod_{\{i\in p(\1)\,\mid\, f_1(i)=j\}}p_i

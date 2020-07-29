@@ -287,7 +287,7 @@ For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon
 It's not hard to see that $p(X)\cong p\tri X$. Here's a picture, where $p\coloneqq\yon^\3+\yon+\1$ and $X\coloneqq\2$.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\node (p1) [draw, blue!50!black, "$p$" left] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -410,7 +410,7 @@ Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,
 Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p) [draw, blue!50!black, "$p$" above] {
+	\node (p) [draw, blue!50!black, "$p=$" left] {
 	\begin{tikzpicture}[trees, sibling distance=5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -420,7 +420,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon
   \end{tikzpicture}
   };
 %
-	\node (q) [draw, red!50!black, above=1 of p, "$q$" above] {
+	\node (q) [draw, red!50!black, above=1 of p, "$q=$" left] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -429,7 +429,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon
       child {};
   \end{tikzpicture}
   };
-	\node (p') [draw, blue, right=3 of p, "$p'$" above] {
+	\node (p') [draw, blue, right=3 of p, "$p'=$" left] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -439,7 +439,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon
       child {};
   \end{tikzpicture}
   };
-	\node (q') [draw, red, above=1 of p', "$q'$" above] {
+	\node (q') [draw, red, above=1 of p', "$q'=$" left] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {};
@@ -903,7 +903,7 @@ Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomia
 Let's see this whole thing in pictures. First of all, let's take $S\coloneqq\3$ and draw $\3\yon^\3$:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$\3\yon^\3$" above] {
+	\node (p1) [draw, "$\3\yon^\3=$" left] {
   \begin{tikzpicture}[trees, sibling distance=4mm]
   	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
   	{
@@ -1317,27 +1317,27 @@ For this exercise, you are not being asked to check the unitality or associativi
 \begin{exercise}\label{ex.fleece}
 \begin{enumerate}
 	\item Use \cref{ex.const_to_const} to show that for any polynomial comonad $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
-	\item Let $c'\coloneqq c/\yon$. Show there is a canonical vertical morphism $\phi_c\colon c\to c'$.
-	\item Show that $\phi_c$ is an epimorphism.
+	\item Let $\fl{c}\coloneqq c/\yon$. Show there is a canonical vertical morphism $\phi_c\colon c\to \fl{c}$.
+	\item Show that $\phi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
 \begin{definition}\label{def.fleece}
-Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to c'$ be as in \cref{***}. We refer to the polynomial $c'$ as the \emph{fleece} of $c$. 
+Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$. 
 
-If there exists a map $\delta'\colon c'\to c'\tri c'$ making the diagram
+If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
 \[
 \begin{tikzcd}
 	c\ar[r, "\delta"]\ar[d, "\phi_c"']&
 	c\tri c\ar[d, "\phi_c\tri\phi_c"]\\
-	c'\ar[r, "\delta'"']&
-	c'\tri c'
+	\fl{c}\ar[r, "\fl{\delta}"']&
+	\fl{c}\tri \fl{c}
 \end{tikzcd}
 \]
 commute,%
-\footnote{Note that such a morphism $\delta'$ must be unique since $\phi_c$ is an epimorphism.}
-we say that $(c',\delta')$ is the \emph{fleece comagma} of $\com{C}$.
+\footnote{Note that such a morphism $\fl{\delta}$ must be unique since $\phi_c$ is an epimorphism.}
+we say that $(\fl{c},\fl{\delta})$ is the \emph{fleece comagma} of $\com{C}$.
 \end{definition}
 
 By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
@@ -1356,27 +1356,29 @@ Consider the non-category drawn here:
 $h\circ(g\circ f)=i\qqand (h\circ g)\circ f=j$
 }
 \]
-We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\delta'\colon p'\to p'\tri p'$; see \cref{def.fleece}. Let's rename $p'$ to an isomorphic polynomial with more names around:
+We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\3+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
 \[
-p'\coloneqq\{A\}\yon^{\{f,g\circ f, i, j\}}+\{B\}\yon^{\{g,h\circ g\}}+C\yon^{\{h\}}+\{D\}.
+\fl{p}\coloneqq\{A\}\yon^{\{f,g\circ f, i, j\}}+\{B\}\yon^{\{g,h\circ g\}}+C\yon^{\{h\}}+\{D\}.
 \]
-Every symbol used there, other than $\yon$, including ``$g\circ f$'' is a formal just a variable name. Here's a picture of $p'$:
+Every symbol used there, excluding $\yon$, +, $\{$, and $\}$, but including ``$f$'' and ``$g\circ f$'', etc., is just a variable name. Below is a picture of $\fl{p}$, where we use arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $g\circ f$ and $h\circ g$ are longer, and $i$ and $j$ are longest:
 \[
-\begin{tikzpicture}[trees, level distance=1cm, sibling distance=1cm]
+\begin{tikzpicture}[rounded corners]
+\node[draw, "$\fl{p}=$" left] {
+\begin{tikzpicture}[trees, sibling distance=1cm]
 	\node["\tiny $A$" below, red] (A) {$\bullet$}
-  	child {coordinate (1)}
-		child {coordinate (2)}
-		child {coordinate (3)}
-		child {coordinate (4)};
+  	child[level distance=4mm] {coordinate (1)}
+		child[level distance=8mm] {coordinate (2)}
+		child[level distance=12mm] {coordinate (3)}
+		child[level distance=12mm] {coordinate (4)};
 %
-	\node["\tiny $B$" below, blue, right=4 of A] (B) {$\bullet$}
-		child {coordinate (B1)}
-		child {coordinate (B2)};
+	\node["\tiny $B$" below, blue, right=3 of A] (B) {$\bullet$}
+		child[level distance=4mm] {coordinate (B1)}
+		child[level distance=8mm] {coordinate (B2)};
 %
-	\node["\tiny $C$" below, dgreen, right=3 of B] (C) {$\bullet$}
-		child {coordinate (C1)};
+	\node["\tiny $C$" below, dgreen, right=2 of B] (C) {$\bullet$}
+		child[level distance=4mm] {coordinate (C1)};
 %
-	\node["\tiny $D$" below, right=2 of C] (D) {$\bullet$};
+	\node["\tiny $D$" below, right=1 of C] (D) {$\bullet$};
 	\begin{scope}[font=\scriptsize]
   	\node[below left=1mm of 1] {$f$};
   	\node[below left=1mm of 2] {$g{\circ} f$};
@@ -1387,8 +1389,10 @@ Every symbol used there, other than $\yon$, including ``$g\circ f$'' is a formal
   	\node[below left=1mm of C1] {$h$};
 	\end{scope}
 \end{tikzpicture}
+};
+\end{tikzpicture}
 \]
-We'll draw the map $\delta'\colon p'\to p'\tri p'$ using arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $g\circ f$ and $h\circ g$ are longer, and $i$ and $j$ are longest.
+Here's a picture of our map $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$.
 \begin{equation}\label{eqn.delta_misc33}
 \begin{tikzpicture}[trees, bend right=60,
 level 1/.style={sibling distance=5mm},
