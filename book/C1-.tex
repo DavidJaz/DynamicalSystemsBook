@@ -2519,7 +2519,7 @@ $$ \lens{\pi_2}{\id} \circ \lens{f_{\flat}}{f} = \lens{f_{\flat}}{f} =
    \end{enumerate}
 \end{exercise}
 
-\begin{proposition}
+\begin{proposition}\label{prop.category_of_systems_discrete}
   There is a category $\Cat{Sys}$ with deterministic systems as its objects and
   where a map $\Sys{T} \to \Sys{S}$ is a pair consisting of a chart
   $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}} \rightrightarrows
@@ -3013,7 +3013,7 @@ In \cref{sec.representables}, we will see that this method --- or something a
 lot like it --- works calculating the behaviors of a composite system out of the
 behaviors of its components, as long as the representative of that behavior
 exposes its entire state. That result will be nicely packaged in a beautiful
-categorical way: we'll make an \emph{indexed double functor}.
+categorical way: we'll make an \emph{doubly indexed functor}.
 
 But for now, let's just show that tensoring and partially tracing steady state
 matrices correponds to taking the parallel product and wiring an input to an
@@ -3183,7 +3183,7 @@ The horizontal maps take the steady states of a system, while the vertical map
 on the left wires together the system with that wiring diagram, and the vertical
 map on the right applies that transformation of the matrix. In the next section,
 we will see how this square can be interepreted as a naturality condition in a
-\emph{indexed double functor}.
+\emph{doubly indexed functor}.
 
 One thing to notice here is that taking the partial trace (the right vertical
 arrow in the diagram) is itself given by multiplying by a certain matrix.
@@ -3529,6 +3529,22 @@ which is precisely their composite as lenses!
   Make sure you \emph{really} understand \cref{prop.charts_as_groth_construction,prop.lenses_as_groth_construction}.
 \end{exercise}
 
+Inspired by these two propositions, we will make the following general
+definitions.
+\begin{definition}
+ Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category.
+ \begin{enumerate}
+   \item The category of $\cat{A}$-charts is the Grothendieck construction of
+     $\cat{A}$:
+$$\Cat{Chart}_{\cat{A}} = \int^{C \in \cat{C}} \cat{A}(C).$$ 
+\label{def.chart_general}
+   \item The category of $\cat{A}$-lenses is the Grothendieck construction of
+     $\cat{A}\op$:
+$$\Cat{Lens}_{\cat{A}} = \int^{C \in \cat{C}} \cat{A}(C)\op.$$
+\label{def.lens_general}
+ \end{enumerate}
+\end{definition}
+
 \paragraph{Sections of indexed categories.}
 
 Any function $f : A \to B$ gives rise to a chart $\lens{f \circ \pi_2}{f} :
@@ -3761,8 +3777,8 @@ $$\frac{f}{\alpha} = \alpha = \frac{\alpha}{g}.%
 \footnote{There aren't any fractions here either.}$$
 \item For four appropriately composable squares $\alpha$, $\beta$, $\gamma$, and
   $\delta$, the following interchange law holds:
-$$\frac{\alpha \mid \beta}{\gamma \mid \delta} = \left
-  \frac{\alpha}{\beta} \bigg|  \frac{\gamma}{\delta} \right.$$
+$$\frac{\alpha \mid \beta}{\gamma \mid \delta} = \left.
+  \frac{\alpha}{\beta} \middle|  \frac{\gamma}{\delta} \right. .$$
         \end{itemize}
   \end{itemize}
 \end{definition}
@@ -3771,6 +3787,14 @@ Phew, that was quite the definition! The reason the definition of a double
 category is so much more involved than the definition of a category is that
 there is more than twice the data: there's the vertical category and the
 horizontal category, but also how they interact through the squares. 
+
+\begin{remark}
+  Just like we notate the identity square on a vertical morphism $j$ by $j$ and
+  the identity square on a horizontal morphism $f$ by $f$, we will often denote
+  composition of vertical morphisms by $\frac{f}{g}$ and of horizontal morphisms
+  by $j \mid k$. This notation agrees with the composition of their respective
+  identity squares, and will be much more pleasant to look at when writing equations.
+\end{remark}
 
 We will meet three double categories in our tale of wiring together behaviors,
 and more in later chapters \jaz{...}.
@@ -3858,14 +3882,6 @@ squares in the double category of arenas.
   to the defining equations of \cref{def.behavior_discrete}.
 \end{proof}
 
-\begin{remark}
-  Note that in order to make the square in
-  \cref{eqn.behavior_as_square_of_arenas_discrete}, we had to use the section
-  $\lens{- \circ \pi_2}{-}$ we constructed in
-  \cref{prop.section_charts_discrete} to turn the function $\phi : \State{T} \to
-  \State{S}$ into a chart $\lens{\phi \circ \pi_2}{\phi} :
-  \lens{\State{T}}{\State{T}} \tto \lens{\State{S}}{\State{S}}$.
-\end{remark}
 
 \begin{remark}\label{rmk.double_category_direction}
 While the definition of double category we gave treated both horizontal and
@@ -3991,7 +4007,9 @@ on the wired together systems.
   vertically composing the square in
   \cref{eqn.understanding_squares_in_double_cat_of_arenas2} with the square in
   \cref{eqn.understanding_squares_in_double_cat_of_arenas}. This basic fact
-  underlies our arguments in \cref{sec.steady_states_matrix_arithmetic}.
+  underlies our arguments in \cref{sec.steady_states_matrix_arithmetic}. 
+
+We'll return to this idea in \cref{ex.prof_square_from_arena_square}.
 \end{example}
 
 Recall the categories $\Cat{Sys}\lens{I}{O}$ of systems with the interface
@@ -4002,7 +4020,7 @@ with respect to behaviors that don't change the interface.
 \begin{proposition}\label{prop.lens_comp_functor_discrete}
   For a lens $\lens{f^{\sharp}}{f} : \lens{I}{O} \leftrightarrows
   \lens{I'}{O'}$, we get a functor
-  $$\cat{Sys}\lens{f^\sharp}{f} : \Cat{Sys}\lens{I}{O} \to
+  $$\Cat{Sys}\lens{f^\sharp}{f} : \Cat{Sys}\lens{I}{O} \to
   \Cat{Sys}\lens{I}{O}$$
   Given by composing with $\lens{f^\sharp}{f}$:
   \begin{itemize}
@@ -4022,7 +4040,7 @@ with respect to behaviors that don't change the interface.
   \end{tikzcd} \quad \mapsto \quad
   \begin{tikzcd}
     \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
     \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
@@ -4039,11 +4057,17 @@ with respect to behaviors that don't change the interface.
 \begin{proof}
   The functoriality of this construction can be seen immediately from the
   interchange law of the double category:
-  \[\frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
-          \circ \pi_2}{\psi} \right. }{\littlelens{f^{\sharp}}{f}} = \]
+  \begin{align*}
+  \frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
+    \circ \pi_2}{\psi} \right. }{\littlelens{f^{\sharp}}{f}} &= \frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
+    \circ \pi_2}{\psi} \right. }{\left. \littlelens{f^{\sharp}}{f} \middle| \littlelens{f^{\sharp}}{f} \right.} &\mbox{by the horizontal identity law,}\\
+    &= \left.
+      \frac{\littlelens{\phi \circ \pi_2}{\phi}}{\littlelens{f^{\sharp}}{f}}
+      \middle|\frac{\littlelens{\psi \circ
+          \pi_2}{\psi}}{\littlelens{f^{\sharp}}{f}} \right. &\mbox{by the interchange law.}
+  \end{align*}
 \end{proof}
 
-%% write-here
 \paragraph{The Grothendieck double
   construction.} \label{sec.groth_double_construction}
 
@@ -4148,7 +4172,7 @@ $$\Cat{Arena} = \sqiint^{C \in \smset} \smctx{C}.$$
       A^+ \ar[d, "j"'] \ar[r, "f"] & B^+ \ar[d, "k"] \\
       C^+ \ar[r, "g"'] & D^+
     \end{tikzcd}
-    \quad\quad g(j(a^+)) &= k(f(a^+)) \quad\mbox{for all $a^+ \in A^+$,}
+    \quad\quad g(j(a^+)) = k(f(a^+)) \quad\mbox{for all $a^+ \in A^+$,}
   \]
   which mean the same thing. The second diagram, which takes place in
   $\smctx{A^+}$, is more interesting. Here's that diagram with the names we're
@@ -4173,6 +4197,55 @@ $$\Cat{Arena} = \sqiint^{C \in \smset} \smctx{C}.$$
   second equation in the definition of a square of arenas.
 \end{proof}
 
+Building off of this proposition, we can think of the Grothendieck double
+construction as giving us a double category of arenas out of \emph{any} indexed
+category.
+
+\begin{definition}\label{def.double_cat_of_arenas_general}
+  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category. Then the
+  category of $\cat{A}$-arenas is defined to be the Grothendieck double
+  construction of $\cat{A}$:
+$$\Cat{Arena}_{\cat{A}} := \sqiint^{C \in \cat{C}} \cat{A}(C).$$
+
+  Note that the horizontal category of $\Cat{Arena}_{\cat{A}}$ is the category
+  $\Cat{Chart}_{\cat{A}}$ of $\cat{A}$-charts (\cref{def.chart_general}), and the vertical category of
+  $\Cat{Arena}_{\cat{A}}$ is the category $\Cat{Lens}_{\cat{A}}$ of
+  $\cat{A}$-lenses (\cref{def.lens_general}).
+\end{definition}
+
+  While we're busy generalizing, let's go a bit deeper. Note that in order to make the square in
+  \cref{eqn.behavior_as_square_of_arenas_discrete}, we had to use the section
+  $\lens{- \circ \pi_2}{-}$ we constructed in
+  \cref{prop.section_charts_discrete} to turn the function $\phi : \State{T} \to
+  \State{S}$ into a chart $\lens{\phi \circ \pi_2}{\phi} :
+  \lens{\State{T}}{\State{T}} \tto \lens{\State{S}}{\State{S}}$. This
+  observation lets us generalize the above definition of categories of systems
+  (from \cref{def.cat_of_systems_discrete})
+  to \emph{any indexed category with a section}!
+  \begin{definition}
+    Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category, and let
+    $\lens{T-}{-} : \cat{C} \to \Cat{Chart}_{\cat{A}}$ be a section. For a
+    $\cat{A}$-arena $\lens{A}{C}$, the category $\Cat{Sys}\lens{A}{C}$ of
+    $(\cat{A}, T)$-systems with interface $\lens{A}{C}$ is defined by:
+\begin{itemize}
+  \item Its objects are $\cat{A}$-lenses $\lens{\update{S}}{\expose{S}} :
+    \lens{T\State{S}}{\State{S}} \fromto \lens{A}{C}$, which we can call
+    \emph{systems} in this general setting.
+  \item Its maps are squares 
+\[
+    \begin{tikzcd}
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{A}{C} \ar[r, shift right, equals] \ar[r,
+      shift left, equals] & \lens{A}{C}
+    \end{tikzcd}
+\]
+\item Composition is given by horizontal composition in the double category
+  $\Cat{Arena}_{\cat{A}}$ of $\cat{A}$-arenas.
+\end{itemize}
+  \end{definition}
 
 \subsubsection{The double category of sets, functions, and matrices}\label{sec.double_cat_of_matrices}
 
@@ -4289,6 +4362,17 @@ but by the functoriality of $P$, this is already an element of $P(A', B)$,
 which is to say more precisely that every equivalence class $[(f, p)] \in
 (\cat{A} \odot P)(A', B)$ is equally presented as $[(\id_{A'}, fp)]$. 
 
+\begin{exercise}\label{ex.identity_profunctor}
+  Let $P : \cat{A} \tickar \cat{B}$ be a profunctor.
+  \begin{enumerate}
+    \item Show that there is a natural transformation $\cat{A} \odot P \to P$
+      given by the naturality of $P$ on the left.
+    \item Show that there is a natural transformation $P \odot \cat{B} \to P$
+      given by the naturality of $P$ on the right.
+    \item Show that both of these natural transformations are isomorphisms.
+  \end{enumerate}
+\end{exercise}
+
 \begin{remark}
   We omit full proofs of associativity and unitality for profunctor composition
   because they are best done with the \emph{coend calculus}, and this would take
@@ -4305,7 +4389,7 @@ which is to say more precisely that every equivalence class $[(f, p)] \in
   with presheaves.
 \end{example}
 
-\begin{example}
+\begin{example}\label{ex.profunctor_from_chart}
   The notion of profunctor gives us a nice way to understand the relationship
   between a behavior $\phi : \Sys{T} \to \Sys{S}$ and its chart
   $\lens{f_{\flat}}{f} : \lens{I}{O} \tto \lens{I'}{O'}$.
@@ -4371,18 +4455,288 @@ and checking that this descends correctly to the quotient.
 \end{itemize}
 \end{definition}
 
+\begin{remark}
+  We are using ``$\Cat{Cat}$'' to refer to the category of categories and
+  functors and to the double category of categories, profunctors, and functors.
+  The one we mean will be clear from context, and the category of categories and
+  functors is the vertical category of the double category of categories.
+\end{remark}
 
+\begin{example}\label{ex.prof_square_from_arena_square}
+  With a little work in the double category of arenas, we can give a very useful
+  example of a square in the double category of profunctors. Consider this
+  square in the double category of arenas:
+\[ \alpha = 
+  \begin{tikzcd}
+    \lens{I_1}{O_1} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
+        leftarrow] \ar[r, shift right]
+    \ar[r, shift left, "\lens{f^{\sharp}}{f}"] & \lens{I_2}{O_2} \ar[d, shift left, leftarrow,
+        "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
+    \lens{I_3}{O_3} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
+    \ar[r, shift left] & \lens{I_4}{O_4} \\
+  \end{tikzcd} 
+\]
+As we saw in \cref{prop.lens_comp_functor_discrete}, we get functors
+$\Cat{Sys}\lens{j^{\sharp}}{j} : \Cat{Sys}\lens{I_1}{O_1} \to
+\Cat{Sys}\lens{I_3}{O_3}$ and $\Cat{Sys}\lens{k^{\sharp}}{k} :
+\Cat{Sys}\lens{I_2}{O_2} \to \Cat{Sys}\lens{I_4}{O_4}$ given by composing with
+these lenses. We also saw in \cref{ex.profunctor_from_chart} that we get
+profunctors $\Cat{Sys}\lens{f_{\flat}}{f} : \Cat{Sys}\lens{I_1}{O_1} \tickar
+\Cat{Sys}\lens{I_2}{O_2}$ and $\Cat{Sys}\lens{g_{\flat}}{g} :
+\Cat{Sys}\lens{I_3}{O_3} \tickar \Cat{Sys}\lens{I_4}{O_4}$ from these charts. In
+this example, we'll observe that we can get a square of profunctors 
+\[
+\Cat{Sys}(\alpha) : \Cat{Sys}\lens{f_{\flat}}{f} \to
+\Cat{Sys}\lens{g_{\flat}}{g}\left( \Cat{Sys}\littlelens{j^{\sharp}}{j}, \Cat{Sys}\littlelens{k^{\sharp}}{k} \right)\]
+from the square $\alpha$ in the double category of arenas.
 
+To define the natural transformation $\Cat{Sys}(\alpha)$, we need to say what it
+does to an element $\phi$ of $\Cat{Sys}\lens{f_{\flat}}{f}\left(\Sys{T},
+  \Sys{S}\right)$. Recall that the elements of this profunctor are behaviors with
+  chart $\lens{f_{\flat}}{f}$, so really $\phi$ is a square
+\[
+  \phi =
+    \begin{tikzcd}
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+        \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+      shift left] & \lens{\In{S}}{\Out{S}}
+    \end{tikzcd}
+\]
+in the double category of arenas. Therefore, we can define
+$\Cat{Sys}(\alpha)(\phi)$ to be the vertical composite:
+\[
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
+        leftarrow] \ar[r, shift right, "\lens{f^{\sharp}}{f}"']
+    \ar[r, shift left] & \lens{\In{S}}{\Out{S}} \ar[d, shift left, leftarrow,
+        "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
+    \ar[r, shift left] & \lens{I'}{O'} \\
+  \end{tikzcd}
+\]
+Or, a little more concisely in double category notation:
+$$\Cat{Sys}(\alpha)(\phi) = \frac{\phi}{\alpha}.$$
+
+The naturality of this transformation follows from the double category laws. We
+leave the particulars as an exercise.
+\end{example}
+
+\begin{exercise}\label{ex.prof_square_from_arena_square_naturality}
+  Prove that the family of functions 
+  \[
+\Cat{Sys}(\alpha) : \Cat{Sys}\lens{f_{\flat}}{f} \to
+\Cat{Sys}\lens{g_{\flat}}{g}\left( \Cat{Sys}\littlelens{j^{\sharp}}{j}, \Cat{Sys}\littlelens{k^{\sharp}}{k} \right)
+\]
+defined in \cref{ex.prof_square_from_arena_square} is a natural transformation.
+(Hint: use the double category notation, it will be much more concise.)
+\end{exercise}
 
 %---- Subsection ----%
-\subsection{The indexed double category of deterministic systems}
+\subsection{The doubly indexed category of deterministic systems}
 \label{sec.indexed_double_category_of_systems}
 
+While we described a category of systems and behaviors in
+\cref{prop.category_of_systems_discrete}, we haven't been thinking of systems in
+quite this way. We have been organizing our systems a bit more particularly than
+just throwing them into one large category. We've made the following observations:
+\begin{itemize}
+  \item Each system has an interface, and many different systems can have the
+    same interface. From this observation, we defined the categories
+    $\Cat{Sys}\lens{I}{O}$ of systems with the interface $\lens{I}{O}$ in \cref{def.cat_of_systems_discrete}.
+  \item Every wiring diagram, or more generally lens, gives us an operation that
+    changes the interface of a system by wiring things together. We formalized
+    this observation into a functor $\lens{w^{\sharp}}{w} : \Cat{Sys}\lens{I}{O}
+    \to \Cat{Sys}\lens{I'}{O'}$ in \cref{prop.lens_comp_functor_discrete}.
+  \item To describe the behavior of a system, first we have to chart out how it
+    will look on its interface. We formalized this observation by giving a
+    profunctor $\Cat{Sys}\lens{f_{\flat}}{f} : \Cat{Sys}\lens{I}{O} \tickar
+    \Cat{Sys}\lens{I'}{O'}$ for each chart in \cref{ex.profunctor_from_chart}.
+  \item If we wire together a chart for one interface into a chart for the wired
+    interface, then every behavior for that chart gives rise to a behavior for
+    the wired together chart. We formalized this observation as a morphism of
+    profunctors 
+\[
+\Cat{Sys}(\alpha) : \Cat{Sys}\lens{f_{\flat}}{f} \to
+\Cat{Sys}\lens{g_{\flat}}{g}\left( \Cat{Sys}\littlelens{j^{\sharp}}{j}, \Cat{Sys}\littlelens{k^{\sharp}}{k} \right)
+\]
+in \cref{ex.prof_square_from_arena_square}.
+\end{itemize}
+
+Now comes the time to organize all these observations. In this section, we will
+see that collectively, these observations are telling us that there is an
+\emph{doubly indexed category} of dynamical systems.
+
+\begin{definition}\label{def.doubly_indexed_category}
+A \emph{doubly indexed category} $\cat{A} : \cat{D} \to \Cat{Cat}$ consists of
+the following:\footnote{This is what an expert would call a \emph{unital (or
+    normal) lax double functor}, but we won't need this concept in any other
+  setting.} 
+\begin{itemize}
+  \item A double category $\cat{D}$ called the \emph{indexing base}.
+  \item For every object $D \in \cat{D}$, we have a category $\cat{A}(D)$.
+  \item For every vertical arrow $j : D \to D'$, we have a functor $\cat{A}(j) :
+    \cat{A}(D)
+    \to \cat{A}(D')$.
+  \item For every horizontal arrow $f : D \to D'$, we have a profunctor
+$\cat{A}(f) : \cat{A}(D) \tickar \cat{A}(D')$.
+  \item For every square 
+\[
+        \begin{tikzcd}[sep=tiny]
+          A \ar[dd, "j"'] \ar[rr, "f"] & & B \ar[dd, "k"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+\]
+in $\cat{D}$, a square
+\[
+        \begin{tikzcd}[sep=tiny]
+          \cat{A}(A) \ar[dd, "\cat{A}(j)"'] \ar[rr, "\cat{A}(f)"] & & \cat{A}(B) \ar[dd, "\cat{A}(k)"] \\
+           & \cat{A}( \alpha ) & \\
+          \cat{A}( C ) \ar[rr, "\cat{A}( g )"'] & & \cat{A}(D)
+        \end{tikzcd}
+\]
+in $\Cat{Cat}$.
+\item For any two horizontal maps $f : A \to B$ and $g : B \to E$ in
+  $\cat{D}$, we have a square $\mu_{f, g} : \cat{A}(f) \odot \cat{A}(g) \to
+  \cat{A}(f \mid g)$ called the \emph{compositor}:
+\begin{equation}\label{eqn.compositor}
+        \begin{tikzcd}[sep=tiny]
+          \cat{A}(A) \ar[dd, equals] \ar[r, "\cat{A}(f)"] & \cat{A}(B) \ar[r, "\cat{A}(f)"] & \cat{A}(E) \ar[dd, equals] \\
+           & \mu_{f, g} & \\
+          \cat{A}( C ) \ar[rr, "\cat{A}(f \mid g)"'] & & \cat{A}(F)
+        \end{tikzcd}
+\end{equation}
+\end{itemize}
+This data is required to satisfy the following laws:
+\begin{itemize}
+  \item (Vertical Functoriality) For vertical maps $j : D \to D'$ and $k : D' \to D''$, we have
+    that $$\cat{A}(k \circ j) = \cat{A}(k) \circ \cat{A}(j)$$
+and that $\cat{A}(\id_D) = \id_{\cat{A}(D)}$.\footnote{Here, we are hiding some
+  coherence issues. While our doubly indexed category of deterministic systems
+  will satisfy this functoriality condition on the nose, we will soon see a
+  doubly indexed category of matrices of sets for which this law only holds up
+  to a coherence isomorphism. Again, the issue invovles shuffling parentheses
+  around, and we will sweep it under the rug.}
+  \item (Horizontal Lax Functoriality) For horizontal maps $f : D_1 \to D_2$, $g :
+    D_2 \to D_3$ and $h : D_3 \to D_4$, the compositors $\mu$ satisfy the
+    following associativity and unitality conditions:
+\begin{itemize}
+\item (Associativity) $$\frac{\mu_{f, g} | \cat{A}(h)}{\mu_{g \circ f, h}} =
+  \frac{\cat{A}(f) | \mu_{g, h}}{\mu_{f, h \circ g}}.$$
+\item (Unitality) The profunctor $\cat{A}(\id_{D_1}) : \cat{A}(D_1) \tickar
+  \cat{A}(D_1)$ is the identity profunctor, $\cat{A}(\id_{D_1}) = \cat{A}(D_1)$.
+  Furthermore, $\mu_{\id_{D_1}, f}$ and $\mu_{f, \id_{D_2}}$ are equal to the
+  isomorphisms of \cref{ex.identity_profunctor} given by the naturality of
+  $\cat{A}(f)$ on the left and right respectively. We may sumarize this may
+  saying that 
+$$\mu_{\id, f} = \id_{\cat{A}(f)} = \mu_{f, \id}.$$
+\end{itemize}
+\item (Naturality of Compositors) For any horizontally composable squares
+  $\alpha$ and $\beta$ with bottom horizontal maps $f$ and $g$ respectively, 
+\[
+\frac{\cat{A}( \alpha ) \mid \cat{A}( \beta )}{\mu_{f, g}} = \frac{\mu_{f} \mid \mu_g}{\cat{A}(\alpha \mid \beta)}.
+\] 
+\end{itemize}
+\end{definition}
+
+\paragraph{The doubly indexed category of deterministic systems}
+
+Let's show that deterministic systems do indeed form a doubly indexed category
+$$\Cat{Sys} : \Cat{Arena} \to \Cat{Cat}.$$
 
 
+
+\begin{definition}
+  The doubly indexed category $\Cat{Sys} : \Cat{Arena} \to \Cat{Cat}$ is defined
+  as follows:
+\begin{itemize}
+\item Our indexing base is the double category $\Cat{Arena}$ of arenas, since we
+  will arrange our systems according to their interface.
+\item To every arena $\lens{I}{O}$, we associate the category $\Cat{Sys}\lens{I}{O}$
+of systems with interface $\lens{I}{O}$ and behaviors whose chart is the
+identity chart on $\lens{I}{O}$ (\cref{def.cat_of_systems_discrete}).
+\item To every lens $\lens{w^{\sharp}}{w} : \lens{I}{O} \fromto \lens{I'}{O'}$, we associate the functor
+$\Cat{Sys}\lens{w^{\sharp}}{w} : \Cat{Sys}\lens{I}{O} \to \Cat{Sys}\lens{I}{O}$ given by wiring according to
+$\lens{w^{\sharp}}{w}$:
+$$\Cat{Sys}\lens{w^{\sharp}}{w}(\Sys{S}) = \frac{\Sys{S}}{\littlelens{w^{\sharp}}{w}}.$$
+\item To every chart $\lens{f_{\flat}}{f} : \lens{I}{O} \tto \lens{I'}{O'}$, we
+  associate the profunctor $\Cat{Sys}\lens{f_{\flat}}{f} : \Cat{Sys}\lens{I}{O}
+  \tickar \Cat{Sys}\lens{I'}{O'}$ which sends the $\lens{I}{O}$-system $\Sys{T}$
+  and the $\lens{I'}{O'}$-system $\Sys{S}$ to the set of behaviors $\Sys{T} \to
+  \Sys{S}$ with chart $\lens{f_{\flat}}{f}$:
+\begin{align*}
+  \Cat{Sys}\lens{f_{\flat}}{f}(\Sys{T}, \Sys{S}) &= \left\{ \phi : \State{T} \to
+                                                   \State{S}\, \middle| \mbox{ $\phi$ is a behavior with chart $\lens{f_{\flat}}{f}$} \right\}\\
+  &= \left\{  
+    {
+    \begin{tikzcd}[ampersand replacement = \&]
+      \lens{\State{T}}{\State{T}} \ar[r, dashed, shift left, "\lens{\phi \circ
+        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
+      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+      shift left] \& \lens{\In{S}}{\Out{S}}
+    \end{tikzcd}
+                    }
+                    \right\}
+\end{align*}
+We saw this profunctor in \cref{ex.profunctor_from_chart}.
+\item To every square $\alpha$, we assign the morphism of profunctors given by
+  composing vertically with $\alpha$ in $\Cat{Arena}$:
+$$\Cat{Sys}(\alpha)(\phi) = \frac{\phi}{\alpha}.$$
+We saw in \cref{ex.prof_square_from_arena_square_naturality} that this was a
+natural transformation.
+\item The compositor is given by horizontal composition in the double category
+  of arenas:
+  \begin{align*}
+    \mu_{\littlelens{f_{\flat}}{f},\littlelens{g_{\flat}}{g}} : \Cat{Sys}\littlelens{f_{\flat}}{f} \odot \Cat{Sys}\littlelens{g_{\flat}}{g} &\to \Cat{Sys}\left( \littlelens{f_{\flat}}{f} \then \littlelens{g_{\flat}}{g} \right) \\
+(\phi, \psi) &\mapsto \phi \mid \psi
+  \end{align*}
+\end{itemize}
+\end{definition}
+
+Let's check now that this does indeed satisfy the laws of a doubly indexed
+category. They all follow quickly from a bit of fiddling in the double
+category of arenas.
+\begin{itemize}
+  \item (Vertical Functoriality) We show that $\Cat{Sys}\left(
+      \lens{k^{\sharp}}{k} \circ \lens{j^{\sharp}}{j} \right) =
+    \Cat{Sys}\lens{k^{\sharp}}{k} \circ \Cat{Sys}\lens{j^{\sharp}}{j}$ by
+    vertical associativity:
+\begin{align*}
+  \Cat{Sys}\left(\lens{k^{\sharp}}{k} \circ \lens{j^{\sharp}}{j} \right)(\phi) &= \frac{\phi}{\left( \frac{\littlelens{j^{\sharp}}{j}}{\littlelens{k^{\sharp}}{k}} \right)} 
+= \frac{\left( \frac{\phi}{\littlelens{j^{\sharp}}{j}} \right)}{\littlelens{k^{\sharp}}{k}} \\
+&= \Cat{Sys}\lens{k^{\sharp}}{k} \circ \Cat{Sys}\lens{j^{\sharp}}{j}(\phi).
+\end{align*}
+
+\item (Horizontal Lax Functoriality) This law follows from horizontal
+  associativity in $\Cat{Arena}$.
+\begin{align}
+  \mu(\mu(\phi, \psi), \xi) = (\phi \mid \psi ) \mid \xi = \phi \mid (\psi \mid \xi) = \mu(\phi, \mu(\psi, \xi)).
+\end{align}
+\item (Naturality of Compositor) This law follows from interchange in
+  $\Cat{Arena}$.
+\begin{align*}
+  \left( \frac{\Cat{Sys}(\alpha) \mid \Cat{Sys}(\beta)}{\mu} \right)(\phi, \psi) &= \left. \frac{\phi}{\alpha} \middle| \frac{\psi}{\beta} \right. 
+= \frac{\phi \mid \psi}{\alpha \mid \beta} \\
+&= \left(  \frac{\mu}{\Cat{Sys}(\alpha \mid \beta)}\right)(\phi, \psi).
+\end{align*}
+\end{itemize}
+
+%% write-here
 
 %---- Subsection ----%
-\subsection{The big theorem: representable indexed double functors}
+\subsection{The big theorem: representable doubly indexed functors}
 
 
 
