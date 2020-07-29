@@ -3168,10 +3168,10 @@ commutative diagram:
 \node[right= 0 of Rightlabel] {
 \begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(M)]
 	\node[bb={2}{2}, rounded corners=5pt, draw=dgreen, dashed] (M) {$\phantom{\Set{Steady}_{\Sys{S}}}$};
-	\node[left=1.5 of M_in2] (B) {$B$};
-	\node[right=1.5 of M_out2] (C) {$C$};
+	\node[left=1.5 of M_in2] (B) {};
+	\node[right=1.5 of M_out2] (C) {};
   \draw let \p1=(M.north east), \p2=(M.north west), \n1={\y2+\bby}, \n2=\bbportlen in
-          (M_out1) to[in=0] (\x1+\n2,\n1) -- node[above, font=\scriptsize] {$A$} (\x2-\n2,\n1) to[out=180] (M_in1);
+          (M_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (M_in1);
   \draw (B) to (M_in2);
   \draw (M_out2) to (C);
 \end{tikzpicture}
@@ -3736,21 +3736,21 @@ composition of behaviors.
           \item For vertically composable squares $\alpha$, $\beta$, and
             $\gamma$,
 \[
-\begin{tabular}{c}
-\[\left(  \begin{tabular}{c}
+\begin{array}{c}
+\left(  \begin{array}{c}
 \alpha \\ \hline
 \beta
-\end{tabular}\right)\]\\ \hline
+\end{array}\right)\\ \hline
 \gamma 
-\end{tabular}
+\end{array}
 = 
-\begin{tabular}{c}
+\begin{array}{c}
   \alpha \\ \hline
-\[\left(  \begin{tabular}{c}
+\left(  \begin{array}{c}
 \beta \\ \hline
 \gamma
-\end{tabular}\right)\]
-\end{tabular}
+\end{array}\right)
+\end{array}
 \]
 \item For a square $\alpha$ with left and right vertical edges $j$ and $k$
   respectively, 
@@ -3760,7 +3760,7 @@ $$\frac{f}{\alpha} = \alpha = \frac{\alpha}{g}.$$
 \item For four appropriately composable squares $\alpha$, $\beta$, $\gamma$, and
   $\delta$, the following interchange law holds:
 $$\frac{\alpha \mid \beta}{\gamma \mid \delta} = \left
-  \frac{\alpha}{\beta} \middle|  \frac{\gamma}{\delta} \right.$$
+  \frac{\alpha}{\beta} \bigg|  \frac{\gamma}{\delta} \right.$$
         \end{itemize}
   \end{itemize}
 \end{definition}
@@ -3801,7 +3801,7 @@ systems live, and where they behave.
     if and only if the following equations hold:
     \begin{align}\label{eqn.dbl_cat_arena_square_commuting}
       g(j(a^+)) &= k(f(a^+)) \\
-      k^{\sharp}(f(a^+), g_{\flat}(j(a^+), c^-)) &= f_{\flat}(a^+, g^{\sharp}(a^+, c^-)) 
+      k^{\sharp}(f(a^+), g_{\flat}(j(a^+), c^-)) &= f_{\flat}(a^+, j^{\sharp}(a^+, c^-)) 
     \end{align}
     for all $a^+ \in A^+$ and $c^- \in C^-$.
   \end{itemize}
@@ -3907,7 +3907,7 @@ together charts.
     \end{tikzcd}
   \]
   By \cref{ex.special_charts}, we know that the charts in this diagram are pairs
-  of elements $\lens{b^_}{b^+}$ and $\lens{d^_}{d^+}$ in the arenas
+  of elements $\lens{b^-}{b^+}$ and $\lens{d^-}{d^+}$ in the arenas
   $\lens{B^-}{B^+}$ and $\lens{D^-}{D^+}$ respectively. The square then says
   that $\lens{d^-}{d^+}$ are the values you would get if you passed
   $\lens{b^-}{b^+}$ along the wires in the wiring diagram
@@ -3930,7 +3930,7 @@ lets us compose behaviors:
     \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
     shift left] & \lens{\In{S}}{\Out{S}} \ar[r, shift right,
     "\lens{g^{\sharp}}{g}"'] \ar[r, shift left]& \lens{\In{U}}{\Out{U}}
-  \end{tikzcd}\mapsto
+  \end{tikzcd} \xequals{\quad}
   \begin{tikzcd}
     \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\psi\phi \circ
       \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
@@ -3944,7 +3944,7 @@ lets us compose behaviors:
 
 On the other hand, vertical composition tells us something else interesting: if
 you get a chart $\lens{g_{\flat}}{g}$ by wiring together a chart
-$\lens{f_{\flat}}{f}$, then you can turn a behavior $\phi$ with
+$\lens{f_{\flat}}{f}$, then a behavior $\phi$ with
 chart $\lens{f_{\flat}}{f}$ induces a behavior with chart $\lens{g_{\flat}}{g}$
 on the wired together systems.
 \[
@@ -3960,7 +3960,7 @@ on the wired together systems.
         "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
     \lens{I}{O} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
     \ar[r, shift left] & \lens{I'}{O'} \\
-  \end{tikzcd} \mapsto
+  \end{tikzcd} \xequals{\quad}
   \begin{tikzcd}
     \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\psi\phi \circ
       \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
@@ -3992,11 +3992,61 @@ on the wired together systems.
   underlies our arguments in \cref{sec.steady_states_matrix_arithmetic}.
 \end{example}
 
+Recall the categories $\Cat{Sys}\lens{I}{O}$ of systems with the interface
+$\lens{I}{O}$ from
+\cref{def.cat_of_systems_discrete}. One thing that vertical composition in the
+double category of arenas shows us is that wiring together systems is functorial
+with respect to behaviors that don't change the interface.
+\begin{proposition}\label{prop.lens_comp_functor_discrete}
+  For a lens $\lens{f^{\sharp}}{f} : \lens{I}{O} \leftrightarrows
+  \lens{I'}{O'}$, we get a functor
+  $$\cat{Sys}\lens{f^\sharp}{f} : \Cat{Sys}\lens{I}{O} \to
+  \Cat{Sys}\lens{I}{O}$$
+  Given by composing with $\lens{f^\sharp}{f}$:
+  \begin{itemize}
+    \item For a system $\Sys{S} = \lens{\update{S}}{\expose{S}} :
+      \lens{\State{S}}{\State{S}}\fromto \lens{I}{O}$,
+      $$\Cat{Sys}\lens{f^{\sharp}}{f}(\Sys{S}) = \lens{f^{\sharp}}{f} \circ \lens{\update{S}}{\expose{S}}.$$
+    \item For a behavior, $\Cat{Sys}\lens{f^{\sharp}}{f}$ acts in the following way:
+      \[
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, equals]
+    \ar[r, shift left, equals] & \lens{I}{O'}
+  \end{tikzcd} \quad \mapsto \quad
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{f^{\sharp}}{f}"'] \ar[d, shift left,
+        leftarrow] \ar[r, shift right, equals]
+    \ar[r, shift left, equals] & \lens{\In{S}}{\Out{S}} \ar[d, shift left, leftarrow,
+        "\lens{f^{\sharp}}{f}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, equals]
+    \ar[r, shift left, equals] & \lens{I'}{O'} \\
+  \end{tikzcd} 
+      \]
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  The functoriality of this construction can be seen immediately from the
+  interchange law of the double category:
+  \[\frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
+          \circ \pi_2}{\psi} \right. }{\littlelens{f^{\sharp}}{f}} = \]
+\end{proof}
+
+%% write-here
 \paragraph{The Grothendieck double
   construction.} \label{sec.groth_double_construction}
 
-It does remain for us to show that \cref{def.double_category_of_arenas_discrete}
-does indeed give a double category. We could do this by hand, but we'll do it
+We've seen a bit of what we can do with the double category of arenas, but it does remain for us to show that \cref{def.double_category_of_arenas_discrete}
+really gives a double category. We could do this by hand, but we'll do it
 diagrammatically by generalizing the double category of arenas to any indexed
 category.
 
@@ -4328,7 +4378,6 @@ and checking that this descends correctly to the quotient.
 
 
 
-%% write-here
 
 %---- Subsection ----%
 \subsection{The big theorem: representable indexed double functors}

@@ -59,7 +59,8 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 % MathVersion kludge
 \DeclareMathVersion{normal2}
 
-
+% For external graphics.
+\graphicspath{graphics/}
 
 %\usepackage{changepage} %indented paragraphs in solutions 
 %\usepackage{showkeys} %for drafting; prints labels in margin
@@ -490,11 +491,17 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\spiz}[1]{{\color{blue} Spiz: {#1}}}
 
 % lenses
+\newcommand{\biglens}[2]{
+     \begin{pmatrix}{\vphantom{f_f^f}#1} \\ {\vphantom{f_f^f}#2} \end{pmatrix}
+}
+\newcommand{\littlelens}[2]{
+     \begin{psmallmatrix}{\vphantom{f}#1} \\ {\vphantom{f}#2} \end{psmallmatrix}
+}
 \newcommand{\lens}[2]{
   \relax\if@display
-     \begin{pmatrix}{\vphantom{f_f^f}#1} \\ {\vphantom{f_f^f}#2} \end{pmatrix}
+     \biglens{#1}{#2}
   \else
-     \begin{psmallmatrix}{\vphantom{f}#1} \\ {\vphantom{f}#2} \end{psmallmatrix}
+     \littlelens{#1}{#2}
   \fi
 }
 
