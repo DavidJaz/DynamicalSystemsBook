@@ -119,7 +119,7 @@ But we left one thing---what in some sense is the most interesting part of the s
 What could be simpler?%
 \footnote{If you're thinking ``What could be more boring?'', don't forget that our job is to connect this to the material in \cref{sec.c5_intro}. If that payoff doesn't intrigue you, then this chapter is not for you.}
 
-It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{?}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, and choosing a direction in $q_j$.''
+It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, choosing a direction in $q_j$, and then landing... somewhere.''
 
 The composition product has many surprises up its sleeve, as we'll see. We've told many of them to you already in \cref{subsec.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, this chapter will get us into decision trees, databases, and more dynamics, and it's all based on $\circ$.
 
@@ -129,7 +129,8 @@ p\cong\sum_{i\in p(\1)}\yon^{p_i},
 \end{equation}
 and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p_i$ as the set of direction at position $i$.
 
-\paragraph{Defining the composition product}
+%---- Subsection ----%
+\subsection{Defining the composition product}
 We begin with the definition of composition product.
 
 \begin{proposition}\label{prop.poly_closed_comp}
@@ -395,7 +396,9 @@ For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\co
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Monoidal structure $(\poly,\tri,\yon)$.}
+%---- Subsection ----%
+\subsection{Monoidal structure $(\poly,\tri,\yon)$}
+
 The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
 However, even though the formal theory of functors and natural transformations knocks the monoidality of $\tri$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
@@ -852,7 +855,7 @@ Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri
 
 The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. From there, all heaven breaks loose.
 
-\begin{definition}[Comonoid]
+\begin{definition}[Comonoid]\label{def.comonoid}
 A \emph{comonoid} in a monoidal category $(\cat{C},I,\lhd)$
 is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\lhd c$ are maps, such that the following diagrams commute:
 \begin{equation}\label{eqn.comonoid_diagrams}
@@ -883,13 +886,13 @@ Polynomial comonoids are usually called \emph{polynomial comonads}. Though polyn
 
 \begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
 Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
-\begin{align*}
+\begin{align}\nonumber
 	S&\To{\epsilon'} S&
 	S&\To{\delta'}\sum_{s_1\in S}\prod_{s_2\in S}\sum_{s_3\in S}\prod_{s_4\in S}S\\
 \intertext{We take $\epsilon'$ to be the identity and we take $\delta'$ to be}
 	s&\Mapsto{\epsilon'} s&
-  s&\Mapsto{\delta'} (s_1\coloneqq s, s_2\mapsto (s_3\coloneqq s_2, s_4\mapsto s_4)).
-\end{align*}
+  s&\Mapsto{\delta'} (s_1\coloneqq s, s_2\mapsto (s_3\coloneqq s_2, s_4\mapsto s_4)).\label{eqn.state_comonoid_eps_del}
+\end{align}
 As you can see, both $\epsilon$ and $\delta$ are given by passing elements of $S$ along in a completely straightforward way.
 \end{example}
 
@@ -1103,7 +1106,7 @@ Let $S\coloneqq\2$ and $c\coloneqq \2\yon^\2$.
 
 Once you know that these all important $S\yon^S$-things are comonoids in $\poly$, it's interesting to ask ``what are all the comonoids in $\poly$?'' Let's discuss another one before answering the question in generality.
 
-\begin{example}[A simple comonoid that's not $S\yon^S$]
+\begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
 The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
 
 Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isomorphic to $\yon^\2+\yon$, but its notation is meant to remind the reader of the walking arrow category
@@ -1114,6 +1117,8 @@ $A\Too{f}B$
 \]
 We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w$:
 \[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$w\coloneqq$" left] {
 	\begin{tikzpicture}[trees, sibling distance=5mm]
     \node["\tiny $A$" below, red] (1) {$\bullet$} 
       child  {coordinate (iA) \idchild}
@@ -1124,6 +1129,8 @@ We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comon
     \node[below left=0 of iB, font=\tiny] {$i_B$};
     \node[below right=0 of f, font=\tiny] {$f$};
   \end{tikzpicture}
+  };
+\end{tikzpicture}
 \]
 
 We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w_o$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
@@ -1147,6 +1154,8 @@ We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can b
 \]
 Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\tri w$ to see what it looks like.
 \[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$w\tri w=$" left] {
 	\begin{tikzpicture}[trees,
 	  level 1/.style={sibling distance=5mm},
   	level 2/.style={sibling distance=2.5mm}]
@@ -1203,6 +1212,8 @@ Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\
 			\idchild
 			};
   \end{tikzpicture}
+  };
+\end{tikzpicture}
 \]
 The map $\delta$ is going to tell us both about codomains and composition. Here it is:
 \[
@@ -1590,17 +1601,18 @@ The cofunctor laws can be written in diagram form as follows:
 \end{tikzcd}
 \end{gather*}
 
-\begin{theorem}[Ahman-Uustalu]
+\begin{theorem}[Ahman-Uustalu]\label{thm.ahman_uustalu}
 There is an equivalence of categories
 \[
 \Cat{Comon}(\poly)\cong\smcat^\sharp.
 \]
 \end{theorem}
 \begin{proof}
-This will be proved in \cref{??}.
+This will be proved in \cref{ex.cofunctors_comon_homs}.
 \end{proof}
 
-\paragraph{Constructing comonoids from categories.}
+%---- Subsection ----%
+\subsection{Constructing comonoids from categories}
 
 Given a category $\cat{C}$ with notation as in \cref{def.cofunctor}, we will construct a corresponding comonoid $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$. We usually denote objects of $\cat{C}$ by $i,j$ rather than $c$ so as not to confuse with $\ema{c}$. 
 
@@ -1642,6 +1654,7 @@ In other words $\delta_1$ is given by taking codomains and $\delta^\sharp$ is gi
 \begin{proposition}
 Let $\cat{C}$ be a category and let $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ be defined as above. Then $\com{C}$ is a comonoid in $\poly$.
 \end{proposition}
+
 \begin{proof}[Proof sketch]
 It remains to check the unitality and associativity. The morphisms $\ema{c}\tri\epsilon$ and $\epsilon\tri \ema{c}$ are defined as follows:
 \begin{align*}
@@ -1667,11 +1680,283 @@ We leave the proof of associativity to \cref{ex.comonoid_cat_assoc}.
 Show that for any category $\cat{C}$, if $\ema{c}$ is the associated emanation polynomial and $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ is the morphism as described in \eqref{eqn.emanation_cat_delta} and \eqref{eqn.emanation_cat_delta_sharp}, then $\delta$ is associative, i.e.\ satisfies the second commutative diagram from \cref{eqn.comonoid_diagrams}.
 \end{exercise}
 
-\paragraph{Constructing categories from comonoids.}
+%---- Subsection ----%
+\subsection{Constructing categories from comonoids}
 
-Given a comonoid $\com{C}\coloneqq(c,\epsilon,\delta)$, we now construct a corresponding category $\cat{C}$. Its objects are given by $C_0\coloneqq c(\1)$ and its morphisms are given by $\sum_{i\in C_0}(c_i)$. The domain of each morphism is $\dom(i,m)\coloneqq i$. The identities will be given by $\epsilon$, the codomains will be given by $\delta_1$, and the composites will be given by $\delta^\sharp$.
+Given a comonoid $\com{C}\coloneqq(c,\epsilon,\delta)$, we now construct a corresponding category $\cat{C}$. Its objects are given by $C_0\coloneqq c(\1)$ and its morphisms are given by $C_1\coloneqq\sum_{i\in C_0}(c_i)$. The domain of each morphism is $\dom(i,m)\coloneqq i$. Among all morphisms emanating from $i$, the identities are given by $\epsilon$.
 
+\begin{exercise}
+\begin{enumerate}
+	\item Make sense of the statement that ``among all morphisms emanating from $i$, the identities are given by $\epsilon$'' in the previous sentence. 
+	\item Choose a polynomial $p\neq \0$ and a map $p\to\yon$. Draw the special leaf of each corolla in $p$ using an equal sign, as we did in \cref{ex.walking_arrow}.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
+In our effort to construct a category $\cat{C}$ from the comonoid $\com{C}$, we will see that the codomains in $\cat{C}$ will be given by $\delta_1$, and that the composites will be given by $\delta^\sharp$. But to even begin we need to rely on a certain unitality between $\epsilon$ and $\delta$, namely that the map
+\begin{equation}\label{eqn.unital_misc28}
+c\To{\delta}c\tri c\To{c\tri\epsilon}c\tri\yon\cong c.
+\end{equation}
+is the identity. This equation significantly tames $\delta$ for us. 
+
+\begin{example}\label{ex.simple_cat_misc34y7}
+Let's try to see what's going on in terms of trees. The type of $\delta$ as a morphism $c\to c\tri c$ just says that we have a lens from corollas in $c$ to height-2 trees in $c$. So say $c\coloneqq\yon^\2+\yon$. As we know from \cref{ex.walking_arrow}, we can draw $c$ and $c\tri c$ as follows:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$c$" above] {
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node["\tiny $A$" below, red] (1) {$\bullet$} 
+      child  {coordinate (iA) \idchild}
+      child {coordinate (f)};
+    \node[right=.8 of 1,"\tiny $B$" below, blue] (2) {$\bullet$} 
+      child  {coordinate (iB) \idchild};
+    \node[below left=0 of iA, font=\tiny] {};
+    \node[below left=0 of iB, font=\tiny] {};
+    \node[below right=0 of f, font=\tiny] {};
+  \end{tikzpicture}
+  };
+	\node (p2) [draw, "$c\tri c=$" above] at (6,0) {
+	\begin{tikzpicture}[trees,
+	  level 1/.style={sibling distance=5mm},
+  	level 2/.style={sibling distance=2.5mm}]
+    \node[red] (1) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			};
+    \node[right=1 of 1, red] (2) {$\bullet$} 
+      child  {
+        node [red]{$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=1 of 2, red] (3) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+				\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child {\idchild}
+      	child {}
+			};
+    \node[right=1 of 3, red] (4) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=1 of 4, blue] (5) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			};
+    \node[right=1 of 5, blue] (6) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+\begin{exercise}
+\begin{enumerate}
+	\item How many morphisms are in $\poly(c,c\tri c)$?%
+\footnote{Didn't know we could put exercises inside of examples-in-progress, did you. It's another testament to the power of $\poly$.}
+	\item Pick one at random and draw it in our typical style.
+\qedhere
+\end{enumerate}
+\end{exercise}
+The equation \eqref{eqn.unital_misc28} limits $\delta$ in two ways:
+\begin{itemize}
+	\item It ensures that the red-rooted corolla goes to one of the red-rooted trees and that the blue-rooted corolla goes to one of the blue-rooted trees.
+	\item It also ensures that the identity arrows on the second layer are well-behaved, e.g.:
+\end{itemize}
+\begin{equation}\label{eqn.possible_assignment_misc135}
+\begin{tikzpicture}[trees,	bend right=60,
+	  level 1/.style={sibling distance=5mm},
+  	level 2/.style={sibling distance=2.5mm}]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A3) \idchild}
+      	child {coordinate (2A4) }
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+	\draw[densely dotted, thick, postaction={decorate}] (2A1) to (1A1);
+	\draw[densely dotted, thick, postaction={decorate}] (2A3) to (1A2);
+	\draw[densely dotted, gray, postaction={decorate}] (2A2) to +(-.5,.25);
+	\draw[densely dotted, gray, postaction={decorate}] (2A4) to +(-.5,.25);
+%
+  \node[right=2 of 2A, blue] (1B) {$\bullet$} 
+  	child  {coordinate (1B1) \idchild};
+  \node[right=1.5 of 1B, blue] (2B) {$\bullet$} 
+  	child {node [blue] {$\bullet$} 
+    child  {coordinate (2B1) \idchild}
+		\idchild
+	};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1B) -- (2B);
+	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
+\end{tikzpicture}
+\end{equation}
+In the left-hand picture, two of the four airplane thingies are drawn gray and their destination is not shown because, while they need to point somewhere, there are four choices. What's important here is that \eqref{eqn.unital_misc28} ensures that the two fully-drawn ones go back to the correct side of the corolla.
+\begin{exercise}
+How many morphisms $c\to c\tri c$ respect \eqref{eqn.unital_misc28} in the above sense?
+\end{exercise}
+Now the map shown in \eqref{eqn.possible_assignment_misc135} will eventually be ruled out by other equations. But let's go back and abstractly summarize what we know.
+\end{example}
+
+Here's where we are in the story so far. Any comonoid $\com{C}=(c,\epsilon,\delta)$in $\poly$ are supposed to give us a category with objects $c(\1)$ and $c_i$-many morphisms emanating from each $i\in c(\1)$. We want to see how $\delta$ gives us codomains and composition. The type of $\delta$ is
+\[
+\delta:\prod_{i\in c(\1)}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c_{i'}}\;\sum_{i''\in c(\1)}\;\prod_{m''\in c_{i''}}\;c_i
+\]
+It says ``for every object $i\in c(\1)$, I will assign an object $i'\in c(\1)$ and, for any emanating morphism $m'\in c_{i'}$, I will assign an object $i''\in c(\1)$ and, for any emanating morphism $m''$ I will assign a morphism emanating from the original $i$.'' But with \eqref{eqn.unital_misc28} we can simplify it by saying we know that $i'=i$:
+\begin{align*}
+  \delta&:
+  \prod_{i\in c(\1)}\;\prod_{m\in c_i}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c_{i'}}\;c_i\\&\cong
+	\prod_{i\in c(\1)}\;\sum_{i'\colon c_i\to c(\1)}\;\prod_{m\in c_i}\;\smset(c_{i'(m)},c_i)
+\end{align*}
+which says ``for every object $i\in c(\1)$, I'll assign a function $i'$---which we'll call the codomain function---that takes emanating morphisms $m\in c_i$ to objects in $c(\1)$, and given a morphism $m$ emanating from $i$, I'll assign a function from morphisms emanating from its codomain $i'(m)$ to morphisms emanating from $i$. So we rewrite it as:
+\[
+\delta:	\prod_{i\in c(\1)}\;\sum_{\cod\colon c_i\to c(\1)}\;\prod_{m\in c_i}\;\{(m\then -)\colon c_{\cod(m)}\to c_i\}.
+\]
+Notation aside, we got all this from \eqref{eqn.unital_misc28}. In fact we got a little more, that $m\then\id_{\cod(m)}=m$ for any emanating $m\in c_i$.
+
+The rest of the story is pretty much ``follow your nose'' from here on out. The second unitality equation from \eqref{eqn.comonoid_diagrams}, that
+\[c\To{\delta}c\tri c\To{\epsilon\tri c}c\tri\yon\cong c\]
+is the identity on $c$, says two things for any $i\in c(\1)$:
+\begin{itemize}
+	\item that the codomain of $\id_i$ is $i$, and
+	\item that the function $(\id_i\then-)\colon c_i\to c_i$ is entity.
+\end{itemize}
+The associativity equation from \eqref{eqn.comonoid_diagrams} says two things for any $i\in c(\1)$ and emanating morphism $m\in c_i$:
+\begin{itemize}
+	\item that for any $m'\in c_{\cod(m)}$ emanating from $\cod(m)$, we have $\cod(m')=\cod(m\then m')$, and
+	\item that for any $m'$ as above and $m''\in\cod(m')$, we have $(m\then m')\then m''=m\then(m'\then m'')$.
+\end{itemize}
+
+We're done! Go take a break, and remember
+\slogan{
+Comonoids in $\poly$ are categories, and categories are comonoids in $\poly$.}
+
+\begin{example}[What category is $S\yon^S$?]
+The first comonoid we introduced, back in \cref{ex.state_comonad_1} was $\com{S}=(p,\epsilon,\delta)$, where $p=S\yon^S$ for some set $S$. Now we know that comonoids correspond to categories. So what category $\cat{S}$ corresponds to $\com{S}$?
+
+By the work above, we know that $\cat{S}$ has object set $S=p(\1)$, and that for every object $s\in S$ there are $S$-many emanating morphisms, though we don't yet know their codomains nor the composition formula. 
+
+To calculate the codomains and compositions we examine the map $\delta\colon p\to p\tri p$, which was given set-theoretic form in \cref{eqn.state_comonoid_eps_del}. It requires some reading skills, but the important part says ``$s_2\mapsto (s_3\coloneqq s_2, s_4\mapsto s_4)$. What the heck does that mean?
+
+It's telling us that the codomain $s_3$ of any map $s_2$ is $s_2$, and that the composition function is given by $s_2\then s_4=s_4$. In other words, the codomain of any $s\in S$, thought of as a morphism, is $s$ thought of as an object. And the composite of any two morphisms is the latter $s\then s'=s'$. 
+
+So $\cat{C}$ is the category with $S$-many objects and a unique morphism $s\to s'$ for any $s,s'\in S$. Here's a picture for $S=\3$ and $S=\1\5$, with all maps (even identities) drawn:
+\[
+\begin{tikzpicture}
+\def\n{3}% how many nodes
+\def\size{2cm}
+\node[circle,minimum size=\size] (b) {};
+\foreach\x in{1,...,\n}{
+  \node[minimum size=0.75cm,draw,circle] (n-\x) at (b.{360/\n*\x}){\x};
+}
+\foreach\x in{1,...,\n}{
+  \foreach\y in{1,...,\n}{
+    \ifnum\x=\y\draw[->] (n-\x) to [in=360/\n*\x-15,out=360/\n*\x+15,loop] ();\relax\else
+      \draw (n-\x) edge[->,bend right=3] (n-\y);
+    \fi
+  }
+}
+\def\n{15}% how many nodes
+\def\size{4cm}
+\node[circle,minimum size=\size, right=4 of b] (b) {};
+\foreach\x in{1,...,\n}{
+  \node[minimum size=0.75cm,draw,circle] (n-\x) at (b.{360/\n*\x}){\x};
+}
+\foreach\x in{1,...,\n}{
+  \foreach\y in{1,...,\n}{
+    \ifnum\x=\y\draw[->] (n-\x) to [in=360/\n*\x-15,out=360/\n*\x+15,loop] ();\relax\else
+      \draw (n-\x) edge[->,bend right=3] (n-\y);
+    \fi
+  }
+}
+% Source: Asterix: https://tex.stackexchange.com/questions/390647/understanding-complete-graph-example-in-tikz
+\end{tikzpicture}
+\]
+Some people would call this the contractible groupoid, or the terminal category with $S$-elements, or the unique category whose underlying graph is complete on $S$ vertices. The one that's \emph{least} good for us will be ``terminal'' category, because as we'll see, we're going to be interested in different sorts of morphisms between categories than the usual ones, namely cofunctors rather than functors, and $\cat{S}$ is not terminal for cofunctors.  
+
+Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}.
+\end{example}
+
+Perhaps we owe it to ourselves to record the results of this section.
+
+\begin{proposition}\label{prop.comon_to_cat}
+Let $\com{C}$ be a comonoid in $\poly$ category and let $\cat{C}$ be defined as above. Then $\cat{C}$ is a category.
+\end{proposition}
+
+\begin{exercise}
+Prove \cref{prop.comon_to_cat} in a style you find fitting for audiences in your native community. (If you came of age in an artist community, prove it for artists; if you came of age in a mathematical community, prove it for mathematicians.)
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Morphisms of comonoids are cofunctors}
+
+Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$. Roughly speaking, all you really need to know is this:
+\slogan{Morphisms between comonoids are maps of polynomials, so they do the lensy / delegation thingy with the airplanes, but ensuring that everything's well-behaved with respect to identities, codomains, and composition.}
+That clears it up completely, right?
+
+Either way, let's do our due diligence, beginning with a definition.
+
+\begin{definition}[Morphisms of comonoids]
+Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\delta')$ be polynomial comonoids as in \cref{def.comonoid}. A \emph{morphism} $\com{C}\to\com{C}'$ consists of a morphism $f\colon c\to c'$ of polynomials that commutes with the structure maps:
+\[
+\begin{tikzcd}
+  c\ar[r, "f"]\ar[d, "\epsilon"']&
+	c'\ar[d, "\epsilon'"]\\
+	\yon\ar[r, equal]&
+	\yon
+\end{tikzcd}
+\hspace{.5in}
+\begin{tikzcd}
+  c\ar[r, "f"]\ar[d, "\delta"']&
+	c'\ar[d, "\delta'"]\\
+	c\tri c\ar[r, "f\tri f"']&
+	c'\tri c'
+\end{tikzcd}
+\]
+\end{definition}
+
+So suppose $\cat{C}$ and $\cat{C}'$ are categories and $\com{C}=(\ema{c},\epsilon,\delta)$ and $\com{C}'=(\ema{c}',\epsilon',\delta')$ are the corresponding categories. In terms of categories, how do we say what a comonoid morphism $f\colon \com{C}\to\com{C}'$ is?
+
+The lens $f=\lens{f^\sharp}{f_1}$ includes a function $f_1\colon\ema{c}(\1)\to\ema{c}'(\1)$, meaning it sends objects $i\in \cat{C}$ to objects $f_1(i)\in\cat{C}'$. For every object $i\in\ema{c}(\1)$, it includes a function $f^\sharp\colon\ema{c}'_{f_1(i)}\to\ema{c}_i$, meaning that every morphism emanating from $f_1(i)$ in $\cat{C}'$ is passed back to a morphism emanating from $i$ in $\cat{C}$.
+
+Commutation with $\epsilon$ and $\epsilon'$ ensures that identities in $\cat{C}'$ are passed back to identities. Commutation with $\delta$ and $\delta'$ ensures that codomains are passed back to codomains, and composition is passed back to composition. This informal description seems reasonable, but it should be checked to really work. In particular, it should coincide with the definition of cofunctor given in \cref{def.cofunctor}.
+
+\begin{exercise}\label{ex.cofunctors_comon_homs}
+Prove \cref{thm.ahman_uustalu} to a level of detail you find appropriate.
+\end{exercise}
 
 %-------- Section --------%
 \section{Cofree comonoids}
