@@ -374,8 +374,13 @@ We could also draw $X\tri p$, since both are perfectly valid polynomials. Here i
 Each of the open leaves in $X$---of which there are none---is filled with a corolla from $p$.
 \end{example}
 
-\begin{exercise}
-Choose a polynomial $p$ and draw $p\tri\1$ in the style of \cref{ex.apply_2}.
+\begin{exercise}\label{exc.composing_with_constants}
+\begin{enumerate}
+	\item Choose a polynomial $p$ and draw $p\tri\1$ in the style of \cref{ex.apply_2}.
+	\item Is it true that if $X$ is a set (considered as a constant polynomial) and $p$ is any polynomial, then $X\tri p\cong X$?
+	\item Is it true that if $X$ is a set and $p$ is a polynomial then $p\tri X\cong p(X)$, where $p(X)$ is the set given by applying $p$ as a functor to $X$?
+\qedhere
+\end{enumerate}
 \end{exercise}
 
 \begin{exercise}
@@ -661,7 +666,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 \]
 Then we can form the induced delegation (morphism / dependent lens) $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$), we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
 
-Our pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
+Our six pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
 \[
 	\begin{tikzpicture}[trees]
 	\begin{scope}[
@@ -677,7 +682,7 @@ Our pictures below leave out the fact that the red corollas on the right are sel
 				child {coordinate (14)}
 			};
 %
-    \node[blue!50!black, below=1.3 of 1] (2) {$\bullet$} 
+    \node[blue!50!black, right=5 of 1] (2) {$\bullet$} 
       child {node[red!50!black] (21') {$\bullet$} 
       	child {coordinate (21)}
 				child {coordinate (22)}
@@ -686,7 +691,7 @@ Our pictures below leave out the fact that the red corollas on the right are sel
       	child {coordinate (23)}
 			};
 %
-    \node[blue!50!black, below=1.3 of 2] (3) {$\bullet$} 
+    \node[blue!50!black, below=1.3 of 1] (3) {$\bullet$} 
       child {node[red!50!black] (31') {$\bullet$} 
       	child {coordinate (31)}
 			}
@@ -695,7 +700,7 @@ Our pictures below leave out the fact that the red corollas on the right are sel
 				child {coordinate (33)}
 			};
 %
-    \node[blue!50!black, below=1.3 of 3] (4) {$\bullet$} 
+    \node[blue!50!black] at (2|-3) (4) {$\bullet$} 
       child {node[red!50!black] (41') {$\bullet$} 
       	child {coordinate (41)}
 			}
@@ -703,13 +708,13 @@ Our pictures below leave out the fact that the red corollas on the right are sel
       	child {coordinate (42)}
 			};
 %
-    \node[blue!50!black, below=1.3 of 4] (5) {$\bullet$} 
+    \node[blue!50!black, below=1.3 of 3] (5) {$\bullet$} 
       child {node[red!50!black] (51') {$\bullet$} 
       	child {coordinate (51)}
 				child {coordinate (52)}
 			};
 %
-    \node[blue!50!black, below=1.3 of 5] (6) {$\bullet$} 
+    \node[blue!50!black] at (4|-5) (6) {$\bullet$} 
       child {node[red!50!black] (61') {$\bullet$} 
       	child {coordinate (61)}
 			};
@@ -850,6 +855,360 @@ For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.
 Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
 \end{exercise}
 
+%---- Subsection ----%
+\subsection{Working with composites}
+
+A position $i\colon\1\to p\tri q$ in the composite $p\tri q$ consists of a choice of position in $p$ and, for every direction there a position in $q$. How do we grab the $p$-position? And then given such a $p$-position, how do we talk about having an additional direction there with which to grab a $q$-position? We need to have tools for saying such things---or even more complicated things about morphisms $p\tri q\to p'\tri q'$ carefully. We give such tools in this section.
+
+Recall that $\1$ is the terminal object in $\poly$, so we have a unique morphism $!_q\colon q\to\1$. Since $\tri$ is monoidal, we have the following useful function
+\[
+p\tri q\To{p\tri !_q}p\tri\1.
+\]
+So given $i$ as above, we can compose with this map and get $i\then(p\tri !_q)\colon\1\to p\tri 1=p(\1)$, the position in $p$ we wanted.
+
+\begin{exercise}
+Let $p,q$ be as in \cref{ex.circ_prod_on_morphisms}, let $p'\coloneqq p$ and $q'\coloneqq 1$, and let $f\coloneqq\id_p$ and $g\coloneqq !_q$.
+\begin{enumerate}
+	\item Draw $f\tri g$ in the style of that exercise.
+	\item Would you say it ``grabs the positions of $p$ and nothing more'', or is that subtly inaccurate somehow?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+More generally, given polynomials $q_{1},\; q_{2},\;\ldots\; q_{n}$,
+%\footnote{Notation is as in \cref{prop.coprod_prod_poly}: we put a comma after each subscript, e.g.\ $q_{1}$ to indicate that it is a whole polynomial, not a set of directions.}
+we may want to truncate their composite tree at height $0\leq m\leq n$; this operation is denoted
+\[
+  \trunc^m\colon q_{1}\tri q_{2}\tri\cdots\tri q_{n}\to 
+  q_{1}\tri q_{2}\tri\cdots\tri q_{m}
+\]
+The $0th$ truncation is the unique morphism $\trunc^0\colon q_{1}\tri q_{2}\tri\cdots\tri q_{n}\to\1$ to the terminal object $\1$. 
+
+Given a morphism $f\colon p\to (q_{1}\tri\cdots\tri q_{n})$, we denote the composite of $f$ with the $m$th truncation by
+\[\trunc^m(f)\colon p\to q_{1}\tri\cdots\tri q_{m}.\]
+In particular, we can think of a position as a map from $\yon$, so given $i\in q_{1}\tri\cdots\tri q_{n}(\1)$, we write $\trunc^m(i)\in q_{1}\tri\cdots\tri q_{m}(\1)$ for its $m$th truncation.
+
+We denote the first truncation simply by $\trunc=\trunc^1$.
+
+\begin{warning}
+Note that $\trunc^m$ is not an operation on polynomials! It is an operation on expressions involving composites, e.g.\ $p\tri q\tri r$, etc. Two isomorphic polynomials, expressed differently as composites, may yield different results when hit by $\trunc^m$; we'll see an example of this in \cref{exc.truncation}.
+
+We call $\trunc^m$ the \emph{$m$-truncation device}, the word device being meant to signal that it's not functorial.
+\end{warning}
+
+\begin{exercise}\label{exc.truncation}
+\begin{enumerate}
+	\item Find polynomials $p,q,r$ such that $r\cong (p\tri q)$.
+	\item Is $\trunc(p\tri q)$ the same map as $\trunc(r)$? If ``no'', explain why; if yes, repeat all over again from the beginning of step 1 and choose something less degenerate.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Suppose given a morphism $f\colon p\to q\tri r$.
+\begin{enumerate}
+	\item How do you grab the on-positions map $p\tri\1\to (q\tri r)\tri 1$? That is, what operation can you use to obtain it from $f$?
+	\item How do you grab the function that takes a $p$-position $i\in p(\1)$ and returns a $q$-position; is it just $f_1(i)$?
+	\item Get the function $p\tri\1\to q\tri\1$ from $f$ using only the truncation device $\trunc$ and the functor $-\tri\1$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+We now want to get at more subtle aspects of $p\tri q$. We begin with the following.
+
+\begin{proposition}[Left distributivity of $\tri$]\label{prop.left_dist}
+For any polynomial $r$, the functor $-\tri r\colon\poly\to\poly$ commutes---up to natural isomorphism---with addition and multiplication:
+\[
+  (p+q)\tri r\cong (p\tri r)+(q\tri r)
+  \qqand
+  pq\tri r\cong (p\tri r)(q\tri r).
+\]
+\end{proposition} 
+\begin{proof}
+Formally, this just comes down to the fact that coproducts and products of functors $\smset\to\smset$ are computed pointwise and $\poly$ is a full subcategory of $\smset^\smset$. One could instead give a proof in terms of $\sum$'s and $\prod$'s; this is done in \cref{exc.left_dist}.
+\end{proof}
+
+\begin{exercise}\label{exc.left_dist}
+Prove \cref{prop.left_dist} in terms of the formula for $\tri$ given in \cref{prop.poly_closed_comp}.
+\end{exercise}
+
+\begin{example}[Picturing the left distributivity of $\tri$ over $\times$]\label{ex.picturing_dist}
+We want an intuitive understanding of this left-distributivity. Let $p\coloneqq\yon$, $q\coloneqq\yon+\1$, and $r\coloneqq\yon^\2+\1$, as shown here:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node (p1) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+	\node (q) [draw, blue!50!black, right=1 of p, "$q$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node (q1) {$\bullet$} 
+      child {};
+    \node[right=.5 of q1] (q2) {$\bullet$};
+  \end{tikzpicture}
+  };
+	\node (r) [draw, red!50!black, right=1 of q, "$r$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node (r1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of r1] (r2) {$\bullet$};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Then $pq\cong\yon^\2+\yon$ and we can draw $pq\tri r$ as follows:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$(p\times q)\tri r\cong$" left] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			};
+%
+    \node[blue!50!black, right=1.3 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1.3 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.3 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+      	child
+			};
+%
+    \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}
+      };
+  \end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+Or we can compute $p\tri r$ and $q\tri r$ seperately:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$p\tri r\cong$" left] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (p1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			};
+    \node[blue!50!black, right=.5 of p1] (p2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			};
+  \end{tikzpicture}
+  };
+%
+	\node (q) [draw, "$q\tri r\cong$" left] at (4,0) {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (q1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			};
+    \node[blue!50!black, right=.5 of q1] (q2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			};
+    \node[blue!50!black, right=.5 of q2] (q3) {$\bullet$};		
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+and multiply them together by taking each tree from $p\tri r$ and pairing it with each tree from $q\tri r$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$(p\tri q)\times(p\tri r)\cong$" left] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			};
+%
+    \node[blue!50!black, right=1.3 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+      	child
+			};
+%
+    \node[blue!50!black, right=1 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.3 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+			}
+      child {node[red!50!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$}
+      };	  	
+	\end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+\end{example}
+
+\begin{exercise}\label{exc.picturing_dist}
+Follow \cref{ex.picturing_dist} with $+$ in place of $\times$: use pictures to give an intuitive understanding of the left-distributivity $(p+q)\tri r\cong (p\tri r)+(q\tri r)$.
+\end{exercise}
+
+\begin{exercise}
+Show that the distributivities of \cref{ex.picturing_dist,exc.picturing_dist} do not hold on the other side:
+\begin{enumerate}
+	\item Find polynomials $p,q,r$ such that $p\tri (qr)\not\cong(p\tri q)(p\tri r)$.
+	\item Find polynomials $p,q,r$ such that $p\tri (q+r)\not\cong(p\tri q)+(p\tri r)$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+A connected limit is one whose indexing category $J$ is (nonempty and) connected. That is, $J$ has at least one object and any two objects are connected by a finite zigzag of arrows.
+
+\begin{example}
+The following categories are connected:
+\[
+\fbox{$\bullet$}
+\qquad
+\fbox{$\bullet\tto\bullet$}
+\qquad
+\fbox{$\bullet\to\bullet\from\bullet$}
+\qquad
+\fbox{$\bullet\from\bullet\from\bullet\from\cdots$}
+\]
+In particular, equalizers, pullbacks, and directed limits are examples of connected limits. 
+
+The following categories are \emph{not connected}:
+\[
+\fbox{$\phantom{\bullet}$}
+\qquad
+\fbox{$\bullet\quad\bullet$}
+\qquad
+\fbox{$\bullet\quad\bullet\to \bullet$}
+\]
+In particular, terminal objects and products are \emph{not} examples of connected limits.
+\end{example}
+
+\begin{theorem}\label{thm.connected_limits}
+The operation $\tri$ commutes with connected limits in both variables. That is, if $J$ is a connected category, $p\colon J\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
+%\[
+%	(\lim_{j\in J} p_{j,})\tri q\cong \lim_{j\in J}(p_{j,}\tri q)
+%	\qqand
+%	q\tri(\lim_{j\in J} p_{j,})\cong \lim_{j\in J}(q\tri p_{j,})
+%\]
+\[
+	\left(\lim_{j\in J} p_j\right)\tri q\cong \lim_{j\in J}(p_j\tri q)
+	\qqand
+	q\tri\left(\lim_{j\in J} p_j\right)\cong \lim_{j\in J}(q\tri p_j)
+\]
+\end{theorem}
+\begin{proof}[Sketch of proof]
+The claim for the left variable follows as in the proof of \cref{prop.left_dist}: limits of functors $\smset\to\smset$ are computed pointwise and $\poly$ is a full subcategory of $\smset^\smset$ closed under limits. The claim for the right-hand variable comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$. See \cite[Proposition 1.6]{kock2012polynomial} for details.
+\end{proof}
+
+\begin{exercise}\label{ex.connected_limits_and_tri}
+Use \cref{thm.connected_limits} in the following.
+\begin{enumerate}
+	\item Let $p$ be a polynomial, thought of as a functor $p\colon\smset\to\smset$. Show that $p$ preserves connected limits (of sets).
+	\item Show that for any polynomials $p,q,r$ we have an isomorphism:
+	\[
+	p\tri(qr)\cong (p\tri q)\times_{(p\tri\1)}(p\tri r)
+	\]
+	\item Show that the distributivity $pq\tri r\cong (p\tri r)(q\tri r)$ is a special case of \cref{thm.connected_limits}.
+	\item Show that for any set $A$ and polynomials $p,q$, we have an isomorphism $A(p\tri q)\cong (Ap)\tri q$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}
+Suppose we have polynomials $p$ and $q$ and a position $i\in p(\1)$. How do we grab that part of the composite $p\tri q$? That is, how do we find the Cartesian subpolynomial
+\[
+  \prod_{d\in p_i}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
+  \ss
+  \sum_{i\in p(\1)}\;\prod_{d\in p_i}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
+\]
+The answer is that we can get it by pullback
+\begin{equation}\label{eqn.cart_pullback_misc48}
+\begin{tikzcd}[background color=examplecolor]
+	\yon^{p_i}\tri q\ar[d]\ar[r]&
+	\1\tri q\ar[r, equal]\ar[d, "i\tri q"]&
+	\1\ar[d, "i"]\\
+	p\tri q\ar[r, "\eta_p\tri q"']&
+	p\tri\1\tri q\ar[r, equal]\ar[ul, phantom, very near end, "\lrcorner"]&
+	p\tri \1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\end{equation}
+The map $\eta_p\colon p\to p\tri\1$ comes from \cref{thm.adjoint_quadruple}; it just extracts positions. The composite $\1\tri q$ is just $\1$ and similarly $p\tri\1\tri q\cong p\tri\1$. The left-hand square is a pullback by \cref{thm.connected_limits}. The lefthand map is Cartesian, because the pullback of a cartesian map is cartesian; see \cref{prop.pullback_cartesian}.
+\end{example}
+
+A goal we set for ourselves at the beginning of this section was as follows. Given a position $k\in (p\tri q)\tri\1$, we have a device to get a position $\trunc(k) \in p\tri\1$ and know that for every direction $d\in p_{\trunc(k)}$ there, we are supposed to get a position in $q$. How do we grab it?
+
+Well, by the cartesian closure of $\poly$ (see \cref{thm.poly_cart_closed,eqn.eval_times}), we have an evaluation map
+\[
+\text{eval}\colon X\times\yon^X\to\yon
+\]
+for any set $X$. In particular, we have $p_{\trunc(k)}\times\yon^{p_{\trunc(k)}}\to\yon$. Let's write $p_k\coloneqq p_{\trunc(k)}$.
+
+So suppose we are given both $k\in (p\tri q)\tri \1$ and $d\in p_k$. Using the pullback \eqref{eqn.cart_pullback_misc48} $k$ induces a map $k'\colon\1\to\yon^{p_k}\tri q$ and we have an induced element $(d,k')$ in $p_{\trunc k}\yon^{p_k}\tri q\tri\1$; see \cref{ex.connected_limits_and_tri}. Thus we can evaluate:
+\[
+p_k\yon^{p_k}\tri q\tri\1
+\to
+\yon\tri q\tri\1
+\cong
+q\tri\1.
+\]
+
+
 %-------- Section --------%
 \section{Comonoids in $\poly$}
 
@@ -860,7 +1219,7 @@ A \emph{comonoid} in a monoidal category $(\cat{C},I,\lhd)$
 is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\lhd c$ are maps, such that the following diagrams commute:
 \begin{equation}\label{eqn.comonoid_diagrams}
 \begin{tikzcd}[background color=definitioncolor, row sep=large]
-	\yon\tri c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\tri\yon\\&
+	\yon\lhd c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\lhd\yon\\&
 	c\lhd c\ar[ul, "\epsilon\lhd c"]\ar[ur, "c\lhd\epsilon"']
 \end{tikzcd}
 \hspace{.6in}
@@ -871,7 +1230,7 @@ is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon
 	c\lhd c\lhd c
 \end{tikzcd}
 \end{equation}
-We refer to comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as \emph{polynomial comonoids}.
+We refer to a comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
 \end{definition}
 
 \begin{example}[$\delta^{n}$ notation]
