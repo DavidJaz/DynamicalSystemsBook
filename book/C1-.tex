@@ -3192,7 +3192,7 @@ arrow in the diagram) is itself given by multiplying by a certain matrix.
   $\Set{Tr}^A$ be the $\big(C \times B \big) \times \big((A \times C) \times (A
   \times B)\big)$ matrix of sets with entries:
   \[
-    \Set{Tr}A{A}_{(c, b)((a,c'),(a', b'))} \coloneqq \begin{cases} 
+    \Set{Tr}^A{A}_{(c, b)((a,c'),(a', b'))} \coloneqq \begin{cases} 
       \ord{1} &\mbox{if $a = a'$, $b = b'$, and $c = c'$.} \\
       \emptyset &\mbox{otherwise.}
     \end{cases} 
@@ -3679,7 +3679,7 @@ In this section, we will introduce the notion of \emph{double category} to help
 us deal with our two kinds of composition: the composition of systems, and the
 composition of behaviors.
 
-\begin{definition}
+\begin{definition}\label{def.double_category}
   A \emph{double category} $\cat{D}$ has:
   \begin{itemize}
     \item A class $\const{ob}\cat{D}$ of \emph{objects}.
@@ -3912,7 +3912,8 @@ together charts.
       left] & \lens{D^-}{D^+}
     \end{tikzcd}
     \end{equation}
-  can be seen as a map between charts telling us how to wire them together. For example, consider a square of the
+  can be seen as a chart between lenses, that is, two charts which are
+  compatible according to the wiring pattern the lenses describe. For example, consider a square of the
   following form where $\lens{w^{\sharp}}{w}$ is a wiring diagram:
   \[
     \begin{tikzcd}
@@ -3945,9 +3946,9 @@ lets us compose behaviors:
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right] &
     \lens{\State{U}}{\State{U}}\ar[d, shift left, leftarrow,
     "\lens{\update{U}}{\expose{U}}"] \ar[d, shift right] \\
-    \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+    \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f}"'] \ar[r,
     shift left] & \lens{\In{S}}{\Out{S}} \ar[r, shift right,
-    "\lens{g^{\sharp}}{g}"'] \ar[r, shift left]& \lens{\In{U}}{\Out{U}}
+    "\lens{g_{\flat}}{g}"'] \ar[r, shift left]& \lens{\In{U}}{\Out{U}}
   \end{tikzcd} \xequals{\quad}
   \begin{tikzcd}
     \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\psi\phi \circ
@@ -3955,7 +3956,7 @@ lets us compose behaviors:
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
     \lens{\State{U}}{\State{U}} \ar[d, shift left, leftarrow,
     "\lens{\update{U}}{\expose{U}}"] \ar[d, shift right]\\
-    \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{(gf)^{\sharp}}{gf}"']
+    \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g}"']
     \ar[r, shift left] & \lens{\In{U}}{\Out{U}}
   \end{tikzcd}
 \]
@@ -3968,24 +3969,24 @@ on the wired together systems.
 \[
   \begin{tikzcd}
     \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
     \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
     \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
-        leftarrow] \ar[r, shift right, "\lens{f^{\sharp}}{f}"']
+        leftarrow] \ar[r, shift right, "\lens{f_{\flat}}{f}"']
     \ar[r, shift left] & \lens{\In{S}}{\Out{S}} \ar[d, shift left, leftarrow,
         "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
-    \lens{I}{O} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
+    \lens{I}{O} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
     \ar[r, shift left] & \lens{I'}{O'} \\
   \end{tikzcd} \xequals{\quad}
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\psi\phi \circ
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
       \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{f^{\sharp}}{f} \circ \lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
     \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{k^{\sharp}}{k} \circ \lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
-    \lens{I}{O} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
+    \lens{I}{O} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
     \ar[r, shift left] & \lens{I}{O'}
   \end{tikzcd}
 \]
@@ -4541,7 +4542,7 @@ defined in \cref{ex.prof_square_from_arena_square} is a natural transformation.
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{The doubly indexed category of deterministic systems}
+\subsection{Arranging categories along two kinds of composition: Doubly indexed categories}
 \label{sec.indexed_double_category_of_systems}
 
 While we described a category of systems and behaviors in
@@ -4573,7 +4574,9 @@ in \cref{ex.prof_square_from_arena_square}.
 
 Now comes the time to organize all these observations. In this section, we will
 see that collectively, these observations are telling us that there is an
-\emph{doubly indexed category} of dynamical systems.
+\emph{doubly indexed category} of dynamical systems. We will also see that
+matrices of sets give rise to a doubly indexed category which we will call the
+doubly indexed category of vectors of sets.
 
 \begin{definition}\label{def.doubly_indexed_category}
 A \emph{doubly indexed category} $\cat{A} : \cat{D} \to \Cat{Cat}$ consists of
@@ -4648,6 +4651,24 @@ $$\mu_{\id, f} = \id_{\cat{A}(f)} = \mu_{f, \id}.$$
 \end{itemize}
 \end{definition}
 
+That's another big definition! It seems like it will be a slog to actually ever
+prove that something is a doubly indexed category. Luckily, in our cases, these
+proofs will go quite smoothly. This is because each of the three laws of a
+doubly indexed category has a sort of sister law from the definition of a double
+category which will help us prove it.
+
+\begin{itemize}
+  \item The Vertical Functoriality law will often involve the vertical
+    associativity and unitality of squares in the indexing base.
+  \item The Horizontal Lax Functoriality law will often involve the horizontal
+    associativity and unitality of squares in the indexing base.
+  \item The Naturality of Compositors law will often involve the interchange law
+    in the indexing base.
+\end{itemize}
+
+We'll see how these sisterhoods play out in practice as we define the doubly
+indexed categories of deterministic systems and vectors of sets.
+
 \paragraph{The doubly indexed category of deterministic systems}
 
 Let's show that deterministic systems do indeed form a doubly indexed category
@@ -4706,7 +4727,8 @@ natural transformation.
 \end{definition}
 
 Let's check now that this does indeed satisfy the laws of a doubly indexed
-category. They all follow quickly from a bit of fiddling in the double
+category. The task may appear to loom over us; there are quite a few laws, and
+there is a lot of data involved. But nicely, they all follow quickly from a bit of fiddling in the double
 category of arenas.
 \begin{itemize}
   \item (Vertical Functoriality) We show that $\Cat{Sys}\left(
@@ -4733,12 +4755,658 @@ category of arenas.
 \end{align*}
 \end{itemize}
 
-%% write-here
+
+\paragraph{The doubly indexed category of vectors of sets}
+
+In addition to our doubly indexed category of systems, we have a doubly indexed
+category of ``vectors of sets''. 
+
+Classically, an $m \times n$ matrix $M$ can act on a vector $v$ of length $n$ by multiplication to get
+another vector $Mv$ of length $m$. We can generalize this to matrices of sets if
+we define a vector of sets of length $A$ to be a dependent set $V : A \to
+\smset$. 
+\begin{definition}\label{def.linear_functor}
+  For a set $A$, we define the category of \emph{vectors of sets of length} $A$
+  to be $$\Cat{Vec}(A) \coloneqq \smset^A$$
+the category of sets depending on $A$. 
+
+Given a $(B \times A)$-matrix $M$, we can treat a $A$-vector $V$ as a $A \times
+\ord{1}$ matrix and form the $B \times \ord{1}$ matrix $MV$. This gives us a
+functor
+\begin{align*}
+\Cat{Vec}(M) : \Cat{Vec}(A) &\to \Cat{Vec}(B)\\
+               V &\mapsto (MV)_b = \sum_{a \in A} M_{ba} \times V_a \\
+           f : V \to W &\mapsto ( (a, m, v) \mapsto (a, m, f(v)) )
+\end{align*}
+which we refer to as the linear functor given by $M$.
+\end{definition}
+
+\begin{definition}
+The doubly indexed category $\Cat{Vec} : \Cat{Matrix} \to \Cat{Cat}$ of vectors
+of sets is defined by:
+\begin{itemize}
+  \item Its indexing base is the double category of matrices of sets.
+  \item To every set $A$, we assign the category $\Cat{Vec}(A) = \smset^A$ of
+    vectors of length $A$.
+  \item To every $(B \times A)$-matrix $M : A \to B$, we assign the linear
+    functor $\Cat{Vec}(M) : \Cat{Vec}(A) \to \Cat{Vec}(B)$ given by $M$ (\cref{def.linear_functor}).
+  \item To every function $f : A \to B$, we associate the profunctor
+    $\Cat{Vec}(f) : \Cat{Vec}(A) \tickar \Cat{Vec}(B)$ defined by
+$$\Cat{Vec}(f)(V, W) = \{ F : (a \in A) \to V_a \to W_{f(a)} \}.$$
+That is, $F \in \Cat{Vec}(f)(V, W)$ is a family of functions $F(a,-) : V_a \to
+W_{f(a)}$ indexed by $a \in A$. This is natural by index-wise composition.
+\item To every square
+  \[
+        \begin{tikzcd}[sep=tiny]
+          A \ar[dd, "M"'] \ar[rr, "f"] & & B \ar[dd, "N"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+  \]
+  that is, family of functions $\alpha_{ca} : M_{ca} \to N_{g(c)f(a)}$, we
+  associate the square
+  \[
+        \begin{tikzcd}[sep=tiny]
+          \Cat{Vec}( A ) \ar[dd, "\Cat{Vec}(M)"'] \ar[rr, "\Cat{Vec}(f)"] & & \Cat{Vec}( B ) \ar[dd, "\Cat{Vec}(N)"] \\
+           & \Cat{Vec}(\alpha) & \\
+          \Cat{Vec}(C) \ar[rr, "\Cat{Vec}(g)"'] & & \Cat{Vec}(D)
+        \end{tikzcd}
+  \]
+  defined by sending a family of functions $F : (a \in A) \to V_{a} \to
+  W_{f(a)}$ in $\Cat{Vec}(f)(V, W)$ to the family 
+  \begin{align*}
+\Cat{Vec}(\alpha)(F) : (c \in C) \to MV_c &\to MW_{g(c)} \\ 
+  \Cat{Vec}(\alpha)(F)(c, (a, m, v)) &= (f(a), \alpha(m), F(a, v))
+  \end{align*}
+  That is, $\Cat{Vec}(\alpha)(F)(c, -)$ takes an element $(a, m, v) \in MV_{c} =
+  \sum_{a \in A} M_{ca} \times V_a$ and gives the elements $(f(a), \alpha(m),
+  F(a, v))$ of $MW_{g(c)} = \sum_{b \in B} N_{g(c)b} \times W_b$.
+\item The compositor is given by componentwise composition: If $f : A \to B$ and
+  $g : B \to C$ and $F \in \Cat{Vec}(f)(V, W)$ and $G \in \Cat{Vec}(g)(W, U)$,
+  then 
+\begin{align*}
+  \mu_{f, g}(F, G) : (a \in A) \to V_{a} &\to U_{gf(a)} \\
+  \mu_{f, g}(F, G)(a, v) &\coloneqq G(f(a), F(a, v)).
+\end{align*}
+\end{itemize}
+\end{definition}
+
+It might seem like it will turn out to be a big hassle to show that this
+definition satisfies all the laws of a doubly indexed category. Like with the
+doubly indexed category of arenas, we will find that all the laws follow for
+matrices by fiddling around in the double category of matrices.
+
+Let's first rephrase the above definition in terms of the category of matrices.
+We note that a vector of sets $V \in \Cat{Vec}(A)$ is equivalently a matrix $V :
+\ord{1} \to A$. Then the linear functor $\Cat{Vec}(M) : \Cat{Vec}(A) \to
+\Cat{Vec}(B)$ is given by matrix multiplication, or in double category notation:
+$$\Cat{Vec}(M)(V) = \frac{V}{M}.$$
+This means that the Vertical Functoriality law follows by vertical associativity
+in the double category of matrices, which is to say associativity of matrix
+multiplication.
+
+Similarly, we can interpret the profunctor $\Cat{Vec}(f)$ for $f : A \to B$ in
+terms of the double category $\Cat{Matrix}$. An element $F \in \Cat{Vec}(f)(V, W)$ is
+equivalently a square of the following form in $\Cat{Matrix}$:
+\[
+        \begin{tikzcd}[sep=tiny]
+          \ord{1} \ar[dd, "V"'] \ar[rr, equals] & & \ord{1} \ar[dd, "W"] \\
+           & F & \\
+          A \ar[rr, "f"'] & & B
+        \end{tikzcd}
+      \]
+      Therefore, we can describe $\Cat{Vec}(f)(V, W)$ as the following set:
+\[
+\Cat{Vec}(f)(V, W) = \left\{ F \,\middle|
+        \begin{tikzcd}[sep=tiny]
+          \ord{1} \ar[dd, "V"'] \ar[rr, equals] & & \ord{1} \ar[dd, "W"] \\
+           & F & \\
+          A \ar[rr, "f"'] & & B
+        \end{tikzcd}
+  \right\}
+\]
+Then the Horizontal Lax Functoriality laws follow from associativity and unitality of
+horizontal composition of squares in $\Cat{Matrix}$! 
+
+
+Finally, we need to interpret the rather fiddly transformation
+$\Cat{Vec}(\alpha)$ in terms of the double category of matrices. Its a matter of
+unfolding the definitions to see that
+$\Cat{Vec}(\alpha)(F) = \frac{F}{\alpha}$
+in $\Cat{Matrix}$, and therefore that the Naturality of Compositors law follows
+by the interchange law.
+
+\begin{remark}
+  If this argument seemed wholly too similar to the one we gave for the doubly
+  indexed category of systems, your suspicions are not misplaced. We will see in
+  \cref{chapter.2} that both are instances of a very general \emph{vertical
+    slice construction}.
+\end{remark}
 
 %---- Subsection ----%
 \subsection{The big theorem: representable doubly indexed functors}
 
+We have now introduced all the characters in our play: the double categories of
+arenas and matrices, and doubly indexed categories of systems and vectors. In
+this section, we will put the plot in motion. 
+
+In \cref{sec.steady_states_matrix_arithmetic}, we saw that the steady states of
+dynamical systems with interface $\lens{I}{O}$ compose like an $I \times O$
+matrix. We proved a few propositions to this effect, namely
+\cref{prop.steady_state_matrix_parallel_tensor} and
+\cref{prop.steady_state_matrix_trace}, but we didn't precisely mark out the
+scope of these results, or describe the full range of laws that are satisfied.
+
+In this section, we will generalize the results of that section to \emph{all
+  behaviors} of systems, not just steady states. We will precisely state all the
+ways that behaviors can be composed by systems, and we will give a condition on
+the kinds of behaviors for which we can calculate the behavior of a wired
+together system entirely from the behavior of its component systems. All of this will be organized into a \emph{doubly indexed functor}
+$\Fun{Behave}_{\Sys{T}} : \Cat{Sys} \to \Cat{Vec}$
+which will send a system $\Sys{S}$ to its set of
+$\Sys{T}$-shaped behaviors. 
 
 
+\subsubsection{Turning lenses into matrices: Double Functors}
+
+In \cref{sec.steady_states_matrix_arithmetic}, we saw how we could re-interpret
+a wiring diagram as a schematic for multiplying, tensoring, and tracing
+matrices. At the very end, in \cref{prop.trace_multiplying_by_matrix}, we saw
+that we can take the trace $\fun{tr}_A M$ of a $(A \times C) \times (A \times B)$-matrix $M$ by
+considering it as a $(A \times C) \times (B \times C)$ length vector and then
+multiplying it by a big but very sparse $(C \times B) \times ((A \times C) \times (B \times
+C))$-matrix $\Fun{Tr}^A$. Taking the trace of a matrix corresponded to the
+wiring diagram
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(S'.center)]
+	\node[bb={2}{2}, fill=blue!10, dashed] (S) {};
+
+  \node[bb={0}{0}, fit={($(S.north east) + (1,1)$) ($(S.south west) - (1,0)$)}] (S') {};
+  
+  \draw (S_out2) to (S_out2-|S'.east);
+  \draw (S_in2-|S'.west) to (S_in2);
+
+  \draw let \p1=(S.north east), \p2=(S.north west), \n1={\y2+\bby}, \n2=\bbportlen in    (S_out1) to[in=0] (\x1 +\n2, \n1) -- (\x2-\n2, \n1) to[out=180] (S_in1);
+\end{tikzpicture}
+\]
+In this section, we will see a general formula for taking an arbitrary lens and
+turning it into a matrix. Mutliplying by the matrix will then correspond to
+wiring according to that lens.
+
+This process of turning a lens into a matrix will give us a functor $\Cat{Lens}
+\to \Cat{Matrix}$ from the category of lenses to the category of matrices of
+sets.
+
+The resulting matrices will have entries that are either $\ord{1}$ or
+$\emptyset$; we can think of this as telling us whether ($\ord{1}$) or not ($\emptyset$) the two charts
+are to be wired together. As we saw in
+\cref{ex.understanding_squares_in_double_cat_of_arenas}, we can see a square in the double
+category of arenas as telling us whether how a chart can be wired together along
+a lens into another chart. Therefore, we will take the entries of our matrices
+to be the sets of appropriate squares in arena --- but there is either a single
+square (if the appropriate equations hold) or no square (if they don't), so we
+will end up with a matrix whose entries either have a single element or are empty.
+
+
+\begin{proposition}\label{prop.lens_to_matrix_functor_discrete}
+  For any arena $\lens{I}{O}$, there is a functor 
+$$\Cat{Chart}\left( \littlelens{I}{O},\, - \right) : \Cat{Lens} \to \Cat{Matrix}$$
+from the category of lenses to the category of matrices of sets which sends an
+arena $\lens{A^-}{A^+}$ to the set $\Cat{Chart}\left( \lens{I}{O},
+  \lens{A^-}{A^+} \right)$ of charts from $\lens{I}{O}$ to $\lens{A^-}{A^+}$,
+and which sends a lens $\lens{w^{\sharp}}{w} : \lens{A^-}{A^+} \fromto
+\lens{B^-}{B^+}$ to the $\Cat{Chart}\left( \lens{I}{O}, \lens{B^-}{B^+} \right)
+\times \Cat{Chart}\left( \lens{I}{O}, \lens{A^-}{A} \right)$ matrix of sets
+\begin{align*}
+ \Cat{Chart}\left( \littlelens{I}{O}, \littlelens{w^{\sharp}}{w} \right) &: \Cat{Chart}\left( \littlelens{I}{O}, \littlelens{B^-}{B^+} \right)
+\times \Cat{Chart}\left( \littlelens{I}{O}, \littlelens{A^-}{A} \right) \to \smset \\
+\left( \littlelens{f_{\flat}}{f}, \littlelens{g_{\flat}}{g} \right) &\mapsto \left\{ \mbox{ The set of squares }
+      \begin{tikzcd}[ampersand replacement = \&]
+        \lens{I}{O} \ar[r, shift left, "\lens{f_{\flat}}{f}"] \ar[r, shift
+        right] \ar[d, shift right, equals] \ar[d, shift left,
+        leftarrow, equals] \& \lens{A^-}{A^+} \ar[d, shift left, leftarrow,
+        "\lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
+        \lens{I}{O} \ar[r, shift right, "\lens{g^{\sharp}}{g}"'] \ar[r,
+        shift left] \& \lens{B^-}{B^+}
+      \end{tikzcd}  \mbox{ in $\Cat{Arena}$}   \right\} \\
+&=\begin{cases} \ord{1} &\mbox{ if \(\begin{cases} g(o) = w(f(o)) &\mbox{ for all $o \in O$,}\\ f_{\flat}(i, o) = w^{\sharp}(f(o), g_{\flat}(i, o)) &\mbox{for all $i \in I$ and $o \in O$.}\end{cases}\)} \\ \emptyset &\mbox{otherwise} \end{cases}
+\end{align*}
+\end{proposition}
+
+By vertical composition of squares,
+\[
+  \begin{tikzcd}
+    \lens{I}{O} \ar[r, shift left, "\lens{f_{\flat}}{f}"] \ar[r, shift right] \ar[d, shift right,
+    equals] \ar[d, shift left, equals] &
+    \lens{A^-}{A^+} \ar[d, shift left, leftarrow,
+    "\lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[d, shift right, equals] \ar[d, shift left,
+        equals] \ar[r, shift right, "\lens{g_{\flat}}{g}"']
+    \ar[r, shift left] & \lens{B^-}{B^+} \ar[d, shift left, leftarrow,
+        "\lens{v^{\sharp}}{v}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, "\lens{h_{\flat}}{h}"']
+    \ar[r, shift left] & \lens{I'}{O'} 
+  \end{tikzcd} \xequals{\quad}
+  \begin{tikzcd}
+    \lens{I}{O} \ar[r, shift left, "\lens{f_{\flat}}{f}"] \ar[r, shift right] \ar[d, shift right,
+    equals] \ar[d, shift left, equals] &
+    \lens{A^-}{A^+} \ar[d, shift left, leftarrow,
+    "\lens{w^{\sharp}}{w} \then \lens{v^{\sharp}}{v}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, "\lens{h_{\flat}}{h}"']
+    \ar[r, shift left] & \lens{I}{O'}
+  \end{tikzcd}
+\]
+%% jumpto
+there is always a map from the composite of two of these matrices to the matrix
+described by the composite. It is not, however, obvious that this map is a
+bijection --- which is what we need to prove functoriality.
+
+We will not prove that construction is functorial here. We will do it in any
+dynamical system doctrine in \jaz{no idea where I'm putting this, appendix?
+  chapter? we'll see!} using a slick argument based on a new understanding of
+the double category of arenas.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Decided to remove this proof, but keeping the text for later, in case.
+\iffalse
+\begin{proof}
+  To prove that this is a functor, it will help to reinterpret the matrix above
+  in terms of diagrams in the category of charts. We can crack the lens
+  $\lens{w^{\sharp}}{w} : \lens{A^-}{A^+} \fromto \lens{B^-}{B^+}$ into two
+  charts: 
+\begin{itemize}
+  \item $\lens{w^{\sharp}}{\id} : \lens{B^-}{A^+} \tto \lens{A^-}{A+}$, and
+  \item $\lens{\pi_2}{w} : \lens{B^-}{A^+} \tto \lens{B^-}{B^+}$.
+\end{itemize}
+Note that we've cracked the lens into two \emph{charts}. Now, we can interpret
+the matrix $\Cat{Chart}\left( \littlelens{I}{O}, \littlelens{w^{\sharp}}{w}
+\right)$ as sending charts $\lens{f_{\flat}}{f} : \lens{I}{O} \tto
+\lens{A^-}{A^+}$ and $\lens{g_{\flat}}{g} : \lens{I}{O} \tto \lens{B^-}{B^+}$ to
+the set of charts $\lens{h_{\flat}}{h} : \lens{I}{O} \tto \lens{B^-}{A^+}$ so
+that the following diagram in $\Cat{Arena}$ commutes:
+\[
+\begin{tikzcd}
+  \lens{I}{O} \ar[d, equals, shift left]\ar[d, equals, shift right] \ar[r, shift
+  left, "\littlelens{f_{\flat}}{f}"]\ar[r, shift right]& \lens{A^-}{A^+} \ar[d,
+  shift left, leftarrow, "\lens{w^{\sharp}}{\id}"] \ar[d, leftarrow, shift right] \\
+  \lens{I}{O} \ar[d, equals, shift left]\ar[d, equals, shift right] \ar[r,
+  dashed, shift left, "\littlelens{h_{\flat}}{h}"]\ar[r, dashed, shift right]& \lens{B^-}{A^+} \ar[d,
+  shift left, "\lens{\pi_2}{w}"] \ar[d, shift right] \\
+  \lens{I}{O} \ar[r, shift
+  left]\ar[r, shift right, "\littlelens{g_{\flat}}{g}"']& \lens{B^-}{B^+}
+\end{tikzcd}
+\]
+This isn't obvious, so let's take a moment to understand it. First off, remember
+that everything in this diagram is a chart; it is \emph{not} a diagram in the
+double category of arenas, but in the category $\Cat{Chart}$ of charts. Now, we
+can ask what it means for this diagram to commute. First, the bottom part of the
+top square must commute: but this just means that $h = f$! Then the bottom part
+of the bottom square means that $g = w \circ h$, or $g = w \circ f$. Now, the
+top part of the bottom square says that $h_{\flat}(f(i), o) = g_{\flat}(i, o)$,
+and the top part of the top square says that 
+
+\end{proof}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{example}
+  Let's see what happens when we take the functor
+  $\Cat{Chart}\left(  \littlelens{I}{O}, -\right)$ for the arena
+  $\littlelens{\ord{1}}{\ord{1}}$. A chart $\lens{a^-}{a^+} :
+  \lens{\ord{1}}{\ord{1}} \tto \lens{A^-}{A^+}$ is just a pair of elements $a^-
+  \in A^-$ and $a^+ \in A^+$, so
+$$\Cat{Chart}\left( \littlelens{\ord{1}}{\ord{1}}, \littlelens{A^-}{A^+} \right) = A^-
+\times A^+.$$
+Now, if we have a lens $\lens{w^{\sharp}}{w} : \lens{A^-}{A^+} \fromto
+\lens{B^-}{B^+}$, we have a square 
+\[
+    \begin{tikzcd}
+      \lens{\ord{1}}{\ord{1}} \ar[r, shift left, "\lens{a^-}{a^+}"] \ar[r, shift
+      right] \ar[d, shift right, equals] \ar[d, shift left, equals] &
+      \lens{A^-}{A^+} \ar[d, shift left, leftarrow,
+      "\lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
+      \lens{\ord{1}}{\ord{1}} \ar[r, shift right, "\lens{b^-}{b^+}"'] \ar[r,
+      shift left] & \lens{B^-}{B^+}
+    \end{tikzcd}
+\]
+if and only if $w(a^+) = b^+$ and $w^{\sharp}(a^+, b^-) = a^-$. Thinking of
+$\lens{w^{\sharp}}{w}$ as a wiring diagram, this would mean that $b^+$ is that
+part of $a^+$ which is passed forward on the outgoing wires, and $a^-$ is the
+inner input which comes from the inner output $a^+$ and outer input $b^-$.
+
+To take a concrete example, suppose that $\lens{w^{\sharp}}{w}$ were the
+following wiring diagarm:
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(S'.center)]
+	\node[bb={2}{2}, fill=blue!10, dashed] (S) {};
+
+  \node[bb={0}{0}, fit={($(S.north east) + (1,1)$) ($(S.south west) - (1,0)$)}] (S') {};
+  
+  \draw (S_out2) to (S_out2-|S'.east);
+  \draw (S_in2-|S'.west) to (S_in2);
+
+  \draw let \p1=(S.north east), \p2=(S.north west), \n1={\y2+\bby}, \n2=\bbportlen in    (S_out1) to[in=0] (\x1 +\n2, \n1) -- (\x2-\n2, \n1) to[out=180] (S_in1);
+\end{tikzpicture}
+\]
+That is, let's take $A^+ = X \times Y$ and $A^- = X \times Z$, and $B^+ = Y$
+and $B^- = Z$, and
+\begin{align*}
+w(x, y) &= y \\
+w^{\sharp}((x, y), z) &= (x, z).
+\end{align*}
+Using the definition above, we can calculate the resulting matrix $\Cat{Chart}\left( \lens{I}{O},
+  \lens{w^{\sharp}}{w} \right)$ as having $( ((x, y), (x', z)), (y', z')
+)$-entry
+\[\begin{cases} \ord{1} &\mbox{if $w(x, y) = y'$ and $w^{\sharp}((x, y), z) =
+    (x', z')$} \\ \emptyset &\mbox{otherwise.} \end{cases}
+\]
+or, by the definition of $\lens{w^{\sharp}}{w}$, 
+\[\begin{cases} \ord{1} &\mbox{if $x = x'$, $y = y'$, and $z = z'$} \\ \emptyset
+    &\mbox{otherwise.}\end{cases}
+\]
+  which was the definition of $\Fun{Tr}^{X}$ given in \cref{prop.trace_multiplying_by_matrix}!
+\end{example}
+
+\begin{exercise}
+Let $\lens{w^{\sharp}}{w} : \lens{A \times B}{B \times C} \fromto \lens{A}{C}$
+be the wiring diagram 
+\[
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, baseline=(Outer.center)]
+  \node[bb={1}{1}, fill=blue!10] (S1) {};
+  \node[bb={1}{1}, fill=blue!10, right= of S1] (S2) {};
+
+  \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
+
+  \draw (Outer_in1) to (S1_in1);
+  \draw (S1_out1) to (S2_in1);
+  \draw (S2_out1) to (Outer_out1);
+\end{tikzpicture}
+\] 
+Calculate the entries of the matrix $\Cat{Chart}\left( \lens{\ord{1}}{\ord{1}}, \lens{w^{\sharp}}{w} \right)$.
+\end{exercise}
+
+By the functoriality of \cref{prop.lens_to_matrix_functor_discrete}, we can
+calculate the matrix of a big wiring diagram by expressing it in terms of a
+series of traces, and mutliplying the resulting matrices together. This means
+that the process of multiplying, tensoring, and tracing matrices described by a
+wiring diagram is well described by the matrix we constructed in
+\cref{prop.lens_to_matrix_functor_discrete}, since we already know that it
+interprets the basic wiring diagrams correctly.
+
+ But we are also interested in charts, since we have to chart out our
+behaviors. So we will give a \emph{double functor} $\Cat{Arena} \to
+\Cat{Matrix}$ that tells us not only how to turn a lens into a matrix, but also
+how this operation interacts with charts.
+
+A double functor is, unsurprisingly, a functor between double categories. Just
+as a double category has a bit more than twice the information involved in a
+category, a double functor has a bit more than twice the information involved in
+a functor.
+\begin{definition}\label{def.double_functor}
+ Let $\cat{D}_1$ and $\cat{D}_2$ be double categories. A \emph{double functor}
+ $\Fun{F} : \cat{D}_1 \to \cat{D}_2$ consists of:
+\begin{itemize}
+  \item An object assignment $F : \Ob \cat{D}_1 \to \Ob \cat{D}_2$ which assigns an object $F D$
+    in $\cat{D}_2$ to each object $D$ in $\cat{D}_1$.
+  \item A vertical functor $F : v\cat{D}_1 \to v\cat{D}_2$ on the vertical
+    categories, which acts the same as the object assignment on objects.
+  \item A horizontal functor $F : h\cat{D}_1 \to h\cat{D}_2$ on the horizontal
+    categories, which acts the same as the object assignment on objects.
+  \item For every square
+    \[
+        \begin{tikzcd}[sep=tiny]
+          A \ar[dd, "j"'] \ar[rr, "f"] & & B \ar[dd, "k"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+    \]
+    in $\cat{D}_1$, a square
+    \[
+        \begin{tikzcd}[sep=tiny]
+          FA \ar[dd, "Fj"'] \ar[rr, "Ff"] & & FB \ar[dd, "Fk"] \\
+           & F\alpha & \\
+          FC \ar[rr, "Fg"'] & & FD
+        \end{tikzcd}
+    \]
+    such that the following laws hold:
+    \begin{itemize}
+    \item $F$ commutes with horizontal compostition: $F(\alpha \mid \beta) = F\alpha \mid F\beta$.
+    \item $F$ commutes with vertical comopsition: $F\left( \frac{\alpha}{\beta} \right) = \frac{F\alpha}{F\beta}$.
+    \item $F$ sends horizontal identities to horizontal identities, and vertical
+      identities to vertical identities.
+    \end{itemize}
+\end{itemize}
+\end{definition}
+
+We are now ready to define the double functor $\Cat{Chart}\left( \lens{I}{O}, -
+\right) : \Cat{Arena} \to \Cat{Matrix}$ represented by an arena $\lens{I}{O}$.
+
+\begin{proposition}\label{prop.representable_double_functor}
+  There is a double functor
+  $$\Cat{Chart}\left( \littlelens{I}{O}, -
+\right) : \Cat{Chart} \to \Cat{Matrix}$$
+which acts in the following way:
+\begin{itemize}
+  \item An arena $\lens{A^-}{A^+}$ gets sent to the set $\Cat{Chart}\left(
+      \lens{I}{O}, \lens{A^-}{A^+} \right)$ of charts from $\lens{I}{O}$ to $\lens{A^-}{A^+}$.
+  \item The vertical functor is $\Cat{Chart}\left( \lens{I}{O}, - \right) :
+    \Cat{Lens} \to \Cat{Matrix}$ from \cref{prop.lens_to_matrix_functor_discrete}.
+  \item The horizontal functor is the representable functor $\Cat{Chart}\left(
+      \lens{I}{O}, - \right) : \Cat{Arena} \to \smset$ which acts on a chart
+    $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$ by
+    post-composition.
+  \item To a square
+    \[ \alpha = 
+      \begin{tikzcd}
+        \littlelens{A^-}{A^+} \ar[r, shift left, "\littlelens{f_{\flat}}{f}"] \ar[r, shift
+        right] \ar[d, shift right, "\littlelens{j^{\sharp}}{j}"'] \ar[d, shift left,
+        leftarrow] & \littlelens{B^-}{B^+} \ar[d, shift left, leftarrow,
+        "\littlelens{k^{\sharp}}{k}"] \ar[d, shift right]\\
+        \littlelens{C^-}{C^+} \ar[r, shift right, "\littlelens{g^{\sharp}}{g}"'] \ar[r,
+        shift left] & \littlelens{D^-}{D^+}
+      \end{tikzcd}
+    \]
+    in the double category of arenas, we give the square
+    \[\Cat{Chart}\left(\littlelens{I}{O}, \alpha \right)  =
+      \begin{tikzcd}
+        \Cat{Chart}\left(\littlelens{I}{O}, \littlelens{A^-}{A^+} \right) \ar[r, "{\Cat{Chart}\left(\littlelens{I}{O}, \littlelens{f_{\flat}}{f} \right)}"]  \ar[d, "{\Cat{Chart}\left(\littlelens{I}{O}, \littlelens{j^{\sharp}}{j} \right)}"'] 
+         &  \Cat{Chart}\left(\littlelens{I}{O}, \littlelens{B^-}{B^+} \right)\ar[d,
+        "{ \Cat{Chart}\left(\littlelens{I}{O}, \littlelens{k^{\sharp}}{k} \right) }"] \\
+   \Cat{Chart}\left(\littlelens{I}{O}, \littlelens{C^-}{C^+} \right)      \ar[r, "{\Cat{Chart}\left(\littlelens{I}{O}, \littlelens{g_{\flat}}{g_{\flat}} \right)}"']  & \Cat{Chart}\left(\littlelens{I}{O}, \littlelens{D^-}{D^+} \right)
+      \end{tikzcd}
+    \]
+    in the double category of matrices defined by horizontal composition of
+    squares in $\Cat{Arena}$ (remember that the entries of these matrices are
+    sets of squares in $\Cat{Arena}$, even though that means they either have a
+    single element or no elements).
+    \begin{align*}
+    \Cat{Chart}\left(\littlelens{I}{O}, \alpha \right)(\beta) = \beta \mid \alpha.
+\end{align*}
+\end{itemize}
+\end{proposition}
+\begin{proof}
+ 
+
+We can write the double functor $\Cat{Chart}\left(\littlelens{I}{O}, - \right)$
+entirely in terms of the double category $\Cat{Arena}$:
+\begin{itemize}
+  \item It sends an arena $\lens{A^-}{A^+}$ to the set of charts (horizontal
+    maps) $\lens{f_{\flat}}{f} : \lens{I}{O}  \tto \lens{A^-}{A^+}$.
+  \item It sends a chart $\lens{g_{\flat}}{g}$ to the map $\lens{f_{\flat}}{f}
+    \mapsto \left. \lens{f_{\flat}}{f} \middle| \lens{g_{\flat}}{g} \right.$.
+  \item It sends a lens $\lens{w^{\sharp}}{w}$ to the set of squares $\beta :
+    \lens{I}{O} \to \lens{w^{\sharp}}{w}$, indexed by their top and bottom
+    boundaries.
+  \item It sends a square $\alpha$ to the map given by horizontal compostion
+    $\beta \mapsto \beta \mid \alpha$.
+\end{itemize}
+
+We can see that this double functor (let's call it $F$, for short) takes seriously the idea that ``squares are
+charts between lenses'' from
+\cref{ex.understanding_squares_in_double_cat_of_arenas}. From this description,
+and the functoriality of \cref{prop.lens_to_matrix_functor_discrete}, we can see
+that the assignments above satisfy the double functor laws. 
+\begin{itemize}
+  \item Horizontal functoriality follows from horizontal associativity in
+    $\Cat{Arena}$:
+$$F(\alpha\mid \beta)(\gamma) = \gamma \mid (\alpha \mid \beta) = (\gamma \mid
+\alpha) \mid \beta = F(\alpha) \mid F(\beta) (\gamma).$$
+\item Vertical functoriality follows straight from the definitions:
+  $$F\left( \frac{\alpha}{\beta} \right)(\_, \gamma, \delta) = (\_, \gamma \mid
+  \alpha, \delta \mid \beta) = \frac{F(\alpha)(\gamma)}{F(\beta)(\delta)}.$$
+\item It's pretty straightforward to check that identities get sent to identities.
+\end{itemize}
+\end{proof}
+
+
+
+\subsubsection{How behaviors of systems wire together: doubly indexed functors}
+
+We now come to the mountaintop. It's been quite a climb, and we're almost there.
+
+We can now describe all the ways that behaviors of systems get put together when
+we wire systems together. There are a bunch of laws governing how behaviors get
+put together, and we organize them all into the notion of a \emph{lax doubly
+  indexed functor}. To any system $\Sys{T}$, we will give a lax doubly indexed
+functor
+$$\Fun{Behave}_{\Sys{T}} : \Cat{Sys} \to \Cat{Vec}.$$
+Here's what that means.
+\begin{definition}\label{def.lax_doubly_indexed_functor}
+  Let $\cat{A} : \cat{D}_1 \to \Cat{Cat}$ and $\cat{B} : \cat{D}_2 \to
+  \Cat{Cat}$ be doubly indexed categories. A \emph{lax doubly indexed functor}
+  $(F^0, F) : \cat{A} \rightharpoonup \cat{B}$ consists of:
+\begin{itemize}
+  \item A double functor $F^0 : \cat{D}_1 \to \cat{D}_2$.
+  \item For each object $D \in \cat{D}_1$, a functor $F^D : \cat{A}(D)
+    \to \cat{B}(F^0D)$.
+  \item For every vertical map $j : D \to D'$ in $\cat{D}_1$, a natural
+    transformation $F^{j} : \cat{B}(F^0 j) \circ F^D \to F^{D'} \circ \cat{A}(j)$.
+   \item For every horizontal map $f : D \to D'$, a square
+\[
+\begin{tikzcd}[sep=tiny]
+\cat{A}(D) \ar[rr, tick,"\cat{A}(f)"] \ar[dd, "F^D"'] & & \cat{A}(D') \ar[dd, "F^{D'}"]\\
+& F^{j} & \\
+\cat{B}(F^0D) \ar[rr, tick, "\cat{B}(F^0 f)"'] &  &\cat{B}(F^0 D')
+\end{tikzcd}
+\]
+in $\Cat{Cat}$.
+\end{itemize}
+
+This data is required to satisfy the following laws:
+\begin{itemize}
+  \item (Vertical Lax Functoriality) For composable vertical arrows $j : D \to D'$ and $k :
+    D' \to D''$, 
+    $$F^{\frac{j}{k}} = (F^k\cat{A}(j)) \circ (\cat{B}(k)F^j).$$
+  \item (Horizontal functoriality) For composable horizontal arrows $f : D \to
+    D'$ and $g : D' \to D''$, 
+$$\frac{\mu^{\cat{A}}_{f, g}}{F^{f \mid g}} = \frac{F^f \mid
+  F^g}{\mu^{\cat{B}}_{F^0f, F^0g}}.$$ 
+\item (Functorial Interchange) For any square
+\[
+\begin{tikzcd}[sep=tiny]
+D_1 \ar[rr, "f"] \ar[dd, "j"'] & & D_2 \ar[dd, "k"] \\
+ & \alpha & \\
+D_3 \ar[rr, "g"'] & & D_4
+\end{tikzcd}
+\]
+in $\cat{D}_1$, we have that
+\[
+  \left. F^j \,\middle|\, \frac{\cat{A}(\alpha)}{F^g} \right. = \left.
+    \frac{F^f}{\cat{B}(\alpha)} \,\middle|\, F^k \right. .
+\]
+\end{itemize}
+\end{definition}
+
+\begin{theorem}\label{thm.representables_discrete}
+  Let $\Sys{T}$ be a deterministic system. There is a lax doubly indexed functor 
+$\Fun{Behave}_{\Sys{T}} : \Cat{Sys} \to \Cat{Vec}$
+which sends systems to their sets of $\Sys{T}$-shaped behaviors.
+\end{theorem}
+
+Let's see what this theorem is really asking for while we construct it.
+\begin{itemize}
+  \item First, we need $\Fun{Behave}_{\Sys{T}}^0 : \Cat{Arena} \to
+    \Cat{Matrix}$ which send an arena to the set of charts from
+    $\lens{\In{T}}{\Out{T}}$ to that arena. It will send a chart to the function
+    given by composing with that chart, and it will send a lens to a matrix that
+    describes the wiring pattern in the lens. We've seen how to do this in \cref{prop.representable_double_functor}:
+    $$\Fun{Behave}^0_{\Sys{T}} = \Cat{Chart}\left( \littlelens{\In{T}}{\Out{T}},
+      -\right)$$
+This is the blueprint for how our systems will compose.
+  \item Next, for any arena $\lens{A^-}{A^+}$, we need a functor
+    \[\Fun{Behave}_{\Sys{T}}^{\littlelens{A^-}{A^+}} :
+    \Cat{Sys}\littlelens{A^-}{A^+} \to \Cat{Vec}\left( \Cat{Chart}\left( \littlelens{\In{T}}{\Out{T}},
+      \littlelens{A^-}{A^+}\right) \right)\]
+    which will send a system $\Sys{S}$ with interface $\lens{A^-}{A^+}$ to its
+    set of behaviors of shape $\Sys{T}$, indexed by their chart. 
+\item For any lens $\lens{w^{\sharp}}{w} : \lens{A^-}{A^+} \fromto \lens{B^-}{B^+}$,
+  we need a natural transformation
+  \[
+\Fun{Behave}_{\Sys{T}}^{\littlelens{w^{\sharp}}{w}} : \Cat{Vec}\left(
+  \Cat{Chart}\left( \littlelens{\In{T}}{\Out{T}}, \littlelens{w^{\sharp}}{w}
+  \right) \right) \circ \Fun{Behave}_{\Sys{T}}^{\littlelens{A^-}{A^+}} \to
+\Fun{Behave}_{\Sys{T}}^{\littlelens{B^-}{B^+}} \circ \Cat{Sys}\left( \Cat{Chart}\left( \littlelens{\In{T}}{\Out{T}},
+      \littlelens{w^{\sharp}}{w}\right) \right)
+\]
+This will take any behaviors of component systems whose charts compatible
+according to the wiring pattern of $\lens{w^{\sharp}}{w}$ and wire them together
+into a behavior of the wired together systems.
+\item For any chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto
+  \lens{B^-}{B^+}$, we need a square
+  \[
+\begin{tikzcd}
+  \Cat{Sys}\littlelens{A^-}{A^+} \ar[d,
+  "\Fun{Behave}_{\Sys{T}}^{\littlelens{A^-}{A^+}}"'] \ar[r, tick,
+  "\Cat{Sys}\littlelens{f_{\flat}}{f}"]& \Cat{Sys}\littlelens{B^-}{B^+} \ar[d, "\Fun{Behave}_{\Sys{T}}^{\littlelens{B^-}{B^+}}"]\\
+   \Cat{Vec}\left( \Cat{Chart}\left( \littlelens{\In{T}}{\Out{T}},
+      \littlelens{A^-}{A^+}\right) \right) \ar[r, tick, "\Cat{Vec}\left( \Cat{Chart}\left( \littlelens{\In{T}}{\Out{T}},
+      \littlelens{f_{\flat}}{f}\right) \right)"']& \Cat{Vec}\left( \Cat{Chart}\left( \littlelens{\In{T}}{\Out{T}},
+      \littlelens{A^-}{A^+}\right) \right)
+\end{tikzcd}
+\]
+This will take any behavior from $\Sys{S}$ to $\Sys{U}$ with chart $\lens{f_{\flat}}{f}$ and give the
+function which takes behaviors of shape $\Sys{T}$ in $\Sys{S}$ and gives the
+composite behavior of shape $\Sys{T}$ in $\Sys{U}$.
+\end{itemize}
+Its a bit scary to see written out with all the names and symbols, but the idea
+is simple enough. We are composing two sorts of things: behaviors and systems.
+If we have some behaviors of shape $\Sys{T}$ in our systems and their charts are
+compatible with a wiring pattern, then we get a behavior of the wired together
+system. If we have a chart, then behaviors with that chart give us a way of
+mapping forward behaviors of shape $\Sys{T}$. 
+
+The lax doubly indexed functor laws now tell us some facts about how these two
+sorts of composition interact.
+\begin{itemize}
+  \item (Vertical Lax Functoriality) This asks us to suppose that we are wiring
+    our systems together in two stages. The law then says that if we take a
+    bunch of behaviors whose charts are compatible for the total wiring pattern
+    and wire them together into a behavior of the whole system, this is the same
+    behavior we get if we first noticed that they were compatible for the first
+    wiring pattern, wired them together, then noticed that the result was
+    compatible for the second wiring pattern, and wired that together. This
+    means that nesting of wiring diagrams commutes with finding behaviors of our systems.
+  \item (Horizontal Functoriality) This asks us to suppose that we have two
+    charts and a behavior of each. The law then says that composing a behavior
+    of shape $\Sys{T}$ the composite of the behaviors is the same as composing
+    it with the first one and then with the second one.
+  \item (Functorial Interchange) This asks us to suppose that we have a pair of
+    wiring patterns and compatible charts between them (a square in $\Cat{Arena}$). The law then says that if we
+    take a bunch of behaviors whose charts are compatable according to the first
+    wiring pattern, wire them together, and then compose with a behavior of the
+    second chart, we get the same thing as if we compose them all with behaviors
+    of the first chart, noted that they were compatible with the second wiring
+    pattern, and then wired them together.
+\end{itemize}
+
+Though it seems like it would be a mess of symbols to check these laws, they in
+fact fall right out of the laws for the double categories of arenas and
+matrices, and the functoriality of \cref{prop.representable_double_functor}.
+That is, we've already built up all the tools we need to prove this fact, we
+just need to finish describing it.
+
+
+%% write-here
 
 \end{document}
