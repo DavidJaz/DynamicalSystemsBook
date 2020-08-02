@@ -18,7 +18,7 @@ We are receptive to patterns; in fact we find that our thoughts are operating on
 
 Each pattern has a certain sort of shape---a certain repetitiveness---like the rational number
 \[\frac{1}{7}=.142857142857142857\cdots\]
-Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
+Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? And don't worry, the 1 won't haunt us, probably just because Hindi-Arabic numbers dealt with it in stride. Anyway, ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
 \[
 \begin{tikzpicture}[trees, scale=1.5]
 \begin{scope}[
@@ -93,13 +93,18 @@ Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that
 \]
 Do you pick up on the fact that every tree sitting at a green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
 
-When someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}. If they pick up on something again and again, it's a pattern. 
+Indeed, when someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}, something with a rhyme to it. If they pick up on something again and again, it's a pattern. That's rhymes reason.
 
 Isn't it true that in some sense a pattern is dynamic, that it's not a still-life, but more like a movie? And in some sense don't we move \emph{with} this pattern, either caught up in it like a nightmare replaying endlessly or skillfully manifesting it like a star basketball player making another beautiful point? Good or bad, to our benefit or loss, we notice and pick up on the pattern, and we carry its load. Maybe we could say that it's like the pattern is a molecule and some part of us is like a receptor for this kind of molecule.
 
 Our lives are patterned, and so are the lives of our machines and computer programs. Day in and day out, our billions of receptors pick up on patterns in what we call reality, catching on to existing possibilities there. Day in and day out, our cars and boats and web browsers latch onto patterns and make them available to thought; thought plays the role of a pilot sitting in the cockpit.
 
-Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We pick up patterns and we operate on them. We are like a sort of ``module'' bridging two realms, one called reality and one called mind.
+Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We pick up patterns and we operate on them. We are like a sort of ``module'' bridging two realms, one called reality and one called mind. 
+
+\begin{figure}
+\centergraphics{graphics/lawvere.png}
+\caption{A picture by Bill Lawvere of something he was talking about once, that's related but a bit obscure. Anyway, neat-looking huh? It looks a little like our story, kinda lensy, dynamic systemsy, relating outside and inside. Lawvere consistently displays genius. But as neat as it is, we each have our own muse; and here we continue with our own story. \spiz{Jaz, feel free to replace this paragraph with anything you want.}}
+\end{figure}
 
 A distilled version of the story so far---up to the end of the last paragraph---can be formalized mathematically, and we do so in this chapter. That is, we'll discuss the sense in which \emph{bimodules} $m$ (playing the role of ``us'' in the above story) sit between two toposes (``realms''). From one realm (playing the role of ``reality''), the bimodule $m$ ``picks up'' patterns. The other realm (playing the role of ``mind'') operates and moves through these patterns. Though the mind realm need not be any smaller than the reality realm, the two sides of this story are not symmetric in terms of how they interact with $m$.
 
@@ -856,7 +861,7 @@ Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Working with composites}
+\subsection{Working with composites}\label{subsec.working_with_composites}
 
 A position $i\colon\1\to p\tri q$ in the composite $p\tri q$ consists of a choice of position in $p$ and, for every direction there a position in $q$. How do we grab the $p$-position? And then given such a $p$-position, how do we talk about having an additional direction there with which to grab a $q$-position? We need to have tools for saying such things---or even more complicated things about morphisms $p\tri q\to p'\tri q'$ carefully. We give such tools in this section.
 
@@ -1191,21 +1196,21 @@ The answer is that we can get it by pullback
 The map $\eta_p\colon p\to p\tri\1$ comes from \cref{thm.adjoint_quadruple}; it just extracts positions. The composite $\1\tri q$ is just $\1$ and similarly $p\tri\1\tri q\cong p\tri\1$. The left-hand square is a pullback by \cref{thm.connected_limits}. The lefthand map is Cartesian, because the pullback of a cartesian map is cartesian; see \cref{prop.pullback_cartesian}.
 \end{example}
 
-A goal we set for ourselves at the beginning of this section was as follows. Given a position $k\in (p\tri q)\tri\1$, we have a device to get a position $\trunc(k) \in p\tri\1$ and know that for every direction $d\in p_{\trunc(k)}$ there, we are supposed to get a position in $q$. How do we grab it?
+A goal we set for ourselves at the beginning of this section (\ref{subsec.working_with_composites}) was as follows. Given a position $k\in (p\tri q)\tri\1$, we have a device to get a position $\trunc(k) \in p\tri\1$. We know that we should then get a function $p_i\to q(\1)$, assigning a position in $q$ to each direction in $p_i$. How do we grab it?
 
-Well, by the cartesian closure of $\poly$ (see \cref{thm.poly_cart_closed,eqn.eval_times}), we have an evaluation map
+First, form the pullback as described above
 \[
-\text{eval}\colon X\times\yon^X\to\yon
+\begin{tikzcd}
+	\yon\ar[ddr, bend right=15pt, "k"']\ar[drr, bend left=15pt, "!"]\ar[dr, dashed]\\[-10pt]&[-10pt]
+	\yon^{p_i}\tri q\ar[d]\ar[r]&
+	\1\ar[d, "\trunc k"]\\&
+	p\tri q\ar[r, "\trunc"']&
+	p\tri \1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
 \]
-for any set $X$. In particular, we have $p_{\trunc(k)}\times\yon^{p_{\trunc(k)}}\to\yon$. Let's write $p_k\coloneqq p_{\trunc(k)}$.
-
-So suppose we are given both $k\in (p\tri q)\tri \1$ and $d\in p_k$. Using the pullback \eqref{eqn.cart_pullback_misc48} $k$ induces a map $k'\colon\1\to\yon^{p_k}\tri q$ and we have an induced element $(d,k')$ in $p_{\trunc k}\yon^{p_k}\tri q\tri\1$; see \cref{ex.connected_limits_and_tri}. Thus we can evaluate:
+We then compose the induced map $\yon\to\yon^{p_i}\tri q$ with the level-2 trunctation to obtain
 \[
-p_k\yon^{p_k}\tri q\tri\1
-\to
-\yon\tri q\tri\1
-\cong
-q\tri\1.
+\yon\to \yon^{p_i}\tri q\To{\trunc^2}\yon^{p_i}\tri(q\tri\1)\cong\smset(p_i,q(\1))
 \]
 
 
@@ -1681,6 +1686,10 @@ Write out the data $(c,\epsilon,\delta)$ for the comonoid corresponding to the c
 For this exercise, you are not being asked to check the unitality or associativity conditions.
 \end{exercise}
 
+\begin{exercise}\label{exc.linear_poly_comon}
+Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polynomial, then there exists a unique comonoid structure on $p$.
+\end{exercise}
+
 
 \begin{exercise}\label{ex.fleece}
 \begin{enumerate}
@@ -2039,6 +2048,14 @@ We leave the proof of associativity to \cref{ex.comonoid_cat_assoc}.
 Show that for any category $\cat{C}$, if $\ema{c}$ is the associated emanation polynomial and $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ is the morphism as described in \eqref{eqn.emanation_cat_delta} and \eqref{eqn.emanation_cat_delta_sharp}, then $\delta$ is associative, i.e.\ satisfies the second commutative diagram from \cref{eqn.comonoid_diagrams}.
 \end{exercise}
 
+\begin{example}[Monoids]\label{ex.monoids}
+Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^2}$ and a morphism $\yon^M\to\yon^{M^2}$ can be identified with a function $M^2\to M$; under that identification we take $\delta\coloneqq *$.
+\end{example}
+
+\begin{exercise}
+Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfy the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfy the unitality and associatitivity requirements of a comonoid in $(\poly,\yon,\tri)$.
+\end{exercise}
+
 %---- Subsection ----%
 \subsection{Constructing categories from comonoids}
 
@@ -2268,6 +2285,10 @@ Some people would call this the contractible groupoid, or the terminal category 
 
 Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}.
 \end{example}
+
+\begin{exercise}
+We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $p\coloneqq A\yon$ has a unique comonoid structure. What category does it correspond to?
+\end{exercise}
 
 Perhaps we owe it to ourselves to record the results of this section.
 
