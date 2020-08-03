@@ -2338,6 +2338,107 @@ Commutation with $\epsilon$ and $\epsilon'$ ensures that identities in $\cat{C}'
 Prove \cref{thm.ahman_uustalu} to a level of detail you find appropriate.
 \end{exercise}
 
+\paragraph{Examples of cofunctors}
+
+Cofunctors $\cat{C}\to\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference.
+
+\begin{example}[Very well-behaved lenses]
+Recall that for any set $S$, we have the ``state'' comonoid $(S\yon^S,\epsilon,\delta)$ from \cref{ex.state_comonad_1}. What are the comonoid morphisms between them?
+
+**Finish**
+\end{example}
+
+\begin{proposition}
+Let $\Cat{Comon}(\poly)_{\text{rep}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=\yon^M$ is representable. Then there is an isomorphism of categories
+\[
+\Cat{Comon}(\poly)_{\text{rep}}\cong\Cat{Mon}\op
+\]
+where $\Cat{Mon}$ is the category of monoids.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+
+\begin{exercise}
+$\Cat{Comon}(\poly)_{\text{lin}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=M\yon$ is linear. Show that there is an isomorphism of categories
+\[
+\Cat{Comon}(\poly)_{\text{lin}}\cong\smset
+\]
+\end{exercise}
+
+
+\begin{proposition}
+The category of polynomial comonoids and cartesian maps is equivalent to the category of categories and discrete opfibrations
+\[
+\Cat{Comon}(\poly)_{\text{cart}}\cong \smcat_{\text{dopf}}.
+\]
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+The category of polynomial comonoids and vertical maps is equivalent to the opposite of the category of categories and bijective-on-objects functors,
+\[
+\Cat{Comon}(\poly)_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
+\]
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+Every morphism of polynomial comonoids $f\colon\com{C}\to\com{D}$ factors as a vertical morphism followed by a cartesian morphism
+\[
+\com{C}\To{\text{vert}}\com{C}'\To{\text{cart}}\com{D}.
+\]
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+We can now give a third equivalent formulation of cofunctors and comonoid morphisms.
+
+\begin{proposition}
+The following categories are equivalent:
+\begin{enumerate}
+	\item The category $\smcat^\sharp$ of categories and cofunctors,
+	\item The category $\Cat{Comon}(\poly)$ of polynomial comonoids, and
+	\item The category whose objects are categories, morphisms $\cat{C}\to\cat{D}$ are spans of functors $\cat{C}\From{B}\cat{C}'\To{F}\cat{D}$, where $B$ is bijective on objects and $F$ is a discrete op-fibration; and composition is the usual composition of spans (by pullback in $\smcat$).
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\paragraph{Databases}
+
+Discrete opfibrations will be important in our story, so let's spend a bit of time on them. It turns out that discrete opfibrations on a category have a close relationship with databases. Let's start with a definition.
+
+\begin{definition}[Discrete opfibration]
+A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if, for every object $c\in\cat{C}$, object $d'\in\cat{D}$, and morphism $g\colon F(c)\to d'$ there exists a unique object $c'\in\cat{C}$ and morphism $f\colon c\to c'$ such that $F(c')=d'$ and $F(f)=g$.
+\[
+\begin{tikzcd}
+  c\ar[r, dashed, "f"]\ar[d, |->, "F"']&
+  c'\ar[d, |->, "F"]\\
+  F(c)\ar[r, "g"']&
+  d'
+\end{tikzcd}
+\]
+
+\end{definition}
+
+\begin{proposition}
+For any category $\cat{C}$, there is an equivalence of categories between that of functors $\cat{C}\to\smset$ and that of discrete opfibrations over $\cat{C}$.
+\end{proposition}
+
+
+\begin{example}[Database]
+\end{example}
+
+
+
 %-------- Section --------%
 \section{Cofree comonoids}
 
@@ -2350,6 +2451,16 @@ Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in 
 
 Bimodules with carrier $\yon$
 
-
+\begin{theorem}
+For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
+\begin{enumerate}
+	\item functors $\cat{C}\to\smset$
+	\item discrete opfibrations over $\cat{C}$
+	\item cartesian cofunctors to $\com{C}$
+	\item linear left $\com{C}$-modules
+	\item constant left $\com{C}$-modules
+	\item representable right $\com{C}$-modules
+\end{enumerate}
+\end{theorem}
 
 \end{document}
