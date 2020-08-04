@@ -1273,22 +1273,6 @@ The answer is that we can get it by pullback
 The map $\eta_p\colon p\to p\tri\1$ comes from \cref{thm.adjoint_quadruple}; it just extracts positions. The composite $\1\tri q$ is just $\1$ and similarly $p\tri\1\tri q\cong p\tri\1$. The left-hand square is a pullback by \cref{thm.connected_limits}. The lefthand map is Cartesian, because the pullback of a cartesian map is cartesian; see \cref{prop.pullback_cartesian}.
 \end{example}
 
-A goal we set for ourselves at the beginning of this section (\ref{subsec.working_with_composites}) was as follows. Given a position $k\in (p\tri q)\tri\1$, we have a device to get a position $\trunc(k) \in p\tri\1$. We know that we should then get a function $p_i\to q(\1)$, assigning a position in $q$ to each direction in $p_i$. How do we grab it?
-
-First, form the pullback as described above
-\[
-\begin{tikzcd}
-	\yon\ar[ddr, bend right=15pt, "k"']\ar[drr, bend left=15pt, "!"]\ar[dr, dashed]\\[-10pt]&[-10pt]
-	\yon^{p_i}\tri q\ar[d]\ar[r]&
-	\1\ar[d, "\trunc k"]\\&
-	p\tri q\ar[r, "\trunc"']&
-	p\tri \1\ar[ul, phantom, very near end, "\lrcorner"]
-\end{tikzcd}
-\]
-We then compose the induced map $\yon\to\yon^{p_i}\tri q$ with the level-2 trunctation to obtain
-\[
-\yon\to \yon^{p_i}\tri q\To{\trunc^2}\yon^{p_i}\tri(q\tri\1)\cong\smset(p_i,q(\1))
-\]
 
 \begin{proposition}
 For any polynomials $p,p',q,q'$ there are natural maps
