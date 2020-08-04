@@ -889,14 +889,17 @@ The set of morphisms $p\to q_1\tri q_2\tri\cdots\tri q_k$ has the following form
 	\1
 \]
 We can use this to generalize our notation in the case $k=1$, i.e.\ for morphisms $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_1}$, where $f_1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q_{f_1(i)}\to p_i$. We generalize this to the $k$-ary composite case as
-\[(f_1,f_2,\ldots,f_k,f^\sharp)\colon p\too q_1\tri q_2\tri\cdots\tri q_k,\] 
+\begin{equation}\label{eqn.notation_f1f2fk}
+(f_1,f_2,\ldots,f_k,f^\sharp)\colon p\too q_1\tri q_2\tri\cdots\tri q_k,
+\end{equation}
 where
 \begin{equation}\label{eqn.maps_to_comp}
 \begin{aligned}
-f_1&\in \prod_{i\in p(\1)}q_1(\1),\\
-f_2&\in \prod_{i\in p(\1)}\prod_{e_1\in q_{1,f_1(i)}}q_2(\1),\\
-f_k&\in \prod_{i\in p(\1)}\prod_{e_1\in q_{1,f_1(i)}}\cdots\prod_{e_{k-1}\in q_{k-1,f_{k-1}(i,d_1,\ldots,d_{k-1})}}q_k(\1),\\
-f^\sharp&\in\prod_{i\in p(\1)}\prod_{e_1\in q_{1,f_1(i)}}\cdots\prod_{e_{k-1}\in q_{k-1,f_{k-1}(i,d_1,\ldots,d_{k-1})}}\prod_{e_k\in q_{k,f_k(i,d_1,\ldots,d_k)}}p_i
+f_1&:p(\1)\to q_1(\1),\\
+f_2&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to q_2(\1),\\
+f_3&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to (e_2\in q_{2,f_2(i,e_1)})\to q_3(\1),\\
+f_k&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to  \cdots\to(e_{k-1}\in q_{k-1,f_{k-1}(i,e_1,\ldots,e_{k-2})})\to q_k(\1),\\
+f^\sharp&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to \cdots\to(e_{k}\in q_{k,f_{k}(i,e_1,\ldots,e_{k-1})})\to p_i
 \end{aligned}
 \end{equation}
 This looks worse than it is. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p_i$. The case $k=2$ is considered in \cref{ex.map_to_comp}
@@ -992,6 +995,31 @@ f^\sharp(A,U,Y)=T,\quad f^\sharp(A,U,Z)=S,\quad f^\sharp(A,W,Y)=S,\quad f^\sharp
 f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
 \end{gather*}
 \end{example}
+
+\begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions in a composite]\label{ex.pos_in_composite}
+Suppose given polynomials $p_1,\ldots,p_k$. Recall from \cref{exc.positions_maps_yon} that a position in their composite as a map
+\[
+i\colon \yon^\1\to p_1\tri\cdots\tri p_k.
+\]
+We can denote $i$ in the notation \eqref{eqn.notation_f1f2fk} as $i=(i_1,\ldots,i_k)$, forgoing the input to $i_1$ because it is always $1\in\1$ and also forgoing $f^\sharp$ because it is always the unique map to $\1$. Then in this notation 
+\begin{gather*}
+i_1\in p_1(\1),\quad
+i_2\colon p_{1,i_1}\to p_2(\1),\quad
+i_3\colon (d_1\in p_{1,i_1})\to(d_2\in p_{2,i_2(d_1)})\to p_3(\1),\\
+i_k\colon(d_1\in p_{1,i_1})\to(d_2\in p_{2,i_2(d_1)})\to\cdots(d_{k-1}\in p_{k-1,i_{k-1}(d_1,\ldots,d_{k-2})})\to p_k(\1)
+\end{gather*}
+
+So for example to give a position in $p\tri q\tri r$ we need 
+\[
+i\in p(\1),\quad
+j\colon p_i\to q(\1),\quad
+k:(d\in p_i)\to(e\in q_{j(d)})\to r(\1).
+\]
+\end{example}
+
+\begin{exercise}\label{exc.linear_composites}
+Suppose $A_1,\ldots,A_k$ are sets. What would the notation of \cref{eqn.notation_f1f2fk} look for positions of $A_1\yon\tri A_2\yon\tri\cdots\tri A_k\yon$?
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{Mathematical aspects of $\tri$}
@@ -1253,18 +1281,18 @@ Use \cref{thm.connected_limits} in the following.
 \end{exercise}
 
 \begin{example}
-Suppose we have polynomials $p$ and $q$ and a position $i\in p(\1)$. How do we grab that part of the composite $p\tri q$? That is, how do we find the Cartesian subpolynomial
+Suppose we have polynomials $p$ and $q$ and a position $i_0\in p(\1)$. It ponits to a certain part, a certain subpolynomial, of the composite $p\tri q$; how do we grab it? That is, how do we find the Cartesian subpolynomial
 \[
-  \prod_{d\in p_i}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
+  \prod_{d\in p_{i_0}}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
   \ss
   \sum_{i\in p(\1)}\;\prod_{d\in p_i}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
 \]
 The answer is that we can get it by pullback
 \begin{equation}\label{eqn.cart_pullback_misc48}
 \begin{tikzcd}[background color=examplecolor]
-	\yon^{p_i}\tri q\ar[d]\ar[r]&
-	\1\tri q\ar[r, equal]\ar[d, "i\tri q"]&
-	\1\ar[d, "i"]\\
+	\yon^{p_{i_0}}\tri q\ar[d]\ar[r]&
+	\1\tri q\ar[r, equal]\ar[d, "i_0\tri q"]&
+	\1\ar[d, "i_0"]\\
 	p\tri q\ar[r, "\eta_p\tri q"']&
 	p\tri\1\tri q\ar[r, equal]\ar[ul, phantom, very near end, "\lrcorner"]&
 	p\tri \1\ar[ul, phantom, very near end, "\lrcorner"]
@@ -1339,7 +1367,7 @@ is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon
 We refer to a comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
 \end{definition}
 
-\begin{example}[$\delta^{n}$ notation]
+\begin{example}[$\delta^{n}$ notation]\label{ex.delta_n_notation}
 Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the two ways to get a map $c\to c\tri c\tri c$ have the same result. This is true for any $n\in\nn$: we get an induced map $c\to c\tripow{n+1}$, which by mild abuse of notation we denote $\delta^n$:
 \[
 	c\To{\delta}c\tri c\To{c\tri\delta}c\tri c\tri c\To{c\tripow{2}\tri\delta}\cdots\To{c\tripow{n}\tri\delta}c\tripow{(n+1)}.
@@ -1568,6 +1596,41 @@ Let $S\coloneqq\2$ and $c\coloneqq \2\yon^\2$.
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+\paragraph{Speeding up dynamical systems}
+
+Suppose we have a dynamical system $f\colon S\yon^S\to p$, and we want to make it go $k$-times faster. That is, in every moment, we want it to process $k$-many inputs, rather than one. 
+
+Since $S\yon^S$ has the structure of a comonoid, we know that for every $k\in\nn$ we have a map $\delta^{k-1}\colon S\yon^S\to (S\yon^S)\tripow{k}$ by \cref{ex.delta_n_notation}. But we also have maps $f\tripow{k}\colon (S\yon^S)\tripow{k}\to p\tripow{k}$ because $\tri$ is a monoidal product. Thus we can form the composite
+\[
+\begin{tikzcd}
+	S\yon^S\ar[r, "\delta^{k-1}"]\ar[rr, bend right, "{\text{Spdup}_k(f)}"']&
+	(S\yon^S)\tripow{k}\ar[r, "f\tripow{k}"]&
+	p\tripow k
+\end{tikzcd}
+\]
+For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times.
+
+\begin{example}
+Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\lens{f^\sharp}{f_1}\colon S\yon^S\to p$ be given by $f_1(n)\coloneqq n$ and $f^\sharp(n,1)\coloneqq n+1$. What is this speedup map $\text{Spdup}_k(f)$? First of all, its type is 
+\[\text{Spdup}_k(f)\colon S\yon^S\to\rr^k\yon,\]
+meaning that it has the same set of states as before, but it outputs $k$-many reals in every moment. 
+
+Writing $\delta^{k-1}\colon S\yon^S\to(S\yon^S)\tripow{k}$ in the $(g_1,\ldots,g_k,g^\sharp)$ notation, we have $g_1(s_1)=s_1$, $g_2(s_1,s_2)=s_2$, ..., $g_k(s_1,\ldots,s_k)=s_k$ and $g^\sharp(s_1,\ldots,s_{k+1})=s_{k+1}$. 
+
+Let's denote positions in $x\in (S\yon^S)\tripow k$ using the notation $x=(x_1,\ldots,x_k)$ of \cref{ex.pos_in_composite}, where $x_i\colon S^{i-1}\to S$. Since $f$ is ``output only'', i.e.\ the input is fixed at $1\in \1$, one can check easily that for any position $x=(x_1,\ldots,x_k)$, we have
+\[f\tripow{k}(x)=\bigg(x_1,x_2(1+x_1),\ldots,x_k\Big(x_1,x_2(1+x_2),\ldots, x_{k-1}\big(1+x_{k-2}(1+\cdots x_2(1+x_1))\big)\Big)\bigg)\]
+But that looks much scarier than it is, because we are composing with $\delta^{k-1}$, where each $x_i=g_i$ is the last projection. So we have
+\[
+f\tripow{k}\circ\delta^{k-1}(n)=(n,1+n,\ldots, k-1+n).
+\]
+In other words, it outputs the next $k$ seconds in just one second. And the state update of $f\tripow{k}\circ\delta^{k-1}\colon S\to S$ sends $n\mapsto n+k$.
+
+So for example, with $k=3$ and starting at initial state $n=0$, we get the following output stream, e.g. for 4 seconds:
+\[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
+\end{example}
+
+\paragraph{Other comonoids}
 
 Once you know that these all important $S\yon^S$-things are comonoids in $\poly$, it's interesting to ask ``what are all the comonoids in $\poly$?'' Let's discuss another one before answering the question in generality.
 
