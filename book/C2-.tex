@@ -412,7 +412,7 @@ they eventually end up in a repeating cycle of states.
 \begin{definition}[Eventually periodic orbit] \label{def.eventually_periodic_orbit_discrete}
 A $\lens{p}{v}$-trajectory $s : \nn \to
   \State{S}$ is \emph{eventually periodic} if there are times $t_0 < t_1 \in
-  \nn$ such that $s_{t_0} = s_{t_1}$. If the sequence of
+  \nn$ such that $s_{t_0 + t} = s_{t_1 + t}$ for all $t \in \nn$. If the sequence of
   parameters $p : \nn \to \In{S}$ is also eventually periodic with the same
   period (in that $p_{t_0 + t} = p_{t_1 + t}$ for all $t$), then we say that $s$ has \emph{eventually periodic parameters}.
 
