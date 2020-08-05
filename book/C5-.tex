@@ -417,7 +417,7 @@ For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\co
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Monoidal structure $(\poly,\tri,\yon)$}
+\subsection{Monoidal structure $(\poly,\tri,\yon)$}\label{subsec.monoidal_struc_tri}
 
 The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
@@ -996,7 +996,7 @@ f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
 \end{gather*}
 \end{example}
 
-\begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions in a composite]\label{ex.pos_in_composite}
+\begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions and directions in a composite]\label{ex.pos_in_composite}
 Suppose given polynomials $p_1,\ldots,p_k$. Recall from \cref{exc.positions_maps_yon} that a position in their composite as a map
 \[
 i\colon \yon^\1\to p_1\tri\cdots\tri p_k.
@@ -1015,19 +1015,47 @@ i\in p(\1),\quad
 j\colon p[i]\to q(\1),\quad
 k:(d\in p[i])\to(e\in q[j(d)])\to r(\1).
 \]
+
+The direction-set of $p_1\tri\cdots\tri p_k$ at position $(i_1,\ldots,i_k)$ is 
+\[
+(p_1\tri\cdots\tri p_k)[(i_1,\ldots,i_k)]\cong\sum_{d_1\in p_1[i_1]}\sum_{d_2\in p_2[i_2(d_1)]}\cdots\sum_{d_k\in p_k[i_k(d_1,\ldots,d_{k-1}]}\1
+\]
+So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there consists of a tuple $(d,e,f)$ where $d\in p[i]$, $e\in q[j(d)]$ and $f\in r[k(d,e)]$.
 \end{example}
 
 \begin{exercise}
-In \cref{ex.pos_in_composite}, we gave a formula for the positions in the composite $p\coloneqq p_1\tri\cdots\tri p_k$ of arbitrary polynomials $p_1,\ldots,p_k$. Use the notation from that example to answer the following.
-\begin{enumerate}
-	\item What is the set $p[(i_1,\ldots,i_k)]$ of directions available in position $(i_1,i_2,\ldots i_k)$?
-	\item Suppose $A_1,\ldots,A_k$ are sets and $p[i]\coloneqq A_i\yon$ for each $i$. What is the set of positions in $p$ in this case?
-\qedhere
-\end{enumerate}
+Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the set of positions in $p\coloneqq p_1\tri\cdots\tri p_k$.
 \end{exercise}
 
 \begin{example}[$\tri$ on morphisms]
-Let's use our new notation to talk about $\tri$ on morphisms
+We discussed how $\tri$ acts on morphisms in \cref{subsec.monoidal_struc_tri}. Now let's see how it looks in our new notation.
+
+Given $f\colon p\to p'$ and $g\colon q\to q'$ we want to talk about $h\coloneqq(f\tri g)\colon (p\tri q)\to (p'\tri q')$. Writing $f=(f_1,f^\sharp)$ and $g=(g_1,g^\sharp)$, we want to write $h$ in the form $(h_1,h_2,h^\sharp)$, and do so in terms of $f$ and $g$.
+
+Let's prepare by understanding our input polynomial $p\tri q$. Using \cref{ex.pos_in_composite}, a position in $p\tri q$ is a pair $(i,j)$, where $i\in p(\1)$ and $j\colon p[i]\to q(\1)$. A direction in $(p\tri q)[(i,j)]$ is a pair $(d,e)$ where $d\in p[i]$ and $e\in q[j(d)]$.
+
+We are now ready to write out $h_1$, $h_2$, and $h^\sharp$. 
+\[\arraycolsep=3pt
+\begin{array}{cccc}
+	h_1\colon&((i,j)\in(p\tri q)(\1))&\to& p'(\1)\\
+					 & (i,j)              &\mapsto&f_1(i)
+\end{array}
+\]
+We will replace $h_1(i,j)$ below with $f_1(i)$ for simplicity. Here is $h_2$:
+\[\arraycolsep=3pt
+\begin{array}{cccccc}
+	h_2\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&q'(\1)\\
+	&(i,j)&\mapsto&d'&\mapsto& g_1(j(f^\sharp(d')))
+\end{array}
+\]
+And finally here is $h^\sharp$:
+\[\arraycolsep=3pt
+\begin{array}{cccccccc}
+	h^\sharp\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&(e'\in q'[h_2(i,j,d')])&\to&\displaystyle\sum_{d\in p[i]}q[j(d)]\\
+	&(i,j)&\mapsto&d'&\mapsto& 	
+\end{array}
+\]
+
 \end{example}
 
 
