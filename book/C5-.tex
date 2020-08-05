@@ -1045,19 +1045,239 @@ We will replace $h_1(i,j)$ below with $f_1(i)$ for simplicity. Here is $h_2$:
 \[\arraycolsep=3pt
 \begin{array}{cccccc}
 	h_2\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&q'(\1)\\
-	&(i,j)&\mapsto&d'&\mapsto& g_1(j(f^\sharp(d')))
+	&(i,j)&\mapsto&d'&\mapsto& g_1(j(f_i^\sharp(d')))
 \end{array}
 \]
 And finally here is $h^\sharp$:
 \[\arraycolsep=3pt
 \begin{array}{cccccccc}
-	h^\sharp\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&(e'\in q'[h_2(i,j,d')])&\to&\displaystyle\sum_{d\in p[i]}q[j(d)]\\
-	&(i,j)&\mapsto&d'&\mapsto& 	
+	h^\sharp\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&(e'\in q'[h_2(i,j,d')])&\to&\displaystyle\sum_{d\in p[i]}q[j(d)]\\\\
+	&(i,j)&\mapsto&d'&\mapsto&e'&\mapsto&\big(f_i^\sharp(d'),g_j^\sharp(e')\big)
 \end{array}
 \]
+Here's a picture:
+\begin{equation}\label{eqn.pic_tri_map}
+\begin{tikzpicture}[decoration={markings, mark=at position 0.75 with \arrow{stealth}}, baseline=(j)]
+	\node (i) {$i$};
+	\node[above=-2pt of i] (tr1) {$\bigtriangledown$};
+	\node[above=-2pt of tr1] (j) {$j$};
+	\node[right=2 of i] (i') {$f_1(i)$};
+	\node[above=-2pt of i'] (tr') {$\bigtriangledown$};
+	\node[above=-2pt of tr'] (j') {$f_i^\sharp\then j\then g_1$};
+	\draw[|->] (i) -- (i');
+	\draw[bend right=60, densely dotted, postaction={decorate}] 
+		(j') to 
+			node[above] (fs) {$\tristack{g_j^\sharp}{f_i^\sharp}$}
+		(j);
+\end{tikzpicture}
+\end{equation}
+For example, in \cref{ex.circ_prod_on_morphisms} we had
+\[
+\begin{tikzpicture}
+	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child {coordinate (11)}
+      child {coordinate (12)};
+    \node[right=1.5 of 1, blue, "\tiny 1" below] (2) {$\bullet$} 
+      child {coordinate (21)}
+      child {coordinate (22)}
+      child {coordinate (23)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right]
+      \draw[postaction={decorate}] (21) to (12);
+      \draw[postaction={decorate}] (22) to (12);
+      \draw[postaction={decorate}] (23) to (11);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p2) [below right=-1.3 and 1 of p1] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
+      child {coordinate (11)};
+    \node[right=of 1, blue, "\tiny 2" below] (2) {$\bullet$}
+      child {coordinate (21)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right]
+      \draw[postaction={decorate}] (21) to (11);
+		\end{scope}
+  \end{tikzpicture}	
+	};	
+	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[red!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child {coordinate (11)}
+      child {coordinate (12)};
+    \node[right=1.5 of 1, red, "\tiny 1" below] (2) {$\bullet$} 
+      child {coordinate (21)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right]
+      \draw[postaction={decorate}] (21) to (12);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p4) [below right=-1.05 and 1 of p3] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[red!50!black, "\tiny 2" below] (1) {$\bullet$} 
+      child {coordinate (11)};
+    \node[right=of 1, red, "\tiny 2" below] (2) {$\bullet$};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+  \end{tikzpicture}	
+	};	
+\end{tikzpicture}
+\]
+We invite the reader to see \eqref{eqn.pic_tri_map} as a schematic for what we drew as follows:
+\[
+	\begin{tikzpicture}[trees]
+	\begin{scope}[
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] (11') {$\bullet$} 
+      	child {coordinate (11)}
+				child {coordinate (12)}
+			}
+      child {node[red!50!black] (12') {$\bullet$} 
+      	child {coordinate (13)}
+				child {coordinate (14)}
+			};
+%
+    \node[blue!50!black, right=5 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] (21') {$\bullet$} 
+      	child {coordinate (21)}
+				child {coordinate (22)}
+			}
+      child {node[red!50!black] (22') {$\bullet$} 
+      	child {coordinate (23)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 1] (3) {$\bullet$} 
+      child {node[red!50!black] (31') {$\bullet$} 
+      	child {coordinate (31)}
+			}
+      child {node[red!50!black] (32') {$\bullet$} 
+      	child {coordinate (32)}
+				child {coordinate (33)}
+			};
+%
+    \node[blue!50!black] at (2|-3) (4) {$\bullet$} 
+      child {node[red!50!black] (41') {$\bullet$} 
+      	child {coordinate (41)}
+			}
+      child {node[red!50!black] (42') {$\bullet$} 
+      	child {coordinate (42)}
+			};
+%
+    \node[blue!50!black, below=1.3 of 3] (5) {$\bullet$} 
+      child {node[red!50!black] (51') {$\bullet$} 
+      	child {coordinate (51)}
+				child {coordinate (52)}
+			};
+%
+    \node[blue!50!black] at (4|-5) (6) {$\bullet$} 
+      child {node[red!50!black] (61') {$\bullet$} 
+      	child {coordinate (61)}
+			};
+		\end{scope}
+%%
+		\begin{scope}[		
+		level 1/.style={sibling distance=4mm},
+	  level 2/.style={sibling distance=2.5mm}]
+	    \node[blue, right=2 of 1] (1') {$\bullet$} 
+      child {node[red] (1'1') {$\bullet$} 
+      	child {coordinate (1'1)}
+			}
+      child {node[red] (1'2') {$\bullet$} 
+      	child {coordinate (1'2)}
+			}
+      child {node[red] (1'3') {$\bullet$} 
+      	child {coordinate (1'3)}
+			};
+%
+    \node[blue, right=2 of 2] (2') {$\bullet$} 
+      child {node[red] (2'1') {$\bullet$} 
+			}
+      child {node[red] (2'2') {$\bullet$} 
+			}
+      child {node[red] (2'3') {$\bullet$} 
+      	child {coordinate (2'1)}
+			};
+%
+    \node[blue, right=2 of 3] (3') {$\bullet$} 
+      child {node[red] (3'1') {$\bullet$} 
+      	child {coordinate (3'1)}
+			}
+      child {node[red] (3'2') {$\bullet$} 
+      	child {coordinate (3'2)}
+			}
+      child {node[red] (3'3') {$\bullet$} 
+			};
+%
+    \node[blue, right=2 of 4] (4') {$\bullet$} 
+      child {node[red] (4'1') {$\bullet$} 
+			}
+      child {node[red] (4'2') {$\bullet$} 
+			}
+      child {node[red] (4'3') {$\bullet$} 
+			};
+%
+    \node[blue, right=2 of 5] (5') {$\bullet$} 
+      child {node[red] (5'1') {$\bullet$} 
+      	child {coordinate (5'1)}
+			};
+%
+    \node[blue, right=2 of 6] (6') {$\bullet$} 
+      child {node[red] (6'1') {$\bullet$} 
+			};
+%
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (3) -- (3');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (4) -- (4');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (5) -- (5');
+%\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
+    \begin{scope}[densely dotted, bend right=15pt]
+      \draw[postaction={decorate}] (1'1') to (12');
+      \draw[postaction={decorate}] (1'2') to (12');
+      \draw[postaction={decorate}] (1'3') to (11');
+      \draw[postaction={decorate}] (1'1) to (14);
+      \draw[postaction={decorate}] (1'2) to (14);
+      \draw[postaction={decorate}] (1'3) to (12);
+%
+      \draw[postaction={decorate}] (2'1') to (22');
+      \draw[postaction={decorate}] (2'2') to (22');
+      \draw[postaction={decorate}] (2'3') to (21');
+      \draw[postaction={decorate}] (2'1) to (23);
+%
+      \draw[postaction={decorate}] (3'1') to (32');
+      \draw[postaction={decorate}] (3'2') to (32');
+      \draw[postaction={decorate}] (3'3') to (31');
+      \draw[postaction={decorate}] (3'1) to (33);
+      \draw[postaction={decorate}] (3'2) to (33);
+%
+      \draw[postaction={decorate}] (4'1') to (42');
+      \draw[postaction={decorate}] (4'2') to (42');
+      \draw[postaction={decorate}] (4'3') to (41');
+%
+      \draw[postaction={decorate}] (5'1') to (51');
+      \draw[postaction={decorate}] (5'1) to (52);
+%
+      \draw[postaction={decorate}] (6'1') to (61');
+    \end{scope}
 
+	\end{scope}
+  \end{tikzpicture}
+\]
+Each of the six pictures is for a specific $(i,j)$-pair. On the bottom it does $f_1$ to the given $i$; on the middle it does $f^\sharp$, then the given $j$, then $g_1$; and on the top it applies $g^\sharp$ over $f^\sharp$.
 \end{example}
 
+
+
+\begin{exercise}
+Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)\colon (p\tri q\tri r)\to (p'\tri q'\tri r')$, for $f=(f_1,f^\sharp)\colon p\to p'$, $g=(g_1,g^\sharp)\colon q\to q'$, and $h=(h_1,h^\sharp)$.
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{Mathematical aspects of $\tri$}

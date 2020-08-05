@@ -476,6 +476,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\trunc}{\bigtriangledown}
 %\newcommand{\trunc}{\dot\bigtriangledown}
  
+\newcommand{\tristack}[2]{\def\arraystretch{.8}\begin{array}{c}#1\\\bigtriangledown\\#2\end{array}}
+ 
 \newcommand{\centergraphics}[2][width=\textwidth]{
 \begin{center}
 	\includegraphics[#1]{#2}
