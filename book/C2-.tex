@@ -412,8 +412,9 @@ they eventually end up in a repeating cycle of states.
 \begin{definition}[Eventually periodic orbit] \label{def.eventually_periodic_orbit_discrete}
 A $\lens{p}{v}$-trajectory $s : \nn \to
   \State{S}$ is \emph{eventually periodic} if there are times $t_0 < t_1 \in
-  \nn$ such that $s_{t_0} = s_{t_1}$ \spiz{is this right?}. If the sequence of
-  parameters $p : \nn \to \In{S}$ is also eventually periodic with the same period (in that $p_{t_0} = p_{t_1}$), then we say that $s$ has \emph{eventually periodic parameters}.
+  \nn$ such that $s_{t_0} = s_{t_1}$. If the sequence of
+  parameters $p : \nn \to \In{S}$ is also eventually periodic with the same
+  period (in that $p_{t_0 + t} = p_{t_1 + t}$ for all $t$), then we say that $s$ has \emph{eventually periodic parameters}.
 
 The \emph{period} of an eventually periodic trajectory is
   the smallest difference $t_1 - t_0$ between times such that $s_{t_0} = s_{t_1}$.
@@ -503,7 +504,7 @@ As a transition diagram, $\Sys{Time}$ looks like this:
 \end{tikzpicture}
 \]
 
-Let's see what a behavior of shape $\Sys{Time}$ in $\Sys{S}$ will be \spiz{what's $\Sys{S}$, arbitrary?}. We will expect the
+Let's see what a behavior of shape $\Sys{Time}$ in an arbitrary system $\Sys{S}$ will be. We will expect the
 shape of $\Sys{Time}$ to appear in the transition diagram of $\Sys{S}$, like
 this:
 \[
@@ -1052,7 +1053,7 @@ because $\sim$ is a bisimulation.
 
 Finally, 
 \[
-\fun{transform}_{\Sys{S}}(i)_n = \expose{S}(s_n) = \expose{U}(u_n) = \fun{transform}_{\Sys{U}}(i)_n$
+\fun{transform}_{\Sys{S}}(i)_n = \expose{S}(s_n) = \expose{U}(u_n) = \fun{transform}_{\Sys{U}}(i)_n
 \]
 because $s_n \sim u_n$. 
 \end{proof}
