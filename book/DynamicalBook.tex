@@ -398,6 +398,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 % OLD LMO: \newcommand{\LMO}[2][over]{\ifthenelse{\equal{#1}{over}}{\overset{#2}{\bullet}}{\underset{#2}{\bullet}}}
 \newcommand{\LMO}[2][over]{\LMOO[#1]{\phantom{\cdot}}{#2}}
+%% Convention for LMOO is
+%%   {optional: over/under}{state name}{output name}
 \newcommand{\LMOO}[3][over]{\ifthenelse{\equal{#1}{over}}
   {
     \begin{tikzpicture}[inner sep=0pt, solid] \node[draw, circle, label={[label distance
@@ -468,6 +470,9 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 \newcommand{\tri}{\mathbin{\triangleleft}}
 \newcommand{\tripow}[1]{^{\tri #1}}
+
+\newcommand{\trunc}{\bigtriangledown}
+%\newcommand{\trunc}{\dot\bigtriangledown}
  
 
 % Jaz macros %
@@ -552,7 +557,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \title{\titlefont Categorical Systems Theory}
 
 % \author{\LARGE David Jaz Myers \and \LARGE David I. Spivak\normalsize}
-\author{\LARGE $\text{David} \circ (\text{Jaz Myers} \otimes \text{I. Spivak})$\normalsize}
+\author{\LARGE David Jaz Myers\and \LARGE  David I. Spivak\normalsize}
 
 
 

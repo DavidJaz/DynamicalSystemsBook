@@ -1378,6 +1378,31 @@ For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isom
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[Derivatives]
+We won't have much opportunity to use the following, but it may be interesting. The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
+\[
+\dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{d\in p_i}\yon^{p_i-\{d\}}.
+\]
+For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A,B\}\yon^{\{X\}}$ then 
+\[\dot{p}=\{U\}\yon^{\{V,W\}}+\{V\}\yon^{\{U,W\}}+\{W\}\yon^{\{U,V\}}+\{(A,X),(B,X)\}\yon^\0.\]
+Up to isomorphism $p\cong\yon^\3+\2\yon$ and $\dot{p}\cong\3\yon^\2+\2$.
+
+A morphism $f\colon p\to \dot{q}$ can be interpreted in terms of delegations from $p$ to $q$ such that each position in $p$ explicitly selects a $q$-option to be avoided. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q_j$, i.e.\ a choice of $q$-position $j$, as usual, together with a chosen option $d\in q_j$. Then every $q$-option \emph{other than $d$} is passed back to an option in $p_i$.
+\end{example}
+
+\begin{exercise}
+The derivative is not very well-behaved category-theoretically. However, it is intriguing.
+\begin{enumerate}
+	\item Is there always a canonical map $p\to \dot{p}$?
+	\item Is there always a canonical map $\dot{p}\to p$?
+	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
+	\item What is the relationship between $\dot{p}(\1)$ and the total number of leaves in $p$?
+	\item In terms of problems and solutions, explain what a map $p\to \dot{q}$ would say.
+	\item Read the formula for $\otimes$ and $[-,-]$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes[p,\yon]\to p'$ that works for any $p\in\poly$.
+	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``avoiding options'', how might you describe what is modeled by a map $p\yon\to q$?
+\end{enumerate}
+\end{exercise}
+
 \paragraph{Working with $\sum$ and $\prod$ formulas.}
 Here's how to understand and work with a set that involves $\sum$'s and $\prod$'s, e.g.\ something like
 \begin{equation}\label{eqn.misc98339}
@@ -2818,9 +2843,9 @@ Hint: you can either use the formula \eqref{eqn.dir_hom}, or just use
 
 
 For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
-\[
+\begin{equation}\label{eqn.eval_dirichlet}
   \fun{eval}\colon [p,q]\otimes p\too q.
-\]
+\end{equation}
 
 \begin{exercise}
 \begin{enumerate}
@@ -3075,21 +3100,21 @@ The general case of coproducts and products is not much more difficult.
 The category $\poly$ has coproducts and products.
 \end{proposition}
 \begin{proof}
-Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$.%
+Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_{a,})_{a\in A}$.%
 \footnote{
-This is potentially ambiguous notation because $p_i$ generally denotes the exponent of the $i$th summand of polynomial $p$; we apologize for this. To be clear, to each $a\in A$ there is an associated polynomial $p_a\in\poly$. To write out $p_a$ as a sum of representables, we would say $p_a=\sum_{i\in p_a(\1)}\yon^{(p_a)_i}$.
+We put a comma in the subscript of our polynomials, writing $p_{a,}$ rather than $p_a$ for the $a$th polynomial, to avoid a potentially ambiguous notation. That is, if $i\in p(\1)$ is a position, then $p_i$ denotes the set of directions there, the exponent of the $i$th summand of $p$. Given a position $i\in p_{a,}$ we denote the corresponding set of directions by $p_{a,i}$. We recognize that our notation $p_{a,}$, while unambiguous, is a bit disorienting; luckily, it will not come up much.
 }
 Their coproduct is
 \begin{equation}\label{eqn.sum_polys}
-\sum_{a\in A}p_a=\sum_{a\in A}\sum_{i\in p_a(\1)}\yon^{(p_a)_i}\cong\sum_{(a,i)\in\sum_{a\in A}p_a(\1)}\yon^{(p_a)_i}
+\sum_{a\in A}p_{a,}=\sum_{a\in A}\sum_{i\in p_{a,}(\1)}\yon^{p_{a,i}}\cong\sum_{(a,i)\in\sum_{a\in A}p_{a,}(\1)}\yon^{p_{a,i}}
 \end{equation}
 which is manifestly a sum of representables, i.e.\ a polynomial, and which one can check satisfies the universal property of coproduct; see \cref{exc.check_coprod_prod}.
 
 We claim that the product of this collection is
 \begin{equation}\label{eqn.prod_polys}
-\prod_{a\in A}p_a=
-\prod_{a\in A}\sum_{i\in p_a(\1)}\yon^{(p_a)_i}\cong
-\sum_{i\colon \prod_{a\in A}p_a(\1)}\yon^{\sum_{a\in A}p_{i(a)}}.
+\prod_{a\in A}p_{a,}=
+\prod_{a\in A}\sum_{i\in p_{a,}(\1)}\yon^{p_{a,i}}\cong
+\sum_{i\colon \prod_{a\in A}p_{a,}(\1)}\yon^{\sum_{a\in A}p_{a,i(a)}}.
 \end{equation}
 Again, it is a sum of representables, so a polynomial, and one can check that it satisfies the universal property of product; see \cref{exc.check_coprod_prod}.
 \end{proof}
@@ -3108,22 +3133,22 @@ Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\co
 \end{exercise}
 
 \begin{proposition}\label{prop.completely_distributive}
-The category $\poly$ is completely distributive, i.e.\ for any set $A$, sets $(B_a)_{a\in A}$, and polynomials $(p_{(a,b)})_{a\in A, b\in B_a}$, there is an isomorphism
+The category $\poly$ is completely distributive, i.e.\ for any set $A$, sets $(B_a)_{a\in A}$, and polynomials $(p_{(a,b),})_{a\in A, b\in B_a}$, there is an isomorphism
 \[
-  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a))}
+  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
   \cong
-	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b)}
+	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
 \]
 \end{proposition}
 \begin{proof}
-By the universal property of coproducts and products, to provide a morphism $\sum_{b\colon\prod_{a\in A}B(a)}\prod_{a\in A}p_{(a,b)}
-  \to	\prod_{a\in A}\sum_{b\in B(a)}p_{(a,b)}$, it suffices to fix an arbitrary $b_0\in\prod_{a\in A}B(a)$ and $a_0\in A$ and provide a morphism $\prod_{a\in A}p_{(a,b_0(a))}\to\sum_{b\in B(a_0)}p_{(a_0,b)}$. We do so by first projecting onto the $a_0$-factor $\prod_{a\in A}p_{(a,b_0(a))}\to p_{(a_0, b_0(a_0))}$ and then including into the $b_0(a_0)$-summand $p_{(a_0,b_0(a_0))}\to\sum_{b\in B(a_0)}p_{(a_0,b)}$. This establishes the morphism.
+By the universal property of coproducts and products, to provide a morphism $\sum_{b\colon\prod_{a\in A}B(a)}\prod_{a\in A}p_{(a,b),}
+  \to	\prod_{a\in A}\sum_{b\in B(a)}p_{(a,b),}$, it suffices to fix an arbitrary $b_0\in\prod_{a\in A}B(a)$ and $a_0\in A$ and provide a morphism $\prod_{a\in A}p_{(a,b_0(a)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. We do so by first projecting onto the $a_0$-factor $\prod_{a\in A}p_{(a,b_0(a)),}\to p_{(a_0, b_0(a_0)),}$ and then including into the $b_0(a_0)$-summand $p_{(a_0,b_0(a_0)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. This establishes the morphism.
   
   To see that it is an isomorphism in $\poly$, i.e.\ a natural isomorphism of functors, it suffices to check it on components. So fix $X\in\smset$. The induced map
   \[
-  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a))}
+  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
   \cong
-	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b)}
+	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
   \]
   is exactly as in \cref{prop.push_prod_sum_set}, which we proved is an isomorphism. This completes the proof.
 \end{proof}
@@ -3188,6 +3213,13 @@ We have the following chain of natural isomorphisms
 The last step uses \cref{eqn.main_formula,prop.poly_times}.
 \end{proof}
 
+\begin{exercise}
+Use \cref{thm.poly_cart_closed} to show that for any polynomials $p,q$, there is a canonical evaluation map
+\begin{equation}\label{eqn.eval_times}
+	\text{eval}\colon q\times p^q\to p.
+\end{equation}
+\end{exercise}
+
 
 \begin{exercise}
 Using \cref{eqn.exponential}, show that the functor $\smset\to\poly$ sends exponentials to exponentials.
@@ -3244,7 +3276,7 @@ Given polynomials $q,q',r$ and dependent lenses $q\To{f} r\From{f'} q'$, the pul
 	r\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]
- is given as follows. The set of positions in $p$ is the pullback of the positions of $q$ and $q'$ over those of $r$. On each position $(i, i')$ with $f_1(i)=f'_1(i')$, we take the directions set of $p$ in that position to be the  pushout of the directions $q_i$ and $q'_{i'}$ over $r_{f_1(i)}=r_{f_1'(i')}$:
+ is given as follows. The set of positions in $p$ is the pullback of the positions of $q$ and $q'$ over those of $r$. On each $p$-position, say $(i, i')$ with $f_1(i)=f'_1(i')$, we take the directions set of $p$ in that position to be the  pushout of the directions $q_i$ and $q'_{i'}$ over $r_{f_1(i)}=r_{f_1'(i')}$:
 \begin{equation}\label{eqn.pullback_poly}
 \begin{tikzcd}
 	p(\1)\ar[r]\ar[d]&
@@ -3254,10 +3286,10 @@ Given polynomials $q,q',r$ and dependent lenses $q\To{f} r\From{f'} q'$, the pul
 \end{tikzcd}
 \qqand
 \begin{tikzcd}
-	p_{(i,i')}\ar[r]\ar[d]&
-	q'_{i'}\ar[d, "(f')_{i'}^\sharp"]\\
-	q_i\ar[r, "f^\sharp_i"']&
-	r_{f_1(i)}\ar[from = ul, phantom, very near end, "\ulcorner"]
+	p_{(i,i')}\ar[from=r]\ar[from=d]&
+	q'_{i'}\ar[from=d, "(f')_{i'}^\sharp"']\\
+	q_i\ar[from=r, "f^\sharp_i"]&
+	r_{f_1(i)}\ar[ul, phantom, very near end, "\ulcorner"]
 \end{tikzcd}
 \end{equation}
 \end{example}
@@ -3351,6 +3383,22 @@ Suppose that  $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian.
 A position of $p+q$ is a position $i\in p(\1)$ or a position $j\in q(\1)$, and the map $(f+g)^\sharp$ at that position is either $f^\sharp_i$ or $g^\sharp_j$; either way it is an isomorphism, so $f+g$ is cartesian.
 
 A position of $p\times q$ (resp.\ of $p\otimes q$) is a pair $(i,j)\in p(\1)\times q(\1)$. The morphism $(f\times g)^\sharp_{i,j}$ is $f^\sharp_i+g^\sharp_j$ (resp.\ $f^\sharp_i\times g^\sharp_j$) which is again an isomorphism if $f^\sharp_i$ and $g^\sharp_j$ are. Hence $f\times g$ (resp.\ $f\otimes g$) is cartesian, completing the proof.
+\end{proof}
+
+\begin{proposition}\label{prop.pullback_cartesian}
+Let $f\colon p\to q$ be a morphism and $g\colon q'\to q$ a cartesian morphism. Then the pullback $g'$ of $g$ along $p$
+\[
+\begin{tikzcd}
+	p\times_qq'\ar[r]\ar[d]&
+	q'\ar[d, "g"]\\
+	p\ar[r, "f"']&
+	q\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\]
+is cartesian.
+\end{proposition}
+\begin{proof}
+This follows from \cref{ex.pullbacks_in_poly} since the pushout of an isomorphism is an isomorphism.
 \end{proof}
 
 \begin{theorem}[Cartesian morphisms in $\poly$ are exponentiable]\label{thm.cart_exponentiable}
@@ -3457,7 +3505,12 @@ If $f\colon p(\1)\to B$ and $f'\colon p'(\1)\to B'$ are functions then we have
 and the op-cartesian morphisms are clearly preserved since projections in the second line match with projections in the first.
 \end{proof}
 
+%-------- Section --------%
+\section{Summary and further reading}
 
+...
+
+Thanks to Joachim Kock for telling me about the derivative $\dot{p}$ and the relationship between $\dot{p}(\1)$ and the total number of leaves of $p$.
 
 
 \end{document}

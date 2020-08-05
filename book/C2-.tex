@@ -7,8 +7,1448 @@
 
 
 %------------ Chapter ------------%
-\chapter{}\label{chapter.2}
+\chapter{How systems behave: Trajectories, Steady States, and Periodic Orbits}\label{chapter.2}
 
+\section{Introduction}
+
+So far, we have seen how to wire up dynamical systems. But we haven't seen our
+dynamical systems actually \emph{do anything}. In this section, we will begin to
+study the behavior of our dynamical systems. We will see particular kinds of
+behaviors our systems can have:
+trajectories, steady states, and periodic orbits.
+
+\begin{informal}
+  A \emph{behavior} of a dynamical system is a particular way its states can
+  change according to its dynamics.  
+
+  There are different \emph{kinds of behavior} corresponding to the different
+  sorts ways that the states of a system could evolve. Perhaps they eventually
+  repeat, or they stay the same despite changing conditions.
+\end{informal}
+
+In \cref{sec.behaviors}, we will give a formal definition of behavior of
+dynamical system. We will see that the different kinds of behaviors ---
+trajectories, steady states, periodic orbits, etc. --- can each
+be packaged up into a single system that \emph{represents} that kind of
+behavior. This system will behave in exactly that kind of way, and do nothing else. Maps from it to a system of interest will exhibit that sort of behavior in the system of interest.
+
+We will end the section by seeing how the steady states of a complex system formed by wiring together some
+component systems can be calculated from the steady states of the components.
+The calculation will turn out to be just a bit of matrix arithmetic!
+
+This result will be a preview to our more general results in
+\cref{sec.representables} which concern arbitrary behaviors of dynamical
+systems. But that's
+getting ahead of ourselves.
+
+%---- Section ----%
+\section{Trajectories}\label{sec.trajectory_discrete}
+
+In the introduction, we saw that the $\Sys{Clock}$ system
+\cref{eqn.clock_system_box} has behaves in this way if it starts at $3$ o'clock: 
+$$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
+\xmapsto{\fun{tick}} \cdots$$
+
+This sequence of states of the clock system, each following from the last by the
+dynamics of the system, is called a \emph{trajectory}. When our systems have
+input parameters, we will need to choose a sequence of input parameters to feed
+the system in order for the states to change.
+
+\begin{definition}\label{def.trajectory_discrete}
+ Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
+ \leftrightarrows \lens{\In{S}}{\Out{S}}$$
+ be a deterministic system. Suppose that $p : \nn \to \In{S}$ is a sequence of
+ parameters for $\Sys{S}$. Then a \emph{$p$-trajectory} of $\Sys{S}$ is a sequence $s : \nn \to \State{S}$ of states so that
+ $$\update{S}(s_i, p_i) = s_{i + 1}$$
+ for all $i \in \nn$.
+
+ If additionally $v : \nn \to \Out{S}$ is a sequence of output values for $\Sys{S}$, then a
+ \emph{$\lens{p}{v}$-trajectory} is a sequence of states $s : \nn \to \State{S}$ so
+ that
+ \begin{align*}
+   \update{S}(s_i, p_i) &= s_{i + 1}\\
+   \expose{S}(s_i) &= v_i
+ \end{align*}
+ for all $i \in \nn$. We call the pair $\lens{p}{v}$ the \emph{chart} of the trajectory $s$.
+\end{definition}
+
+Its worth noting that a trajectory $s : \nn \to \State{S}$ in a deterministic system is determined
+entirely by its start state $s_0$. This is what makes deterministic systems
+deterministic; if you know the dynamics and you know what state the system is
+in, you know how it will continue to behave. We'll relax this condition later in \cref{??}.
+
+\begin{example}
+Consider the SIR model of \cref{ex.SIR_model_discrete}. Suppose that we let our
+parameters $(a, b) : \nn \to \In{\Sys{SIR}}$ be constant at $.2$ and $.3$
+respectively: that is, $a_t = .2$ and $
+b_t = .3$ for all $t$. Then a trajectory for $\Sys{SIR}$ with parameters $(a, b)$
+is a sequence of populations $(s, i, r) : \nn \to \State{SIR}$ such that
+$$\begin{bmatrix}s_{t+1}\\ i_{t+1}\\ r_{t+1} \end{bmatrix} = \begin{bmatrix}
+  s_t - .2s_t i_t\\ i_t + .2s_t i_t - .3i_t \\ r_t + .3i_t\end{bmatrix}$$
+
+Here is an example of such a trajectory with a $1000$ total people and one infected
+person to start, that is $(s_0, i_0, r_0) = (999, 1, 0)$.
+\[
+  \begin{tikzpicture}
+    %% horizontal axis
+    \draw[->] (0,0) to (11, 0);
+    \draw[label]
+      node at (11, -.3) {$t$};
+    \foreach \x in {1,...,10}
+      \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north] {$\x$};
+
+   %% vertical axis
+   \draw[->] (0,0) to (0, 11);
+   \draw[label] node at (-1, 11) {$(s, i, r)$};
+   \foreach \y in {1,...,10}
+   {
+     \pgfmathtruncatemacro{\display}{100*\y};
+     \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {$\display$};
+   }
+
+%   %% plot
+%   \tikzmath{
+%     real \s; 
+%     \s = 9.99;
+%   
+%     function srecusion(\x){
+%       return {\x-1};
+%     }
+%     \foreach \t in {0,1,...,10}
+%     {
+%       \node[draw,circle,red] at (\t, \s) {};
+%       \s = srecursion(\s);
+%     }
+%    }
+  \end{tikzpicture}
+\]
+\jaz{I don't know how to actually plot this...}
+\end{example}
+
+
+\begin{example}\label{ex.transition_diagram_discrete_traj}
+If a deterministic system is written as a transition diagram, then the
+trajectories in the system are paths through the diagram. Recall from
+\cref{ex.transition_diagram_discrete} this system:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMO{a}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMO{b}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMO{b} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+
+Suppose that $p : \nn \to \{\Green, \Orange\}$
+alternates between $\Green$ and $\Orange$. Then
+starting at the top right state, a trajectory quickly settles into alternating between the top two
+states:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{b} \ar[r, dgreen, thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen,thick] & \LMO{b} \ar[r, orange, thick] & \LMO{a} \ar[r, dgreen, thick] & \cdots
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+
+\end{example}
+
+Knowing about trajectories can show us another important role that deterministic
+systems play: they are \emph{stream transformers}. From a stream $p : \nn \to
+\In{S}$ of inputs and a start state $s_0 \in \State{S}$, we get a trajectory $s
+: \nn \to \State{S}$ given recursively by
+\begin{align*}
+  s_{t+1} &:= \update{S}(s_t,\, p_t).
+\end{align*}
+We then get a stream $v : \nn \to \Out{S}$ of output values by defining
+$$v_t := \expose{S}(s_t).$$
+The system $\Sys{S}$ is a way of transforming streams of input parameters into
+streams of output values.
+\begin{proposition}[Deterministic systems as stream transformers]
+ Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
+ \leftrightarrows \lens{\In{S}}{\Out{S}}$$
+ be a deterministic system. Then for every $s_0 \in \State{S}$, we get a stream
+ transformation function
+ $$\fun{transform}_{\Sys{S}} : \In{S}^{\nn} \to \Out{S}^{\nn}$$
+ Given by
+ \begin{align*}
+   \fun{transform}_{\Sys{S}}(p)_0 &= \expose{S}(s_0)\\
+   \fun{transform}_{\Sys{S}}(p)_{t + 1} &= \expose{S}(\update{S}(s_t,\, p_t))
+ \end{align*}
+ where $s_{t+1} = \update{S}({s_t,\, p_t})$ is the trajectory given by $s_0$.
+\end{proposition}
+
+\begin{exercise}
+ Say how the system of \cref{ex.transition_diagram_discrete_traj} acts as a
+ stream transformer on the following streams:
+ \begin{enumerate}
+   \item $p_{2t} = \Green$ and $p_{2t + 1} = \Orange$.
+   \item $p_t = \Green$.
+   \item $p_0 = \Green$ and $p_t = \Orange$ for
+     all $t > 0$.
+     \qedhere
+ \end{enumerate}
+\end{exercise}
+
+Later, in \cref{sec.representables}, we will see that given trajectories of
+component systems, we get a trajectory of a whole wired system. Even better,
+every trajectory of the whole wired system can be calculated this way.
+
+
+%---- Section ----%
+\section{Steady states}
+
+A steady state of a system is a state which does not change. Steady states are
+important because they are guarantees of stability: a vase in a steady state is doing great, a heart in a steady state is in need of attention.
+
+\begin{definition}\label{def.steady_state_discrete}
+ Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
+ \leftrightarrows \lens{\In{S}}{\Out{S}}$$
+ be a deterministic system. For input parameter $i \in \In{S}$ and output value
+ $o \in \Out{S}$, an \emph{$\lens{i}{o}$-steady state} is a state $s \in \State{S}$
+ such that
+ \begin{align*}
+   \update{S}(s, i) &= s, \\
+   \expose{S}(s) &= o.
+ \end{align*}
+ We call the pair $\lens{i}{o}$ the \emph{chart} of the steady state.
+\end{definition}
+
+\begin{remark}
+Its important to note that a steady state is relative to the input parameter
+chosen. For example, in \cref{ex.transition_diagram_discrete}, the top left
+state is steady for the input parameter $\Orange$ but not for
+the input parameter $\Green$.
+\end{remark}
+
+Unlike with trajectories, a system need not necessarily have \emph{any} steady
+states. For example, the $\Sys{Clock}$ has no steady states; it always keeps
+ticking to the next hour. 
+
+In the transition diagram of a finite deterministic system, steady states will be loops
+that begin and end at the same node. Since the system is finite, we can arrange
+the steady states by their chart into a $\In{S} \times \Out{S}$ matrix. For example, in
+\cref{ex.transition_diagram_discrete}, we get the following $\{\Green,\, \Orange\} \times \{a,\, b\}$ matrix:
+\begin{equation}\label{eqn.steady_state_matrix_transition_diagram_discrete}
+\kbordermatrix{
+  & \Green & \Orange\\
+  a & \emptyset & \left\{ \begin{tikzcd}\LMO{a} \ar[loop left, orange, thick] \end{tikzcd} \right\}  \\
+  b & \left\{ \begin{tikzcd}\LMO{b} \ar[loop left, dgreen, thick]\end{tikzcd} \right\}& \emptyset  \\
+}
+\end{equation}
+
+This is a ``matrix of sets'', in that the entries are the actual sets of steady
+states. If we just counted how many steady states there were for each
+input-output pair, we would get this matrix:
+\begin{equation}\label{eqn.steady_state_matrix_transition_diagram_discrete2}
+\kbordermatrix{
+  & \Green & \Orange\\
+  a & 0 & 1  \\
+  b & 1 & 0  \\
+}
+\end{equation}
+
+In \cref{sec.steady_states_matrix_arithmetic}, we'll see that each wiring
+diagram gives a formula for calculating the matrix of steady states of the
+composite system from the matrices of steady states of the inner systems. 
+
+\begin{exercise}\label{ex.find_steady_states1}
+  What are the steady state matrices of systems $\Sys{S_1}$ and $\Sys{S_2}$ from
+  \cref{ex.wiring_transition_diagrams}? What about the combined system $\Sys{S}$?
+\end{exercise}
+
+\paragraph{Steady-looking trajectories.}
+
+The reason we are interested in steady states is that they are highly
+predictable; if we know we are in a steady state, then we know we are always
+going to get the same results. But it is possible for us to always get the same
+outputs for the same input even though the internal state keeps changing. These
+are special trajectories, and we call them \emph{steady-looking} trajectories.
+
+\begin{definition}\label{def.steady_looking_trajectory_discrete}
+  For $i \in \In{S}$ and $o \in \Out{S}$ of a system $\Sys{S}$, a \emph{$\lens{i}{o}$-steady
+    looking trajectory} is a sequence of states $s : \nn \to \State{S}$ such
+  that
+  \begin{align*}
+    \update{S}(s_t, i) &= s_{t + 1} \\
+    \expose{S}(s_t) &= o
+  \end{align*}
+  for all $t \in \nn$. We call the pair $\lens{i}{o}$ the \emph{chart} of the
+  steady-looking trajectory $s$.
+\end{definition}
+
+While the steady states of a wired together system can be calculated from those
+of its components, this is not true for steady-looking trajectories.
+Intuitively, this is because the internal systems can be exposing changing
+outputs between eachother even while the eventual external output remains
+unchanged.
+
+\begin{exercise}\label{ex.steady_looking_trajectories}
+Consider the wiring diagram:
+\[
+\Sys{S} \coloneqq 
+\begin{tikzpicture}[oriented WD, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, baseline=(Outer.center)]
+  \node[bb={1}{1}, fill=blue!10] (S1) {$\Sys{S_1}$};
+  \node[bb={1}{1}, right= of S1, fill=blue!10] (S2) {$\Sys{S_2}$};
+
+  \node[bb={1}{1}, fit={(S1) (S2)}] (Outer) {};
+
+  \draw (Outer_in1) to (S1_in1);
+  \draw (S1_out1) to (S2_in1);
+  \draw (S2_out1) to (Outer_out1);
+\end{tikzpicture}
+\]
+
+
+Find systems $\Sys{S_1}$ and $\Sys{S_2}$ and a steady-looking trajectory of the
+wired system $\Sys{S}$ which is not steady-looking on the component systems.
+\qedhere
+\erase{
+%% Here is my start at a solution
+Here are two systems, $\Sys{S_1}$ and $\Sys{S_2}$ presented in terms of
+transition diagrams. 
+
+ First, let $\Set{Colors}
+= \{\Red, \Blue\}$ and let $\Set{Bool} = \{\const{true}, \const{false}\}$. Here is our first system
+$\Sys{S_1}$, which has interface $\lens{\Set{Bool}}{\Set{Colors}}$:
+\begin{equation}\label{eqn.steady_looking_trajectories1}
+\Sys{S_1} \coloneqq \begin{tikzpicture}[baseline=center]
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\Blue} \ar[loop left, "\false"] \ar[rr, bend left, "\true"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\Red} \ar[loop right, "\false"]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+
+Here is our second system, $\Sys{S_2}$, a $\lens{\Set{Colors}}{\Set{Bool}}$-system: 
+\begin{equation}\label{eqn.steady_looking_trajectories2}
+\Sys{S_2} \coloneqq \begin{tikzpicture}[baseline=center]
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\true} \ar[loop left, red] \ar[loop right, blue]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+
+When we wire these together, we get this system:
+\begin{equation}\label{eqn.steady_looking_trajectories2}
+\Sys{S} \coloneqq \begin{tikzpicture}[baseline=center]
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\true} \ar[loop left, "\false"] \ar[rr, bend left, "\true"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMO{\true} \ar[loop right, "\false"]
+  \end{tikzcd}
+  };
+  As we can see, there is a $(\true, \true)$-steady-looking trajectory which hops between these two states, but always outputs $\true$ on an input of $\true$. However, the output of component system $\Sys{S_1}$ is alternating between $\Blue$ and $\Red$ as this trajectory progresses, so it is not steady-looking when restricted to $\Sys{S_1}$.
+\end{tikzpicture}
+\end{equation}
+}%erased
+  
+\end{exercise}
+
+%---- Section ----%
+\section{Periodic orbits}\label{sec.periodic_orbit_discrete}
+
+Even if the behavior of a system isn't perfectly steady, it may continually
+repeat. To a reasonable approximation, the position of the earth around the sun
+follows a cycle that repeats every year. Using this as a paradigmatic example,
+we call these behaviors that repeat \emph{periodic orbits}.
+
+\begin{definition}[Periodic orbit] \label{def.periodic_orbit_discrete}
+  A $\lens{p}{v}$-trajectory $s : \nn \to \State{S}$ is \emph{periodic} if there
+  exists a time $t_0 \in \nn_{\geq1}$, called the \emph{period}, such that $s_{t_0} = s_0$. If the sequence of
+  parameters $p : \nn \to \In{S}$ is also periodic with the same period (in that $p_{t_0} = p_0$ as well), then we say that $s$ has \emph{periodic parameters}.
+  
+
+\end{definition}
+
+\begin{remark}
+  Note that when we say that a periodic orbit has periodic parameters, we assume
+  that they are periodic with the same period. This has important but subtle
+  consequences for our theorems concerning the composition of behaviors in
+  \cref{sec.representables}. We explain the difference between a periodic orbit
+  and a periodic orbit with periodic parameters in a more precise manner
+  in \cref{rmk.periodic_parameters_versus_not}.
+\end{remark}
+
+\begin{remark}
+  Note that a steady state is a periodic orbit (with periodic parameters) that has
+  a period of $1$. 
+\end{remark}
+
+\begin{exercise}
+Describe a periodic orbit with period $1$ that does not have periodic
+parameters; how are they different from steady states? Are there any of these in systems $\Sys{S_1}$ and $\Sys{S_2}$ of \cref{ex.wiring_transition_diagrams}?
+\end{exercise}
+
+\begin{example}
+  The $\Sys{Clock}$ system is an exemplary periodic system with a period of 12.
+  The $\Sys{ClockWithDisplay}$ of \cref{eqn.whole_clock_system_box} has period 24.
+\end{example}
+
+\begin{exercise}\label{ex.wiring_transition_diagrams_periodic_orbits}
+  What are the periodic orbits in the systems $\Sys{S_1}$ and $\Sys{S_2}$ of
+  \cref{ex.wiring_transition_diagrams} with periodic parameters, and what are their periods? What about
+  the combined system $\Sys{S}$?
+\end{exercise}
+
+\begin{exercise}\label{ex.wiring_transition_diagrams_periodic_parameters}
+  Can you think of any periodic orbits in $\Sys{S_1}$ and $\Sys{S_2}$ of
+  \cref{ex.wiring_transition_diagrams} which
+  don't have periodic parameters? 
+\end{exercise}
+
+A trajectory might not get back to where it started, but may still end up being
+periodic. We call these trajectories \emph{eventually} periodic orbits, since
+they eventually end up in a repeating cycle of states.
+
+\begin{definition}[Eventually periodic orbit] \label{def.eventually_periodic_orbit_discrete}
+A $\lens{p}{v}$-trajectory $s : \nn \to
+  \State{S}$ is \emph{eventually periodic} if there are times $t_0 < t_1 \in
+  \nn$ such that $s_{t_0} = s_{t_1}$ \spiz{is this right?}. If the sequence of
+  parameters $p : \nn \to \In{S}$ is also eventually periodic with the same period (in that $p_{t_0} = p_{t_1}$), then we say that $s$ has \emph{eventually periodic parameters}.
+
+The \emph{period} of an eventually periodic trajectory is
+  the smallest difference $t_1 - t_0$ between times such that $s_{t_0} = s_{t_1}$.
+\end{definition}
+
+%---- Section ----%
+\section{Behaviors of deterministic systems}\label{sec.behaviors}
+
+In the previous
+\cref{sec.trajectory_discrete,sec.steady_state_discrete,sec.periodic_orbit_discrete},
+we saw a number of different kinds of behaviors of dynamical systems. Not only
+were there a lot of definitions in those sections, each of those definitions had
+slight variants (like periodic orbits versus periodic orbits with periodic
+parameters, or steady states versus steady-looking trajectories). In this
+section, we'll define a general notion of behavior and see that we can package each of the above sorts of behavior into a single system in its own right, one that \emph{represents} that sort of
+behavior. The representative system of a certain kind of behavior behaves in
+exactly that way, and does nothing else.
+
+To get started, we will give a formal definition of behavior of deterministic
+system. Before we do this, we need to define another sort of map that can go
+between the interfaces of systems.
+\begin{definition}[Category of charts]\label{def.chart_discrete}
+  A \emph{chart} $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \rightrightarrows
+  \lens{B^-}{B^+}$ in a cartesian category $\cat{C}$ is a pair of maps $f : A^+ \to B^+$ and $f_{\flat} : A^+
+  \times A^- \to B^-$. Note that \emph{this is not a lens}.
+\end{definition}
+
+\begin{exercise}
+\begin{enumerate}
+	\item How many lenses are there $\lens{f^\sharp}{f}\colon\lens{\3}{\2}\fromto\lens{\4}{\3}$?
+	\item How many charts are there $\lens{f^\flat}{f}\colon\lens{\3}{\2}\tto\lens{\4}{\3}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}[Behavior of deterministic systems] \label{def.behavior_discrete}
+  Let $\Sys{T}$ and $\Sys{S}$ be deterministic systems. Given a chart of interfaces $\lens{f_{\flat}}{f}:
+  \lens{\In{T}}{\Out{T}} \rightrightarrows \lens{\In{S}}{\Out{S}}$, a $\lens{f_{\flat}}{f}$-\emph{behavior of
+  shape $\Sys{T}$ in $\Sys{S}$}, written
+ $\phi :
+\Sys{T} \to \Sys{S}$, is a function $\phi : \State{T} \to \State{S}$ sending
+states of $\Sys{T}$ to states of $\Sys{S}$ which preserves the dynamics and
+exposed variables by satisfying the following equations:
+\begin{equation}\label{eqn.behavior_discrete}
+\begin{aligned}
+  \expose{S}(\phi(t)) &= f(\expose{T}(t)), \\
+  \update{S}(\phi(t), f_{\flat}(\expose{T}(t), i)) &= \phi(\update{T}(t, i))
+\end{aligned}
+\end{equation}
+for all $t \in \State{T}$ and $i \in \In{T}$. We say that $\lens{f_{\flat}}{f}$
+is the chart of the behavior $\phi$.
+\end{definition}
+
+\begin{remark}
+  If you prefer commutative diagrams to systems of equations, don't fret. We'll
+  reinterpret \cref{eqn.behavior_discrete} in terms of commutative diagrams in \cref{sec.double_cat_arenas}
+\end{remark}
+
+\begin{remark}
+  Suppose that we have transition diagrams for systems $\Sys{T}$ and $\Sys{S}$.
+  Then a behavior of shape $\Sys{T}$ in $\Sys{S}$ will correspond to part of the
+  transition diagram of $\Sys{S}$ which is shaped like the transition diagram of
+  $\Sys{T}$. See the upcoming examples to see how this looks in practice.
+\end{remark}
+
+ Let's make this definition feel real with a few examples.
+
+\begin{example}\label{ex.trajectory_as_behavior_discrete}
+  Let $\Sys{Time}$ be the system $\lens{t\mapsto t+1}{\id}\colon\lens{\nn}{\nn}\fromto\lens{\{\fun{tick}\}}{\nn}$, i.e.\ with
+\begin{itemize}
+\item $\State{Time} \coloneqq \nn$,
+\item $\Out{Time} \coloneqq \nn$,
+\item $\In{Time} \coloneqq \{\fun{tick}\}$,
+\item $\expose{Time} = \id$,
+\item $\update{Time}(t, \ast) = t + 1$.
+\end{itemize}
+
+As a transition diagram, $\Sys{Time}$ looks like this:
+
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=30pt]
+    \LMO{0} \ar[r, thick, "\fun{tick}"] & \LMO{1} \ar[r,  thick, "\fun{tick}"] & \LMO{2} \ar[r, thick, "\fun{tick}"] & \LMO{3} \ar[r, thick, "\fun{tick}"] & \LMO{4} \ar[r, thick, "\fun{tick}"] & \cdots
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+
+Let's see what a behavior of shape $\Sys{Time}$ in $\Sys{S}$ will be \spiz{what's $\Sys{S}$, arbitrary?}. We will expect the
+shape of $\Sys{Time}$ to appear in the transition diagram of $\Sys{S}$, like
+this:
+\[
+\begin{tikzpicture}[baseline=(Center)]
+  \coordinate (Center) at (0,0);
+	\node[draw] (Diag1) {
+  \begin{tikzcd}[column sep=small]
+    \LMO{0} \ar[r, red, thick] & \LMO{1} \ar[r, red, thick] & \LMO{2} \ar[r, red, thick] & \LMO{3} \ar[r, red, thick] & \LMO{4} \ar[r, red, thick] & \cdots
+  \end{tikzcd}
+  };
+	\node[draw, right = of Diag1] (Diag2){
+\begin{tikzcd}
+\vdots                      & \vdots                      & \vdots                      & \vdots                      & \vdots \\
+\LMO{} \arrow[r] \arrow[u]  & \LMO{} \arrow[r, red] \arrow[u]  & \LMO{} \arrow[r, red] \arrow[u]  & \LMO{} \arrow[u] \arrow[ru, red] &        \\
+\LMO{} \arrow[r] \arrow[u]  & \LMO{} \arrow[r] \arrow[u, red]  & \LMO{} \arrow[u] \arrow[ru] &                             &        \\
+\LMO{} \arrow[r] \arrow[u]  & \LMO{} \arrow[ru] \arrow[u, red] &                             &                             &        \\
+\LMO{} \arrow[u] \arrow[ru, red] &                             &                             &                             &       
+\end{tikzcd}
+  };
+  \draw[->, shorten <=2pt, shorten >=2pt] (Diag1) to (Diag2);
+\end{tikzpicture}
+\]
+
+First, we need to know what a chart $\lens{f_{\flat}}{f} :
+\lens{\In{Time}}{\Out{Time}} \rightrightarrows \lens{\In{S}}{\Out{S}}$ is like. Since
+$\Out{Time} = \nn$ and $\In{Time} \cong \ord{1}$, this means $f : \nn \to \Out{S}$
+is a sequence of outputs, and $f_{\flat} : \nn \times \ord{1} \to \In{S}$ is a
+sequence of input parameters. We might as well instead call $f$ our sequence of
+exposed values $v$, and $f_{\flat}$ our sequence of input parameters $p$, so
+that we have a chart $\lens{p}{v} : \lens{\ord{1}}{\nn}
+\rightrightarrows \lens{\In{S}}{\Out{S}}$.
+
+Now, let's see what a $\lens{p}{v}$-behavior $\gamma : \Sys{Time} \to \Sys{S}$ is. It
+is a function $\gamma
+: \State{Time} \to 
+\State{S}$ satsifying some properties. But $\State{Time} = \nn$, so $\gamma :
+\nn \to \State{S}$ is a sequence of states in $\Sys{S}$. Now,
+\cref{eqn.behavior_discrete} becomes the equations:
+\begin{align*}
+  \expose{S}(\gamma(t)) &= v(t) \\
+  \update{S}(\gamma(t), p(t)) &= \gamma(t + 1).
+\end{align*}
+which are exactly the equations defining a $\lens{p}{v}$-trajectory from \cref{def.trajectory_discrete}!
+
+\end{example}
+
+\begin{example}\label{ex.steady_state_as_behavior_discrete}
+  Consider the simple system $\Sys{Fix}$ with:
+  \begin{itemize}
+  \item $\State{Fix} = \{\ast\}$.
+  \item $\Out{Fix} = \{\ast\}$.
+  \item $\In{Fix} = \{\ast\}.$
+  \item $\expose{Fix} = \id$.
+  \item $\update{Fix}(\ast, \ast) = \ast$.
+  \end{itemize}
+
+  As a transition diagram, this looks like:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\ast} \ar[loop left, "\ast"]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+
+  A behavior $s : \Sys{Fix} \to \Sys{S}$ in an arbitrary system $\Sys{S}$ should be a loop of this shape within the transition
+  diagram of $\Sys{S}$: a steady state.
+\[
+\begin{tikzpicture}
+	\node[draw] (Diag1) {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\ast} \ar[loop left, red, "\ast"]
+  \end{tikzcd}
+  };
+  \node[draw, right = of Diag1]  (Diag2) {
+  \begin{tikzcd}[column sep=small]
+    \LMO{} \ar[out=120, in=90, loop] \ar[in=210, out=250, loop] \ar[rr, bend left = 10] \ar[rr, leftarrow,bend right= 10] \ar[ddr, leftarrow,  bend right= 10] &  & \LMO{} \ar[loop right] \ar[ddl, bend left= 10] \ar[ddl,leftarrow, bend right= 10]  \\
+    & & \\
+    & \LMO{} \ar[out=300, in=240, loop, red] & 
+  \end{tikzcd}
+  };
+  \draw[->] (Diag1) to (Diag2); 
+\end{tikzpicture}
+\]
+
+  Let's check that this works. First, we need to know what a chart $\lens{f_{\flat}}{f} :
+  \lens{\In{Fix}}{\Out{Fix}} \rightrightarrows \lens{\In{S}}{\Out{S}}$ is. Since
+  $\Out{Fix} = \In{Fix} = \{\ast\}$, we have that $f : \{\ast\} \to \Out{S}$ is
+  simply an output value of $\Sys{S}$ and $f_{\flat} : \{\ast\}\times\{\ast\} \to
+  \In{S}$ is simply an input parameter. Therefore, we might as well write $o$
+  for $f$ and $i$ for $f_{\flat}$, to see that a chart $\lens{i}{o} :
+  \lens{\{\ast\}}{\{\ast\}} \rightrightarrows \lens{\In{S}}{\Out{S}}$ is a pair
+  of elements $i \in \In{S}$ and $o \in \Out{S}$.
+
+  Now, let's see what a $\lens{i}{o}$-behavior $s : \Sys{Fix} \to \Sys{S}$ is. It is
+  a function $s : \State{Fix} \to \State{S}$ satisfying a few properties. But
+  $\State{S} = \{\ast\}$ so $s : \{\ast\} \to \State{S}$ is a single state of
+  $\Sys{S}$. Then, \cref{eqn.behavior_discrete} becomes the equations
+  \begin{align*}
+    \expose{S}(s) &= o\\
+    \update{S}(s, i) &= s
+  \end{align*}
+  which are precisely the equations defining a $\lens{i}{o}$-steady state from \cref{def.steady_state_discrete}.
+  
+\end{example}
+
+\begin{example}\label{ex.periodic_orbit_as_behavior}
+  Let $0 < n \in \nn$ be a positive natural number, and consider the system $\Sys{Clock_n}$
+  having:
+  \begin{itemize}
+    \item $\State{Clock_n} = \ord{n} = \{1,\ldots, n\}$.
+    \item $\Out{Clock_n} = \ord{n}$.
+    \item $\In{Clock_n} = \{\ast\}$.
+    \item $\expose{Clock_n} = \id$.
+    \item $\update{Clock_n}(t, \ast) = \begin{cases} t + 1 &\mbox{if $t < n$}
+        \\ 1 &\mbox{if $t = n$}  \end{cases}$.
+  \end{itemize}
+
+This is the clock with $n$ hours. Our example system $\Sys{Clock}$ from
+\cref{ex.clock_system} is $\Sys{Clock}_{12}$, a clock with 12 hours. Here's what
+$\Sys{Clock}_4$ looks like as a transition diagram:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[sep=small]
+    \LMO{1} \ar[rr, bend left, "\ast"] & & \LMO{2} \ar[dd, bend left, "\ast"] \\
+    & & \\
+\LMO{3} \ar[rr, leftarrow, bend right, "\ast"'] \ar[uu, bend left, "\ast"] & & \LMO{4}
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+
+A behavior $\gamma : \Sys{Clock_n} \to \Sys{S}$ should be a cycle like this in the
+transition diagram of $\Sys{S}$: a periodic orbit. We can see the $\Sys{Clock_\4}$-behavior inside the system shown right:
+\[
+\begin{tikzpicture}
+	\node[draw] (Diag1) {
+  \begin{tikzcd}[sep=small]
+    \LMO{1} \ar[rr, bend left, red, "\ast"] & & \LMO{2} \ar[dd, bend left, red, "\ast"] \\
+    & & \\
+\LMO{3} \ar[rr, leftarrow, bend right, red, "\ast"'] \ar[uu, bend left, red, "\ast"] & & \LMO{4}
+  \end{tikzcd}
+  };
+  \node[draw, right= of Diag1] (Diag2) {\begin{tikzcd}[sep=small]
+    \LMO{} \ar[loop left] \ar[rr, bend left, red] \ar[dd, leftarrow, bend right, red] &  & \LMO{} \ar[loop right] \ar[dd, bend left, red ]\\
+    & & \\
+    \LMO{} \ar[loop left] \ar[rr, leftarrow, bend left] \ar[rr, leftarrow, bend right, red] & & \LMO{}
+  \end{tikzcd}
+};
+\draw[->] (Diag1) to (Diag2);
+\end{tikzpicture}
+\]
+
+Let's check that this works. First, we need to know what a chart
+$\lens{f_{\flat}}{f} : \lens{\In{Clock_n}}{\Out{Clock_n}} \rightrightarrows
+\lens{\In{S}}{\Out{S}}$ is. Since $\Out{Clock_n} = \ord{n}$ and $\In{Clock_n} =
+\{\ast\}$, $f : \ord{n} \to \Out{S}$ is a sequence of $n$ exposed values of
+$\Sys{S}$ while $f_{\flat} : \ord{n} \times \{\ast\} \to \In{S}$ is a sequence
+of $n$ parameters. Therefore, we might as well write $v$ for $f$ and $p$ for
+$f_{\flat}$ to find that a chart $\lens{p}{v} : \lens{\{\ast\}}{\ord{n}}
+\rightrightarrows \lens{\In{S}}{\Out{S}}$ consists of an $n$-length sequence of
+parameters and an $n$-length sequence of exposed values. 
+
+A $\lens{p}{v}$-behavior $\gamma : \Sys{Clock_n} \to \Sys{S}$, then, is a function
+$\gamma : \State{Clock_n} \to \State{S}$ satisfying a few properties. Since
+$\State{Clock_n} = \ord{n}$, $\gamma : \ord{n} \to \State{S}$ is a $n$-length
+sequence of states of $S$, and \cref{eqn.behavior_discrete} become the equations
+\begin{align*}
+  \expose{S}(\gamma(t)) &= v(t) \\
+  \update{S}(\gamma(t), p(t)) &= \begin{cases} \gamma(t + 1) &\mbox{if $t < n$} \\
+\gamma(1) &\mbox{if $t = n$} \end{cases}.
+\end{align*}
+As we can see, this determines a sequence of length $n$ of states of $\Sys{S}$
+which repeats when it gets to the end. In other words, this is a periodic orbit
+with periodic parameters as in \cref{def.periodic_orbit_discrete}!
+\end{example}
+
+If we have a certain kind of behavior in mind, and we find a system $\Sys{T}$ so
+that behaviors of shape $\Sys{T}$ are precisely this kind of behavior, then we
+say that $\Sys{T}$ \emph{represents} that behavior. For example, we have just
+seen that:
+\begin{itemize}
+  \item The system $\Sys{Time} = \lens{\_ + 1}{\id} : \lens{\nn}{\nn} \leftrightarrows
+    \lens{\{\ast\}}{\nn}$ represents trajectories.
+  \item The system $\Sys{Fix} = \lens{\pi_2}{\id} : \lens{\{\ast\}}{\{\ast\}}
+    \leftrightarrows \lens{\{\ast\}}{\{\ast\}}$ represents steady states.
+  \item The systems $\Sys{Clock_n} = \lens{\_ + 1 \mod n}{\id} :
+    \lens{\ord{n}}{\ord{n}} \leftrightarrows \lens{\{\ast\}}{\ord{n}}$
+    represents periodic orbits with periodic parameters whose period divides $n$.
+\end{itemize}
+
+Note that there is always a particularly simple behavior on a system: the
+identity behaviors $\id : \State{T} \to \State{T}$. This says that every system
+behaves as itself. In particular, $\Sys{Time}$ has a trajectory behavior given by
+$\id : \Sys{Time} \to \Sys{Time}$ (namely, the trajectory $s_t = t$), and $\Sys{Fix}$ has a steady state behavior given by $\id : \Sys{Fix} \to \Sys{Fix}$ (namely,
+the steady state $\ast$), etc. We refer to the identity behavior of $\Sys{T}$ as the \emph{generic}
+behavior of type $\Sys{T}$.
+
+\begin{exercise}\label{ex.find_representatives_discrete}
+  Find a representative system for the following kinds of behavior.
+  \begin{enumerate}
+    \item An eventually periodic orbit (see \cref{def.eventually_periodic_orbit_discrete}) that takes $n$ steps to get to a period
+      of size $m$.
+    \item A steady-looking trajectory (see \cref{def.steady_looking_trajectory_discrete}).
+    \item A periodic orbit of period at most $n$ whose parameters aren't
+      necessarily also periodic (see \cref{def.periodic_orbit_discrete}).
+    \item An trajectory which yields the same output value at every
+      $10^{\text{th}}$ step.
+     \qedhere
+  \end{enumerate}
+\end{exercise}
+
+\begin{remark}\label{rmk.periodic_parameters_versus_not}
+As \cref{ex.find_representatives_discrete} shows, the difference between a
+periodic orbit and a periodic orbit with periodic parameters can be surmised
+precisely by noting that they are represented by systems with different
+interfaces. The dynamics of the systems are the same, but the interfaces (and
+accordingly, the exposed variable) are different; this explains how the
+difference between a periodic orbit and a periodic orbit with periodic
+parameters is all in the chart.
+\end{remark}
+
+\begin{exercise}\label{ex.represents_what_discrete}
+  What kind of behaviors do the following systems represent? First, figure out
+  what kind of charts they have, and then see what a behavior with a given chart
+  is. Describe in your own words.
+
+  \begin{enumerate}
+  \item The system $\Sys{Plus}$ with:
+    \begin{itemize}
+    \item $\State{Plus} = \nn$.
+    \item $\Out{Plus} = \nn$.
+    \item $\In{Plus} = \nn$.
+    \item $\expose{Plus} = \id$.
+    \item $\update{Plus}(t, j) = t + j$.
+    \end{itemize}
+    %% A chart is a sequence of output values and an a $\nn \times \nn$ grid of
+    %% input values. A behavior is a sequence of states with those output values
+    %% where state $s_t$ updates on parameter $(t, j)$ to $s_{t + j}$.
+  \item The system $\Sys{T_n}$ with:
+    \begin{itemize}
+    \item $\State{T_n} = \nn$.
+    \item $\Out{T_n} = \{0, \ldots, n - 1\}$.
+    \item $\In{T_n} = \{\ast\}$.
+    \item $\expose{T_n}(t) = t \mod n$.
+    \item $\update{T_n}(t, \ast) = t + 1$.
+    \end{itemize}
+    %% Its a trajectory that looks periodic, and has periodic parameters.
+  \item The system $\Sys{XOR}$ with:
+    \begin{itemize}
+    \item $\State{XOR} = \Set{Bool} = \{\true,\, \false\}$.
+    \item $\Out{XOR} = \Set{Bool}$.
+    \item $\In{XOR} = \Set{Bool}$.
+    \item $\expose{XOR} = \id$.
+    \item \[\begin{aligned}
+        &\update{XOR}(\true, \true) &= \false, \\
+        &\update{XOR}(\false, \true) &= \true, \\
+        &\update{XOR}(\true, \false) &= \true, \\
+        &\update{XOR}(\false, \false) &= \false.
+          \end{aligned}\]
+    \end{itemize}
+  \item The system $\Sys{List_C}$ for a set of \emph{choices} $C$ with:
+    \begin{itemize}
+      \item $\State{List_C} = \Set{List}_C$ is the set of lists of elements in
+        $C$.
+      \item $\Out{List_C} = \Set{List}_C$.
+      \item $\In{List_C} = C$.
+      \item $\expose{List_C} = \id$.
+      \item $\update{List_C}(\ell, c) = c::\ell$, that is, we update a list by
+        appending the character $c \in C$ to the start.
+    \end{itemize}
+  \end{enumerate}
+\end{exercise}
+
+While every system $\Sys{T}$ represents some kind of behavior --- just take the kind of
+behavior to be exactly described by behaviors $\Sys{T} \to \Sys{S}$ --- we are
+most interested in those simple systems $\Sys{T}$ whose behavior we can fully
+understand. 
+
+
+We have written a behavior of shape $\Sys{T}$ in $\Sys{S}$ with an arrow $\phi :
+\Sys{T} \to \Sys{S}$. This suggests that there is a category with deterministic
+systems as its objects and behaviors as its morphisms; and there is!
+
+\begin{definition}\label{def.category_of_charts}
+  The category $\Cat{Chart}_{\cat{C}}$ of charts in $\cat{C}$ has
+  \begin{itemize}
+    \item Objects the \emph{arenas} $\lens{A^-}{A^+}$, pairs of objects in $\cat{C}$.
+    \item Maps the \emph{charts} $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
+      \tto \lens{B^-}{B^+}$.
+    \item Composition the composite of a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
+      \tto \lens{B^-}{B^+}$ with a chart $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
+      \tto \lens{C^-}{C^+}$ is 
+$$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{(a^+, a^-)
+  \mapsto g_{\flat}(f(a^+), f_{\flat}(a^+, a^-))}{g \circ f}.$$
+     \item The identity chart is $\lens{\pi_2}{\id} : \lens{A^-}{A^+}
+       \rightrightarrows \lens{A^-}{A^+}$.
+  \end{itemize}
+\end{definition}
+\begin{exercise}
+  Check that $\Cat{Chart}_{\cat{C}}$ is indeed a category. That is,
+  \begin{enumerate}
+    \item For charts $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
+      \tto \lens{B^-}{B^+}$, $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
+      \tto \lens{C^-}{C^+}$, and $\lens{h_{\flat}}{h} : \lens{C^-}{C^+}
+      \tto \lens{D^-}{D^+}$, show that 
+$$\lens{h_{\flat}}{h} \circ \left( \lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f}
+\right) = \left( \lens{h_{\flat}}{h} \circ \lens{g_{\flat}}{g} \right) \circ \lens{f_{\flat}}{f}.$$
+    \item For a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
+      \tto \lens{B^-}{B^+}$, show that 
+$$ \lens{\pi_2}{\id} \circ \lens{f_{\flat}}{f} = \lens{f_{\flat}}{f} =
+\lens{f_{\flat}}{f} \circ \lens{\pi_2}{\id}.$$
+  \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{ex.special_charts}
+  What are the charts of the following forms in simpler terms? 
+  \begin{enumerate}
+    \item $\lens{f_{\flat}}{f} : \lens{\ord{1}}{\ord{1}} \tto \lens{A^-}{A^+}$.
+    \item $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{\ord{1}}{\ord{1}}$.
+    \item $\lens{f_{\flat}}{f} : \lens{\ord{1}}{A^+} \tto \lens{B^-}{B^+}$.
+   \end{enumerate}
+\end{exercise}
+
+\begin{proposition}\label{prop.category_of_systems_discrete}
+  There is a category $\Cat{Sys}$ with deterministic systems as its objects and
+  where a map $\Sys{T} \to \Sys{S}$ is a pair consisting of a chart
+  $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}} \rightrightarrows
+  \lens{\In{S}}{\Out{S}}$ and a $\lens{f_{\flat}}{f}$-behavior $\phi : \Sys{T}
+  \to \Sys{S}$. Composition is given by composing both the charts and the
+  functions on states, and identities are given by the generic behaviors: the identity chart with the
+  identity function $\id : \State{T} \to \State{T}$.
+\end{proposition}
+\begin{proof}
+  We just need to check that the composite $\psi \circ \phi$ of two behaviors $\phi : \Sys{T} \to
+  \Sys{S}$ and $\psi : \Sys{S} \to \Sys{U}$ with charts $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}} \rightrightarrows
+  \lens{\In{S}}{\Out{S}}$ and $\lens{g_{\flat}}{g} : \lens{\In{S}}{\Out{S}} \rightrightarrows
+  \lens{\In{U}}{\Out{U}}$ is a behavior with chart $\lens{g_{\flat}}{g} \circ
+  \lens{f_{\flat}}{f}$. That is, we need to check that
+  \cref{eqn.behavior_discrete} is satisfied for $\psi \circ \phi$. We can do
+  this using the fact that it is satisfied for both $\psi$ and $\phi$.
+  \begin{align*}
+    \expose{U}(\psi(\phi(t))) &= \psi(\expose{S}(\phi(t))) \\
+                              &= \psi(\phi(\expose{T}(t))).\\
+  \end{align*}
+  \begin{align*}
+    \update{U}(\psi(\phi(t)), &g_{\flat}(f(\expose{T}(t)), f_{\flat}(\expose{T}(t), i)))  \\
+                              &=\update{U}(\psi(\phi(t)), g_{\flat}(\expose{S}(\phi(t)), f_{\flat}(\expose{T}(t), i))) \\
+                              &= \psi(\update{S}(\phi(t), f_{\flat}(\expose{T}(t), i))) \\
+    &= \psi(\phi(\update{T}(t, i))).
+    &\qedhere
+  \end{align*}
+\end{proof}
+
+There are two different ways to understand what composition of behaviors means:
+one based on post-composition, and the other based on pre-composition.
+\begin{itemize}
+  \item We see that any behavior $\Sys{S} \to \Sys{U}$ gives a way of turning
+    $\Sys{T}$-shaped behaviors in $\Sys{S}$ to $\Sys{T}$-shaped behaviors in $\Sys{U}$.
+  \item We see that any behavior $\Sys{T} \to \Sys{S}$ gives a way of turning
+    $\Sys{S}$-shaped behaviors in $\Sys{U}$ into $\Sys{T}$-shaped behaviors in $\Sys{U}$.
+\end{itemize}
+
+\begin{example}\label{ex.steady_state_gives_trajectory_discrete}
+  Any steady state $s$ can be seen as a particularly simple trajectory: $s_t =
+  s$ for all $t$. We have seen in
+  \cref{ex.steady_state_as_behavior}
+  that steady states are $\Sys{Fix}$-shaped behaviors. We can use composition of behaviors to
+  understand how steady states give rise to trajectories.
+
+  The generic steady state $\ast$ of $\Sys{Fix}$ (that is, the identity behavior of
+  $\Sys{Fix}$) generates a trajectory $s : \nn \to \State{Fix}$ with input
+  parameters $p_t = \ast$ and $s_t = \ast$. This gives us a behavior $s :
+  \Sys{Time} \to \Sys{Fix}$.
+  
+  Now, for every steady state $\gamma : \Sys{Fix} \to \Sys{S}$, we may compose
+  to get a trajectory $\gamma \circ s : \Sys{Time} \to \Sys{S}$.
+\end{example}
+
+\begin{exercise}\label{ex.behaviors_as_change_of_kind_discrete}
+Adapt the argument of \cref{ex.steady_state_gives_trajectory_discrete} to show
+that
+\begin{enumerate}
+  \item Any eventually periodic orbit gives rise to a trajectory.
+  \item If $n$ divides $m$, then any orbit of period at most $n$ gives rise to
+    an orbit of period of most $m$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
+\paragraph{Isomorphisms of Systems}
+
+Now that we have a category of systems and behaviors, category theory supplies
+us with a definition of isomorphism for systems. 
+\begin{definition}\label{def.isomorphism_of_systems_discrete}
+  An \emph{isomorphism} of a system $\Sys{T}$ with a system $\Sys{S}$ is a
+  a behavior $\phi : \Sys{T} \to \Sys{S}$ for which there is another behavior
+  $\phi\inv : \Sys{S} \to \Sys{T}$ such that $\phi \circ \phi \inv =
+  \id_{\Sys{S}}$ and $\phi \inv \circ \phi = \id_{\Sys{T}}$.
+\end{definition}
+
+Let's see that this is indeed a good notion of sameness for systems.
+\begin{proposition}\label{prop.isomorphism_of_systems_discrete}
+  A behavior $\phi : \Sys{T} \to \Sys{S}$ is an isomorphism if and only if the
+  following conditions hold:
+\begin{enumerate}
+  \item The map $\phi : \State{T} \to \State{S}$ is an isomorphism of sets --- a
+    bijection.
+  \item The chart $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}}
+    \rightrightarrows \lens{\In{S}}{\Out{S}}$ of $\phi$ is an isomorphism in
+    $\Cat{Chart}_{\smset}$. That is, $f : \Out{T} \to \Out{S}$ is a bijection
+    and there is a bijection $f_{\flat}' : \In{T} \to \Out{T}$ such that
+    $f_{\flat} = f_{\flat}' \circ \pi_2$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+  Since composition in the category of systems and behaviors is given by
+  composition of the underlying charts and maps, $\phi$ is an isomorphism of
+  systems if and only if its action on states is a bijection and its chart is an
+  isomorphism in the category of charts. It just remains to see that our
+  description of isomorphism of charts is accurate, which we leave to \cref{ex.isomorphism_in_category_of_charts}.
+\end{proof}
+
+\begin{exercise}\label{ex.isomorphism_in_category_of_charts}
+  Show that a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
+    \rightrightarrows \lens{B^-}{B^+}$ is an isomorphism if and only if $f$ is
+    an isomorphisms and there is an isomorphism $f_{\flat}' : A^- \to B^-$ such
+    that $f_{\flat} = f_{\flat}' \circ \pi_2$. 
+\end{exercise}
+
+
+
+\subsection{Internal behaviors}
+
+While we will often be interested in behaviors of systems that change the
+interface in the sense of having non-trivial charts, we will also be interested
+in behaviors of systems that do not changed the exposed variables at all. These
+behaviors play a very different role in the theory of dynamical systems than
+behaviors like trajectories and steady states. Because they don't change
+observable behavior (since they have identity chart), they say more about how we
+\emph{model} the observable behavior than what that behavior is itself.
+
+\begin{definition}\label{def.cat_of_systems_discrete}
+  Let $\lens{I}{O}$ be an arena. The category
+$$\Cat{Sys}\lens{I}{O}$$
+of deterministic $\lens{I}{O}$-systems has as objects the systems
+$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \fromto
+\lens{I}{O}$ with interface $\lens{I}{O}$ and as maps the \emph{internal behaviors} $\phi :
+\Sys{T} \to \Sys{S}$, those behaviors whose chart is the identity chart on $\lens{I}{O}$.
+\end{definition}
+
+\begin{example}\label{ex.simulation_discrete}
+  Recall the $\lens{\{\Green, \Orange\}}{\{a, b\}}$-system $\Sys{S}$ from
+  \cref{ex.transition_diagram_discrete}:
+ \[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMOO{1}{a}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMOO{2}{b}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMOO{3}{b} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+ If we had built this system as a model of some relationships between input
+ colors and output letters we were seeing in the wild, then we have made this
+ system a bit redundant. If the output is $a$, and we feed it $\Green$, the
+ output will be $b$; if we feed it $\Orange$, the output will be $a$. Similarly,
+ if the output is $b$ --- no matter which of states $2$ or $3$ the system
+ is actually in --- and we feed it $\Green$, the output will again be $b$, and
+ if we feed it $\Orange$, the output will be $a$. And there really isn't much
+ else going on in the system.
+
+ We can package this observation into a behavior in $\Cat{Sys}\lens{\{\Green,
+   \Orange\}}{\{a, b\}}$. Let $\Sys{U}$ be the system
+ \[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+  	\LMOO{1}{a}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMOO{2}{b}\ar[ll, thick, orange, bend left]\ar[loop left, thick, dgreen]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+We can give a behavior $q : \Sys{S} \to \Sys{U}$ with identity chart as follows
+defined by
+\begin{align*}
+  q(1) &= 1 \\
+  q(2) &= 2 \\
+  q(3) &= 2
+\end{align*}
+We can check, by cases, that this is indeed a behavior. That it is a behavior in
+$\Cat{Sys}\lens{\{\Green, \Orange\}}{\{a, b\}}$ means that it doesn't change the
+observable behavior.
+\end{example}
+
+\cref{ex.simulation_discrete} also gives us an example of an important relation between
+systems: \emph{bisimulation}. We saw what it means for two systems to be
+isomorphic: it means they have isomorphic states and the same dynamics and
+output relative to those isomorphisms. But this is sometimes too strong a notion
+of sameness for systems; we want to know when two systems \emph{look the same}
+on the outside. 
+
+Let's see what this notion looks like for deterministic systems; then we will
+describe it in a doctrinal way.
+\begin{definition}\label{def.bisimulation_discrete}
+  In the deterministic doctrine, a \emph{bisimulation} $\sim$ between $\lens{I}{O}$-systems $\Sys{S}$ and
+  $\Sys{U}$ is a relation $\sim : \State{S} \times \State{U} \to \{\true,
+  \false\}$ between states of these systems such that $s \sim u$ only when $s$
+  and $u$ have related dynamics:
+  \begin{align*}
+    s \sim u &\mbox{ implies } \expose{S}(s) = \expose{U}(u) \\
+    s \sim u &\mbox{ implies } \update{S}(s, i) \sim \update{U}(u, i) \mbox{ for all $i \in I$}.
+  \end{align*}
+  If $\sim$ is a bisimulation, we say that $s$ and $u$ are \emph{bisimilar} when
+  $s \sim u$.
+  
+  A bisimulation $\sim$ is said to be \emph{total} if every $s \in \State{S}$ is
+  bisimilar to some $u \in \State{U}$ and vice-versa.
+\end{definition}
+
+Total bisimulation is a strong relation between systems. For deterministic
+systems, this implies that they act the same on any input.
+\begin{proposition}\label{prop.bisimulation_discrete}
+  Let $\Sys{S}$ and $\Sys{U}$ be deterministic $\lens{I}{O}$-systems, and let $\sim$ be a
+  total bisimulation between them. If $s_0 \sim u_0$ are bisimilar, then they
+  induce the same transformation on streams of inputs into streams of outputs: 
+$$\fun{transform}_{\Sys{S}} = \fun{transform}_{\Sys{U}}.$$
+\end{proposition}
+\begin{proof}
+Let $i : \nn \to I$ be a stream of inputs. Let $s : \nn \to \State{S}$ be the
+stream of states generated by $s_0$ and similarly, let $u : \nn \to \State{U}$
+be the stream of states generated by $u_0$. 
+
+We first show that $s_n \sim u_n$ for all $n$. Our base case holds by
+hypothesis; now suppose that $s_n \sim u_n$ seeking $s_{n+1} \sim u_{n + 1}$.
+Well,
+\[s_{n +1} = \update{S}(s_n, i_n) \sim \update{U}(u_n, i_n) = u_{n+1}\]
+because $\sim$ is a bisimulation.
+
+Finally, 
+\[
+\fun{transform}_{\Sys{S}}(i)_n = \expose{S}(s_n) = \expose{U}(u_n) = \fun{transform}_{\Sys{U}}(i)_n$
+\]
+because $s_n \sim u_n$. 
+\end{proof}
+
+%% writehere
+
+%---- Section ----%
+\section{Dealing with two kinds of composition: Double categories}
+
+In this section, we will introduce the notion of \emph{double category} to help
+us deal with our two kinds of composition: the composition of systems, and the
+composition of behaviors.
+
+\begin{definition}\label{def.double_category}
+  A \emph{double category} $\cat{D}$ has:
+  \begin{itemize}
+    \item A class $\const{ob}\cat{D}$ of \emph{objects}.
+    \item A \emph{horizontal} category $h \cat{D}$ whose objects are those of
+      $\cat{D}$. We call the maps in $h\cat{D}$ the \emph{horizontal} maps of $\cat{D}$.
+    \item A \emph{vertical} category $v \cat{D}$ whose objects are those of
+      $\cat{D}$. We call the maps in $v\cat{D}$ the \emph{vertical} maps of $\cat{D}$.
+    \item For vertical maps $j : A \to B$ and $k : C \to D$ and horizontal maps
+      $f : A \to C$ and $g : B \to D$, there is a set of
+      \emph{squares}
+      \[
+        \begin{tikzcd}[sep=small]
+          A \ar[dd, "j"'] \ar[rr, "f"] & & B \ar[dd, "k"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+      \]
+    \item Squares can be composed both horizontally and vertically:
+        \[
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j"'] \ar[rr, "f_1"] & & A_2 \ar[dd, "k"]  \ar[rr, "f_2"]&
+          & A_3 \ar[dd, "\ell"]\\
+           & \alpha &  & \beta &\\
+          B_1 \ar[rr, "g_1"'] & & B_2 \ar[rr, "f_2"] & & B_3
+        \end{tikzcd} \mapsto
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j"'] \ar[rr, "f_2 f_1"] & & A_3 \ar[dd, "\ell"] \\
+           & \alpha \mid \beta & \\
+          B_1 \ar[rr, "g_2 g_1"'] & & B_3
+        \end{tikzcd}
+        \]
+        \[
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j_1"'] \ar[rr, "f"] & & A_2 \ar[dd, "k_1"]  \\
+           & \alpha &  \\
+           B_1 \ar[dd, "j_1"'] \ar[rr, "g"] & & B_2 \ar[dd, "k_2"]\\
+           & \beta & \\
+           C_1 \ar[rr, "h"']& & C_2
+        \end{tikzcd} \mapsto
+        \begin{tikzcd}[sep=small]
+          A_1 \ar[dd, "j_2 j_1"'] \ar[rr, "f"] & & A_3 \ar[dd, "k_2 k_1"] \\
+           & \frac{\alpha}{\beta} & \\
+          C_1 \ar[rr, "h"'] & & B_3
+        \end{tikzcd}
+        \]
+      \item For every vertical map $j : A \to B$, there is an identity square
+        \[
+        \begin{tikzcd}[sep=small]
+          A \ar[dd, "j"'] \ar[rr, equals] & & A \ar[dd, "j"] \\
+           & j & \\
+          B \ar[rr, equals] & & B
+        \end{tikzcd}
+        \]
+        which we will also refer to as $j$, for convenience. Similarly, for
+        every horizontal map $f : A \to B$, there is an identity square
+        \[
+        \begin{tikzcd}[sep=small]
+          A \ar[rr, "f"] \ar[dd, equals] & & A \ar[dd, equals] \\
+           & f & \\
+          B \ar[rr, "f"] & & B
+        \end{tikzcd}
+        \]
+        which we will also refer to as $f$, for convenience.
+      \item Vertical and horizontal composition is associative and unital, and
+        the \emph{interchange law} holds. That is:
+        \begin{itemize}
+          \item For horizontally composable squares $\alpha$, $\beta$, and
+            $\gamma$, $$(\alpha \mid \beta) \mid \gamma = \alpha \mid (\beta \mid
+            \gamma).$$
+          \item For vertically composable squares $\alpha$, $\beta$, and
+            $\gamma$,%
+\footnote{If you're seeing this and feeling worried about fractions, you can put your mind at ease; we promise there will be no fractions. Only squares next to squares.}
+\[
+\begin{array}{c}
+\left(  \begin{array}{c}
+\alpha \\ \hline
+\beta
+\end{array}\right)\\ \hline
+\gamma 
+\end{array}
+= 
+\begin{array}{c}
+  \alpha \\ \hline
+\left(  \begin{array}{c}
+\beta \\ \hline
+\gamma
+\end{array}\right)
+\end{array}
+\]
+\item For a square $\alpha$ with left and right vertical edges $j$ and $k$
+  respectively, 
+$$j \mid \alpha = \alpha = \alpha | k.$$
+\item For a square $\alpha$ with top and bottom horizontal edges $f$ and $g$,
+$$\frac{f}{\alpha} = \alpha = \frac{\alpha}{g}.%
+\footnote{There aren't any fractions here either.}$$
+\item For four appropriately composable squares $\alpha$, $\beta$, $\gamma$, and
+  $\delta$, the following interchange law holds:
+$$\frac{\alpha \mid \beta}{\gamma \mid \delta} = \left.
+  \frac{\alpha}{\beta} \middle|  \frac{\gamma}{\delta} \right. .$$
+        \end{itemize}
+  \end{itemize}
+\end{definition}
+
+Phew, that was quite the definition! The reason the definition of a double
+category is so much more involved than the definition of a category is that
+there is more than twice the data: there's the vertical category and the
+horizontal category, but also how they interact through the squares. 
+
+\begin{remark}
+  Just like we notate the identity square on a vertical morphism $j$ by $j$ and
+  the identity square on a horizontal morphism $f$ by $f$, we will often denote
+  composition of vertical morphisms by $\frac{f}{g}$ and of horizontal morphisms
+  by $j \mid k$. This notation agrees with the composition of their respective
+  identity squares, and will be much more pleasant to look at when writing equations.
+\end{remark}
+
+
+Finally, we are ready to meet the double category of arenas. This is where our dynamical
+systems live, and where they behave.
+
+\begin{definition}\label{def.double_category_of_arenas_discrete}
+  The \emph{double category of arenas} in the deterministic doctrine is a double
+  category which has:
+  \begin{itemize}
+  \item Its objects are the \emph{arenas}, pairs of sets $\lens{A^-}{A^+}$.
+  \item Its horizontal category is the category of charts.
+  \item Its vertical category is the category of lenses.
+  \item There is a square of the following form
+    \begin{equation}\label{eqn.dbl_cat_arena_square}
+      \begin{tikzcd}
+        \lens{A^-}{A^+} \ar[r, shift left, "\lens{f_{\flat}}{f}"] \ar[r, shift
+        right] \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
+        leftarrow] & \lens{B^-}{B^+} \ar[d, shift left, leftarrow,
+        "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
+        \lens{C^-}{C^+} \ar[r, shift right, "\lens{g^{\sharp}}{g}"'] \ar[r,
+        shift left] & \lens{D^-}{D^+}
+      \end{tikzcd}
+    \end{equation}
+    if and only if the following equations hold:
+    \begin{align}\label{eqn.dbl_cat_arena_square_commuting}
+      g(j(a^+)) &= k(f(a^+)) \\
+      k^{\sharp}(f(a^+), g_{\flat}(j(a^+), c^-)) &= f_{\flat}(a^+, j^{\sharp}(a^+, c^-)) 
+    \end{align}
+    for all $a^+ \in A^+$ and $c^- \in C^-$.
+  \end{itemize}
+\end{definition}
+
+It's not obvious from this definition that we actually get a double category
+with this definition. It's not even clear that we have defined a way to compose
+the squares vertically and horizontally.
+
+It turns out we don't need to know anything else to know that we can compose
+these squares, at least in principle. This is because there is at most one
+square filling any two charts and two lenses that line up as in
+\cref{eqn.dbl_cat_arena_square}; to compose these squares just means that if we
+have two such squares lining up, the defining equations
+\cref{eqn.dbl_cat_arena_square_commuting} hold also for the appropriate
+composites. We call double categories with this property \emph{thin}.
+
+\begin{definition}
+  A double category is \emph{thin} if there is at most one square of any
+  signature.
+\end{definition}
+
+So long as composition is well defined in a thin double category, the laws of
+associativity and interchange for square composition come for free; there is at
+most one square of the appropriate signature, so any two you can write down are
+already equal. We do still have to show that composition is well defined in this
+way, which we'll do a bit more generally in \cref{sec.groth_double_construction}
+
+Taking for granted that the double category of arenas is indeed a double
+category, what does this mean for systems? Well, behaviors are particular
+squares in the double category of arenas.
+
+\begin{proposition}\label{prop.behavior_as_square_of_arenas_discrete}
+  Let $\Sys{T}$ and $\Sys{S}$ be dynamical systems. A behavior $\phi : \Sys{T}
+  \to \Sys{S}$ is equivalently a square of the following form in the double
+  category of arenas:
+  \begin{equation}\label{eqn.behavior_as_square_of_arenas_discrete}
+    \begin{tikzcd}
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+        \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+      shift left] & \lens{\In{S}}{\Out{S}}
+    \end{tikzcd}
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  This is a simple matter of checking the definitions against eachother. The
+  defining equations of \cref{def.double_category_of_arenas_discrete} specialize
+  to the defining equations of \cref{def.behavior_discrete}.
+\end{proof}
+
+
+\begin{remark}\label{rmk.double_category_direction}
+While the definition of double category we gave treated both horizontal and
+vertical directions the same, we will often want to see a square
+\[
+  \begin{tikzcd}[sep=small]
+    A \ar[dd, "j"'] \ar[rr, "f"] & & B \ar[dd, "k"] \\
+    & \alpha & \\
+    C \ar[rr, "g"'] & & D
+  \end{tikzcd}
+\]
+as a sort of map $\alpha : j \to k$ from its left to its right side, or a map
+$\alpha : f \to g$ from its top to its bottom side. For example, the systems
+themselves are certain lenses (vertical maps), and the behaviors are squares
+between them. On the other hand, we can also see a square as a way of wiring
+together charts. 
+\end{remark}
+
+\begin{example}\label{ex.understanding_squares_in_double_cat_of_arenas}
+  A square
+  \begin{equation}\label{eqn.understanding_squares_in_double_cat_of_arenas}
+    \begin{tikzcd}
+      \lens{A^-}{A^+} \ar[r, shift left, "\lens{f_{\flat}}{f}"] \ar[r, shift
+      right] \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
+      leftarrow] & \lens{B^-}{B^+} \ar[d, shift left, leftarrow,
+      "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
+      \lens{C^-}{C^+} \ar[r, shift right, "\lens{g^{\sharp}}{g}"'] \ar[r, shift
+      left] & \lens{D^-}{D^+}
+    \end{tikzcd}
+    \end{equation}
+  can be seen as a chart between lenses, that is, two charts which are
+  compatible according to the wiring pattern the lenses describe. For example, consider a square of the
+  following form where $\lens{w^{\sharp}}{w}$ is a wiring diagram:
+  \[
+    \begin{tikzcd}
+      \lens{\ord{1}}{\ord{1}} \ar[r, shift left, "\lens{b^-}{b^+}"] \ar[r, shift
+      right] \ar[d, shift right, equals] \ar[d, shift left, equals] &
+      \lens{B^-}{B^+} \ar[d, shift left, leftarrow,
+      "\lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
+      \lens{\ord{1}}{\ord{1}} \ar[r, shift right, "\lens{d^-}{d^+}"'] \ar[r,
+      shift left] & \lens{D^-}{D^+}
+    \end{tikzcd}
+  \]
+  By \cref{ex.special_charts}, we know that the charts in this diagram are pairs
+  of elements $\lens{b^-}{b^+}$ and $\lens{d^-}{d^+}$ in the arenas
+  $\lens{B^-}{B^+}$ and $\lens{D^-}{D^+}$ respectively. The square then says
+  that $\lens{d^-}{d^+}$ are the values you would get if you passed
+  $\lens{b^-}{b^+}$ along the wires in the wiring diagram
+  $\lens{w^{\sharp}}{w}$.
+\end{example}
+
+Let's take a minute to see what composition of squares in the double category of
+arenas means for systems. Horizontal composition is familiar because it's what
+lets us compose behaviors:
+\[
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[r, shift left, "\lens{\psi \circ
+      \pi_2}{\psi}"] \ar[r, shift right] \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right] &
+    \lens{\State{U}}{\State{U}}\ar[d, shift left, leftarrow,
+    "\lens{\update{U}}{\expose{U}}"] \ar[d, shift right] \\
+    \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f}"'] \ar[r,
+    shift left] & \lens{\In{S}}{\Out{S}} \ar[r, shift right,
+    "\lens{g_{\flat}}{g}"'] \ar[r, shift left]& \lens{\In{U}}{\Out{U}}
+  \end{tikzcd} \xequals{\quad}
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\psi\phi \circ
+      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{U}}{\State{U}} \ar[d, shift left, leftarrow,
+    "\lens{\update{U}}{\expose{U}}"] \ar[d, shift right]\\
+    \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g}"']
+    \ar[r, shift left] & \lens{\In{U}}{\Out{U}}
+  \end{tikzcd}
+\]
+
+On the other hand, vertical composition tells us something else interesting: if
+you get a chart $\lens{g_{\flat}}{g}$ by wiring together a chart
+$\lens{f_{\flat}}{f}$, then a behavior $\phi$ with
+chart $\lens{f_{\flat}}{f}$ induces a behavior with chart $\lens{g_{\flat}}{g}$
+on the wired together systems.
+\[
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
+        leftarrow] \ar[r, shift right, "\lens{f_{\flat}}{f}"']
+    \ar[r, shift left] & \lens{\In{S}}{\Out{S}} \ar[d, shift left, leftarrow,
+        "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
+    \ar[r, shift left] & \lens{I'}{O'} \\
+  \end{tikzcd} \xequals{\quad}
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{f^{\sharp}}{f} \circ \lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{k^{\sharp}}{k} \circ \lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
+    \ar[r, shift left] & \lens{I}{O'}
+  \end{tikzcd}
+\]
+
+\begin{example}\label{ex.understanding_squares_in_double_cat_of_arenas2}
+  Continuing from \cref{ex.understanding_squares_in_double_cat_of_arenas},
+  suppose that we have a $\lens{b^-}{b^+}$-steady state $s$ in a system $\Sys{S}$:
+  \begin{equation}\label{eqn.understanding_squares_in_double_cat_of_arenas2}
+    \begin{tikzcd}
+      \lens{\ord{1}}{\ord{1}} \ar[r, shift left, "\lens{s}{s}"] \ar[r, shift
+      right] \ar[d, shift right, equals] \ar[d, shift left, equals] &
+      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{\ord{1}}{\ord{1}} \ar[r, shift right, "\lens{b^+}{b^-}"'] \ar[r,
+      shift left] & \lens{B^-}{B^+}
+    \end{tikzcd}
+  \end{equation}
+  We can see that $s$ is a $\lens{d^-}{d^+}$-steady state of the wired system by
+  vertically composing the square in
+  \cref{eqn.understanding_squares_in_double_cat_of_arenas2} with the square in
+  \cref{eqn.understanding_squares_in_double_cat_of_arenas}. This basic fact
+  underlies our arguments in \cref{sec.steady_states_matrix_arithmetic}. 
+
+We'll return to this idea in \cref{ex.prof_square_from_arena_square}.
+\end{example}
+
+Recall the categories $\Cat{Sys}\lens{I}{O}$ of systems with the interface
+$\lens{I}{O}$ from
+\cref{def.cat_of_systems_discrete}. One thing that vertical composition in the
+double category of arenas shows us is that wiring together systems is functorial
+with respect to behaviors that don't change the interface.
+\begin{proposition}\label{prop.lens_comp_functor_discrete}
+  For a lens $\lens{f^{\sharp}}{f} : \lens{I}{O} \leftrightarrows
+  \lens{I'}{O'}$, we get a functor
+  $$\Cat{Sys}\lens{f^\sharp}{f} : \Cat{Sys}\lens{I}{O} \to
+  \Cat{Sys}\lens{I}{O}$$
+  Given by composing with $\lens{f^\sharp}{f}$:
+  \begin{itemize}
+    \item For a system $\Sys{S} = \lens{\update{S}}{\expose{S}} :
+      \lens{\State{S}}{\State{S}}\fromto \lens{I}{O}$,
+      $$\Cat{Sys}\lens{f^{\sharp}}{f}(\Sys{S}) = \lens{f^{\sharp}}{f} \circ \lens{\update{S}}{\expose{S}}.$$
+    \item For a behavior, $\Cat{Sys}\lens{f^{\sharp}}{f}$ acts in the following way:
+      \[
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, equals]
+    \ar[r, shift left, equals] & \lens{I}{O'}
+  \end{tikzcd} \quad \mapsto \quad
+  \begin{tikzcd}
+    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
+      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+    \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{f^{\sharp}}{f}"'] \ar[d, shift left,
+        leftarrow] \ar[r, shift right, equals]
+    \ar[r, shift left, equals] & \lens{\In{S}}{\Out{S}} \ar[d, shift left, leftarrow,
+        "\lens{f^{\sharp}}{f}"] \ar[d, shift right]\\
+    \lens{I}{O} \ar[r, shift right, equals]
+    \ar[r, shift left, equals] & \lens{I'}{O'} \\
+  \end{tikzcd} 
+      \]
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  The functoriality of this construction can be seen immediately from the
+  interchange law of the double category:
+  \begin{align*}
+  \frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
+    \circ \pi_2}{\psi} \right. }{\littlelens{f^{\sharp}}{f}} &= \frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
+    \circ \pi_2}{\psi} \right. }{\left. \littlelens{f^{\sharp}}{f} \middle| \littlelens{f^{\sharp}}{f} \right.} &\mbox{by the horizontal identity law,}\\
+    &= \left.
+      \frac{\littlelens{\phi \circ \pi_2}{\phi}}{\littlelens{f^{\sharp}}{f}}
+      \middle|\frac{\littlelens{\psi \circ
+          \pi_2}{\psi}}{\littlelens{f^{\sharp}}{f}} \right. &\mbox{by the interchange law.}
+  \end{align*}
+\end{proof}
 
 
 \end{document}
