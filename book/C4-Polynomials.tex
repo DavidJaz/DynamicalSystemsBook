@@ -54,8 +54,8 @@ Here is a table of terminology. The first column is book-wide terminology, the s
 \multicolumn{4}{c}{\normalsize Terminology}\\
 \textbf{Arena} & \textbf{Polynomial} $p$ & \textbf{Decision Trees} & \textbf{Intuition}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
-Interface in position $i$ & Pure power summand $\yon^{p_i}$ & Corolla & Decision\\
-Direction $c\in p_i$ & Element of $p_i$ & Leaf & Possibility
+Interface in position $i$ & Pure power summand $\yon^{p[i]}$ & Corolla & Decision\\
+Direction $c\in p[i]$ & Element of $p[i]$ & Leaf & Possibility
 \end{tabular}
 \end{equation}
 
@@ -705,7 +705,7 @@ The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$,
 
 
 
-\begin{proposition}[Niu]\label{prop.sysp_is_topos}
+\begin{proposition}[Niu]\label{prop.sysp[i]s_topos}
 For any polynomial $p$, the category
 \[\sys(p)\cong\com{K}_p\set\]
 of dynamical systems on $p$ forms a topos.
@@ -718,7 +718,7 @@ A morphism $p\to q$ of polynomials induces a pre-geometric morphism between thei
 \]
 \end{proposition}
 
-If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will get to everything in the current section, \ref{subsec.math_theory}, over the next few chapters. To briefly summarize the results we have just seen, they say in particular that there is a full-fledged logic of dynamical systems inhabiting any interface (\cref{prop.sysp_is_topos}), that these logics can be combined and compared (\cref{prop.poly_map_pregeo_topos}), and that the whole story of dynamics carries a strong connection to database theory. There are many avenues for study, but we need to push forward.
+If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will get to everything in the current section, \ref{subsec.math_theory}, over the next few chapters. To briefly summarize the results we have just seen, they say in particular that there is a full-fledged logic of dynamical systems inhabiting any interface (\cref{prop.sysp[i]s_topos}), that these logics can be combined and compared (\cref{prop.poly_map_pregeo_topos}), and that the whole story of dynamics carries a strong connection to database theory. There are many avenues for study, but we need to push forward.
 
 Let's begin.
 
@@ -978,8 +978,8 @@ We've finally arrived: we can define the category of polynomial functors!
 \paragraph{$\poly$, the category of polynomial functors}
 
 \begin{definition}[Polynomial functors]
-A \emph{polynomial functor} is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p_i)_{i\in I}$, and an isomorphism
-\[p\cong\sum_{i\in I}\yon^{p_i}\]
+A \emph{polynomial functor} is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p[i])_{i\in I}$, and an isomorphism
+\[p\cong\sum_{i\in I}\yon^{p[i]}\]
 to a sum of representables.
 A \emph{morphism of polynomial functors} is simply a natural transformation $p\to q$.
 \end{definition}
@@ -991,12 +991,12 @@ Consider the polynomial $\yon^\2+\2\yon+\1$. It denotes a functor $\smset\to\sms
 To be very precise and pedantic, let's say
 \[
 I\coloneqq\4\qqand
-  p_1\coloneqq\2,\quad
-  p_2\coloneqq\1,\quad
-  p_3\coloneqq\1,\quad
-  p_4\coloneqq\0\
+  p[1]\coloneqq\2,\quad
+  p[2]\coloneqq\1,\quad
+  p[3]\coloneqq\1,\quad
+  p[4]\coloneqq\0\
 \]
-so that $p\cong\sum_{i\in I}\yon^{p_i}$. Now we have
+so that $p\cong\sum_{i\in I}\yon^{p[i]}$. Now we have
 \[
 p(X)\cong
 \{(1,a,a),(1,a,b),(1,b,a),(1,b,b),(2,a),(2,b),(3,a),(3,b),(4)\}.
@@ -1045,9 +1045,9 @@ Let $p=\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induc
 \end{exercise}
 
 \begin{proposition}\label{prop.apply1}
-Let $p\coloneqq\sum_{i\in I}\yon^{p_i}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
+Let $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
 \begin{equation}\label{eqn.sum_p1}
-p\cong\sum_{i\in p(\1)}\yon^{p_i}.
+p\cong\sum_{i\in p(\1)}\yon^{p[i]}.
 \end{equation}
 \end{proposition}
 \begin{proof}
@@ -1073,14 +1073,14 @@ intuition from the beginning of the chapter, around the table in
 \eqref{eqn.table_terminology}. We said that we'd think of $p$ as a arena: a set
 of decisions you can make and what options you have. That is, $p(\1)$ is
 conceived as a set of decisions, and for every decision $i\in p(\1)$, we
-conceive of the set $p_i$ as the options or \emph{options} available in that
+conceive of the set $p[i]$ as the options or \emph{options} available in that
 decision. Here's how we write $p$ as an arena:
 \[
 \begin{tikzcd}
-p(\1)\ar[r, "p_-"]&\smset
+p(\1)\ar[r, "{p[-]}"]&\smset
 \end{tikzcd}
 \]
-Again, every decision $i\in p(\1)$ gets a set $p_i$ of options: that's the whole
+Again, every decision $i\in p(\1)$ gets a set $p[i]$ of options: that's the whole
 content of $p$.
 \begin{definition}\label{def.arena_poly}
   An \emph{arena} for the dependent doctrine is a \emph{dependent set} $A^-_{(-)} :
@@ -1091,10 +1091,10 @@ content of $p$.
   \[\lens{A^-_{a}}{a \in A^+}.\]
 \end{definition}
 
-We have just noted that every polynomial $p$ gives an arena $\lens{p_i}{i \in p(\1)}$ whose positions are the decisions in the polynomial and whose directions
+We have just noted that every polynomial $p$ gives an arena $\lens{p[i]}{i \in p(\1)}$ whose positions are the decisions in the polynomial and whose directions
 are the options.
 
-The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q_j$ that $q$ could make among its options is passed back as some choice $c\in p_i$ among $p$'s options.
+The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
 
 \begin{agda}
 record Delegation (w : Arena) (w' : Arena) : Set where
@@ -1146,15 +1146,15 @@ Complete the proof of \cref{prop.dlens_self_indexing} as follows.
 \end{exercise}
 
 \begin{remark}
-Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ be polynomials. We can think of a dependent lens $p\to q$ as in \cref{def.dependent_lens} diagrammatically as follows:
+Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials. We can think of a dependent lens $p\to q$ as in \cref{def.dependent_lens} diagrammatically as follows:
 \begin{equation}\label{eqn.colax_poly_map}
 \begin{tikzcd}[column sep=small]
-	p(\1)\ar[dr, "p_-"']\ar[rr, "f_1"]&~&
-	q(\1)\ar[dl, "q_-"]\\&
+	p(\1)\ar[dr, "{p[-]}"']\ar[rr, "f_1"]&~&
+	q(\1)\ar[dl, "{q[-]}"]\\&
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \end{equation}
-That is, $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
+That is, $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$.
 \end{remark}
 
 Dependent lenses are indeed a generalization of the lenses we saw in \cref{def.lens}.
@@ -1197,17 +1197,17 @@ It seems we are observing that the category of polynomial functors is
 equivalent to the category of dependent lenses! Let's state this mathematically and prove it.
 
 \begin{proposition}\label{prop.poly_maps_colax_prod_sum}
-Taking a polynomial $p$ to its arena $\lens{p_i}{i \in p(\1)}$ gives
+Taking a polynomial $p$ to its arena $\lens{p[i]}{i \in p(\1)}$ gives
 an equivalence between $\poly$ and the category of dependent lenses.
 
 To summarize, we have an isomorphism
 \begin{equation}\label{eqn.main_formula}
-\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j} \cong \Cat{DLens}\left( \lens{p_i}{i \in p(\1)},\, \lens{q_j}{j \in q(\1)}\right)
+\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]} \cong \Cat{DLens}\left( \lens{p[i]}{i \in p(\1)},\, \lens{q[j]}{j \in q(\1)}\right)
 \end{equation}
 and composition of polynomial morphisms corresponds to composition of dependent lenses.
 \end{proposition}
 \begin{proof}
-We have an assignment $p \mapsto \lens{p_i}{i \in p(\1)}$ which sends an object
+We have an assignment $p \mapsto \lens{p[i]}{i \in p(\1)}$ which sends an object
 of $\poly$ --- a polynomial functor --- to an object of the category of
 dependent lenses --- an arena. We want to show that this object assignment gives
 an equivalence of categories. First, we can note that it is surjective up to isomorphism on
@@ -1221,21 +1221,21 @@ Next, we'll show that the set of natural transformations $\poly(p,q)$ between po
 and $q$ is isomorphic to the set of dependent lenses between their arenas. We have the following isomorphisms
 \begin{align*}
   \poly(p,q)&=
-  \nat\Big(\sum_{i\in p(\1)}\yon^{p_i},\;\sum_{j\in q(\1)}\yon^{q_j}\Big)&
+  \nat\Big(\sum_{i\in p(\1)}\yon^{p[i]},\;\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
   	\text{Definitions}\\&\cong
-  \prod_{i\in p(\1)}\nat\Big(\yon^{p_i},\sum_{j\in q(\1)}\yon^{q_j}\Big)&
+  \prod_{i\in p(\1)}\nat\Big(\yon^{p[i]},\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
   	\text{Univ. prop. of coproduct}\\&\cong
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}&
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}&
   	\text{Yoneda lemma}
 \end{align*}
 This proves the first part of we called the summary. It says that a morphism
 $p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
-function from $q_j\to p_i$; the first part determines $f$ (i.e.\ $f(i)=j$) and
+function from $q[j]\to p[i]$; the first part determines $f$ (i.e.\ $f(i)=j$) and
 the second part just gives $f^\sharp_i$ directly for each $i$.
 
 We can now note that by \cref{lem.dependent_lens_calculation}, $\prod_{i\in
-  p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}$ is isomorphic to the set of dependent
-lenses $\lens{p_i}{i \in p(\1)} \fromto \lens{q_j}{j \in q(\1)}$.
+  p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}$ is isomorphic to the set of dependent
+lenses $\lens{p[i]}{i \in p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$.
 
 Finally, it remains to show that these isomorphisms are functorial. We leave
 this to \cref{ex.poly_dependent_lens_functoriality}
@@ -1251,8 +1251,8 @@ equivalently a dependent lens will be quite important to us; we will call it our
 \emph{main formula} for the set of polynomial maps.
 
 In fact, this formula will be so important to us that we will often blur the
-difference between a dependent lens $\lens{f^{\sharp}}{f} : \lens{p_i}{i \in
-  p(\1)} \fromto \lens{q_j}{j \in q(\1)}$ with the natural transformation $p \to
+difference between a dependent lens $\lens{f^{\sharp}}{f} : \lens{p[i]}{i \in
+  p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$ with the natural transformation $p \to
 q$ it corresponds to.
 \end{remark}
 
@@ -1291,7 +1291,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
   };
 \end{tikzpicture}
 \]
-To give a dependent lens $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q_j$ is passed back to one in $p_i$.
+To give a dependent lens $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q[j]$ is passed back to one in $p[i]$.
 
 How many ways are there to do this? Before answering this, let's just pick one.
 \[
@@ -1351,7 +1351,7 @@ This represents one morphism $p\to q$.
 
 So how many different morphisms are there from $p$ to $q$? One way to figure it out is to use the formula \eqref{eqn.main_formula}, but that might need some explaining; we go through such notation in an interlude after \cref{exc.practice_poly_maps}. For now, we can just count ``pre-theoretically''.
 
-The first $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. Delegating it to the first $q$-decision requires choosing how each of the four options $(q_1=\4)$ are to be assigned one of $p_1=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate all the ways to delegate the first $p$-decision: there are $3^4+3^2+3^0+3^0=92$. 
+The first $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. Delegating it to the first $q$-decision requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate all the ways to delegate the first $p$-decision: there are $3^4+3^2+3^0+3^0=92$. 
 
 The second $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. There are $1^4+1^2+1^0+1^0=4$ ways to do this; similarly there are four ways to delegate the third $p$-decision to a $q$-decision.
 
@@ -1381,13 +1381,13 @@ For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isom
 \begin{example}[Derivatives]
 We won't have much opportunity to use the following, but it may be interesting. The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
 \[
-\dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{d\in p_i}\yon^{p_i-\{d\}}.
+\dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]-\{d\}}.
 \]
 For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A,B\}\yon^{\{X\}}$ then 
 \[\dot{p}=\{U\}\yon^{\{V,W\}}+\{V\}\yon^{\{U,W\}}+\{W\}\yon^{\{U,V\}}+\{(A,X),(B,X)\}\yon^\0.\]
 Up to isomorphism $p\cong\yon^\3+\2\yon$ and $\dot{p}\cong\3\yon^\2+\2$.
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted in terms of delegations from $p$ to $q$ such that each position in $p$ explicitly selects a $q$-option to be avoided. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q_j$, i.e.\ a choice of $q$-position $j$, as usual, together with a chosen option $d\in q_j$. Then every $q$-option \emph{other than $d$} is passed back to an option in $p_i$.
+A morphism $f\colon p\to \dot{q}$ can be interpreted in terms of delegations from $p$ to $q$ such that each position in $p$ explicitly selects a $q$-option to be avoided. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of $q$-position $j$, as usual, together with a chosen option $d\in q[j]$. Then every $q$-option \emph{other than $d$} is passed back to an option in $p[i]$.
 \end{example}
 
 \begin{exercise}
@@ -1514,17 +1514,17 @@ When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_complet
 
 \begin{exercise}\label{exc.practice_sum_prod}
 Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Recall from
-our main formula \eqref{eqn.main_formula} that there is an isomorphism between polynomia$\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p_i}^{q_j}.$ 
+our main formula \eqref{eqn.main_formula} that there is an isomorphism between polynomia$\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}.$ 
 \begin{enumerate}
 \item Is it true that the following are isomorphic?
 \begin{equation}\label{eqn.poly_p_q}
   \poly(p,q)
   \cong^?
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q_j}\sum_{c\in p_i}\1
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1
 \end{equation}
 \item Is it true that there is an isomorphism
 	\begin{equation}\label{eqn.useful_misc472}
-	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q_j,\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p_i\Big).
+	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\Big).
 	\end{equation}
 \item If the answer to \#2 is ``yes'', then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no'', give intuition for why the two sets are not isomorphic.
 \qedhere
@@ -1540,10 +1540,10 @@ polynomial functors as dependent lenss. Let's practice.
 \begin{example}[Constants are sent to constants]\label{ex.const_to_const}
 Any natural transformation $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
 
-Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and
-$q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ are polynomials, and that we have a map
-$p\to q$ corresponding to a dependent lens $\lens{p_i}{i \in p(\1)} \fromto
-\lens{q_j}{j \in q(\1)}$. If there is some $i_0\in p(\1)$ such that $p_{i_0}=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q_j\to p_i$. But in order for such a function to exist, if $p_i$ is empty, $q_j$ must be too.
+Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and
+$q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ are polynomials, and that we have a map
+$p\to q$ corresponding to a dependent lens $\lens{p[i]}{i \in p(\1)} \fromto
+\lens{q[j]}{j \in q(\1)}$. If there is some $i_0\in p(\1)$ such that $p[i_0]=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q[j]\to p[i]$. But in order for such a function to exist, if $p[i]$ is empty, $q[j]$ must be too.
 \end{example}
 
 \begin{exercise}
@@ -1573,9 +1573,9 @@ The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono 
 The category $\poly$ has finite products. 
 \end{proposition}
 \begin{proof}
-We will see that $\1$ is a terminal object and that the product of $p$ and $q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{i\in q(\1)}\yon^{q_i}$ are in standard notation, then
+We will see that $\1$ is a terminal object and that the product of $p$ and $q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ are in standard notation, then
 \begin{equation}\label{eqn.poly_times}
-p\times q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i+q_j}.
+p\times q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]+q[j]}.
 \end{equation}
 We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
@@ -1673,11 +1673,11 @@ There is a closely related monoidal structure on $\poly$ that will be useful for
 \begin{definition}\label{def.dirichlet}
 Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{parallel product}, denoted $p\otimes q$ is given by the formula:
 \begin{equation}\label{eqn.dirichlet_def}
-p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_i\times q_j}.
+p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
 \end{equation}
 On arenas, this is defined by
 \begin{equation}\label{eqn.parallel_product_dependent}
-\lens{p_i}{i \in p(\1)} \otimes \lens{q_j}{j \in q(\1)} := \lens{p_i \times q_j}{(i,j) \in (p \times q)(\1)}.
+\lens{p[i]}{i \in p(\1)} \otimes \lens{q[j]}{j \in q(\1)} := \lens{p[i] \times q[j]}{(i,j) \in (p \times q)(\1)}.
 \end{equation}
 \end{definition}
 
@@ -2782,7 +2782,7 @@ The parallel monoidal product is closed, meaning that there is an operation, whi
 \]
 natural in $p,q,r$. The closure operation is defined on $q,r$ as follows:
 \begin{equation}\label{eqn.dir_hom}
-	[q,r]\coloneqq\prod_{j\in q(\1)}r\circ(q_i\yon)
+	[q,r]\coloneqq\prod_{j\in q(\1)}r\circ(q[j]\yon)
 \end{equation}
 
 \begin{example}\label{ex.double_dual}
@@ -2822,11 +2822,11 @@ With $[-,-]$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
 We have the following chain of natural isomorphisms:
 \begin{align*}
 	\poly(p\otimes q,r)&\cong
-	\poly\Big(\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p_iq_j},r\Big)\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_iq_j},r)\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p_iq_j)\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p_i},r\circ(q_j\yon))\\&\cong
-	\prod_{i\in p(\1)}\poly\Big(\yon^{p_i},\prod_{j\in q(\1)}r\circ(q_j\yon)\Big)\\&\cong
+	\poly\Big(\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]q[j]},r\Big)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p[i]q[j]},r)\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p[i]q[j])\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p[i]},r\circ(q[j]\yon))\\&\cong
+	\prod_{i\in p(\1)}\poly\Big(\yon^{p[i]},\prod_{j\in q(\1)}r\circ(q[j]\yon)\Big)\\&\cong
 	\poly(p,[q,r]).&
 	\qedhere
 \end{align*}
@@ -2879,7 +2879,7 @@ with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_
 
 In other words $[p,\yon]$ holds within it all of the possible ways $p$ can interact with other systems in a closed box.%
 \footnote{And if you want the generic way $p$ to interact with other systems in a box $r$, just use $[p,r]$.}
-To investigate this just a bit, note that $[p,\yon]\cong\prod_{i\in p(\1)}p_i\yon$. That is, for each position in $p$ it produces a direction there, which is just what $p$ needs as input.
+To investigate this just a bit, note that $[p,\yon]\cong\prod_{i\in p(\1)}p[i]\yon$. That is, for each position in $p$ it produces a direction there, which is just what $p$ needs as input.
 
 Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,\yon)$. Then each state $s$ would include a guess $g(s)$ about what the state of the environment is in. This is not the real environment $q$, but just the environment as it affects $p$, namely $[p,\yon]$. The robot's states model environmental conditions.
 \end{example}
@@ -3008,17 +3008,17 @@ The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
 \[
 \adjr{\smset\op}{\yon^-}{\Gamma}{\poly}
 \]
-where $\Gamma(p)\coloneqq\prod_{i\in p(\1)}p_i$.
+where $\Gamma(p)\coloneqq\prod_{i\in p(\1)}p[i]$.
 \end{proposition}
 \begin{proof}
 We have the following chain of natural isomorphisms:
 \begin{align*}
   \smset(A,\Gamma(p))&\cong
-  \Big(\prod_{i\in p(\1)}p_i\Big)^A
+  \Big(\prod_{i\in p(\1)}p[i]\Big)^A
   	&\text{Definition of function}\\&\cong
-  \prod_{i\in p(\1)}{p_i}^A
+  \prod_{i\in p(\1)}{p[i]}^A
   	&\text{Definition of product}\\&\cong
-  \prod_{i\in p(\1)}\sum_{j\in\1}{p_i}^A
+  \prod_{i\in p(\1)}\sum_{j\in\1}{p[i]}^A
   	&\text{Trivial sum}\\&\cong
   \poly(p,\yon^A).&\cref{eqn.main_formula}
 \end{align*}
@@ -3032,10 +3032,10 @@ Show that $\Gamma(p)\cong[p,\yon](\1)$ where $[-,-]$ is as in \cref{prop.dirichl
 \paragraph{Epi-mono factorization.}
 
 \begin{proposition}
-Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism iff the function $f_1\colon p(\1)\to q(\1)$ is a monomorphism in $\smset$ and, for each $i\in p(\1)$ the function $f_i^\sharp\colon q_{f_1(i)}\to p_i$ is an epimorphism in $\smset$.
+Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism iff the function $f_1\colon p(\1)\to q(\1)$ is a monomorphism in $\smset$ and, for each $i\in p(\1)$ the function $f_i^\sharp\colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
 \begin{proof}
-\noindent$\Rightarrow$: Suppose that $f$ is a monomorphism. Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms. We need to show that for any $i\in p(\1)$ the function $f_i^\sharp\colon q_{f_1(i)}\to p_i$ is an epimorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p_i\tto A$ with $g^\sharp f_i^\sharp=h^\sharp f_i^\sharp$. They can be identified with morphisms $\yon^A\tto p$ whose compositions with $f$ are equal, hence $g=h$ by assumption, and hence $g^\sharp=h^\sharp$ as desired.
+\noindent$\Rightarrow$: Suppose that $f$ is a monomorphism. Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms. We need to show that for any $i\in p(\1)$ the function $f_i^\sharp\colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p[i]\tto A$ with $g^\sharp f_i^\sharp=h^\sharp f_i^\sharp$. They can be identified with morphisms $\yon^A\tto p$ whose compositions with $f$ are equal, hence $g=h$ by assumption, and hence $g^\sharp=h^\sharp$ as desired.
 
 \noindent$\Leftarrow$: Suppose that $f_1$ is a monomorphism and that for each $i\in p(\1)$ the function $f_i^\sharp$ is an epimorphism. Let $r$ be a polynomial, $g,h\colon r\tto p$ two morphisms, and suppose $fg=fh$. Then $f_1g_1=f_1h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $g^\sharp_kf^\sharp_{g_1k}=h^\sharp_kf^\sharp_{g_1k}$ for any $k\in r(\1)$. But $f^\sharp_{g_1k}$ is an epimorphism, so in fact $g^\sharp_k=h^\sharp_k$, as desired.
 \end{proof}
@@ -3043,17 +3043,17 @@ Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism
 \begin{proposition}\label{prop.epis_in_poly}
 Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is an epimorphism iff the function $f_1\colon p(\1)\to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$ the induced function 
 \[
-f^\flat_j\colon q_j\to\prod_{\{i\in p(\1)\,\mid\, f_1(i)=j\}}p_i
+f^\flat_j\colon q[j]\to\prod_{\{i\in p(\1)\,\mid\, f_1(i)=j\}}p[i]
 \]
 from \eqref{eqn.useful_misc472} is a monomorphism.
 \end{proposition}
 \begin{proof}
-\noindent$\Rightarrow$: Suppose that $f$ is an epimorphism. Since $p\mapsto p(\1)$ is a left adjoint (\cref{thm.adjoint_quadruple}), it preserves epimorphisms. We need to show that for any $j\in q(\1)$ the  function $f^\flat_j$ is a monomorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon A\tto q_j$ with $f^\flat_jg^\sharp=f^\flat_jh^\sharp$. They can be identified with morphisms $g,h\colon q\tto \yon^A+\1$, which send the $j$-component to the first component, $\yon^A$, and send all other component to the second component, $\1$. It is easy to check that $fg=fh$, hence $g=h$, and hence $g^\sharp=h^\sharp$ as desired.
+\noindent$\Rightarrow$: Suppose that $f$ is an epimorphism. Since $p\mapsto p(\1)$ is a left adjoint (\cref{thm.adjoint_quadruple}), it preserves epimorphisms. We need to show that for any $j\in q(\1)$ the  function $f^\flat_j$ is a monomorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon A\tto q[j]$ with $f^\flat_jg^\sharp=f^\flat_jh^\sharp$. They can be identified with morphisms $g,h\colon q\tto \yon^A+\1$, which send the $j$-component to the first component, $\yon^A$, and send all other component to the second component, $\1$. It is easy to check that $fg=fh$, hence $g=h$, and hence $g^\sharp=h^\sharp$ as desired.
 
 \noindent$\Leftarrow$: Suppose that $f_1$ is an epimorphism and that for each $j\in q(\1)$ the function $f^\flat_j$ is a monomorphism. Let $r$ be a polynomial, $g,h\colon q\tto r$ two morphisms, and suppose $gf=hf$. Then $g_1f_1=h_1f_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $f^\sharp_ig^\sharp_{fi}=f^\sharp_ih^\sharp_{fi}$ for any $i\in p(\1)$. Then, in particular, for any $j\in q(\1)$ the two composites
 \[
 \begin{tikzcd}
-	r_{g_1j}\ar[r, shift left, "g^\sharp_j"]\ar[r, shift right, "h^\sharp_j"']&q_j\ar[r, "f^\flat_j"]&\displaystyle\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}p_i
+	r[g_1j]\ar[r, shift left, "g^\sharp_j"]\ar[r, shift right, "h^\sharp_j"']&q[j]\ar[r, "f^\flat_j"]&\displaystyle\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}p[i]
 \end{tikzcd}
 \]
 are equal, which implies that $g^\sharp_j=h^\sharp_j$ as desired.
@@ -3106,7 +3106,7 @@ The category $\poly$ has coproducts and products.
 \begin{proof}
 Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_{a,})_{a\in A}$.%
 \footnote{
-We put a comma in the subscript of our polynomials, writing $p_{a,}$ rather than $p_a$ for the $a$th polynomial, to avoid a potentially ambiguous notation. That is, if $i\in p(\1)$ is a position, then $p_i$ denotes the set of directions there, the exponent of the $i$th summand of $p$. Given a position $i\in p_{a,}$ we denote the corresponding set of directions by $p_{a,i}$. We recognize that our notation $p_{a,}$, while unambiguous, is a bit disorienting; luckily, it will not come up much.
+We put a comma in the subscript of our polynomials, writing $p_{a,}$ rather than $p_a$ for the $a$th polynomial, to avoid a potentially ambiguous notation. That is, if $i\in p(\1)$ is a position, then $p[i]$ denotes the set of directions there, the exponent of the $i$th summand of $p$. Given a position $i\in p_{a,}$ we denote the corresponding set of directions by $p_{a,i}$. We recognize that our notation $p_{a,}$, while unambiguous, is a bit disorienting; luckily, it will not come up much.
 }
 Their coproduct is
 \begin{equation}\label{eqn.sum_polys}
@@ -3133,7 +3133,7 @@ Finish the proof of \cref{prop.coprod_prod_poly} as follows.
 \end{exercise}
 
 \begin{exercise}
-Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p_i$ according to \cref{eqn.prod_polys}? Does it check out?
+Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p[i]$ according to \cref{eqn.prod_polys}? Does it check out?
 \end{exercise}
 
 \begin{proposition}\label{prop.completely_distributive}
@@ -3168,7 +3168,7 @@ for $p,q,r\in\poly$, a special case of \cref{prop.completely_distributive}?
 \paragraph{Cartesian closure}
 For any two polynomials $q,r$, define $r^q\in\poly$ by the following formula
 \begin{equation}\label{eqn.exponential}
-  r^q\coloneqq\prod_{i\in q(\1)}r\circ(\yon+q_j)
+  r^q\coloneqq\prod_{i\in q(\1)}r\circ(\yon+q[j])
 \end{equation}
 where $\circ$ denotes composition.
 
@@ -3207,11 +3207,11 @@ where $r^q$ is the polynomial defined in \eqref{eqn.exponential}.
 We have the following chain of natural isomorphisms
 \begin{align*}
 	\poly(p,r^q)&\cong
-	\poly\Big(p,\prod_{j\in q(\1)}r\circ (\yon+q_j)\Big)\\&\cong
-	\prod_{j\in q(\1)}\poly(p,r\circ(\yon+q_j))\\&\cong
-	\prod_{j\in q(\1)}\prod_{i\in p(\1)}\poly(\yon^{p_i},r\circ(\yon+q_j))\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r\circ(p_i+q_j)\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\sum_{k\in r(\1)}(p_i+q_j)^{r_k}\\&\cong
+	\poly\Big(p,\prod_{j\in q(\1)}r\circ (\yon+q[j])\Big)\\&\cong
+	\prod_{j\in q(\1)}\poly(p,r\circ(\yon+q[j]))\\&\cong
+	\prod_{j\in q(\1)}\prod_{i\in p(\1)}\poly(\yon^{p[i]},r\circ(\yon+q[j]))\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r\circ(p[i]+q[j])\\&\cong
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\sum_{k\in r(\1)}(p[i]+q[j])^{r[k]}\\&\cong
 	\poly(p\times q,r).
 \end{align*}
 The last step uses \cref{eqn.main_formula,prop.poly_times}.
@@ -3235,9 +3235,9 @@ The category $\poly$ has all limits.
 \begin{proof}
 Recall that a category has all limits iff it has equalizers and products, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has equalizers. 
 
-Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. Let $E\to p(\1)\tto q(\1)$ be an equalizer of the functions $f_1(\1),$ and $f_2(\1)$ in $\smset$. For each $e\in E$, write $f(e)\coloneqq f_1(e)=f_2(e)$; we have two polynomial morphisms $\yon^{p_e}\tto\yon_{q_{f(e)}}$, i.e.\ two functions $q_{f(e)}\tto p_e$. Defining $p'_e\in\smset$ to be their coequalizer, we can define a polynomial $p'$ as follows:
+Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. Let $E\to p(\1)\tto q(\1)$ be an equalizer of the functions $f_1(\1),$ and $f_2(\1)$ in $\smset$. For each $e\in E$, write $f(e)\coloneqq f_1(e)=f_2(e)$; we have two polynomial morphisms $\yon^{p_e}\tto\yon_{q[f(e)]}$, i.e.\ two functions $q[f(e)]\tto p_e$. Defining $p'[e]\in\smset$ to be their coequalizer, we can define a polynomial $p'$ as follows:
 \[
-  p'\coloneqq\sum_{e\in E}\yon^{p'_e}
+  p'\coloneqq\sum_{e\in E}\yon^{p'[e]}
 \]
 which comes equipped with a morphism $g\colon p'\to p$. One can check that it is an equalizer of $f_1,f_2$; see \cref{exc.poly_limits}.
 \end{proof}
@@ -3280,7 +3280,7 @@ Given polynomials $q,q',r$ and dependent lenses $q\To{f} r\From{f'} q'$, the pul
 	r\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]
- is given as follows. The set of positions in $p$ is the pullback of the positions of $q$ and $q'$ over those of $r$. On each $p$-position, say $(i, i')$ with $f_1(i)=f'_1(i')$, we take the directions set of $p$ in that position to be the  pushout of the directions $q_i$ and $q'_{i'}$ over $r_{f_1(i)}=r_{f_1'(i')}$:
+ is given as follows. The set of positions in $p$ is the pullback of the positions of $q$ and $q'$ over those of $r$. On each $p$-position, say $(i, i')$ with $f_1(i)=f'_1(i')$, we take the directions set of $p$ in that position to be the  pushout of the directions $q[i]$ and $q'[i']$ over $r[f_1(i)]=r[f_1'(i')]$:
 \begin{equation}\label{eqn.pullback_poly}
 \begin{tikzcd}
 	p(\1)\ar[r]\ar[d]&
@@ -3290,10 +3290,10 @@ Given polynomials $q,q',r$ and dependent lenses $q\To{f} r\From{f'} q'$, the pul
 \end{tikzcd}
 \qqand
 \begin{tikzcd}
-	p_{(i,i')}\ar[from=r]\ar[from=d]&
-	q'_{i'}\ar[from=d, "(f')_{i'}^\sharp"']\\
-	q_i\ar[from=r, "f^\sharp_i"]&
-	r_{f_1(i)}\ar[ul, phantom, very near end, "\ulcorner"]
+	p[(i,i')]\ar[from=r]\ar[from=d]&
+	q'[i']\ar[from=d, "(f')_{i'}^\sharp"']\\
+	q[i]\ar[from=r, "f^\sharp_i"]&
+	r[f_1(i)]\ar[ul, phantom, very near end, "\ulcorner"]
 \end{tikzcd}
 \end{equation}
 \end{example}
@@ -3318,11 +3318,11 @@ Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. The pair of functions
 \[f_1(\1),f_2(\1)\colon p(\1)\tto q(\1)\] 
 define a graph $G\colon\fbox{$\bullet\tto\bullet$}\to\smset$ whose set $C$ of connected components is given by the coequalizer $g\colon q(\1)\to C$ of $f_1(\1)$ and $f_2(\1)$. The coequalizer of $f_1$ and $f_2$ will turn out to be a $C$-indexed sum of representables, each of which is given by a limit of a diagram of representables from $p$ and $q$, but expressing this limit, as we proceed to do, is a bit involved.
 
-For each connected component $c\in C$, we have a connected subgraph $G_c\ss G$ with vertices $V_c\coloneqq g\inv(c)$ and edges $E_c\coloneqq f_1\inv(g\inv(c))=f_2\inv(g\inv(c))$. Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated representable $\yon^{p_e}$ (resp.\ $\yon^{q_v}$).
+For each connected component $c\in C$, we have a connected subgraph $G_c\ss G$ with vertices $V_c\coloneqq g\inv(c)$ and edges $E_c\coloneqq f_1\inv(g\inv(c))=f_2\inv(g\inv(c))$. Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated representable $\yon^{p[e]}$ (resp.\ $\yon^{q[v]}$).
 
-The category of elements $\int G_c$ is a bipartite graph with objects $V+E$ and with two sorts of morphisms, $e\to f_1(e)$ and $e\to f_2(e)$, associated to each $e\in E_c$; all non-identity arrows point from an object in $E$ to an object in $V$. There is a functor $F\colon(\int G_c)\op\to\smset$ sending every $v\mapsto q_v$, every $e\mapsto p_e$, and every morphism to a function between them, namely either $(f_1^\sharp)_e\colon q_{f_1(e)}\to p_e$ or $(f_2^\sharp)_e\colon q_{f_2(e)}\to p_e$. Define $q'_c\in\smset$ to be the limit $q'_c\coloneqq\lim F\in\smset$ of $F$.
+The category of elements $\int G_c$ is a bipartite graph with objects $V+E$ and with two sorts of morphisms, $e\to f_1(e)$ and $e\to f_2(e)$, associated to each $e\in E_c$; all non-identity arrows point from an object in $E$ to an object in $V$. There is a functor $F\colon(\int G_c)\op\to\smset$ sending every $v\mapsto q[v]$, every $e\mapsto p[e]$, and every morphism to a function between them, namely either $(f_1^\sharp)_e\colon q[f_1(e)]\to p[e]$ or $(f_2^\sharp)_e\colon q[f_2(e)]\to p[e]$. Define $q'[c]\in\smset$ to be the limit $q'[c]\coloneqq\lim F\in\smset$ of $F$.
 
-We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'_c}$ is the coequalizer of $f_1$ and $f_2$. We leave the completion proof to the interested reader in \cref{exc.poly_colimits}.
+We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'[c]}$ is the coequalizer of $f_1$ and $f_2$. We leave the completion proof to the interested reader in \cref{exc.poly_colimits}.
 \end{proof}
 
 \begin{exercise}\label{exc.poly_colimits}
@@ -3353,7 +3353,7 @@ For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$. Then
 Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}_a^\sharp\colon p_{f(a)}\to(f^*p)_a$ is an isomorphism too.
 
 \begin{definition}[Vertical, cartesian]
-Let $f\colon p\to q$ be a morphism of polynomials. It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism. It is called \emph{cartesian} if, for each $i\in p(\1)$ the function $f^\sharp_i\colon q_{f(i)}\to p_i$ is an isomorphism.
+Let $f\colon p\to q$ be a morphism of polynomials. It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism. It is called \emph{cartesian} if, for each $i\in p(\1)$ the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
 \end{definition}
 
 \begin{proposition}\label{prop.vert_cart_factorization}
@@ -3363,19 +3363,19 @@ Every morphism in $\poly$ can be uniquely factored as a vertical morphism follow
 Recall from \cref{eqn.colax_poly_map} that a morphism in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
 \[
 \begin{tikzcd}[column sep=small]
-	p(\1)\ar[dr, bend right, "p_-"']\ar[rr, "f_1"]&~&
-	q(\1)\ar[dl, bend left, "q_-"]\\&
+	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[rr, "f_1"]&~&
+	q(\1)\ar[dl, bend left, "{q[-]}"]\\&
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \hspace{1in}
 \begin{tikzcd}
 	p(\1)\ar[dr, bend right, "p_-"']\ar[r, equal, ""' name=equal]&
-	p(\1)\ar[d, "q_{f_1(-)}" description]\ar[r, "f_1"]&
-	q(\1)\ar[dl, bend left, "q_-"]\\&
+	p(\1)\ar[d, "{q[f_1(-)]}" description]\ar[r, "f_1"]&
+	q(\1)\ar[dl, bend left, "{q[-]}"]\\&
 	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \]
-The object $\lens{q_{f_1i}}{i\in p(\1)}$ is clearly unique up to isomorphism.
+The object $\lens{q[f_1i]}{i\in p(\1)}$ is clearly unique up to isomorphism.
 \end{proof}
 
 \begin{proposition}\label{prop.monoidal_pres_carts}
@@ -3426,17 +3426,17 @@ We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous
 \begin{equation}\label{eqn.cart_exp}
 f_*p'\coloneqq
 \scalebox{1.3}{$\displaystyle
-\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_1\inv(j)}e_1\inv(i)}\;\yon^{q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}}.
+\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_1\inv(j)}e_1\inv(i)}\;\yon^{q[j]/\sum_{i\in f_1\inv(j)}p'[i'(i)]}.
 $}
 \end{equation}
-Again, $q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}$ is the coproduct of the $p'_{i'(i)}$, taken in $q_j/\smset$. Since $p_i\cong q_{f(i)}$ for any $i\in p(\1)$ by the cartesian assumption on $f$, we have the following chain of natural isomorphisms
+Again, $q[j]/\sum_{i\in f_1\inv(j)}p'[i'(i)]$ is the coproduct of the $p'[i'(i)]$, taken in $q[j]/\smset$. Since $p[i]\cong q[f(i)]$ for any $i\in p(\1)$ by the cartesian assumption on $f$, we have the following chain of natural isomorphisms
 \begin{align*}
 	(\poly/p)(f^*q', p')&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(p_i/\smset)(p'_{i'},p_i+_{q_{f(i)}}q'_{j'})\\&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_{fi}/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q_j/\smset)(p'_{i'},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;\prod_{i\in f_1\inv(j)}\;(q_j/\smset)(p'_{i'(i)},q'_{j'})\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;(q_j/\smset)\Big(\sum_{i\in f_1\inv(j)}p'_{i'(i)},q'_{j'}\Big)\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(p[i]/\smset)(p'[i'],p[i]+_{q[f(i)]}q'[j'])\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q[f(i)]/\smset)(p'[i'],q'[j'])\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q[j]/\smset)(p'[i'],q'[j'])\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;\prod_{i\in f_1\inv(j)}\;(q[j]/\smset)(p'[i'(i)],q'[j'])\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;(q[j]/\smset)\Big(\sum_{i\in f_1\inv(j)}p'[i'(i)],q'[j']\Big)\\&\cong
 	(\poly/q)(q',f_*p')
 	&\qedhere
 \end{align*}
@@ -3445,9 +3445,9 @@ Again, $q_j/\sum_{i\in f_1\inv(j)}p'_{i'(i)}$ is the coproduct of the $p'_{i'(i)
 \begin{example}
 Let $p\coloneqq\2\yon^\2$, $q\coloneqq\yon^\2+\yon^\0$, and $f\colon p\to q$ the unique cartesian morphism between them. Then for any $e\colon p'\to p$ over $p$, \eqref{eqn.cart_exp} provides the following description for the pushforward $f_*p'$. We use the isomorphisms $p(\1)\cong\2$ and $q(\1)\cong\2$ to talk about the positions of $p$ and $q$.
 
-Over the $j=2$ position (which has $q_2=\0$), we have $\prod_{i\in f_1\inv(2)e_1\inv(i)}\cong\1$ is an empty product, and $q_2/\sum_{i\in f_1\inv(2)}p'_{i'(i)}$ is an empty sum (in $q_2/\smset$), so we get $\yon^\0\cong\1$.
+Over the $j=2$ position (which has $q[2]=\0$), we have $\prod_{i\in f_1\inv(2)e_1\inv(i)}\cong\1$ is an empty product, and $q[2]/\sum_{i\in f_1\inv(2)}p'[i'(i)]$ is an empty sum (in $q_2/\smset$), so we get $\yon^\0\cong\1$.
 
-Over the $j=1$ position (which has $q_1=\2$), we have $\prod_{i'\in f_1\inv(1)e_1\inv(i)}\cong e_1\inv(1)\times e_1\inv(2)$. For each element $i'\in e_1\inv(1)\times e_1\inv(2)$, the sets $p'_{i'(1)}$ and $p'_{i'(2)}$ are each the codomain of a map from $q_1=p_1=p_2=\2$ coming from $e^\sharp$, and $q_1/\sum_{i\in\{1,2\}}p'_{i'(i)}$ is the pushout $p'_{i'(1)}\from\2\to p'_{i'(2)}$. Let's call that pushout set $X_{i'}$. Then in sum we have
+Over the $j=1$ position (which has $q[1]=\2$), we have $\prod_{i'\in f_1\inv(1)e_1\inv(i)}\cong e_1\inv(1)\times e_1\inv(2)$. For each element $i'\in e_1\inv(1)\times e_1\inv(2)$, the sets $p'[i'(1)]$ and $p'[i'(2)]$ are each the codomain of a map from $q[1]=p[1]=p[2]=\2$ coming from $e^\sharp$, and $q[1]/\sum_{i\in\{1,2\}}p'[i'(i)]$ is the pushout $p'[i'(1)]\from\2\to p'[i'(2)]$. Let's call that pushout set $X_{i'}$. Then in sum we have
 \[
 f_*p'\cong\Big(\sum_{i'\in e_1\inv(1)\times e_2\inv(2)}\yon^{X_{i'}}\Big)+\1.
 \]
@@ -3489,9 +3489,9 @@ Moreover $\otimes$ preserves the op-Cartesian arrows, making this a monoidal $*$
 \begin{proof}
 Let $p$ be a polynomial with $p(\1)\cong A$. Then the formula for $f_!p$ and $f_*p$ are given as follows:
 \begin{equation}\label{eqn.f_!andf_*}
-f_!p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\prod\limits_{a\mapsto b}p_a\big)}$}
+f_!p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\prod\limits_{a\mapsto b}p[a]\big)}$}
 \qqand
-f_*p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\sum\limits_{a\mapsto b}p_a\big)}$}
+f_*p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\sum\limits_{a\mapsto b}p[a]\big)}$}
 \end{equation}
 It may at first be counterintuitive that the left adjoint $f_!$ involves a product and the right adjoint $f_*$ involves a sum. The reason for this comes from \cref{prop.dlens_self_indexing}, namely that $\poly$ is equivalent to the Grothendieck construction applied to the functor $\smset\op\to\smcat$ sending each set $A$ to the category $(\smset/A)\op$. The fact that functions $f\colon A\to B$ induces an adjoint triple between $\smset/A$ and $\smset/B$, and hence between $(\smset/A)\op$ and $(\smset/B)\op$ explains the variance in \eqref{eqn.f_!andf_*} and simultaneously establishes the adjoint triple \eqref{eqn.adjoint_triple_monoidal_fib}.
 
@@ -3502,8 +3502,8 @@ Given $f$ and $p$ as above, the op-cartesian morphism is the morphism $p\to f_!p
 If $f\colon p(\1)\to B$ and $f'\colon p'(\1)\to B'$ are functions then we have
 \begin{align*}
 	f_!(p)\otimes f'_!(p')&\cong
-	\sum_{b\in B}\sum_{b'\in B'}\yon^{\big(\prod_{a\mapsto b}p_a\big)\times\big(\prod_{a'\mapsto b'}p'_{a'}\big)}\\&\cong
-	\sum_{(b,b')\in B\times B'}\yon^{\big(\prod_{(a,a')\mapsto(b,b')}p_a\times p_b\big)}\\&
+	\sum_{b\in B}\sum_{b'\in B'}\yon^{\big(\prod_{a\mapsto b}p[a]\big)\times\big(\prod_{a'\mapsto b'}p'[a']\big)}\\&\cong
+	\sum_{(b,b')\in B\times B'}\yon^{\big(\prod_{(a,a')\mapsto(b,b')}p[a]\times p[b]\big)}\\&
 	\cong (f_!\otimes f'_!)(p\otimes p')
 \end{align*}
 and the op-cartesian morphisms are clearly preserved since projections in the second line match with projections in the first.

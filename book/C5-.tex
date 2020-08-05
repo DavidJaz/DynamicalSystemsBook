@@ -124,15 +124,15 @@ But we left one thing---what in some sense is the most interesting part of the s
 What could be simpler?%
 \footnote{If you're thinking ``What could be more boring?'', don't forget that our job is to connect this to the material in \cref{sec.c5_intro}. If that payoff doesn't intrigue you, then this chapter is not for you.}
 
-It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, choosing a direction in $q_j$, and then landing... somewhere.''
+It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p[i]$, landing at a position $j$ in $q$, choosing a direction in $q[j]$, and then landing... somewhere.''
 
 The composition product has many surprises up its sleeve, as we'll see. We've told many of them to you already in \cref{subsec.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, this chapter will get us into decision trees, databases, and more dynamics, and it's all based on $\circ$.
 
 As in \cref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
 \begin{equation}\label{eqn.sum_p1_again}
-p\cong\sum_{i\in p(\1)}\yon^{p_i},
+p\cong\sum_{i\in p(\1)}\yon^{p[i]},
 \end{equation}
-and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p_i$ as the set of direction at position $i$.
+and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of direction at position $i$.
 
 %---- Subsection ----%
 \subsection{Defining the composition product}
@@ -141,21 +141,21 @@ We begin with the definition of composition product.
 \begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
 \[
-p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \]
 \end{proposition}
 \begin{proof}
 We can rewrite \cref{eqn.sum_p1_again} for $p$ and $q$ as
 \[
-p\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\yon
+p\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon
 \qqand
-q\cong\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+q\cong\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \]
 For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula} is indeed the formula for their composite. To see this is a polynomial, we use \cref{prop.completely_distributive}, which says we can rewrite the $\prod\sigma$ in \eqref{eqn.composite_formula} as a $\sigma\prod$. The result 
 \begin{equation}\label{eqn.composition_formula_sums_first}
   p\circ q\cong
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}},$}
+  \sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q_[j_i(d)]},$}
 \end{equation}
 (written slightly bigger for clarity) is clearly a polynomial.
 \end{proof}
@@ -168,22 +168,22 @@ The symbol $\tri$ looks a bit like the composition symbol, in that it is an open
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} in the new notation:
 \begin{equation}\label{eqn.composite_formula}
-p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \end{equation}
 
 
 \begin{exercise}
-Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p_1=\2$ and $p_2=\1$.
+Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p[1]=\2$ and $p[2]=\1$.
 \begin{enumerate}
 	\item What is $q^\2$?
 	\item What is $\yon^2\tri q$? 
 	\item What is $\yon\tri q$?
 	\item What is $(\yon^\2+\yon)\tri q$? This is what $p\tri q$ ``should be''.
-	\item How many functions $j_1\colon p_1\to q(\1)$ are there?
-	\item For each function $j_1$ as above, what is $\sum_{d\in p_1} q_{j_1(d)}$?
-	\item How many functions $j_2\colon p_2\to q(\2)$ are there?
-	\item For each function $j_2$ as above, what is $\sum_{d\in p_2} q_{j_2(d)}$?
-	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}}$.
+	\item How many functions $j_1\colon p[1]\to q(\1)$ are there?
+	\item For each function $j_1$ as above, what is $\sum_{d\in p[1]} q[j_1(d)]$?
+	\item How many functions $j_2\colon p[2]\to q(\2)$ are there?
+	\item For each function $j_2$ as above, what is $\sum_{d\in p[2]} q[j_2(d)]$?
+	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$.
 	\item Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
@@ -425,7 +425,7 @@ However, even though the formal theory of functors and natural transformations k
 
 For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
 
-Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'_{f_1(i)}$ there is passed back to an option $f^\sharp(d)\in p_i$. Let's start with an example and then give the general method.
+Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'[f_1(i)]$ there is passed back to an option $f^\sharp(d)\in p[i]$. Let's start with an example and then give the general method.
 
 \begin{example}\label{ex.circ_prod_on_morphisms}
 Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
@@ -846,13 +846,13 @@ That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?
 \paragraph{Pronouncing polynomial composites.}
 
 We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
-\[p=\sum_{i\in p(\1)}\prod_{d\in p_i}\yon\]
-as ``a choice of $p$-position $i$ and, for every direction $d\in p_i$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
+\[p=\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon\]
+as ``a choice of $p$-position $i$ and, for every direction $d\in p[i]$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
 
 To pronounce composites of polynomials $p\tri q$, we pronounce almost all of $p$, except we replace ``future'' with $q$. More precisely, to pronounce $p\tri q$, which has the formula
-\[p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon,
+\[p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon,
 \]
-we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p_i$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q_j$ there, a future.
+we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p[i]$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q[j]$ there, a future.
 
 \begin{exercise}
 \begin{enumerate}
@@ -882,13 +882,13 @@ The set of morphisms $p\to q_1\tri q_2\tri\cdots\tri q_k$ has the following form
   \cong
   \prod_{i\in p(\1)}\;
   	\sum_{j_1\in q_1(\1)}\;
-  \prod_{e_1\in q_{1,j_1}}\;
+  \prod_{e_1\in q_1[j_1]}\;
   	\sum_{j_2\in q_2(\1)}\;\cdots
-  \prod_{e_k\in q_{k,j_{k-1}}}\;
-  	\sum_{d\in p_i}
+  \prod_{e_k\in q_k[j_{k-1}]}\;
+  	\sum_{d\in p[i]}
 	\1
 \]
-We can use this to generalize our notation in the case $k=1$, i.e.\ for morphisms $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_1}$, where $f_1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q_{f_1(i)}\to p_i$. We generalize this to the $k$-ary composite case as
+We can use this to generalize our notation in the case $k=1$, i.e.\ for morphisms $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_1}$, where $f_1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q[f_1(i)]\to p[i]$. We generalize this to the $k$-ary composite case as
 \begin{equation}\label{eqn.notation_f1f2fk}
 (f_1,f_2,\ldots,f_k,f^\sharp)\colon p\too q_1\tri q_2\tri\cdots\tri q_k,
 \end{equation}
@@ -896,20 +896,20 @@ where
 \begin{equation}\label{eqn.maps_to_comp}
 \begin{aligned}
 f_1&:p(\1)\to q_1(\1),\\
-f_2&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to q_2(\1),\\
-f_3&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to (e_2\in q_{2,f_2(i,e_1)})\to q_3(\1),\\
-f_k&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to  \cdots\to(e_{k-1}\in q_{k-1,f_{k-1}(i,e_1,\ldots,e_{k-2})})\to q_k(\1),\\
-f^\sharp&:(i\in p(\1))\to (e_1\in q_{1,f_1(i)})\to \cdots\to(e_{k}\in q_{k,f_{k}(i,e_1,\ldots,e_{k-1})})\to p_i
+f_2&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to q_2(\1),\\
+f_3&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to (e_2\in q_2[f_2(i,e_1)])\to q_3(\1),\\
+f_k&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to  \cdots\to(e_{k-1}\in q_{k-1}[f_{k-1}(i,e_1,\ldots,e_{k-2})])\to q_k(\1),\\
+f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i,e_1,\ldots,e_{k-1})])\to p[i]
 \end{aligned}
 \end{equation}
-This looks worse than it is. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p_i$. The case $k=2$ is considered in \cref{ex.map_to_comp}
+This looks worse than it is. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$. The case $k=2$ is considered in \cref{ex.map_to_comp}
 
 \begin{example}[Maps $p\to q\tri r$]\label{ex.map_to_comp}
 By \eqref{eqn.maps_to_comp}, a morphism $p\to q\tri r$ can be specified by a tuple $(f_1,f_2,f^\sharp)$, where $f_1\colon p(\1)\to q(\1)$ and $f_2,f^\sharp$ are a little more involved because they are dependent functions.
 
-The dpendent function $f_2$ takes as input a pair $(i,d)$ where $i\in p(\1)$ and $d\in q_{f_1(i)}$, and it outputs an element of $r(\1)$.
+The dependent function $f_2$ takes as input a pair $(i,d)$ where $i\in p(\1)$ and $d\in q[f_1(i)]$, and it outputs an element of $r(\1)$.
 
-The dependent function $f^\sharp$ takes as input a tuple $(i,d,e)$, where $i,d$ are as above and $e\in r_{f_2(i,d)}$, and it outputs an element of $p_i$.
+The dependent function $f^\sharp$ takes as input a tuple $(i,d,e)$, where $i,d$ are as above and $e\in r[f_2(i,d)]$, and it outputs an element of $p[i]$.
 
 For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C\}\yon^{\{U,V,W\}}+\{D\}\yon^{\{X\}}$, and $r\coloneqq\{E\}\yon^{\{Y,Z\}}+\{F\}$.
 \[
@@ -1004,24 +1004,24 @@ i\colon \yon^\1\to p_1\tri\cdots\tri p_k.
 We can denote $i$ in the notation \eqref{eqn.notation_f1f2fk} as $i=(i_1,\ldots,i_k)$, forgoing the input to $i_1$ because it is always $1\in\1$ and also forgoing $f^\sharp$ because it is always the unique map to $\1$. Then in this notation 
 \begin{gather*}
 i_1\in p_1(\1),\quad
-i_2\colon p_{1,i_1}\to p_2(\1),\quad
-i_3\colon (d_1\in p_{1,i_1})\to(d_2\in p_{2,i_2(d_1)})\to p_3(\1),\\
-i_k\colon(d_1\in p_{1,i_1})\to(d_2\in p_{2,i_2(d_1)})\to\cdots(d_{k-1}\in p_{k-1,i_{k-1}(d_1,\ldots,d_{k-2})})\to p_k(\1)
+i_2\colon p_1[i_1]\to p_2(\1),\quad
+i_3\colon (d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to p_3(\1),\\
+i_k\colon(d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to\cdots(d_{k-1}\in p_{k-1}[i_{k-1}(d_1,\ldots,d_{k-2})])\to p_k(\1)
 \end{gather*}
 
 So for example to give a position in $p\tri q\tri r$ we need 
 \[
 i\in p(\1),\quad
-j\colon p_i\to q(\1),\quad
-k:(d\in p_i)\to(e\in q_{j(d)})\to r(\1).
+j\colon p[i]\to q(\1),\quad
+k:(d\in p[i])\to(e\in q[j(d)])\to r(\1).
 \]
 \end{example}
 
 \begin{exercise}
 In \cref{ex.pos_in_composite}, we gave a formula for the positions in the composite $p\coloneqq p_1\tri\cdots\tri p_k$ of arbitrary polynomials $p_1,\ldots,p_k$. Use the notation from that example to answer the following.
 \begin{enumerate}
-	\item What is the set $p_{(i_1,\ldots,i_k)}$ of directions available in position $(i_1,i_2,\ldots i_k)$?
-	\item Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. What is the set of positions in $p$ in this case?
+	\item What is the set $p[(i_1,\ldots,i_k)]$ of directions available in position $(i_1,i_2,\ldots i_k)$?
+	\item Suppose $A_1,\ldots,A_k$ are sets and $p[i]\coloneqq A_i\yon$ for each $i$. What is the set of positions in $p$ in this case?
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -1289,14 +1289,14 @@ Use \cref{thm.connected_limits} in the following.
 \begin{example}
 Suppose we have polynomials $p$ and $q$ and a position $i_0\in p(\1)$. It ponits to a certain part, a certain subpolynomial, of the composite $p\tri q$; how do we grab it? That is, how do we find the Cartesian subpolynomial
 \[
-  \prod_{d\in p_{i_0}}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
+  \prod_{d\in p[i_0]}\;\sum_{j\in q(\1)}\;\prod_{e\in q[j]}\;\yon
   \ss
-  \sum_{i\in p(\1)}\;\prod_{d\in p_i}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
+  \sum_{i\in p(\1)}\;\prod_{d\in p[i]}\;\sum_{j\in q(\1)}\;\prod_{e\in q[j]}\;\yon
 \]
 The answer is that we can get it by pullback
 \begin{equation}\label{eqn.cart_pullback_misc48}
 \begin{tikzcd}[background color=examplecolor]
-	\yon^{p_{i_0}}\tri q\ar[d]\ar[r]&
+	\yon^{p[i_0]}\tri q\ar[d]\ar[r]&
 	\1\tri q\ar[r, equal]\ar[d, "i_0\tri q"]&
 	\1\ar[d, "i_0"]\\
 	p\tri q\ar[r, "\eta_p\tri q"']&
@@ -2229,7 +2229,7 @@ Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfy the unitality and 
 %---- Subsection ----%
 \subsection{Constructing categories from comonoids}
 
-Given a comonoid $\com{C}\coloneqq(c,\epsilon,\delta)$, we now construct a corresponding category $\cat{C}$. Its objects are given by $C_0\coloneqq c(\1)$ and its morphisms are given by $C_1\coloneqq\sum_{i\in C_0}(c_i)$. The domain of each morphism is $\dom(i,m)\coloneqq i$. Among all morphisms emanating from $i$, the identities are given by $\epsilon$.
+Given a comonoid $\com{C}\coloneqq(c,\epsilon,\delta)$, we now construct a corresponding category $\cat{C}$. Its objects are given by $C_0\coloneqq c(\1)$ and its morphisms are given by $C_1\coloneqq\sum_{i\in C_0}(c[i])$. The domain of each morphism is $\dom(i,m)\coloneqq i$. Among all morphisms emanating from $i$, the identities are given by $\epsilon$.
 
 \begin{exercise}
 \begin{enumerate}
@@ -2377,32 +2377,32 @@ How many morphisms $c\to c\tri c$ respect \eqref{eqn.unital_misc28} in the above
 Now the map shown in \eqref{eqn.possible_assignment_misc135} will eventually be ruled out by other equations. But let's go back and abstractly summarize what we know.
 \end{example}
 
-Here's where we are in the story so far. Any comonoid $\com{C}=(c,\epsilon,\delta)$in $\poly$ are supposed to give us a category with objects $c(\1)$ and $c_i$-many morphisms emanating from each $i\in c(\1)$. We want to see how $\delta$ gives us codomains and composition. The type of $\delta$ is
+Here's where we are in the story so far. Any comonoid $\com{C}=(c,\epsilon,\delta)$in $\poly$ are supposed to give us a category with objects $c(\1)$ and $c[i]$-many morphisms emanating from each $i\in c(\1)$. We want to see how $\delta$ gives us codomains and composition. The type of $\delta$ is
 \[
-\delta:\prod_{i\in c(\1)}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c_{i'}}\;\sum_{i''\in c(\1)}\;\prod_{m''\in c_{i''}}\;c_i
+\delta:\prod_{i\in c(\1)}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c[i']}\;\sum_{i''\in c(\1)}\;\prod_{m''\in c[i'']}\;c[i]
 \]
-It says ``for every object $i\in c(\1)$, I will assign an object $i'\in c(\1)$ and, for any emanating morphism $m'\in c_{i'}$, I will assign an object $i''\in c(\1)$ and, for any emanating morphism $m''$ I will assign a morphism emanating from the original $i$.'' But with \eqref{eqn.unital_misc28} we can simplify it by saying we know that $i'=i$:
+It says ``for every object $i\in c(\1)$, I will assign an object $i'\in c(\1)$ and, for any emanating morphism $m'\in c[i']$, I will assign an object $i''\in c(\1)$ and, for any emanating morphism $m''$ I will assign a morphism emanating from the original $i$.'' But with \eqref{eqn.unital_misc28} we can simplify it by saying we know that $i'=i$:
 \begin{align*}
   \delta&:
-  \prod_{i\in c(\1)}\;\prod_{m\in c_i}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c_{i'}}\;c_i\\&\cong
-	\prod_{i\in c(\1)}\;\sum_{i'\colon c_i\to c(\1)}\;\prod_{m\in c_i}\;\smset(c_{i'(m)},c_i)
+  \prod_{i\in c(\1)}\;\prod_{m\in c[i]}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c[i']}\;c[i]\\&\cong
+	\prod_{i\in c(\1)}\;\sum_{i'\colon c[i]\to c(\1)}\;\prod_{m\in c[i]}\;\smset(c[i'(m)],c[i])
 \end{align*}
-which says ``for every object $i\in c(\1)$, I'll assign a function $i'$---which we'll call the codomain function---that takes emanating morphisms $m\in c_i$ to objects in $c(\1)$, and given a morphism $m$ emanating from $i$, I'll assign a function from morphisms emanating from its codomain $i'(m)$ to morphisms emanating from $i$. So we rewrite it as:
+which says ``for every object $i\in c(\1)$, I'll assign a function $i'$---which we'll call the codomain function---that takes emanating morphisms $m\in c[i]$ to objects in $c(\1)$, and given a morphism $m$ emanating from $i$, I'll assign a function from morphisms emanating from its codomain $i'(m)$ to morphisms emanating from $i$. So we rewrite it as:
 \[
-\delta:	\prod_{i\in c(\1)}\;\sum_{\cod\colon c_i\to c(\1)}\;\prod_{m\in c_i}\;\{(m\then -)\colon c_{\cod(m)}\to c_i\}.
+\delta:	\prod_{i\in c(\1)}\;\sum_{\cod\colon c[i]\to c(\1)}\;\prod_{m\in c[i]}\;\{(m\then -)\colon c[\cod(m)]\to c[i]\}.
 \]
-Notation aside, we got all this from \eqref{eqn.unital_misc28}. In fact we got a little more, that $m\then\id_{\cod(m)}=m$ for any emanating $m\in c_i$.
+Notation aside, we got all this from \eqref{eqn.unital_misc28}. In fact we got a little more, that $m\then\id_{\cod(m)}=m$ for any emanating $m\in c[i]$.
 
 The rest of the story is pretty much ``follow your nose'' from here on out. The second unitality equation from \eqref{eqn.comonoid_diagrams}, that
 \[c\To{\delta}c\tri c\To{\epsilon\tri c}c\tri\yon\cong c\]
 is the identity on $c$, says two things for any $i\in c(\1)$:
 \begin{itemize}
 	\item that the codomain of $\id_i$ is $i$, and
-	\item that the function $(\id_i\then-)\colon c_i\to c_i$ is entity.
+	\item that the function $(\id_i\then-)\colon c[i]\to c[i]$ is entity.
 \end{itemize}
-The associativity equation from \eqref{eqn.comonoid_diagrams} says two things for any $i\in c(\1)$ and emanating morphism $m\in c_i$:
+The associativity equation from \eqref{eqn.comonoid_diagrams} says two things for any $i\in c(\1)$ and emanating morphism $m\in c[i]$:
 \begin{itemize}
-	\item that for any $m'\in c_{\cod(m)}$ emanating from $\cod(m)$, we have $\cod(m')=\cod(m\then m')$, and
+	\item that for any $m'\in c[\cod(m)]$ emanating from $\cod(m)$, we have $\cod(m')=\cod(m\then m')$, and
 	\item that for any $m'$ as above and $m''\in\cod(m')$, we have $(m\then m')\then m''=m\then(m'\then m'')$.
 \end{itemize}
 
