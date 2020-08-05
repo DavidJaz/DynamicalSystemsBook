@@ -18,7 +18,7 @@ We are receptive to patterns; in fact we find that our thoughts are operating on
 
 Each pattern has a certain sort of shape---a certain repetitiveness---like the rational number
 \[\frac{1}{7}=.142857142857142857\cdots\]
-Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
+Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? And don't worry, the 1 won't haunt us, probably just because Hindi-Arabic numbers dealt with it in stride. Anyway, ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
 \[
 \begin{tikzpicture}[trees, scale=1.5]
 \begin{scope}[
@@ -93,13 +93,18 @@ Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that
 \]
 Do you pick up on the fact that every tree sitting at a green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
 
-When someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}. If they pick up on something again and again, it's a pattern. 
+Indeed, when someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}, something with a rhyme to it. If they pick up on something again and again, it's a pattern. That's rhymes reason.
 
 Isn't it true that in some sense a pattern is dynamic, that it's not a still-life, but more like a movie? And in some sense don't we move \emph{with} this pattern, either caught up in it like a nightmare replaying endlessly or skillfully manifesting it like a star basketball player making another beautiful point? Good or bad, to our benefit or loss, we notice and pick up on the pattern, and we carry its load. Maybe we could say that it's like the pattern is a molecule and some part of us is like a receptor for this kind of molecule.
 
 Our lives are patterned, and so are the lives of our machines and computer programs. Day in and day out, our billions of receptors pick up on patterns in what we call reality, catching on to existing possibilities there. Day in and day out, our cars and boats and web browsers latch onto patterns and make them available to thought; thought plays the role of a pilot sitting in the cockpit.
 
-Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We pick up patterns and we operate on them. We are like a sort of ``module'' bridging two realms, one called reality and one called mind.
+Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We pick up patterns and we operate on them. We are like a sort of ``module'' bridging two realms, one called reality and one called mind. 
+
+\begin{figure}
+\centergraphics{graphics/lawvere.png}
+\caption{A picture by Bill Lawvere of something he was talking about once, that's related but a bit obscure. Anyway, neat-looking huh? It looks a little like our story, kinda lensy, dynamic systemsy, relating outside and inside. Lawvere consistently displays genius. But as neat as it is, we each have our own muse; and here we continue with our own story. \spiz{Jaz, feel free to replace this paragraph with anything you want.}}
+\end{figure}
 
 A distilled version of the story so far---up to the end of the last paragraph---can be formalized mathematically, and we do so in this chapter. That is, we'll discuss the sense in which \emph{bimodules} $m$ (playing the role of ``us'' in the above story) sit between two toposes (``realms''). From one realm (playing the role of ``reality''), the bimodule $m$ ``picks up'' patterns. The other realm (playing the role of ``mind'') operates and moves through these patterns. Though the mind realm need not be any smaller than the reality realm, the two sides of this story are not symmetric in terms of how they interact with $m$.
 
@@ -119,15 +124,15 @@ But we left one thing---what in some sense is the most interesting part of the s
 What could be simpler?%
 \footnote{If you're thinking ``What could be more boring?'', don't forget that our job is to connect this to the material in \cref{sec.c5_intro}. If that payoff doesn't intrigue you, then this chapter is not for you.}
 
-It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p_i$, landing at a position $j$ in $q$, choosing a direction in $q_j$, and then landing... somewhere.''
+It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p[i]$, landing at a position $j$ in $q$, choosing a direction in $q[j]$, and then landing... somewhere.''
 
 The composition product has many surprises up its sleeve, as we'll see. We've told many of them to you already in \cref{subsec.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, this chapter will get us into decision trees, databases, and more dynamics, and it's all based on $\circ$.
 
 As in \cref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
 \begin{equation}\label{eqn.sum_p1_again}
-p\cong\sum_{i\in p(\1)}\yon^{p_i},
+p\cong\sum_{i\in p(\1)}\yon^{p[i]},
 \end{equation}
-and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p_i$ as the set of direction at position $i$.
+and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of direction at position $i$.
 
 %---- Subsection ----%
 \subsection{Defining the composition product}
@@ -136,21 +141,21 @@ We begin with the definition of composition product.
 \begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
 \[
-p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \]
 \end{proposition}
 \begin{proof}
 We can rewrite \cref{eqn.sum_p1_again} for $p$ and $q$ as
 \[
-p\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\yon
+p\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon
 \qqand
-q\cong\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+q\cong\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \]
 For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula} is indeed the formula for their composite. To see this is a polynomial, we use \cref{prop.completely_distributive}, which says we can rewrite the $\prod\sigma$ in \eqref{eqn.composite_formula} as a $\sigma\prod$. The result 
 \begin{equation}\label{eqn.composition_formula_sums_first}
   p\circ q\cong
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}},$}
+  \sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q_[j_i(d)]},$}
 \end{equation}
 (written slightly bigger for clarity) is clearly a polynomial.
 \end{proof}
@@ -163,22 +168,22 @@ The symbol $\tri$ looks a bit like the composition symbol, in that it is an open
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} in the new notation:
 \begin{equation}\label{eqn.composite_formula}
-p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon.
+p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \end{equation}
 
 
 \begin{exercise}
-Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p_1=\2$ and $p_2=\1$.
+Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon$ and $q\coloneqq \yon^\3+\1$. Note that $p[1]=\2$ and $p[2]=\1$.
 \begin{enumerate}
 	\item What is $q^\2$?
 	\item What is $\yon^2\tri q$? 
 	\item What is $\yon\tri q$?
 	\item What is $(\yon^\2+\yon)\tri q$? This is what $p\tri q$ ``should be''.
-	\item How many functions $j_1\colon p_1\to q(\1)$ are there?
-	\item For each function $j_1$ as above, what is $\sum_{d\in p_1} q_{j_1(d)}$?
-	\item How many functions $j_2\colon p_2\to q(\2)$ are there?
-	\item For each function $j_2$ as above, what is $\sum_{d\in p_2} q_{j_2(d)}$?
-	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p_i\to q(\1)}\yon^{\sum_{d\in p_i}q_{j_i(d)}}$.
+	\item How many functions $j_1\colon p[1]\to q(\1)$ are there?
+	\item For each function $j_1$ as above, what is $\sum_{d\in p[1]} q[j_1(d)]$?
+	\item How many functions $j_2\colon p[2]\to q(\2)$ are there?
+	\item For each function $j_2$ as above, what is $\sum_{d\in p[2]} q[j_2(d)]$?
+	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$.
 	\item Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
@@ -276,6 +281,16 @@ Use $p,q$ as in \cref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the followin
 	\item Draw $p\tri p\tri 1$.
 	\item Draw $r\tri r$.
 	\item Draw $r\tri r\tri r$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Let $A$ and $B$ be sets.
+\begin{enumerate}
+	\item Is it true that $(A\yon)\otimes(B\yon) \cong (A\yon)\tri (B\yon)$?
+	\item Is it true that $\yon^A\otimes\yon^B\cong\yon^A\tri\yon^B$?
+	\item Is it true that $A\otimes B\cong A\tri B$?
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -410,7 +425,7 @@ However, even though the formal theory of functors and natural transformations k
 
 For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
 
-Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'_{f_1(i)}$ there is passed back to an option $f^\sharp(d)\in p_i$. Let's start with an example and then give the general method.
+Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'[f_1(i)]$ there is passed back to an option $f^\sharp(d)\in p[i]$. Let's start with an example and then give the general method.
 
 \begin{example}\label{ex.circ_prod_on_morphisms}
 Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
@@ -831,13 +846,13 @@ That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?
 \paragraph{Pronouncing polynomial composites.}
 
 We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
-\[p=\sum_{i\in p(\1)}\prod_{d\in p_i}\yon\]
-as ``a choice of $p$-position $i$ and, for every direction $d\in p_i$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
+\[p=\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon\]
+as ``a choice of $p$-position $i$ and, for every direction $d\in p[i]$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
 
 To pronounce composites of polynomials $p\tri q$, we pronounce almost all of $p$, except we replace ``future'' with $q$. More precisely, to pronounce $p\tri q$, which has the formula
-\[p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p_i}\sum_{j\in q(\1)}\prod_{e\in q_j}\yon,
+\[p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon,
 \]
-we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p_i$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q_j$ there, a future.
+we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p[i]$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q[j]$ there, a future.
 
 \begin{exercise}
 \begin{enumerate}
@@ -855,64 +870,165 @@ For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.
 Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
 \end{exercise}
 
+
 %---- Subsection ----%
-\subsection{Working with composites}
+\subsection{Working with composites}\label{subsec.working_with_composites}
 
-A position $i\colon\1\to p\tri q$ in the composite $p\tri q$ consists of a choice of position in $p$ and, for every direction there a position in $q$. How do we grab the $p$-position? And then given such a $p$-position, how do we talk about having an additional direction there with which to grab a $q$-position? We need to have tools for saying such things---or even more complicated things about morphisms $p\tri q\to p'\tri q'$ carefully. We give such tools in this section.
-
-Recall that $\1$ is the terminal object in $\poly$, so we have a unique morphism $!_q\colon q\to\1$. Since $\tri$ is monoidal, we have the following useful function
+We need a way of talking about maps to composites.%
+\footnote{It would be nice to also have a nice way of talking about maps \emph{out of} composites; however that is more difficult.} 
+The set of morphisms $p\to q_1\tri q_2\tri\cdots\tri q_k$ has the following form:
 \[
-p\tri q\To{p\tri !_q}p\tri\1.
+  \poly(p,\, q_1\tri q_2\tri\cdots\tri q_k)
+  \cong
+  \prod_{i\in p(\1)}\;
+  	\sum_{j_1\in q_1(\1)}\;
+  \prod_{e_1\in q_1[j_1]}\;
+  	\sum_{j_2\in q_2(\1)}\;\cdots
+  \prod_{e_k\in q_k[j_{k-1}]}\;
+  	\sum_{d\in p[i]}
+	\1
 \]
-So given $i$ as above, we can compose with this map and get $i\then(p\tri !_q)\colon\1\to p\tri 1=p(\1)$, the position in $p$ we wanted.
+We can use this to generalize our notation in the case $k=1$, i.e.\ for morphisms $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_1}$, where $f_1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q[f_1(i)]\to p[i]$. We generalize this to the $k$-ary composite case as
+\begin{equation}\label{eqn.notation_f1f2fk}
+(f_1,f_2,\ldots,f_k,f^\sharp)\colon p\too q_1\tri q_2\tri\cdots\tri q_k,
+\end{equation}
+where
+\begin{equation}\label{eqn.maps_to_comp}
+\begin{aligned}
+f_1&:p(\1)\to q_1(\1),\\
+f_2&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to q_2(\1),\\
+f_3&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to (e_2\in q_2[f_2(i,e_1)])\to q_3(\1),\\
+f_k&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to  \cdots\to(e_{k-1}\in q_{k-1}[f_{k-1}(i,e_1,\ldots,e_{k-2})])\to q_k(\1),\\
+f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i,e_1,\ldots,e_{k-1})])\to p[i]
+\end{aligned}
+\end{equation}
+This looks worse than it is. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$. The case $k=2$ is considered in \cref{ex.map_to_comp}
+
+\begin{example}[Maps $p\to q\tri r$]\label{ex.map_to_comp}
+By \eqref{eqn.maps_to_comp}, a morphism $p\to q\tri r$ can be specified by a tuple $(f_1,f_2,f^\sharp)$, where $f_1\colon p(\1)\to q(\1)$ and $f_2,f^\sharp$ are a little more involved because they are dependent functions.
+
+The dependent function $f_2$ takes as input a pair $(i,d)$ where $i\in p(\1)$ and $d\in q[f_1(i)]$, and it outputs an element of $r(\1)$.
+
+The dependent function $f^\sharp$ takes as input a tuple $(i,d,e)$, where $i,d$ are as above and $e\in r[f_2(i,d)]$, and it outputs an element of $p[i]$.
+
+For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C\}\yon^{\{U,V,W\}}+\{D\}\yon^{\{X\}}$, and $r\coloneqq\{E\}\yon^{\{Y,Z\}}+\{F\}$.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$p=$" left] {
+	\begin{tikzpicture}[trees, sibling distance=4mm]
+    \node["\tiny $A$" below] (1) {$\bullet$} 
+      child {node[above, font=\tiny] {$R$}}
+      child {node[above, font=\tiny] {$S$}};
+    \node[right=.5 of 1,"\tiny $B$" below] (2) {$\bullet$} 
+      child {node[above, font=\tiny] {$T$}};
+  \end{tikzpicture}
+  };
+%
+	\node (q) [draw, red!50!black, right=2 of p, "$q=$" left] {
+	\begin{tikzpicture}[trees, sibling distance=4mm]
+    \node["\tiny $C$" below] (1) {$\bullet$} 
+      child {node[above, font=\tiny] {$U$}}
+      child {node[above, font=\tiny] {$V$}}
+      child {node[above, font=\tiny] {$W$}};
+    \node[right=.75 of 1,"\tiny $D$" below] (2) {$\bullet$} 
+      child {node[above, font=\tiny] {$X$}};
+  \end{tikzpicture}
+  };
+	\node (r) [draw, red, right=2 of q, "$r=$" left] {
+	\begin{tikzpicture}[trees, sibling distance=4mm]
+    \node["\tiny $E$" below] (1) {$\bullet$} 
+      child {node[above, font=\tiny] {$Y$}}
+      child {node[above, font=\tiny] {$Z$}};
+    \node[right=.5 of 1,"\tiny $F$" below] (2) {$\bullet$};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Here is a picture of a map $p\to q\tri r$:
+\[
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node["\tiny $A$" below] (1) {$\bullet$} 
+      child {coordinate (11')}
+      child {coordinate (12')};
+    \node[right=2 of 1, red!50!black,"\tiny $C$" below] (1') {$\bullet$}
+    	child {node[red] {$\bullet$}
+				child {coordinate (1'1)}
+				child {coordinate (1'2)}
+			}
+			child{node[red] {$\bullet$}
+			}
+			child{node[red] {$\bullet$}
+				child {coordinate (1'3)}
+				child {coordinate (1'4)}
+			}
+			;
+%
+    \node (2) [right=3 of 1',"\tiny $B$" below] {$\bullet$} 
+      child {coordinate (21')};
+    \node[right=2 of 2, red!50!black,"\tiny $D$" below] (2') {$\bullet$}
+			child{node[red] {$\bullet$}
+				child {coordinate (2'1)}
+				child {coordinate (2'2)}
+			}
+			;
+%
+  \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1');
+  \draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2');
+  \begin{scope}[densely dotted, bend right=60pt]
+  	\draw[postaction={decorate}] (1'1) to (12');
+  	\draw[postaction={decorate}] (1'2) to (11');
+  	\draw[postaction={decorate}] (1'3) to (11');
+  	\draw[postaction={decorate}] (1'4) to (11');
+  	\draw[postaction={decorate}] (2'1) to (21');
+  	\draw[postaction={decorate}] (2'2) to (21');
+  \end{scope}
+\end{tikzpicture}
+\]
+If we write it as $(f_1,f_2,f^\sharp)\colon p\to q\tri r$ then we have
+\begin{gather*}
+f_1(A)=C,\quad f_1(B)=D,\\
+f_2(A,U)=E,\quad f_2(A,V)=F,\quad f_2(A,W)=E,\\
+f_2(B,X)=E,\\
+f^\sharp(A,U,Y)=T,\quad f^\sharp(A,U,Z)=S,\quad f^\sharp(A,W,Y)=S,\quad f^\sharp(A,W,Z)=S\\
+f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
+\end{gather*}
+\end{example}
+
+\begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions in a composite]\label{ex.pos_in_composite}
+Suppose given polynomials $p_1,\ldots,p_k$. Recall from \cref{exc.positions_maps_yon} that a position in their composite as a map
+\[
+i\colon \yon^\1\to p_1\tri\cdots\tri p_k.
+\]
+We can denote $i$ in the notation \eqref{eqn.notation_f1f2fk} as $i=(i_1,\ldots,i_k)$, forgoing the input to $i_1$ because it is always $1\in\1$ and also forgoing $f^\sharp$ because it is always the unique map to $\1$. Then in this notation 
+\begin{gather*}
+i_1\in p_1(\1),\quad
+i_2\colon p_1[i_1]\to p_2(\1),\quad
+i_3\colon (d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to p_3(\1),\\
+i_k\colon(d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to\cdots(d_{k-1}\in p_{k-1}[i_{k-1}(d_1,\ldots,d_{k-2})])\to p_k(\1)
+\end{gather*}
+
+So for example to give a position in $p\tri q\tri r$ we need 
+\[
+i\in p(\1),\quad
+j\colon p[i]\to q(\1),\quad
+k:(d\in p[i])\to(e\in q[j(d)])\to r(\1).
+\]
+\end{example}
 
 \begin{exercise}
-Let $p,q$ be as in \cref{ex.circ_prod_on_morphisms}, let $p'\coloneqq p$ and $q'\coloneqq 1$, and let $f\coloneqq\id_p$ and $g\coloneqq !_q$.
+In \cref{ex.pos_in_composite}, we gave a formula for the positions in the composite $p\coloneqq p_1\tri\cdots\tri p_k$ of arbitrary polynomials $p_1,\ldots,p_k$. Use the notation from that example to answer the following.
 \begin{enumerate}
-	\item Draw $f\tri g$ in the style of that exercise.
-	\item Would you say it ``grabs the positions of $p$ and nothing more'', or is that subtly inaccurate somehow?
+	\item What is the set $p[(i_1,\ldots,i_k)]$ of directions available in position $(i_1,i_2,\ldots i_k)$?
+	\item Suppose $A_1,\ldots,A_k$ are sets and $p[i]\coloneqq A_i\yon$ for each $i$. What is the set of positions in $p$ in this case?
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-More generally, given polynomials $q_{1},\; q_{2},\;\ldots\; q_{n}$,
-%\footnote{Notation is as in \cref{prop.coprod_prod_poly}: we put a comma after each subscript, e.g.\ $q_{1}$ to indicate that it is a whole polynomial, not a set of directions.}
-we may want to truncate their composite tree at height $0\leq m\leq n$; this operation is denoted
-\[
-  \trunc^m\colon q_{1}\tri q_{2}\tri\cdots\tri q_{n}\to 
-  q_{1}\tri q_{2}\tri\cdots\tri q_{m}
-\]
-The $0th$ truncation is the unique morphism $\trunc^0\colon q_{1}\tri q_{2}\tri\cdots\tri q_{n}\to\1$ to the terminal object $\1$. 
 
-Given a morphism $f\colon p\to (q_{1}\tri\cdots\tri q_{n})$, we denote the composite of $f$ with the $m$th truncation by
-\[\trunc^m(f)\colon p\to q_{1}\tri\cdots\tri q_{m}.\]
-In particular, we can think of a position as a map from $\yon$, so given $i\in q_{1}\tri\cdots\tri q_{n}(\1)$, we write $\trunc^m(i)\in q_{1}\tri\cdots\tri q_{m}(\1)$ for its $m$th truncation.
-
-We denote the first truncation simply by $\trunc=\trunc^1$.
-
-\begin{warning}
-Note that $\trunc^m$ is not an operation on polynomials! It is an operation on expressions involving composites, e.g.\ $p\tri q\tri r$, etc. Two isomorphic polynomials, expressed differently as composites, may yield different results when hit by $\trunc^m$; we'll see an example of this in \cref{exc.truncation}.
-
-We call $\trunc^m$ the \emph{$m$-truncation device}, the word device being meant to signal that it's not functorial.
-\end{warning}
-
-\begin{exercise}\label{exc.truncation}
-\begin{enumerate}
-	\item Find polynomials $p,q,r$ such that $r\cong (p\tri q)$.
-	\item Is $\trunc(p\tri q)$ the same map as $\trunc(r)$? If ``no'', explain why; if yes, repeat all over again from the beginning of step 1 and choose something less degenerate.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-\begin{exercise}
-Suppose given a morphism $f\colon p\to q\tri r$.
-\begin{enumerate}
-	\item How do you grab the on-positions map $p\tri\1\to (q\tri r)\tri 1$? That is, what operation can you use to obtain it from $f$?
-	\item How do you grab the function that takes a $p$-position $i\in p(\1)$ and returns a $q$-position; is it just $f_1(i)$?
-	\item Get the function $p\tri\1\to q\tri\1$ from $f$ using only the truncation device $\trunc$ and the functor $-\tri\1$.
-\qedhere
-\end{enumerate}
-\end{exercise}
+%---- Subsection ----%
+\subsection{Mathematical aspects of $\tri$}
 
 We now want to get at more subtle aspects of $p\tri q$. We begin with the following.
 
@@ -1171,18 +1287,18 @@ Use \cref{thm.connected_limits} in the following.
 \end{exercise}
 
 \begin{example}
-Suppose we have polynomials $p$ and $q$ and a position $i\in p(\1)$. How do we grab that part of the composite $p\tri q$? That is, how do we find the Cartesian subpolynomial
+Suppose we have polynomials $p$ and $q$ and a position $i_0\in p(\1)$. It ponits to a certain part, a certain subpolynomial, of the composite $p\tri q$; how do we grab it? That is, how do we find the Cartesian subpolynomial
 \[
-  \prod_{d\in p_i}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
+  \prod_{d\in p[i_0]}\;\sum_{j\in q(\1)}\;\prod_{e\in q[j]}\;\yon
   \ss
-  \sum_{i\in p(\1)}\;\prod_{d\in p_i}\;\sum_{j\in q(\1)}\;\prod_{e\in q_j}\;\yon
+  \sum_{i\in p(\1)}\;\prod_{d\in p[i]}\;\sum_{j\in q(\1)}\;\prod_{e\in q[j]}\;\yon
 \]
 The answer is that we can get it by pullback
 \begin{equation}\label{eqn.cart_pullback_misc48}
 \begin{tikzcd}[background color=examplecolor]
-	\yon^{p_i}\tri q\ar[d]\ar[r]&
-	\1\tri q\ar[r, equal]\ar[d, "i\tri q"]&
-	\1\ar[d, "i"]\\
+	\yon^{p[i_0]}\tri q\ar[d]\ar[r]&
+	\1\tri q\ar[r, equal]\ar[d, "i_0\tri q"]&
+	\1\ar[d, "i_0"]\\
 	p\tri q\ar[r, "\eta_p\tri q"']&
 	p\tri\1\tri q\ar[r, equal]\ar[ul, phantom, very near end, "\lrcorner"]&
 	p\tri \1\ar[ul, phantom, very near end, "\lrcorner"]
@@ -1191,22 +1307,46 @@ The answer is that we can get it by pullback
 The map $\eta_p\colon p\to p\tri\1$ comes from \cref{thm.adjoint_quadruple}; it just extracts positions. The composite $\1\tri q$ is just $\1$ and similarly $p\tri\1\tri q\cong p\tri\1$. The left-hand square is a pullback by \cref{thm.connected_limits}. The lefthand map is Cartesian, because the pullback of a cartesian map is cartesian; see \cref{prop.pullback_cartesian}.
 \end{example}
 
-A goal we set for ourselves at the beginning of this section was as follows. Given a position $k\in (p\tri q)\tri\1$, we have a device to get a position $\trunc(k) \in p\tri\1$ and know that for every direction $d\in p_{\trunc(k)}$ there, we are supposed to get a position in $q$. How do we grab it?
 
-Well, by the cartesian closure of $\poly$ (see \cref{thm.poly_cart_closed,eqn.eval_times}), we have an evaluation map
-\[
-\text{eval}\colon X\times\yon^X\to\yon
-\]
-for any set $X$. In particular, we have $p_{\trunc(k)}\times\yon^{p_{\trunc(k)}}\to\yon$. Let's write $p_k\coloneqq p_{\trunc(k)}$.
+\begin{proposition}
+For any polynomials $p,p',q,q'$ there are natural maps
+\begin{align}\label{eqn.plus_duoidal}
+	(p\tri p')+(q\tri q')&\to (p+q)\tri(p'+q')\\\label{eqn.otimes_duoidal}
+	(p\tri p')\otimes(q\tri q')&\to(p\otimes pq)\tri(p'\otimes q')\\\label{eqn.times_duoidal}
+	(p\tri p')\times (q\tri q')&\from(p\times q)\tri(p'\times q')
+\end{align}
+making $(+,\tri)$ and $(\otimes,\tri)$ duoidal structures and $(\times,\tri)$ op-duoidal.
+\end{proposition}
+\begin{proof}
+For \eqref{eqn.plus_duoidal} we have inclusion maps $p\to p+q$ and $p'\to p'+q'$, inducing a map $p\tri p'\to(p+q)\tri(p'+q')$. Similarly we obtain a map $q\tri q'\to(p+q)\tri(p'+q')$, so we get the desired map from the universal property of coproducts. It is straightforward to check that this is duoidal. The result for \eqref{eqn.times_duoidal} is similar. 
 
-So suppose we are given both $k\in (p\tri q)\tri \1$ and $d\in p_k$. Using the pullback \eqref{eqn.cart_pullback_misc48} $k$ induces a map $k'\colon\1\to\yon^{p_k}\tri q$ and we have an induced element $(d,k')$ in $p_{\trunc k}\yon^{p_k}\tri q\tri\1$; see \cref{ex.connected_limits_and_tri}. Thus we can evaluate:
-\[
-p_k\yon^{p_k}\tri q\tri\1
-\to
-\yon\tri q\tri\1
-\cong
-q\tri\1.
-\]
+It remains to give a map \eqref{eqn.times_duoidal}.**
+\end{proof}
+
+%\begin{exercise}\label{exc.plus_duoidal}
+%\begin{enumerate}
+%	\item Give maps $0\to 0+0$, $\yon\to\yon\tri\yon$, and $0\to\yon$.
+%	\item Check that the following diagrams commute:
+%\[ 
+%\begin{tikzcd}
+%	(p\tri p')+0\ar[r]&
+%	(p\tri p)+(0\tri 0)\ar[d]\\
+%	p\tri p'&
+%	(p+0)\tri (p'+0)\ar[l]
+%\end{tikzcd}
+%\hspace{1in}
+%\begin{tikzcd}
+%	((p\tri p')+(q\tri q'))+(r\tri r')\ar[r]\ar[d]&
+%	(p\tri p')+((q\tri q')+(r\tri r'))\ar[r]&
+%	(p\tri p')+((q+r)\tri(q'+r')\ar[d]\\
+%	((p+ q)\tri(p'+ q'))+(r\tri r')\ar[r]&
+%	((p+q)+r)\tri((p'+q')+r')\ar[r]&
+%	(p+(q+r))\tri(p'+(q'+r'))
+%\end{tikzcd}
+%\]
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
 
 
 %-------- Section --------%
@@ -1233,7 +1373,7 @@ is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon
 We refer to a comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
 \end{definition}
 
-\begin{example}[$\delta^{n}$ notation]
+\begin{example}[$\delta^{n}$ notation]\label{ex.delta_n_notation}
 Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the two ways to get a map $c\to c\tri c\tri c$ have the same result. This is true for any $n\in\nn$: we get an induced map $c\to c\tripow{n+1}$, which by mild abuse of notation we denote $\delta^n$:
 \[
 	c\To{\delta}c\tri c\To{c\tri\delta}c\tri c\tri c\To{c\tripow{2}\tri\delta}\cdots\To{c\tripow{n}\tri\delta}c\tripow{(n+1)}.
@@ -1463,6 +1603,41 @@ Let $S\coloneqq\2$ and $c\coloneqq \2\yon^\2$.
 \end{enumerate}
 \end{exercise}
 
+\paragraph{Speeding up dynamical systems}
+
+Suppose we have a dynamical system $f\colon S\yon^S\to p$, and we want to make it go $k$-times faster. That is, in every moment, we want it to process $k$-many inputs, rather than one. 
+
+Since $S\yon^S$ has the structure of a comonoid, we know that for every $k\in\nn$ we have a map $\delta^{k-1}\colon S\yon^S\to (S\yon^S)\tripow{k}$ by \cref{ex.delta_n_notation}. But we also have maps $f\tripow{k}\colon (S\yon^S)\tripow{k}\to p\tripow{k}$ because $\tri$ is a monoidal product. Thus we can form the composite
+\[
+\begin{tikzcd}
+	S\yon^S\ar[r, "\delta^{k-1}"]\ar[rr, bend right, "{\text{Spdup}_k(f)}"']&
+	(S\yon^S)\tripow{k}\ar[r, "f\tripow{k}"]&
+	p\tripow k
+\end{tikzcd}
+\]
+For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times.
+
+\begin{example}
+Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\lens{f^\sharp}{f_1}\colon S\yon^S\to p$ be given by $f_1(n)\coloneqq n$ and $f^\sharp(n,1)\coloneqq n+1$. What is this speedup map $\text{Spdup}_k(f)$? First of all, its type is 
+\[\text{Spdup}_k(f)\colon S\yon^S\to\rr^k\yon,\]
+meaning that it has the same set of states as before, but it outputs $k$-many reals in every moment. 
+
+Writing $\delta^{k-1}\colon S\yon^S\to(S\yon^S)\tripow{k}$ in the $(g_1,\ldots,g_k,g^\sharp)$ notation, we have $g_1(s_1)=s_1$, $g_2(s_1,s_2)=s_2$, ..., $g_k(s_1,\ldots,s_k)=s_k$ and $g^\sharp(s_1,\ldots,s_{k+1})=s_{k+1}$. 
+
+Let's denote positions in $x\in (S\yon^S)\tripow k$ using the notation $x=(x_1,\ldots,x_k)$ of \cref{ex.pos_in_composite}, where $x_i\colon S^{i-1}\to S$. Since $f$ is ``output only'', i.e.\ the input is fixed at $1\in \1$, one can check easily that for any position $x=(x_1,\ldots,x_k)$, we have
+\[f\tripow{k}(x)=\bigg(x_1,x_2(1+x_1),\ldots,x_k\Big(x_1,x_2(1+x_2),\ldots, x_{k-1}\big(1+x_{k-2}(1+\cdots x_2(1+x_1))\big)\Big)\bigg)\]
+But that looks much scarier than it is, because we are composing with $\delta^{k-1}$, where each $x_i=g_i$ is the last projection. So we have
+\[
+f\tripow{k}\circ\delta^{k-1}(n)=(n,1+n,\ldots, k-1+n).
+\]
+In other words, it outputs the next $k$ seconds in just one second. And the state update of $f\tripow{k}\circ\delta^{k-1}\colon S\to S$ sends $n\mapsto n+k$.
+
+So for example, with $k=3$ and starting at initial state $n=0$, we get the following output stream, e.g. for 4 seconds:
+\[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
+\end{example}
+
+\paragraph{Other comonoids}
+
 Once you know that these all important $S\yon^S$-things are comonoids in $\poly$, it's interesting to ask ``what are all the comonoids in $\poly$?'' Let's discuss another one before answering the question in generality.
 
 \begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
@@ -1679,6 +1854,10 @@ In both pictures, one can see that the composite map is the identity. We would d
 Write out the data $(c,\epsilon,\delta)$ for the comonoid corresponding to the category 
 \[\boxCD{exercisecolor}{$B\From{f}A\To{g}C$}\]
 For this exercise, you are not being asked to check the unitality or associativity conditions.
+\end{exercise}
+
+\begin{exercise}\label{exc.linear_poly_comon}
+Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polynomial, then there exists a unique comonoid structure on $p$.
 \end{exercise}
 
 
@@ -2039,10 +2218,18 @@ We leave the proof of associativity to \cref{ex.comonoid_cat_assoc}.
 Show that for any category $\cat{C}$, if $\ema{c}$ is the associated emanation polynomial and $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ is the morphism as described in \eqref{eqn.emanation_cat_delta} and \eqref{eqn.emanation_cat_delta_sharp}, then $\delta$ is associative, i.e.\ satisfies the second commutative diagram from \cref{eqn.comonoid_diagrams}.
 \end{exercise}
 
+\begin{example}[Monoids]\label{ex.monoids}
+Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^2}$ and a morphism $\yon^M\to\yon^{M^2}$ can be identified with a function $M^2\to M$; under that identification we take $\delta\coloneqq *$.
+\end{example}
+
+\begin{exercise}
+Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfy the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfy the unitality and associatitivity requirements of a comonoid in $(\poly,\yon,\tri)$.
+\end{exercise}
+
 %---- Subsection ----%
 \subsection{Constructing categories from comonoids}
 
-Given a comonoid $\com{C}\coloneqq(c,\epsilon,\delta)$, we now construct a corresponding category $\cat{C}$. Its objects are given by $C_0\coloneqq c(\1)$ and its morphisms are given by $C_1\coloneqq\sum_{i\in C_0}(c_i)$. The domain of each morphism is $\dom(i,m)\coloneqq i$. Among all morphisms emanating from $i$, the identities are given by $\epsilon$.
+Given a comonoid $\com{C}\coloneqq(c,\epsilon,\delta)$, we now construct a corresponding category $\cat{C}$. Its objects are given by $C_0\coloneqq c(\1)$ and its morphisms are given by $C_1\coloneqq\sum_{i\in C_0}(c[i])$. The domain of each morphism is $\dom(i,m)\coloneqq i$. Among all morphisms emanating from $i$, the identities are given by $\epsilon$.
 
 \begin{exercise}
 \begin{enumerate}
@@ -2190,32 +2377,32 @@ How many morphisms $c\to c\tri c$ respect \eqref{eqn.unital_misc28} in the above
 Now the map shown in \eqref{eqn.possible_assignment_misc135} will eventually be ruled out by other equations. But let's go back and abstractly summarize what we know.
 \end{example}
 
-Here's where we are in the story so far. Any comonoid $\com{C}=(c,\epsilon,\delta)$in $\poly$ are supposed to give us a category with objects $c(\1)$ and $c_i$-many morphisms emanating from each $i\in c(\1)$. We want to see how $\delta$ gives us codomains and composition. The type of $\delta$ is
+Here's where we are in the story so far. Any comonoid $\com{C}=(c,\epsilon,\delta)$in $\poly$ are supposed to give us a category with objects $c(\1)$ and $c[i]$-many morphisms emanating from each $i\in c(\1)$. We want to see how $\delta$ gives us codomains and composition. The type of $\delta$ is
 \[
-\delta:\prod_{i\in c(\1)}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c_{i'}}\;\sum_{i''\in c(\1)}\;\prod_{m''\in c_{i''}}\;c_i
+\delta:\prod_{i\in c(\1)}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c[i']}\;\sum_{i''\in c(\1)}\;\prod_{m''\in c[i'']}\;c[i]
 \]
-It says ``for every object $i\in c(\1)$, I will assign an object $i'\in c(\1)$ and, for any emanating morphism $m'\in c_{i'}$, I will assign an object $i''\in c(\1)$ and, for any emanating morphism $m''$ I will assign a morphism emanating from the original $i$.'' But with \eqref{eqn.unital_misc28} we can simplify it by saying we know that $i'=i$:
+It says ``for every object $i\in c(\1)$, I will assign an object $i'\in c(\1)$ and, for any emanating morphism $m'\in c[i']$, I will assign an object $i''\in c(\1)$ and, for any emanating morphism $m''$ I will assign a morphism emanating from the original $i$.'' But with \eqref{eqn.unital_misc28} we can simplify it by saying we know that $i'=i$:
 \begin{align*}
   \delta&:
-  \prod_{i\in c(\1)}\;\prod_{m\in c_i}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c_{i'}}\;c_i\\&\cong
-	\prod_{i\in c(\1)}\;\sum_{i'\colon c_i\to c(\1)}\;\prod_{m\in c_i}\;\smset(c_{i'(m)},c_i)
+  \prod_{i\in c(\1)}\;\prod_{m\in c[i]}\;\sum_{i'\in c(\1)}\;\prod_{m'\in c[i']}\;c[i]\\&\cong
+	\prod_{i\in c(\1)}\;\sum_{i'\colon c[i]\to c(\1)}\;\prod_{m\in c[i]}\;\smset(c[i'(m)],c[i])
 \end{align*}
-which says ``for every object $i\in c(\1)$, I'll assign a function $i'$---which we'll call the codomain function---that takes emanating morphisms $m\in c_i$ to objects in $c(\1)$, and given a morphism $m$ emanating from $i$, I'll assign a function from morphisms emanating from its codomain $i'(m)$ to morphisms emanating from $i$. So we rewrite it as:
+which says ``for every object $i\in c(\1)$, I'll assign a function $i'$---which we'll call the codomain function---that takes emanating morphisms $m\in c[i]$ to objects in $c(\1)$, and given a morphism $m$ emanating from $i$, I'll assign a function from morphisms emanating from its codomain $i'(m)$ to morphisms emanating from $i$. So we rewrite it as:
 \[
-\delta:	\prod_{i\in c(\1)}\;\sum_{\cod\colon c_i\to c(\1)}\;\prod_{m\in c_i}\;\{(m\then -)\colon c_{\cod(m)}\to c_i\}.
+\delta:	\prod_{i\in c(\1)}\;\sum_{\cod\colon c[i]\to c(\1)}\;\prod_{m\in c[i]}\;\{(m\then -)\colon c[\cod(m)]\to c[i]\}.
 \]
-Notation aside, we got all this from \eqref{eqn.unital_misc28}. In fact we got a little more, that $m\then\id_{\cod(m)}=m$ for any emanating $m\in c_i$.
+Notation aside, we got all this from \eqref{eqn.unital_misc28}. In fact we got a little more, that $m\then\id_{\cod(m)}=m$ for any emanating $m\in c[i]$.
 
 The rest of the story is pretty much ``follow your nose'' from here on out. The second unitality equation from \eqref{eqn.comonoid_diagrams}, that
 \[c\To{\delta}c\tri c\To{\epsilon\tri c}c\tri\yon\cong c\]
 is the identity on $c$, says two things for any $i\in c(\1)$:
 \begin{itemize}
 	\item that the codomain of $\id_i$ is $i$, and
-	\item that the function $(\id_i\then-)\colon c_i\to c_i$ is entity.
+	\item that the function $(\id_i\then-)\colon c[i]\to c[i]$ is entity.
 \end{itemize}
-The associativity equation from \eqref{eqn.comonoid_diagrams} says two things for any $i\in c(\1)$ and emanating morphism $m\in c_i$:
+The associativity equation from \eqref{eqn.comonoid_diagrams} says two things for any $i\in c(\1)$ and emanating morphism $m\in c[i]$:
 \begin{itemize}
-	\item that for any $m'\in c_{\cod(m)}$ emanating from $\cod(m)$, we have $\cod(m')=\cod(m\then m')$, and
+	\item that for any $m'\in c[\cod(m)]$ emanating from $\cod(m)$, we have $\cod(m')=\cod(m\then m')$, and
 	\item that for any $m'$ as above and $m''\in\cod(m')$, we have $(m\then m')\then m''=m\then(m'\then m'')$.
 \end{itemize}
 
@@ -2269,6 +2456,10 @@ Some people would call this the contractible groupoid, or the terminal category 
 Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}.
 \end{example}
 
+\begin{exercise}
+We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $p\coloneqq A\yon$ has a unique comonoid structure. What category does it correspond to?
+\end{exercise}
+
 Perhaps we owe it to ourselves to record the results of this section.
 
 \begin{proposition}\label{prop.comon_to_cat}
@@ -2317,6 +2508,216 @@ Commutation with $\epsilon$ and $\epsilon'$ ensures that identities in $\cat{C}'
 Prove \cref{thm.ahman_uustalu} to a level of detail you find appropriate.
 \end{exercise}
 
+\paragraph{Examples of cofunctors}
+
+We saw in \cref{thm.ahman_uustalu} that cofunctors $\cat{C}\to\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference.
+
+\begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
+For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $T\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the one-object category.
+
+This does not work for cofunctors, as we'll see in \cref{exc.rep_objects}. The comonoid corresponding to $\cat{T}$ is $\yon$ with its unique comonoid structure. Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. The reason is the codomain condition (\cref{def.cofunctor}, condition 2).
+\end{example}
+
+\begin{exercise}\label{exc.rep_objects}
+We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid structure.
+\begin{enumerate}
+	\item Show that for any category $\cat{T}$, there are $2^{\#\Ob(\cat{T})}$-many cofunctors $\cat{T}\cof\2\yon$.
+	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if a category $\cat{T}$ is going to represent objects as in \cref{ex.rep_objects} then $\cat{T}$ must have one object.
+	\item Now use a different $\cat{C}$ to show that if a category $\cat{T}$ is going to represent objects, it must have more than one object.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}[Trajectories are co-representable]
+For a category $\cat{C}$, let's say that a \emph{trajectory in $\cat{C}$} is a choice, for each object $c\in\cat{C}$, of an emanating morphism $f\colon c\to c'$. For example, consider the category $(\nn,\leq)\times(\nn,\leq)$:
+\[
+\begin{tikzpicture}[shorten <=4pt, shorten >=4pt]
+	\foreach \i in {0,1,2,3} 
+	{
+		\foreach \j in {0,1,2}
+		{
+			\node (\i\j) at (\i,\j) {$\bullet$};
+			\draw[->] (\i,\j) -- (\i+1,\j);
+			\draw[->] (\i,\j) -- (\i,\j+1);
+		};
+	};
+	\begin{scope}[red, thick]
+		\draw[->] (0,0) -- (0,1);
+		\draw[->] (0,1) -- (1,3);
+		\draw[->] (0,2) -- (1,2);
+		\draw[->] (1,0) -- (1,1);
+		\draw[->] (1,1) edge[in=30, out=60, loop] (1,1);
+		\draw[->] (1,2) -- (2,2);
+		\draw[->] (2,0) to[bend right] (2,2);
+		\draw[->] (2,1) -- (2,2);
+		\draw[->] (2,2) -- (3,2);
+		\draw[->] (3,0) -- (3,1);
+		\draw[->] (3,1) -- (3,2);
+		\draw[->] (3,2) edge[in=30, out=60, loop] (3,2);
+	\end{scope}
+\end{tikzpicture}
+\]
+
+For any category $\cat{C}$, the set of trajectories in $\cat{C}$ is in bijection with the set of cofunctors
+\[
+\cat{C}\cof\cat{N}
+\]
+where $\cat{N}$ is the monoid of natural numbers.
+\end{example}
+
+\begin{exercise}[Continuous trajectories]
+If we say that a continuous trajectory in $\cat{C}$ is a cofunctor $\cat{C}\to\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
+
+Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and doesn't yet want to learn.
+\end{exercise}
+
+\begin{example}[Very well-behaved lenses]
+Recall that for any set $S$, we have the ``state'' comonoid $(S\yon^S,\epsilon,\delta)$ from \cref{ex.state_comonad_1}. What are the comonoid morphisms between them?
+
+**Finish**
+\end{example}
+
+\begin{proposition}[Niu]
+The coproduct of comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
+\end{proposition}
+
+\begin{exercise}
+Check that the terminal comonoid is $\yon$.
+\end{exercise}
+
+\begin{proposition}[Niu]
+The category $\smcat^\sharp$ has products.
+
+If $c$ and $d$ are the carriers of comonoids $\com{C}$ and $\com{D}$, then the carrier of $\com{C}\times\com{D}$ has carrier given by the following limit
+\[
+\begin{tikzcd}[column sep=23pt]
+	\yon\ar[d]&
+	\fl{c}\fl{d}\ar[d]&
+	(\fl{c}\tri\fl{d})(\fl{d}\tri\fl{c})\ar[d]&
+	(\fl{c}\tri\fl{d}\tri\fl{c})(\fl{d}\tri\fl{c}\tri\fl{d})\ar[d]&
+	\cdots\\
+	\1&
+	(\fl{c}\tri\1)(\fl{d}\tri\1)\ar[l]&
+	(\fl{c}\tri\fl{d}\tri\1)(\fl{d}\tri\fl{c})\ar[l]&
+	(\fl{c}\tri\fl{d}\tri\fl{c}\tri\1)(\fl{d}\tri\fl{c}\tri\fl{d}\tri\1)\ar[l]&
+	\cdots\ar[l]
+	\end{tikzcd}
+\]
+where $\fl{c}$ and $\fl{d}$ are the fleeces of $c$ and $d$.
+\end{proposition}
+
+\paragraph{Results about cofunctors}
+We refer to morphisms between polynomial comonoids as cofunctors, again eliding the difference between comonoids in $\poly$ and categories.
+
+\begin{proposition}
+Let $\Cat{Comon}(\poly)_{\text{rep}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=\yon^M$ is representable. Then there is an isomorphism of categories
+\[
+\Cat{Comon}(\poly)_{\text{rep}}\cong\Cat{Mon}\op
+\]
+where $\Cat{Mon}$ is the category of monoids.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+
+\begin{exercise}
+$\Cat{Comon}(\poly)_{\text{lin}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=M\yon$ is linear. Show that there is an isomorphism of categories
+\[
+\Cat{Comon}(\poly)_{\text{lin}}\cong\smset
+\]
+\end{exercise}
+
+\paragraph{Databases}
+
+Discrete opfibrations will be important in our story, so let's spend a bit of time on them. It turns out that discrete opfibrations on a category have a close relationship with databases. Let's start with a definition.
+
+
+\begin{definition}[Discrete opfibration]
+A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if, for every object $c\in\cat{C}$, object $d'\in\cat{D}$, and morphism $g\colon F(c)\to d'$ there exists a unique object $c'\in\cat{C}$ and morphism $f\colon c\to c'$ such that $F(c')=d'$ and $F(f)=g$.
+\[
+\begin{tikzcd}
+  c\ar[r, dashed, "f"]\ar[d, |->, "F"']&
+  c'\ar[d, |->, "F"]\\
+  F(c)\ar[r, "g"']&
+  d'
+\end{tikzcd}
+\]
+\end{definition}
+
+
+\begin{proposition}\label{prop.dopf_copresheaf}
+Given a functor $\cat{C}\to\smset$, its category of elements is a discrete opfibration over $\cat{C}$, and this is functorial. Moreover this functor is an equivalence of categories.
+\end{proposition}
+
+
+\begin{example}[Database]
+\end{example}
+
+
+
+\begin{proposition}\label{prop.cart_com_dopf}
+The category of polynomial comonoids and cartesian maps is equivalent to the category of categories and discrete opfibrations
+\[
+\Cat{Comon}(\poly)_{\text{cart}}\cong \smcat_{\text{dopf}}.
+\]
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{example}
+Let $S$ be a set and $\com{S}\coloneqq(S\yon^S,\epsilon,\delta)$ the state comonoid. Then by \cref{prop.dopf_copresheaf,prop.cart_com_dopf}, a comonoid $\com{C}$ equipped with a cartesian map $f\colon\com{C}\to\com{S}$ is the category of elements for a functor $\cat{S}\to\smset$. But $\cat{S}$ is terminal in $\smcat$, so every functor $F\colon \cat{S}\to\smset$ is constant on some set $X\in\smset$, and hence there is an isomorphism of categories $\cat{C}\cong X\times \cat{S}$.
+\end{example}
+
+\begin{proposition}\label{prop.com_vert_cat_boo}
+The category of polynomial comonoids and vertical maps is equivalent to the opposite of the category of categories and bijective-on-objects functors,
+\[
+\Cat{Comon}(\poly)_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
+\]
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{exercise}
+Let $S$ be a set and consider the state comonoid $\com{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that comonoids $\com{C}$ equipped with a vertical cofunctor $\com{S}\to\com{C}$ can be identified with categories with object-set $S$.
+\end{exercise}
+
+\begin{exercise}
+Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{D}\coloneqq\fbox{$\bullet\to\bullet$}$. There is a unique bijective-on-objects (boo) functor $F\colon\cat{C}\to\cat{D}$ and two boo functors $G_1,G_2\colon\cat{D}\to\cat{C}$.
+\begin{enumerate}
+	\item Write down the morphism $\ema{d}\to\ema{c}$ of emanation polynomials underlying $F$.
+	\item Write down the morphism $\ema{c}\to\ema{d}$ of emanation polynomials underlying either $G_1$ or $G_2$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}
+Every morphism of polynomial comonoids $f\colon\com{C}\to\com{D}$ factors as a vertical morphism followed by a cartesian morphism
+\[
+\com{C}\To{\text{vert}}\com{C}'\To{\text{cart}}\com{D}.
+\]
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+We can now give a third equivalent formulation of cofunctors and comonoid morphisms.
+
+\begin{proposition}
+The following categories are equivalent:
+\begin{enumerate}
+	\item The category $\smcat^\sharp$ of categories and cofunctors,
+	\item The category $\Cat{Comon}(\poly)$ of polynomial comonoids, and
+	\item The category whose objects are categories, morphisms $\cat{C}\to\cat{D}$ are spans of functors $\cat{C}\From{B}\cat{C}'\To{F}\cat{D}$, where $B$ is bijective on objects and $F$ is a discrete op-fibration; and composition is the usual composition of spans (by pullback in $\smcat$).
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+
 %-------- Section --------%
 \section{Cofree comonoids}
 
@@ -2329,6 +2730,16 @@ Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in 
 
 Bimodules with carrier $\yon$
 
-
+\begin{theorem}
+For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
+\begin{enumerate}
+	\item functors $\cat{C}\to\smset$
+	\item discrete opfibrations over $\cat{C}$
+	\item cartesian cofunctors to $\com{C}$
+	\item linear left $\com{C}$-modules
+	\item constant left $\com{C}$-modules
+	\item representable right $\com{C}$-modules
+\end{enumerate}
+\end{theorem}
 
 \end{document}
