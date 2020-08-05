@@ -1398,7 +1398,7 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
 	\item What is the relationship between $\dot{p}(\1)$ and the total number of leaves in $p$?
 	\item In terms of problems and solutions, explain what a map $p\to \dot{q}$ would say.
-	\item Read the formula for $\otimes$ and $[-,-]$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes[p,\yon]\to p'$ that works for any $p\in\poly$.
+	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
 	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``avoiding options'', how might you describe what is modeled by a map $p\yon\to q$?
 \end{enumerate}
 \end{exercise}
@@ -2776,27 +2776,27 @@ What's exciting about $\poly$ is that examples like \cref{ex.cell_auto_vote_inte
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}
 
-The parallel monoidal product is closed, meaning that there is an operation, which we denote $[-,-]\colon\poly\op\times\poly\to\poly$ and an isomorphism
+The parallel monoidal product is closed, meaning that there is an operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$ and an isomorphism
 \[
-  \poly(p\otimes q,r)\cong\poly(p,[q,r])
+  \poly(p\otimes q,r)\cong\poly(p,\ihom{q,r})
 \]
 natural in $p,q,r$. The closure operation is defined on $q,r$ as follows:
 \begin{equation}\label{eqn.dir_hom}
-	[q,r]\coloneqq\prod_{j\in q(\1)}r\circ(q[j]\yon)
+	\ihom{q,r}\coloneqq\prod_{j\in q(\1)}r\circ(q[j]\yon)
 \end{equation}
 
 \begin{example}\label{ex.double_dual}
 For any $A\in\smset$ we have
 \[
-  [\yon^A,\yon]\cong A\yon
+  \ihom{\yon^A,\yon}\cong A\yon
   \qqand
-  [A\yon,\yon]\cong\yon^A.
+  \ihom{A\yon,\yon}\cong\yon^A.
 \]
 These both follow directly from \eqref{eqn.dir_hom}.
 \end{example}
 
 \begin{exercise}
-Calculate $[q,r]$ for $q,r\in\poly$ given as follows.
+Calculate $\ihom{q,r}$ for $q,r\in\poly$ given as follows.
 \begin{enumerate}
 	\item $q\coloneqq 0$ and $r$ arbitrary.
 	\item $q\coloneqq 1$ and $r$ arbitrary.
@@ -2809,13 +2809,13 @@ Calculate $[q,r]$ for $q,r\in\poly$ given as follows.
 \end{exercise}
 
 \begin{exercise}
-Show that for any $p\in\poly$, if there is an isomorphism $[[p,\yon],\yon]\cong p$, then $p$ is either linear $A\yon$ or representable $\yon^A$ for some $A$. Hint: first show that $p$ must be a monomial.
+Show that for any $p\in\poly$, if there is an isomorphism $\ihom{\ihom{p,\yon},\yon}\cong p$, then $p$ is either linear $A\yon$ or representable $\yon^A$ for some $A$. Hint: first show that $p$ must be a monomial.
 \end{exercise}
 
 \begin{proposition}\label{prop.dirichlet_closure}
-With $[-,-]$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
+With $\ihom{-,-}$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
 \begin{equation}\label{eqn.poly_closure_brackets}
-	\poly(p\otimes q,r)\cong\poly(p,[q,r]).
+	\poly(p\otimes q,r)\cong\poly(p,\ihom{q,r}).
 \end{equation}
 \end{proposition}
 \begin{proof}
@@ -2827,7 +2827,7 @@ We have the following chain of natural isomorphisms:
 	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p[i]q[j])\\&\cong
 	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p[i]},r\circ(q[j]\yon))\\&\cong
 	\prod_{i\in p(\1)}\poly\Big(\yon^{p[i]},\prod_{j\in q(\1)}r\circ(q[j]\yon)\Big)\\&\cong
-	\poly(p,[q,r]).&
+	\poly(p,\ihom{q,r}).&
 	\qedhere
 \end{align*}
 \end{proof}
@@ -2835,7 +2835,7 @@ We have the following chain of natural isomorphisms:
 \begin{exercise}\label{exc.poly_plug_1}
 Show that for any $p,q$ we have an isomorphism of sets
 \[
-\poly(p,q)\cong[p,q](\1).
+\poly(p,q)\cong\ihom{p,q}(\1).
 \]
 Hint: you can either use the formula \eqref{eqn.dir_hom}, or just use 
 \eqref{eqn.poly_closure_brackets} with the Yoneda lemma and the fact that $\yon\otimes p\cong p$.
@@ -2844,17 +2844,17 @@ Hint: you can either use the formula \eqref{eqn.dir_hom}, or just use
 
 For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
 \begin{equation}\label{eqn.eval_dirichlet}
-  \fun{eval}\colon [p,q]\otimes p\too q.
+  \fun{eval}\colon \ihom{p,q}\otimes p\too q.
 \end{equation}
 
 \begin{exercise}
 \begin{enumerate}
-	\item Obtain the evaluation map $\fun{eval}\colon [p,q]\otimes p\too q$ from \eqref{eqn.poly_closure_brackets}.
-	\item Show that for any $p,q,r$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to[q,r]$ such that the following diagram commutes
+	\item Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.poly_closure_brackets}.
+	\item Show that for any $p,q,r$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes
 	\[
 	\begin{tikzcd}
 		p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
-		{[q,r]}\otimes q\ar[r, "\fun{eval}"]&
+		{\ihom{q,r}}\otimes q\ar[r, "\fun{eval}"]&
 		r
 	\end{tikzcd}
 	\]
@@ -2875,13 +2875,13 @@ Let's imagine a robot whose interface is an arbitrary polynomial $p$. Let's imag
 \[
 	f\colon (q_1\otimes\cdots\otimes q_n)\otimes p\to \yon
 \]
-with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_1\otimes\cdots\otimes q_n)$. The interaction pattern induces a morphism $f'\colon q\to [p,\yon]$ such that the original system $f$ factors through the evaluation $[p,\yon]\otimes p\to \yon$.
+with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_1\otimes\cdots\otimes q_n)$. The interaction pattern induces a morphism $f'\colon q\to \ihom{p,\yon}$ such that the original system $f$ factors through the evaluation $\ihom{p,\yon}\otimes p\to \yon$.
 
-In other words $[p,\yon]$ holds within it all of the possible ways $p$ can interact with other systems in a closed box.%
-\footnote{And if you want the generic way $p$ to interact with other systems in a box $r$, just use $[p,r]$.}
-To investigate this just a bit, note that $[p,\yon]\cong\prod_{i\in p(\1)}p[i]\yon$. That is, for each position in $p$ it produces a direction there, which is just what $p$ needs as input.
+In other words $\ihom{p,\yon}$ holds within it all of the possible ways $p$ can interact with other systems in a closed box.%
+\footnote{And if you want the generic way $p$ to interact with other systems in a box $r$, just use $\ihom{p,r}$.}
+To investigate this just a bit, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$. That is, for each position in $p$ it produces a direction there, which is just what $p$ needs as input.
 
-Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,\yon)$. Then each state $s$ would include a guess $g(s)$ about what the state of the environment is in. This is not the real environment $q$, but just the environment as it affects $p$, namely $[p,\yon]$. The robot's states model environmental conditions.
+Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,\yon)$. Then each state $s$ would include a guess $g(s)$ about what the state of the environment is in. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,\yon}$. The robot's states model environmental conditions.
 \end{example}
 
 
@@ -3026,7 +3026,7 @@ We have the following chain of natural isomorphisms:
 \end{proof}
 
 \begin{exercise}
-Show that $\Gamma(p)\cong[p,\yon](\1)$ where $[-,-]$ is as in \cref{prop.dirichlet_closure}.
+Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.dirichlet_closure}.
 \end{exercise}
 
 \paragraph{Epi-mono factorization.}
@@ -3104,21 +3104,18 @@ The general case of coproducts and products is not much more difficult.
 The category $\poly$ has coproducts and products.
 \end{proposition}
 \begin{proof}
-Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_{a,})_{a\in A}$.%
-\footnote{
-We put a comma in the subscript of our polynomials, writing $p_{a,}$ rather than $p_a$ for the $a$th polynomial, to avoid a potentially ambiguous notation. That is, if $i\in p(\1)$ is a position, then $p[i]$ denotes the set of directions there, the exponent of the $i$th summand of $p$. Given a position $i\in p_{a,}$ we denote the corresponding set of directions by $p_{a,i}$. We recognize that our notation $p_{a,}$, while unambiguous, is a bit disorienting; luckily, it will not come up much.
-}
+Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$.%
 Their coproduct is
 \begin{equation}\label{eqn.sum_polys}
-\sum_{a\in A}p_{a,}=\sum_{a\in A}\sum_{i\in p_{a,}(\1)}\yon^{p_{a,i}}\cong\sum_{(a,i)\in\sum_{a\in A}p_{a,}(\1)}\yon^{p_{a,i}}
+\sum_{a\in A}p_a=\sum_{a\in A}\sum_{i\in p_a(\1)}\yon^{p_a[i]}\cong\sum_{(a,i)\in\sum_{a\in A}p_a(\1)}\yon^{p_a[i]}
 \end{equation}
 which is manifestly a sum of representables, i.e.\ a polynomial, and which one can check satisfies the universal property of coproduct; see \cref{exc.check_coprod_prod}.
 
 We claim that the product of this collection is
 \begin{equation}\label{eqn.prod_polys}
-\prod_{a\in A}p_{a,}=
-\prod_{a\in A}\sum_{i\in p_{a,}(\1)}\yon^{p_{a,i}}\cong
-\sum_{i\colon \prod_{a\in A}p_{a,}(\1)}\yon^{\sum_{a\in A}p_{a,i(a)}}.
+\prod_{a\in A}p_a=
+\prod_{a\in A}\sum_{i\in p_a(\1)}\yon^{p_a[i]}\cong
+\sum_{i\colon \prod_{a\in A}p_a(\1)}\yon^{\sum_{a\in A}p_a[i(a)]}.
 \end{equation}
 Again, it is a sum of representables, so a polynomial, and one can check that it satisfies the universal property of product; see \cref{exc.check_coprod_prod}.
 \end{proof}
@@ -3350,7 +3347,7 @@ For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$. Then
 	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]
-Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}_a^\sharp\colon p_{f(a)}\to(f^*p)_a$ is an isomorphism too.
+Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}_a^\sharp\colon p[f(a)]\to(f^*p)[a]$ is an isomorphism too.
 
 \begin{definition}[Vertical, cartesian]
 Let $f\colon p\to q$ be a morphism of polynomials. It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism. It is called \emph{cartesian} if, for each $i\in p(\1)$ the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
