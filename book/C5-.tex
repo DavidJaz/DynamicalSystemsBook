@@ -908,26 +908,26 @@ f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i
 \end{equation}
 Here's a picture for the $k=4$ case:
 \[
-\begin{tikzpicture}[polybox, font=\footnotesize, shorten <=3pt, shorten >=3pt]
+\begin{tikzpicture}[polybox]
 	\node[poly, dom] (p) {};
-	\node[left=4pt of p.one] {$p[-]$};
-	\node[left=4pt of p.two] {$p(\1)$};
+	\node[left=0pt of p_dir] {$p[-]$};
+	\node[left=0pt of p_pos] {$p(\1)$};
 	\foreach \i in {1,...,4}
 	{
   	\node[poly, cod] (q\i) at (3,1.3*\i-1.3) {};
-  	\node[right=8pt of q\i.one] {$q_{\i}[-]$};
-  	\node[right=8pt of q\i.two] {$q_{\i}(\1)$};
+  	\node[right=0pt of q\i_dir] {$q_{\i}[-]$};
+  	\node[right=0pt of q\i_pos] {$q_{\i}(\1)$};
 	};
-	\draw[->] (p.two east) -- node[below] {$f_1$} (q1.two west);
+	\draw[->] (p_pos.east) -- node[below] {$f_1$} (q1_pos.west);
 	\foreach \i/\j in {1/2,2/3, 3/4}
 	{
 		\draw[->] 
-			(q\i.one west) 
+			(q\i_dir.west) 
 			to[out=180, in=180, looseness=2] 
 			node[left] {$f_\j$}
-			(q\j.two west);
+			(q\j_pos.west);
 	};
-	\draw[->] (q4.one west) to[out=180, in=90] node[above left] {$f^\sharp$} (p.one north);
+	\draw[->] (q4_dir.west) to[out=180, in=90] node[above left] {$f^\sharp$} (p_dir.north);
 \end{tikzpicture}
 \]
 
@@ -1028,17 +1028,17 @@ f_2(B,X)=E,\\
 f^\sharp(A,U,Y)=S,\quad f^\sharp(A,U,Z)=R,\quad f^\sharp(A,W,Y)=R,\quad f^\sharp(A,W,Z)=R\\
 f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
 \end{gather*}
-In the more verbose box-notation we have:
+Box-notation uses a slightly different organization to represent the same data:
 \[
-\begin{tikzpicture}[polybox, node distance=.9cm]
+\begin{tikzpicture}[polybox, node distance=.9]
   \node (a) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$S$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
   	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw[|->] (p.two east) -- (q.two west);
-  	\draw[|->] (q.one west) to[climb] (r.two west);
-  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  	\draw[|->] (p_pos.east) -- (q_pos.west);
+  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
+  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
   };
   \node[right=of a] (b) {
@@ -1046,9 +1046,9 @@ In the more verbose box-notation we have:
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
   	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw[|->] (p.two east) -- (q.two west);
-  	\draw[|->] (q.one west) to[climb] (r.two west);
-  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  	\draw[|->] (p_pos.east) -- (q_pos.west);
+  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
+  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
   };
   \node[right=of b] (c) {
@@ -1056,8 +1056,8 @@ In the more verbose box-notation we have:
   	\node[poly, dom] (p) {\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$V$\nodepart{two}$C$};
   	\node[poly, strike, above=.3 of q] (r) {\nodepart{two}$F$};
-  	\draw[|->] (p.two east) -- (q.two west);
-  	\draw[|->] (q.one west) to[climb] (r.two west);
+  	\draw[|->] (p_pos.east) -- (q_pos.west);
+  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
   \end{tikzpicture}
   };
   \node[right=of c] (d) {
@@ -1065,9 +1065,9 @@ In the more verbose box-notation we have:
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
   	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw[|->] (p.two east) -- (q.two west);
-  	\draw[|->] (q.one west) to[climb] (r.two west);
-  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  	\draw[|->] (p_pos.east) -- (q_pos.west);
+  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
+  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[right=of d] (e) {
@@ -1075,9 +1075,9 @@ In the more verbose box-notation we have:
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
   	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw[|->] (p.two east) -- (q.two west);
-  	\draw[|->] (q.one west) to[climb] (r.two west);
-  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  	\draw[|->] (p_pos.east) -- (q_pos.west);
+  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
+  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[below=of a] (f) {
@@ -1085,9 +1085,9 @@ In the more verbose box-notation we have:
   	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
   	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
   	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw[|->] (p.two east) -- (q.two west);
-  	\draw[|->] (q.one west) to[climb] (r.two west);
-  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  	\draw[|->] (p_pos.east) -- (q_pos.west);
+  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
+  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[below=of b] (g) {
@@ -1095,9 +1095,9 @@ In the more verbose box-notation we have:
   	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
   	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
   	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw[|->] (p.two east) -- (q.two west);
-  	\draw[|->] (q.one west) to[climb] (r.two west);
-  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  	\draw[|->] (p_pos.east) -- (q_pos.west);
+  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
+  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
 \end{tikzpicture}
@@ -2960,11 +2960,74 @@ is the identity on $c$, says two things for any $i\in c(\1)$:
 	\item that the codomain of $\id_i$ is $i$, and
 	\item that the function $(\id_i\then-)\colon c[i]\to c[i]$ is entity.
 \end{itemize}
-The associativity equation from \eqref{eqn.comonoid_diagrams} says two things for any $i\in c(\1)$ and emanating morphism $m\in c[i]$:
+The associativity equation from \eqref{eqn.comonoid_diagrams} looks like this:
+\[
+\begin{tikzpicture}[polybox]
+  \node[poly, dom] (top) {\nodepart{two}$i$};
+  \node[poly down, dom, below=2 of top] (bot) {\nodepart{two}$m$};
+  \node[poly down, dom, below=.3 of bot] (bot 2) {\nodepart{two}$m'$};
+  \node[poly down, dom, below=.3 of bot 2] (bot 3) {\nodepart{two}$m''$};
+  \node[poly right, right=2] (right) at ($(top)!.5!(bot)$) {};
+	\node[poly right, right=.3 of right] (right 2) {};
+  \node[poly left, left=2] (left) at ($(top)!.5!(bot)$) {};
+	\node[poly left, left=.3 of left] (left 2) {};
+%
+	\draw[double] (top_pos) to[out=0, in=90] (right_pos.north);
+	\draw[|->] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
+	\draw[|->] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double] (top_pos) to[out=180, in=90] (left_pos);
+	\draw[|->] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
+	\draw[|->] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double] (left_pos) to[out=-90, in=180] (bot_pos);
+	\draw[double] (right_pos) to[out=-90, in=0] (bot_pos);
+	\draw[|->] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
+	\draw[|->] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
+	\draw[double] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
+	\draw[double] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
+	\draw[double] (bot_dir) to[out=180, in=-90] (left_dir);
+	\draw[double] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
+	\draw[|->] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.7,below, sloped] {cod} (bot 3_pos);
+	\draw[|->] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+\end{tikzpicture}
+\]
+It says two things for any $i\in c(\1)$ and emanating morphism $m\in c[i]$:
 \begin{itemize}
 	\item that for any $m'\in c[\cod(m)]$ emanating from $\cod(m)$, we have $\cod(m')=\cod(m\then m')$, and
 	\item that for any $m'$ as above and $m''\in\cod(m')$, we have $(m\then m')\then m''=m\then(m'\then m'')$.
 \end{itemize}
+We see that by filling in the blue boxes with arbitrary $i,m,m',m''$ as follows:
+
+\[
+\begin{tikzpicture}[polybox]
+  \node[poly, dom] (top) {${\color{red}m\then (m'\then m'')}={\color{blue}(m\then m')\then m''}$\nodepart{two}$i$};
+  \node[poly down, dom, below=2 of top] (bot) {${\color{red}i}={\color{blue}i}$\nodepart{two}$m$};
+  \node[poly down, dom, below=.3 of bot] (bot 2) {${\color{red}\textrm{cod}(m)}={\color{blue}\textrm{cod}(m)}$\nodepart{two}$m'$};
+  \node[poly down, dom, below=.3 of bot 2] (bot 3) {${\color{red}\textrm{cod}(m')}={\color{blue}\textrm{cod}(m\then m')}$\nodepart{two}$m''$};
+  \node[poly right, blue, right=2] (right) at ($(top)!.5!(bot)$) {$i$\nodepart{two}$m\then m'$};
+	\node[poly right, blue, right=.3 of right] (right 2) {$\textrm{cod}(m\then m')$\nodepart{two}$m''$};
+  \node[poly left, red, left=2] (left) at ($(top)!.5!(bot)$) {$m$\nodepart{two}$i$};
+	\node[poly left, red, left=.3 of left] (left 2) {$m'\then m''$\nodepart{two}$\textrm{cod}(m)$};
+	\draw[double, blue] (top_pos) to[out=0, in=90] (right_pos.north);
+%
+	\draw[|->, blue] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
+	\draw[|->, blue] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double, red] (top_pos) to[out=180, in=90] (left_pos);
+	\draw[|->, red] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
+	\draw[|->, red] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double, red] (left_pos) to[out=-90, in=180] (bot_pos);
+	\draw[double, blue] (right_pos) to[out=-90, in=0] (bot_pos);
+	\draw[|->, blue] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
+	\draw[|->, blue] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
+	\draw[double, blue] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
+	\draw[double, blue] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
+	\draw[double, red] (bot_dir) to[out=180, in=-90] (left_dir);
+	\draw[double, red] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
+	\draw[|->, red] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.3,above, sloped] {cod} (bot 3_pos);
+	\draw[|->, red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+\end{tikzpicture}
+\]
+
+
 
 We're done! Go take a break, and remember
 \slogan{
@@ -3301,5 +3364,7 @@ For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
 	\item representable right $\com{C}$-modules
 \end{enumerate}
 \end{theorem}
+
+The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
 
 \end{document}

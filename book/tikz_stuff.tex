@@ -175,14 +175,61 @@ sep=0pt,
 }
 
 \tikzset{polybox/.style={
-	poly/.style={
-	rectangle split, 
-	rectangle split parts=2, 
-	draw, 
-	anchor=south, 
-	inner ysep=4.5
+	polyb/.style ={
+  	rectangle split, 
+  	rectangle split parts=2, 
+		rectangle split part align={bottom},
+  	draw, 
+  	anchor=south, 
+  	inner ysep=4.5,
+	  prefix after command={\pgfextra{\let\fixname=\tikzlastnode}},
 	},
-	shorten <=3pt, shorten >=3pt,
+	poly/.style={
+		polyb,
+		append after command={\pgfextra{
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.north west) (\fixname.two split east)] 
+				(\fixname_dir) {};
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.south west) (\fixname.two split east)] 
+				(\fixname_pos) {};
+			}}
+	},
+	poly left/.style={
+		polyb,
+  	rectangle split horizontal,
+		append after command={\pgfextra{
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.north west) (\fixname.two split south)] 
+				(\fixname_dir) {};
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.north east) (\fixname.two split south)] 
+				(\fixname_pos) {};
+			}}
+	},
+	poly right/.style={
+		polyb,
+  	rectangle split horizontal,
+		append after command={\pgfextra{
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.north west) (\fixname.two split south)] 
+				(\fixname_pos) {};
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.north east) (\fixname.two split south)] 
+				(\fixname_dir) {};
+			}}
+	},
+	poly down/.style={
+		polyb,
+		append after command={\pgfextra{
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.north west) (\fixname.two split east)] 
+				(\fixname_pos) {};
+			\node[inner xsep=0, inner ysep=0, 
+				fit=(\fixname.south west) (\fixname.two split east)] 
+				(\fixname_dir) {};
+			}}
+	},
 	dom/.style={
 		rectangle split part fill={none, blue!10}
 	}, 
@@ -192,11 +239,13 @@ sep=0pt,
 	strike/.style={
 		rectangle split part fill={red!50, none}
 	},
+	shorten <=3pt, shorten >=3pt,
 	climb/.style={out=180, in=180, looseness=2},
 	sharp/.style={out=180, in=90},
 	font=\footnotesize
 }
 }
+
 
 
 
