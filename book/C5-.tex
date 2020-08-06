@@ -286,11 +286,15 @@ Use $p,q$ as in \cref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the followin
 \end{exercise}
 
 \begin{exercise}
-Let $A$ and $B$ be sets.
+Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial. Which of the following isomorphisms exist?
 \begin{enumerate}
-	\item Is it true that $(A\yon)\otimes(B\yon) \cong (A\yon)\tri (B\yon)$?
-	\item Is it true that $\yon^A\otimes\yon^B\cong\yon^A\tri\yon^B$?
-	\item Is it true that $A\otimes B\cong A\tri B$?
+	\item $(A\yon)\otimes(B\yon) \cong (A\yon)\tri (B\yon)$?
+	\item $\yon^A\otimes\yon^B\cong\yon^A\tri\yon^B$?
+	\item $A\otimes B\cong A\tri B$?
+	\item $A\yon\otimes p\cong A\yon\tri p$?
+	\item $\yon^A\otimes p\cong \yon^A\tri p$?
+	\item $p\otimes A\yon\cong p\tri A\yon$?
+	\item $p\otimes \yon^A\cong p\tri\yon^A$?
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -902,7 +906,33 @@ f_k&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to  \cdots\to(e_{k-1}\in q_{k-1}[f_{k-
 f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i,e_1,\ldots,e_{k-1})])\to p[i]
 \end{aligned}
 \end{equation}
-This looks worse than it is. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$. The case $k=2$ is considered in \cref{ex.map_to_comp}.But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process''. 
+Here's a picture for the $k=4$ case:
+\[
+\begin{tikzpicture}[polybox, font=\footnotesize, shorten <=3pt, shorten >=3pt]
+	\node[poly, dom] (p) {};
+	\node[left=4pt of p.one] {$p[-]$};
+	\node[left=4pt of p.two] {$p(\1)$};
+	\foreach \i in {1,...,4}
+	{
+  	\node[poly, cod] (q\i) at (3,1.3*\i-1.3) {};
+  	\node[right=8pt of q\i.one] {$q_{\i}[-]$};
+  	\node[right=8pt of q\i.two] {$q_{\i}(\1)$};
+	};
+	\draw[->] (p.two east) -- node[below] {$f_1$} (q1.two west);
+	\foreach \i/\j in {1/2,2/3, 3/4}
+	{
+		\draw[->] 
+			(q\i.one west) 
+			to[out=180, in=180, looseness=2] 
+			node[left] {$f_\j$}
+			(q\j.two west);
+	};
+	\draw[->] (q4.one west) to[out=180, in=90] node[above left] {$f^\sharp$} (p.one north);
+\end{tikzpicture}
+\]
+
+
+A few considerations might make \eqref{eqn.maps_to_comp} less scary. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$. The case $k=2$ is considered in \cref{ex.map_to_comp}. But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process''. 
 
 Suppose we're $p$ and someone gives us a decision $i\in p(\1)$ to make: we're supposed to pick an element of $p[i]$. Luckily, by virtue of our morphism $f\colon p\to q_1\tri\cdots\tri q_k$, consisting of steps $f_1,\ldots,f_k$ and an interpretation $f^\sharp$, we have a process to follow by which we can make the decision. Our first step is to ask $q_1$ to make decision $f_1(i)$. It dutifully chooses some option, say $e_1\in q_1[f_1(i)]$. We know exactly what to do: our second step is to ask $q_2$ to make decision $f_2(i,e_1)$. It dutifully chooses some option, say $e_2\in q_2[f_2(i,e_1)]$. We continue with the plan through step $k$, at which point we ask $q_k$ to make decision $f_k(i,e_1,\ldots,e_{k-1})$. It dutifully chooses some option, say $e_k$, which we then interpret via our passback function $f^\sharp$ to obtain the desired decision $f^\sharp(i,e_1,\ldots,e_k)\in p[i]$.
 
@@ -995,9 +1025,83 @@ If we write it as $(f_1,f_2,f^\sharp)\colon p\to q\tri r$ then we have
 f_1(A)=C,\quad f_1(B)=D,\\
 f_2(A,U)=E,\quad f_2(A,V)=F,\quad f_2(A,W)=E,\\
 f_2(B,X)=E,\\
-f^\sharp(A,U,Y)=T,\quad f^\sharp(A,U,Z)=S,\quad f^\sharp(A,W,Y)=S,\quad f^\sharp(A,W,Z)=S\\
+f^\sharp(A,U,Y)=S,\quad f^\sharp(A,U,Z)=R,\quad f^\sharp(A,W,Y)=R,\quad f^\sharp(A,W,Z)=R\\
 f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
 \end{gather*}
+In the more verbose box-notation we have:
+\[
+\begin{tikzpicture}[polybox, node distance=.9cm]
+  \node (a) {
+  \begin{tikzpicture}
+  	\node[poly, dom] (p) {$S$\nodepart{two}$A$};
+  	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
+  	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
+  	\draw[|->] (p.two east) -- (q.two west);
+  	\draw[|->] (q.one west) to[climb] (r.two west);
+  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  \end{tikzpicture}
+  };
+  \node[right=of a] (b) {
+  \begin{tikzpicture}
+  	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
+  	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
+  	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
+  	\draw[|->] (p.two east) -- (q.two west);
+  	\draw[|->] (q.one west) to[climb] (r.two west);
+  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  \end{tikzpicture}
+  };
+  \node[right=of b] (c) {
+  \begin{tikzpicture}
+  	\node[poly, dom] (p) {\nodepart{two}$A$};
+  	\node[poly, cod, right=of p] (q) {$V$\nodepart{two}$C$};
+  	\node[poly, strike, above=.3 of q] (r) {\nodepart{two}$F$};
+  	\draw[|->] (p.two east) -- (q.two west);
+  	\draw[|->] (q.one west) to[climb] (r.two west);
+  \end{tikzpicture}
+  };
+  \node[right=of c] (d) {
+  \begin{tikzpicture}
+  	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
+  	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
+  	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
+  	\draw[|->] (p.two east) -- (q.two west);
+  	\draw[|->] (q.one west) to[climb] (r.two west);
+  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  \end{tikzpicture}
+	};
+  \node[right=of d] (e) {
+  \begin{tikzpicture}
+  	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
+  	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
+  	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
+  	\draw[|->] (p.two east) -- (q.two west);
+  	\draw[|->] (q.one west) to[climb] (r.two west);
+  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  \end{tikzpicture}
+	};
+  \node[below=of a] (f) {
+  \begin{tikzpicture}
+  	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
+  	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
+  	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
+  	\draw[|->] (p.two east) -- (q.two west);
+  	\draw[|->] (q.one west) to[climb] (r.two west);
+  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  \end{tikzpicture}
+	};
+  \node[below=of b] (g) {
+  \begin{tikzpicture}
+  	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
+  	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
+  	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
+  	\draw[|->] (p.two east) -- (q.two west);
+  	\draw[|->] (q.one west) to[climb] (r.two west);
+  	\draw[|->] (r.one west) to[sharp] (p.one north);
+  \end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
 \end{example}
 
 \begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions and directions in a composite]\label{ex.pos_in_composite}

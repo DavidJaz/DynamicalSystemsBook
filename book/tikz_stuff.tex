@@ -173,3 +173,32 @@ sep=0pt,
 (current bounding box.north east);
 \end{tikzpicture}
 }
+
+\tikzset{polybox/.style={
+	poly/.style={
+	rectangle split, 
+	rectangle split parts=2, 
+	draw, 
+	anchor=south, 
+	inner ysep=4.5
+	},
+	shorten <=3pt, shorten >=3pt,
+	dom/.style={
+		rectangle split part fill={none, blue!10}
+	}, 
+	cod/.style={
+		rectangle split part fill={blue!10, none}
+	},
+	strike/.style={
+		rectangle split part fill={red!50, none}
+	},
+	climb/.style={out=180, in=180, looseness=2},
+	sharp/.style={out=180, in=90},
+	font=\footnotesize
+}
+}
+
+
+
+
+
