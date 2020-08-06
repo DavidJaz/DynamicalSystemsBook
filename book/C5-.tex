@@ -902,7 +902,11 @@ f_k&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to  \cdots\to(e_{k-1}\in q_{k-1}[f_{k-
 f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i,e_1,\ldots,e_{k-1})])\to p[i]
 \end{aligned}
 \end{equation}
-This looks worse than it is. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$. The case $k=2$ is considered in \cref{ex.map_to_comp}
+This looks worse than it is. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$. The case $k=2$ is considered in \cref{ex.map_to_comp}.But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process''. 
+
+Suppose we're $p$ and someone gives us a decision $i\in p(\1)$ to make: we're supposed to pick an element of $p[i]$. Luckily, by virtue of our morphism $f\colon p\to q_1\tri\cdots\tri q_k$, consisting of steps $f_1,\ldots,f_k$ and an interpretation $f^\sharp$, we have a process to follow by which we can make the decision. Our first step is to ask $q_1$ to make decision $f_1(i)$. It dutifully chooses some option, say $e_1\in q_1[f_1(i)]$. We know exactly what to do: our second step is to ask $q_2$ to make decision $f_2(i,e_1)$. It dutifully chooses some option, say $e_2\in q_2[f_2(i,e_1)]$. We continue with the plan through step $k$, at which point we ask $q_k$ to make decision $f_k(i,e_1,\ldots,e_{k-1})$. It dutifully chooses some option, say $e_k$, which we then interpret via our passback function $f^\sharp$ to obtain the desired decision $f^\sharp(i,e_1,\ldots,e_k)\in p[i]$.
+
+\slogan{A morphism $p\to q_1\tri\cdots\tri q_k$ is a multi-step policy for $p$ to make decisions by asking for decisions from $q_1$ then $q_2$, etc., all the way until $q_k$, and interpreting the results.}
 
 \begin{example}[Maps $p\to q\tri r$]\label{ex.map_to_comp}
 By \eqref{eqn.maps_to_comp}, a morphism $p\to q\tri r$ can be specified by a tuple $(f_1,f_2,f^\sharp)$, where $f_1\colon p(\1)\to q(\1)$ and $f_2,f^\sharp$ are a little more involved because they are dependent functions.
@@ -1027,51 +1031,208 @@ So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there co
 Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the set of positions in $p\coloneqq p_1\tri\cdots\tri p_k$.
 \end{exercise}
 
-\begin{example}[$\tri$ on morphisms]
-We discussed how $\tri$ acts on morphisms in \cref{subsec.monoidal_struc_tri}. Now let's see how it looks in our new notation.
+What if I give you a two-step decision to make. I'll give you a position in $p$, you choose a direction there, and then based on your answer I'll give you a position in $q$, and you choose a direction there too. Now if each of $p$ and $q$ knew how to delegate decisions to its partner, say $p\to p'$ and $q\to q'$, you should be able to delegate your two-step decision in $p\tri q$ to a two-step decision by the partners. We've already discussed this in \cref{subsec.monoidal_struc_tri}, but now we want to see it again in our new notation.
 
-Given $f\colon p\to p'$ and $g\colon q\to q'$ we want to talk about $h\coloneqq(f\tri g)\colon (p\tri q)\to (p'\tri q')$. Writing $f=(f_1,f^\sharp)$ and $g=(g_1,g^\sharp)$, we want to write $h$ in the form $(h_1,h_2,h^\sharp)$, and do so in terms of $f$ and $g$.
+\begin{example}[$\tri$ on morphisms]
+Given $f\colon p\to p'$ and $g\colon q\to q'$ we want to talk about $h\coloneqq(f\tri g)\colon (p\tri q)\to (p'\tri q')$. Writing $f=(f_1,f^\sharp)$ and $g=(g_1,g^\sharp)$, we want to write $h$ in the form $(h_1,h_2,h^\sharp)$. 
+
+For an example to keep in mind, recall that in \cref{ex.circ_prod_on_morphisms} we had
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, blue!50!black, "$p=$" left] {
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (q) [draw, red!50!black, above=1 of p, "$q=$" left] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+	\node (p') [draw, blue, right=3 of p, "$p'=$" left] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+      child {};
+  \end{tikzpicture}
+  };
+	\node (q') [draw, red, above=1 of p', "$q'=$" left] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+    ;
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$p\tri q$" above] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+      	child
+				child
+			};
+%
+    \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+			};
+%
+    \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+				child
+			};
+%
+    \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+			}
+      child {node[red!50!black] {$\bullet$} 
+				child
+			};
+%
+    \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+      	child
+			};
+%
+    \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
+      child {node[red!50!black] {$\bullet$} 
+      	child
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$p'\tri q'$" above] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=4mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue] (1) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+				child
+			};
+%
+    \node[blue, right=1.4 of 1] (2) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1.4 of 2] (3) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+				child
+			};
+%
+    \node[blue, right=1.4 of 3] (4) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1.4 of 4] (5) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+				child
+			};
+%
+    \node[blue, right=1.4 of 5] (6) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1.4 of 6] (7) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+      	child
+			};
+%
+    \node[blue, right=1.4 of 7] (8) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			}
+      child {node[red] {$\bullet$} 
+			};
+%
+    \node[blue, right=1 of 8] (9) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+      	child
+			};
+%
+    \node[blue, right=.8 of 9] (10) {$\bullet$} 
+      child {node[red] {$\bullet$} 
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
 
 Let's prepare by understanding our input polynomial $p\tri q$. Using \cref{ex.pos_in_composite}, a position in $p\tri q$ is a pair $(i,j)$, where $i\in p(\1)$ and $j\colon p[i]\to q(\1)$. A direction in $(p\tri q)[(i,j)]$ is a pair $(d,e)$ where $d\in p[i]$ and $e\in q[j(d)]$.
 
-We are now ready to write out $h_1$, $h_2$, and $h^\sharp$. 
-\[\arraycolsep=3pt
-\begin{array}{cccc}
-	h_1\colon&((i,j)\in(p\tri q)(\1))&\to& p'(\1)\\
-					 & (i,j)              &\mapsto&f_1(i)
-\end{array}
-\]
-We will replace $h_1(i,j)$ below with $f_1(i)$ for simplicity. Here is $h_2$:
-\[\arraycolsep=3pt
-\begin{array}{cccccc}
-	h_2\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&q'(\1)\\
-	&(i,j)&\mapsto&d'&\mapsto& g_1(j(f_i^\sharp(d')))
-\end{array}
-\]
-And finally here is $h^\sharp$:
-\[\arraycolsep=3pt
-\begin{array}{cccccccc}
-	h^\sharp\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&(e'\in q'[h_2(i,j,d')])&\to&\displaystyle\sum_{d\in p[i]}q[j(d)]\\\\
-	&(i,j)&\mapsto&d'&\mapsto&e'&\mapsto&\big(f_i^\sharp(d'),g_j^\sharp(e')\big)
-\end{array}
-\]
-Here's a picture:
-\begin{equation}\label{eqn.pic_tri_map}
-\begin{tikzpicture}[decoration={markings, mark=at position 0.75 with \arrow{stealth}}, baseline=(j)]
-	\node (i) {$i$};
-	\node[above=-2pt of i] (tr1) {$\bigtriangledown$};
-	\node[above=-2pt of tr1] (j) {$j$};
-	\node[right=2 of i] (i') {$f_1(i)$};
-	\node[above=-2pt of i'] (tr') {$\bigtriangledown$};
-	\node[above=-2pt of tr'] (j') {$f_i^\sharp\then j\then g_1$};
-	\draw[|->] (i) -- (i');
-	\draw[bend right=60, densely dotted, postaction={decorate}] 
-		(j') to 
-			node[above] (fs) {$\tristack{g_j^\sharp}{f_i^\sharp}$}
-		(j);
-\end{tikzpicture}
-\end{equation}
-For example, in \cref{ex.circ_prod_on_morphisms} we had
+In our example we had morphism $f\colon p\to p'$ and $g\colon q\to q'$ shown here:
 \[
 \begin{tikzpicture}
 	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
@@ -1128,7 +1289,50 @@ For example, in \cref{ex.circ_prod_on_morphisms} we had
 	};	
 \end{tikzpicture}
 \]
-We invite the reader to see \eqref{eqn.pic_tri_map} as a schematic for what we drew as follows:
+
+We are now ready to write out the components $h_1$, $h_2$, and $h^\sharp$ of $h=f\tri g$:
+\[\arraycolsep=3pt
+\begin{array}{cccc}
+	h_1\colon&((i,j)\in(p\tri q)(\1))&\to& p'(\1)\\
+					 & (i,j)              &\mapsto&f_1(i)
+\end{array}
+\]
+We will replace $h_1(i,j)$ below with $f_1(i)$ for simplicity. Here is $h_2$:
+\[\arraycolsep=3pt
+\begin{array}{cccccc}
+	h_2\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&q'(\1)\\
+	&(i,j)&\mapsto&d'&\mapsto& g_1(j(f_i^\sharp(d')))
+\end{array}
+\]
+And finally here is $h^\sharp$:
+\[\arraycolsep=3pt
+\begin{array}{cccccccc}
+	h^\sharp\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&(e'\in q'[h_2(i,j,d')])&\to&\displaystyle\sum_{d\in p[i]}q[j(d)]\\\\
+	&(i,j)&\mapsto&d'&\mapsto&e'&\mapsto&\big(f_i^\sharp(d'),g_j^\sharp(e')\big)
+\end{array}
+\]
+%Here's a picture of what we've been talking about, namely $f\tri g$:
+%\begin{equation}\label{eqn.pic_tri_map}
+%\begin{tikzpicture}[decoration={markings, mark=at position 0.75 with \arrow{stealth}}, baseline=(j)]
+%	\node (i) {$p[i]$};
+%	\node[above=-2pt of i] (tr1) {$\bigtriangledown$};
+%	\node[above=-2pt of tr1] (j) {$q[j]$};
+%	\node[right=2 of i] (i') {$p'[f_1(i)]$};
+%	\node[above=-2pt of i'] (tr') {$\bigtriangledown$};
+%	\node[above=-2pt of tr'] (j') {$q'[f_i^\sharp\then j\then g_1]$};
+%	\draw[|->] (i) -- (i');
+%	\draw[bend right=30, densely dotted, postaction={decorate}] 
+%		(i') to 
+%			node[above] (fs) {$f_i^\sharp$}
+%		(i);
+%	\draw[bend right=60, densely dotted, postaction={decorate}] 
+%		(j') to 
+%			node[above] (gs) {$g_j^\sharp$}
+%		(j);
+%\end{tikzpicture}
+%\end{equation}
+%We invite the reader to see \eqref{eqn.pic_tri_map} as a schematic for what we drew as follows:
+The above should make sense in terms of our picture of $f\tri g$, shown below.
 \[
 	\begin{tikzpicture}[trees]
 	\begin{scope}[
@@ -1270,13 +1474,13 @@ We invite the reader to see \eqref{eqn.pic_tri_map} as a schematic for what we d
 	\end{scope}
   \end{tikzpicture}
 \]
-Each of the six pictures is for a specific $(i,j)$-pair. On the bottom it does $f_1$ to the given $i$; on the middle it does $f^\sharp$, then the given $j$, then $g_1$; and on the top it applies $g^\sharp$ over $f^\sharp$.
+Each of the six pictures is for a specific $(i,j)$-pair. On the bottom it does $f_1$ to the given $i$; on the middle it does $f_i^\sharp$, then the given $j$, then $g_1$; and on the top it applies $g_j^\sharp$ over $f_i^\sharp$.
 \end{example}
 
 
 
 \begin{exercise}
-Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)\colon (p\tri q\tri r)\to (p'\tri q'\tri r')$, for $f=(f_1,f^\sharp)\colon p\to p'$, $g=(g_1,g^\sharp)\colon q\to q'$, and $h=(h_1,h^\sharp)$.
+Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)\colon (p\tri q\tri r)\to (p'\tri q'\tri r')$, given $f=(f_1,f^\sharp)\colon p\to p'$, $g=(g_1,g^\sharp)\colon q\to q'$, and $h=(h_1,h^\sharp)\colon r\to r'$.
 \end{exercise}
 
 %---- Subsection ----%
