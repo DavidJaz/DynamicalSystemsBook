@@ -236,13 +236,28 @@ sep=0pt,
 	cod/.style={
 		rectangle split part fill={blue!10, none}
 	},
-	strike/.style={
+	constant/.style={
 		rectangle split part fill={red!50, none}
+	},
+	identity/.style={
+		rectangle split part fill={gray, gray}
+	},
+	linear/.style={
+		rectangle split part fill={gray, none}
+	},
+	pure/.style={
+		rectangle split part fill={none, gray}
+	},
+	pure dom/.style={
+		rectangle split part fill={none, blue!10!gray}
 	},
 	shorten <=3pt, shorten >=3pt,
 	climb/.style={out=180, in=180, looseness=2},
 	sharp/.style={out=180, in=90},
-	font=\footnotesize
+	mapstos/.style={arrows={|->}},
+	tos/.style={arrows={->}},
+	font=\footnotesize,
+	node distance=.3cm and 1cm
 }
 }
 

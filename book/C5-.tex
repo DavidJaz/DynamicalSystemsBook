@@ -908,7 +908,7 @@ f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i
 \end{equation}
 Here's a picture for the $k=4$ case:
 \[
-\begin{tikzpicture}[polybox]
+\begin{tikzpicture}[polybox, tos]
 	\node[poly, dom] (p) {};
 	\node[left=0pt of p_dir] {$p[-]$};
 	\node[left=0pt of p_pos] {$p(\1)$};
@@ -918,16 +918,16 @@ Here's a picture for the $k=4$ case:
   	\node[right=0pt of q\i_dir] {$q_{\i}[-]$};
   	\node[right=0pt of q\i_pos] {$q_{\i}(\1)$};
 	};
-	\draw[->] (p_pos.east) -- node[below] {$f_1$} (q1_pos.west);
+	\draw (p_pos.east) -- node[below] {$f_1$} (q1_pos.west);
 	\foreach \i/\j in {1/2,2/3, 3/4}
 	{
-		\draw[->] 
+		\draw 
 			(q\i_dir.west) 
 			to[out=180, in=180, looseness=2] 
 			node[left] {$f_\j$}
 			(q\j_pos.west);
 	};
-	\draw[->] (q4_dir.west) to[out=180, in=90] node[above left] {$f^\sharp$} (p_dir.north);
+	\draw (q4_dir.west) to[out=180, in=90] node[above left] {$f^\sharp$} (p_dir.north);
 \end{tikzpicture}
 \]
 
@@ -1030,74 +1030,74 @@ f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
 \end{gather*}
 Box-notation uses a slightly different organization to represent the same data:
 \[
-\begin{tikzpicture}[polybox, node distance=.9]
+\begin{tikzpicture}[polybox, mapstos, node distance=.9]
   \node (a) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$S$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
-  	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw[|->] (p_pos.east) -- (q_pos.west);
-  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
-  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
+  	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
+  	\draw (p_pos.east) -- (q_pos.west);
+  	\draw (q_dir.west) to[climb] (r_pos.west);
+  	\draw (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
   };
   \node[right=of a] (b) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
-  	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw[|->] (p_pos.east) -- (q_pos.west);
-  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
-  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
+  	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
+  	\draw (p_pos.east) -- (q_pos.west);
+  	\draw (q_dir.west) to[climb] (r_pos.west);
+  	\draw (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
   };
   \node[right=of b] (c) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$V$\nodepart{two}$C$};
-  	\node[poly, strike, above=.3 of q] (r) {\nodepart{two}$F$};
-  	\draw[|->] (p_pos.east) -- (q_pos.west);
-  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
+  	\node[poly, constant, above=of q] (r) {\nodepart{two}$F$};
+  	\draw (p_pos.east) -- (q_pos.west);
+  	\draw (q_dir.west) to[climb] (r_pos.west);
   \end{tikzpicture}
   };
   \node[right=of c] (d) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
-  	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw[|->] (p_pos.east) -- (q_pos.west);
-  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
-  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
+  	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
+  	\draw (p_pos.east) -- (q_pos.west);
+  	\draw (q_dir.west) to[climb] (r_pos.west);
+  	\draw (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[right=of d] (e) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
   	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
-  	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw[|->] (p_pos.east) -- (q_pos.west);
-  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
-  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
+  	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
+  	\draw (p_pos.east) -- (q_pos.west);
+  	\draw (q_dir.west) to[climb] (r_pos.west);
+  	\draw (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[below=of a] (f) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
   	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
-  	\node[poly, cod, above=.3 of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw[|->] (p_pos.east) -- (q_pos.west);
-  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
-  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
+  	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
+  	\draw (p_pos.east) -- (q_pos.west);
+  	\draw (q_dir.west) to[climb] (r_pos.west);
+  	\draw (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[below=of b] (g) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
   	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
-  	\node[poly, cod, above=.3 of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw[|->] (p_pos.east) -- (q_pos.west);
-  	\draw[|->] (q_dir.west) to[climb] (r_pos.west);
-  	\draw[|->] (r_dir.west) to[sharp] (p_dir.north);
+  	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
+  	\draw (p_pos.east) -- (q_pos.west);
+  	\draw (q_dir.west) to[climb] (r_pos.west);
+  	\draw (r_dir.west) to[sharp] (p_dir.north);
   \end{tikzpicture}
 	};
 \end{tikzpicture}
@@ -1126,7 +1126,7 @@ k:(d\in p[i])\to(e\in q[j(d)])\to r(\1).
 
 The direction-set of $p_1\tri\cdots\tri p_k$ at position $(i_1,\ldots,i_k)$ is 
 \[
-(p_1\tri\cdots\tri p_k)[(i_1,\ldots,i_k)]\cong\sum_{d_1\in p_1[i_1]}\sum_{d_2\in p_2[i_2(d_1)]}\cdots\sum_{d_k\in p_k[i_k(d_1,\ldots,d_{k-1}]}\1
+(p_1\tri\cdots\tri p_k)[(i_1,\ldots,i_k)]\cong\sum_{d_1\in p_1[i_1]}\sum_{d_2\in p_2[i_2(d_1)]}\cdots\sum_{d_k\in p_k[i_k(d_1,\ldots,d_{k-1})]}\1
 \]
 So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there consists of a tuple $(d,e,f)$ where $d\in p[i]$, $e\in q[j(d)]$ and $f\in r[k(d,e)]$.
 \end{example}
@@ -1135,456 +1135,46 @@ So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there co
 Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the set of positions in $p\coloneqq p_1\tri\cdots\tri p_k$.
 \end{exercise}
 
-What if I give you a two-step decision to make. I'll give you a position in $p$, you choose a direction there, and then based on your answer I'll give you a position in $q$, and you choose a direction there too. Now if each of $p$ and $q$ knew how to delegate decisions to its partner, say $p\to p'$ and $q\to q'$, you should be able to delegate your two-step decision in $p\tri q$ to a two-step decision by the partners. We've already discussed this in \cref{subsec.monoidal_struc_tri}, but now we want to see it again in our new notation.
+What if I give you a two-step decision to make of shape $p\tri q$: I'll give you a position in $p$, you choose a direction there, and then based on your answer I'll give you a position in $q$, and you choose a direction there too. Now if each of $p$ and $q$ knew how to delegate its decisions to its partner, say $p\to p'$ and $q\to q'$, you should be able to delegate your two-step decision in $p\tri q$ to a two-step decision by the partners $p'\tri q'$. Here's how this looks in box-notation
 
 \begin{example}[$\tri$ on morphisms]
-Given $f\colon p\to p'$ and $g\colon q\to q'$ we want to talk about $h\coloneqq(f\tri g)\colon (p\tri q)\to (p'\tri q')$. Writing $f=(f_1,f^\sharp)$ and $g=(g_1,g^\sharp)$, we want to write $h$ in the form $(h_1,h_2,h^\sharp)$. 
-
-For an example to keep in mind, recall that in \cref{ex.circ_prod_on_morphisms} we had
+Given maps $f\colon p\to q$ and $f'\colon p'\to q'$, the corresponding map $(f\tri f')\colon (p\tri p')\to (q\tri q')$ looks quite simple---even sterile---in box notation:
 \[
-\begin{tikzpicture}[rounded corners]
-	\node (p) [draw, blue!50!black, "$p=$" left] {
-	\begin{tikzpicture}[trees, sibling distance=5mm]
-    \node["\tiny 1" below] (1) {$\bullet$} 
-      child {}
-      child {};
-    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
-      child {};
-  \end{tikzpicture}
-  };
-%
-	\node (q) [draw, red!50!black, above=1 of p, "$q=$" left] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node["\tiny 1" below] (1) {$\bullet$} 
-      child {}
-      child {};
-    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
-      child {};
-  \end{tikzpicture}
-  };
-	\node (p') [draw, blue, right=3 of p, "$p'=$" left] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node["\tiny 1" below] (1) {$\bullet$} 
-      child {}
-      child {}
-      child {};
-    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
-      child {};
-  \end{tikzpicture}
-  };
-	\node (q') [draw, red, above=1 of p', "$q'=$" left] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node["\tiny 1" below] (1) {$\bullet$} 
-      child {};
-    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
-    ;
-  \end{tikzpicture}
-  };
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$p$" left] (p) {};
+	\node[poly, dom, above=of p, "$p'$" left] (p') {};
+	\node[poly, cod, right=of p, "$q$" right] (q) {};
+	\node[poly, cod, above=of q, "$q'$" right] (q') {};
+	\draw (p_pos) -- node[below] {$f_1$} (q_pos);
+	\draw (q_dir) -- (p_dir);
+	\draw (p'_pos) -- (q'_pos);
+	\draw (q'_dir) -- (p'_dir);	
 \end{tikzpicture}
 \]
-
+But it gets animated when someone chooses a map from an arbitrary representable (or anything else); to do so is to choose a bunch of arrows as to the left:
 \[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p\tri q$" above] {
-	\begin{tikzpicture}[trees,
-		level 1/.style={sibling distance=8mm},
-	  level 2/.style={sibling distance=2.5mm}]
-    \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-				child
-			}
-      child {node[red!50!black] {$\bullet$} 
-      	child
-				child
-			};
-%
-    \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-				child
-				child
-			}
-      child {node[red!50!black] {$\bullet$} 
-				child
-			};
-%
-    \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-			}
-      child {node[red!50!black] {$\bullet$} 
-				child
-				child
-			};
-%
-    \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-			}
-      child {node[red!50!black] {$\bullet$} 
-				child
-			};
-%
-    \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-      	child
-			};
-%
-    \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-			};
-  \end{tikzpicture}
-  };
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly] (p) {};
+	\node[poly, above=of p] (p') {};
+	\node[poly, cod, right=of p, "$q$" right] (q) {};
+	\node[poly, cod, above=of q, "$q'$" right] (q') {};
+	\node[poly, pure dom, left=of p, "$\yon^X$" left] (yX) {};
+	\draw (p_pos) -- (q_pos);
+	\draw (q_dir) -- (p_dir);
+	\draw (p'_pos) -- (q'_pos);
+	\draw (q'_dir) -- (p'_dir);
+	\draw (yX_pos) -- node[below] {$i_1$} (p_pos);
+	\draw (p_dir) to[climb] node[left] {$i_2$} (p'_pos);
+	\draw (p'_dir) to[sharp] node[above] {$i^\sharp$} (yX_dir);
 \end{tikzpicture}
 \]
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p'\tri q'$" above] {
-	\begin{tikzpicture}[trees,
-		level 1/.style={sibling distance=4mm},
-	  level 2/.style={sibling distance=2.5mm}]
-    \node[blue] (1) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-				child
-			};
-%
-    \node[blue, right=1.4 of 1] (2) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-			};
-%
-    \node[blue, right=1.4 of 2] (3) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-				child
-			};
-%
-    \node[blue, right=1.4 of 3] (4) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-			};
-%
-    \node[blue, right=1.4 of 4] (5) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-				child
-			};
-%
-    \node[blue, right=1.4 of 5] (6) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-      	child
-			}
-      child {node[red] {$\bullet$} 
-			};
-%
-    \node[blue, right=1.4 of 6] (7) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-      	child
-			};
-%
-    \node[blue, right=1.4 of 7] (8) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-			}
-      child {node[red] {$\bullet$} 
-			};
-%
-    \node[blue, right=1 of 8] (9) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
-			};
-%
-    \node[blue, right=.8 of 9] (10) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-			};
-  \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
-
-Let's prepare by understanding our input polynomial $p\tri q$. Using \cref{ex.pos_in_composite}, a position in $p\tri q$ is a pair $(i,j)$, where $i\in p(\1)$ and $j\colon p[i]\to q(\1)$. A direction in $(p\tri q)[(i,j)]$ is a pair $(d,e)$ where $d\in p[i]$ and $e\in q[j(d)]$.
-
-In our example we had morphism $f\colon p\to p'$ and $g\colon q\to q'$ shown here:
-\[
-\begin{tikzpicture}
-	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
-      child {coordinate (11)}
-      child {coordinate (12)};
-    \node[right=1.5 of 1, blue, "\tiny 1" below] (2) {$\bullet$} 
-      child {coordinate (21)}
-      child {coordinate (22)}
-      child {coordinate (23)};
-    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right]
-      \draw[postaction={decorate}] (21) to (12);
-      \draw[postaction={decorate}] (22) to (12);
-      \draw[postaction={decorate}] (23) to (11);
-    \end{scope}
-  \end{tikzpicture}	
-	};	
-%
-	\node (p2) [below right=-1.3 and 1 of p1] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
-      child {coordinate (11)};
-    \node[right=of 1, blue, "\tiny 2" below] (2) {$\bullet$}
-      child {coordinate (21)};
-    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right]
-      \draw[postaction={decorate}] (21) to (11);
-		\end{scope}
-  \end{tikzpicture}	
-	};	
-	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[red!50!black, "\tiny 1" below] (1) {$\bullet$} 
-      child {coordinate (11)}
-      child {coordinate (12)};
-    \node[right=1.5 of 1, red, "\tiny 1" below] (2) {$\bullet$} 
-      child {coordinate (21)};
-    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right]
-      \draw[postaction={decorate}] (21) to (12);
-    \end{scope}
-  \end{tikzpicture}	
-	};	
-%
-	\node (p4) [below right=-1.05 and 1 of p3] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[red!50!black, "\tiny 2" below] (1) {$\bullet$} 
-      child {coordinate (11)};
-    \node[right=of 1, red, "\tiny 2" below] (2) {$\bullet$};
-    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-  \end{tikzpicture}	
-	};	
-\end{tikzpicture}
-\]
-
-We are now ready to write out the components $h_1$, $h_2$, and $h^\sharp$ of $h=f\tri g$:
-\[\arraycolsep=3pt
-\begin{array}{cccc}
-	h_1\colon&((i,j)\in(p\tri q)(\1))&\to& p'(\1)\\
-					 & (i,j)              &\mapsto&f_1(i)
-\end{array}
-\]
-We will replace $h_1(i,j)$ below with $f_1(i)$ for simplicity. Here is $h_2$:
-\[\arraycolsep=3pt
-\begin{array}{cccccc}
-	h_2\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&q'(\1)\\
-	&(i,j)&\mapsto&d'&\mapsto& g_1(j(f_i^\sharp(d')))
-\end{array}
-\]
-And finally here is $h^\sharp$:
-\[\arraycolsep=3pt
-\begin{array}{cccccccc}
-	h^\sharp\colon&((i,j)\in(p\tri q)(\1))&\to&(d'\in p'[f_1(i)])&\to&(e'\in q'[h_2(i,j,d')])&\to&\displaystyle\sum_{d\in p[i]}q[j(d)]\\\\
-	&(i,j)&\mapsto&d'&\mapsto&e'&\mapsto&\big(f_i^\sharp(d'),g_j^\sharp(e')\big)
-\end{array}
-\]
-%Here's a picture of what we've been talking about, namely $f\tri g$:
-%\begin{equation}\label{eqn.pic_tri_map}
-%\begin{tikzpicture}[decoration={markings, mark=at position 0.75 with \arrow{stealth}}, baseline=(j)]
-%	\node (i) {$p[i]$};
-%	\node[above=-2pt of i] (tr1) {$\bigtriangledown$};
-%	\node[above=-2pt of tr1] (j) {$q[j]$};
-%	\node[right=2 of i] (i') {$p'[f_1(i)]$};
-%	\node[above=-2pt of i'] (tr') {$\bigtriangledown$};
-%	\node[above=-2pt of tr'] (j') {$q'[f_i^\sharp\then j\then g_1]$};
-%	\draw[|->] (i) -- (i');
-%	\draw[bend right=30, densely dotted, postaction={decorate}] 
-%		(i') to 
-%			node[above] (fs) {$f_i^\sharp$}
-%		(i);
-%	\draw[bend right=60, densely dotted, postaction={decorate}] 
-%		(j') to 
-%			node[above] (gs) {$g_j^\sharp$}
-%		(j);
-%\end{tikzpicture}
-%\end{equation}
-%We invite the reader to see \eqref{eqn.pic_tri_map} as a schematic for what we drew as follows:
-The above should make sense in terms of our picture of $f\tri g$, shown below.
-\[
-	\begin{tikzpicture}[trees]
-	\begin{scope}[
-		level 1/.style={sibling distance=8mm},
-	  level 2/.style={sibling distance=2.5mm}]
-    \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] (11') {$\bullet$} 
-      	child {coordinate (11)}
-				child {coordinate (12)}
-			}
-      child {node[red!50!black] (12') {$\bullet$} 
-      	child {coordinate (13)}
-				child {coordinate (14)}
-			};
-%
-    \node[blue!50!black, right=5 of 1] (2) {$\bullet$} 
-      child {node[red!50!black] (21') {$\bullet$} 
-      	child {coordinate (21)}
-				child {coordinate (22)}
-			}
-      child {node[red!50!black] (22') {$\bullet$} 
-      	child {coordinate (23)}
-			};
-%
-    \node[blue!50!black, below=1.3 of 1] (3) {$\bullet$} 
-      child {node[red!50!black] (31') {$\bullet$} 
-      	child {coordinate (31)}
-			}
-      child {node[red!50!black] (32') {$\bullet$} 
-      	child {coordinate (32)}
-				child {coordinate (33)}
-			};
-%
-    \node[blue!50!black] at (2|-3) (4) {$\bullet$} 
-      child {node[red!50!black] (41') {$\bullet$} 
-      	child {coordinate (41)}
-			}
-      child {node[red!50!black] (42') {$\bullet$} 
-      	child {coordinate (42)}
-			};
-%
-    \node[blue!50!black, below=1.3 of 3] (5) {$\bullet$} 
-      child {node[red!50!black] (51') {$\bullet$} 
-      	child {coordinate (51)}
-				child {coordinate (52)}
-			};
-%
-    \node[blue!50!black] at (4|-5) (6) {$\bullet$} 
-      child {node[red!50!black] (61') {$\bullet$} 
-      	child {coordinate (61)}
-			};
-		\end{scope}
-%%
-		\begin{scope}[		
-		level 1/.style={sibling distance=4mm},
-	  level 2/.style={sibling distance=2.5mm}]
-	    \node[blue, right=2 of 1] (1') {$\bullet$} 
-      child {node[red] (1'1') {$\bullet$} 
-      	child {coordinate (1'1)}
-			}
-      child {node[red] (1'2') {$\bullet$} 
-      	child {coordinate (1'2)}
-			}
-      child {node[red] (1'3') {$\bullet$} 
-      	child {coordinate (1'3)}
-			};
-%
-    \node[blue, right=2 of 2] (2') {$\bullet$} 
-      child {node[red] (2'1') {$\bullet$} 
-			}
-      child {node[red] (2'2') {$\bullet$} 
-			}
-      child {node[red] (2'3') {$\bullet$} 
-      	child {coordinate (2'1)}
-			};
-%
-    \node[blue, right=2 of 3] (3') {$\bullet$} 
-      child {node[red] (3'1') {$\bullet$} 
-      	child {coordinate (3'1)}
-			}
-      child {node[red] (3'2') {$\bullet$} 
-      	child {coordinate (3'2)}
-			}
-      child {node[red] (3'3') {$\bullet$} 
-			};
-%
-    \node[blue, right=2 of 4] (4') {$\bullet$} 
-      child {node[red] (4'1') {$\bullet$} 
-			}
-      child {node[red] (4'2') {$\bullet$} 
-			}
-      child {node[red] (4'3') {$\bullet$} 
-			};
-%
-    \node[blue, right=2 of 5] (5') {$\bullet$} 
-      child {node[red] (5'1') {$\bullet$} 
-      	child {coordinate (5'1)}
-			};
-%
-    \node[blue, right=2 of 6] (6') {$\bullet$} 
-      child {node[red] (6'1') {$\bullet$} 
-			};
-%
-\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1');
-\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2');
-\draw[|->, shorten <= 3pt, shorten >= 3pt] (3) -- (3');
-\draw[|->, shorten <= 3pt, shorten >= 3pt] (4) -- (4');
-\draw[|->, shorten <= 3pt, shorten >= 3pt] (5) -- (5');
-%\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
-    \begin{scope}[densely dotted, bend right=15pt]
-      \draw[postaction={decorate}] (1'1') to (12');
-      \draw[postaction={decorate}] (1'2') to (12');
-      \draw[postaction={decorate}] (1'3') to (11');
-      \draw[postaction={decorate}] (1'1) to (14);
-      \draw[postaction={decorate}] (1'2) to (14);
-      \draw[postaction={decorate}] (1'3) to (12);
-%
-      \draw[postaction={decorate}] (2'1') to (22');
-      \draw[postaction={decorate}] (2'2') to (22');
-      \draw[postaction={decorate}] (2'3') to (21');
-      \draw[postaction={decorate}] (2'1) to (23);
-%
-      \draw[postaction={decorate}] (3'1') to (32');
-      \draw[postaction={decorate}] (3'2') to (32');
-      \draw[postaction={decorate}] (3'3') to (31');
-      \draw[postaction={decorate}] (3'1) to (33);
-      \draw[postaction={decorate}] (3'2) to (33);
-%
-      \draw[postaction={decorate}] (4'1') to (42');
-      \draw[postaction={decorate}] (4'2') to (42');
-      \draw[postaction={decorate}] (4'3') to (41');
-%
-      \draw[postaction={decorate}] (5'1') to (51');
-      \draw[postaction={decorate}] (5'1) to (52);
-%
-      \draw[postaction={decorate}] (6'1') to (61');
-    \end{scope}
-
-	\end{scope}
-  \end{tikzpicture}
-\]
-Each of the six pictures is for a specific $(i,j)$-pair. On the bottom it does $f_1$ to the given $i$; on the middle it does $f_i^\sharp$, then the given $j$, then $g_1$; and on the top it applies $g_j^\sharp$ over $f_i^\sharp$.
+One can now visualize the information flow through this sequence of delegations.
 \end{example}
 
 
 
 \begin{exercise}
-Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)\colon (p\tri q\tri r)\to (p'\tri q'\tri r')$, given $f=(f_1,f^\sharp)\colon p\to p'$, $g=(g_1,g^\sharp)\colon q\to q'$, and $h=(h_1,h^\sharp)\colon r\to r'$.
+Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)\colon (p\tri q\tri r)\to (p'\tri q'\tri r')$, given $f=(f_1,f^\sharp)\colon p\to p'$, $g=(g_1,g^\sharp)\colon q\to q'$, and $h=(h_1,h^\sharp)\colon r\to r'$. Show what happens when one adds a map $\yon^X\to p\tri q\tri r$ from a representable.
 \end{exercise}
 
 %---- Subsection ----%
@@ -1593,7 +1183,7 @@ Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)
 We now want to get at more subtle aspects of $p\tri q$. We begin with the following.
 
 \begin{proposition}[Left distributivity of $\tri$]\label{prop.left_dist}
-For any polynomial $r$, the functor $-\tri r\colon\poly\to\poly$ commutes---up to natural isomorphism---with addition and multiplication:
+For any polynomial $r$, the post-compose-with-$r$ functor $(-\tri r)\colon\poly\to\poly$ commutes---up to natural isomorphism---with addition and multiplication:
 \[
   (p+q)\tri r\cong (p\tri r)+(q\tri r)
   \qqand
@@ -1932,6 +1522,53 @@ is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon
 \end{equation}
 We refer to a comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
 \end{definition}
+
+Here's a picture of one of the unit laws:
+\[
+\begin{tikzpicture}
+	\node (1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, right=1.5 of c] (c1) {};
+  	\node[poly, above=of c1] (c2) {};
+  	\node[poly, cod, identity, right=of c1] (id) {};
+  	\node[poly, cod, above=of id] (c3) {};
+  	\draw (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {$\delta_2$} (c2_pos);
+  	\draw (c2_dir) to[sharp] node[above] {$\delta^\sharp$} (c_dir);
+  	\draw (c1_pos) -- (id_pos);
+  	\draw (id_dir) -- node[above] {$\epsilon^\sharp$} (c1_dir);
+  	\draw[double] (c2_pos) -- (c3_pos);
+  	\draw[double] (c3_dir) -- (c2_dir);
+  \end{tikzpicture}
+	};
+	\node[right=2 of 1] (2) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, right=1.2 of c] (c1) {};
+  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {};
+  	\draw (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {$\delta_2$} (c2_pos);
+  	\draw (c2_dir) to[sharp] node[above] {$\delta^\sharp$} (c_dir);
+  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {$\epsilon^\sharp$} (c1_dir);
+	\end{tikzpicture}
+	};
+	\node[right=2 of 2] (3) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, cod, right=of c] (c') {};
+  	\draw[double] (c_pos) -- (c'_pos);
+  	\draw[double] (c'_dir) -- (c_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+	\node at ($(2.east)!.5!(3.west)$) {=};
+\end{tikzpicture}
+\]
+We'll put the other unitality picture in the following exercise, and then get to the associativity in a little while. The meaning of $\epsilon$ and $\delta$ will become clear; for those who want a hint, see \cref{***}.
+\begin{exercise}
+Draw the other unitality equation.
+\end{exercise}
 
 \begin{example}[$\delta^{n}$ notation]\label{ex.delta_n_notation}
 Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the two ways to get a map $c\to c\tri c\tri c$ have the same result. This is true for any $n\in\nn$: we get an induced map $c\to c\tripow{n+1}$, which by mild abuse of notation we denote $\delta^n$:
@@ -2709,6 +2346,222 @@ There is an equivalence of categories
 This will be proved in \cref{ex.cofunctors_comon_homs}.
 \end{proof}
 
+\subsection{Understanding comonoids}
+Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
+\[
+\begin{tikzpicture}
+	\node (1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, right=1.3 of c] (c1) {};
+  	\node[poly, above=of c1] (c2) {};
+  	\node[poly, cod, right=of c1] (c3) {};
+  	\node[poly, identity, above=of c3] (c4) {};
+  %
+  	\draw (c_pos) -- node[below] {$\delta_1$} (c1_pos);
+  	\draw[double] (c1_pos) -- (c3_pos);
+  	\draw[double] (c3_dir) -- (c1_dir);
+  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+  	\draw (c2_pos) -- (c4_pos);
+  	\draw (c4_dir) to node[above] {idy} (c2_dir);
+  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  \end{tikzpicture}
+	};
+	\node[right=2 of 1] (2) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, cod, right=2 of c] (c1) {};
+  	\node[poly, above left=.3 and .2 of c1] (c2) {};
+  %
+  	\draw (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+  	\draw (c2_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c2_dir);
+  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  \end{tikzpicture}
+	};
+	\node[right=2 of 2] (3) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, cod, right=of c] (c') {};
+  	\draw[double] (c_pos) -- (c'_pos);
+  	\draw[double] (c'_dir) -- (c_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+	\node at ($(2.east)!.5!(3.west)$) {=};
+\end{tikzpicture}
+\]
+This forces the bottom map $\delta_1$ to be identity function, a fact that's useful to us because it allows us to drop $\delta_1$ from our pictures. Here's a redrawing of $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ removed
+\[
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, cod, right=1.3 of c] (c1) {};
+  	\node[poly, cod, above=of c1] (c2) {};
+  %
+  	\draw[double] (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {$\cod$} (c2_pos);
+  	\draw (c2_dir) to[sharp] node[above] {$\comp$} (c_dir);
+  \end{tikzpicture}
+\]
+Let's rewrite our first equation and add some named fillers $i\in c(\1)$ and $d\in c[i]$ to get an equation:
+\[
+\begin{tikzpicture}
+	\node (2) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {$d\then\idy(\cod(d))$\nodepart{two}$i$};
+  	\node[poly, cod, right=4 of c] (c1) {$d$\nodepart{two}$i$};
+  	\node[poly, above left=.3 and .2 of c1] (c2) {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
+  %
+  	\draw[double] (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+  	\draw (c2_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c2_dir);
+  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  \end{tikzpicture}
+	};
+	\node[right=2 of 2] (3) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {$d$\nodepart{two}$i$};
+  	\node[poly, cod, right=of c] (c') {$d$\nodepart{two}$i$};
+  	\draw[double] (c_pos) -- (c'_pos);
+  	\draw[double] (c'_dir) -- (c_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(2.east)!.5!(3.west)$) {=};
+\end{tikzpicture}
+\]
+Ah, ok, it's saying that composing $d\colon i\to\cod(d)$ with the identity on $\cod(d)$ is $d$. Sounds good; thanks giant brain!
+
+Now we can write the other equation.
+\[
+\begin{tikzpicture}
+	\node (1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, right=1.5 of c] (c1) {};
+  	\node[poly, above=of c1] (c2) {};
+  	\node[poly, cod, identity, right=of c1] (id) {};
+  	\node[poly, cod, above=of id] (c3) {};
+  	\draw[double] (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c1_pos) -- (id_pos);
+  	\draw (id_dir) -- node[above] {idy} (c1_dir);
+  	\draw[double] (c2_pos) -- (c3_pos);
+  	\draw[double] (c3_dir) -- (c2_dir);
+  \end{tikzpicture}
+	};
+	\node[right=2 of 1] (2) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, right=1.2 of c] (c1) {};
+  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {};
+  	\draw[double] (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
+	\end{tikzpicture}
+	};
+	\node[right=2 of 2] (3) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {};
+  	\node[poly, cod, right=of c] (c') {};
+  	\draw[double] (c_pos) -- (c'_pos);
+  	\draw[double] (c'_dir) -- (c_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+	\node at ($(2.east)!.5!(3.west)$) {=};
+\end{tikzpicture}
+\]
+Let's fill it in with $i\in c(\1)$ and $d\in c[i]$ to get some equations:
+\[
+\begin{tikzpicture}
+\node (2) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {$\idy(i)\then d$\nodepart{two}$i$};
+  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\nodepart{two}$i$};
+  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\nodepart{two}$\cod(\idy(i))$};
+  	\draw[double] (c_pos) -- (c1_pos);
+  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
+	\end{tikzpicture}
+	};
+	\node[right=2 of 2] (3) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (c) {$d$\nodepart{two}$i$};
+  	\node[poly, cod, right=of c] (c') {$d$\nodepart{two}$i$};
+  	\draw[double] (c_pos) -- (c'_pos);
+  	\draw[double] (c'_dir) -- (c_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(2.east)!.5!(3.west)$) {=};
+\end{tikzpicture}
+\]
+Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$. We couldn't have said it better ourselves; thanks giant brain!
+
+Let's draw the associativity equation using two sides of a diagram. Note that you never pass from left to right or vice versa; the red side and the blue side just need to agree in the way they fill open boxes in the north and south parts of the diagram, given data in the blue boxes:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (top) {};
+  \node[poly down, dom, below=2 of top] (bot) {};
+  \node[poly down, dom, below=.3 of bot] (bot 2) {};
+  \node[poly down, dom, below=.3 of bot 2] (bot 3) {};
+  \node[poly right, blue, right=2] (right) at ($(top)!.5!(bot)$) {};
+	\node[poly right, blue, right=.3 of right] (right 2) {};
+  \node[poly left, red, left=2] (left) at ($(top)!.5!(bot)$) {};
+	\node[poly left, red, left=.3 of left] (left 2) {};
+%
+	\draw[double, blue] (top_pos) to[out=0, in=90] (right_pos.north);
+	\draw[blue] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
+	\draw[blue] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double, red] (top_pos) to[out=180, in=90] (left_pos);
+	\draw[red] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
+	\draw[red] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double, red] (left_pos) to[out=-90, in=180] (bot_pos);
+	\draw[double, blue] (right_pos) to[out=-90, in=0] (bot_pos);
+	\draw[blue] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
+	\draw[blue] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
+	\draw[double, blue] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
+	\draw[double, blue] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
+	\draw[double, red] (bot_dir) to[out=180, in=-90] (left_dir);
+	\draw[double, red] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
+	\draw[red] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.3,above, sloped] {cod} (bot 3_pos);
+	\draw[red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+\end{tikzpicture}
+\]
+Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of emanating morphisms:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (top) {${\color{red}m\then (m'\then m'')}={\color{blue}(m\then m')\then m''}$\nodepart{two}$i$};
+  \node[poly down, dom, below=2 of top] (bot) {${\color{red}i}={\color{blue}i}$\nodepart{two}$m$};
+  \node[poly down, dom, below=.3 of bot] (bot 2) {${\color{red}\textrm{cod}(m)}={\color{blue}\textrm{cod}(m)}$\nodepart{two}$m'$};
+  \node[poly down, dom, below=.3 of bot 2] (bot 3) {${\color{red}\textrm{cod}(m')}={\color{blue}\textrm{cod}(m\then m')}$\nodepart{two}$m''$};
+  \node[poly right, blue, right=2] (right) at ($(top)!.5!(bot)$) {$i$\nodepart{two}$m\then m'$};
+	\node[poly right, blue, right=.3 of right] (right 2) {$\textrm{cod}(m\then m')$\nodepart{two}$m''$};
+  \node[poly left, red, left=2] (left) at ($(top)!.5!(bot)$) {$m$\nodepart{two}$i$};
+	\node[poly left, red, left=.3 of left] (left 2) {$m'\then m''$\nodepart{two}$\textrm{cod}(m)$};
+	\draw[double, blue] (top_pos) to[out=0, in=90] (right_pos.north);
+%
+	\draw[blue] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
+	\draw[blue] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double, red] (top_pos) to[out=180, in=90] (left_pos);
+	\draw[red] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
+	\draw[red] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[double, red] (left_pos) to[out=-90, in=180] (bot_pos);
+	\draw[double, blue] (right_pos) to[out=-90, in=0] (bot_pos);
+	\draw[blue] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
+	\draw[blue] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
+	\draw[double, blue] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
+	\draw[double, blue] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
+	\draw[double, red] (bot_dir) to[out=180, in=-90] (left_dir);
+	\draw[double, red] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
+	\draw[red] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.3,above, sloped] {cod} (bot 3_pos);
+	\draw[red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+\end{tikzpicture}
+\]
+Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\them m')\then m''$, classic associativity. Amazing; thanks giant brain!
+
 %---- Subsection ----%
 \subsection{Constructing comonoids from categories}
 
@@ -2962,7 +2815,7 @@ is the identity on $c$, says two things for any $i\in c(\1)$:
 \end{itemize}
 The associativity equation from \eqref{eqn.comonoid_diagrams} looks like this:
 \[
-\begin{tikzpicture}[polybox]
+\begin{tikzpicture}[polybox, mapstos]
   \node[poly, dom] (top) {\nodepart{two}$i$};
   \node[poly down, dom, below=2 of top] (bot) {\nodepart{two}$m$};
   \node[poly down, dom, below=.3 of bot] (bot 2) {\nodepart{two}$m'$};
@@ -2973,21 +2826,21 @@ The associativity equation from \eqref{eqn.comonoid_diagrams} looks like this:
 	\node[poly left, left=.3 of left] (left 2) {};
 %
 	\draw[double] (top_pos) to[out=0, in=90] (right_pos.north);
-	\draw[|->] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
-	\draw[|->] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
+	\draw (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
 	\draw[double] (top_pos) to[out=180, in=90] (left_pos);
-	\draw[|->] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
-	\draw[|->] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
+	\draw (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
 	\draw[double] (left_pos) to[out=-90, in=180] (bot_pos);
 	\draw[double] (right_pos) to[out=-90, in=0] (bot_pos);
-	\draw[|->] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
-	\draw[|->] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
+	\draw (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
+	\draw (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
 	\draw[double] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
 	\draw[double] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
 	\draw[double] (bot_dir) to[out=180, in=-90] (left_dir);
 	\draw[double] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
-	\draw[|->] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.7,below, sloped] {cod} (bot 3_pos);
-	\draw[|->] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+	\draw (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.7,below, sloped] {cod} (bot 3_pos);
+	\draw (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
 \end{tikzpicture}
 \]
 It says two things for any $i\in c(\1)$ and emanating morphism $m\in c[i]$:
@@ -2998,7 +2851,7 @@ It says two things for any $i\in c(\1)$ and emanating morphism $m\in c[i]$:
 We see that by filling in the blue boxes with arbitrary $i,m,m',m''$ as follows:
 
 \[
-\begin{tikzpicture}[polybox]
+\begin{tikzpicture}[polybox, mapstos]
   \node[poly, dom] (top) {${\color{red}m\then (m'\then m'')}={\color{blue}(m\then m')\then m''}$\nodepart{two}$i$};
   \node[poly down, dom, below=2 of top] (bot) {${\color{red}i}={\color{blue}i}$\nodepart{two}$m$};
   \node[poly down, dom, below=.3 of bot] (bot 2) {${\color{red}\textrm{cod}(m)}={\color{blue}\textrm{cod}(m)}$\nodepart{two}$m'$};
@@ -3009,21 +2862,21 @@ We see that by filling in the blue boxes with arbitrary $i,m,m',m''$ as follows:
 	\node[poly left, red, left=.3 of left] (left 2) {$m'\then m''$\nodepart{two}$\textrm{cod}(m)$};
 	\draw[double, blue] (top_pos) to[out=0, in=90] (right_pos.north);
 %
-	\draw[|->, blue] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
-	\draw[|->, blue] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[blue] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
+	\draw[blue] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
 	\draw[double, red] (top_pos) to[out=180, in=90] (left_pos);
-	\draw[|->, red] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
-	\draw[|->, red] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
+	\draw[red] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
+	\draw[red] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
 	\draw[double, red] (left_pos) to[out=-90, in=180] (bot_pos);
 	\draw[double, blue] (right_pos) to[out=-90, in=0] (bot_pos);
-	\draw[|->, blue] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
-	\draw[|->, blue] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
+	\draw[blue] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
+	\draw[blue] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
 	\draw[double, blue] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
 	\draw[double, blue] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
 	\draw[double, red] (bot_dir) to[out=180, in=-90] (left_dir);
 	\draw[double, red] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
-	\draw[|->, red] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.3,above, sloped] {cod} (bot 3_pos);
-	\draw[|->, red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+	\draw[red] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.3,above, sloped] {cod} (bot 3_pos);
+	\draw[red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
 \end{tikzpicture}
 \]
 
