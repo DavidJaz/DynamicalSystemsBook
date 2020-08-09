@@ -101,79 +101,6 @@ sep=0pt,
 	\node[draw, rounded corners, inner xsep=2pt, inner ysep=0pt, fit={(pt_#4_1) (pt_#4_#2) (lab_#4_1) (lab_#4_#2)}] (box_#4) {};
 }
 
-\newcommand{\coverpic}{
-\begin{tikzpicture}[trees, scale=1.5]
-\begin{scope}[
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm},
-  level 5/.style={sibling distance=1.25mm}]
-  \node[dgreen] (a) {$\bullet$}
-    child {node[dgreen] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
-     			}
-    			child  {node[red] {$\bullet$}}
-  			}
-    	}
-    	child {node[dyellow] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child  {node[red] {$\bullet$}}
-    	}
-    }
-    child {node[dyellow] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
-     			}
-    			child  {node[red] {$\bullet$}}
-  			}
-  		}
-  		child {node[red] {$\bullet$}
-  		}
-  	}
-  ;
-\end{scope}
-\draw[blue, densely dotted] (current bounding box.south west) rectangle
-(current bounding box.north east);
-\end{tikzpicture}
-}
-
 \tikzset{polybox/.style={
 	polyb/.style ={
   	rectangle split, 
@@ -252,14 +179,118 @@ sep=0pt,
 		rectangle split part fill={none, blue!10!gray}
 	},
 	shorten <=3pt, shorten >=3pt,
+	first/.style={out=0, in=0},
 	climb/.style={out=180, in=180, looseness=2},
-	sharp/.style={out=180, in=90},
+	last/.style={out=180, in=0},
 	mapstos/.style={arrows={|->}},
 	tos/.style={arrows={->}},
 	font=\footnotesize,
-	node distance=.3cm and 1cm
+	node distance=.3cm and 1.5cm
 }
 }
+
+
+\newcommand{\earpic}{
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$m$" left] (m) {};
+	\node[poly, cod, right=of m, "$m$" right] (mm) {};
+	\node[poly, cod, above=of mm, "$C$" right] (C) {};
+	\node[poly, cod, below=of mm, "$D$" right] (D) {};
+%
+	\draw (m_pos) to[out=0, in=180] (D_pos);
+	\draw (D_dir) to[climb] (mm_pos);
+	\draw (mm_dir) to[climb] (C_pos);
+	\draw (C_dir) to[last] (m_dir);
+\end{tikzpicture}
+}
+
+\newcommand{\treepic}{
+\begin{tikzpicture}[trees, scale=1.5]
+\begin{scope}[
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+  		}
+  		child {node[red] {$\bullet$}
+  		}
+  	}
+  ;
+\end{scope}
+\draw[blue, densely dotted] (current bounding box.south west) rectangle
+(current bounding box.north east);
+\end{tikzpicture}
+}
+
+\newcommand{\coverpic}{\earpic}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

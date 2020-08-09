@@ -6,6 +6,8 @@
 \setcounter{chapter}{4}%Just finished 4.
 
 
+\tableofcontents*
+
 %------------ Chapter ------------%
 \chapter{Patterns}\label{chapter.5}
 
@@ -1038,7 +1040,7 @@ Box-notation uses a slightly different organization to represent the same data:
   	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
   	\draw (p_pos.east) -- (q_pos.west);
   	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[sharp] (p_dir.north);
+  	\draw (r_dir.west) to[last] (p_dir.north);
   \end{tikzpicture}
   };
   \node[right=of a] (b) {
@@ -1048,7 +1050,7 @@ Box-notation uses a slightly different organization to represent the same data:
   	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
   	\draw (p_pos.east) -- (q_pos.west);
   	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[sharp] (p_dir.north);
+  	\draw (r_dir.west) to[last] (p_dir.north);
   \end{tikzpicture}
   };
   \node[right=of b] (c) {
@@ -1067,7 +1069,7 @@ Box-notation uses a slightly different organization to represent the same data:
   	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
   	\draw (p_pos.east) -- (q_pos.west);
   	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[sharp] (p_dir.north);
+  	\draw (r_dir.west) to[last] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[right=of d] (e) {
@@ -1077,7 +1079,7 @@ Box-notation uses a slightly different organization to represent the same data:
   	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
   	\draw (p_pos.east) -- (q_pos.west);
   	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[sharp] (p_dir.north);
+  	\draw (r_dir.west) to[last] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[below=of a] (f) {
@@ -1087,7 +1089,7 @@ Box-notation uses a slightly different organization to represent the same data:
   	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
   	\draw (p_pos.east) -- (q_pos.west);
   	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[sharp] (p_dir.north);
+  	\draw (r_dir.west) to[last] (p_dir.north);
   \end{tikzpicture}
 	};
   \node[below=of b] (g) {
@@ -1097,7 +1099,7 @@ Box-notation uses a slightly different organization to represent the same data:
   	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
   	\draw (p_pos.east) -- (q_pos.west);
   	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[sharp] (p_dir.north);
+  	\draw (r_dir.west) to[last] (p_dir.north);
   \end{tikzpicture}
 	};
 \end{tikzpicture}
@@ -1165,7 +1167,7 @@ But it gets animated when someone chooses a map from an arbitrary representable 
 	\draw (q'_dir) -- (p'_dir);
 	\draw (yX_pos) -- node[below] {$i_1$} (p_pos);
 	\draw (p_dir) to[climb] node[left] {$i_2$} (p'_pos);
-	\draw (p'_dir) to[sharp] node[above] {$i^\sharp$} (yX_dir);
+	\draw (p'_dir) to[last] node[above] {$i^\sharp$} (yX_dir);
 \end{tikzpicture}
 \]
 One can now visualize the information flow through this sequence of delegations.
@@ -1535,7 +1537,7 @@ Here's a picture of one of the unit laws:
   	\node[poly, cod, above=of id] (c3) {};
   	\draw (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {$\delta_2$} (c2_pos);
-  	\draw (c2_dir) to[sharp] node[above] {$\delta^\sharp$} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {$\delta^\sharp$} (c_dir);
   	\draw (c1_pos) -- (id_pos);
   	\draw (id_dir) -- node[above] {$\epsilon^\sharp$} (c1_dir);
   	\draw[double] (c2_pos) -- (c3_pos);
@@ -1549,7 +1551,7 @@ Here's a picture of one of the unit laws:
   	\node[poly, cod, above right=.3 and .2 of c1] (c2) {};
   	\draw (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {$\delta_2$} (c2_pos);
-  	\draw (c2_dir) to[sharp] node[above] {$\delta^\sharp$} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {$\delta^\sharp$} (c_dir);
   	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {$\epsilon^\sharp$} (c1_dir);
 	\end{tikzpicture}
 	};
@@ -2364,7 +2366,7 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
   	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
   	\draw (c2_pos) -- (c4_pos);
   	\draw (c4_dir) to node[above] {idy} (c2_dir);
-  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 1] (2) {
@@ -2376,7 +2378,7 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
   	\draw (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
   	\draw (c2_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c2_dir);
-  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 2] (3) {
@@ -2400,7 +2402,7 @@ This forces the bottom map $\delta_1$ to be identity function, a fact that's use
   %
   	\draw[double] (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {$\cod$} (c2_pos);
-  	\draw (c2_dir) to[sharp] node[above] {$\comp$} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {$\comp$} (c_dir);
   \end{tikzpicture}
 \]
 Let's rewrite our first equation and add some named fillers $i\in c(\1)$ and $d\in c[i]$ to get an equation:
@@ -2415,7 +2417,7 @@ Let's rewrite our first equation and add some named fillers $i\in c(\1)$ and $d\
   	\draw[double] (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
   	\draw (c2_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c2_dir);
-  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 2] (3) {
@@ -2443,7 +2445,7 @@ Now we can write the other equation.
   	\node[poly, cod, above=of id] (c3) {};
   	\draw[double] (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
   	\draw (c1_pos) -- (id_pos);
   	\draw (id_dir) -- node[above] {idy} (c1_dir);
   	\draw[double] (c2_pos) -- (c3_pos);
@@ -2457,7 +2459,7 @@ Now we can write the other equation.
   	\node[poly, cod, above right=.3 and .2 of c1] (c2) {};
   	\draw[double] (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
   	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
 	\end{tikzpicture}
 	};
@@ -2483,7 +2485,7 @@ Let's fill it in with $i\in c(\1)$ and $d\in c[i]$ to get some equations:
   	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\nodepart{two}$\cod(\idy(i))$};
   	\draw[double] (c_pos) -- (c1_pos);
   	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_dir) to[sharp] node[above] {com} (c_dir);
+  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
   	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
 	\end{tikzpicture}
 	};
@@ -2560,7 +2562,7 @@ Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of em
 	\draw[red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
 \end{tikzpicture}
 \]
-Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\them m')\then m''$, classic associativity. Amazing; thanks giant brain!
+Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\then m')\then m''$, classic associativity. Amazing; thanks giant brain!
 
 %---- Subsection ----%
 \subsection{Constructing comonoids from categories}
@@ -3219,5 +3221,44 @@ For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
 \end{theorem}
 
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
+
+\[
+\begin{array}{cc}
+	\yon^M\to\yon^M\tri \ema{c}&\\\hline\hline
+	\yon\to\yon^M\tri \ema{c}\tri M\yon\\\hline\hline
+	M\yon\to \ema{c}\tri M\yon
+\end{array}
+\]
+
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$m$" left] (m) {};
+	\node[poly, cod, right=of m, "$m$" right] (mm) {};
+	\node[poly, cod, above=of mm, "$C$" right] (C) {};
+	\node[poly, cod, below=of mm, "$D$" right] (D) {};
+%
+	\draw (m_pos) to[out=0, in=180] (D_pos);
+	\draw (D_dir) to[climb] (mm_pos);
+	\draw (mm_dir) to[climb] (C_pos);
+	\draw (C_dir) to[last] (m_dir);
+\end{tikzpicture}
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
