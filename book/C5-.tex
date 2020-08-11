@@ -1040,74 +1040,75 @@ f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
 \end{gather*}
 Box-notation uses a slightly different organization to represent the same data:
 \[
-\begin{tikzpicture}[polybox, mapstos, node distance=.9]
+\begin{tikzpicture}[polybox, mapstos, node distance=2ex and 1.4cm]
   \node (a) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$S$\nodepart{two}$A$};
-  	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$U$\nodepart{two}$C$};
   	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw (p_pos.east) -- (q_pos.west);
-  	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[last] (p_dir.north);
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}
   };
-  \node[right=of a] (b) {
+  \node[right=.6 of a] (b) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
-  	\node[poly, cod, right=of p] (q) {$U$\nodepart{two}$C$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$U$\nodepart{two}$C$};
   	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw (p_pos.east) -- (q_pos.west);
-  	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[last] (p_dir.north);
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}
   };
-  \node[right=of b] (c) {
+  \node[right=.6of b] (c) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {\nodepart{two}$A$};
-  	\node[poly, cod, right=of p] (q) {$V$\nodepart{two}$C$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$V$\nodepart{two}$C$};
   	\node[poly, constant, above=of q] (r) {\nodepart{two}$F$};
-  	\draw (p_pos.east) -- (q_pos.west);
-  	\draw (q_dir.west) to[climb] (r_pos.west);
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+		\draw[densely dotted] (r_dir) to[last] (p_dir);
   \end{tikzpicture}
   };
-  \node[right=of c] (d) {
+  \node[right=.6 of c] (d) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
-  	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$W$\nodepart{two}$C$};
   	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw (p_pos.east) -- (q_pos.west);
-  	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[last] (p_dir.north);
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}
 	};
-  \node[right=of d] (e) {
+  \node[right=.6 of d] (e) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
-  	\node[poly, cod, right=of p] (q) {$W$\nodepart{two}$C$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$W$\nodepart{two}$C$};
   	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw (p_pos.east) -- (q_pos.west);
-  	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[last] (p_dir.north);
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}
 	};
-  \node[below=of a] (f) {
+  \node[below=.6 of a] (f) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
-  	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$X$\nodepart{two}$D$};
   	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
-  	\draw (p_pos.east) -- (q_pos.west);
-  	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[last] (p_dir.north);
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}
 	};
-  \node[below=of b] (g) {
+  \node[below=.6 of b] (g) {
   \begin{tikzpicture}
   	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
-  	\node[poly, cod, right=of p] (q) {$X$\nodepart{two}$D$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$X$\nodepart{two}$D$};
   	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
-  	\draw (p_pos.east) -- (q_pos.west);
-  	\draw (q_dir.west) to[climb] (r_pos.west);
-  	\draw (r_dir.west) to[last] (p_dir.north);
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}
 	};
 \end{tikzpicture}
@@ -1164,16 +1165,16 @@ Given maps $f\colon p\to q$ and $f'\colon p'\to q'$, the corresponding map $(f\t
 But it gets animated when someone chooses a map from an arbitrary representable (or anything else); to do so is to choose a bunch of arrows as to the left:
 \[
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly] (p) {};
+	\node[poly, pure dom, "$\yon^X$" left] (yX) {};
+	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
 	\node[poly, above=of p] (p') {};
 	\node[poly, cod, right=of p, "$q$" right] (q) {};
 	\node[poly, cod, above=of q, "$q'$" right] (q') {};
-	\node[poly, pure dom, left=of p, "$\yon^X$" left] (yX) {};
 	\draw (p_pos) -- (q_pos);
 	\draw (q_dir) -- (p_dir);
 	\draw (p'_pos) -- (q'_pos);
 	\draw (q'_dir) -- (p'_dir);
-	\draw (yX_pos) -- node[below] {$i_1$} (p_pos);
+	\draw (yX_pos) to[first] node[below] {$i_1$} (p_pos);
 	\draw (p_dir) to[climb] node[left] {$i_2$} (p'_pos);
 	\draw (p'_dir) to[last] node[above] {$i^\sharp$} (yX_dir);
 \end{tikzpicture}
@@ -1538,30 +1539,30 @@ Here's a picture of one of the unit laws:
 \begin{tikzpicture}
 	\node (1) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, right=1.5 of c] (c1) {};
-  	\node[poly, above=of c1] (c2) {};
-  	\node[poly, cod, identity, right=of c1] (id) {};
-  	\node[poly, cod, above=of id] (c3) {};
-  	\draw (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {$\delta_2$} (c2_pos);
-  	\draw (c2_dir) to[last] node[above] {$\delta^\sharp$} (c_dir);
-  	\draw (c1_pos) -- (id_pos);
-  	\draw (id_dir) -- node[above] {$\epsilon^\sharp$} (c1_dir);
-  	\draw[double] (c2_pos) -- (c3_pos);
-  	\draw[double] (c3_dir) -- (c2_dir);
+  	\node[poly, dom] (yX) {};
+  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, above=of p] (p') {};
+  	\node[poly, cod, identity, right=of p] (q) {};
+  	\node[poly, cod, above=of q] (q') {};
+  	\draw (p_pos) -- (q_pos);
+  	\draw (q_dir) -- node[above] {$\epsilon^\sharp$} (p_dir);
+  	\draw (p'_pos) -- (q'_pos);
+  	\draw (q'_dir) -- (p'_dir);
+  	\draw (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 1] (2) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, right=1.2 of c] (c1) {};
-  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {};
-  	\draw (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {$\delta_2$} (c2_pos);
-  	\draw (c2_dir) to[last] node[above] {$\delta^\sharp$} (c_dir);
-  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {$\epsilon^\sharp$} (c1_dir);
-	\end{tikzpicture}
+  	\node[poly, dom] (yX) {};
+  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, cod, above=of p] (p') {};
+  	\draw (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
+		\draw (p_pos) to[climb'] node[right] {$\epsilon^\sharp$} (p_dir);
+  \end{tikzpicture}
 	};
 	\node[right=2 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
@@ -2362,31 +2363,29 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
 \begin{tikzpicture}
 	\node (1) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, right=1.3 of c] (c1) {};
-  	\node[poly, above=of c1] (c2) {};
-  	\node[poly, cod, right=of c1] (c3) {};
-  	\node[poly, identity, above=of c3] (c4) {};
-  %
-  	\draw (c_pos) -- node[below] {$\delta_1$} (c1_pos);
-  	\draw[double] (c1_pos) -- (c3_pos);
-  	\draw[double] (c3_dir) -- (c1_dir);
-  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_pos) -- (c4_pos);
-  	\draw (c4_dir) to node[above] {idy} (c2_dir);
-  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
+  	\node[poly, dom] (yX) {};
+  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, above=of p] (p') {};
+  	\node[poly, cod, right=of p] (q) {};
+  	\node[poly, cod, identity, above=of q] (q') {};
+  	\draw (p_pos) -- (q_pos);
+  	\draw (q_dir) -- (p_dir);
+  	\draw (p'_pos) -- (q'_pos);
+  	\draw (q'_dir) -- node[above] {$\idy$} (p'_dir);
+  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 1] (2) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, cod, right=2 of c] (c1) {};
-  	\node[poly, above left=.3 and .2 of c1] (c2) {};
-  %
-  	\draw (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c2_dir);
-  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
+  	\node[poly, dom] (yX) {};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, above=of p] (p') {};
+  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 2] (3) {
@@ -2401,31 +2400,19 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
 \]
-This forces the bottom map $\delta_1$ to be identity function, a fact that's useful to us because it allows us to drop $\delta_1$ from our pictures. Here's a redrawing of $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ removed
-\[
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, cod, right=1.3 of c] (c1) {};
-  	\node[poly, cod, above=of c1] (c2) {};
-  %
-  	\draw[double] (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {$\cod$} (c2_pos);
-  	\draw (c2_dir) to[last] node[above] {$\comp$} (c_dir);
-  \end{tikzpicture}
-\]
+
 Let's rewrite our first equation and add some named fillers $i\in c(\1)$ and $d\in c[i]$ to get an equation:
 \[
 \begin{tikzpicture}
 	\node (2) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {$d\then\idy(\cod(d))$\nodepart{two}$i$};
-  	\node[poly, cod, right=4 of c] (c1) {$d$\nodepart{two}$i$};
-  	\node[poly, above left=.3 and .2 of c1] (c2) {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
-  %
-  	\draw[double] (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c2_dir);
-  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
+  	\node[poly, dom] (yX) {$d\then\idy(\cod(d))$\nodepart{two}$i$};
+  	\node[poly, cod, right=3.8 of yX.south, yshift=-1ex] (p) {$d$\nodepart{two}$\delta_1(i)$};
+  	\node[poly, above=of p] (p') {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
+  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 2] (3) {
@@ -2439,37 +2426,50 @@ Let's rewrite our first equation and add some named fillers $i\in c(\1)$ and $d\
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
 \]
-Ah, ok, it's saying that composing $d\colon i\to\cod(d)$ with the identity on $\cod(d)$ is $d$. Sounds good; thanks giant brain!
+Ah, ok, it's saying that $\delta_1(i)=i$ and that $d\then\idy(\cod(d))=d$, i.e.\ that composing a morphism $d$ with the identity morphism on its codomain returns $d$. Sounds good; thanks giant brain!
+
+
+It's convenient that the bottom map $\delta_1$ to be identity function because it allows us to drop $\delta_1$ from our pictures. Here's a redrawing of $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ removed
+\[
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (yX) {};
+  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, cod, above=of p] (p') {};
+  	\draw[double] (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  \end{tikzpicture}
+\]
 
 Now we can write the other equation.
 \[
 \begin{tikzpicture}
 	\node (1) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, right=1.5 of c] (c1) {};
-  	\node[poly, above=of c1] (c2) {};
-  	\node[poly, cod, identity, right=of c1] (id) {};
-  	\node[poly, cod, above=of id] (c3) {};
-  	\draw[double] (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
-  	\draw (c1_pos) -- (id_pos);
-  	\draw (id_dir) -- node[above] {idy} (c1_dir);
-  	\draw[double] (c2_pos) -- (c3_pos);
-  	\draw[double] (c3_dir) -- (c2_dir);
+  	\node[poly, dom] (yX) {};
+  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, above=of p] (p') {};
+  	\node[poly, cod, identity, right=of p] (q) {};
+  	\node[poly, cod, above=of q] (q') {};
+  	\draw (p_pos) -- (q_pos);
+  	\draw (q_dir) -- node[above] {$\idy$} (p_dir);
+  	\draw (p'_pos) -- (q'_pos);
+  	\draw (q'_dir) -- (p'_dir);
+  	\draw[double] (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
 	\node[right=2 of 1] (2) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, right=1.2 of c] (c1) {};
-  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {};
-  	\draw[double] (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
-  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
-	\end{tikzpicture}
+  	\node[poly, dom] (yX) {};
+  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, cod, above=of p] (p') {};
+  	\draw[double] (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+  \end{tikzpicture}
 	};
 	\node[right=2 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
@@ -2486,16 +2486,16 @@ Now we can write the other equation.
 Let's fill it in with $i\in c(\1)$ and $d\in c[i]$ to get some equations:
 \[
 \begin{tikzpicture}
-\node (2) {
+	\node (2) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {$\idy(i)\then d$\nodepart{two}$i$};
-  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\nodepart{two}$i$};
-  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\nodepart{two}$\cod(\idy(i))$};
-  	\draw[double] (c_pos) -- (c1_pos);
-  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
-  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
-  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
-	\end{tikzpicture}
+  	\node[poly, dom] (yX) {$\idy(i)\then d$\nodepart{two}$i$};
+  	\node[poly, right=3 of yX.south, yshift=-1ex] (p) {$\idy(i)$\nodepart{two}$i$};
+  	\node[poly, cod, above=of p] (p') {$d$\nodepart{two}$\cod(\idy(i))$};
+  	\draw[double] (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+  \end{tikzpicture}
 	};
 	\node[right=2 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
@@ -2507,6 +2507,28 @@ Let's fill it in with $i\in c(\1)$ and $d\in c[i]$ to get some equations:
 	};
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
+%\begin{tikzpicture}
+%\node (2) {
+%  \begin{tikzpicture}[polybox, tos]
+%  	\node[poly, dom] (c) {$\idy(i)\then d$\nodepart{two}$i$};
+%  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\nodepart{two}$i$};
+%  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\nodepart{two}$\cod(\idy(i))$};
+%  	\draw[double] (c_pos) -- (c1_pos);
+%  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+%  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
+%  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
+%	\end{tikzpicture}
+%	};
+%	\node[right=2 of 2] (3) {
+%  \begin{tikzpicture}[polybox, tos]
+%  	\node[poly, dom] (c) {$d$\nodepart{two}$i$};
+%  	\node[poly, cod, right=of c] (c') {$d$\nodepart{two}$i$};
+%  	\draw[double] (c_pos) -- (c'_pos);
+%  	\draw[double] (c'_dir) -- (c_dir);
+%	\end{tikzpicture}
+%	};
+%	\node at ($(2.east)!.5!(3.west)$) {=};
+%\end{tikzpicture}
 \]
 Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$. We couldn't have said it better ourselves; thanks giant brain!
 
