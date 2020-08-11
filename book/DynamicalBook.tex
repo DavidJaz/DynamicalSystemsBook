@@ -470,6 +470,16 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\mdot}{{\cdot}}
 \newcommand{\cofree}[1]{\com{C}_{#1}}
 \newcommand{\coto}{\nrightarrow}
+\newcommand{\cofun}{{\raisebox{2pt}{\resizebox{2.5pt}{2.5pt}{$\setminus$}}}}
+
+
+\newcommand{\bimodto}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}  
+}
+\newcommand{\bimodfrom}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}  
+}
+
 \newcommand{\ema}[1]{\mathfrak{#1}}
 
 \newcommand{\cof}{\nrightarrow}

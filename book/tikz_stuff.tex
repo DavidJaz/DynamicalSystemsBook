@@ -4,13 +4,18 @@
 
 
 
-  \tikzset{
-     tick/.style={postaction={
-        decorate,
-        decoration={markings, mark=at position 0.5 with
-        {\draw[-] (0,.4ex) -- (0,-.4ex);}}}
-     }
-  } 
+\tikzset{
+	tick/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\draw[-] (0,.4ex) -- (0,-.4ex);}}}
+  }
+} 
+
+\tikzset{
+biml/.tip={Glyph[glyph math command=triangleleft, glyph length=.87ex]},
+bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.92ex]},
+}
   
 \tikzset{trees/.style={
 	inner sep=0, 

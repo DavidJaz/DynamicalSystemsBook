@@ -3111,8 +3111,18 @@ where $\Cat{Mon}$ is the category of monoids.
 $\Cat{Comon}(\poly)_{\text{lin}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=M\yon$ is linear. Show that there is an isomorphism of categories
 \[
 \Cat{Comon}(\poly)_{\text{lin}}\cong\smset
+\qedhere
 \]
 \end{exercise}
+
+\begin{proposition}
+The inclusion of linear comonoids into all comonoids has a left adjoint
+\[
+\adj{\Cat{Comon}(\poly)}{(\ema{c}\tri\1)\yon}{A\yon}{\Cat{Comon}(\poly)_{\text{lin}}}
+\]
+denoted by where they send a comonoid $(\ema{c},\epsilon,\delta)$ and a linear comonoid $A\yon$.
+\end{proposition}
+
 
 \paragraph{Databases}
 
@@ -3140,7 +3150,28 @@ Given a functor $\cat{C}\to\smset$, its category of elements is a discrete opfib
 \begin{example}[Database]
 \end{example}
 
+\begin{definition}[Database schema and instance]
+Let $\cat{C}$ be a category. An \emph{attribute structure} on $\cat{C}$ is a pair $(V, \alpha)$ where
+\begin{enumerate}
+	\item $V$ is a set, elements of which are called \emph{attribute values} and
+	\item $\alpha\colon V\to \Ob(\cat{C})$ is a function, called the \emph{attribute assignment}.
+\end{enumerate}
+If $(V,\alpha)$ is an attribute structure on $\cat{C}$, we call the triple $(\cat{C},V,\alpha)$ a \emph{database schema} and refer to $\cat{C}$ as the \emph{entity category} of the schema.
 
+An \emph{instance} on $(\cat{C},V,\alpha)$ consists of a functor $I\colon\cat{C}\to\smset$ together with a function $v_c\colon I(c)\to\alpha\inv(c)$ for each $c\in\Ob(\cat{C}))$.
+\end{definition}
+
+\begin{proposition}
+Let $\cat{C}$ be a category and $\eta_\cat{C}\colon\cat{C}\to\Ob(\cat{C})$ the unit cofunctor. An attribute structure on $\cat{C}$ can be identified with a $(\Ob(\cat{C}),0)$-bimodule $(\Ob(\cat{C})\bimodfrom[V]0$. An instance on $(\cat{C},V,\alpha)$ can be identified with a square of the form
+\[
+\begin{tikzcd}[background color=theoremcolor]
+	\cat{C}\ar[r, bimr-biml, "I"]\ar[d, "\cofun" marking, "\eta"']&
+	0\ar[d, equal]\\
+	\Ob(\cat{C})\ar[r, bimr-biml, "V"']&
+	0\ar[ul, phantom, "\hphantom{\scriptstyle\alpha}\Downarrow\scriptstyle\alpha"]
+\end{tikzcd}
+\]
+\end{proposition}
 
 \begin{proposition}\label{prop.cart_com_dopf}
 The category of polynomial comonoids and cartesian maps is equivalent to the category of categories and discrete opfibrations
@@ -3233,13 +3264,15 @@ The pullback diagram to the left defines $f^*(m)$ and that to the right is its c
 \begin{tikzcd}
 	f^*m\ar[r]\ar[d]&
 	m\ar[d]\\
-	A\ar[r, "f"']m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+	A\ar[r, "f"']&
+	m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \hspace{.7in}
 \begin{tikzcd}
 	f^*m\tri\ema{c}\ar[r]\ar[d]&
 	m\tri\ema{c}\ar[d]\\
-	A\ar[r, "f"']m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+	A\ar[r, "f"']&
+	m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]
 which is again a pullback by \cref{thm.connected_limits,exc.composing_with_constants}. Now the map $\rho\colon m\to m\tri\ema{c}$ induces a map $\rho_f\colon f^*(m)\to f^*(m)\tri c$; we claim it is a right module. It suffices to check that $\rho_f$ interacts properly with $\epsilon$ and $\delta$, which we leave to \cref{exc.right_modules_as_sums}.
@@ -3295,7 +3328,8 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 \end{proof}
 
 
-
+\begin{proposition}
+\end{proposition}
 
 
 Misc:
