@@ -924,20 +924,20 @@ Here's a picture for the $k=4$ case:
 	\node[left=0pt of p_pos] {$p(\1)$};
 	\foreach \i in {1,...,4}
 	{
-  	\node[poly, cod] (q\i) at (3,1.3*\i-1.3) {};
+  	\node[poly, cod] (q\i) at (3,1.3*\i-3.25) {};
   	\node[right=0pt of q\i_dir] {$q_{\i}[-]$};
   	\node[right=0pt of q\i_pos] {$q_{\i}(\1)$};
 	};
-	\draw (p_pos.east) -- node[below] {$f_1$} (q1_pos.west);
+	\draw (p_pos) to[first] node[below] {$f_1$} (q1_pos.west);
 	\foreach \i/\j in {1/2,2/3, 3/4}
 	{
 		\draw 
 			(q\i_dir.west) 
-			to[out=180, in=180, looseness=2] 
+			to[climb] 
 			node[left] {$f_\j$}
 			(q\j_pos.west);
 	};
-	\draw (q4_dir.west) to[out=180, in=90] node[above left] {$f^\sharp$} (p_dir.north);
+	\draw (q4_dir) to[last] node[above left] {$f^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
 
@@ -1553,7 +1553,7 @@ Here's a picture of one of the unit laws:
   	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
   \end{tikzpicture}
 	};
-	\node[right=2 of 1] (2) {
+	\node[right=1.8 of 1] (2) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {};
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
@@ -1564,7 +1564,7 @@ Here's a picture of one of the unit laws:
 		\draw (p_pos) to[climb'] node[right] {$\epsilon^\sharp$} (p_dir);
   \end{tikzpicture}
 	};
-	\node[right=2 of 2] (3) {
+	\node[right=1.8 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (c) {};
   	\node[poly, cod, right=of c] (c') {};
