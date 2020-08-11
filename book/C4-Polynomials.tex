@@ -3339,15 +3339,16 @@ We will see that the functor $p\mapsto p(\1)$ has special properties making it w
 \cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
 
 For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$. Then we get a new polynomial $f^*p$ with positions $A$. The notation here agrees with that in \cref{thm.poly_lcc}: it is given by a pullback
-\[
+\begin{equation}\label{eqn.f^*_defined}
 \begin{tikzcd}
 	f^*p\ar[r, "\fun{cart}"]\ar[d]&
 	p\ar[d, "\eta_p"]\\
 	A\ar[r, "f"']&
 	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
-\]
-Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}_a^\sharp\colon p[f(a)]\to(f^*p)[a]$ is an isomorphism too.
+\end{equation}
+Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}_a^\sharp\colon p[f(a)]\to(f^*p)[a]$ is an isomorphism too. We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}.
+
 
 \begin{definition}[Vertical, cartesian]
 Let $f\colon p\to q$ be a morphism of polynomials. It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism. It is called \emph{cartesian} if, for each $i\in p(\1)$ the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
@@ -3464,14 +3465,14 @@ will always be a power of $\2$, and $\3$ is not a power of $\2$.
 
 For any set $A$, let $\poly[A.]$ denote the category whose objects are polynomials $p$ equipped with an isomorphism $A\cong p(\1)$, and whose morphisms are polynomial maps respecting the isomorphisms with $A$.
 
-\begin{proposition}
+\begin{proposition}[Base change]\label{prop.basechange}
 For any function $f\colon A\to B$, pullback $f^*$ along $f$ induces a functor $\poly[B.]\to\poly[A.]$, which we also denote $f^*$.
 \end{proposition}
 \begin{proof}
 This follows from \eqref{eqn.pullback_poly} with $q\coloneqq A$ and $r\coloneqq B$, since pullback of an iso is an iso.
 \end{proof}
 
-\begin{theorem}
+\begin{theorem}\label{thm.triple_adjoint_basechange}
 For any function $f\colon A\to B$, the pullback functor $f^*$ has both a left and a right adjoint
 \begin{equation}\label{eqn.adjoint_triple_monoidal_fib}
 \begin{tikzcd}[column sep=large, background color=theoremcolor]

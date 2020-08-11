@@ -301,6 +301,14 @@ Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial. Which
 \end{enumerate}
 \end{exercise}
 
+\begin{example}
+For any $p$ and $q$ there is an interesting map $o_{p,q}\colon p\otimes q\to p\tri q$ that orders the operation; of course the symmetry $q\otimes p\cong p\otimes q$ induces a map $p\otimes q\to q\tri p$.
+
+Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, and the identity is the unique map $\yon\to\yon$. The maps $o_{p,q}$ should commute with associators and unitors. 
+
+This can be used in the following way. Maps $p\to q\tri r$ into composites are fairly easy to diagram and understand, whereas maps $q\tri r\to p$ are not so easy to think about. However, given such a map, one may always compose it with $o_{q,r}$ to obtain a map $q\otimes r\to p$; this is quite a bit simpler to think about, more like a wiring diagram.
+\end{example}
+
 \begin{example}\label{ex.apply_2}
 For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon\smset\to\smset$ is a functor! In particular, by this point you've seen us write $p(\1)$ hundreds of times. But we've also seen that $X$ is itself a polynomial, namely a constant one.
 
@@ -1567,7 +1575,7 @@ Here's a picture of one of the unit laws:
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
 \]
-We'll put the other unitality picture in the following exercise, and then get to the associativity in a little while. The meaning of $\epsilon$ and $\delta$ will become clear; for those who want a hint, see \cref{***}.
+We'll put the other unitality picture in the following exercise, and then get to the associativity in a little while. The meaning of $\epsilon$ and $\delta$ will become clear; for those who want a hint, see \cref{subsec.understanding_comonoids}.
 \begin{exercise}
 Draw the other unitality equation.
 \end{exercise}
@@ -2348,7 +2356,7 @@ There is an equivalence of categories
 This will be proved in \cref{ex.cofunctors_comon_homs}.
 \end{proof}
 
-\subsection{Understanding comonoids}
+\subsection{Understanding comonoids}\label{subsec.understanding_comonoids}
 Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
 \[
 \begin{tikzpicture}
@@ -3206,9 +3214,51 @@ Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in 
 %-------- Section --------%
 \section{Bimodules}
 
-Bimodules with carrier $\yon$
+Recall from \cref{prop.basechange} that for any function $f\colon A\to B$, we have a base-change functor $f^*\colon B\poly\to A\poly$ and a cartesian morphism $f^*p\to p$ for any polynomial $p$ and isomorphism $p(\1)\cong B$.
 
-\begin{theorem}
+\begin{proposition}\label{prop.right_modules_as_sums}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid and suppose that $\rho\colon m\to m\tri\ema{c}$ is a right $\com{C}$-module. Then for any set $A$ and function $f\colon A\to m\tri\1$, the polynomial $f^*m$ has an induced right module structure $\rho_f$ fitting into the commutative square below:
+\[
+\begin{tikzcd}
+  f^*m\ar[d]\ar[r, "\rho_f"]&
+  f^*m\tri\ema{c}\ar[d]\\
+  m\ar[r, "\rho"']&
+  m\tri\ema{c}
+\end{tikzcd}
+\]
+\end{proposition}
+\begin{proof}
+The pullback diagram to the left defines $f^*(m)$ and that to the right is its composition with $\ema{c}$
+\[
+\begin{tikzcd}
+	f^*m\ar[r]\ar[d]&
+	m\ar[d]\\
+	A\ar[r, "f"']m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\hspace{.7in}
+\begin{tikzcd}
+	f^*m\tri\ema{c}\ar[r]\ar[d]&
+	m\tri\ema{c}\ar[d]\\
+	A\ar[r, "f"']m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\]
+which is again a pullback by \cref{thm.connected_limits,exc.composing_with_constants}. Now the map $\rho\colon m\to m\tri\ema{c}$ induces a map $\rho_f\colon f^*(m)\to f^*(m)\tri c$; we claim it is a right module. It suffices to check that $\rho_f$ interacts properly with $\epsilon$ and $\delta$, which we leave to \cref{exc.right_modules_as_sums}.
+\end{proof}
+
+\begin{exercise}\label{exc.right_modules_as_sums}
+Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\to m\tri\1$ be as in \cref{prop.right_modules_as_sums}. Complete the proof of that proposition as follows:
+\begin{enumerate}
+	\item Show that $\rho_f\then\epsilon=\id_m$
+	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c}$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}[Bimodules with carrier $\yon$]
+
+\end{example}
+
+\begin{theorem}\label{thm.tfae_c_sets}
 For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
 \begin{enumerate}
 	\item functors $\cat{C}\to\smset$
@@ -3220,7 +3270,35 @@ For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
 \end{enumerate}
 \end{theorem}
 
+\begin{proposition}
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
+\end{proposition}
+
+\begin{proposition}\label{prop.all_free_modules}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. For any set $G$, the polynomial $\yon^G\tri\ema{c}$ has a natural right $\com{C}$-module structure.
+\end{proposition}
+\begin{proof}
+We use the map $(\yon^G\tri\delta)\colon(\yon^G\tri\ema{c})\to(\yon^G\tri\ema{c}\tri\ema{c})$. It satisfies the unitality and associativity laws because $\ema{c}$ does.
+\end{proof}
+
+We can think of elements of $G$ as ``generators''. Then if $i'\colon G\to\ema{c}\tri\1$ assigns to every generator an object of a category $\cat{C}$, then we should be able to find the free $\cat{C}$-set that $i'$ generates.
+
+\begin{proposition}
+Functions $i'\colon G\to\ema{c}\tri\1$ are in bijection with positions $i\in\yon^G\tri\ema{c}\tri\1$. Let $m\coloneqq i^*(\yon^G\tri\ema{c})$ and let $\rho_i$ be the induced right $\com{C}$-module structure from \cref{prop.right_modules_as_sums}. Then $\rho_i$ corresponds to the free $\cat{C}$-set generated by $i'$. 
+\end{proposition}
+\begin{proof}
+The polynomial $m$ has the following form:
+\[
+m\cong\yon^{\sum_{g\in G}\ema{c}[i'(g)]}
+\]
+In particular $\rho_i$ is a representable right $\com{C}$-module, and we can identify it with a $\cat{C}$-set by \cref{thm.tfae_c_sets}. The elements of this $\cat{C}$-set are pairs $(g, f)$, where $g\in G$ is a generator and $f\colon i'(g)\to\cod(f)$ is a morphism in $\cat{C}$ emanating from $i'(g)$. It is easy to see that the module structure induced by \cref{prop.all_free_modules} is indeed the free one.
+\end{proof}
+
+
+
+
+
+Misc:
 
 \[
 \begin{array}{cc}
@@ -3228,6 +3306,51 @@ The composite of a linear left $\cat{C}$-module and a representable right $\cat{
 	\yon\to\yon^M\tri \ema{c}\tri M\yon\\\hline\hline
 	M\yon\to \ema{c}\tri M\yon
 \end{array}
+\]
+
+\[
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m) {};
+  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$D$" below] (D) {};
+  	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
+  	\node[poly, cod, right= of D.south, yshift=-1ex, "$D$" right] (DD) {};
+  	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (C) {};
+%
+		\draw (m_pos) to[first] (D_pos);
+		\draw (D_dir) to[climb] (mm_pos);
+		\draw (mm_dir) to[last] (m_dir);
+		\draw[double] (D_pos) to[first] (DD_pos);
+		\draw[double] (DD_dir) to[last] (D_dir);
+		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw (mmm_dir) to[climb] (C_pos);
+		\draw (C_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+%
+	\node (p2) [below=of p1] {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m') {};
+  	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
+  	\node[poly, above=of mm', "\tiny$C$" above] (C') {};
+  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$D$" right] (D') {};
+  	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (CC') {};
+%
+		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw (mm'_dir) to[climb] (C'_pos);
+		\draw (C'_dir) to[last] (m'_dir);
+		\draw (mm'_pos) to[first] (D'_pos);
+		\draw (D'_dir) to[climb] (mmm'_pos);
+		\draw (mmm'_dir) to[last] (mm'_dir);
+		\draw[double] (C'_pos) to[first] (CC'_pos);
+		\draw[double] (CC'_dir) to[last] (C'_dir);
+	\end{tikzpicture}
+	};	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
 \]
 
 \[

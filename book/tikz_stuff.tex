@@ -179,15 +179,17 @@ sep=0pt,
 		rectangle split part fill={none, blue!10!gray}
 	},
 	shorten <=3pt, shorten >=3pt,
-	first/.style={out=0, in=0},
+	first/.style={out=0, in=180},
 	climb/.style={out=180, in=180, looseness=2},
 	last/.style={out=180, in=0},
 	mapstos/.style={arrows={|->}},
 	tos/.style={arrows={->}},
 	font=\footnotesize,
-	node distance=.3cm and 1.5cm
+	node distance=2ex and 1.5cm
 }
 }
+
+
 
 
 \newcommand{\earpic}{
@@ -277,7 +279,7 @@ sep=0pt,
 \end{tikzpicture}
 }
 
-\newcommand{\coverpic}{\earpic}
+\newcommand{\coverpic}{\treepic}%{\earpic}
 
 
 
