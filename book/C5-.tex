@@ -434,6 +434,42 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 \end{enumerate}
 \end{exercise}
 
+
+\begin{proposition}
+For all sets $A,B$ and polynomials $p$, we have the following adjunction:
+\[
+\poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri p\tri By\right)
+\]
+\end{proposition}
+
+\[
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox,tos]
+  	\node[poly, "$p$" left] (p) {};
+  	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
+  	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
+  	\node[poly, right=2 of p, "$q$" right] (q) {};
+  	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
+  \end{tikzpicture}
+  };
+ \node[right=4 of p1] (p2) {
+ \begin{tikzpicture}[polybox,tos]
+  	\node[poly, "$p$" left] (p) {};
+  	\node[poly, right=2 of p, "$q$" right] (q) {};
+  	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
+  	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
+		\draw (p_pos) to[first] (yA_pos);
+		\draw (yA_dir) to[climb] (q_pos);
+		\draw (q_dir) to[climb] (By_pos);
+		\draw (By_dir) to[last] (p_dir);
+ \end{tikzpicture}
+ };
+ \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
+\end{tikzpicture} 
+\]
+
+
 \begin{exercise}
 Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
 \begin{equation}\label{eqn.monomials_and_comp}
@@ -1580,7 +1616,7 @@ Here's a picture of one of the unit laws:
   	\node[poly, dom] (yX) {};
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
-  	\draw (yX_pos) to[first] (p_pos);
+  	\draw (yX_pos) to[first] node[below] {$\delta_1$} (p_pos);
   	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
   	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\epsilon^\sharp$} (p_dir);
@@ -1598,9 +1634,13 @@ Here's a picture of one of the unit laws:
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
 \]
-We'll put the other unitality picture in the following exercise, and then get to the associativity in a little while. The meaning of $\epsilon$ and $\delta$ will become clear; for those who want a hint, see \cref{subsec.understanding_comonoids}.
+We'll put the associativity and the other unitality picture in the following exercise. The meaning of $\epsilon$ and $\delta$ will become clear; for those who want a hint, see \cref{subsec.understanding_comonoids}.
 \begin{exercise}
-Draw the other unitality equation.
+\begin{enumerate}
+	\item Draw the other unitality equation.
+	\item Draw the associativity equation.
+\qedhere
+\end{enumerate}
 \end{exercise}
 
 \begin{example}[$\delta^{n}$ notation]\label{ex.delta_n_notation}
@@ -1617,12 +1657,35 @@ Polynomial comonoids are usually called \emph{polynomial comonads}. Though polyn
 Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
 \begin{align}\nonumber
 	S&\To{\epsilon'} S&
-	S&\To{\delta'}\sum_{s_1\in S}\prod_{s_2\in S}\sum_{s_3\in S}\prod_{s_4\in S}S\\
+	S&\To{\delta'}\sum_{s'\in S}\prod_{s_1\in S}\sum_{s_1'\in S}\prod_{s_2\in S}S\\
 \intertext{We take $\epsilon'$ to be the identity and we take $\delta'$ to be}
 	s&\Mapsto{\epsilon'} s&
-  s&\Mapsto{\delta'} (s_1\coloneqq s, s_2\mapsto (s_3\coloneqq s_2, s_4\mapsto s_4)).\label{eqn.state_comonoid_eps_del}
+  s&\Mapsto{\delta'} (s'\coloneqq s, s_1\mapsto (s_1'\coloneqq s_1, s_2\mapsto s_2)).\label{eqn.state_comonoid_eps_del}
 \end{align}
-As you can see, both $\epsilon$ and $\delta$ are given by passing elements of $S$ along in a completely straightforward way.
+If you know how to read such things, you'll see that each element $s\in S$ is just being passed in a straightforward way. But we find this notation cumbersome and prefer the poly-box notation.
+
+\[
+\begin{tikzpicture}
+	\node (id) {
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$S\yon^S$" left] (S) {$s$\nodepart{two}$s$};
+  	\node[poly, identity, right=of S, "$\yon$" right] (y) {\pphantom{s}{s}};
+  	\draw (S_pos) to[first] (y_pos);
+  	\draw (y_dir) to[last] (S_dir);
+  \end{tikzpicture}
+  };
+  \node[right=of id] (co) {
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$s_2$\nodepart{two}$s$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
+  	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+  };
+\end{tikzpicture}
+\]
 \end{example}
 
 \begin{exercise}
@@ -1845,24 +1908,78 @@ Since $S\yon^S$ has the structure of a comonoid, we know that for every $k\in\nn
 	p\tripow k
 \end{tikzcd}
 \]
-For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times.
+For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times. Here is a poly-box drawing for the $k=3$ case:
+\[
+\begin{tikzpicture}
+	\node (given) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
+		\node[poly, cod, dgreen, right=of S, "$p$" right] (p) {};
+		\draw (S_pos) to[first] (p_pos);
+		\draw (p_dir) to[last]  (S_dir);
+		\node at ($(S.east)!.5!(p.west)$) {$f$};
+	\end{tikzpicture}
+	};
+	\node[right=of given] (obtain) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
+		\node[poly, blue, right=of S] (S2) {};
+		\node[poly, blue, below=of S2] (S1) {};
+		\node[poly, blue, above=of S2] (S3) {};
+		\node[poly, dgreen, cod, right=of S1] (p1) {};
+		\node[poly, dgreen, cod, right=of S2] (p2) {};
+		\node[poly, dgreen, cod, right=of S3] (p3) {};
+%
+		\draw (S1_pos) to[first] (p1_pos);
+		\draw (p1_dir) to[last] (S1_dir);		
+		\draw (S2_pos) to[first] (p2_pos);
+		\draw (p2_dir) to[last]  (S2_dir);		
+		\draw (S3_pos) to[first] (p3_pos);
+		\draw (p3_dir) to[last]  (S3_dir);
+		\draw[blue] (S_pos) to[first] (S1_pos);
+		\draw[blue] (S1_dir) to[climb] (S2_pos);
+		\draw[blue] (S2_dir) to[climb] (S3_pos);
+		\draw[blue] (S3_dir) to[last] (S_dir);
+		\node[blue] at ($(S.east)!.4!(S2.west)$) {$\delta^2$};
+		\node at ($(S1.east)!.4!(p1.west)$) {$f$};
+		\node at ($(S2.east)!.4!(p2.west)$) {$f$};
+		\node at ($(S3.east)!.4!(p3.west)$) {$f$};		
+  \end{tikzpicture}	
+	};
+	\node[above] at (obtain.north) (obtain_lab) {Obtain for $k=3$};
+	\node at (given|-obtain_lab) {Given $f\colon S\yon^S\to p$};
+\end{tikzpicture}
+\]
 
 \begin{example}
 Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\lens{f^\sharp}{f_1}\colon S\yon^S\to p$ be given by $f_1(n)\coloneqq n$ and $f^\sharp(n,1)\coloneqq n+1$. What is this speedup map $\text{Spdup}_k(f)$? First of all, its type is 
 \[\text{Spdup}_k(f)\colon S\yon^S\to\rr^k\yon,\]
 meaning that it has the same set of states as before, but it outputs $k$-many reals in every moment. 
 
-Writing $\delta^{k-1}\colon S\yon^S\to(S\yon^S)\tripow{k}$ in the $(g_1,\ldots,g_k,g^\sharp)$ notation, we have $g_1(s_1)=s_1$, $g_2(s_1,s_2)=s_2$, ..., $g_k(s_1,\ldots,s_k)=s_k$ and $g^\sharp(s_1,\ldots,s_{k+1})=s_{k+1}$. 
-
-Let's denote positions in $x\in (S\yon^S)\tripow k$ using the notation $x=(x_1,\ldots,x_k)$ of \cref{ex.pos_in_composite}, where $x_i\colon S^{i-1}\to S$. Since $f$ is ``output only'', i.e.\ the input is fixed at $1\in \1$, one can check easily that for any position $x=(x_1,\ldots,x_k)$, we have
-\[f\tripow{k}(x)=\bigg(x_1,x_2(1+x_1),\ldots,x_k\Big(x_1,x_2(1+x_2),\ldots, x_{k-1}\big(1+x_{k-2}(1+\cdots x_2(1+x_1))\big)\Big)\bigg)\]
-But that looks much scarier than it is, because we are composing with $\delta^{k-1}$, where each $x_i=g_i$ is the last projection. So we have
+So for example with $k=3$ here is one moment of output:
 \[
-f\tripow{k}\circ\delta^{k-1}(n)=(n,1+n,\ldots, k-1+n).
+\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, "$S\yon^S$" left] (S) {$n+3$\vphantom{!}\nodepart{two}$n$\vphantom{!}};
+		\node[poly, right=of S] (S2) {$n+2$\vphantom{!}\nodepart{two}$n+1\vphantom{!}$};
+		\node[poly, below=of S2] (S1) {$n+1$\vphantom{!}\nodepart{two}$n\vphantom{!}$};
+		\node[poly, above=of S2] (S3) {$n+3$\vphantom{!}\nodepart{two}$n+2\vphantom{!}$};
+		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\nodepart{two}$\hphantom{+}n\hphantom{+}$\vphantom{!}};
+		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\nodepart{two}$n+1$\vphantom{!}};
+		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\nodepart{two}$n+2$\vphantom{!}};
+%
+		\draw (S1_pos) to[first] (p1_pos);
+		\draw (p1_dir) to[last] (S1_dir);		
+		\draw (S2_pos) to[first] (p2_pos);
+		\draw (p2_dir) to[last]  (S2_dir);		
+		\draw (S3_pos) to[first] (p3_pos);
+		\draw (p3_dir) to[last]  (S3_dir);
+		\draw (S_pos) to[first] (S1_pos);
+		\draw (S1_dir) to[climb] (S2_pos);
+		\draw (S2_dir) to[climb] (S3_pos);
+		\draw (S3_dir) to[last] (S_dir);
+\end{tikzpicture}
 \]
-In other words, it outputs the next $k$ seconds in just one second. And the state update of $f\tripow{k}\circ\delta^{k-1}\colon S\to S$ sends $n\mapsto n+k$.
-
-So for example, with $k=3$ and starting at initial state $n=0$, we get the following output stream, e.g. for 4 seconds:
+So for example starting at initial state $n=0$, we get the following output stream, e.g.\ for 4 seconds:
 \[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
 \end{example}
 
@@ -2342,7 +2459,7 @@ In other words, $F^\sharp$ preserves identities, codomains, and compositions.
 We denote by $\smcat^\sharp$ the category of categories and cofunctors.
 \end{definition}
 
-The cofunctor laws can be written in diagram form as follows:
+The cofunctor laws can be written in commutative diagram form as follows:
 \begin{gather*}
 \begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
   C_0\times_{D_0}D_0\ar[r, "\cong"]\ar[d, "\id_D"']\&
@@ -3028,6 +3145,66 @@ Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\d
 \]
 \end{definition}
 
+Let's see these with poly-boxes. First the counit law:
+\begin{equation}\label{eqn.unit_law_draw}
+\begin{tikzpicture}
+	\node (id1) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue, "$c$" above] (p) {};
+		\node[poly, dgreen, right=1 of p, "$c'$" above] (q) {};
+		\draw (p_pos) to[first] (q_pos);
+		\draw (q_dir) to[last] (p_dir);
+		\draw[dgreen] (q_pos) to[climb'] (q_dir);
+		\node at ($(p.east)!.5!(q.west)$) {$f$};
+	\end{tikzpicture}
+	};
+	\node[right=of id1] (id2) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue, "$c\vphantom{c'}$" above] (p) {};
+		\draw[blue] (p_pos) to[climb'] (p_dir);
+	\end{tikzpicture}	
+	};
+	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
+\end{tikzpicture}
+\end{equation}
+Then the comultiplication law:
+\begin{equation}{eqn.comult_law_draw}
+\begin{tikzpicture}
+	\node (sp1) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue] (c) {};
+		\node[poly, dgreen, right=1 of c] (c') {};
+		\node[poly, cod, dgreen, right=of c'.south, yshift=-1ex] (c'1) {};
+		\node[poly, cod, dgreen, above=of c'1] (c'2) {};
+	%
+		\draw (c_pos) to[first] (c'_pos);
+		\draw (c'_dir) to[last] (c_dir);
+		\draw[dgreen] (c'_pos) to[first] (c'1_pos);
+		\draw[dgreen] (c'1_dir) to[climb] (c'2_pos);
+		\draw[dgreen] (c'2_dir) to[last] (c'_dir);
+	\end{tikzpicture}
+	};
+	\node[right=of sp1] (sp2) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue] (c) {};
+		\node[poly, blue, right=of c.south, yshift=-1ex] (c1) {};
+		\node[poly, blue, above=of c1] (c2) {};
+		\node[poly, cod, dgreen, right=1 of c1] (c'1) {};
+		\node[poly, cod, dgreen, right=1 of c2] (c'2) {};
+	%
+		\draw[blue] (c_pos) to[first] (c1_pos);
+		\draw[blue] (c1_dir) to[climb] (c2_pos);
+		\draw[blue] (c2_dir) to[last] (c_dir);
+		\draw (c1_pos) to[first] (c'1_pos);
+		\draw (c'1_dir) to[last] (c1_dir);
+		\draw (c2_pos) to[first] (c'2_pos);
+		\draw (c'2_dir) to[last] (c2_dir);
+  \end{tikzpicture}	
+	};
+	\node at ($(sp1.east)!.5!(sp2.west)-(0,4pt)$) {$=$};
+\end{tikzpicture}
+\end{equation}
+
 So suppose $\cat{C}$ and $\cat{C}'$ are categories and $\com{C}=(\ema{c},\epsilon,\delta)$ and $\com{C}'=(\ema{c}',\epsilon',\delta')$ are the corresponding categories. In terms of categories, how do we say what a comonoid morphism $f\colon \com{C}\to\com{C}'$ is?
 
 The lens $f=\lens{f^\sharp}{f_1}$ includes a function $f_1\colon\ema{c}(\1)\to\ema{c}'(\1)$, meaning it sends objects $i\in \cat{C}$ to objects $f_1(i)\in\cat{C}'$. For every object $i\in\ema{c}(\1)$, it includes a function $f^\sharp\colon\ema{c}'_{f_1(i)}\to\ema{c}_i$, meaning that every morphism emanating from $f_1(i)$ in $\cat{C}'$ is passed back to a morphism emanating from $i$ in $\cat{C}$.
@@ -3043,7 +3220,7 @@ Prove \cref{thm.ahman_uustalu} to a level of detail you find appropriate.
 We saw in \cref{thm.ahman_uustalu} that cofunctors $\cat{C}\to\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference.
 
 \begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
-For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $T\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the one-object category.
+For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the one-object category.
 
 This does not work for cofunctors, as we'll see in \cref{exc.rep_objects}. The comonoid corresponding to $\cat{T}$ is $\yon$ with its unique comonoid structure. Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. The reason is the codomain condition (\cref{def.cofunctor}, condition 2).
 \end{example}
@@ -3101,11 +3278,59 @@ If we say that a continuous trajectory in $\cat{C}$ is a cofunctor $\cat{C}\to\c
 Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and doesn't yet want to learn.
 \end{exercise}
 
-\begin{example}[Very well-behaved lenses]
+\begin{example}[Very well-behaved lenses]\label{ex.well_behaved}
 Recall that for any set $S$, we have the ``state'' comonoid $(S\yon^S,\epsilon,\delta)$ from \cref{ex.state_comonad_1}. What are the comonoid morphisms between them?
 
-**Finish**
+First, a comonoid morphism includes a morphism of polynomials $f\colon S\yon^S\to T\yon^T$; we'll use the standard terminology of ``get'' and ``put'':
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom] (s) {};
+	\node[poly, cod, right=of s] (t) {};
+	\node[left=0pt of s_pos] {$S$};
+	\node[left=0pt of s_dir] {$S$};
+	\node[right=0pt of t_pos] {$T$};
+	\node[right=0pt of t_dir] {$T$};
+	%
+	\draw (s_pos) to[first] node[below] {$\mathrm{get}$} (t_pos);
+	\draw (t_dir) to[last] node[above] {$\mathrm{put}$} (s_dir);
+\end{tikzpicture}
+\]
+Let's apply the unit-homomorphism property \eqref{eqn.unit_law_draw}
+\[
+\begin{tikzpicture}
+	\node (id1) {
+	\begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (s) {put$($get$(s))$\nodepart{two}$s\vphantom{(}$};
+  	\node[poly, right=of s] (t) {get$(s$)\nodepart{two}get$(s$)};
+  	%
+  	\draw (s_pos) to[first] node[below] {get} (t_pos);
+  	\draw (t_dir) to[last] node[above] {put} (s_dir);
+  	\draw (t_pos) to[climb'] (t_dir);
+	\end{tikzpicture}
+	};
+	\node[right=of id1] (id2) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom] (s) {$s$\nodepart{two}$s$};
+		\draw (s_pos) to[climb'] (s_dir);
+	\end{tikzpicture}	
+	};
+	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
+\end{tikzpicture}
+\]
+It says that $\mathrm{put}(\mathrm{get}(s))=s$. This is typically called the get-put law.
+
+We leave the comultiplication-homomorphism law to \cref{exc.well_behaved}, where we will see that it specifies that get and put must satisfy two other properties, called the put-put and the put-get laws.
 \end{example}
+
+\begin{exercise}\label{exc.well_behaved}
+Complete \cref{ex.well_behaved}.
+\begin{enumerate}
+	\item Write out the comultiplication law from \eqref{eqn.unit_law_draw} in terms of poly-boxes.
+	\item What set-theoretic equations are forced by the comultiplication law?
+	\item Can you see why they might be called put-put and put-get?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \begin{proposition}[Niu]
 The coproduct of comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
@@ -3291,15 +3516,48 @@ The forgetful functor $\Cat{Comon}(\poly)\to\poly$ has a right adjoint
 \]
 where the functors have been named by where they send $(\ema{c},\epsilon,\delta)\in\Cat{Comon}(\poly)$ and $p\in\poly$ respectively.
 \end{theorem}
+This will be proved as \cref{??}.
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
 Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the comonoid of \emph{trees in $p$}.
 
-A position $t\in \tr_p\tri\1$ is a called a \emph{tree in $p$.} A direction $n\in\tr_p[t]$ there is called a \emph{node in $t$}.
+A position $t\in \tr_p\tri\1$ is a called a \emph{(possibly infinite) tree in $p$.} A direction $n\in\tr_p[t]$ there is called a \emph{node in $t$}.
 \end{definition}
 
-Definition \cref{def.cofree} is alluding to a specific image one can form of $\cofree{p}$ in terms of trees. START
+\cref{def.cofree} is alluding to a specific image one can form of $\cofree{p}$ in terms of trees. Let's go through it in an example before giving the formula.
 
+\begin{example}
+Let $p\coloneqq\{\dot[red],\dot[blue]\yon^\2$
+\[
+START: tree pic 
+\]
+\end{example}
+
+Here is a picture of the formula.
+
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$q$" left] (q) {};
+	\node[poly, cod, below right=1.6 and 4 of q.south, "$p$" right] (p1) {};
+	\node[poly, cod, above=of p1, "$p$" right] (p2) {};
+	\node[poly, cod, above=of p2, "$p$" right] (p3) {};
+	\node[poly, cod, above=of p3, "$p$" right] (p4) {};
+	\node[poly, cod, above=of p4, "$p$" right] (p5) {};
+	\node[poly, draw=none, above=of p5] (ph) {};
+%
+	\draw (q_pos) to[first] (p1_pos);
+	\draw (p1_dir) to[climb] node[circle, inner sep=0, fill=white] (or2) {or}(p2_pos);
+	\draw (p2_dir) to[climb] node[circle, inner sep=0, fill=white] (or3) {or} (p3_pos);
+	\draw (p3_dir) to[climb] node[circle, inner sep=0, fill=white] (or4) {or} (p4_pos);
+	\draw (p4_dir) to[climb] node[circle, inner sep=0, fill=white] (or5) {or} (p5_pos);
+	\draw (p5_dir) to[climb] node[circle, inner sep=0, fill=white] (or6) {or} (ph_pos);
+	\draw[shorten <=4pt] (or2.center) to[last] (q_dir);
+	\draw[shorten <=4pt] (or3.center) to[last] (q_dir);
+	\draw[shorten <=4pt] (or4.center) to[last] (q_dir);
+	\draw[shorten <=4pt] (or5.center) to[last] (q_dir);
+	\draw[shorten <=4pt] (or6.center) to[last] (q_dir);
+\end{tikzpicture}
+\]
 
 \begin{proposition}
 Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is epic.
@@ -3396,14 +3654,6 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 
 
 Misc:
-
-\[
-\begin{array}{cc}
-	\yon^M\to\yon^M\tri \ema{c}&\\\hline\hline
-	\yon\to\yon^M\tri \ema{c}\tri M\yon\\\hline\hline
-	M\yon\to \ema{c}\tri M\yon
-\end{array}
-\]
 
 \[
 \begin{tikzpicture}

@@ -183,6 +183,9 @@ sep=0pt,
 	pure dom/.style={
 		rectangle split part fill={none, blue!10!gray}
 	},
+	linear cod/.style={
+		rectangle split part fill={blue!10!gray, none}	
+	},
 	shorten <=3pt, shorten >=3pt,
 	first/.style={out=0, in=180},
 	climb/.style={out=180, in=180, looseness=2},
@@ -194,6 +197,12 @@ sep=0pt,
 	node distance=2ex and 1.5cm
 }
 }
+
+\tikzset{
+biml/.tip={Glyph[glyph math command=triangleleft, glyph length=1.05ex]},
+bimr/.tip={Glyph[glyph math command=triangleright, glyph length=1.1ex]},
+}
+
 
 
 
