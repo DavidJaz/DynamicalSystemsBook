@@ -663,10 +663,10 @@ leaving it for each parameter.
   Draw the $\Sys{Clock}$ system (\cref{ex.clock_system}) as a transition diagram.
 \end{exercise}
 
-\begin{example}[Deterministic Finite Automata]
+\begin{example}[Deterministic Finite Automata]\label{ex.dfa}
   A \emph{deterministic finite automaton} (DFA) is a simple model of computation.
   Given our definition of deterministic system, DFAs are easy enough to define:
-  they are just the deterministic systems whose output values are either
+  they are just the deterministic systems with finitely many states whose output values are either
   $\const{true}$ or $\const{false}$. 
 
   This means that the exposed variable of state $\expose{S} : \State{S} \to
@@ -712,44 +712,6 @@ What would happen to a system $\Sys{S}$ if its set of parameters or output value
 \end{enumerate}
 \end{exercise}
 
-\subsection{Non-deterministic and stochastic systems}
-
-Suppose that we are observing a deterministic system $\Sys{S}$ from the outside.
-We can choose what input $i \in \In{S}$ to put into the system, and we observe
-from that what output $o \in \Out{S}$ comes out as a result. Can we understand
-how the system works from knowing this alone? In other words, can we construct a
-new system $\Sys{S'}$ just from knowing how inputs relate to outputs in $\Sys{S}$?
-
-In full generality, the answer is of course ``no''; if there was only one
-possible output, for example, we have no chance to understand what's going on
-inside the system. But if we do observe a bunch of different changing outputs,
-we can give it a shot.
-
-As a first guess, we might try to model how an input $i \in \In{S}$ changes the
-output $o \in \Out{S}$ that we are seeing. That is, we might try and make
-$\State{S'} = \Out{S}$, and then define the new dynamics $\update{S'}(o, i)$ be
-the new output $\Sys{S}$ gives when fed input $i$ while it is exposing output
-$o$. There's just one problem with this idea: we won't always get the same
-output when we feed $i$ in to $\Sys{S}$ while it's exposing $o$.
-
-For example, consider the following transition system:
-\[
-\begin{tikzpicture}
-	\node[draw] {
-  \begin{tikzcd}[column sep=small]
-  	\LMOO{1}{a}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
-  	\LMOO{2}{b}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
-  	\LMOO{3}{b} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
-  \end{tikzcd}
-  };
-\end{tikzpicture}
-\]
-The inputs to this system are from the set $\In{S} = \{\Green, \Orange\}$, and
-the outputs are from the set $\Out{S} = \{a, b\}$. Suppose that we can only see
-what the system is outputing, and that it is outputing a $b$.
-
-
-%% writehere 
 
 
 \subsection{Differential systems}
@@ -993,7 +955,7 @@ We do this by setting
 Seen as a wiring diagram on its own, $\lens{w^{\sharp}}{w}$ looks like this:
 \begin{equation}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=2cm, bb port length=0, bb port sep=2, baseline=(Y.center)]
-  \node[bb={1}{2}, fill=blue!10]  (Mid) {$\Sys{Meridian}\otimes\Sys{Clock}$};
+  \node[bb={1}{2}, fill=blue!10]  (Mid) {};
 
 	\node[bb={0}{2}, fit={($(Mid.north west)+(-3,1)$) ($(Mid.north east)+(2,1)$) ($(Mid.south)+(0,-5)$)}] (Y) {};
   \node[above=0pt of Y.south] (Label) {$\lens{w^{\sharp}}{w}$};
@@ -1740,8 +1702,1313 @@ lens in a cartesian category of our choosing.
   in $\arity_{\{\Out{SIR},\, \In{SIR} \}}$.
 \end{exercise}
 
+\section{Non-deterministic doctrines}
+
+So far, we have seen how deterministic systems of the discrete- and
+continuous-time variety can be wired together. But modelling a system
+deterministically can be a bit hubristic: it assumes we have taken account of
+all variables that act on the state of the system, so that we can know exactly
+what will happen next or exactly how the system is tending to change. Often we
+know that the way we've modeled state is incomplete, and so knowing the state in
+our model might not tell us exactly what will happen next.
+
+As an example, consider a person typing out an email. We know that the output of
+this system over time will be a stream of ASCII characters, and we won't model the various sorts
+of inputs that might be affecting the person as they write the email. The
+particular email written will depend on the person's state, but this state is
+extraordinarily complex and modelling it to the point that we would know exactly
+which email they will write is nigh impossible. 
+
+So, instead, we could use what
+we know about how emails that this person writes tend to look to predict what
+the next character will be. This would give us a \emph{stochastic} model of the
+email-writer system.
+
+In this section, we will see a variety of non-deterministic (discrete-time)
+doctrines. The kind of non-deterministism --- possibilistic, stochastic, etc.
+--- will be encoded in a \emph{commutative monad}
+(\cref{def.commutative_monad}). 
+
+\subsection{Possibilistic  systems}
+
+Suppose that we are observing a deterministic system $\Sys{S}$ from the outside.
+We can choose what input $i \in \In{S}$ to put into the system, and we observe
+from that what output $o \in \Out{S}$ comes out as a result. Can we understand
+how the system works from knowing this alone? In other words, can we construct a
+new system $\Sys{S'}$ just from knowing how inputs relate to outputs in $\Sys{S}$?
+
+In full generality, the answer is of course ``no''; if there was only one
+possible output, for example, we have no chance to understand what's going on
+inside the system. But if we do observe a bunch of different changing outputs,
+we can give it a shot.
+
+As a first guess, we might try to model how an input $i \in \In{S}$ changes the
+output $o \in \Out{S}$ that we are seeing. That is, we might try and make
+$\State{S'} = \Out{S}$, and then define the new dynamics $\update{S'}(o, i)$ be
+the new output $\Sys{S}$ gives when fed input $i$ while it is exposing output
+$o$. There's just one problem with this idea: we won't always get the same
+output when we feed $i$ in to $\Sys{S}$ while it's exposing $o$.
+
+For example, consider the following transition system:
+\begin{equation}\label{eqn.possibilistic_transition_1}
+\Sys{S} \coloneqq
+  \begin{tikzpicture}[baseline=(bl)]
+	\node[draw] (bl) {
+  \begin{tikzcd}[column sep=small]
+    \LMOO{1}{\Blue} \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"] \ar[dd, leftarrow, bend right, "\true"'] &  & \LMOO{2}{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
+    & & \\
+    \LMOO{3}{\Blue} \ar[loop left, "\false"] \ar[rr, leftarrow, bend left, "\false"] \ar[rr, leftarrow, bend right, "\true"'] & & \LMOO{4}{\Green}
+  \end{tikzcd}};
+\end{tikzpicture}
+\end{equation}
+The inputs to this system are from the set $\In{S} = \{\true, \false\}$, and
+the outputs are from the set $\Out{S} = \{\Red, \Blue, \Green\}$. Suppose that we can only see
+what the system is outputing, and that it is outputing $\Blue$. If we feed the
+system $\false$, we will see $\Blue$. But, if we feed the system $\true$, what
+happens depends on whether the system was in state $1$ or state $3$; if we were
+in state $1$, then we will see $\Red$, but if were were in state $3$, we will
+see $\Blue$. So, the next output is not uniquely determined by the current
+output and current input --- there are many possibilities. We are tempted to say
+that $\Blue$ will transition to \emph{either} $\Red$ or $\Blue$ in our model
+$\Sys{S'}$ of the system $\Sys{S}$. That is, we want the update of $\Sys{S'}$ to
+tell us what is \emph{possible}, since we can't know just from the outputs of
+$\Sys{S}$ what is \emph{determined} to happen. We can do that by having the
+update of $\Sys{S'}$ give us the set of possibilities:
+$$\update{S'}(\Blue, \true) = \{\Blue, \Red\}.$$
 
 
-%% write-here
+In this section, we will see two dynamical system doctrines which, instead of
+telling us the next state, tell us which states are possible or which are
+probable. Both are examples of \emph{non-deterministic} doctrines, since the
+current state doesn't determine precisely the next state.
+
+\begin{definition}\label{def.possibilistic_system}
+  A \emph{possibilistic system} $\Sys{S}$, also written as 
+  $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}},$$ 
+  consists of:
+  \begin{itemize}
+    \item a set $\State{S}$ of \emph{states};
+    \item a set $\Out{S}$ of \emph{values for exposed variables}, or \emph{outputs}
+      for short;
+    \item a set $\In{S}$ of \emph{parameter values}, or \emph{inputs} for short;
+    \item a function $\expose{S} : \State{S} \to \Out{S}$, the \emph{exposed variable of state} or
+      \emph{expose} function, which takes a state to the output it yields; and
+    \item a function $\update{S} : \State{S} \times \In{S} \to
+      \powset\State{S}$, where $\powset\State{S}$ is the set of subsets of
+      $\State{S}$. This is the \emph{dynamics} or
+      \emph{update} function which takes a state and a parameter and gives the
+      set of possible next states.
+  \end{itemize}
+\end{definition}
+
+\begin{remark}
+  While \cref{def.deterministic_system} can be interepreted in any cartesian
+  category because it only used maps and the cartesian product,
+  \cref{def.possibilistic_system} makes use of the \emph{power set} operation
+  $\powset$ which sends a set to its set of subsets. This can't be interpreted
+  in any cartesian category --- we need something resembling $\powset$ in order
+  for it to make sense.
+\end{remark}
+
+\begin{example}\label{ex.transition_possible}
+  A possibilistic automaton can be presented as a transition diagram as well.
+  Consider, for example, the following diagram:
+
+\begin{equation}\label{eqn.transition_possible}  
+\Sys{S'} \coloneqq
+  \begin{tikzpicture}[baseline=(bl)]
+	\node[draw] (bl) {
+  \begin{tikzcd}[column sep=small]
+    \LMO{\Blue} \ar[out=60, in=120, looseness=2, "\true"'] \ar[loop left, "\const{false}"] \ar[rr, bend left, "\const{true}"]  &  & \LMO{\Red} \ar[loop right, "\true"] \ar[dd, bend left, "\const{false}" ]\\
+    & & \\
+     & & \ar[uull, bend right, "\true"]\ar[uull, bend left, "\false"'] \LMO{\Green}
+  \end{tikzcd}};
+\end{tikzpicture}
+\end{equation}
+
+This system resembles system $\Sys{S}$ of \cref{eqn.possibilistic_transition_1},
+except that it has a single state for each output. We can tell that this
+transition diagram represents a possibilistic system because there are two
+arrows leaving $\Blue$ both labeled $\true$. Since the dynamics of a transition
+diagram are given by following the arrow labeled by the input along to a new
+state, we see that here we will end up at a set of states:
+$$\update{S'}(\Blue, \true) = \{\Blue, \Red\}.$$
+\end{example}
+
+\begin{example}\label{ex.nfa}
+ In \cref{ex.dfa}, we saw that deterministic finite automata (DFAs) are examples of
+ deterministic systems. There is another common notion in automata theory:
+ \emph{non-deterministic} finite automata (NFAs). 
+
+ An NFA is a possibilistic system $\Sys{S}$ with finitely many states whose
+ output values are Booleans: $\Out{S} = \{\true, \false\}$. As with DFAs, the exposed variable $\expose{S} : \State{S}
+ \to \{\true, \false\}$ tells us whether or not a state is an accept state.
+
+ Again, NFAs are question answering machines. But this time, since they are
+ non-deterministic, we ask whether or not it is \emph{possible} to accept a
+ given sequence of inputs. Suppose we have a sequence of inputs $i_0, \ldots,
+ i_n$, and we start in a state $s_0$. Now, because an NFA is possibilistic, we
+ don't have a ``next state'' $s_1$. Rather, we have a set of states $S_1
+ \coloneqq \update{S}(s_0, i_0)$. Now, we need to interatively define the next
+ evolution: $S_2$ should be the set of states that are possible to get to from
+ \emph{any} state in $S_1$. Generally,
+ $$S_{j+1} \coloneqq \{s'  \mid s \in S_j, s' \in \update{S}(s, i_j) \} = \bigcup_{s \in
+   S_j} \update{S}(s, i_j)$$
+ We then say that the machine accepts the input sequence if there is any accept
+ state in $S_n$.
+\end{example}
+
+\cref{ex.nfa} contains an answer to an interesting question: how do we iterate
+the behavior of a possibilistic system? For a deterministic system whose update
+has the signature $\update{S} : \State{S} \times \In{S} \to \State{S}$, we can
+compose to get
+$$\State{S} \times \In{S} \times \In{S} \xto{\update{S} \times \In{S}} \State{S}
+\times \In{S} \xto{\update{S}} \State{S}$$
+which sends $(s, (i_0, i_1))$ to $\update{S}(\update{S}(s, i_0), i_1)$. We can
+do this as many times as we like to apply an entire sequence of inputs to a
+state.
+
+But for a possibilistic system, the update has signature $\update{S} :
+\State{S} \times \In{S} \to \powset \State{S}$. Now we can't just compose, if we
+tried the trick above we would go from $\State{S} \times \In{S} \times \In{S}
+\to \powset\State{S} \times \In{S}$, and we're stuck.
+
+But from $\update{S} : \State{S} \times \In{S} \to \powset\State{S}$ we can
+define a function $U : \powset \State{S} \times \In{S} \to
+\powset\State{S}$ by
+\[
+U(S, i) = \{s' \mid s \in S,\, s' \in \update{S}(s, i)\} =
+\bigcup_{s \in S} \update{S}(s, i)
+\]
+Then we can define the iterated action of the system to be the composite
+$$\State{S} \times \In{S} \times \In{S} \xto{\update{S}} \powset \State{S}
+\In{S} \xto{U} \powset \State{S}.$$
+
+This process of lifting a function $A \times B \to \powset C$ to a function
+$\powset A \times B \to \powset C$ is fundamental, and worthy of abstraction.
+This operation comes from the fact that $\powset$ is a \emph{commutative monad}.
+\begin{definition}\label{def.commutative_monad}
+Let $\cat{C}$ be a cartesian category. A \emph{monad} $(M, \eta)$ on $\cat{C}$ consists of:
+\begin{itemize}
+  \item An assignment of an object $MA$ to every object $A \in \cat{C}$.
+  \item For every object $A \in \cat{A}$, a map $\eta_A : A \to MA$.
+  \item For every map $f : A \to MB$, a \emph{lift} $f^M : MA \to MA$. 
+\end{itemize}
+This data is required to satisfy the following laws:
+\begin{itemize}
+  \item (Unit) For any object $A$, \[\eta_{A}^M = \id_{MA}.\]
+  \item (Identity) For any map $f : A \to MB$, \[f^M \circ \eta_A = f.\]
+  \item (Composition) For any $f : A \to MB$ and $g : B \to MC$,
+\[ g^M \circ f^M = (g^M \circ f)^M.\]
+\end{itemize}
+From this data, we note that we can extend $M$ into a functor $M : \cat{C} \to
+\cat{C}$ by sending $f : A \to B$ to $Mf \coloneqq (\eta_B \circ f)^M : MA \to
+MB$.
+Then $\eta : A \to MA$ is natural in $A$, and we get another natural
+transformation $\mu : MM A \to M$ defined by lifting the identity: $\mu \coloneqq \id^M$.
+
+A monad $M$ is said to be \emph{commutative} if there is a natural
+transformation $\sigma : MA \times MB \to M(A \times B)$ is said to be
+\emph{commutative} if there is a natural transformation $\sigma : MA \times MB
+\to M(A \times B)$ so that the following diagrams commute:
+\begin{itemize}
+\item 
+  \begin{equation}\label{eqn.com_monad_right_unit}
+    \begin{tikzcd}
+      MA \times M\ord{1} \ar[dr, "\pi_1"'] \ar[r, "\sigma_{A, \ord{1}}"]& M(A
+      \times \ord{1}) \ar[d, "M\pi_1"] \\
+      & MA
+    \end{tikzcd}
+    \end{equation}
+\item 
+  \begin{equation}\label{eqn.com_monad_left_unit}
+    \begin{tikzcd}
+      M\ord{1} \times MA \ar[dr, "\pi_2"'] \ar[r, "\sigma_{\ord{1}, A}"]& M(\ord{1}
+      \times A) \ar[d, "M\pi_2"] \\
+      & MA
+    \end{tikzcd}
+    \end{equation}
+\item 
+\begin{equation}\label{eqn.com_monad_assoc} 
+    \begin{tikzcd}
+      MA \times MB \times MC \ar[r, "MA \times \sigma_{B, C}"] \ar[d,"\sigma_{A,
+      B} \times MC"'] & MA \times M(B \times C) \ar[d, "\sigma_{A, B \times C}"]
+    \\
+    M(A \times B) \times MC \ar[r, "\sigma_{A \times B, C}"'] & M(A \times B
+    \times C)
+    \end{tikzcd}
+    \end{equation}
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+  If you are familiar with the programming language Haskell, you will likely be
+  familiar with the notion of monad. What we have called $\eta_A$ here (which is
+  traditional in the category theory literature) is called
+  \mintinline{haskell}{return} or \mintinline{haskell}{pure}. What we have
+  called $f^M$ for $f : A \to MB$ would, in haskell, be called
+  \mintinline{haskell}{lift} and be defined by
+
+  \mint{haskell}|lift = swap (>>=)|
+
+  What we have called $\mu$ is called \mintinline{haskell}{join}. A monad in haskell is commutative if the following two programs have the same
+  results:
+  \begin{minted}{}
+    f :: Monad m => m a -> m b -> m (a, b)
+    f ma ma = do
+               a <- ma
+               b <- mb
+               return (a, b)
+
+    g :: Monad m => m a -> m b -> m (a, b)
+    g ma ma = do
+               b <- mb
+               a <- ma
+               return (a, b)
+  \end{minted}
+  That is, a monad is commutative when its order of execution doesn't matter.
+\end{remark}
+
+\begin{proposition}\label{prop.powerset_commutative_monad}
+  The powerset $\powset$ is a commutative monad on the category of sets, with
+  the following data:
+  \begin{itemize}
+   \item $\eta : A \to \powset A$ sends $a \in A$ to the singleton set $\{a\}$.
+   \item For $f : A \to \powset B$, $f^{\powset} : \powset A \to \powset B$ is
+     defined by
+     $$f^{\powset}(X) = \bigcup_{a \in X} f(a).$$
+   \item $\sigma_{A, B} : \powset A \times \powset B \to \powset (A \times B)$
+     is defind by
+     $$\sigma_{A, B}(X, Y) = \{(a, b) \mid a \in X, b \in Y\}.$$
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  We just need to check the laws.
+  \begin{itemize}
+    \item The function $\eta_A^{\powset}$ takes a set $X \in \powset A$ and
+      yields $\bigcup_{x \in X} \{x\}$, which is equal to $X$.
+    \item Let $f : A \to \powset B$ be a function. Then $f^{\powset}(\{a\}) =
+      \bigcup_{a' \in \{a\}}f(a') = f(a)$ for any element $a \in A$.
+    \item Let $f : A \to \powset B$ and $g : B \to \powset C$. For $X \in
+      \powset A$, we have
+\begin{align*}
+  g^{\powset} \circ f^{\powset}(X) &= \bigcup_{b \in f^{\powset}(X)} g(b) \\
+&= \bigcup_{b \in \bigcup_{a \in X} f(a)} g(b) \\
+&= \bigcup_{a \in X} \bigcup_{b \in f(a)} g(b) \\
+&= (g^{\powset} \circ f)^{\powset}.
+\end{align*}
+  \end{itemize}
+  
+It remains to show that the powerset monad is commutative. We note that
+$\powset$ acts as a functor on $f : A \to B$ by 
+\[
+\powset f (X) = (\eta_B \circ
+f)^{\powset}(X) = \bigcup_{a \in X}\{f(a)\} = f[X].
+\]
+sending a subset of $A$ to its image in $B$.
+\begin{itemize}
+  \item Beginning with $(X, Y) \in \powset A \times \powset \ord{1}$, we need to
+    show that $\powset \pi_1 \circ \sigma_{A, \ord{1}}(X, Y) = X$. Now,
+    $\sigma_{A, \ord{1}}(X, Y) = \{(a, b) \mid a \in X, b \in \ord{1}\}$; since
+    there is just one $b \in \ord{1} = \{0\}$, every $a \in X$ is paired with
+    some $b$, so projecting out the first component gives us all of $X$.
+    \item This is the same as the above, but on the other side.
+    \item If we have $(X, Y, Z) \in \powset A \times \powset B \times \powset
+      C$, both sides of this diagram will give us $\{(a, b, c) \mid a \in X, b
+      \in Y, c \in Z\}$. 
+\end{itemize}
+\end{proof}
+
+Using the commutative monad structure of $\powset$, we can see that $U : \powset
+\State{S} \times \In{S} \to \powset \State{S}$ is the composite
+$$\powset \State{S} \times \In{S} \xto{\id \times \eta}
+\powset\State{S} \times \powset\In{S} \xto{\sigma} \powset(\State{S} \times
+\In{S}) \xto{\update{S}^{\powset}} \powset\State{S}.$$
+This lets us iteratively apply the update function to a starting state or set of
+states.
+
+It also lets us get the exposed variable out at the end. If we've been
+iteratively running a possibilistic system $\Sys{}$, then we won't know which state we
+are in but instead have a set $S \in \powset \State{S}$ of states we could
+possibly be in. Because of this, we can't directly apply $\expose{S} : \State{S}
+\to \Out{S}$, since it takes in a single state. But the monad structure of
+$\powset$ gives us a function $\powset \expose{S} : \powset\State{S} \to
+\powset\Out{S}$. Applying this to our current set of possible states gives us a
+set of possible outputs, which is the best we could hope to know.
+
+
+\subsection{Stochastic systems}
+Possibility is not the only kind of non-determinism. When studying how things
+change in the world, we often notice that we can only predict how likely some
+change will be, and not precisely which change will occur. If instead of asking
+whether a change is possible, we ask how \emph{probable} it is, we arrive at a
+notion of probabilistic or \emph{stochastic} system.
+
+The notion of a stochastic system is based on the idea that there should be a
+probability of a given change occuring, conditioned upon the current state. A
+useful way to formulate the notion of conditional probability is the notion of
+\emph{stochastic map}. A stochastic map from $A$ to $B$ is a function
+which takes an $a \in A$ and yields a probability distribution $p(- \mid a)$ on
+elements of $B$ which we think of as likelyhoods conditioned on $a$. We can make
+this more precise using the notion of monad.
+
+\begin{definition}\label{def.set_of_probs}
+  For a set $A$, the set $\probset A$ is the set of finitely supported
+  probability distributions on $A$. A probability distribution on $A$ is a
+  function $p : A \to [0, 1]$ which takes non-zero values at only finitely many
+  elements of $A$, and for which
+  $$\sum_{a \in A} p(a) = 1.$$
+This sum makes sense because only finitely many elements of $A$ give non-zero $p(a)$.
+  
+  The elements of $\probset A$ can be identified with  
+  \emph{formal convex combinations} of elements of $A$. A formal convex
+  combination
+$$\sum_{a \in X} \lambda_a a$$
+  of elements of $A$ consists of a finite and inhabited\footnote{That is, there
+    is some $a \in X$.} subset $X \subseteq A$ of
+  elements together with a function $\lambda_{(-)} : X \to (0,1]$ assigning each
+  $a \in X$ a coefficient $\lambda_a$ such that $\sum_{a \in X} \lambda_a = 1$.
+  \[
+\probset A = \left\{ \sum_{a \in X} \lambda_a a \,\middle|\, X \subseteq A,\,\mbox{$X$
+  finite and inhabited},\, \lambda_{(-)} : X \to (0, 1],\, \sum_{a \in X} \lambda_a = 1\right\}.
+  \]
+\end{definition}
+
+\begin{example}
+  Let's see what $\probset A$ looks like for a few different sets $A$:
+  \begin{enumerate}
+    \item If $A = \{a\}$ has a single element, then there is only one inhabited
+      subset $X \subseteq A$ (namely $X = A$) and since the coefficients of any
+      convex linear combination must sum to 1, the coefficient of the single
+      element must be $1$. So $\probset \{a\} = \{1 \cdot a\}$ contains a single element.
+    \item If $A = \{a, b\}$, things get more interesting. Now there are three
+      possible subsets $X$: $\{a\}$, $\{b\}$, and $\{a, b\}$. A convex
+      combination with a single element must have coefficient $1$, so we at
+      least have the convex combinations $1 \cdot a$ and $1 \cdot b$. But for
+      the set $\{a, b\}$, we have the convex combination
+      $\lambda_a a + \lambda_b b$ where $\lambda_a + \lambda_b = 1$ and
+      $\lambda_a,\, \lambda_b > 0$. If we make the association of $1 \cdot a$
+      with $1\cdot a + 0 \cdot b$, and similarly for $1 \cdot b$, then we can
+      see that
+      \[
+\probset \{a, b\} = \{\lambda a + (1 - \lambda) b \mid \lambda \in [0, 1]\}
+      \]
+      which is bijective with the closed interval $[0, 1]$.
+    \item In general, if $A$ is a finite set with $n$ elements, then $\probset
+      A$ can be identified with the \emph{standard $n$-simplex}, that is, the
+      set of solutions to the equation
+      $\sum_{i = 1}^n \lambda_i = 1$
+      for $\lambda_i \in [0,1]$.
+      \[
+\probset \ord{n} \cong \{(\lambda_1, \ldots, \lambda_n) \in [0,1]^n \mid \sum_{i
+= 1}^n \lambda_i = 1\}.
+      \]
+  \end{enumerate}
+\end{example}
+
+\begin{definition}\label{def.stochastic_map}
+ A \emph{stochastic map} from a set $A$ to a set $B$ is a function $f : A
+ \to \probset B$, assigning each $a \in A$ to a probability distribution $f(a)$
+ on $B$.
+
+ If the sets $A$ and $B$ are finite, then we can write a stochastic map $f
+ : A \to \probset B$ as a \emph{stochastic matrix}. This is an $B \times A$
+ matrix whose $ba$-entry is $f(a)(b)$. Any matrix of positive entries where
+ every column sums to $1$ arises as the stochastic matrix of a stochastic map.
+\end{definition}
+
+We think of a stochastic map $f : A \to \probset B$ as giving a bunch of
+conditional probabilities
+$$p(b \mid a) \coloneqq f(a)(b).$$
+
+\begin{example}\label{ex.stochastic_function}
+  If I see someone enter the office soaking wet, it is likely to have been
+  raining. If they are dry, it may be less likely that it was raining; but, if
+  they have an umbrella, then they might be dry but it is still more likely that
+  it was raining. We can express these various conditional probabilities as a
+  stochastic function
+  \[
+\{\const{wet}, \const{dry}\} \times \{\const{umbrella}, \const{no-umbrella}\}
+\to \probset \{\const{raining}, \const{not-raining}\}.
+  \]
+ We can describe this stochastic function in full by giving its stochastic
+ matrix:
+ \[
+   \kbordermatrix{
+      & (\const{wet}, \const{umbrella}) & (\const{wet}, \const{no-umbrella}) &
+      (\const{dry}, \const{umbrella}) & (\const{dry}, \const{no-umbrella}) \\
+      \const{raining} & .9 & .9 & .5 & .3 \\
+      \const{not-raining} & .1 & .1 & .5 & .7
+  }
+ \]
+\end{example}
+
+A stochastic system is a system whose dynamics is given by a stochastic map. 
+\begin{definition}\label{def.stochastic_system}
+  A \emph{stochastic system} $\Sys{S}$, also written as 
+  $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}},$$ 
+  consists of:
+  \begin{itemize}
+    \item a set $\State{S}$ of \emph{states};
+    \item a set $\Out{S}$ of \emph{values for exposed variables}, or \emph{outputs}
+      for short;
+    \item a set $\In{S}$ of \emph{parameter values}, or \emph{inputs} for short;
+    \item a function $\expose{S} : \State{S} \to \Out{S}$, the \emph{exposed variable of state} or
+      \emph{expose} function, which takes a state to the output it yields; and
+    \item a function $\update{S} : \State{S} \times \In{S} \to
+      \powset\State{S}$, where $\probset\State{S}$ is the set of subsets of
+      $\State{S}$. This is the \emph{dynamics} or
+      \emph{update} function which takes a state and a parameter and gives the
+      set of possible next states.
+  \end{itemize}
+\end{definition}
+
+\begin{remark}
+ A stochastic system is often called a \emph{Markov process}. 
+\end{remark}
+
+\begin{example}\label{ex.markov_text_generator}
+  A simple, but entertaining example of a stochastic system is a text generator.
+  Suppose we have a big pile of text --- say, the speeches of a famous person
+  --- and we want to generate some text that looks like it was written by the
+  same author. There are many sophisticated ways to do this, but here's a very
+  bone-headed approach. We will look at the text in $5$-character length
+  sequences, and ask: how likely is for a given character to follow this
+  $5$-character sequence.
+
+  For example, if our text is
+  \begin{center}
+To be or not to be, that is the question.
+  \end{center}
+Then we can see that there is a $50\%$ chance that `` '' and a $50\%$ chance
+that ``,'' follows the $5$-character sequence ``to be''. Of course, such a small
+sample woulnd't give us very useful statistics, but if we use the combined works
+of Shakespeare, we might get a better sense of what is likely to occur next.
+
+Now we build a stochastic system $\Sys{S}$ which will generate text. We take
+$\State{S}$ to be length $5$ sequences of characters from our alphabet
+$\Set{Alphabet}$: $\State{S} = \Set{Alphabet}^5$. We will
+expose the first character in the sequence: $\Out{S} = \Set{Alphabet}$ and $\expose{S}(s) = s_1$. We don't need any
+input to the system: $\In{S} = \{\ast\}$. Now, $\update{S}(s)$ will assign to a
+sequence $(s_2, s_3, s_4, s_5, c)$ the probability that the character $c$
+follows the sequence $s = (s_1, s_2, s_3, s_4, s_5)$ in our sample text, and
+assign all other sequences the probability $0$.
+
+If we run our stochastic text generator over time, it will produce a stream of
+characters that have the statistical properties of our sample text. As simple
+minded as this approach is, it can produce some fun results:
+\begin{quote}
+  HAMLET
+
+    Whose image even but now appear'd again!
+
+HORATIO
+
+    From top to toe?
+
+FRANCISCO
+
+    Bernardo, on their promise, as it is a course to any moment leisure, but to persever
+    Than the cock, that this believe
+    Those friend on Denmark
+    Do not dull thy name with a defeated him yesternight.
+\end{quote}
+\end{example}
+
+\begin{example}
+  A \emph{stochastic source process} is a stochastic system $\Sys{S}$ with no
+  inputs $\In{S} = \ord{1}$. Such a stochastic system would be boxed up like this:
+  \[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={0}{1}, fill=blue!10] (X) {$\Sys{Source}$};
+	\draw[label] 
+		node [right=2pt of X_out1] {}
+		;
+\end{tikzpicture}
+  \]
+
+These are means by which random streams of outputs
+  can be generated. In \cref{ex.markov_text_generator}, we described a
+  stochastic source process that produced Shakespearean writing (of a stunted
+  sort). In his seminal paper ``A mathematical theory of communication'', Claude
+  Shannon imagined communicators as stochastic source processes sending somewhat
+  random language through various communication channels. This point of view is
+  still used today to model communications that have some complicated structure
+  which, not knowing how that structure is generated in particular, are best
+  modeled as somewhat random processes.
+\end{example}
+
+\begin{example}
+  We can model a faulty wire as a stochastic system of the following sort:
+  \[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={1}{1}, fill=blue!10] (X) {$\Sys{FaultyWire}$};
+	\draw[label] 
+		node [right=2pt of X_out1] {$\Set{Bit}$}
+    node [left=2pt of X_in1] {$\Set{Bit}$}
+		;
+\end{tikzpicture}
+  \]
+  We will define $\Sys{FaultyWire}$ as follows:
+  \begin{itemize}
+    \item A faulty wire will either have $\const{good}$ contact,
+      $\const{partial}$ contact, or $\const{no}$ contact, and it will be
+      carrying a $\const{high}$ or $\const{low}$ charge:
+      \[
+\State{FaultyWire} \coloneqq \{\const{high}, \const{low}\} \times \{\const{good}, \const{partial}, \const{no}\}.
+      \]
+    \item The faulty wire will take in either a $\const{high}$ or $\const{low}$:
+      \[
+        \In{FaultyWire} = \Out{FaultyWire} = \Set{Bit} = \{\const{high}, \const{low}\}.
+      \]
+    \item The faulty wire exposes its current charge:
+      \[
+\expose{FaultyWire}(b, s) = b.
+      \]
+     \item The faulty wire will try and set its charge to the charge on the
+       incoming wire, but if it is has bad contact, this won't succeed and it
+       will have low charge. It's
+       contact also has a small chance to decay.
+       \begin{align*}
+         \update{FaultyWire}((b, \const{good}), i) &= .99(i, \const{good}) + .01(i, \const{partial}), \\
+         \update{FaultyWire}((b, \const{partial}), i) &= .50(i, \const{partial}) + .49(\const{low}, \const{partial}) + .01(\const{low}, \const{no}), \\
+         \update{FaultyWire}((b, \const{no}), i) &= (\const{low}, \const{no}). \\
+       \end{align*}
+  \end{itemize}
+
+  When wiring up our systems, if we put a faulty wire in between, we will
+  introduce the probability of the failure of this wire to communicate into the model.
+\end{example}
+
+
+\begin{example}
+We can draw transition diagrams for stochastic systems, just like we do for
+deterministic and possibilistic systems. This time, we will label each
+transition with the probability that it occurs. We just have to make sure that the probability labels on
+all the outgoing transitions with the same input label on any state sum to 1.
+
+For example, here is a stochastic system drawn as a transition diagram:
+\begin{equation}\label{eqn.transition_stochastic}  
+  \begin{tikzpicture}[baseline=(bl)]
+	\node[draw] (bl) {
+  \begin{tikzcd}[sep=large]
+    \LMO{\Blue} \ar[loop, looseness=2, out=60, in=120, "{\true, .3}"'] \ar[loop, looseness=3, out=240, in=300, "{\false, .6}"'] \ar[r, bend left = 30, "{\false, .4}"] \ar[r, bend right =30, leftarrow, "{\false, .1}"] \ar[r, leftarrow, bend right = 40, "{\true, .9}"']& \LMO{\Red} \ar[loop, looseness=2, out=60, in=120, "{\true, .1}"'] \ar[loop, looseness=3, out=240, in=300, "{\false, .9}"']
+  \end{tikzcd}};
+\end{tikzpicture}
+\end{equation}
+
+\end{example}
+
+The set $\probset$ of probability distributions is a commutative monad, like the
+powerset $\powset$ monad.
+\begin{proposition}\label{prop.prob_monad}
+  The assignment of a set $A$ to its set $\probset A$ of probability
+  distributions is a commutative monad with the data:
+  \begin{itemize}
+    \item $\eta_A : A \to \probset A$ sends every element $a$ to its \emph{Dirac
+      delta distribution} $\eta_{A}(a) = 1 \cdot a$ which assigns probability
+    $1$ to $a$ and probability $0$ to everything else. As a convex linear
+    combination, it looks like this:
+    \[
+\eta_A(a) = \sum_{a' \in \{a\}} 1 \cdot a'
+    \]
+    \item Given a stochastic map $f : A \to \probset B$ sending $a \in A$ to $f(a)
+      = \sum_{b \in Y_a} \rho_{ba} b$, we can \emph{push
+        forward} a probability distribution $p = \sum_{a \in X} \lambda_a a$ on
+      $A$ to a probability distribution 
+      \[
+f^{\probset}(p) \coloneqq \sum_{b \in \bigcup_{a \in X} Y_a} \left(  \sum_{a \in
+    X}\rho_{ba} \lambda_a \right) b = \sum_{a \in X} \sum_{b \in Y_a} \rho_{ba}
+\lambda_a b
+      \]
+      on $B$. In classical terms, this says that given conditional probabilities
+      $p(b \mid a) \coloneqq f(a)(b)$ and any prior distribution $p(a) \coloneqq
+      \lambda_a$, we can
+      form a posterior distribution
+      $p(b) \coloneqq \sum_{a\in A} p(b \mid a) p(a).$
+   \item  Given a probability distribution $\sum_{a \in X} \lambda_a a$ on $A$
+     and $\sum_{b \in Y} \mu_b b$ on $B$, we can form their joint distribution
+     \[
+\sum_{(a, b) \in X \times Y} \lambda_a \mu_b (a, b)
+\]
+on $A \times B$. This gives us $\sigma : \probset A \times \probset B \to
+\probset (A \times B)$. In classical terms, this says that the probability of
+two independent events is the product of their probabilities: $p(a, b) = p(a)p(b)$.
+  \end{itemize}
+\end{proposition}
+\begin{proof}
+  We check the laws:
+  \begin{itemize}
+  \item If we push forward a distribution $p = \sum_{a \in X}\lambda_a a$ along
+    $\eta_A : A \to \probset A$, we get
+    \[
+    \eta_A^{\probset}(p) = \sum_{a \in X} \sum_{a' \in \{a\}} 1\cdot
+    \lambda_{a'}  a' = \sum_{a \in X}\lambda_a a.
+\]
+  \item For a stochastic map $f : A \to \probset B$, we aim to show that pushing
+    forward the Dirac delta distribution $\eta_A(a)$ along $f$ gives $f(a) =
+    \sum_{b \in Y_a} \lambda_{b a} b$. The definition of push forward gives us
+    \[
+f^{\probset}(\eta_A(a)) = \sum_{a' \in \{a\}}\sum_{b \in Y_{a'}}
+\lambda_{ba} \cdot 1 \cdot b = \sum_{b \in Y_a} \lambda_{ba} b.
+    \]
+   \item Given stochastic functions $f : A \to \probset B$ and $g : B \to
+     \probset C$, we need to show that $g^{\probset}(f^{\probset}(p)) =
+     (g^{\probset}\circ f)^{\probset}(p)$. Let
+\begin{align*}
+ p &= \sum_{a \in X} \lambda_{a}, \\
+f(a) &= \sum_{b \in Y_a} \rho_{ba} b, \\
+g(b) &= \sum_{c \in Z_b} \gamma_{cb} c.
+\end{align*}
+       Then we see that
+       \[
+g^{\probset}(f(a)) = \sum_{c \in \bigcup_{b \in \bigcup_{a \in X} Y_a }} \gamma_{cb} \rho_{ba} c
+       \]
+       so that, finally
+\begin{align*}
+  g^{\probset}(f^{\probset}(p)) &= g^{\probset}\left( \sum_{a \in X} \sum_{b \in Y_a} \rho_{ba} \lambda_a c \right) \\
+                                &=  \sum_{a \in X} \sum_{b \in Y_a} \sum_{c \in Z_b} \gamma_{cb} \rho_{ba} \lambda_a c \\
+  &= (g^{\probset}\circ f)^{\probset}(p). 
+\end{align*}
+  \end{itemize}
+
+  Next, we check that the laws of a commutative monad hold. We note that for a
+  function $f : A \to B$, the function $\probset f = (\eta_B \circ
+  f)^{\probset}$ is defined by
+  $\probset f\left( \sum_{a \in X} \lambda_a a \right) = \sum_{a \in X} \sum_{b
+    \in \{f(a)\}} \lambda_a b = \sum_{a \in X} \lambda_a f(a).$
+  \begin{itemize}
+\item There is a unique probability distribution on $\ord{1} \cong \{\ast\}$,
+  namely $1 \cdot \ast$. So, $\sigma(p, 1) = \sum_{(a, \ast) \in X \times
+    \ord{1}} \lambda_a \cdot 1 \cdot (a, \ast)$, and projecting out again gives
+  us $p = \sum_{a \in X} \lambda_a a$.
+\item The same, but on the other side.
+\item Suppose that we have
+  \begin{align*}
+    p &= \sum_{a \in X} p_a a, \\
+    q &= \sum_{b \in Y} q_b b, \\
+    r &= \sum_{c \in Z} r_c c.
+  \end{align*}
+  The both paths of \cref{eqn.com_monad_assoc} give us the distribution
+  \[
+\sum_{(a, b, c) \in X \times Y \times Z} p_a q_b r_c (a, b, c).
+  \]
+  \end{itemize}
+\end{proof}
+
+\begin{exercise}
+  Let $f : \ord{n} \to \probset \ord{m}$ and $g : \ord{m} \to \probset \ord{k}$
+  be stochastic maps. Note that we can interpret $f$ as an $m \times n$
+  stochastic matrix $F$, and similarly $g$ as a $k \times m$ stochastic matrix $G$. Show
+  that the stochastic map $g^{\probset} \circ f$ is associated to the stochastic
+  matrix $GF$.
+\end{exercise}
+
+Just as the commutative monad structure of $\powset$ helped us iterate possibilistic systems
+and get the set of possible output values from them, so the commutative monad
+structure of $\probset$ helps us iterate stochastic systems and get a
+probability distribution of likely output values from them.
+
+Given a stochastic system $\Sys{S}$, we have $\update{S} : \State{S} \times
+\In{S} \to \probset \State{S}$. From this, we can get a stochastic map:
+\[
+\probset\State{S} \times \In{S} \xto{\id \times \eta} \probset\State{S} \times
+\probset\In{S} \xto{\sigma} \probset(\State{S} \times \In{S})
+\xto{\update{S}^{\probset}} \probset{\State{S}}
+\]
+which will let us iterate. We can see that this sends a probability distribution
+$p$ on states and an input $i$ to the distribution
+$$\sum_{s \in \State{S}} p_s\update{S}^{\probset}(s, i) \cdot s.$$
+
+
+\subsection{Monadic doctrines and the Kleisli category}
+We have now seen two sorts of non-determinism expressed by commutative monads.
+To each of these we associated a doctrine:
+\begin{itemize}
+  \item To the powerset monad $\powset$, we associated the doctrine of
+    possibilistic systems. This is because a map $f : A \to \powset B$ is a
+    \emph{possibilistic map} --- it assigns
+    a set of \emph{possible images} to each element $a \in A$. 
+  \item To the probability distribution monad $\probset$, we associated the
+    doctrine of stochastic system. This is because a map $f : A \to \probset B$
+    is a stochastic map.
+\end{itemize}
+In general, for any commutative monad $M$ we call a map of the form $f : A \to
+MB$ a \emph{Kleisli map}. The structure of a monad on $M$ lets us compose
+Kleisli maps, giving us the \emph{Kleisli category} of the monad. The
+commutativity then makes the Kleisli category into a symmetric monoidal category.
+\begin{definition}
+  Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category. The \emph{Kleisli category} $\Cat{Kl}(M)$ is
+  defined as follows:
+  \begin{itemize}
+    \item The objects of $\Cat{Kl}(M)$ are the same as those of $\cat{C}$.
+    \item A map $f : A \wavyto B$ in $\Cat{Kl}(M)$ is a map $f : A \to MB$ in $\cat{C}$.
+    \item The identity $\id_A : A \wavyto A$ is $\eta_A : A \to MA$.
+    \item For $f : A \wavyto B$ and $g : B \wavyto C$, their composite is $g^M
+      \circ f : A \to MC$.
+  \end{itemize}
+  The Kleisli category of $M$ becomes a symmetric monoidal structure with with
+  the tensor $A \times B$ and $\ord{1}$. Note that although $A \times B$ is
+  cartesian in $\cat{C}$, it will rarely be cartesian in $\Cat{Kl}(M)$.
+\end{definition}
+
+\begin{exercise}
+  Use the monad laws to show that $\Cat{Kl}(M)$ is a category. That is, for $f :
+  A \to M B$, $g : B \to MC$ and $h : C \to MD$, show that
+  \begin{enumerate}
+    \item $\eta^M \circ f = f$ and $f^M \circ \eta = f$.
+    \item $h^M \circ g^M \circ f = (h^M \circ g)^M \circ f$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{example}\label{ex.powerset_kleisli}
+  The Kleisli category $\Cat{Kl}(\powset)$ of the powerset monad $\powset$ is
+  the category of \emph{multi-valued maps}. A Kleisli map $f : A \to
+  \powset B$ assigns to each $a \in A$ a subset $f(a) \subseteq B$ of possible
+  images of $a$. Given another Kleisli map $g : B \to \powset C$, their
+  composite in the Kleisli category $g^{\powset} \circ f : A \to \powset C$
+  sends $a \in A$ to the union $\bigcup_{b \in f(a)} g(b)$. In other words, a
+  possible image of $g \circ f$ is any possible image of $g$ of any possible
+  image of $f$.
+\end{example}
+
+\begin{example}\label{ex.probset_kleisli}
+  The Kleisli category $\Cat{Kl}(\probset)$ of the probability monad $\probset$
+  is the category of \emph{stochastic maps}. A Kleisli map $f : A \to \probset
+  B$ assigns to each $a \in A$ a probability distribution $f(a)$ on $B$. Given
+  another Kleisli map $g : B \to \probset C$, their composite $g^{\probset}
+  \circ f : A \to \probset C$ in the Kleisli category sends $a$ to the
+  probability distribution $c \mapsto \sum_{b \in B}
+  f(a)(b) \cdot g(b)(c)$. That is, since $c$ is the image of $a$ under $g \circ f$ if there is a $b$ which
+  is the image of $a$ under $f$ and $c$ is the image of $b$ under $g$, the
+  probability that $c$ is the image of $a$ is the probability of their being
+  such a $b$.
+
+  Thinking of stochastic maps as conditional probabilities, where $f : A \to
+  \probset B$ expresses the conditional probability $p(b \mid a) = f(a)(b)$,
+  then we see that
+  $p(c \mid a) = \sum_{b \in B} p(b \mid a) p(c \mid b)$
+  as we expect from conditional probabilities.
+\end{example}
+
+
+Now we encompass all our non-deterministic examples in a single definition.
+\begin{definition}\label{def.monadic_system}
+Let $M : \cat{C} \to \cat{C}$ be a commutative monad. A (discrete-time)
+$M$-system $\Sys{S}$, also written as   
+  $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}},$$ 
+is a system whose dynamics is given by a Kleisli map for $M$. It consists of:
+  \begin{itemize}
+    \item an object $\State{S}$ of \emph{states};
+    \item an object $\Out{S}$ of \emph{values for exposed variables}, or \emph{outputs}
+      for short;
+    \item an object $\In{S}$ of \emph{parameter values}, or \emph{inputs} for short;
+    \item a map $\expose{S} : \State{S} \to \Out{S}$, the \emph{exposed variable of state} or
+      \emph{expose} map, which takes a state to the output it yields; and
+    \item a Kleisli map $\update{S} : \State{S} \times \In{S} \to
+     M\State{S}$. This is the \emph{dynamics} or
+      \emph{update} map which takes a state and a parameter and gives the
+      next state in a non-deterministic way determined by $M$.
+  \end{itemize}
+\end{definition}
+
+This will let us more swiftly describe new non-deterministic doctrines. For
+example, suppose we imagine that our system is free to choose which state it transitions
+to next, but there's a catch. For any state $s$ and input parameter $i$, there
+will be a cost $\update{S}(s, i)(s') \in [0, \infty]$ associated to each other state $s'$ ---
+the cost of transitioning from $s$ to $s'$ given the parameter $i$. A cost of
+$0$ means that this transition is free; a cost of $\infty$ means it is
+prohibitively expensive, or impossible.
+
+
+\begin{definition}\label{def.cost_monad}
+  We will define a monad $\Fun{Cost}$ on the category of sets. We think of a Kleisli map $f : A \to \Fun{Cost} B$ as
+  assiging the best-case cost of producing a $b \in B$ from a given $a \in A$.   \begin{itemize}
+  \item For a set $A$,
+    \[
+\Fun{Cost}(A) \coloneqq \{c : A \to [0, \infty] \mid \mbox{$\{a \in A \mid c(a) <
+  \infty\}$ is finite}\}
+    \]
+    is the set of cost functions $c : A \to [0, \infty]$ which assign finite
+    values to only finitely many elements of $A$.
+  \item For a set $A$, $\eta^{\Fun{Cost}} : A \to \Fun{Cost}(A)$ assumes that we
+    can only produce what we have, but that if we already have it, it's free. Formally:
+\[
+\eta^{\Fun{Cost}}(a)(a') \coloneqq \begin{cases} 0 &\mbox{if $a = a'$} \\
+  \infty &\mbox{otherwise}\end{cases}
+\]
+
+  \item For a map with cost $f : A \to \Fun{Cost}(B)$, we define
+      $f^{\Fun{Cost}} : \Fun{Cost}(A) \to \Fun{Cost}(B)$ by
+      \[
+f^{\Fun{Cost}}(c)(b) \coloneqq \min_{a \in A} c(a) + f(a)(b).
+      \]
+That is, given costs on elements of $A$ and conditional costs on elements of $B$
+given by $f$, the cost of an element of $B$ is the cost of getting an $a \in A$
+together with the cost of producing $b$ from that $a$. So, the best case cost of
+such a $b$ is the minimum over all $a \in A$ of the total cost of producing $b$
+from $a$. We note that the minimum is achieved because only finitely many of the
+costs are finite.
+  \item Given sets $A$ and $B$, the cost of having an element of $A$ and an
+    element of $B$ is the sum of their costs. That is, $\sigma : \Fun{Cost}(A)
+    \times \Fun{Cost}(B) \to \Fun{Cost}(A \times B)$ is defined by 
+$$\sigma(c, c')(a, b) \coloneqq c(a) + c'(b).$$
+  \end{itemize}
+\end{definition}
+
+Now we can quickly define our new sort of non-determinism.
+\begin{definition}
+A (discrete-time) system with costs is a $\Fun{Cost}$-system.
+\end{definition}
+
+
+\begin{example}
+  Suppose we are trying to complete a project $\Sys{Proj}$ that involves a number of steps.
+  Let $\Set{Steps}$ be the set of steps involved. The state of our project at any given
+  time is the set of steps we have completed so far: $\State{Proj} \coloneqq
+  \powset\Set{Steps}$. Now, we may not want to show everyone exactly how our
+  project is going, just that it has hit certain milestones. So we can let
+  $\Out{Proj} \coloneqq \Set{Milestones}$ be our set of milestones and
+  $\expose{Proj} : \State{Proj} \to \Out{Proj}$ send each project state to the
+  most recent milestone completed.
+
+  Now, in any project, there are some external conditions
+  to be dealt with. Let $\In{Proj} = \Set{Externalities}$
+  be the set of these externalities. We can assume that there is a cost
+  associated to choosing a next step to take which depends not only on what
+  steps have been completed so far but also on the current external conditions:
+  that is, we can assume we have a function $\fun{cost} : \State{Proj} \times
+  \In{Proj} \to \Fun{Cost}(\Set{Steps})$, and that $\fun{cost}(s, i)(x) = 0$
+  whenever $x \in s$ is a step we have already completed.\footnote{Although one
+    could imagine this instead as a ``maintenance'' cost of maintaining the
+    completion of that step.} Given this, we can define the update
+  of our project system as
+  \[
+\update{Proj}(s, i)(s') \coloneqq \sum_{x \in s'} \fun{cost}(s,
+  i)(x).
+  \]
+  This tells us that the cost moving from having completed the steps $s$ to
+  having completed the steps $s'$ given external conditions $i$ is the sum of
+  the cost of completing each step in $s'$ which is not in $s$.
+
+  The crucial question we want to ask of this model is: how much will the
+  project cost in the best case scenario, given a sequence of external
+  conditions? That is, we will iterate the action of the system through the
+  sequence of paramters starting at
+  $\emptyset \in \State{Proj}$, and then ask the cost of $\Set{Steps} \in
+  \State{Proj}$ at the end. 
+\end{example}
+
+\subsection{Adding rewards to non-deterministic systems}
+
+A common way to think of a discrete-time system is as a \emph{decision process}. We
+think of the system $\Sys{A}$ as an \emph{agent} who needs to make a decision.
+The agent can choose an \emph{action}, an element of $\In{A}$, and will then
+transition into a new state --- although it may not know precisely which. We
+then ask the question: what is the best action for the agent to take in a given
+situation?
+
+Clearly, an answer to this question will depend on what it means for one action
+to be better than another. The most common way to model this is by associating
+each action with a real number \emph{reward}. The bigger the reward, the better
+the action (and negative rewards are harmful actions). If the agent is going to
+take a sequence of actions, we want the rewards to accumulate so that the total
+reward of a sequence of actions is the sum of each reward.
+
+We can handle this accumulation of rewards, even in a deterministic system, with
+a commutative monad.
+
+\begin{definition}
+Let $(R, +, 0)$ be a commutative monoid (such as the real numbers). The
+\emph{$R$-valued reward monad} or \emph{monad of $R$-actions} is defined by the
+following data:
+\begin{itemize}
+  \item To each set $A$, we associate the set $R \times A$ of pairs of a reward
+    and an element of $A$.
+  \item For each set $A$, we have $\eta_A : A \to R \times A$ given by yielding
+    no reward:
+    $\eta_A(a) = (0, a).$
+  \item For a function $f : A \to R \times B$ which yields an element of $B$ and
+    a reward, we give the function
+    \[
+      f^R : R \times A \to R \times B
+    \]
+ defined by $f^R(r, a) = (r + \pi_1f(a), \pi_2f(a))$. This accumulates the
+ reward $\pi_1f(a)$ from applying $f$ to $a$ onto a current reward $r$
+\item For sets $A$ and $B$, we have
+  \[
+\sigma : (R \times A) \times (R \times B) \to R \times (A \times B)
+\]
+given by $\sigma((r, a), (r', b)) = (r + r', (a, b))$. The reward for doing two
+actions simultaneously is the sum of their rewards.
+  \end{itemize}
+  
+We remark that this works not only in the category of sets, but in any cartesian category.
+\end{definition}
+
+\begin{exercise}
+  Show that the monad of $R$-valued rewards is really a commuativative monad.
+  That is, show that the above data satisfies all each of the laws in
+  \cref{def.commutative_monad}. Do you see where the commutativity comes into
+  the mix?
+\end{exercise}
+
+We can then describe a system with reward as having an update $\update{S} :
+\State{S} \times \In{S} \to R \times \State{S}$ which sends the current state
+and action to the next state together with the reward for taking that action (in
+that state).
+
+\begin{definition}
+A deterministic system with $R$-valued rewards is an $(R \times -)$-system in
+the sense of \cref{def.monadic_system}
+\end{definition}
+
+We would really like to mix our rewards with non-determinism. In particular,
+when thinking of a system as an agent making decisions with imperfect
+information of its environment, we would like to use stochastic systems to model
+this lack of perfect information. The agent doesn't know exactly what will
+happen when it performs an action, but it has a good idea of what will
+\emph{probably} happen.
+
+There are two ways to mix probability and reward. First, we can say that if an
+agent takes an action $i$ in a state $s$, then they will get a certain reward
+and will transition stochastically into a next state. This has signature
+\[
+  \State{S} \times \In{S} \to \rr \times \probset \State{S}.
+\]
+
+On the other hand, we might expect that the reward will depend on what state the
+agent actually ends up in, and not just the action it takes. In that case, we
+would want to know the probability of transitioning to a next state \emph{and}
+getting a certain reward. This would have signature
+\[
+  \State{S} \times \In{S} \to \probset(\rr \times \State{S}).
+\]
+
+We will see that \emph{both} of these possible interpretations --- landing in a
+set of the form $\rr \times
+\probset A$ and $\probset (\rr \times A)$ respectively --- are commutative
+monads. In fact, they both work in a broad generality, allowing us to add
+rewards to all sorts of non-determinstic systems.
+
+\paragraph{Putting rewards in a commutative monad}
+
+ We begin by showing that the assignment $A \mapsto \probset(\rr \times A)$
+ forms a commutative monad. We will show that more generally, if $M$ is
+ \emph{any} commutative monad and $R$ any commutative monoid, then $M(R \times
+ -)$ is a commutative monad again. We say that we can ``put the rewards $R$ into
+ the monad $M$''. We can do this explicitly using the map $\lambda : R \times MA
+ \to M(R \times A)$ defined to be the composite
+ \[
+\lambda \coloneqq R \times MA \xto{\eta^M \times \id} MR \times MA \xto{\sigma^M} M(R \times A)
+ \]
+Intuitively, this takes a reward $r \in R$ and a non-deterministic $a \in MA$
+and gives us the non-determinstic pair $(r, a)$.
+ 
+\begin{proposition}
+Let $M$ be a commutative monad and $(R, +, 0)$ a commutative monoid. Then the
+assignment $A \mapsto M(R \times A)$ is a commutative monad with the following
+structure:
+\begin{itemize}
+  \item $\eta^{M(R\times -)} : A \to M(R \times A)$ is the composite $A
+    \xto{\eta^R} R \times A \xto{\eta^M} M(R \times A)$.
+  \item Given $f : A \to M(R \times B)$, we define $f^{M(R \times -)}$ to be the
+    following composite:
+    \begin{align*}
+M(R \times A) &\xto{M(R \times f)} M(R \times M(R \times B)) \xto{M\lambda} MM(R \times R \times B)
+&\xto{\mu^{M}} M(R \times R \times B) \xto{M\mu^R} M(R \times B).
+      \end{align*}
+ Intuitively, this takes a non-deterministic pair $(r, a)$ and, gets the
+ non-deterministic pair $f(a) = (f_1(a), f_2(a))$, and then returns the
+ non-deterministic pair $(r + f_1(a), f_2(a))$.
+  \item Given sets $A$ and $B$, we define $\sigma^{M(R \times -)} : M(R \times
+    A) \to M(R \times B)$ to be the composite
+    \[
+M(R \times A) \xto M(R \times B) \xto{\sigma^M} M((R \times A) \times (R \times
+B)) \xto{M\sigma^R} M(R \times A \times B).
+    \]
+\end{itemize}
+\end{proposition}
+\begin{proof}
+It is not obvious that this will satsify the monad laws, but it is a rather
+straightforward check using the laws of $M$ and $R \times -$. We will not prove
+this result explicitly. However, we will give a slick proof for experts.
+
+A monad structure on $M(R \times A)$ arising via a distributive law such as
+$\lambda : R \times MA \to M(R \times A)$ is equivalent to a lift of the monad
+$M$ to the category of $R \times -$ algebras --- that is, the category of
+$R$-actions. But $M : \cat{C} \to \cat{C}$ is a commutative monad, and so in particular it is a
+symmetric monoidal functor; therefore, it preserves commutative monoids and
+their actions. For this reason, $M$ extends to the category of $(R \times -)$-algebras, giving
+us the desired monad structure on $M(R \times -)$. This is again commutative as
+it is the composite of monoidal functors and so also monoidal.
+\end{proof}
+
+\begin{example}
+Let's see what this general theorem looks like in the case that $R = \rr$ and $M
+= \probset$. In this case, $\lambda : \rr \times \probset A \to \probset (\rr \times A)$
+sends the pair $(r, p)$ of a reward and a probability distribution and yields
+the probability distribution $\delta_r p$.
+Let's see how this lets us iterate the dynamics of a $\probset(\rr\times
+-)$-system $\Sys{S}$. We have $\update{S} : \State{S} \times \In{S} \to
+\probset(\rr \times \State{S})$, giving us a probabilities
+$\update{S}(s, i)(r, s')$ of transitioning from state $s$ on action $i$ into
+state $s'$ and receiving reward $r$. To iterate this, we form the composite
+$$\probset(\rr \times \State{S} ) \times \In{S}\xto{\sigma \circ (\id \times \eta)} 
+\probset(\rr \times \State{S} \times \In{S}) \xto{\update{S}^{\probset(\rr
+    \times -)}} \probset(\rr \times \State{S})$$
+which sends a pair $(p, i)$ of a prior probability distribution on states and an
+an action to the distribution $(r, s) \mapsto \sum_{s' \in \State{S}}p(s')
+\update{S}(s', i)(r, s)$ which gives the probability of receiving the reward $r$
+and transitioning into the state $s$ conditioned upon the prior $p$. To iterate,
+we can continually apply this map to many inputs; let's just do $i$ and $j$. Then we end up
+with the distribution
+\[
+(r, s) \mapsto \sum_{s'' \in \State{S}}\sum_{s' \in \State{S}}\sum_{r'' + r' = r}
+p(s)\cdot\update{S}(s'', i)(r'', s')\cdot \update{S}(s', j)(r', s)
+\]
+which is the probability that we transition to $s$ in two steps and receive a
+cumulative reward of $r$.
+\end{example}
+
+
+\paragraph{Popping rewards out of a monad}
+
+
+
+%% writehere 
+
+
+\section{Wiring together non-deterministic systems: the generalized lens construction}
+
+
+\subsection{Wiring together non-deterministic systems with monadic lenses}
+
+\subsection{Indexed categories and the Grothendieck construction}\label{sec.indexed_categories}
+
+An \emph{indexed category} is a category which varies functorially over the
+objects of another category.
+%%
+%% :CUSTOM-ID:cite-this.pseudo_functors
+%%
+
+\begin{definition}
+  An \emph{indexed category} $\cat{A} : \cat{C}\op \to \Cat{Cat}$ is a
+  contravariant (pseudo-) functor\footnote{A pseudo-functor is like a functor,
+    but it only satisfies the functoriality conditions up to isomorphism, and
+    these isomorphisms must satisfy some laws that make them ``cohere''. The
+    indexed categories we will see in \cref{chapter.1,chapter.2,chapter.3}
+    will all be actual functors, however.}. We call the category $\cat{C}$ the
+  \emph{base} of the indexed category $\cat{A}$. Explicitly, an indexed
+  category $\cat{A}$ has:
+  \begin{itemize}
+  \item A base category $\cat{C}$.
+  \item For every object $C \in \cat{C}$ of the base, a category $\cat{A}(C)$.
+  \item For every map $f : C \to C'$ in the base, a \emph{pullback} functor
+    $f^{\ast} : \cat{A}(C') \to \cat{A}(C)$, which we think of as ``reindexing''
+    the objects of $\cat{A}(C')$ so that they live over $\cat{A}(C)$.
+  \item (Psuedo-functoriality) For any two functions $f : C \to C'$ and $g : C' \to C''$, we need a
+    natural isomorphism $f^{\ast} \circ g^{\ast} \xequals{\gamma_{g, f}} (g \circ
+    f)^{\ast}$. And for any object $C$, we need a natural isomorphism $:
+    \id_{\cat{A}(C)} \xequals{\iota_C } (\id_C)^{\ast}$. These are required to satisfy a
+    few \emph{coherence conditions}:
+\begin{align}
+  \gamma_{h,gf} \circ (\gamma_{g, f}h^{\ast}) &= \gamma_{hg, f} \circ (f^{\ast}\gamma_{h, g}) \\
+  \gamma_{\id_C, f} \circ (f^{\ast}\iota_C) &= \gamma_{f, \id_{C'}} \circ (\iota_{C'} f^{\ast}).
+\end{align}
+   Often, $\gamma$ and $\iota$ will both be identities, and these equalities
+   will follow trivially.
+  \end{itemize}
+\end{definition}
+
+\begin{remark}\label{rmk.coherence_condition_indexed_cat}
+  The coherence conditions are almost always trivial --- if not strictly
+  identities, then they are probably just a shuffling of parentheses. For this
+  reason, and because keeping track of them is a headache, we will omit
+  discussion of the coherences. We will write a coherence with a big equals,
+  like this $f^{\ast} \circ g^{\ast} \xequals{\phantom{ \gamma_{g, f} }} (g \circ
+    f)^{\ast}$ and leave the name implicit. The coherence conditions ensure that
+    working with these isomorphisms as though they really were equalities works well.
+\end{remark}
+
+Indexed categories are quite common throughout mathematics. We will construct a
+particular example for our own purposes in \cref{sec.context_indexed_cat}, and
+more throughout the book.
+
+\begin{example}\label{ex.indexed_cat_of_dependent_sets}
+  Recall that a \emph{dependent set} is a function $X : A \to \smset$ from a set
+  into the category of sets. We have an indexed category of dependent sets
+  $$\smset^{(-)} : \smset\op \to \Cat{Cat}$$
+  which is defined as follows:
+  \begin{itemize}
+    \item To each set $A$, we assign the category $\smset^A$ of sets indexed by
+      $A$. The objects of $\smset^A$ are the sets $X : A \to \smset$ indexed by
+      $A$, and a map $f : X \to Y$ is a family of maps $f_a : X_a \to Y_a$
+      indexed by the elements $a \in A$. Composition is given componentwise: $(g
+      \circ f)_a = g_a \circ f_a$.
+    \item To every function $f : A' \to A$, we get a reindexing functor
+$$f^{\ast} : \smset^A \to \smset^{A'}$$
+   Given by precomposition: $X \mapsto X \circ f$. The indexed set $X \circ f :
+   A' \to \smset$ is the set $X_{f(a')}$ on the index $a' \in A'$. The families
+   of functions get reindexed the same way.
+     \item Since our reindexing is just given by precomposition, it is clearly
+       functorial on the nose (that is, not just up to isomorphism).
+  \end{itemize}
+  We will return to this example in much greater detail in \cref{chapter.4}.
+\end{example} 
+
+
+If we have an family of sets $A : I \to \Cat{Set}$ indexed by a set $I$, we can
+form the disjoint union $\sum_{i \in I} A_i$, together with the projection $\pi
+: \sum_{i \in I} A_i \to I$ sending each $a \in A_i$ to $i$. The Grothendieck
+construction is a generalization of this construction to indexed categories. Namely, we will take an indexed category $\cat{A}
+: \cat{C} \to \Cat{Cat}$ and form a new category
+
+$$\int^{C : \cat{C}} \cat{A}(C)$$
+which we think of as a ``union'' off all the categories $\cat{A}(C)$. But this
+``union'' will not be
+disjoint since there will be morphisms from objects in $\cat{A}(C)$ to objects
+in $\cat{A}(C')$. This is why we use the integral notation; we want to suggest
+that the Grothendieck construction is a sort of sum.\footnote{The Grothendieck
+  construction is an example of a \emph{lax colimit} in 2-category theory,
+  another sense in which it is a `sort of sum'.}
+\begin{definition}\label{def.grothendieck_construction}
+  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category. The
+  \emph{Grothendieck construction} of $\cat{A}$
+  $$\int^{C : \cat{C}} \cat{A}(C)$$
+  is the category with:
+  \begin{itemize}
+    \item Objects pairs $\lens{A}{C}$ of objects $C \in \cat{C}$ and $A \in
+      \cat{A}(C)$. We say that $A$ ``sits over'' $C$.
+    \item Maps $\lens{f_{\flat}}{f} : \lens{A}{C} \rightrightarrows
+      \lens{A'}{C'}$ pairs of $f : C \to C'$ in $\cat{C}$ and $f_{\flat} :
+      A \to f^{\ast}A'$ in $\cat{A}(C)$.
+    \item Given $\lens{f_{\flat}}{f} : \lens{A}{C} \rightrightarrows
+      \lens{A'}{C'}$ and $\lens{g_{\flat}}{g} : \lens{A'}{C'} \rightrightarrows
+      \lens{A''}{C''}$, their composite is given by
+      $$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{f^{\ast}g_{\flat}
+      \circ f_{\flat}}{g \circ f}$$
+    Written with the signatures, this looks like
+    $$\lens{A \xto{f_{\flat}} f^{\ast}A' \xto{f^{\ast}g_{\flat}}
+      f^{\ast}g^{\ast}A'' \xequals{\phantom{\gamma}} (g \circ f)^\ast A''}{C \xto{f} C' \xto{g} C''}$$
+    \item The identity is given by $\lens{\id_A}{\id_C} : \lens{A}{C}
+      \rightrightarrows \lens{A}{C}$
+  \end{itemize}
+\end{definition}
+
+\begin{exercise}
+  Check that \cref{def.grothendieck_construction} does indeed make $\int^{C :
+    \cat{C}} \cat{A}(C)$ into a category. That is, check that composition as
+  defined above is associative and unital.
+\end{exercise}
+
+The confluence of notation with that of charts is no accident. Indeed, we will
+see in the next section that the category of charts can be described as the
+Grothendieck construction of a certain indexed category.
+
+%---- Section ----%
+\subsection{Sets with context, charts, and lenses}\label{sec.context_indexed_cat}
+
+In this section, the category $\Cat{Lens}$ of lenses in the category of sets can be described using
+the Grothendieck construction. To do this, we need some other categories named
+after their maps (rather than their objects): 
+\emph{category of sets and functions with context $C$} for some a given set $C$. 
+
+\begin{definition}
+  Let $C$ be a set. The \emph{category $\smctx{C}$ of sets and functions with context $C$}
+  is the category defined by:
+  \begin{itemize}
+    \item Objects are sets.
+    \item Maps $f : X \ctxto Y$ are functions $f : C \times X \to Y$.
+    \item The composite $g \circ f$ of $f : X \ctxto Y$ and $g : Y \ctxto Z$ is
+      the function
+       $$(c, x) \mapsto g(c, f(c, x)) : C \times X \to Z.$$
+       Diagrammatically, this is the composite:
+       $$C \times X \xto{\Delta_C \times X} C \times C \times X \xto{C \times f}
+       C \times Y \xto{g} Z.$$
+    \item The identity $\id : X \ctxto X$ is the second projection $\pi_2 : C
+      \times X \to X$.
+  \end{itemize}
+\end{definition}
+
+\begin{exercise}
+  Check that $\smctx{C}$, as defined, really is a category. That is,
+  \begin{enumerate}
+    \item For $f : X \ctxto Y$, $g : Y \ctxto Z$, and $h : Z \ctxto W$, check
+      that $h \circ (g \circ f) = (h \circ g) \circ f$.
+    \item For $f : X \ctxto Y$, check that $f \circ \id_X = f = \id_Y \circ f$.
+  \end{enumerate}
+\end{exercise}
+
+Together, we can arrange the categories of sets and functions with context into
+an indexed category.
+\begin{definition}
+  The \emph{indexed category of sets and functions with context}
+  $$\smctx{-} : \smset\op \to \Cat{Cat}$$
+  is defined by:
+  \begin{itemize}
+    \item For a set $C$, we have the category $\smctx{C}$.
+    \item For a function $r : C' \to C$, we get a functor
+      $$r^{\ast} : \smctx{C} \to \smctx{C'}$$
+      given by sending each object to itself, but each morphism $f : C \times X
+      \to Y$ in $\smctx{C}$ to the morphism $r^{\ast}f \coloneqq f \circ (r \times X)$:
+      $$C' \times X \xto{r \times X} C \times X \xto{f} Y.$$
+  \end{itemize}
+  We note that this is evidently functorial.
+\end{definition}
+
+\begin{proposition}\label{prop.lenses_as_groth_construction}
+  The category $\Cat{Lens}$ of lenses in the category of sets is the
+  Grothendieck construction of the indexed category of \emph{opposites} of the
+  categories of sets and functions with context:
+  $$\Cat{Lens} = \int^{C \in \smset} \smctx{C}\op.$$
+\end{proposition}
+\begin{proof}
+We will expand the
+definition of the right hand side and see that it is precisely the category of lenses.
+
+The objects of $\int^{C \in \smset} \smctx{C}\op$ are pairs $\lens{A^-}{A^+}$ of
+sets. All good so far.
+
+A map in $\int^{C \in \smset} \smctx{C}\op$ is a pair $\lens{f^{\sharp}}{f}$
+with $f : A^+ \to B^+$ and $f^{\sharp} : A^- \ctxto f^{\ast} B^-$ in
+$\smctx{A^+}\op$. Now, $f^{\ast}B^- = B^-$ so $f^{\sharp}$ has signature $A^-
+\ctxto B^-$ in $\smctx{A^+}\op$, which means $f^{\sharp}$ has signature $B^-
+\ctxto A^{-}$ in $\smctx{A^+}$, which means that $f^{\sharp}$ is a really a
+function $A^+ \times B^- \to A^{-}$. In other words, a map in $\int^{C \in \smset}
+\smctx{C}\op$ is precisely a lens. We note that the identity map is the identity lens.
+
+Finally, we need to check that composition in $\int^{C \in \smset} \smctx{C}\op$
+is lens composition. Suppose that $\lens{f^{\sharp}}{f} :
+  \lens{A^-}{A^+} \fromto \lens{B^-}{B^+}$ and $\lens{g^{\sharp}}{g} :
+  \lens{B^-}{B^+} \from \lens{C^-}{C^+}$ are lenses. In $\int^{C \in \smset}
+  \smctx{C}\op$, their composite is
+$$\lens{f^{\ast}g^{\sharp} \circ f^{\sharp}}{g \circ f}.$$
+  The bottom is all good, we just need to check that the top --- which,
+  remember, lives in $\smctx{A^+}\op$ --- is correct. Since the composite up top
+  is in
+  the opposite, we are really calculating $f^{\sharp} \circ f^{\ast} g^{\sharp}$
+  in $\smctx{A^+}$. By definition, this is
+$$(a^+, c^-) \mapsto f^{\sharp}(a^+, g^{\sharp}(f(a^+), c^-))$$
+which is precisely their composite as lenses!
+\end{proof}
+
+\begin{exercise}\label{ex.really_understand_charts_as_groth_construction}
+  Make sure you \emph{really} understand \cref{prop.lenses_as_groth_construction}.
+\end{exercise}
+
+\begin{definition}
+ Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category. The category of $\cat{A}$-lenses is the Grothendieck construction of
+     $\cat{A}\op$:
+$$\Cat{Lens}_{\cat{A}} = \int^{C \in \cat{C}} \cat{A}(C)\op.$$
+\end{definition}
+
+\subsection{Monadic lenses as generalized lenses}
 
 \end{document}
+
+
+
+ 
+%% Local Variables:
+%% End:

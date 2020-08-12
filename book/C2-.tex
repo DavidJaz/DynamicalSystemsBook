@@ -90,7 +90,7 @@ Here is an example of such a trajectory with a $1000$ total people and one infec
 person to start, that is $(s_0, i_0, r_0) = (999, 1, 0)$.
 \[
   \begin{tikzpicture}
-    %% horizontal axis
+    horizontal axis
     \draw[->] (0,0) to (11, 0);
     \draw[label]
       node at (11, -.3) {$t$};
@@ -1032,13 +1032,13 @@ describe it in a doctrinal way.
   bisimilar to some $u \in \State{U}$ and vice-versa.
 \end{definition}
 
-Total bisimulation is a strong relation between systems. For deterministic
+Bisimilarity is a strong relation between states of systems. For deterministic
 systems, this implies that they act the same on any input.
 \begin{proposition}\label{prop.bisimulation_discrete}
   Let $\Sys{S}$ and $\Sys{U}$ be deterministic $\lens{I}{O}$-systems, and let $\sim$ be a
   total bisimulation between them. If $s_0 \sim u_0$ are bisimilar, then they
   induce the same transformation on streams of inputs into streams of outputs: 
-$$\fun{transform}_{\Sys{S}} = \fun{transform}_{\Sys{U}}.$$
+$$\fun{transform}^{s_0}_{\Sys{S}} = \fun{transform}^{u_0}_{\Sys{U}}.$$
 \end{proposition}
 \begin{proof}
 Let $i : \nn \to I$ be a stream of inputs. Let $s : \nn \to \State{S}$ be the
@@ -1058,6 +1058,136 @@ Finally,
 because $s_n \sim u_n$. 
 \end{proof}
 
+We can talk about bisimilar states without reference to the particular
+bisimulation between the systems they are a part of because, as it turns out,
+being bisimilar is independent of the particular bisimulation. To see this, we
+need to introduce an interesting system: the system of trees.
+
+\begin{definition}
+  Let $\lens{I}{O}$ be an arena in the deterministic doctrine. An
+  $\lens{I}{O}$-tree $\tau$ (or a $O$-labeled, $I$-branching tree) consists of:
+  \begin{itemize}
+    \item A \emph{root} $\fun{root}(\tau) \in O$.
+    \item For each parameter $i \in I$, a \emph{child} tree $\fun{child}(\tau,
+      i)$.
+  \end{itemize}
+\end{definition}
+
+
+\begin{definition}
+Let $\lens{I}{O}$ be an arena in the deterministic doctrine. The $\lens{I}{O}$-system
+$\Sys{Tree}_{\littlelens{I}{O}}$ of $\lens{I}{O}$-trees has
+\begin{itemize}
+\item $\State{Tree}$ is the set of $\lens{I}{O}$-trees.
+\item Each tree exposes its root: $\expose{Tree}(\tau) = \fun{root}(\tau)$.
+\item The system updates by following a tree down the $i^{\text{th}}$ branch: $\update{Tree}(\tau, i) = \fun{child}(\tau, i)$
+\end{itemize}
+\end{definition}
+
+We can think of an $\lens{I}{O}$-tree as a stream of possible outputs of an
+$\lens{I}{O}$-system. In the current state, we see the root of the tree. When we
+transition to the next state with parameter $i$, we will see the rest of the
+output. This observation suggests a universal characterization of the system of $\lens{I}{O}$-trees.
+
+\begin{proposition}
+  The $\lens{I}{O}$-system $\Sys{Tree}_{\lens{I}{O}}$ of $\lens{I}{O}$-trees is
+  terminal in the category of $\lens{I}{O}$-systems.
+\end{proposition}
+\begin{proof}
+ We will show that there is a unique simulation $!_{\Sys{S}} : \Sys{S} \to
+ \Sys{Tree}_{\lens{I}{O}}$ for any $\lens{I}{O}$-system $\Sys{S}$.
+ For any $s \in \State{S}$, we will define a tree $!_{\Sys{S}}(s)$ of outputs
+ visible from the state $s$. We define this as
+ follows:
+ \begin{itemize}
+   \item The root of $!_{\Sys{S}}(s)$ is the variable exposed by $\Sys{S}$: \[\fun{root}(!_{\Sys{S}}(s)) = \expose{S}(s).\]
+   \item The $i^{\text{th}}$ child of $!_{\Sys{S}}(s)$ is the tree of outputs
+     visible from the next state $\update{S}(s, i)$: \[\fun{child}(!_{\Sys{S}}(s), i) = !_{\Sys{S}}(\update{S}(s, i)).\]
+ \end{itemize}
+ Now, we can show that this is a simulation \emph{and} that it is the unique
+ such similation by noticing that this definition is precisely what is required
+ to satisfy the defining laws of a simulation.
+\end{proof}
+
+Now we can express the idea that bisimilarity of states is independent of any
+particular bisimulation between their systems with the following theorem.
+
+\begin{theorem}
+  Let $\Sys{S}$ and $\Sys{U}$ be $\lens{I}{O}$-systems. A state $s \in
+  \State{S}$ is bisimilar to a state $u \in \State{U}$ for some bisimulation
+  $\sim$ between $\Sys{S}$ and $\Sys{U}$ if and only if $!_{\Sys{S}}(s) = !_{\Sys{U}}(u)$.
+\end{theorem}
+\begin{proof}
+ First, let's show that if $s$ is bisimilar to $u$ via some bisimulation $\sim$,
+ then $!_{\Sys{S}}(s) = !_{\Sys{U}}(u)$. Now, to show that two trees are equal,
+ we need to show that they have equal roots and equal children.
+ \begin{itemize}
+   \item The root of $!_{\Sys{S}}(s)$ is $\expose{S}(s)$, and the root of
+     $!_{\Sys{U}}(u)$ is $\expose{U}(u)$. But since $s \sim u$ by hypothesis,
+     these are equal.
+   \item Similarly, the $i^{\text{th}}$ child of $!_{\Sys{S}}(s)$ is
+    $!_{\Sys{S}}(\update{S}(s, i))$, while the $i^{\text{th}}$ child of
+    $!_{\Sys{U}}(u)$ is $!_{\Sys{U}}( \update{U}(u, i) )$. But since $\sim$ is a
+    bisimulation, we have that $\update{S}(s, i) \sim \update{U}(u, i)$, and so
+    by the same argument we are giving, we will find that
+    $!_{\Sys{S}}(\update{S}(s, i)) = !_{\Sys{U}}(\update{U}(u,
+    i))$.\footnote{This style of proof is called \emph{proof by co-induction}.
+      Where induction assumes a base case and then breaks apart the next step
+      into a smaller step, co-induction shows that the proof can always be
+      continued in a manner which covers all possible options.}
+ \end{itemize}
+
+On the other hand, suppose that $!_{\Sys{S}}(s) = !_{\Sys{U}}(u)$. We now need
+to defined a bisimulation $\sim$ between $\Sys{S}$ and $\Sys{U}$ for which $s
+\sim u$. For any sequence of inputs $i : \ord{n} \to I$, we can evolve a system
+in state $s$ by the entire sequence $i$ to yield a state $\update{S}^{\ast}(s,
+i)$ in the following way:
+\begin{itemize}
+  \item If $n = 0$, then $\update{S}^{\ast}(s, i) = s$.
+  \item For $n + 1$, then $\update{S}^{\ast}(s, i) =
+    \update{S}(\update{S}^{\ast}(s, i|_{\ord{n}}), i_{n + 1})$.
+\end{itemize}
+We may then define $\sim$ in the following way.
+
+\begin{center}
+$x \sim y$ if and only if there is an $n \in \nn$ and $i : \ord{n} \to I$ with
+$x = \update{S}^{\ast}(s, i)$ and $y = \update{U}^{\ast}(u, i)$.
+\end{center}
+It remains to show that this is a bisimulation.
+
+For any
+$\lens{I}{O}$-tree $\tau$ and any $n$-length sequence $i : \ord{n} \to I$ of
+parameter (for any $n \in \nn$), we can follow the path $i$ through the tree
+$\tau$ to get a new tree $\fun{subtree}(\tau, i)$:
+\begin{itemize}
+  \item If $n = 0$, then $\fun{subtree}(\tau, i) = \tau$.
+  \item For $n + 1$, $\fun{subtree}(\tau, i) = \fun{child}(\fun{subtree}(\tau,
+    i|_{\ord{n}}))$ is the $i^{\text{th}}$ child of the tree found by following
+    $i$ for the first $n$ steps.
+\end{itemize}
+Note that $\!_{\Sys{S}}(\update{S}^{\ast}(s, i)) = \fun{subtree}(!_{\Sys{S}}(s),
+i)$ by a quick inductive argument. Now we can show that $\sim$ is a bisimulation.
+
+\begin{itemize}
+  \item Suppose that $x \sim y$, seeking to show that $\expose{S}(x) =
+    \expose{U}(y)$. By hypothesis, $x = \update{S}^{\ast}(s, i)$ and $y =
+    \update{U}^{\ast}(u, i)$. But then
+    \begin{align*}
+      \expose{S}(x) &= \fun{root}(!_{\Sys{S}}(x)) \\
+                    &= \fun{root}(\fun{subtree}(!_{\Sys{S}}(s), i)) \\
+      &= \fun{root}(\fun{subtree}(!_{\Sys{U}}(u), i)) \\
+                    &= \fun{root}(!_{\Sys{U}}(y)) \\
+      &= \expose{U}(y).
+    \end{align*}
+  \item Suppose that $x \sim y$, seeking to show that
+    $\update{S}(x, j) \sim \update{U}(y, j)$. By hypothesis, $x =
+    \update{S}^{\ast}(s, i)$ and same for $y = \update{U}^{\ast}(u,i)$. Then
+    letting $i' : \ord{n+1} \to \nn$ be defined by $i'_{n+1} = j$ and $i'_k =
+    i_k$ otherwise, we see that $\update{S}(x, j) = \update{S}^{\ast}(s, i')$
+    and $\update{U}(y, j) = \update{U}^{\ast}(y, i')$, so that by definition
+    they are related by $\sim$.
+\end{itemize}
+\end{proof}
 %% writehere
 
 %---- Section ----%
