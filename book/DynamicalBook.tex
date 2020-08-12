@@ -328,6 +328,8 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \DeclareMathOperator{\Mor}{Mor}
 \DeclareMathOperator{\dom}{dom}
 \DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\idy}{idy}
+\DeclareMathOperator{\comp}{com}
 \DeclareMathOperator*{\colim}{colim}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\Ob}{Ob}
@@ -441,6 +443,10 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 % Spivak macros %
 
+\newenvironment{dedication}
+     {\hfill}
+     {}
+
 \newcommand{\yon}{\mathcal{y}}
 \newcommand{\poly}[1][]{#1\Cat{Poly}}
 \newcommand{\0}{\textsf{0}}
@@ -455,14 +461,30 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\9}{\textsf{9}}
 
 \definecolor{dgreen}{rgb}{0.0, 0.5, 0.3} 
-\definecolor{dyellow}{rgb}{8.0, 0.74, 0} 
+\definecolor{dyellow}{rgb}{8.0, 0.74, 0}
+
+\newcommand{\pphantom}[2]{$\phantom{#1}$\nodepart{two}$\vphantom{#2}$}
+
 
 \newcommand{\qand}{\quad\text{and}\quad}
 \newcommand{\qqand}{\qquad\text{and}\qquad}
 
+\newcommand{\tr}{\Set{tree}}
+\newcommand{\rt}{\fun{root}}
+\newcommand{\fs}{\fun{focus}}
+
 \newcommand{\mdot}{{\cdot}}
-\newcommand{\cofree}[1]{\com{C}_{#1}}
+\newcommand{\cofree}[1]{\com{T}_{#1}}
 \newcommand{\coto}{\nrightarrow}
+\newcommand{\cofun}{{\raisebox{2pt}{\resizebox{2.5pt}{2.5pt}{$\setminus$}}}}
+
+\newcommand{\bimodto}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}  
+}
+\newcommand{\bimodfrom}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}  
+}
+
 \newcommand{\ema}[1]{\mathfrak{#1}}
 
 \newcommand{\cof}{\nrightarrow}
@@ -472,8 +494,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\tri}{\mathbin{\triangleleft}}
 \newcommand{\tripow}[1]{^{\lhd #1}}
 
-\newcommand{\trunc}{\bigtriangledown}
-%\newcommand{\trunc}{\dot\bigtriangledown}
+
+ 
  
 \newcommand{\centergraphics}[2][width=\textwidth]{
 \begin{center}
@@ -559,6 +581,9 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \frontmatter
 
 \title{\titlefont Categorical dynamics}
+\title{\titlefont Positions and directions}
+\title{\titlefont Systems Behaving Together\\in an Arena}
+\title{\titlefont Ears, brains, and mouths}
 \title{\titlefont Categorical Systems Theory}
 
 % \author{\LARGE David Jaz Myers \and \LARGE David I. Spivak\normalsize}
@@ -586,6 +611,15 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 
 \thispagestyle{empty}
+\clearpage
+This page intentionally left blank.
+\clearpage
+
+\begin{dedication}
+To Andr\'e Joyal and Bill Lawvere
+\end{dedication}
+
+\clearpage
 
 \subfile{C0-Preface}
 
