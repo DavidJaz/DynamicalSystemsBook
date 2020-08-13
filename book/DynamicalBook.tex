@@ -473,18 +473,13 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\tr}{\Set{tree}}
 \newcommand{\rt}{\fun{root}}
 \newcommand{\fs}{\fun{focus}}
+\newcommand{\lensput}{\fun{put}}
+\newcommand{\lensget}{\fun{get}}
 
 \newcommand{\mdot}{{\cdot}}
 \newcommand{\cofree}[1]{\com{T}_{#1}}
 \newcommand{\coto}{\nrightarrow}
 \newcommand{\cofun}{{\raisebox{2pt}{\resizebox{2.5pt}{2.5pt}{$\setminus$}}}}
-
-\newcommand{\bimodto}[1][]{
-	\begin{tikzcd}[ampersand replacement=\&]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}  
-}
-\newcommand{\bimodfrom}[1][]{
-	\begin{tikzcd}[ampersand replacement=\&]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}  
-}
 
 \newcommand{\ema}[1]{\mathfrak{#1}}
 
@@ -495,7 +490,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\tri}{\mathbin{\triangleleft}}
 \newcommand{\tripow}[1]{^{\lhd #1}}
 
-
+\newcommand{\bul}[1][black]{{\color{#1}\ensuremath{\bullet}}}
  
  
 \newcommand{\centergraphics}[2][width=\textwidth]{

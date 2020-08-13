@@ -3291,8 +3291,8 @@ First, a comonoid morphism includes a morphism of polynomials $f\colon S\yon^S\t
 	\node[right=0pt of t_pos] {$T$};
 	\node[right=0pt of t_dir] {$T$};
 	%
-	\draw (s_pos) to[first] node[below] {$\mathrm{get}$} (t_pos);
-	\draw (t_dir) to[last] node[above] {$\mathrm{put}$} (s_dir);
+	\draw (s_pos) to[first] node[below] {$\lensget$} (t_pos);
+	\draw (t_dir) to[last] node[above] {$\lensput$} (s_dir);
 \end{tikzpicture}
 \]
 Let's apply the unit-homomorphism property \eqref{eqn.unit_law_draw}
@@ -3317,7 +3317,7 @@ Let's apply the unit-homomorphism property \eqref{eqn.unit_law_draw}
 	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
 \end{tikzpicture}
 \]
-It says that $\mathrm{put}(\mathrm{get}(s))=s$. This is typically called the get-put law.
+It says that $\lensput(\lensget(s))=s$. This is typically called the get-put law.
 
 We leave the comultiplication-homomorphism law to \cref{exc.well_behaved}, where we will see that it specifies that get and put must satisfy two other properties, called the put-put and the put-get laws.
 \end{example}
@@ -3332,9 +3332,56 @@ Complete \cref{ex.well_behaved}.
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[Very well-behaved lenses are kinda boring]\label{ex.well_behaved_boring}
+We saw in \cref{exc.well_behaved} that a comomonoid homomorphism (cofunctor) $S\yon^S\fromto T\yon^T$ between state comonoids can be characterized as a pair of functions $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ satisfying get-put, put-get, and put-put. In fact, it turns out that happens if and only if $\lensget$ is a product projection. The other factor will be:
+\[
+F\coloneqq\{f\colon T\to S\mid t\in T,\;\lensget(f(t))=t\text{ and }\lensput(f(t),t)=f(t)\}.
+\]
+In other words we will see that if $(\lensget,\lensput)$ is a comonoid homomorphism then there is a bijection $S\cong T\times F$ and that $\lensget\colon S\to T$ is one of the projections. We will see that the converse is true in \cref{exc.well_behaved_boring}
+
+So assume $(\lensget,\lensput)\colon S\yon^S\fromto T\yon^T$ is a comonoid homomorphism, in particular that it satisfies put-get, get-put, and put-put. We obtain a function $\pi\colon S\to T\times F$ given by
+\[s\mapsto(\lensget(s),t\mapsto\lensput(s,t))\]
+and it is well-defined since for all $s\in S$ and $t,t'\in T$ we have $\lensget(\lensput(s,t))=t$ by put-get and $\lensput(\lensput(s,t),t')=\lensput(s,t')$ by put-put. We also obtain a function $\pi'\colon T\times F\to S$ given by
+\[
+(t,f)\mapsto f(t).
+\]
+The two functions $\pi,\pi'$ are mutually inverse: the roundtrip on $S$ is identity because $\lensput(s,\lensget(s))=s$ by get-put; the roundtrip on $T\times F$ is identity because $\lensget(f(t))=t$ and $\lensput(f(t),t)=f(t)$ by assumption on $f\in F$.
+\end{example}
+
+\begin{exercise}\label{exc.well_behaved_boring}
+Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times F$.
+\begin{enumerate}
+	\item Show that there exists a very well behaved lens $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$.
+	\item Show that there exists a cofunctor between the complete-graph category on $S$ and the complete-graph category on $T$.
+	\item Show that there exists a comonoid homomorphism $S\yon^S\to T\yon^T$ between the state comonoids.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 \begin{proposition}[Niu]
-The coproduct of comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
+The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
 \end{proposition}
+\begin{proof}
+We refer the claim about $0$ to \cref{exc.0_initial_com}.
+
+Let $\cat{C}_1$ and $\cat{C}_2$ be categories and $\ema{c}_1,\ema{c}_2$ the carriers of their corresponding comonoids $\com{C}_1$ and $\com{C}_2$. We first notice that $\ema{c}\coloneqq\ema{c}_1+\ema{c}_2$ is the carrier for the comonoid $\com{C}$ corresponding to the sum category $\cat{C}\coloneqq\cat{C}_1+\cat{C}_2$. Indeed, the object-set of the sum is given by the sum of the object-sets
+\[
+	\Ob(\cat{C}_1+\cat{C}_2)
+  \cong
+  \Ob(\cat{C}_1)+\Ob(\cat{C}_2),
+\]
+and a morphism in $\cat{C}_1+\cat{C}_2$ emanating from any such object is just a morphism in whichever of the categories $\cat{C_1}$ or $\cat{C}_2$ it is from. 
+
+It remains to show that $\com{C}$ is the coproduct of $\com{C}_1$ and $\com{C}_2$. Suppose given a comonoid $\com{D}$ and comonoid homomorphisms (cofunctors) $f_1\colon\com{C}_1\to\com{D}$ and $f_2\colon\com{C}_2\to\com{D}$. Then for any object of $\com{C}$ we have an associated object $f(c)\in\com{D}$, given either by $f(c)\coloneqq f_1(c)$ or by $f(c)\coloneqq f_2(c)$ depending on whether $c\in\com{C}_1$ or $c\in\com{C}_2$. For any morphism $m$ emanating from $f(c)$ we have a morphism $f^\sharp(m)$ emanating from $c$. It is easy to check that the cofunctor laws hold for $f$. Uniqueness of $f$ given $f_1,f_2$ is also straightforward.
+\end{proof}
+
+\begin{exercise}\label{exc.0_initial_com}
+\begin{enumerate}
+	\item Show that $0$ is a comonoid.
+	\item Show that $0$ is initial as a comonoid.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \begin{exercise}
 Check that the terminal comonoid is $\yon$.
@@ -3527,10 +3574,59 @@ A position $t\in \tr_p\tri\1$ is a called a \emph{(possibly infinite) tree in $p
 \cref{def.cofree} is alluding to a specific image one can form of $\cofree{p}$ in terms of trees. Let's go through it in an example before giving the formula.
 
 \begin{example}
-Let $p\coloneqq\{\dot[red],\dot[blue]\yon^\2$
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees of height at most 3, i.e.\ four elements of $p\tri p\tri p\tri\1$:
 \[
-START: tree pic 
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm},
+  level 3/.style={sibling distance=2.5mm}]
+	\node[red] (a) {$\bullet$}
+		child {node[red] {$\bullet$}
+			child {node[dyellow] {$\bullet$}}
+			child {node[dyellow] {$\bullet$}}
+		}
+		child {node[dgreen] {$\bullet$}
+			child {node[dgreen] {$\bullet$}
+				child
+			}
+		}
+		;
+	\node[dgreen, right=2 of a] (b) {$\bullet$}
+		child {node[blue] {$\bullet$}
+			child {node[blue] {$\bullet$}
+				child
+				child
+			}
+			child {node[red] {$\bullet$}
+				child
+				child
+			}
+		};
+	\node[dyellow, right=2 of b] (c) {$\bullet$};
+	\node[red, right=2 of c] {$\bullet$}
+		child {node[blue] {$\bullet$}
+			child {node[red] {$\bullet$}
+				child
+				child
+			}
+			child {node[red] {$\bullet$}
+				child
+				child
+			}
+		}
+		child {node[red] {$\bullet$}
+			child {node[red] {$\bullet$}
+				child
+				child
+			}
+			child {node[red] {$\bullet$}
+				child
+				child
+			}
+		};
+\end{tikzpicture}
 \]
+In \cref{def.cofree}, when we speak of (possibly infinite) trees in $p$, we mean trees that can go on forever. START
 \end{example}
 
 Here is a picture of the formula.
@@ -3620,9 +3716,12 @@ For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
 	\item cartesian cofunctors to $\com{C}$
 	\item linear left $\com{C}$-modules
 	\item constant left $\com{C}$-modules
+	\item $(\com{C},0)$-bimodules
 	\item representable right $\com{C}$-modules
 \end{enumerate}
 \end{theorem}
+
+Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity cofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ module with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-module}, a certain constant left $\com{C}$ module with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},0)$-bimodule}, and a certain representable right $\com{C}$-module with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-module}.
 
 \begin{proposition}
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
@@ -3650,7 +3749,18 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 
 
 \begin{proposition}
+Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
+
+Moreover, for any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
+\[
+\begin{tikzcd}
+  \yon\ar[r,biml-bimr, "F"]\ar[rr, biml-bimr, bend right=20pt, "\lim F"']&
+  \com{C}\ar[r,biml-bimr, "\yon^{\Ob(\cat{C})}"]&[5pt]
+  \yon
+\end{tikzcd}
+\]
 \end{proposition}
+
 
 
 Misc:
