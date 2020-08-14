@@ -1905,7 +1905,19 @@ From this data, we note that we can extend $M$ into a functor $M : \cat{C} \to
 \cat{C}$ by sending $f : A \to B$ to $Mf \coloneqq (\eta_B \circ f)^M : MA \to
 MB$.
 Then $\eta : A \to MA$ is natural in $A$, and we get another natural
-transformation $\mu : MM A \to M$ defined by lifting the identity: $\mu \coloneqq \id^M$.
+transformation $\mu : MM A \to M A$ defined by lifting the identity: $\mu
+\coloneqq \id^M$. In fact, a monad may be equivalently defined as a functor $M :
+\cat{C} \to \cat{C}$ with natural transformations $\eta : A \to MA$ and $\mu :
+M^2 A \to MA$ for which the following diagrams commutes:
+\begin{equation}\label{eqn.monad_laws}
+\begin{tikzcd}
+MA \arrow[r, "\eta"] \arrow[rd, equals] & M^2A \arrow[d, "\mu"] & MA \arrow[l, "M\eta"'] \arrow[ld, equals] &  & M^3A \arrow[r, "\mu"] \arrow[d, "M\mu"'] & M^2 A \arrow[d, "\mu"] \\
+                                & MA                                &                                   &  & M^2 A \arrow[r, "\mu"']                  & MA                    
+\end{tikzcd}
+\end{equation}
+For $f : A \to M B$, we can recover $f^M : M A \to MB$ from this definition of
+the monad $M$ as
+$M A \xto{M f} M^2 B \xto{\mu} M B$.
 
 A monad $M$ is said to be \emph{commutative} if there is a natural
 transformation $\sigma : MA \times MB \to M(A \times B)$ is said to be
@@ -1936,6 +1948,20 @@ transformation $\sigma : MA \times MB \to M(A \times B)$ is said to be
     \\
     M(A \times B) \times MC \ar[r, "\sigma_{A \times B, C}"'] & M(A \times B
     \times C)
+    \end{tikzcd}
+    \end{equation}
+  \item 
+\begin{equation}\label{eqn.com_monad_monad_unit} 
+    \begin{tikzcd}
+      A \times B \ar[r, "{\eta \times \eta}"] \ar[dr, "{\eta}"'] & M A \times M B \ar[d, "{\sigma}"] \\
+      & M(A \times B)
+    \end{tikzcd}
+    \end{equation}
+  \item 
+\begin{equation}\label{eqn.com_monad_monad_mult} 
+    \begin{tikzcd}
+      M^2 A \times M^2 B \ar[r, "{\sigma\then M\sigma}"] \ar[d, "{\mu \times \mu}"'] & M^2(A \times B) \ar[d, "\mu"] \\
+      M A \times M B \ar[r, "{\sigma}"'] & M(A \times B)
     \end{tikzcd}
     \end{equation}
 \end{itemize}
@@ -2005,17 +2031,38 @@ $\powset$ acts as a functor on $f : A \to B$ by
 \powset f (X) = (\eta_B \circ
 f)^{\powset}(X) = \bigcup_{a \in X}\{f(a)\} = f[X].
 \]
-sending a subset of $A$ to its image in $B$.
+sending a subset of $A$ to its image in $B$. We also note that $\mu : \powset^2
+A \to \powset A$ defined by $\mu = \id_{\poweset A}^{\powset}$ sends a set $S$
+of subsets of $S$ to its union $\bigcup{s \in S} s$.
 \begin{itemize}
-  \item Beginning with $(X, Y) \in \powset A \times \powset \ord{1}$, we need to
+  \item (\cref{eqn.com_monad_right_unit}) Beginning with $(X, Y) \in \powset A \times \powset \ord{1}$, we need to
     show that $\powset \pi_1 \circ \sigma_{A, \ord{1}}(X, Y) = X$. Now,
     $\sigma_{A, \ord{1}}(X, Y) = \{(a, b) \mid a \in X, b \in \ord{1}\}$; since
     there is just one $b \in \ord{1} = \{0\}$, every $a \in X$ is paired with
     some $b$, so projecting out the first component gives us all of $X$.
-    \item This is the same as the above, but on the other side.
-    \item If we have $(X, Y, Z) \in \powset A \times \powset B \times \powset
+    \item (\cref{eqn.com_monad_left_unit}) This is the same as the above, but on the other side.
+    \item (\cref{eqn.com_monad_assoc}) If we have $(X, Y, Z) \in \powset A \times \powset B \times \powset
       C$, both sides of this diagram will give us $\{(a, b, c) \mid a \in X, b
       \in Y, c \in Z\}$. 
+    \item (\cref{eqn.com_monad_monad_unit}) For $(a, b) \in A \times B$, we have
+      $\eta(a, b) = \{a, b\}$, and $\sigma(\eta(a), \eta(b)) = \{(x, y) \mid x
+      \in \{a\},\, y \in \{b\}\}$.
+   \item (\cref{eqn.com_monad_monad_mult}) Let $S$ be a set of subsets of $A$
+     and $T$ a set of subsets of $B$. The bottom path gives us
+     \[
+\sigma(\mu(S), \mu(T)) = \left\{(x, y) \,\middle|\, x \in \bigcup_{s \in S} s,\, y \in \bigcup_{t \in T} t\right\}
+\]
+while taking the top path, we first get $\sigma(S, T) = \{(s, t) \mid s \in S,\,
+t \in T\}$ and then $M\sigma$ of that to get
+\[
+\sigma\left[ \{(s, t) \mid s \in S,\, t \in T\} \right] = \{\{(x, y) \mid x \in
+s,\, y \in t\} \mid s \in S,\, t \in T\}.
+\]
+Finally, we take the union over this to get
+\[
+\mu(\powset \sigma(\sigma(S, T))) = \bigcup_{s \in S,\, t \in T}\{(x, y) \mid x \in s,\, y \in t\}.
+\]
+These two paths are easily seen to give the same result.
 \end{itemize}
 \end{proof}
 
@@ -2375,15 +2422,23 @@ g^{\probset}(f(a)) = \sum_{c \in \bigcup_{b \in \bigcup_{a \in X} Y_a }} \gamma_
   Next, we check that the laws of a commutative monad hold. We note that for a
   function $f : A \to B$, the function $\probset f = (\eta_B \circ
   f)^{\probset}$ is defined by
-  $\probset f\left( \sum_{a \in X} \lambda_a a \right) = \sum_{a \in X} \sum_{b
-    \in \{f(a)\}} \lambda_a b = \sum_{a \in X} \lambda_a f(a).$
+  \[\probset f\left( \sum_{a \in X} \lambda_a a \right) = \sum_{a \in X} \sum_{b
+    \in \{f(a)\}} \lambda_a b = \sum_{a \in X} \lambda_a f(a).\]
+  Furthermore, $\mu : \probset^2 A \to \probset A$ sends a formal convex
+  combination $\sum_i \lambda_i p_i$ of probability distributions to the
+  \emph{actual} convex combination of those probability distributions, namely
+  the distribution
+  \[
+\mu\left( \sum_i \lambda_i p_i \right)(a) \coloneqq \sum_i \lambda_i p_i(a).
+  \]
+  
   \begin{itemize}
-\item There is a unique probability distribution on $\ord{1} \cong \{\ast\}$,
+\item (\cref{eqn.com_monad_right_unit}) There is a unique probability distribution on $\ord{1} \cong \{\ast\}$,
   namely $1 \cdot \ast$. So, $\sigma(p, 1) = \sum_{(a, \ast) \in X \times
     \ord{1}} \lambda_a \cdot 1 \cdot (a, \ast)$, and projecting out again gives
   us $p = \sum_{a \in X} \lambda_a a$.
-\item The same, but on the other side.
-\item Suppose that we have
+\item (\cref{eqn.com_monad_left_unit}) The same, but on the other side.
+\item (\cref{eqn.com_monad_assoc}) Suppose that we have
   \begin{align*}
     p &= \sum_{a \in X} p_a a, \\
     q &= \sum_{b \in Y} q_b b, \\
@@ -2393,7 +2448,31 @@ g^{\probset}(f(a)) = \sum_{c \in \bigcup_{b \in \bigcup_{a \in X} Y_a }} \gamma_
   \[
 \sum_{(a, b, c) \in X \times Y \times Z} p_a q_b r_c (a, b, c).
   \]
+  \item (\cref{eqn.com_monad_monad_unit}) This is asking whether $\delta_{(a,
+      b)} = \delta_a \delta_b$ as distributions on $A \times B$, which they are.
+  \item (\cref{eqn.com_monad_monad_mult}) Let $\sum_{i} \lambda_i p_i$ be an
+    element of $\probset\probset A$, and similarly let $\sum_j \rho_j q_j$ be an
+    element of $\probset\probset B$. Following the bottom path around, we get
+    \[
+\sigma\left( \mu\left( \sum_i \lambda_i p_i \right), \mu\left( \sum_j \rho_j q_j
+  \right) \right)(a, b) = \left( \sum_i \lambda_i p_i(a) \right)\left( \sum_j
+  \rho_j q_j(b) \right) = \sum_i \sum_j \lambda_i \rho_j p_i(a)q_j(b).
+    \]
+    Meanwhile,
+    \[\sigma\left( \sum_i \lambda_i p_i, \sum_j \rho_j q_j \right) =
+      \sum_i \sum_j \lambda_i \rho_j (p_i, q_j).
+    \]
+    and taking $\probset \sigma$ of that gives
+    \[
+\sum_i \sum_j \lambda_i \rho_j p_i q_j
+\]
+which means that finally
+\[
+\mu\left(\probset \sigma\left( \sigma\left( \sum_i \lambda_i p_i, \sum_j \rho_j
+      q_j \right) \right) \right)(a, b) = \sum_i \sum_j \rho_j p_i(a)q_j(b).
+\]
   \end{itemize}
+
 \end{proof}
 
 \begin{exercise}
@@ -2418,8 +2497,9 @@ Given a stochastic system $\Sys{S}$, we have $\update{S} : \State{S} \times
 \]
 which will let us iterate. We can see that this sends a probability distribution
 $p$ on states and an input $i$ to the distribution
-$$\sum_{s \in \State{S}} p_s\update{S}^{\probset}(s, i) \cdot s.$$
-
+\[
+s \mapsto \sum_{s' \in \State{S}} p(s') \update{S}(s', i)(s).
+\]
 
 \subsection{Monadic doctrines and the Kleisli category}
 We have now seen two sorts of non-determinism expressed by commutative monads.
@@ -2512,8 +2592,11 @@ is a system whose dynamics is given by a Kleisli map for $M$. It consists of:
   \end{itemize}
 \end{definition}
 
-This will let us more swiftly describe new non-deterministic doctrines. For
-example, suppose we imagine that our system is free to choose which state it transitions
+This will let us more swiftly describe new non-deterministic doctrines.
+
+\iffalse
+For
+example, suppose that our system is free to choose which state it transitions
 to next, but there's a catch. For any state $s$ and input parameter $i$, there
 will be a cost $\update{S}(s, i)(s') \in [0, \infty]$ associated to each other state $s'$ ---
 the cost of transitioning from $s$ to $s'$ given the parameter $i$. A cost of
@@ -2522,8 +2605,12 @@ prohibitively expensive, or impossible.
 
 
 \begin{definition}\label{def.cost_monad}
-  We will define a monad $\Fun{Cost}$ on the category of sets. We think of a Kleisli map $f : A \to \Fun{Cost} B$ as
-  assiging the best-case cost of producing a $b \in B$ from a given $a \in A$.   \begin{itemize}
+  We will define a monad $\Fun{Cost}$ on the category of sets. We think of a Kleisli map $f : A \to \Fun{Cost} ( B )$ as
+  assiging the best-case cost of producing a $b \in B$ from a given $a \in A$.
+  For practical reasons, we assume that only finitely many $b \in B$ are
+  possible (that is, have finite cost) to produce from an $a \in A$.
+
+  \begin{itemize}
   \item For a set $A$,
     \[
 \Fun{Cost}(A) \coloneqq \{c : A \to [0, \infty] \mid \mbox{$\{a \in A \mid c(a) <
@@ -2550,9 +2637,9 @@ such a $b$ is the minimum over all $a \in A$ of the total cost of producing $b$
 from $a$. We note that the minimum is achieved because only finitely many of the
 costs are finite.
   \item Given sets $A$ and $B$, the cost of having an element of $A$ and an
-    element of $B$ is the sum of their costs. That is, $\sigma : \Fun{Cost}(A)
-    \times \Fun{Cost}(B) \to \Fun{Cost}(A \times B)$ is defined by 
-$$\sigma(c, c')(a, b) \coloneqq c(a) + c'(b).$$
+    element of $B$ should be the sum of their costs. But we are forced by the
+    laws of a commutative monad to set it to be the minimum of their
+    costs: $$\sigma(c, c')(a, b) \coloneqq \min\{c(a), c'(b)\}.$$
   \end{itemize}
 \end{definition}
 
@@ -2598,6 +2685,8 @@ A (discrete-time) system with costs is a $\Fun{Cost}$-system.
   $\emptyset \in \State{Proj}$, and then ask the cost of $\Set{Steps} \in
   \State{Proj}$ at the end. 
 \end{example}
+
+\fi
 
 \subsection{Adding rewards to non-deterministic systems}
 
@@ -2670,30 +2759,15 @@ this lack of perfect information. The agent doesn't know exactly what will
 happen when it performs an action, but it has a good idea of what will
 \emph{probably} happen.
 
-There are two ways to mix probability and reward. First, we can say that if an
-agent takes an action $i$ in a state $s$, then they will get a certain reward
-and will transition stochastically into a next state. This has signature
-\[
-  \State{S} \times \In{S} \to \rr \times \probset \State{S}.
-\]
 
-On the other hand, we might expect that the reward will depend on what state the
-agent actually ends up in, and not just the action it takes. In that case, we
-would want to know the probability of transitioning to a next state \emph{and}
-getting a certain reward. This would have signature
+The reward our agent gets should depend on what state the
+agent actually ends up in, and not just the action it takes. Therefore, we want to know the probability of transitioning to a next state \emph{and}
+getting a certain reward. This has signature
 \[
   \State{S} \times \In{S} \to \probset(\rr \times \State{S}).
 \]
 
-We will see that \emph{both} of these possible interpretations --- landing in a
-set of the form $\rr \times
-\probset A$ and $\probset (\rr \times A)$ respectively --- are commutative
-monads. In fact, they both work in a broad generality, allowing us to add
-rewards to all sorts of non-determinstic systems.
-
-\paragraph{Putting rewards in a commutative monad}
-
- We begin by showing that the assignment $A \mapsto \probset(\rr \times A)$
+We will show that the assignment $A \mapsto \probset(\rr \times A)$
  forms a commutative monad. We will show that more generally, if $M$ is
  \emph{any} commutative monad and $R$ any commutative monoid, then $M(R \times
  -)$ is a commutative monad again. We say that we can ``put the rewards $R$ into
@@ -2772,11 +2846,364 @@ cumulative reward of $r$.
 \end{example}
 
 
+\iffalse
 \paragraph{Popping rewards out of a monad}
 
+Instead of having a chance of transitioning and getting a reward, we might think
+that the agent has an expected reward for each action. Since this is an
+expectation, it is independent of the actual resulting state.
+
+If we had a likelyhood $u \in \probset(\rr \times \State{S})$ of transitioning
+to a state and getting a reward, then we could calculate our expected reward by
+taking the expectated value of the marginalization of $u$ to $\rr$.To find the
+likelyhood of transitioning to the next state, independent of reward, we just
+marginalize $u$ to $\State{S}$. This gives
+us a map
+\[
+\rho : \probset(\rr \times A) \to \rr \times \probset A
+\]
+defined as the composite 
+\[
+\rho = \probset(\rr \times A) \xto{(\probset \pi_1, \probset \pi_2)}
+\probset \rr \times \probset A \xto{E \times \id} \rr \times \probset A.
+\]
+Here, the map $E : \probset \rr \to \rr$ is the \emph{expected value} map:
+\[
+E(p) \coloneqq \sum_{r \in \rr} p(r) \cdot r.
+\]
+We note that the sum on the right hand side is no longer a formal convex
+combination but an actual convex combination in $\rr$.
+
+We might say that $\rho$ lets us ``pop $\rr$ out of $\probset$''. Just as how
+the map $\lambda : \rr \times \probset A \to \probset(\rr \times A)$ which
+``put $\rr$ into $\probset$'' let us turn $\probset(\rr \times A)$ into a
+commutative monad, $\rho$ will let us turn $\rr \times \probset A$ into a
+commutative monad.
+
+Before getting bogged down in calculations with expected values, let's take a
+moment to understand the relation of the expected value $E : \probset \rr \to
+\rr$ to the monad $\probset$. This is an instance of an \emph{algebra} of the
+monad $\probset$.
+
+\begin{definition}
+  Let $M : \cat{C} \to \cat{C}$ be a monad. An \emph{algebra} for $M$ consists
+  of an object $A$ of $\cat{C}$ and a map $\alpha : M A \to A$ satisfying the
+  following laws:
+  \begin{itemize}
+  \item (Unit) $\alpha \circ \eta = \id_A$:
+    \[
+      \begin{tikzcd}
+        A \ar[r, "\eta"] \ar[dr, equals] & M A \ar[d, "\alpha"] \\
+        & A
+      \end{tikzcd}
+    \]
+    \item (Associativity) $\alpha \circ M\alpha = \alpha \circ \mu$, where $\mu
+      = \id^{M}_{MA} : M M A \to M A$:
+      \[
+        \begin{tikzcd}
+          MM A \ar[d, "\mu"] \ar[r, "M\alpha"] & M A \ar[d, "\alpha"] \\
+          M A \ar[r, "\alpha"'] & A
+        \end{tikzcd}
+      \]
+  \end{itemize}
+
+  A map of $M$-algebras $f : \alpha \to \beta$ is a map $f : A \to B$ such that
+  $f \circ \alpha = \beta \circ M f$:
+  \[
+        \begin{tikzcd}
+          M A \ar[d, "\alpha"] \ar[r, "Mf"] & M B \ar[d, "\beta"] \\
+           A \ar[r, "f"'] & B 
+        \end{tikzcd}
+      \]
+  We call the resulting category $\Cat{Alg}(M)$ the category of algebras of $M$.
+\end{definition}
+
+\begin{proposition}
+  If $\cat{C}$ is a cartesian category and $M : \cat{C} \to \cat{C}$ is a monad,
+  then $\Cat{Alg}(M)$ is a cartesian category with the product of $\alpha : MA
+  \to A$ and $\beta : MB \to B$ given by
+  \[
+M(A \times B) \xto{(M \pi_1, M\pi_2)} MA \times M B \xto{\alpha \times \beta} A
+\times B.
+  \]
+\end{proposition}
+\begin{proof}
+  We just need to show that the product described above has the correct
+  universal property. If $a : X \to A$ and $b : X \to B$ are algebra maps from
+  $\chi : MX\to X$, then we just need to show that $(a, b) : X \to A \times B$
+  is an algebra map as well. That is, we need to show that the following square commutes:
+  \[
+        \begin{tikzcd}
+          M X \ar[d, "\chi"] \ar[r, "{M(a, b)}"] & M (A \times B) \ar[d, "{(M\pi_1, M\pi_2)\then (\alpha
+          \times \beta)} "] \\
+           X \ar[r, "{(a, b)}"'] & A \times B 
+        \end{tikzcd}
+  \]
+  This follows quickly from the functoriality of $M$ and the fact that $a$ and
+  $b$ are algebra maps.
+  \begin{align*}
+    M(a, b) \then (M \pi_1, M\pi_2) \then (\alpha \times \beta) &= (M((a, b) \then \pi_1), M((a, b)\then \pi_2)) \then (\alpha \times \beta) \\
+                                                                &= (M a, M b) \then (\alpha \times \beta) \\
+                                                                &= (M a \then \alpha, M b \then \beta) \\
+                                                                &= (\chi \then a, \chi \then b) \\
+    &= \chi \then (a, b).
+ \end{align*}
+\end{proof}
+
+\begin{proposition}
+  The expected value $E : \probset \rr \to \rr$ defined by
+  $$E(p) = \sum_{r \in \rr} p(r) \cdot r$$
+  makes $\rr$ into an algebra for
+  the probability monad.
+
+  Moreover, $(\rr, +, 0)$ is a commutative monoid in the category of algebras of $\probset$.
+\end{proposition}
+\begin{proof}
+  We check the two laws:
+  \begin{itemize}
+    \item (Unit) This says that the expected value of a Dirac delta distribution
+      centered at $x$ is $x$. \[
+E(\delta_x) = \sum_{r \in \rr} \delta_x(r) \cdot r = x.
+\]
+\item (Associativity) This says that expectation is convex linear. that is, if
+  we have a convex linear combination $\sum_i \lambda_i p_i \in
+  \probset\probset \rr$ of probability distributions on $\rr$, then
+  \[
+E\left( r \mapsto \sum_i \lambda_i p_i(r) \right) = \sum_{r \in \rr} \sum_i \lambda_i p_i(r)
+= \sum_i \lambda_i \sum_{r \in \rr}  p_i(r) = E\left( \sum_i \lambda_i E(p_i) \right).
+  \]
+  \end{itemize}
+
+  To check that $(\rr, +, 0)$ is a commutative monoid in the category of
+  algebras for $\probset$, we just need to check that $+$ is an algebra map.
+  This comes down to showing that $+$ is convex linear, which it quite clearly is.
+\end{proof}
+
+\fi
 
 
-%% writehere 
+
+\subsection{Changing the flavor of non-determinism: Monad maps}
+
+In the same way that $0$ is a number, determinstic systems are 
+non-deterministic systems, just with a trivial sort of non-determinism. Deterministic systems are $M$-systems for the
+\emph{identity monad} $\id(X) = X$. No matter what kind of non-determinism we
+are considering, we can always consider a deterministic system as a
+non-deterministic system, because we can take the $\update{}: \State{} \times
+\In{} \to \State{}$ and post compose by $\eta : \State{} \to M\State{}$. This
+operation of turning a deterministic system into an $M$-system has a few nice
+properties; for example, if we iterate the system and then turn it into an
+$M$-system, we get the same result as if we had iterated it as an $M$-system.
+
+In general, if we have a commutative monad morphism $M \to N$, then we can turn
+$M$-systems into $N$-systems.
+
+\begin{definition}\label{def.com_monad_map}
+A commutative monad map $\phi : M \to N$ is a natural transformation for which
+the following diagrams commute:
+\begin{itemize}
+\item
+  \begin{equation}\label{eqn.com_monad_map_unit}
+    \begin{tikzcd}
+    A \ar[r, "\eta^M"] \ar[dr, "\eta^N"'] & M A \ar[d, "\phi"] \\
+    & N A
+    \end{tikzcd}
+  \end{equation}
+\item
+  \begin{equation}\label{eqn.com_monad_map_mult}
+    \begin{tikzcd}
+    M^2 A \ar[r, "M\phi \then \phi"] \ar[d, "\mu^M"'] & N^2 A \ar[d, "\mu^N"] \\
+    M A \ar[r, "\phi"'] & NA
+    \end{tikzcd}
+  \end{equation}
+\item
+  \begin{equation}\label{eqn.com_monad_map_tensor}
+    \begin{tikzcd}
+    MA \times M B \ar[r, "\phi \times \phi"] \ar[d, "\sigma^M"'] & N A \times N B \ar[d, "\sigma^N"] \\
+    M (A \times B) \ar[r, "\phi"'] & N(A \times B)
+    \end{tikzcd}
+  \end{equation}
+\end{itemize}
+\end{definition}
+
+
+\begin{proposition}
+  There is a unique commutative monad map $\id \to M$, and it is given by
+  $\eta^M$. \end{proposition}
+\begin{proof}
+Let $\phi$ be such a map. Then condition \cref{eqn.com_monad_map_unit} says
+precisely that $\phi = \eta^M$. So it just remains to check that $\eta$ is a commutative monad map.
+  Now, \cref{eqn.com_monad_map_unit} commutes trivially, and
+  \cref{eqn.com_monad_map_mult} is in this case one of the diagrams defining $M$
+  from \cref{eqn.monad_laws}. Finally, \cref{eqn.com_monad_map_tensor} is in
+  this case \cref{eqn.com_monad_monad_unit}.
+\end{proof}
+
+We can then turn any deterministic system $\Sys{S}$ into an $M$-system by
+defining its new update to be $\eta^M \circ \update{S}$. For possibilistic
+systems, this says that only the state that $\Sys{S}$ actually transitions into
+is possible. For stochastic systems, this says that the probability that the
+system transitions into the state it actually transitions into is $1$.
+
+Intuitively, stochastic non-determinism is a refinement of possibilistic
+non-determinism: it not only tells us what is possible, but how likely it is. We
+can package this intuition into a commutative monad morphism $\phi : \probset
+\to \powset$.
+\begin{proposition}
+  There is a commutative monad morphism $\phi : \probset \to \powset$ given by
+  sending a probability distribution to the set of elements with non-zero probability:
+  \[
+\phi(p) = \{a \in A \mid p(a) \neq 0\}.
+  \]
+\end{proposition}
+\begin{proof}
+  We check that this satisfies the laws.
+  \begin{itemize}
+    \item (\cref{eqn.com_monad_map_unit}) The only element which $\delta_a$
+      assigns a non-zero probability is $a$.
+    \item (\cref{eqn.com_monad_map_mult}) Given a formal convex combination
+      $\sum_i \lambda_i p_i$ of probability distributions $p_i \in \probset A$,
+      we see that
+      \[
+\phi\mu^{\probset}\left( \sum_{i}\lambda_i p_i \right) = \{a \in A \mid \sum_i
+\lambda_i p_i(a) \neq 0\},
+      \]
+      while
+      \[
+\probset\phi\left( \sum_i \lambda_i p_i \right) = \sum_{i} \lambda_i \{a \in A
+\mid p_i(a) \neq 0\}
+\]
+and so taking $\phi$ of that yields
+\[
+\{\{a \in A \mid p_i(a) \neq 0\} \mid \lambda_i \neq 0\}
+\]
+so, finally
+\[
+\mu^{\powset}\left( \phi \probset phi\left( \sum_i \lambda_i p_i \right) \right)
+= \bigcup_{\lambda_i \neq 0} \{a \in A \mid p_i(a) \neq 0\}.
+\]
+Both paths around the square are equal since all of the $\lambda_i$ and $p_i(a)$ are positive.
+\item (\cref{eqn.com_monad_map_tensor}) Let $p$ be a probability distribution on
+  $A$ and $q$ a probability distribution on $B$. Then
+  \[
+\phi(\sigma(p, q)) = \{(a, b) \mid p(a)q(b) \neq 0\}
+\]
+while
+\[
+\sigma(\phi(p), \phi(q)) = \{(a, b) \mid p(a) \neq 0\, q(b) \neq 0\}.
+\]
+These are equal since $p(a)q(b) \neq 0$ if and only if both $p(a)$ and $q(b)$
+are not $0$.
+  \end{itemize}
+\end{proof}
+
+This lets us turn a stochastic system into a possibilistic system, saying that a
+transition is possible if it has non-zero probability.
+
+\begin{exercise}
+Show that $\probset \eta^{\rr} : \probset A \to \probset(\rr \times A)$ is a
+commutative monad morphism. That is, show that the following diagrams commute:
+\begin{enumerate}
+\item
+  \begin{equation}
+    \begin{tikzcd}
+    A \ar[r, "\eta^{\probset}"] \ar[dr, "\eta^{\probset(\rr \times -)}"'] & \probset A \ar[d, "\probset(\eta^{\rr})"] \\
+    & \probset(\rr \times A) 
+    \end{tikzcd}
+  \end{equation}
+\item
+  \begin{equation}
+    \begin{tikzcd}
+    \probset^2 A \ar[r, "\probset\probset\eta^{\rr} \then \probset \eta^{\rr}"] \ar[d, "\mu^{\probset}"'] & \probset(\rr \times \probset(\rr \times A))\ar[d, "\mu^{\probset(\rr \times -)}"] \\
+    \probset A \ar[r, "\probset \eta^{\rr}"'] & \probset(\rr \times A)
+    \end{tikzcd}
+  \end{equation}
+\item
+  \begin{equation}
+    \begin{tikzcd}
+    \probset A \times \probset B \ar[r, "\probset \eta^{\rr} \times \probset\eta^{\rr}"] \ar[d, "\sigma^{\probset}"'] & \probset(\rr \times A) \times \probset(\rr \times B) \ar[d, "\sigma^{\probset(\rr \times -)}"] \\
+    \probset (A \times B) \ar[r, "\probset \eta^{\rr}"'] & \probset( \rr \times A \times B)
+    \end{tikzcd}
+  \end{equation}
+\end{enumerate}
+This shows that we can always consider a stochastic system as a stochastic
+system with rewards by assigning every transition the reward 0.
+\end{exercise}
+
+The reason we need all the laws for the monad morphism and not just an arbitrary family of
+maps $\phi : MA \to N A$ is that with these laws, we get functors $\Cat{Kl}(M)
+\to \Cat{Kl}(N)$ which tell us that iterating and then changing our
+non-determinism is the same as changing our non-determinism and then iterating. We begin with a useful lemma.
+\begin{lemma}\label{lem.com_monad_map_lift}
+  In the definition of a commutative monad map $\phi : M \to N$, the
+  commutativity of diagram
+  \cref{eqn.com_monad_map_mult} can be replaced by the commutativity of the
+  following diagram for any $f : A \to M B$:
+  \begin{equation}\label{eqn.com_monad_map_lift}
+    \begin{tikzcd}
+    M A \ar[r, "\phi"] \ar[d, "f^{M}"'] & N A \ar[d, "(f \then \phi)^N"] \\
+    M A \ar[r, "\phi"'] & NA
+    \end{tikzcd}
+  \end{equation}
+  That is,
+  \[
+f^M \then \phi = \phi \then (f \then \phi)^N.
+  \]
+\end{lemma}
+\begin{proof}
+Before we begin, we note that, by the
+  naturality of $\phi$, $M\phi \then \phi = \phi \then N\phi$:
+  \[
+    \begin{tikzcd}
+    M^2 A \ar[r, "\phi_{MA}"] \ar[d, "M\phi_A"'] & NM A \ar[d, "N\phi_A"] \\
+    MN A \ar[r, "\phi_{NA}"'] & N^2 A
+    \end{tikzcd}
+  \]
+  That is, we can take the top of \cref{eqn.com_monad_map_mult} to be $\phi \then
+  N\phi$ rather than $M\phi \then \phi$.
+
+  We recall that $f^M = Mf \then \mu^M$, and similarly $(f \then \phi)^N = N(f
+  \then \phi) \then \mu^N$. So we may rewrite \cref{eqn.com_monad_map_lift} as
+  the solid outer diagram in 
+  \begin{equation}\label{eqn.com_monad_map_lift_helper}
+\begin{tikzcd}
+M A \arrow[r, "\phi"] \arrow[d, "Mf"']                          & NA \arrow[d, "Nf \then N\phi)"] \\
+M^2 A \arrow[d, "\mu^M"'] \arrow[r, "\phi \then N\phi", dashed] & N^2 A \arrow[d, "\mu^N"]        \\
+MA \arrow[r, "\phi"']                                           & N A                            
+\end{tikzcd}
+\end{equation}
+Now we are ready to prove our lemma. We note that the top square in this diagram
+always commutes by the naturality of $\phi$. \cref{eqn.com_monad_map_mult} is the lower
+square in this diagram; so, if it commutes, then the outer square (which is
+\cref{eqn.com_monad_map_lift}) commutes. On the other hand, if
+\cref{eqn.com_monad_map_lift} commmutes for all $f : A \to M B$, we may take $f
+= \id : M A \to M A$ to find that the outer square of
+\cref{eqn.com_monad_map_lift_helper} becomes just \cref{eqn.com_monad_map_mult}.
+\end{proof}
+
+
+\begin{proposition}
+  Let $\phi : M \to N$ be a commutative monad morhpisms. Then there is a
+  strict symmetric monoidal functor
+  $$\phi_{\ast} : \Cat{Kl}(M) \to \Cat{Kl}(N)$$
+  acting as the identity on objects and sending the Kleisli map $f : A \to MB$
+  to the composite \[\phi_{\ast}f \coloneqq A \xto{f} M B \xto{\phi} N B.\]
+\end{proposition}
+\begin{proof}
+  We will check that this is a functor; that it is strictly symmetric monoidal
+  follows from this and from the fact that it acts as the identity on objects. 
+  The identity $\eta^M : A \to M A$ in $\Cat{Kl}(M)$ gets sent to
+  $\phi_{\ast}\eta^M = \eta^M \then \phi$. This equals $\eta^N : A \to NA$ by \cref{eqn.com_monad_map_unit}.
+
+  Given $f : A \to MB$ and $g : B \to MC$, their composite is $f \then g^M : A
+  \to M C$, so that
+  \begin{align*}
+    \phi_{\ast}(f \then g^M) &\coloneqq f \then g^M \then \phi \\
+                             &= f \then \phi \then (g \then \phi)^N &\mbox{by \cref{lem.com_monad_map_lift}}\\
+    &= (\phi_{\ast} f)(\phi_{\ast} g)^N.
+  \end{align*} 
+\end{proof}
+
 
 
 \section{Wiring together non-deterministic systems: the generalized lens construction}
