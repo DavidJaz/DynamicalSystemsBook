@@ -3630,8 +3630,8 @@ A position $t\in \tr_p\tri\1$ is a called a \emph{(possibly infinite) tree in $p
 
 \cref{def.cofree} is alluding to a specific image one can form of $\cofree{p}$ in terms of trees. Let's go through it in an example before giving the formula.
 
-\begin{example}
-Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees of height at most 3, i.e.\ four elements of $p\tri p\tri p\tri\1$:
+\begin{example}\label{ex.imagining_trees}
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees of height at most 3:
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=10mm},
@@ -3683,8 +3683,25 @@ Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. 
 		};
 \end{tikzpicture}
 \]
-In \cref{def.cofree}, when we speak of (possibly infinite) trees in $p$, we mean trees that can go on forever. START
+In \cref{def.cofree}, when we speak of (possibly infinite) trees in $p$, we mean trees that can go on forever. Let's imagine some:
+\begin{itemize}
+	\item The binary tree that's ``all red all the time''.
+	\item The binary tree where odd layers are red and even layers are blue.
+	\item The tree where all the nodes are red, except for the right-most branch, which is always green.%
+	\footnote{\;Note that branches are actually unordered, so it's technically wrong to think of it as a line of green up the right side. Instead, it's just a line of green going up the tree, somewhere.}
+	\item Completely random: for the root, randomly choose either red, blue, green, or yellow, and at every leaf, loop back to the beginning, i.e.\ randomly choose either red, blue, green, or yellow, etc.
+\end{itemize}
+
+There are uncountably many positions in $\cofree{p}$, at least for this particular $p$---in fact, even $\cofree{2\yon}$ has $2^\nn$-many positions---but only finitely many can be described in any finite language like English. Thus most of the elements of $\cofree{p}$ cannot be described.
 \end{example}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Interpret the four tree examples imagined in \cref{ex.imagining_trees} by drawing three or four layers (your choice).
+	\item What do you think the describable trees have in common, formally?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 Here is a picture of the formula.
 
@@ -3718,6 +3735,68 @@ Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in 
 
 %-------- Section --------%
 \section{Bimodules}
+
+\begin{definition}
+**
+\end{definition}
+\[
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m) {};
+  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$D$" below] (D) {};
+  	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
+  	\node[poly, cod, right= of D.south, yshift=-1ex, "$D$" right] (DD) {};
+  	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (C) {};
+%
+		\draw (m_pos) to[first] (D_pos);
+		\draw (D_dir) to[climb] (mm_pos);
+		\draw (mm_dir) to[last] (m_dir);
+		\draw[double] (D_pos) to[first] (DD_pos);
+		\draw[double] (DD_dir) to[last] (D_dir);
+		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw (mmm_dir) to[climb] (C_pos);
+		\draw (C_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+%
+	\node (p2) [below=of p1] {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m') {};
+  	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
+  	\node[poly, above=of mm', "\tiny$C$" above] (C') {};
+  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$D$" right] (D') {};
+  	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (CC') {};
+%
+		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw (mm'_dir) to[climb] (C'_pos);
+		\draw (C'_dir) to[last] (m'_dir);
+		\draw (mm'_pos) to[first] (D'_pos);
+		\draw (D'_dir) to[climb] (mmm'_pos);
+		\draw (mmm'_dir) to[last] (mm'_dir);
+		\draw[double] (C'_pos) to[first] (CC'_pos);
+		\draw[double] (CC'_dir) to[last] (C'_dir);
+	\end{tikzpicture}
+	};	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\]
+
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$m$" left] (m) {};
+	\node[poly, cod, right=of m, "$m$" right] (mm) {};
+	\node[poly, cod, above=of mm, "$C$" right] (C) {};
+	\node[poly, cod, below=of mm, "$D$" right] (D) {};
+%
+	\draw (m_pos) to[out=0, in=180] (D_pos);
+	\draw (D_dir) to[climb] (mm_pos);
+	\draw (mm_dir) to[climb] (C_pos);
+	\draw (C_dir) to[last] (m_dir);
+\end{tikzpicture}
+\]
 
 Recall from \cref{prop.basechange} that for any function $f\colon A\to B$, we have a base-change functor $f^*\colon B\poly\to A\poly$ and a cartesian morphism $f^*p\to p$ for any polynomial $p$ and isomorphism $p(\1)\cong B$.
 
@@ -3851,69 +3930,8 @@ If $m\in\poly$ is equipped with both a right $\com{C}$-module and a right $\com{
 \begin{proof}
 It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-module with carrier $\yon^M$ can be identified with a cofunctor $M\yon^M\to\com{C}$.
 
-Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ which we identify with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
+Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
 \end{proof}
-
-Misc:
-
-\[
-\begin{tikzpicture}
-	\node (p1) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$m$" left] (m) {};
-  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$D$" below] (D) {};
-  	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
-  	\node[poly, cod, right= of D.south, yshift=-1ex, "$D$" right] (DD) {};
-  	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
-  	\node[poly, cod, above=of mmm, "$C$" right] (C) {};
-%
-		\draw (m_pos) to[first] (D_pos);
-		\draw (D_dir) to[climb] (mm_pos);
-		\draw (mm_dir) to[last] (m_dir);
-		\draw[double] (D_pos) to[first] (DD_pos);
-		\draw[double] (DD_dir) to[last] (D_dir);
-		\draw[double] (mm_pos) to[first] (mmm_pos);
-		\draw (mmm_dir) to[climb] (C_pos);
-		\draw (C_dir) to[last] (mm_dir);
-	\end{tikzpicture}
-	};
-%
-	\node (p2) [below=of p1] {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$m$" left] (m') {};
-  	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
-  	\node[poly, above=of mm', "\tiny$C$" above] (C') {};
-  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$D$" right] (D') {};
-  	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
-  	\node[poly, cod, above=of mmm, "$C$" right] (CC') {};
-%
-		\draw[double] (m'_pos) to[first] (mm'_pos);
-		\draw (mm'_dir) to[climb] (C'_pos);
-		\draw (C'_dir) to[last] (m'_dir);
-		\draw (mm'_pos) to[first] (D'_pos);
-		\draw (D'_dir) to[climb] (mmm'_pos);
-		\draw (mmm'_dir) to[last] (mm'_dir);
-		\draw[double] (C'_pos) to[first] (CC'_pos);
-		\draw[double] (CC'_dir) to[last] (C'_dir);
-	\end{tikzpicture}
-	};	
-	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
-\end{tikzpicture}
-\]
-
-\[
-\begin{tikzpicture}[polybox, tos]
-	\node[poly, dom, "$m$" left] (m) {};
-	\node[poly, cod, right=of m, "$m$" right] (mm) {};
-	\node[poly, cod, above=of mm, "$C$" right] (C) {};
-	\node[poly, cod, below=of mm, "$D$" right] (D) {};
-%
-	\draw (m_pos) to[out=0, in=180] (D_pos);
-	\draw (D_dir) to[climb] (mm_pos);
-	\draw (mm_dir) to[climb] (C_pos);
-	\draw (C_dir) to[last] (m_dir);
-\end{tikzpicture}
-\]
 
 
 
