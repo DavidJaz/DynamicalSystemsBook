@@ -16,6 +16,14 @@
 biml/.tip={Glyph[glyph math command=triangleleft, glyph length=.87ex]},
 bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.92ex]},
 }
+
+\newcommand{\bimodto}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}  
+}
+\newcommand{\bimodfrom}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}  
+}
+
   
 \tikzset{trees/.style={
 	inner sep=0, 
