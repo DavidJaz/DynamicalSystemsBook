@@ -2769,12 +2769,17 @@ In order for the above picture to make sense, $A$ has the same output that $B$ h
 We could say that the person in \eqref{eqn.someone2} has interface $2\yon$, the units have interfaces $X\yon$ and $\yon^X$ respectively, and the whole system is closed; that is, the diagram represents a morphism $2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $2X\yon^X\to\yon$ is uniquely determined on positions, and on directions it is given by cases $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
 \end{example}
 
-In the above examples we have discussed a very general sort of interaction. One could wonder if it could be made even more general. There indeed may be ideas one could have in mind that simply cannot be expressed in $\poly$: it is only one category.
+We can easily generalize \cref{ex.assemble_machine}. Indeed, we will see in the next section that there is a polynomial $\ihom(q_1\otimes\cdots\otimes q_k\,,\,r}$ of all ways  $q_1,\ldots,q_k$ can interact in $r$, and that a map from some $p$ to it is just a bigger interaction pattern:
+\[
+\poly(p,[q_1\otimes\cdots\otimes q_k\,,\,r])\cong\poly(p\otimesq_1\otimes\cdots\otimes q_k\,,\,r).
+\]
+In other words, if $p$ thinks its deciding how $q_1,\ldots,q_k$ are wired up in $r$, and gets feedback from that wiring pattern itself, then in actuality $p$ is just part of a wiring diagram with $q_1,\ldots,q_k$ inside of $r$.\
 
-What's exciting about $\poly$ is that examples like \cref{ex.cell_auto_vote_interaction,ex.assemble_machine} show that it is quite general, and yet as we will see in \cref{sec.bonus_poly}, this single category has excellent formal properties. You can count on it not to crap out. On the spectrum from invention to discovery, $\poly$ itself is a discovery, and its application to dynamics (and later to data and decision) are invention.
+What it also means is that if you want, you can put a little dynamical system inside of $[q_1\otimes\cdots\otimes q_k,r]$ and have it constantly choosing interaction patterns. Let's see how it works.
+
 
 %---- Subsection ----%
-\subsection{Closure of $\otimes$}
+\subsection{Closure of $\otimes$}%[-,-]
 
 The parallel monoidal product is closed, meaning that there is an operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$ and an isomorphism
 \[

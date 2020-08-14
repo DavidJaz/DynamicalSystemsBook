@@ -3415,6 +3415,8 @@ Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times 
 \end{enumerate}
 \end{exercise}
 
+\slogan{State categories don't make good interfaces for dynamics.}
+
 \begin{proposition}[Niu]
 The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
 \end{proposition}
@@ -3688,7 +3690,7 @@ In \cref{def.cofree}, when we speak of (possibly infinite) trees in $p$, we mean
 	\item The binary tree that's ``all red all the time''.
 	\item The binary tree where odd layers are red and even layers are blue.
 	\item The tree where all the nodes are red, except for the right-most branch, which is always green.%
-	\footnote{\;Note that branches are actually unordered, so it's technically wrong to think of it as a line of green up the right side. Instead, it's just a line of green going up the tree, somewhere.}
+	\footnote{\;Note that branches are actually unordered, so it's technically wrong to think of it as a line of green up the \emph{right side}. Instead, it's just a line of green going up the tree forever.}
 	\item Completely random: for the root, randomly choose either red, blue, green, or yellow, and at every leaf, loop back to the beginning, i.e.\ randomly choose either red, blue, green, or yellow, etc.
 \end{itemize}
 
@@ -3698,12 +3700,18 @@ There are uncountably many positions in $\cofree{p}$, at least for this particul
 \begin{exercise}
 \begin{enumerate}
 	\item Interpret the four tree examples imagined in \cref{ex.imagining_trees} by drawing three or four layers (your choice).
-	\item What do you think the describable trees have in common, formally?
+	\item Describe the set of trees (positions) in $\cofree{\1}$.
+	\item Describe the set of trees (positions) in $\cofree{\2}$.
+	\item Describe the set of trees (positions) in $\cofree{\yon}$.
+	\item Describe the set of trees (positions) in $\cofree{\yon^\2}$.
+	\item Describe the set of trees (positions) in $\cofree{\2\yon}$.
+	\item Describe the set of trees (positions) in $\cofree{\yon+\1}$.
+	\item Describe the set of trees (positions) in $\cofree{B\yon^A}$.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-Here is a picture of the formula.
+Three different construction: mine, Nelson's, Lack's. Here is a picture of the formula.
 
 \[
 \begin{tikzpicture}[polybox, tos]
@@ -3728,6 +3736,16 @@ Here is a picture of the formula.
 	\draw[shorten <=4pt] (or6.center) to[last] (q_dir);
 \end{tikzpicture}
 \]
+
+\paragraph{Consequences of adjointness.}
+
+Talk about how $f\colon S\yon^S\to p$ induces $S\yon^S\to\cofree{p}$.
+
+Show polybox picture of $S\yon^S$ splitting and then going to $p$ via $f$.
+
+Show graph fibration idea.
+
+Conjecture: for any tree that can be described in language, there is a finite state machine that accomplishes it.
 
 \begin{proposition}
 Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is epic.
