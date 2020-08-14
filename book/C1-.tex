@@ -1979,7 +1979,7 @@ transformation $\sigma : MA \times MB \to M(A \times B)$ is said to be
 
   What we have called $\mu$ is called \mintinline{haskell}{join}. A monad in haskell is commutative if the following two programs have the same
   results:
-  \begin{minted}{}
+  \begin{minted}{haskell}
     f :: Monad m => m a -> m b -> m (a, b)
     f ma ma = do
                a <- ma
@@ -2032,7 +2032,7 @@ $\powset$ acts as a functor on $f : A \to B$ by
 f)^{\powset}(X) = \bigcup_{a \in X}\{f(a)\} = f[X].
 \]
 sending a subset of $A$ to its image in $B$. We also note that $\mu : \powset^2
-A \to \powset A$ defined by $\mu = \id_{\poweset A}^{\powset}$ sends a set $S$
+A \to \powset A$ defined by $\mu = \id_{\powset A}^{\powset}$ sends a set $S$
 of subsets of $S$ to its union $\bigcup{s \in S} s$.
 \begin{itemize}
   \item (\cref{eqn.com_monad_right_unit}) Beginning with $(X, Y) \in \powset A \times \powset \ord{1}$, we need to
