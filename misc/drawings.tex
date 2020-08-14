@@ -38,6 +38,54 @@
 	\input{../book/tikz_stuff}
 	
 	
+\newcommand{\const}[1]{\mathtt{#1}}%a constant, or named element of a set
+\newcommand{\Set}[1]{\mathsf{#1}}%a named set
+\newcommand{\ord}[1]{\mathsf{#1}}%an ordinal
+\newcommand{\cat}[1]{\mathcal{#1}}%a generic category
+\newcommand{\Cat}[1]{\textbf{#1}}%a named category
+\newcommand{\fun}[1]{\mathrm{#1}}%a function
+\newcommand{\Fun}[1]{\mathrm{#1}}%a named functor
+\newcommand{\Sys}[1]{\mathsf{#1}}%dynamical system
+\newcommand{\com}[1]{\mathscr{#1}}%polynomial comonoid
+
+% System shorthands:
+\newcommand{\State}[1]{\Set{State}_{\Sys{#1}}}
+\newcommand{\Out}[1]{\Set{Out}_{\Sys{#1}}}
+\newcommand{\In}[1]{\Set{In}_{\Sys{#1}}}
+\newcommand{\expose}[1]{\fun{expose}_{\Sys{#1}}}
+\newcommand{\update}[1]{\fun{update}_{\Sys{#1}}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\then}{\mathbin{\fatsemi}}
+
+\newcommand{\cocolon}{:\!}
+
+
+\newcommand{\iso}{\cong}
+\newcommand{\too}{\longrightarrow}
+\newcommand{\tto}{\rightrightarrows}
+\newcommand{\To}[1]{\xrightarrow{#1}}
+\newcommand{\Tto}[3][13pt]{\begin{tikzcd}[sep=#1, cramped, ampersand replacement=\&, text height=1ex, text depth=.3ex]\ar[r, shift left=2pt, "#2"]\ar[r, shift right=2pt, "#3"']\&{}\end{tikzcd}}
+\newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
+\newcommand{\from}{\leftarrow}
+\newcommand{\From}[1]{\xleftarrow{#1}}
+\newcommand{\Fromm}[1]{\xleftarrow{\;\;#1\;\;}}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\inj}{\rightarrowtail}
+\newcommand{\wavyto}{\rightsquigarrow}
+\newcommand{\lollipop}{\multimap}
+\newcommand{\tickar}{\xtickar{}}
+\newcommand{\imp}{\Rightarrow}
+\renewcommand{\iff}{\Leftrightarrow}
+\newcommand{\down}{\mathbin{\downarrow}}
+\newcommand{\fromto}{\leftrightarrows}
+\newcommand{\xtickar}[1]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
+
+
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\op}{^\tn{op}}
 \newcommand{\LMO}[2][over]{\ifthenelse{\equal{#1}{over}}{\overset{#2}{\bullet}}{\underset{#2}{\bullet}}}
 
 \definecolor{dgreen}{rgb}{0.0, 0.5, 0.3} 
@@ -48,6 +96,7 @@
 \maketitle
 
 \section*{Dynamical systems}
+\iffalse
 \[
 \begin{tikzpicture}
 	\node[draw] {
@@ -57,6 +106,33 @@
   	\LMO{c}
   \end{tikzcd}
   };
+\end{tikzpicture}
+\]
+
+\fi
+
+\[
+\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center)]
+  \node[bb={4}{1}, fill=blue!10] (rabbit) {$\Sys{Rabbits}$};
+  \node[bb={4}{1}, fill=blue!10, below = 8 of rabbit] (fox) {$\Sys{Foxes}$};
+
+  \node[draw=dgreen, circle, inner sep = 0] (c2) at ($(fox_out1) + (2, 2)$){$c_2$};
+  \node[draw=dgreen, circle, inner sep = 0, ] (c1) at ($(rabbit_out1-|fox_out1) + (2, -2)$) {$c_1$};
+
+  \node[bb={2}{2}, fit = {($(rabbit.north east) + (5,2)$ ) ($(rabbit.north west) + (-2,0)$) ( $(fox.south east) + (5, -2)$ ) ($(fox.south west) + (-2, 0)$)}] (Z) {};
+
+ \draw (rabbit_out1) to ($(rabbit_out1-|Z_out1) + (0,2)$);
+ \draw (rabbit_out1) to[in=170] (c1);
+ \draw (rabbit_in1-|Z_in1) to (rabbit_in1);
+ \draw (fox_out1) to ($(fox_out1-|Z_out1) + (0,-2)$);
+ \draw (fox_out1) to (c2);
+ \draw (fox_in4-|Z_in1) to (fox_in4);
+
+ \coordinate[below = 4 of rabbit] (midpoint);
+ \draw (c1) to[out=350, in=10, looseness=2] (midpoint);
+ \draw (midpoint) to[out=190, in=180, looseness=3] (fox_in1);
+ \draw (c2) to[out=10, in=350, looseness=2] (midpoint);
+ \draw (midpoint) to[out=170, in=180, looseness=3] (rabbit_in4);
 \end{tikzpicture}
 \]
 \end{document}

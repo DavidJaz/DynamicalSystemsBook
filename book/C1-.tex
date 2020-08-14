@@ -194,10 +194,20 @@ While we're at it, here's some notation we'll use repeatedly throughout the book
 So $\ord{0}$ is the empty set, $\ord{1}$ is a one-element set, etc.
 
 %-------- Section --------%
-\section{The deterministic, stochastic, and differential doctrines}
+\section{Deterministic and differential doctrines}
 
 In this chapter, we will see how to wire together dynamical systems of all
-different sorts. 
+different sorts. First, however, we start with two exemplary doctrines:
+
+\begin{enumerate}
+\item First, systems which we will call \emph{(discrete-time) deterministic
+    systems}, which specify exactly which state the system will transition into
+  given its current state and input parameters.
+\item Second, systems which we will call \emph{differential systems}, which do
+  not specify a ``next state'' but rather specify exactly how the state is
+  tending to change in the moment, given the current state and input parameters.
+\end{enumerate}
+
 
 \subsection{Deterministic systems}\label{sec.deterministic_system}
 
@@ -584,7 +594,7 @@ from exposing their whole state, but often some aspects of the state are private
   is an epimediological model used to study how a disease spreads through a
   population. ``SIR'' stands for ``susceptible'', ``infected'', and, rather
   ominously, ``removed''. This model is usually presented as a system of
-  differential equations --- what we will call a differential system --- and we will see it in that form in the next chapter.
+  differential equations --- what we will call a differential system --- and we will see it in that form in \cref{ex.SIR_model_diff}.
   But we can see a discrete approximation to this continuous model as a
   deterministic system.
 
@@ -702,6 +712,36 @@ Show that to give a closed system
 one just needs to choose a set $\State{S}$ and an update function $\update{S} :  \State{S} \to \State{S}$.
 \end{exercise}
 
+Given that we are mostly interested in how systems wire together, it may seem
+strange to draw attention to the closed systems that \emph{can't} be wired into
+anything else. But we will often end up with a closed system as the result of
+wiring together some systems.
+
+For example, suppose we have an $\Sys{Agent}$ acting within a
+$\Sys{Environment}$. The agent will take an action, and the evironment will
+respond to that action. Depending on the action taken and response given, the
+agent and the environment will update their states. We can model this by the
+following wiring diagram:
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=2pt, bb port sep=1, baseline=(Outer.center)]
+  \node[bb={1}{1}, fill=blue!10](Box) {$\Sys{Agent}$};
+  \node[bb={1}{1}, fill=blue!10, right=of Box] (Tape) {$\Sys{Environment}$};
+  
+  \node[bb={0}{0}, fit={($(Tape.south east) + (0, -2)$) ($(Box.north west) + (0, 1)$)}] (Outer) {};
+  \node[above=0pt of Outer.south] (Label) {$\Sys{Closed\ Agent/Environment\ Model}$};
+
+  \draw (Box_out1) to (Tape_in1);
+
+
+  \draw let \p1=(Tape.south east), \p2=(Box.south west), \n1=\bbportlen, \n2=\bby in
+    (Tape_out1) to[in=0] (\x1 + \n1, \y1 - \n2 - 1) -- (\x2 - \n1, \y2 - \n2 - 1) to[out=180] (Box_in1);
+\end{tikzpicture}
+\]
+
+To have this be a closed model is to think --- or pretend --- that the our model
+of the $\Sys{Agent}$ and the $\Sys{Environment}$ includes all possible external
+parameters, that it is well isolated from its own environment.
+
 \begin{exercise}
 What would happen to a system $\Sys{S}$ if its set of parameters or output values were actually empty sets? Let's find out.
 \begin{enumerate}
@@ -716,7 +756,121 @@ What would happen to a system $\Sys{S}$ if its set of parameters or output value
 
 \subsection{Differential systems}
 
+\begin{quote}
+  \emph{La nature ne fait jamais des sauts} - Liebniz
+\end{quote}
 
+A quirk of modeling dynamical systems as determinstic systems is that
+determinstic systems lurch from one state to the next. In life, there are no
+next moments. Time, at least at human scales and to a first approximation, flows
+continuously.
+
+Instead of modelling the ``next'' state a system will be in, we can model
+\emph{how the system is tending to change}, in the moment. In order to do this,
+we need to make concession in the way we model the states of our system: we must
+assume they form a continuum themselves.
+
+For example, suppose we are studying a population of $\Sys{Rabbits}$. We can
+measure the rate at which rabbits are born, and the rate they die. Then the
+population changes according to these rates. We can express this dependency of
+the change in population on certain rates with a differential equation:
+\[
+\frac{dr}{dt} = \const{b}_{\Sys{Rabbits}} \cdot r - \const{d}_{\Sys{Rabbits}}
+\cdot r
+\]
+where $r \in \rr$ is the population of rabbits (considered as a real number for
+convenience), and the rates $\const{b}_{\Sys{Rabbits}}$ and
+$\const{d}_{\Sys{Rabbits}}$. The state of our system of $\Sys{Rabbits}$ is the current population of rabbits,
+so $\State{Rabbits} = \rr$, while we take the birth and death rates as
+parameters, so that $\In{Rabbits} = \rr \times \rr$. Accordingly, 
+we can box the rabbit system up like so:
+\begin{equation}\label{eqn.rabbit_box}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Tape.center)]
+\node[bb={2}{1}, fill=blue!10] (Tape) {$\Sys{Rabbits}$};
+\draw[label]
+  node[left=2pt of Tape_in1] {$\rr$}
+  node[left=2pt of Tape_in2] {$\rr$}
+  node[right=2pt of Tape_out1] {$\rr$}
+;
+\end{tikzpicture}
+\end{equation}
+
+Now, rabbits are prey; they are eaten by other animals. That means that the rate
+at which rabbits die will depend on how often they are being eaten, and how
+often they are being eaten will depend on how many predators there are out there.
+
+Now, the population of any predator will also change according to a birth rate
+and death rate. Suppose we have a similarly defined system of $\Sys{Foxes}$
+goverened whose population is governed by the differential equation
+\[
+\frac{df}{dt} = \const{b}_{\Sys{Foxes}} \cdot f - \const{d}_{\Sys{Foxes}}
+\cdot f.
+\]
+We can box up this system like so:
+\begin{equation}\label{eqn.foxes_box}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(Tape.center)]
+\node[bb={2}{1}, fill=blue!10] (Tape) {$\Sys{Foxes}$};
+\draw[label]
+  node[left=2pt of Tape_in1] {$\rr$}
+  node[left=2pt of Tape_in2] {$\rr$}
+  node[right=2pt of Tape_out1] {$\rr$}
+;
+\end{tikzpicture}
+\end{equation}
+
+Now, we want the death rate of rabbits to depend on the number of foxes. But we
+also need the birth rate of the foxes to depend on the number of rabbits; after
+all, if a fox has nothing to eat, it has no time for hanky-panky. So we will add the following
+system of equations to the mix:
+\[
+\begin{cases} \const{d}_{\Sys{rabbits}} = c_1 f \\ \const{b}_{\Sys{Foxes}} =
+  c_2 r \end{cases}
+\]
+Making these
+substitutions, we get the following system of differential equations:
+\[
+  \begin{cases}
+    
+\frac{dr}{dt} =  \const{b}_{\Sys{Rabbits}}
+\cdot r - c_1 f r \\
+\frac{df}{dt} = c_2 r f - \const{d}_{\Sys{Foxes}}
+\cdot f
+  \end{cases}
+\]
+
+We are setting the parameters of the systems of $\Sys{Rabbits}$ and
+$\Sys{Foxes}$ according to the states of the other system. That is, we are
+wiring up the systems of $\Sys{Rabbits}$ and $\Sys{Foxes}$:
+\begin{equation}
+\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center)]
+  \node[bb={4}{1}, fill=blue!10] (rabbit) {$\Sys{Rabbits}$};
+  \node[bb={4}{1}, fill=blue!10, below = 8 of rabbit] (fox) {$\Sys{Foxes}$};
+
+  \node[draw=dgreen, circle, inner sep = 0] (c2) at ($(fox_out1) + (2, 2)$){$c_2$};
+  \node[draw=dgreen, circle, inner sep = 0, ] (c1) at ($(rabbit_out1-|fox_out1) + (2, -2)$) {$c_1$};
+
+  \node[bb={2}{2}, fit = {($(rabbit.north east) + (5,2)$ ) ($(rabbit.north west) + (-2,0)$) ( $(fox.south east) + (5, -2)$ ) ($(fox.south west) + (-2, 0)$)}] (Z) {};
+
+ \draw (rabbit_out1) to ($(rabbit_out1-|Z_out1) + (0,2)$);
+ \draw (rabbit_out1) to[in=170] (c1);
+ \draw (rabbit_in1-|Z_in1) to (rabbit_in1);
+ \draw (fox_out1) to ($(fox_out1-|Z_out1) + (0,-2)$);
+ \draw (fox_out1) to (c2);
+ \draw (fox_in4-|Z_in1) to (fox_in4);
+
+ \coordinate[below = 4 of rabbit] (midpoint);
+ \draw (c1) to[out=350, in=10, looseness=2] (midpoint);
+ \draw (midpoint) to[out=190, in=180, looseness=3] (fox_in1);
+ \draw (c2) to[out=10, in=350, looseness=2] (midpoint);
+ \draw (midpoint) to[out=170, in=180, looseness=3] (rabbit_in4);
+\end{tikzpicture}
+\end{equation}
+
+
+
+
+
+%% writehere
 %-------- Section --------%
 \section{Wiring together systems with lenses}\label{sec.wiring_discrete_systems}
 
@@ -1702,7 +1856,7 @@ lens in a cartesian category of our choosing.
   in $\arity_{\{\Out{SIR},\, \In{SIR} \}}$.
 \end{exercise}
 
-\section{Non-deterministic doctrines}
+\section{Non-deterministic doctrines}\label{sec.non_deterministic_systems}
 
 So far, we have seen how deterministic systems of the discrete- and
 continuous-time variety can be wired together. But modelling a system
@@ -2260,6 +2414,11 @@ FRANCISCO
     Those friend on Denmark
     Do not dull thy name with a defeated him yesternight.
 \end{quote}
+
+%%
+%% :CUSTOM-ID:cite-me-shakespeare
+%%
+
 \end{example}
 
 \begin{example}
@@ -2594,7 +2753,6 @@ is a system whose dynamics is given by a Kleisli map for $M$. It consists of:
 
 This will let us more swiftly describe new non-deterministic doctrines.
 
-\iffalse
 For
 example, suppose that our system is free to choose which state it transitions
 to next, but there's a catch. For any state $s$ and input parameter $i$, there
@@ -2637,11 +2795,15 @@ such a $b$ is the minimum over all $a \in A$ of the total cost of producing $b$
 from $a$. We note that the minimum is achieved because only finitely many of the
 costs are finite.
   \item Given sets $A$ and $B$, the cost of having an element of $A$ and an
-    element of $B$ should be the sum of their costs. But we are forced by the
-    laws of a commutative monad to set it to be the minimum of their
-    costs: $$\sigma(c, c')(a, b) \coloneqq \min\{c(a), c'(b)\}.$$
+    element of $B$ is the sum of their costs.
+    $$\sigma(c, c')(a, b) \coloneqq c(a) + c'(b).$$
   \end{itemize}
 \end{definition}
+
+\begin{exercise}
+  Show that $\Fun{Cost}$ does indeed define a commutative monad on the category
+  of sets.
+\end{exercise}
 
 Now we can quickly define our new sort of non-determinism.
 \begin{definition}
@@ -2686,7 +2848,6 @@ A (discrete-time) system with costs is a $\Fun{Cost}$-system.
   \State{Proj}$ at the end. 
 \end{example}
 
-\fi
 
 \subsection{Adding rewards to non-deterministic systems}
 
