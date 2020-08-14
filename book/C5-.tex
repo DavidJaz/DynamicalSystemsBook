@@ -3756,7 +3756,7 @@ which is again a pullback by \cref{thm.connected_limits,exc.composing_with_const
 Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\to m\tri\1$ be as in \cref{prop.right_modules_as_sums}. Complete the proof of that proposition as follows:
 \begin{enumerate}
 	\item Show that $\rho_f\then\epsilon=\id_m$
-	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c}$.
+	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c})$.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -3775,6 +3775,7 @@ For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the fol
 	\item constant left $\com{C}$-modules
 	\item $(\com{C},0)$-bimodules
 	\item representable right $\com{C}$-modules
+	\item dynamical systems with comonoid interface $\com{C}$
 \end{enumerate}
 \end{theorem}
 \begin{proof}
@@ -3825,7 +3826,33 @@ Moreover, for any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{
 \]
 \end{proposition}
 
+\begin{proposition}\label{prop.break_up_right_mods}
+Let $\com{C}$ be a comonoid. For any set $I$ and right $\com{C}$-modules $(m_i)_{i\in I}$, the coproduct $m\coloneqq \sum_{i\in I}m_i$ has a natural right-module structure. Moreover, each representable summand in the carrier $m$ of a right $\com{C}$-module is itself a right-$\com{C}$ module and $m$ is their sum.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+%
+%Let $\sum_{I\in\smset}\prod_{i\in I}\mod{}{\com{C}}$ denote the category whose objects are pairs $(I,(m_i)_{i\in I})$ where $I$ is a set and $m_i$ is a right $\com{C}$-module for each $i\in I$. A morphism $(I,(m_i)_{i\in I})\to(J,(n_j)_{j\in J})$ is a function $f\colon I\to J$ and, for each $i\in I$ a morphism $m_i\to n_{f(i)}$ of right-$\com{C}$ modules.
+%
+%\begin{proposition}
+%For any comonoid $\com{C}$ there is an adjunction
+%\[
+%\adj[40pt]{\mod{}{\com{C}}}{\sum_{i\in I}m_i}{{(n(\1),n[-])}}{\sum_{I\in\smset}\prod_{i\in I}\mod{}{\com{C}}}
+%\]
+%with functors labeled by where they send $n\in\mod{}{\com{C}}$ and $(I,(m_i)_{i\in I})\in\sum_{I\in\smset}\prod_{i\in I}\mod{}{\com{C}}$. 
+%
+%Moreover, the left adjoint is fully faithful.
+%\end{proposition}
 
+\begin{proposition}
+If $m\in\poly$ is equipped with both a right $\com{C}$-module and a right $\com{D}$-module structure, we can naturally equip $m$ with a $(\com{C}\times\com{D})$-module structure.
+\end{proposition}
+\begin{proof}
+It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-module with carrier $\yon^M$ can be identified with a cofunctor $M\yon^M\to\com{C}$.
+
+Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ which we identify with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
+\end{proof}
 
 Misc:
 
