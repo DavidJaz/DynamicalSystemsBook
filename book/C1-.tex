@@ -2133,7 +2133,7 @@ transformation $\sigma : MA \times MB \to M(A \times B)$ is said to be
 
   What we have called $\mu$ is called \mintinline{haskell}{join}. A monad in haskell is commutative if the following two programs have the same
   results:
-  \begin{minted}{}
+  \begin{minted}{haskell}
     f :: Monad m => m a -> m b -> m (a, b)
     f ma ma = do
                a <- ma
@@ -2186,7 +2186,7 @@ $\powset$ acts as a functor on $f : A \to B$ by
 f)^{\powset}(X) = \bigcup_{a \in X}\{f(a)\} = f[X].
 \]
 sending a subset of $A$ to its image in $B$. We also note that $\mu : \powset^2
-A \to \powset A$ defined by $\mu = \id_{\poweset A}^{\powset}$ sends a set $S$
+A \to \powset A$ defined by $\mu = \id_{\powset A}^{\powset}$ sends a set $S$
 of subsets of $S$ to its union $\bigcup{s \in S} s$.
 \begin{itemize}
   \item (\cref{eqn.com_monad_right_unit}) Beginning with $(X, Y) \in \powset A \times \powset \ord{1}$, we need to
@@ -2458,10 +2458,10 @@ These are means by which random streams of outputs
   We will define $\Sys{FaultyWire}$ as follows:
   \begin{itemize}
     \item A faulty wire will either have $\const{good}$ contact,
-      $\const{partial}$ contact, or $\const{no}$ contact, and it will be
+      $\const{partial}$ contact, or $\const{missing}$ contact, and it will be
       carrying a $\const{high}$ or $\const{low}$ charge:
       \[
-\State{FaultyWire} \coloneqq \{\const{high}, \const{low}\} \times \{\const{good}, \const{partial}, \const{no}\}.
+\State{FaultyWire} \coloneqq \{\const{high}, \const{low}\} \times \{\const{good}, \const{partial}, \const{missing}\}.
       \]
     \item The faulty wire will take in either a $\const{high}$ or $\const{low}$:
       \[
@@ -2477,8 +2477,8 @@ These are means by which random streams of outputs
        contact also has a small chance to decay.
        \begin{align*}
          \update{FaultyWire}((b, \const{good}), i) &= .99(i, \const{good}) + .01(i, \const{partial}), \\
-         \update{FaultyWire}((b, \const{partial}), i) &= .50(i, \const{partial}) + .49(\const{low}, \const{partial}) + .01(\const{low}, \const{no}), \\
-         \update{FaultyWire}((b, \const{no}), i) &= (\const{low}, \const{no}). \\
+         \update{FaultyWire}((b, \const{partial}), i) &= .50(i, \const{partial}) + .49(\const{low}, \const{partial}) + .01(\const{low}, \const{missing}), \\
+         \update{FaultyWire}((b, \const{missing}), i) &= (\const{low}, \const{no}). \\
        \end{align*}
   \end{itemize}
 
@@ -2949,10 +2949,9 @@ structure:
     \xto{\eta^R} R \times A \xto{\eta^M} M(R \times A)$.
   \item Given $f : A \to M(R \times B)$, we define $f^{M(R \times -)}$ to be the
     following composite:
-    \begin{align*}
-M(R \times A) &\xto{M(R \times f)} M(R \times M(R \times B)) \xto{M\lambda} MM(R \times R \times B)
-&\xto{\mu^{M}} M(R \times R \times B) \xto{M\mu^R} M(R \times B).
-      \end{align*}
+    \begin{multline*}
+M(R \times A) \xto{M(R \times f)} M(R \times M(R \times B)) \xto{M\lambda} MM(R \times R \times B)\\\xto{\mu^{M}} M(R \times R \times B) \xto{M\mu^R} M(R \times B).
+      \end{multline*}
  Intuitively, this takes a non-deterministic pair $(r, a)$ and, gets the
  non-deterministic pair $f(a) = (f_1(a), f_2(a))$, and then returns the
  non-deterministic pair $(r + f_1(a), f_2(a))$.
@@ -3274,14 +3273,14 @@ commutative monad morphism. That is, show that the following diagrams commute:
   \end{equation}
 \item
   \begin{equation}
-    \begin{tikzcd}
+    \begin{tikzcd}[column sep=large]
     \probset^2 A \ar[r, "\probset\probset\eta^{\rr} \then \probset \eta^{\rr}"] \ar[d, "\mu^{\probset}"'] & \probset(\rr \times \probset(\rr \times A))\ar[d, "\mu^{\probset(\rr \times -)}"] \\
     \probset A \ar[r, "\probset \eta^{\rr}"'] & \probset(\rr \times A)
     \end{tikzcd}
   \end{equation}
 \item
   \begin{equation}
-    \begin{tikzcd}
+    \begin{tikzcd}[column sep=large]
     \probset A \times \probset B \ar[r, "\probset \eta^{\rr} \times \probset\eta^{\rr}"] \ar[d, "\sigma^{\probset}"'] & \probset(\rr \times A) \times \probset(\rr \times B) \ar[d, "\sigma^{\probset(\rr \times -)}"] \\
     \probset (A \times B) \ar[r, "\probset \eta^{\rr}"'] & \probset( \rr \times A \times B)
     \end{tikzcd}
@@ -3367,7 +3366,7 @@ square in this diagram; so, if it commutes, then the outer square (which is
 
 
 
-\section{Wiring together non-deterministic systems: the generalized lens construction}
+\section[Wiring together non-deterministic systems]{Wiring together non-deterministic systems: the generalized lens construction}
 
 
 \subsection{Wiring together non-deterministic systems with monadic lenses}
@@ -3569,7 +3568,7 @@ function $A^+ \times B^- \to A^{-}$. In other words, a map in $\int^{C \in \smse
 Finally, we need to check that composition in $\int^{C \in \smset} \smctx{C}\op$
 is lens composition. Suppose that $\lens{f^{\sharp}}{f} :
   \lens{A^-}{A^+} \fromto \lens{B^-}{B^+}$ and $\lens{g^{\sharp}}{g} :
-  \lens{B^-}{B^+} \from \lens{C^-}{C^+}$ are lenses. In $\int^{C \in \smset}
+  \lens{B^-}{B^+} \fromto \lens{C^-}{C^+}$ are lenses. In $\int^{C \in \smset}
   \smctx{C}\op$, their composite is
 $$\lens{f^{\ast}g^{\sharp} \circ f^{\sharp}}{g \circ f}.$$
   The bottom is all good, we just need to check that the top --- which,

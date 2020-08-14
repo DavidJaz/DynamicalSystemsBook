@@ -1474,7 +1474,7 @@ The following categories are \emph{not connected}:
 In particular, terminal objects and products are \emph{not} examples of connected limits.
 \end{example}
 
-\begin{theorem}\label{thm.connected_limits}
+\begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
 The operation $\tri$ commutes with connected limits in both variables. That is, if $J$ is a connected category, $p\colon J\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
 %\[
 %	(\lim_{j\in J} p_{j,})\tri q\cong \lim_{j\in J}(p_{j,}\tri q)
@@ -1557,7 +1557,7 @@ It remains to give a map \eqref{eqn.times_duoidal}.**
 %\begin{tikzcd}
 %	((p\tri p')+(q\tri q'))+(r\tri r')\ar[r]\ar[d]&
 %	(p\tri p')+((q\tri q')+(r\tri r'))\ar[r]&
-%	(p\tri p')+((q+r)\tri(q'+r')\ar[d]\\
+%	(p\tri p')+((q+r)\tri(q'+r'))\ar[d]\\
 %	((p+ q)\tri(p'+ q'))+(r\tri r')\ar[r]&
 %	((p+q)+r)\tri((p'+q')+r')\ar[r]&
 %	(p+(q+r))\tri(p'+(q'+r'))
@@ -1567,6 +1567,34 @@ It remains to give a map \eqref{eqn.times_duoidal}.**
 %\end{enumerate}
 %\end{exercise}
 
+
+\begin{proposition}[$\tri$ preserves cartesian maps in both variables]\label{prop.comp_pres_cart}
+If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian then so is $(f\tri g)\colon(p\tri q)\to (p'\tri q')$.
+\end{proposition}
+\begin{proof}
+For any $h\colon A\to B$ of sets, all faces of the cube
+\[
+\begin{tikzcd}[sep=small]
+  qpA\ar[rr]\ar[dd]\ar[dr]&&
+  qpB\ar[dd]\ar[dr]\\&
+  qp'A\ar[rr, crossing over]&&
+  qp'B\ar[dd]\\
+  q'pA\ar[rr]\ar[dr]&&
+  q'pB\ar[dr]\\&
+  q'p'A\ar[from=uu, crossing over]\ar[rr]&&
+  q'p'B
+\end{tikzcd}
+\]
+are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal is too by standard properties of pullbacks.
+\end{proof}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Show that if $f$ is an isomorphism and $g$ is vertical then $f\tri g$ is vertical.
+	\item Find a polynomial $q$ and a vertical morphism $f\colon p\to p'$ such that $(f\tri\id_q)\colon (p\tri q)\to (p'\tri q)$ is not vertical.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 %-------- Section --------%
 \section{Comonoids in $\poly$}
@@ -2451,7 +2479,7 @@ Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\co
 satisfying the following conditions:
 \begin{enumerate}[itemsep=0pt, label=\roman*.]
 	\item $F^\sharp(c,\id_{F_0c})=\id_c$ for any $c\in C_0$;
-	\item $F_0\cod F^\sharp(c,g))=\cod g$ for any $c\in C_0$ and $g\colon F_0(c)\to\cod(g)$ in $D$;
+	\item $F_0\cod F^\sharp(c,g)=\cod g$ for any $c\in C_0$ and $g\colon F_0(c)\to\cod(g)$ in $D$;
 	\item $F^\sharp(\cod F^\sharp(c,g_1),g_2)\circ F^\sharp(c,g_1)=F^\sharp(c,g_1\then g_2)$ for composable arrows $g_1,g_2$ out of $F_0 c$.
 \end{enumerate}
 In other words, $F^\sharp$ preserves identities, codomains, and compositions.
@@ -2513,21 +2541,21 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
   	\draw (q'_dir) -- node[above] {$\idy$} (p'_dir);
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
-	\node[right=2 of 1] (2) {
+	\node[right=1.6 of 1] (2) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {};
   	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, above=of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
 		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
 	};
-	\node[right=2 of 2] (3) {
+	\node[right=1.6 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (c) {};
   	\node[poly, cod, right=of c] (c') {};
@@ -2596,21 +2624,21 @@ Now we can write the other equation.
   	\draw (q'_dir) -- (p'_dir);
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, left] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
-	\node[right=2 of 1] (2) {
+	\node[right=1.6 of 1] (2) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {};
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, left] {$\comp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
   \end{tikzpicture}
 	};
-	\node[right=2 of 2] (3) {
+	\node[right=1.6 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (c) {};
   	\node[poly, cod, right=of c] (c') {};
@@ -2671,64 +2699,93 @@ Let's fill it in with $i\in c(\1)$ and $d\in c[i]$ to get some equations:
 \]
 Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$. We couldn't have said it better ourselves; thanks giant brain!
 
-Let's draw the associativity equation using two sides of a diagram. Note that you never pass from left to right or vice versa; the red side and the blue side just need to agree in the way they fill open boxes in the north and south parts of the diagram, given data in the blue boxes:
-\[
-\begin{tikzpicture}[polybox, mapstos]
-  \node[poly, dom] (top) {};
-  \node[poly down, dom, below=2 of top] (bot) {};
-  \node[poly down, dom, below=.3 of bot] (bot 2) {};
-  \node[poly down, dom, below=.3 of bot 2] (bot 3) {};
-  \node[poly right, blue, right=2] (right) at ($(top)!.5!(bot)$) {};
-	\node[poly right, blue, right=.3 of right] (right 2) {};
-  \node[poly left, red, left=2] (left) at ($(top)!.5!(bot)$) {};
-	\node[poly left, red, left=.3 of left] (left 2) {};
+Let's draw the associativity equation.\[
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox, tos, font=\tiny]
+  	\node[poly, dom, "$c$" left] (m) {};
+  	\node[poly, right= of m.south, yshift=-1ex, "$c$" below] (D) {};
+  	\node[poly, above=of D, "$c$" above] (mm) {};
+  	\node[poly, cod, right= of D.south, yshift=-1ex, "$c$" right] (DD) {};
+  	\node[poly, cod, above=of DD, "$c$" right] (mmm) {};
+  	\node[poly, cod, above=of mmm, "$c$" right] (C) {};
 %
-	\draw[double, blue] (top_pos) to[out=0, in=90] (right_pos.north);
-	\draw[blue] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
-	\draw[blue] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
-	\draw[double, red] (top_pos) to[out=180, in=90] (left_pos);
-	\draw[red] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
-	\draw[red] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
-	\draw[double, red] (left_pos) to[out=-90, in=180] (bot_pos);
-	\draw[double, blue] (right_pos) to[out=-90, in=0] (bot_pos);
-	\draw[blue] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
-	\draw[blue] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
-	\draw[double, blue] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
-	\draw[double, blue] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
-	\draw[double, red] (bot_dir) to[out=180, in=-90] (left_dir);
-	\draw[double, red] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
-	\draw[red] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.3,above, sloped] {cod} (bot 3_pos);
-	\draw[red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+		\draw[double] (m_pos) to[first] (D_pos);
+		\draw (D_dir) to[climb] node[left] {$\cod$} (mm_pos);
+		\draw (mm_dir) to[last] node[above, sloped] {$\comp$} (m_dir);
+		\draw[double] (D_pos) to[first] (DD_pos);
+		\draw[double] (DD_dir) to[last] (D_dir);
+		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw (mmm_dir) to[climb] node[left] {$\cod$} (C_pos);
+		\draw (C_dir) to[last] node[above, sloped] {$\comp$} (mm_dir);
+	\end{tikzpicture}
+	};
+%
+	\node (p2) [right=of p1] {
+  \begin{tikzpicture}[polybox, tos, font=\tiny]
+  	\node[poly, dom, "$c$" left] (m') {};
+  	\node[poly, right= of m'.south, yshift=-1ex, "$c$" below] (mm') {};
+  	\node[poly, above=of mm', "$c$" above] (C') {};
+  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$c$" right] (D') {};
+  	\node[poly, cod, above=of D', "$c$" right] (mmm') {};
+  	\node[poly, cod, above=of mmm, "$c$" right] (CC') {};
+%
+		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw (mm'_dir) to[climb] node[left] {$\cod$} (C'_pos);
+		\draw (C'_dir) to[last] node[above, sloped] {$\comp$} (m'_dir);
+		\draw[double] (mm'_pos) to[first] (D'_pos);
+		\draw (D'_dir) to[climb] node[left] {$\cod$} (mmm'_pos);
+		\draw (mmm'_dir) to[last] node[above, sloped] {$\comp$} (mm'_dir);
+		\draw[double] (C'_pos) to[first] (CC'_pos);
+		\draw[double] (CC'_dir) to[last] (C'_dir);
+	\end{tikzpicture}
+	};	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
 \end{tikzpicture}
 \]
 Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of emanating morphisms:
 \[
-\begin{tikzpicture}[polybox, mapstos]
-  \node[poly, dom] (top) {${\color{red}m\then (m'\then m'')}={\color{blue}(m\then m')\then m''}$\nodepart{two}$i$};
-  \node[poly down, dom, below=2 of top] (bot) {${\color{red}i}={\color{blue}i}$\nodepart{two}$m$};
-  \node[poly down, dom, below=.3 of bot] (bot 2) {${\color{red}\textrm{cod}(m)}={\color{blue}\textrm{cod}(m)}$\nodepart{two}$m'$};
-  \node[poly down, dom, below=.3 of bot 2] (bot 3) {${\color{red}\textrm{cod}(m')}={\color{blue}\textrm{cod}(m\then m')}$\nodepart{two}$m''$};
-  \node[poly right, blue, right=2] (right) at ($(top)!.5!(bot)$) {$i$\nodepart{two}$m\then m'$};
-	\node[poly right, blue, right=.3 of right] (right 2) {$\textrm{cod}(m\then m')$\nodepart{two}$m''$};
-  \node[poly left, red, left=2] (left) at ($(top)!.5!(bot)$) {$m$\nodepart{two}$i$};
-	\node[poly left, red, left=.3 of left] (left 2) {$m'\then m''$\nodepart{two}$\textrm{cod}(m)$};
-	\draw[double, blue] (top_pos) to[out=0, in=90] (right_pos.north);
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox, mapstos, font=\tiny]
+  	\node[poly, dom] (m) {$m\then(m'\then m'')$\nodepart{two}$i$};
+  	\node[poly, right=3 of m.south, yshift=-1ex] (D) {$m$\nodepart{two}$i$};
+  	\node[poly, above=of D] (mm) {$m'\then m''$\nodepart{two}$\cod(m)$};
+  	\node[poly, cod, right=2.5 of D.south, yshift=-1ex] (DD) {$m$\nodepart{two}$i$};
+  	\node[poly, cod, above=of DD] (mmm) {$m'$\nodepart{two}$\cod(m)$};
+  	\node[poly, cod, above=of mmm] (C) {$m''$\nodepart{two}$\cod(m')$};
 %
-	\draw[blue] (right_dir) to[out=90, in=90, looseness=2] node[above] {cod} (right 2_pos);
-	\draw[blue] (right 2_dir) to[out=90, in=0] node[pos=.3, above, sloped] {comp}(top_dir);
-	\draw[double, red] (top_pos) to[out=180, in=90] (left_pos);
-	\draw[red] (left_dir) to[out=90, in=90, looseness=2] node[above] {cod} (left 2_pos);
-	\draw[red] (left 2_dir) to[out=90, in=180] node[pos=.3, above, sloped] {comp}(top_dir);
-	\draw[double, red] (left_pos) to[out=-90, in=180] (bot_pos);
-	\draw[double, blue] (right_pos) to[out=-90, in=0] (bot_pos);
-	\draw[blue] (bot_dir) to[out=0, in=0, looseness=2] node[above, pos=.3, sloped] {cod} (bot 2_pos);
-	\draw[blue] (bot 2_dir) to[out=0, in=-90] node[pos=.3, below, sloped] {comp} (right_dir);
-	\draw[double, blue] (right 2_pos) to[out=-90, in=0] (bot 3_pos);
-	\draw[double, blue] (bot 3_dir) to[out=0, in=-90] (right 2_dir);
-	\draw[double, red] (bot_dir) to[out=180, in=-90] (left_dir);
-	\draw[double, red] (left 2_pos) to[out=-90, in=180] (bot 2_pos);
-	\draw[red] (bot 2_dir) to[out=180, in=180, looseness=2] node[pos=.3,above, sloped] {cod} (bot 3_pos);
-	\draw[red] (bot 3_dir) to[out=180, in=-90] node[pos=.3, below, sloped] {comp} (left 2_dir);
+		\draw[double] (m_pos) to[first] (D_pos);
+		\draw (D_dir) to[climb] (mm_pos);
+		\draw (mm_dir) to[last]  (m_dir);
+		\draw[double] (D_pos) to[first] (DD_pos);
+		\draw[double] (DD_dir) to[last] (D_dir);
+		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw (mmm_dir) to[climb] (C_pos);
+		\draw (C_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+%
+	\node (p2) [below=of p1] {
+  \begin{tikzpicture}[polybox, mapstos, font=\tiny]
+  	\node[poly, dom] (m') {$(m\then m')\then m''$\nodepart{two}$i$};
+  	\node[poly, right= 3 of m'.south, yshift=-1ex] (mm') {$m\then m'$\nodepart{two}$i$};
+  	\node[poly, above=of mm'] (C') {$m''$\nodepart{two}$\cod(m\then m')$};
+  	\node[poly, cod, right= 2.5 of mm'.south, yshift=-1ex] (D') {$m$\nodepart{two}$i$};
+  	\node[poly, cod, above=of D'] (mmm') {$m'$\nodepart{two}$\cod(m)$};
+  	\node[poly, cod, above=of mmm'] (CC') {$m''$\nodepart{two}$\cod(m\then m')$};
+%
+		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw (mm'_dir) to[climb] (C'_pos);
+		\draw (C'_dir) to[last] (m'_dir);
+		\draw[double] (mm'_pos) to[first] (D'_pos);
+		\draw (D'_dir) to[climb] (mmm'_pos);
+		\draw (mmm'_dir) to[last] (mm'_dir);
+		\draw[double] (C'_pos) to[first] (CC'_pos);
+		\draw[double] (CC'_dir) to[last] (C'_dir);
+	\end{tikzpicture}
+	};	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
 \end{tikzpicture}
 \]
 Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\then m')\then m''$, classic associativity. Amazing; thanks giant brain!
@@ -3699,7 +3756,7 @@ which is again a pullback by \cref{thm.connected_limits,exc.composing_with_const
 Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\to m\tri\1$ be as in \cref{prop.right_modules_as_sums}. Complete the proof of that proposition as follows:
 \begin{enumerate}
 	\item Show that $\rho_f\then\epsilon=\id_m$
-	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c}$.
+	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c})$.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -3709,7 +3766,7 @@ Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\t
 \end{example}
 
 \begin{theorem}\label{thm.tfae_c_sets}
-For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
+For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following are equivalent:
 \begin{enumerate}
 	\item functors $\cat{C}\to\smset$
 	\item discrete opfibrations over $\cat{C}$
@@ -3718,12 +3775,20 @@ For a category $\cat{C}$ (comonoid $\com{C}$), the following are equivalent:
 	\item constant left $\com{C}$-modules
 	\item $(\com{C},0)$-bimodules
 	\item representable right $\com{C}$-modules
+	\item dynamical systems with comonoid interface $\com{C}$
 \end{enumerate}
 \end{theorem}
+\begin{proof}
+\begin{description}
+	\item[$1\to 2$:] Category of elements.
+	\item[$2\to 1$:] Fibers.
+\\	\item[$4\to 3$:] Given a linear left module, we can factor the underlying morphism $A\yon\to\ema{c}\tri A\yon$ as a vertical followed by a cartesian using \cref{prop.vert_cart_factorization}. The intermediate object has the structure of a category.
+\end{description}
+\end{proof}
 
 Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity cofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ module with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-module}, a certain constant left $\com{C}$ module with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},0)$-bimodule}, and a certain representable right $\com{C}$-module with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-module}.
 
-\begin{proposition}
+\begin{proposition}[Niu]
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
 \end{proposition}
 
@@ -3761,7 +3826,33 @@ Moreover, for any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{
 \]
 \end{proposition}
 
+\begin{proposition}\label{prop.break_up_right_mods}
+Let $\com{C}$ be a comonoid. For any set $I$ and right $\com{C}$-modules $(m_i)_{i\in I}$, the coproduct $m\coloneqq \sum_{i\in I}m_i$ has a natural right-module structure. Moreover, each representable summand in the carrier $m$ of a right $\com{C}$-module is itself a right-$\com{C}$ module and $m$ is their sum.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+%
+%Let $\sum_{I\in\smset}\prod_{i\in I}\mod{}{\com{C}}$ denote the category whose objects are pairs $(I,(m_i)_{i\in I})$ where $I$ is a set and $m_i$ is a right $\com{C}$-module for each $i\in I$. A morphism $(I,(m_i)_{i\in I})\to(J,(n_j)_{j\in J})$ is a function $f\colon I\to J$ and, for each $i\in I$ a morphism $m_i\to n_{f(i)}$ of right-$\com{C}$ modules.
+%
+%\begin{proposition}
+%For any comonoid $\com{C}$ there is an adjunction
+%\[
+%\adj[40pt]{\mod{}{\com{C}}}{\sum_{i\in I}m_i}{{(n(\1),n[-])}}{\sum_{I\in\smset}\prod_{i\in I}\mod{}{\com{C}}}
+%\]
+%with functors labeled by where they send $n\in\mod{}{\com{C}}$ and $(I,(m_i)_{i\in I})\in\sum_{I\in\smset}\prod_{i\in I}\mod{}{\com{C}}$. 
+%
+%Moreover, the left adjoint is fully faithful.
+%\end{proposition}
 
+\begin{proposition}
+If $m\in\poly$ is equipped with both a right $\com{C}$-module and a right $\com{D}$-module structure, we can naturally equip $m$ with a $(\com{C}\times\com{D})$-module structure.
+\end{proposition}
+\begin{proof}
+It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-module with carrier $\yon^M$ can be identified with a cofunctor $M\yon^M\to\com{C}$.
+
+Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ which we identify with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
+\end{proof}
 
 Misc:
 
