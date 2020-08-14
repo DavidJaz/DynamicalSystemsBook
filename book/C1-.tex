@@ -2299,10 +2299,10 @@ These are means by which random streams of outputs
   We will define $\Sys{FaultyWire}$ as follows:
   \begin{itemize}
     \item A faulty wire will either have $\const{good}$ contact,
-      $\const{partial}$ contact, or $\const{no}$ contact, and it will be
+      $\const{partial}$ contact, or $\const{missing}$ contact, and it will be
       carrying a $\const{high}$ or $\const{low}$ charge:
       \[
-\State{FaultyWire} \coloneqq \{\const{high}, \const{low}\} \times \{\const{good}, \const{partial}, \const{no}\}.
+\State{FaultyWire} \coloneqq \{\const{high}, \const{low}\} \times \{\const{good}, \const{partial}, \const{missing}\}.
       \]
     \item The faulty wire will take in either a $\const{high}$ or $\const{low}$:
       \[
@@ -2318,8 +2318,8 @@ These are means by which random streams of outputs
        contact also has a small chance to decay.
        \begin{align*}
          \update{FaultyWire}((b, \const{good}), i) &= .99(i, \const{good}) + .01(i, \const{partial}), \\
-         \update{FaultyWire}((b, \const{partial}), i) &= .50(i, \const{partial}) + .49(\const{low}, \const{partial}) + .01(\const{low}, \const{no}), \\
-         \update{FaultyWire}((b, \const{no}), i) &= (\const{low}, \const{no}). \\
+         \update{FaultyWire}((b, \const{partial}), i) &= .50(i, \const{partial}) + .49(\const{low}, \const{partial}) + .01(\const{low}, \const{missing}), \\
+         \update{FaultyWire}((b, \const{missing}), i) &= (\const{low}, \const{no}). \\
        \end{align*}
   \end{itemize}
 
@@ -2788,10 +2788,9 @@ structure:
     \xto{\eta^R} R \times A \xto{\eta^M} M(R \times A)$.
   \item Given $f : A \to M(R \times B)$, we define $f^{M(R \times -)}$ to be the
     following composite:
-    \begin{align*}
-M(R \times A) &\xto{M(R \times f)} M(R \times M(R \times B)) \xto{M\lambda} MM(R \times R \times B)
-&\xto{\mu^{M}} M(R \times R \times B) \xto{M\mu^R} M(R \times B).
-      \end{align*}
+    \begin{multline*}
+M(R \times A) \xto{M(R \times f)} M(R \times M(R \times B)) \xto{M\lambda} MM(R \times R \times B)\\\xto{\mu^{M}} M(R \times R \times B) \xto{M\mu^R} M(R \times B).
+      \end{multline*}
  Intuitively, this takes a non-deterministic pair $(r, a)$ and, gets the
  non-deterministic pair $f(a) = (f_1(a), f_2(a))$, and then returns the
  non-deterministic pair $(r + f_1(a), f_2(a))$.
@@ -3113,14 +3112,14 @@ commutative monad morphism. That is, show that the following diagrams commute:
   \end{equation}
 \item
   \begin{equation}
-    \begin{tikzcd}
+    \begin{tikzcd}[column sep=large]
     \probset^2 A \ar[r, "\probset\probset\eta^{\rr} \then \probset \eta^{\rr}"] \ar[d, "\mu^{\probset}"'] & \probset(\rr \times \probset(\rr \times A))\ar[d, "\mu^{\probset(\rr \times -)}"] \\
     \probset A \ar[r, "\probset \eta^{\rr}"'] & \probset(\rr \times A)
     \end{tikzcd}
   \end{equation}
 \item
   \begin{equation}
-    \begin{tikzcd}
+    \begin{tikzcd}[column sep=large]
     \probset A \times \probset B \ar[r, "\probset \eta^{\rr} \times \probset\eta^{\rr}"] \ar[d, "\sigma^{\probset}"'] & \probset(\rr \times A) \times \probset(\rr \times B) \ar[d, "\sigma^{\probset(\rr \times -)}"] \\
     \probset (A \times B) \ar[r, "\probset \eta^{\rr}"'] & \probset( \rr \times A \times B)
     \end{tikzcd}
@@ -3206,7 +3205,7 @@ square in this diagram; so, if it commutes, then the outer square (which is
 
 
 
-\section{Wiring together non-deterministic systems: the generalized lens construction}
+\section[Wiring together non-deterministic systems]{Wiring together non-deterministic systems: the generalized lens construction}
 
 
 \subsection{Wiring together non-deterministic systems with monadic lenses}
