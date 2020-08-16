@@ -3609,6 +3609,9 @@ The following categories are equivalent:
 **
 \end{proof}
 
+Let $\cat{C}$ be a kategory, $A$ a set, and $f\colon A\to\Ob(\cat{C})$ a function to the objects of $\cat{C}$. There is an induced kategory $f^*\cat{C}$ with objects $A$ and cofunctor $f^*\cat{C}\to\cat{C}$ that is universal in the appropriate sense. Said more precisely, we have the following proposition.
+
+
 
 %-------- Section --------%
 \section{Cofree comonoids}
@@ -3951,10 +3954,21 @@ It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is repr
 Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
 \end{proof}
 
+\subsection{$\otimes$ structure on $\smcat^\sharp$}
+
+The usual product of categories gives a monoidal operation on comonoids; the carrier polynomial of the product is the $\otimes$-product of the carrier polynomials.
+
+\begin{proposition}[$\otimes$ monoidal structure on $\Cat{Comon}(\poly)$]
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ and $\com{D}=(\ema{d},\epsilon,\delta)$ be comonoids. The polynomial $\ema{c}\otimes\ema{d}$ has a natural comonoid structure, which we denote $\com{C}\otimes\com{D}$. This construction gives a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
 \begin{definition}
 Let $\cat{C}$ be a category. A  \emph{monaco structure on $\cat{C}$} is a pair of cofunctors $\intercal\colon\yon\to\ema{c}$, which we call its \emph{terminus} and a cofunctor $\curlyvee\colon\cat{C}\times\cat{C}\cof\cat{C}$, which we call its \emph{team-up product} satisfying the usual monoid equations. 
 
-Said another way, a \emph{monaco category} is a monoid object $(\cat{C},\intercal, \curlyvee)$ in the monoidal category $(\Cat{Comon}(\poly), \otimes,\yon)$.
+Said another way, a \emph{monoidal kategory} is a monoid object $(\cat{C},\intercal, \curlyvee)$ in the monoidal category $(\Cat{Comon}(\poly), \otimes,\yon)$.
 \end{definition}
 
 \begin{example}
