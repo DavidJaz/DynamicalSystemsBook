@@ -3753,6 +3753,17 @@ The cofree functor $p\mapsto\cofree{p}$ is lax monoidal; in particular there is 
 	\cofree{p}\otimes\cofree{q}\to\cofree{p\otimes q}.
 \]
 \end{proposition}
+\begin{proof}
+This follows formally from the fact that the forgetful functor $U\colon\smcat^\sharp\to\poly$ is strong monoidal with respect to $\otimes$. Indeed there are isomorphisms
+\begin{align*}
+	\poly(U(\cofree{p})\otimes U(\cofree{q}),p\otimes q)&\cong
+	\poly(U(\cofree{p}\otimes\cofree{q}),p\otimes q)\\&\cong
+	\smcat^\sharp(\cofree{p}\otimes\cofree{q},\cofree{p\otimes q}
+\end{align*}
+and counits $U(\cofree{p}\to p$ and $U(\cofree{q}\to q$.
+
+**
+\end{proof}
 
 %-------- Section --------%
 \section{Bimodules}
