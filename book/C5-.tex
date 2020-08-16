@@ -3750,8 +3750,20 @@ Show graph fibration idea.
 
 Conjecture: for any tree that can be described in language, there is a finite state machine that accomplishes it.
 
+
+The following says that cofree kategories are very special objects, much like posets.
+
 \begin{proposition}
-Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is epic.
+Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is both monic and epic.
+\end{proposition}
+
+
+
+\begin{proposition}
+The cofree functor $p\mapsto\cofree{p}$ is lax monoidal; in particular there is a unique map $\yon\to\cofree{\yon}$, and for any $p,q\in\poly$ there is a natural map
+\[
+	\cofree{p}\otimes\cofree{q}\to\cofree{p\otimes q}.
+\]
 \end{proposition}
 
 %-------- Section --------%
