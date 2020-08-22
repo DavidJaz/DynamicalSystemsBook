@@ -302,3 +302,5 @@ x  The double category of arenas and what that means for behaviors of wired syst
    [[../book/C1-.tex::#cite-me-shakespeare][find it here.]] 
 
    I need to find the online generator I used for this. I just googled something like "Markov text generator".
+*** Lawvere's thesis
+   [[../book/C1-.tex::#cite-me.lawvere][find it here]]

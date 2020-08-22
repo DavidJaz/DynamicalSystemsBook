@@ -13,6 +13,10 @@
 \usepackage{mathtools}
 \usepackage[prefix=tikzsym]{tikzsymbols}
 
+\usepackage{mathrsfs}
+\usepackage{dutchcal}
+\usepackage[varg,bigdelims]{newpxmath}
+\usepackage{amssymb}
 
 % tikz %
   \usetikzlibrary{ 
@@ -36,7 +40,19 @@
 	\tikzcdset{arrow style=tikz, diagrams={>=To}}
 	
 	\input{../book/tikz_stuff}
-	
+
+%% vdots without space at the top.
+\makeatletter
+\DeclareRobustCommand{\rvdots}{%
+  \vbox{
+    \baselineskip4\p@\lineskiplimit\z@
+    \kern-\p@
+    \hbox{.}\hbox{.}\hbox{.}
+  }}
+\makeatother
+
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+\DeclareMathSymbol\fatsemi\mathop{stmry}{"23}
 	
 \newcommand{\const}[1]{\mathtt{#1}}%a constant, or named element of a set
 \newcommand{\Set}[1]{\mathsf{#1}}%a named set
@@ -47,6 +63,10 @@
 \newcommand{\Fun}[1]{\mathrm{#1}}%a named functor
 \newcommand{\Sys}[1]{\mathsf{#1}}%dynamical system
 \newcommand{\com}[1]{\mathscr{#1}}%polynomial comonoid
+\newcommand{\bb}{\mathbb{B}}
+\newcommand{\nn}{\mathbb{N}}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\rr}{\mathbb{R}}
 
 % System shorthands:
 \newcommand{\State}[1]{\Set{State}_{\Sys{#1}}}
@@ -109,9 +129,12 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \end{tikzpicture}
 \]
 
-\fi
+
+ 
+
 
 \[
+%% Lotka Volterra Predator Prey Model
 \begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center)]
   \node[bb={4}{1}, fill=blue!10] (rabbit) {$\Sys{Rabbits}$};
   \node[bb={4}{1}, fill=blue!10, below = 8 of rabbit] (fox) {$\Sys{Foxes}$};
@@ -135,4 +158,363 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
  \draw (midpoint) to[out=170, in=180, looseness=3] (rabbit_in4);
 \end{tikzpicture}
 \]
+
+
+
+\[
+  %% SIR (INCORRECT)
+\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center), every node/.style={minimum size = 13pt}]
+  \node[bb={4}{1}, fill=blue!10] (S) {$\Sys{S}$};
+  \node[bb={4}{1}, fill=blue!10, below = 8 of S] (I) {$\Sys{I}$};
+  \node[bb={4}{1}, fill=blue!10, below = 8 of I] (R) {$\Sys{R}$};
+
+  \node[draw=dgreen, circle, inner sep = 0] (c2) at ($(I_out1) + (2, 3)$){$\alpha$};
+  \node[draw=dgreen, circle, inner sep = 0] (c4) at ($(I_out1) + (2, -3)$){$\beta$};
+  \node[draw=dgreen, circle, inner sep = 0] (c1) at ($(S_out1-|I_out1) + (2, -2)$) {$\alpha$};
+  \node[draw=dgreen, circle, inner sep = 0] (c3) at ($(R_out1-|I_out1) + (2, 2)$) {$\beta$};
+  \node[draw=dgreen, circle, inner sep =0, left = of S_in1] (s0) {$0$}; 
+  \node[draw=dgreen, circle, inner sep =0, left = of R_in4] (r0) {$0$}; 
+
+  \node[bb={2}{2}, fit = {($(S.north east) + (5,2)$ ) ($(S.north west) + (-2,0)$) ( $(R.south east) + (5, -2)$ ) ($(R.south west) + (-2, 0)$)}] (Z) {};
+
+ \draw (S_out1) to ($(S_out1-|Z_out1) + (0,2)$);
+ \draw (S_out1) to[in=170] (c1);
+ \draw (s0) to (S_in1);
+ \draw (I_out1) to ($(I_out1-|Z_out1)$);
+ \draw (I_out1) to (c2);
+ \draw (I_out1) to (c4);
+ \draw (R_out1) to ($(R_out1-|Z_out1) + (0,-2)$);
+ \draw (R_out1) to (c3);
+ \draw (r0) to (R_in4);
+
+ \coordinate[below = 4 of S] (midpoint);
+ \draw (c1) to[out=350, in=10, looseness=2] (midpoint);
+ \draw (midpoint) to[out=190, in=180, looseness=3] (I_in1);
+ \draw (c2) to[out=10, in=350, looseness=2] (midpoint);
+ \draw (midpoint) to[out=170, in=180, looseness=3] (S_in4);
+
+ \coordinate[below = 4 of I] (midpoint2);
+ \draw (c4) to[out=350, in=10, looseness=2] (midpoint2);
+ \draw (midpoint2) to[out=190, in=180, looseness=3] (R_in1);
+ \draw (c3) to[out=10, in=350, looseness=2] (midpoint2);
+ \draw (midpoint2) to[out=170, in=180, looseness=3] (I_in4);
+\end{tikzpicture}
+\]
+
+
+
+
+\[
+  %% SIR Model prepared city
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0pt, bb port sep=1, baseline=(Sys.center)]
+	\node[bb={6}{1}, fill=blue!10] (Sys) {$\Sys{City}$};
+
+  \node[draw=dgreen, circle, left = of Sys_in1] (plus1) {$+$};
+  \node[draw=dgreen, circle, left = of Sys_in6] (plus2) {$+$};
+
+  \draw (plus1) to (Sys_in1);
+  \draw (plus2) to (Sys_in6);
+
+  \node[left= of plus1] (dots1) {$\rvdots$};
+  \node[left= of plus2] (dots2) {$\rvdots$};
+  \node[right= of Sys_out1] (dots3) {$\rvdots$};
+
+  \node[bb={1}{1}, fit={($(dots1) + (0, 2)$) ($(dots2) - (0, 2)$) (dots3)}] (Z) {};
+
+
+  \draw (plus1) to[out=120, in = 0]($(dots1) + (0, 2)$) ;
+  \draw (plus1) to[out=-120, in = 0]($(dots1) - (0, 2)$) ;
+  \draw ($(dots1) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots1) + (0, 2)$});
+  \draw ($(dots1) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots1) - (0, 2)$});
+
+  \draw (plus2) to[out=120, in = 0]($(dots2) + (0, 2)$) ;
+  \draw (plus2) to[out=-120, in = 0]($(dots2) - (0, 2)$) ;
+  \draw ($(dots2) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) + (0, 2)$});
+  \draw ($(dots2) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) - (0, 2)$});
+
+  \draw (Sys_out1) to ($(dots3) + (0, 2)$); 
+  \draw (Sys_out1) to ($(dots3) - (0, 2)$); 
+  \draw ($(dots3) + (0, 2)$) to (Z_out1|-{$(dots3) + (0, 2)$});
+  \draw ($(dots3) - (0, 2)$) to (Z_out1|-{$(dots3) - (0, 2)$});
+\end{tikzpicture}
+\]
+
+
+
+
+\[
+  %% SIR Model Boston
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0pt, bb port sep=1, baseline=(Sys.center)]
+	\node[bb={6}{1}, fill=blue!10] (Sys) {$\Sys{Boston}$};
+
+  \node[draw=dgreen, circle, left = of Sys_in6] (plus2) {$+$};
+
+  \draw (plus2) to (Sys_in6);
+
+  \node[left= of plus2] (dots2) {};
+  \node[right= of Sys_out1] (dots3) {};
+
+  \node[bb={1}{1}, fit={($(Sys.north west) + (-4, 2)$) ($(plus2) - (0, 2)$) (dots3)}] (Z) {};
+
+  \draw (Z_in1|-Sys_in1) to (Sys_in1);
+
+  \draw (plus2) to[out=120, in = 0]($(dots2) + (0, 2)$) ;
+  \draw (plus2) to[out=-120, in = 0]($(dots2) - (0, 2)$) ;
+  \draw ($(dots2) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) + (0, 2)$});
+  \draw ($(dots2) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) - (0, 2)$});
+
+  \draw (Sys_out1) to ($(dots3) + (0, 2)$); 
+  \draw (Sys_out1) to ($(dots3) - (0, 2)$); 
+  \draw ($(dots3) + (0, 2)$) to (Z_out1|-{$(dots3) + (0, 2)$});
+  \draw ($(dots3) - (0, 2)$) to (Z_out1|-{$(dots3) - (0, 2)$});
+\end{tikzpicture}
+\]
+
+
+\[
+  %% SIR Model Boston to NYC
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0pt, bb port sep=1, baseline=(Sys.center)]
+	\node[bb={6}{1}, fill=blue!10] (Sys) {$\Sys{Boston}$};
+	\node[bb={6}{1}, fill=blue!10, below = 8 of Sys] (Sys2) {$\Sys{NYC}$};
+  
+  \node[draw=dgreen, circle, below=4 of Sys, anchor=center] (Flow) {$\const{Flow}$};
+
+  \node[draw=dgreen, circle, left = of Sys_in6] (plus2) {$+$};
+  \draw (plus2) to (Sys_in6);
+
+  \node[draw=dgreen, circle, left = of Sys2_in6] (plus2nyc) {$+$};
+  \draw (plus2nyc) to (Sys2_in6);
+
+  \node[left= of plus2] (dots2) {};
+  \node[right= of Sys_out1] (dots3) {};
+
+  \node[left= of plus2nyc] (dots2nyc) {};
+  \node[right= of Sys2_out1] (dots3nyc) {};
+
+  \node[bb={1}{1}, fit={($(Sys.north west) + (-4, 2)$) ($(Sys2.south west) - (0, 2)$) ($(dots3) + (2, 0)$)}] (Z) {};
+
+  \draw (Z_in1|-Sys_in1) to (Sys_in1);
+
+  \draw (plus2) to[out=120, in = 0]($(dots2) + (0, 2)$) ;
+  \draw (plus2nyc) to[out=120, in = 0]($(dots2nyc) + (0, 2)$) ;
+  \draw (plus2nyc) to[out=-120, in = 0]($(dots2nyc) - (0, 2)$) ;
+  \draw ($(dots2) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) + (0, 2)$});
+  \draw ($(dots2nyc) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2nyc) + (0, 2)$});
+  \draw ($(dots2nyc) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2nyc) - (0, 2)$});
+
+  \draw (Sys_out1) to ($(dots3) + (0, 2)$); 
+  \draw (Sys_out1) to ($(dots3) - (0, 2)$); 
+  \draw ($(dots3) + (0, 2)$) to (Z_out1|-{$(dots3) + (0, 2)$});
+  \draw (Sys2_out1) to ($(dots3nyc) + (0, 2)$); 
+  \draw (Sys2_out1) to ($(dots3nyc) - (0, 2)$); 
+  \draw ($(dots3nyc) + (0, 2)$) to (Z_out1|-{$(dots3nyc) + (0, 2)$});
+  \draw ($(dots3nyc) - (0, 2)$) to (Z_out1|-{$(dots3nyc) - (0, 2)$});
+
+  \coordinate (start) at ($(dots3) - (0, 2)$);
+  \coordinate[left = 2 of Flow] (finish);
+
+  \draw (finish) to (Flow);
+  \draw let \p1=(start), \p2=(Flow) in
+    (start) to[out=0, in=0] (\x1, \y2)  to[out=180, in=0] (Flow);
+    \draw (finish)  to[out=180, in=-120] (plus2);
+    \draw let \p1=(finish), \p2=(Sys2_in1) in
+      (finish) to[out=180, in=180] (\x1, \y2) to[out=180, in=180] (Sys2_in1);
+\end{tikzpicture}
+\]
+
+
+
+\[
+  %% Wiring diagram composite
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Middle.center)]
+
+\node[bb={1}{1}, fill=blue!10] (TL) {\phantom{ space }};
+\node[bb={2}{0}, fill=blue!10, below = 4 of TL] (LL) {\phantom{sp}};
+\node[bb={1}{1}, fill=blue!10] (R) at ($(TL) + (6, -3)$) {\phantom{ space }};
+  
+\node[bb={1}{1}, fit={($(TL) + (-3,1)$) (LL) ($(R) + (2,0)$)}] (Middle) {};
+
+\draw (Middle_in1|-TL_in1) to (TL_in1);
+\draw (Middle_in1|-TL_in1) to[out=0, in=180] (LL_in1);
+\draw (Middle_in1|-LL_in2) to[out=0, in=180] (LL_in2);
+\draw (TL_out1) to[out=0, in=180] (Middle_out1|-TL_out1);
+\draw (TL_out1) to[out=0, in=180] (R_in1);
+\draw (R_out1) to[out=0, in=180] (Middle_out1|-R_out1);
+
+\draw[label]
+  node[right = 3pt of TL_in1] (label) {$a^-_{11}$}
+  node[left = 3pt of TL_out1] (label) {$a^+_{11}$}
+  node[right = 3pt of LL_in1] (label) {$a^-_{31}$}
+  node[right = 3pt of LL_in2] (label) {$a^-_{32}$}
+  node[right = 3pt of R_in1] (label) {$a^-_{21}$}
+  node[left = 3pt of R_out1] (label) {$a^+_{21}$}
+  node[left = 3pt of {Middle_in1|-TL_in1}] (label) {$b^-_1$}
+  node[left = 3pt of {Middle_in1|-LL_in2}] (label) {$b^-_2$}
+  node[right = 3pt of {Middle_out1|-TL_out1}] (label) {$b^+_1$}
+  node[right = 3pt of {Middle_out1|-R_out1}] (label) {$b^+_2$}
+;
+\end{tikzpicture}
+\quad
+\then
+\quad
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Outer.center)]
+
+\node[bb={3}{3}, fill=blue!10] (Middle) {\phantom{hello s}};
+
+\node[bb={1}{1}, fit={($(Middle.north west) + (-2, 2)$)($(Middle.south east) - (-2, 2)$)}] (Outer) {};
+
+\draw (Middle_out3) to (Outer_out1|-Middle_out3);
+\draw let \p1=(Middle.north east), \p2=(Middle.north west) in
+  (Middle_out1) to[out=0, in=0] (\x1, \y1 + 7) to (\x2, \y1 + 7) to[out=180, in=180] (Middle_in1);
+\draw let \p1=(Middle.south east), \p2=(Middle.south west) in
+  (Middle_out3) to[out=0, in=0] (\x1, \y1 - 7) to (\x2, \y1 - 7) to[out=180, in=180] (Middle_in3);
+
+\draw[label]
+  node[right = 3pt of Middle_in1] (label) {$b^-_1$}
+  node[right = 3pt of Middle_in3] (label) {$b^-_2$}
+  node[left = 3pt of Middle_out1] (label) {$b^+_1$}
+  node[left = 3pt of Middle_out3] (label) {$b^+_2$}
+;
+
+\draw[label] node[right = 3pt of {Outer_out1|-Middle_out3}] (label) {$c^+_1$};
+\end{tikzpicture}
+\quad
+= 
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Outer.center)]
+
+\node[bb={1}{1}, fill=blue!10] (TL) {\phantom{ space }};
+\node[bb={2}{0}, fill=blue!10, below = 4 of TL] (LL) {\phantom{sp}};
+\node[bb={1}{1}, fill=blue!10] (R) at ($(TL) + (6, -3)$) {\phantom{ space }};
+  
+\node[bb={2}{2}, fit={($(TL) + (-3,1)$) (LL) ($(R) + (2,0)$)}, dashed] (Middle) {};
+
+\draw (Middle_in1|-TL_in1) to (TL_in1);
+\draw (Middle_in1|-TL_in1) to[out=0, in=180] (LL_in1);
+\draw (Middle_in1|-LL_in2) to[out=0, in=180] (LL_in2);
+\draw (TL_out1) to[out=0, in=180] (Middle_out1|-TL_out1);
+\draw (TL_out1) to[out=0, in=180] (R_in1);
+\draw (R_out1) to[out=0, in=180] (Middle_out1|-R_out1);
+
+\draw[label]
+  node[right = 3pt of TL_in1] (label) {$a^-_{11}$}
+  node[left = 3pt of TL_out1] (label) {$a^+_{11}$}
+  node[right = 3pt of LL_in1] (label) {$a^-_{31}$}
+  node[right = 3pt of LL_in2] (label) {$a^-_{32}$}
+  node[right = 3pt of R_in1] (label) {$a^-_{21}$}
+  node[left = 3pt of R_out1] (label) {$a^+_{21}$}
+;
+
+\node[bb={1}{1}, fit={($(Middle.north west) + (-2, 2)$)($(Middle.south east) - (-2, 2)$)}] (Outer) {};
+
+\draw (Middle_out2|-R_out1) to (Outer_out1|-R_out1);
+\draw let \p1=(Middle.north east), \p2=(Middle.north west) in
+  (Middle_out1|-TL_out1) to[out=0, in=0] (\x1, \y1 + 7) to (\x2, \y1 + 7) to[out=180, in=180] (Middle_in1|-TL_in1);
+\draw let \p1=(Middle.south east), \p2=(Middle.south west) in
+  (Middle_out2|-R_out1) to[out=0, in=0] (\x1, \y1 - 7) to (\x2, \y1 - 7) to[out=180, in=180] (Middle_in2|-LL_in2);
+
+\draw[label] node[right = 3pt of {Outer_out1|-R_out1}] (label) {$c^+_1$};
+\end{tikzpicture}
+\]
+
+
+\[w^{\sharp} = \begin{tikzpicture}[baseline=(current bounding box.center)]
+	\boxofbullets{3}{(0,0)}{b}{$a^-$}{right=0pt};
+	\boxofbullets{3}{(-2,0)}{a}{$a^+$}{left=0pt};
+	\boxofbullets{1}{(-2, -1)}{c}{$b^-$}{left=0pt};
+	\draw[blue, dashed, |->] (pt_b_1) -- (pt_a_2);
+	\draw[blue, dashed, |->] (pt_b_2) -- (pt_a_1);
+	\draw[blue, dashed, |->] (pt_b_3) -- (pt_c_1);
+\end{tikzpicture}
+\]
+
+
+
+\[
+  w = \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+    \boxofbullets{2}{(-2, -1.25)}{a3}{$a^+_3$}{left=0pt};
+
+    \boxofbullets{1}{(0,0)}{b}{$b^+$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_b_1) -- (pt_a3_2);
+\end{tikzpicture}
+\]
+\[
+  w^{\sharp} = \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+    \boxofbullets{2}{(-2, -1.25)}{a3}{$a^+_3$}{left=0pt};
+    \boxofbullets{2}{(-2,-2.25)}{b-}{$b^-$}{left=0pt};
+
+    \boxofbullets{2}{(0,0)}{a1-}{$a^-_1$}{right=0pt};
+    \boxofbullets{1}{(0,-.75)}{a2-}{$a^-_2$}{right=0pt};
+    \boxofbullets{2}{(0,-1.5)}{a3-}{$a^-_3$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_a1-_1) -- (pt_a3_1);
+    \draw[blue, dashed, |->] (pt_a1-_2) -- (pt_b-_1);
+    \draw[blue, dashed, |->] (pt_a2-_1) -- (pt_b-_2);
+    \draw[blue, dashed, |->] (pt_a3-_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_a3-_2) -- (pt_a2_1);
+\end{tikzpicture}
+\]
+
+\fi
+
+%% lens composition in arity
+\[
+  \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+
+    \boxofbullets{2}{(0,0)}{b}{$b^+$}{above=0pt};
+
+    \boxofbullets{1}{(2,0)}{c}{$c^+$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_b_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_b_2) -- (pt_a2_1);
+    \draw[blue, dashed, |->] (pt_c_1) -- (pt_b_1);
+\end{tikzpicture}
+\]
+
+\[
+  \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+
+    \boxofbullets{1}{(0, 1.75)}{a12}{$a^+_1$}{above=0pt};
+    \boxofbullets{1}{(0, 1)}{a22}{$a^+_2$}{above=0pt};
+    \boxofbullets{2}{(0,0)}{b1}{$b^+$}{above=0pt};
+
+    \boxofbullets{1}{(2, 1.75)}{a13}{$a^+_1$}{above=0pt};
+    \boxofbullets{1}{(2, 1)}{a23}{$a^+_2$}{above=0pt};
+    \boxofbullets{2}{(2,0)}{b2}{$b^+$}{above=0pt};
+
+    \boxofbullets{1}{(4, 1.75)}{a14}{$a^-_1$}{right=0pt};
+    \boxofbullets{1}{(4, 1)}{a24}{$a^-_2$}{right=0pt};
+    \boxofbullets{2}{(4,0)}{a3}{$a^-_3$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_b_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_b_2) -- (pt_a2_1);
+    \draw[blue, dashed, |->] (pt_a12_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_a22_1) -- (pt_a2_1);
+
+    \draw[blue, dashed, |->] (pt_a13_1) -- (pt_a12_1);
+    \draw[blue, dashed, |->] (pt_a23_1) -- (pt_a22_1);
+    \draw[blue, dashed, |->] (pt_b2_1) -- (pt_b1_1);
+    \draw[blue, dashed, |->] (pt_b2_2) -- (pt_b1_2);
+
+    \draw[blue, dashed, |->] (pt_a14_1) -- (pt_a13_1);
+    \draw[blue, dashed, |->] (pt_a24_1) -- (pt_a23_1);
+    \draw[blue, dashed, |->] (pt_a3_1) -- (pt_b2_1);
+    \draw[blue, dashed, |->] (pt_a3_2) -- (pt_b2_2);
+\end{tikzpicture}
+\]
+
+
+
+
 \end{document}

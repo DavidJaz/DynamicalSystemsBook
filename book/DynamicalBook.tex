@@ -561,6 +561,16 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 }}
 \newcommand{\sqiint}{{\rectangle}\kern-1.4em{\iint}}
 
+%% vdots without space at the top.
+\makeatletter
+\DeclareRobustCommand{\rvdots}{%
+  \vbox{
+    \baselineskip4\p@\lineskiplimit\z@
+    \kern-\p@
+    \hbox{.}\hbox{.}\hbox{.}
+  }}
+\makeatother
+
 % ---- Changeable document parameters ---- %
 
 \linespread{1.15}

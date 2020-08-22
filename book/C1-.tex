@@ -754,7 +754,7 @@ What would happen to a system $\Sys{S}$ if its set of parameters or output value
 
 
 
-\subsection{Differential systems}
+\subsection{Differential systems}\label{sec.differential_system}
 
 \begin{quote}
   \emph{La nature ne fait jamais des sauts} - Liebniz
@@ -841,7 +841,7 @@ substitutions, we get the following system of differential equations:
 We are setting the parameters of the systems of $\Sys{Rabbits}$ and
 $\Sys{Foxes}$ according to the states of the other system. That is, we are
 wiring up the systems of $\Sys{Rabbits}$ and $\Sys{Foxes}$:
-\begin{equation}
+\begin{equation}\label{eqn.lotka_volterra}
 \begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center)]
   \node[bb={4}{1}, fill=blue!10] (rabbit) {$\Sys{Rabbits}$};
   \node[bb={4}{1}, fill=blue!10, below = 8 of rabbit] (fox) {$\Sys{Foxes}$};
@@ -866,16 +866,189 @@ wiring up the systems of $\Sys{Rabbits}$ and $\Sys{Foxes}$:
 \end{tikzpicture}
 \end{equation}
 
+The resulting system is called the \emph{Lotka-Volterra predator-prey model},
+and it is a simple differential model of the ways that the population of a
+predator species depends on the population of a prey species, and vice-versa. 
+
+Where before our boxes were filled with deterministic systems, now they are
+filled with systems of (first order, ordinary) differential equations. We call these \emph{differential
+  systems}.
+
+\begin{definition}\label{def.differential_system}
+  A \emph{(first order, ordinary) differential system} $\Sys{S}$ with $n$ state variables, $m$
+  parameters, and $k$ exposed variables 
+\[
+  \lens{\update{S}}{\expose{S}} : \lens{\rr^{n}}{\rr^n} \leftrightarrows \lens{\rr^m}{\rr^k}
+\]
+consists of:
+\begin{itemize}
+  \item An $n$-dimensional state space $\State{S} = \rr^n$.
+\item An $m$-dimensional parameter space $\In{S} = \rr^m$.
+\item A $k$-dimensional space of exposed variable values $\Out{S} = \rr^k$.
+\item A smooth function $\update{S} : \rr^n \times \rr^m \to \rr^n$ which gives us the
+  derivative of each state variable at each time, so that the defining
+  system of differential equations of $\Sys{S}$ reads
+\[
+\begin{cases}
+\frac{ds_1}{dt} &= {\update{S}}_1(s,i) \\
+&\vdots \\
+\frac{ds_n}{dt} &= {\update{S}}_n(s, i).
+\end{cases}
+\]
+\item $k$ exposed variables ${\expose{S}}_i : \rr^n \to \rr$, which organize into
+  a single smooth function $\expose{S} : \rr^n \to \rr^k$.
+\end{itemize}
+\end{definition}
 
 
+\begin{remark}
+  \cref{def.differential_system} looks remarkably similar to
+  \cref{def.deterministic_system}. As we mentioned,
+  \cref{def.deterministic_system} can be interpreted in any cartesian category,
+  including the category $\Cat{Euc}$ of Euclidean spaces and smooth maps
+  (\cref{def.euc_cat}). It appears that a differential system is the same thing as a
+  deterministic system in the cartesian category $\Cat{Euc}$. But while the
+  $\rr^n$s occuring in $\update{S} : \rr^n \times \rr^m \to \rr^n$ look the
+  same, they are in fact playing very different roles. The $\rr^n$ on the left
+  is playing the role of the state space, while the $\rr^n$ on the left is
+  playing the role of the tangent space at $s$ for some state $s \in \rr^n$. The
+  difference will be felt in \cref{chapter.2} when we study behaviors of
+  systems: the way a trajectory is defined for differential systems is different
+  for differential systems and determinstic systems. For differential systems, a
+  trajectory will be a solution to the system of differential equations, that
+  is, a function $s : \rr \to \rr^n$ which satisfies 
+$$\frac{ds}{dt}(t) = \update{S}(s(t), i(t)).$$
+for all choice of times $t$, while for a deterministic system a trajectory would
+be a sequence $s_j$ of states so that $s_{j + 1} = \update{S}(s_j, i_j)$. 
+
+ We will see precisely how
+  this difference is made manifest in the formal definition of a dynamical
+  system doctrine as the choice of \emph{section}.
+\end{remark}
+
+\begin{remark}
+  There are other doctrines of differential systems that one can define (for
+  example, allowing the state space to be a manifold), but in this book we will
+  work with this simpler doctrine.
+\end{remark}
+
+\begin{example}
+  The system of $\Sys{Rabbits}$ has $1$ state variable (the population of
+  rabbits), $2$ parameters (the birth and death rates of the rabbbits), and $1$ exposed
+  variable. It exposes its whole state, so that $\expose{S} = \id$, and its
+  update is given by
+  \[
+\update{\Sys{Rabbits}}( {r, (\const{b}_{\Sys{Rabbits}}, \const{d}_{\Sys{Rabbits}})} )
+= \const{b}_{\Sys{Rabbits}} \cdot r - \const{d}_{\Sys{Rabbits}} \cdot r.
+\]
+
+  The whole Lotka Voltera model of \cref{eqn.lotka_volterra} has $2$ state
+  variables (the populations of rabbits and of foxes), $2$ parameters (the birth rate of rabbits and the death rate of foxes), and $2$ exposed
+  variables. It exposes its whole state, and its update is given by
+  \[
+\update{LK}\left(  \begin{bmatrix}r \\ f \end{bmatrix}, (\const{b}_{\Sys{Rabbits}}, \const{d}_{\Sys{Foxes}})\right)
+= \begin{bmatrix} \const{b}_{\Sys{Rabbits}} \cdot r -  c_1 r f \\ c_2 f r -
+  \const{d}_{\Sys{Foxes}} \cdot f \end{bmatrix}
+  \]
+  One might wonder why we said this system has $2$ parameters when there are
+  also the rate constants $c_1$ and $c_2$ involved --- aren't they also
+  parameters? We chose them to be \emph{constant}, where our parameters might
+  vary over time. We could have made them parameters instead --- it was an arbitrary choice
+  in how to make the model.
+\end{example}
+
+\begin{example}\label{ex.sir_model_diff}
+  The most basic epidemiological model is the SIR model. This models the spread
+  of disease through a population. People are either \emph{susceptible} (S),
+  \emph{infected} (I), \emph{recovered} or more ominously \emph{removed} (R)
+  from the model. When a susceptible person comes in contact with an infected
+  person, they have a chance to become infected; this means that the population
+  of susceptible people tends downwards in proportion to the number of
+  susceptible and the number of infected people, and the population of infected
+  people tends up by the same amount. On the other hand, infected people will
+  eventually be removed from the model, either by recovering or dieing; this
+  means that the population of infected people tends downwards proportional to
+  the current infected population, while the removed population tends upwards by
+  the same amount. Said as a system of differential equations, this means:
+  \begin{equation}\label{eqn.sir_model_diff}
+    \begin{cases}
+      \frac{dS}{dt} = -\alpha S I \\
+      \frac{dI}{dt} = \alpha S I - \beta I \\
+      \frac{dR}{dt} = \beta I
+    \end{cases}
+  \end{equation}
+
+  The $\Sys{SIR}$ model is a differential system with $3$ state variables ($S$,
+  $I$, and $R$) and $2$ parameters ($\alpha$ and $\beta$). We will suppose that
+  it exposes its whole state: $\expose{SIR} = \id$. The update is given by 
+\[
+\update{SIR}\left( \begin{bmatrix} S\\ I \\ R \end{bmatrix}, (\alpha, \beta)
+\right) = \begin{bmatrix} -\alpha S I \\ \alpha S I - \beta I \\ \beta I\end{bmatrix}.
+\]
+\end{example}
 
 
-%% writehere
+  In order to model higher order systems of ordinary differential equations, we will resort
+  to the standard trick of encoding them as larger systems of first order
+  systems. For example, to encode a second order differential equation in $n$
+  variables, we would set the state space to be $\rr^{2n}$ with state variables
+  $(s, \dot{s})$ (the first $n$ being $s$, the second $n$ being $\dot{s}$). We
+  then add the equations $\frac{ds}{dt} = {\update{S}}_{s}((s, \dot{s}), i) \coloneqq \dot{s}$ to the system
+  $\frac{d\dot{s}}{dt} = {\update{S}}_{\dot{s}}((s, \dot{s}), i)$ of second order
+  differential equations we were trying to model.
+  
+  Often, we want to think of the state variables $\dot{s}$ as \emph{hidden}
+  technical tricks. For this reason, we will often only expose the ``actual''
+  state variables $s$. This is one use for the function $\expose{S}$.
+
+  \begin{example}\label{ex.second_order_diff_system}
+Consider a mass $m$ on a spring with a spring constant of $c$, taking position $s(t)$ at time $t$. Newton's
+second law then says that the acceleration of the mass is proportional to the
+force exerted upon it:
+\begin{equation}\label{eqn.second_order_diff_system}
+m \frac{d^2 s}{dt} = -cs.
+\end{equation}
+
+We can express this as a differential system in the following way. We take the
+state variables to be $s$ and $\dot{s}$: $\State{Spring} \coloneqq \rr^2$. We
+will suppose that the mass and the spring constant are constant, so that this
+system takes no parameters: $\In{Spring} \coloneqq \rr^0 = \{\ast\}$. We will
+only expose the position of the spring, and not its velocity: $\Out{Spring}
+\coloneqq \rr$ and $\expose{Spring}(s, \dot{s}) \coloneqq s$. Finally, the
+dynamics of the system are given by:
+\[
+\update{Spring}\left(\begin{bmatrix}s \\ \dot{s} \end{bmatrix}  \right)
+\coloneqq \begin{bmatrix} \dot{s} \\ -\frac{cs}{m}\end{bmatrix}.
+\]
+This is a way of re-writing \cref{eqn.second_order_diff_system} as a system of
+first order differential equations:
+\[
+  \begin{cases} \frac{ds}{dt} &= \dot{s} \\
+   \frac{d\dot{s}}{dt} &= -\frac{cs}{m}\end{cases}
+\]
+  \end{example}
+
+Before we go on, we should clarify the category that we are working in when we
+work with our
+differential systems.
+\begin{definition}\label{def.euc_cat}
+The category $\Cat{Euc}$ is the category of \emph{Euclidean spaces} and smooth
+maps between them. The objects of $\Cat{Euc}$ are $\rr^n$ for all $n \in \nn$,
+and a morphism $f : \rr^n \to \rr^m$ is a smooth map.
+
+We note that $\Cat{Euc}$ is a cartesian category with $\rr^n \times \rr^m =
+\rr^{n + m}$ and $\ord{1} = \rr^0$.
+\end{definition}
+
 %-------- Section --------%
 \section{Wiring together systems with lenses}\label{sec.wiring_discrete_systems}
 
-In the last section, we saw the formal definition of deterministic systems and a
-few examples of them. In this section, we'll see how to wire systems together---as we did in \cref{sec.chap1_intro} for the clock and the universal Turing machine---to
+In the last section, we saw the formal definition of deterministic and
+differential systems and a
+few examples of them. In this section, we'll see how to wire systems
+together --- as we did in \cref{sec.chap1_intro} for the clock and the universal
+Turing machine, and in \cref{sec.differential_system} for the Lotka-Volterra
+predator prey model --- to
 make more complex systems. We will do this using an interesting notion coming
 from the world of function programming: a \emph{lens}.
 
@@ -961,7 +1134,11 @@ has:
   \begin{enumerate}
   	\item Draw the composite of two lenses in the style of \eqref{eqn.lens_drawing}.
    	\item Check that $\Cat{Lens}_{\cat{C}}$ is actually a category. That is, check that
-    lens composition is associative, and that the identity lens is an identity for it.
+    lens composition is associative, and that the identity lens is an identity
+    for it. (Hint: You can use your drawing for this. You can slide the function
+    beads around on the strings; if you pull a function bead past a split in the
+    string, you have to duplicate it (since that split represents the
+    duplication function).)
   \qedhere
   \end{enumerate}
 \end{exercise}
@@ -989,18 +1166,25 @@ functorially in its variable cartesian category $\cat{C}$.
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Deterministic systems as lenses}
+\subsection{Deterministic and differential systems as lenses}
 
 The reason we are interested in lenses and lens composition is because
-deterministic systems are themselves lenses. As written in
-\cref{def.deterministic_system}, a system $\Sys{S}$ is a lens
+dynamical systems of various sorts are themselves lenses. As written in
+\cref{def.deterministic_system}, a system $\Sys{S}$ is a lens in the category of
+sets of the form
 $$\lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}} \leftrightarrows \lens{\In{S}}{\Out{S}}.$$
 In fact, the deterministic systems are precisely the lenses whose input arena is of the form $\lens SS$. This means that we can compose
 a system $\Sys{S}$ with a lens $\lens{f^{\sharp}}{f} : \lens{\In{S}}{\Out{S}}
 \leftrightarrows \lens{I}{O}$ to get a new dynamical system
-$$\lens{f^{\sharp}}{f} \circ \lens{\update{S}}{\expose{S}} :
+$$  \lens{\update{S}}{\expose{S}} \then \lens{f^{\sharp}}{f} :
 \lens{\State{S}}{\State{S}} \leftrightarrows \lens{I}{O}$$
 with a new interface!
+
+Similarly, a differential system is a lens in the category $\Cat{Euc}$ of the form
+\[
+\lens{\update{S}}{\expose{S}} : \lens{\rr^n}{\rr^n} \fromto \lens{\rr^m}{\rr^k}.
+\]
+We can then compose this with lenses in $\Cat{Euc}$ to get new differential systems!
 
 We can use this observation to wire together different systems. We separate this into to phases: first we put two systems in parallel, then we wire them together using a lens. The first phase, combine two systems without having them interact, is achieved through what we call the \emph{parallel product} and denote $\otimes$. Two put two arenas $\lens{A_1}{B_1}$ and $\lens{A_2}{B_2}$ in parallel we just take their product in our cartesian category $\cat{C}$:
 \[
@@ -1180,6 +1364,80 @@ just like we wanted! In terms of wiring diagrams, this looks like:
 \end{equation}
 \end{example}
 
+\begin{example}\label{ex.wiring_lotka_volterra}
+ We can describe the Lotka-Volterra predator prey model (reproduced below) as a
+ composite of lenses.
+
+\begin{equation}\label{eqn.lotka_volterra2}
+\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center)]
+  \node[bb={4}{1}, fill=blue!10] (rabbit) {$\Sys{Rabbits}$};
+  \node[bb={4}{1}, fill=blue!10, below = 8 of rabbit] (fox) {$\Sys{Foxes}$};
+
+  \node[draw=dgreen, circle, inner sep = 0] (c2) at ($(fox_out1) + (2, 2)$){$c_2$};
+  \node[draw=dgreen, circle, inner sep = 0, ] (c1) at ($(rabbit_out1-|fox_out1) + (2, -2)$) {$c_1$};
+
+  \node[bb={2}{2}, fit = {($(rabbit.north east) + (5,2)$ ) ($(rabbit.north west) + (-2,0)$) ( $(fox.south east) + (5, -2)$ ) ($(fox.south west) + (-2, 0)$)}] (Z) {};
+
+ \draw (rabbit_out1) to ($(rabbit_out1-|Z_out1) + (0,2)$);
+ \draw (rabbit_out1) to[in=170] (c1);
+ \draw (rabbit_in1-|Z_in1) to (rabbit_in1);
+ \draw (fox_out1) to ($(fox_out1-|Z_out1) + (0,-2)$);
+ \draw (fox_out1) to (c2);
+ \draw (fox_in4-|Z_in1) to (fox_in4);
+
+ \coordinate[below = 4 of rabbit] (midpoint);
+ \draw (c1) to[out=350, in=10, looseness=2] (midpoint);
+ \draw (midpoint) to[out=190, in=180, looseness=3] (fox_in1);
+ \draw (c2) to[out=10, in=350, looseness=2] (midpoint);
+ \draw (midpoint) to[out=170, in=180, looseness=3] (rabbit_in4);
+\end{tikzpicture}
+\end{equation}
+
+We can express the wiring pattern in \cref{eq.lotka_volterra2} as a lens
+\[
+\lens{w^{\sharp}}{w} : \lens{\rr^2}{\rr} \otimes \lens{\rr^2}{\rr} \fromto \lens{\rr^2}{\rr^2}.
+\]
+We do this by setting
+\begin{align*}
+  w(r, f) &\coloneqq (r, f) \\
+  w^{\sharp}((r, f), (a, b)) &\coloneqq (a, c_2 f, c_1 r, b) \\
+\end{align*}
+We can draw $\lens{w^{\sharp}}{w}$ as a wiring diagram on its own like this:
+\begin{equation}\label{eqn.wiring_lotka_volterra}
+\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center)]
+  \node[bb={4}{1}, fill=blue!10, dashed] (rabbit) {$\phantom{\Sys{Rabbits}}$};
+  \node[bb={4}{1}, fill=blue!10, dashed, below = 8 of rabbit] (fox) {$\phantom{\Sys{Foxes}}$};
+
+  \node[draw=dgreen, circle, inner sep = 0] (c2) at ($(fox_out1) + (2, 2)$){$c_2$};
+  \node[draw=dgreen, circle, inner sep = 0, ] (c1) at ($(rabbit_out1-|fox_out1) + (2, -2)$) {$c_1$};
+
+  \node[bb={2}{2}, fit = {($(rabbit.north east) + (5,2)$ ) ($(rabbit.north west) + (-2,0)$) ( $(fox.south east) + (5, -2)$ ) ($(fox.south west) + (-2, 0)$)}] (Z) {};
+
+ \draw (rabbit_out1) to ($(rabbit_out1-|Z_out1) + (0,2)$);
+ \draw (rabbit_out1) to[in=170] (c1);
+ \draw (rabbit_in1-|Z_in1) to (rabbit_in1);
+ \draw (fox_out1) to ($(fox_out1-|Z_out1) + (0,-2)$);
+ \draw (fox_out1) to (c2);
+ \draw (fox_in4-|Z_in1) to (fox_in4);
+
+ \coordinate[below = 4 of rabbit] (midpoint);
+ \draw (c1) to[out=350, in=10, looseness=2] (midpoint);
+ \draw (midpoint) to[out=190, in=180, looseness=3] (fox_in1);
+ \draw (c2) to[out=10, in=350, looseness=2] (midpoint);
+ \draw (midpoint) to[out=170, in=180, looseness=3] (rabbit_in4);
+\end{tikzpicture}
+\end{equation}
+
+Filling those boxes with the systems of $\Sys{Rabbits}$ and $\Sys{Foxes}$
+corresponds to taking the composite
+\[
+(\Sys{Rabbits} \otimes \Sys{Foxes}) \then \littlelens{w^{\sharp}}{w}
+\]
+of lenses.
+
+
+\end{example}
+
 \paragraph{Wiring together transition diagrams.}
 
 When a deterministic system is presented as a transition diagram (See
@@ -1248,6 +1506,277 @@ systems $\Sys{S_1}$ and $\Sys{S_2}$.
 \end{enumerate}
 \end{exercise}
 
+\paragraph{Multi-city SIR models}\label{sec.multi_city_sir_model}
+
+In \cref{ex.SIR_model_discrete,,ex.sir_model_diff}, we saw deterministic and
+differential SIR models. Each models the spread of a disease through a single
+population. But what about a global pandemic where the disease is spreading
+through many local populations? 
+
+To model the spread of a disease through many different populations, we can use
+what is called a \emph{multi-city SIR model}. We call each population a
+``city'', and for now we will take flow of population between each city to be
+known constants. We can define a city as a differential system;
+then certain wiring diagrams of cities will correspond to multi-city models!
+
+\begin{definition}
+  A $\Sys{City}$ in a multi-city $\Sys{SIR}$ model is a differential system
+\begin{equation}\label{eqn.city_SIR_model_box}
+  \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Sys.center)]
+	\node[bb={2}{1}, fill=blue!10] (Sys) {$\Sys{City}$};
+
+	\draw[label] 
+		node [right=2pt of Sys_out1] {$\rr^3$}
+		node [left=2pt of Sys_in1] {$\rr^3$}
+		node [left=2pt of Sys_in2] {$\rr^3$}
+		;
+\end{tikzpicture}
+\end{equation}
+  A city is defined by:
+\begin{itemize}
+  \item $\State{City} \coloneqq \left\{\begin{bmatrix} S \\ I \\
+        R \end{bmatrix}\, \middle|\, S,\, I,\, R\in \rr\right\} = \rr^3$.
+  \item $\In{City} = \{(\const{inflow}, \const{outflow}) \mid \const{inflow},\,
+    \const{outflow} \in \rr^3\} = \rr^3 \times \rr^3$
+  \item $\Out{City} = \State{City} = \rr^3$.
+  \item $\expose{S} = \id$.
+  \item
+\[
+    \update{S}\left( \begin{bmatrix} S \\ I \\ R \end{bmatrix},\,
+      (\const{inflow}, \const{outflow}) \right)
+    \coloneqq \begin{bmatrix} -k_1 SI + \const{inflow}_1 - \const{outflow}_1
+      \\k_1 SI - k_2 I + \const{inflow}_2 - \const{outflow}_2 \\k_1 I + \const{inflow}_3 - \const{outflow}_3  \end{bmatrix}
+    \]
+    for some choice of constants $k_1$ and $k_2$.
+\end{itemize}
+That is, each city will run its own $\Sys{SIR}$ model, and each of the three
+populations can flow between cities.
+\end{definition}
+
+Now, to define a mutli-city $\Sys{SIR}$ model, we need to know what cities we
+are dealing with and how population flows between them. We'll call this a
+\emph{population flow graph}.
+
+\begin{definition}\label{def.population_flow_graph}
+  A \emph{population-flow graph} (for a mutli-city $\Sys{SIR}$ model) is a graph
+  whose nodes are labeled by cities and whose edges $\Sys{City}_1 \to
+  \Sys{City}_2$ are labeled by
+  $3 \times 3$ real diagonal matrices $\const{Flow}_{1\to
+    2}$ of the following form:
+  \[
+\begin{bmatrix} 
+  r_S & 0 & 0 \\
+  0 & r_I & 0 \\
+  0 & 0 & r_R 
+\end{bmatrix}.
+\]
+
+\end{definition}
+
+\begin{example}\label{ex.population_flow_graph}
+Let's take a minute to understand \cref{def.population_flow_graph}. Here is an
+example of a network of cities, represented in a graph:
+\begin{equation}\label{eqn.population_flow_graph}
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \Sys{Boston} \ar[rr, bend left=5]\ar[rr, bend right=5, leftarrow] \ar[dr] &  & \ar[dl]\Sys{NYC}\\
+& \Sys{Tallahassee} &
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+This map contains three cities, $\Sys{Boston}$, $\Sys{NYC}$, and
+$\Sys{Tallahassee}$. As we can see, $\Sys{Boston}$ and $\Sys{NYC}$ have
+restricted access to travellers from $\Sys{Tallahassee}$, but otherwise people
+can travel freely. Let's focus in on one of these ways to travel, say
+$\Sys{Boston} \to \Sys{NYC}$. This is associated to a matrix
+\[
+\const{Flow}_{\Sys{Boston} \to \Sys{NYC}} \coloneqq
+\begin{bmatrix} 
+  r_S & 0 & 0 \\
+  0 & r_I & 0 \\
+  0 & 0 & r_R 
+\end{bmatrix}.
+\]
+per the definition of a population flow graph. Here's how to understand this
+matrix. If the current population of $\Sys{Boston}$ (split into susceptible,
+infected, and removed) is $s = \begin{bmatrix}S \\ I \\ R\end{bmatrix}$, then 
+\[
+  \const{Flow}_{\Sys{Boston} \to \Sys{NYC}}\, s = 
+\begin{bmatrix} 
+  r_S & 0 & 0 \\
+  0 & r_I & 0 \\
+  0 & 0 & r_R 
+\end{bmatrix}
+\begin{bmatrix}S \\ I \\ R\end{bmatrix} =
+\begin{bmatrix}r_S S \\ r_I I \\ r_R R\end{bmatrix}
+\]
+is the population that will leave $\Sys{Boston}$ and arrive in $\Sys{NYC}$. Of
+course, this assumes that people do not become sick in transit, a temporary
+assumption that a more robust model would have to address.
+\end{example}
+
+Given a population flow graph, we can form a multi-city $\Sys{SIR}$ model by
+wiring together the cities in a particular way. Namely, to every city we will
+first add sums to its inputs for every city it is flowing to and every that
+flows to it. That is, we will prepare each city like so:
+\begin{equation}\label{eqn.sir_city_extra}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0pt, bb port sep=1, baseline=(Sys.center)]
+	\node[bb={6}{1}, fill=blue!10] (Sys) {$\Sys{City}$};
+
+  \node[draw=dgreen, circle, left = of Sys_in1] (plus1) {$+$};
+  \node[draw=dgreen, circle, left = of Sys_in6] (plus2) {$+$};
+
+  \draw (plus1) to (Sys_in1);
+  \draw (plus2) to (Sys_in6);
+
+  \node[left= of plus1] (dots1) {$\rvdots$};
+  \node[left= of plus2] (dots2) {$\rvdots$};
+  \node[right= of Sys_out1] (dots3) {$\rvdots$};
+
+  \node[bb={1}{1}, fit={($(dots1) + (0, 2)$) ($(dots2) - (0, 2)$) (dots3)}] (Z) {};
+
+
+  \draw (plus1) to[out=120, in = 0]($(dots1) + (0, 2)$) ;
+  \draw (plus1) to[out=-120, in = 0]($(dots1) - (0, 2)$) ;
+  \draw ($(dots1) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots1) + (0, 2)$});
+  \draw ($(dots1) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots1) - (0, 2)$});
+
+  \draw (plus2) to[out=120, in = 0]($(dots2) + (0, 2)$) ;
+  \draw (plus2) to[out=-120, in = 0]($(dots2) - (0, 2)$) ;
+  \draw ($(dots2) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) + (0, 2)$});
+  \draw ($(dots2) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) - (0, 2)$});
+
+  \draw (Sys_out1) to ($(dots3) + (0, 2)$); 
+  \draw (Sys_out1) to ($(dots3) - (0, 2)$); 
+  \draw ($(dots3) + (0, 2)$) to (Z_out1|-{$(dots3) + (0, 2)$});
+  \draw ($(dots3) - (0, 2)$) to (Z_out1|-{$(dots3) - (0, 2)$});
+\end{tikzpicture}
+\end{equation}
+
+Specifically, we need to add together all the inflows from all other cities, and
+then record all the outflows to all other cities. We also need to copy the state
+enough times so that it can be passed to all other cities that our city flows
+to. So we need to add together inputs for all incoming edges in the population
+flow graph to the inflow
+port, and add together inputs for all outgoing edges in the population flow
+graph to the outflow port. And we also need to copy the output port to for all
+outgoing edges.
+
+\begin{example}\label{ex.prepared_city_sir_model}
+For example, here is the
+preparation necessary for $\Sys{Boston}$ in \cref{eqn.population_flow_graph}:
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0pt, bb port sep=1, baseline=(Sys.center)]
+	\node[bb={6}{1}, fill=blue!10] (Sys) {$\Sys{Boston}$};
+
+  \node[draw=dgreen, circle, left = of Sys_in6] (plus2) {$+$};
+
+  \draw (plus2) to (Sys_in6);
+
+  \node[left= of plus2] (dots2) {};
+  \node[right= of Sys_out1] (dots3) {};
+
+  \node[bb={1}{1}, fit={($(Sys.north west) + (-4, 2)$) ($(plus2) - (0, 2)$) (dots3)}] (Z) {};
+
+  \draw (Z_in1|-Sys_in1) to (Sys_in1);
+
+  \draw (plus2) to[out=120, in = 0]($(dots2) + (0, 2)$) ;
+  \draw (plus2) to[out=-120, in = 0]($(dots2) - (0, 2)$) ;
+  \draw ($(dots2) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) + (0, 2)$});
+  \draw ($(dots2) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) - (0, 2)$});
+
+  \draw (Sys_out1) to ($(dots3) + (0, 2)$); 
+  \draw (Sys_out1) to ($(dots3) - (0, 2)$); 
+  \draw ($(dots3) + (0, 2)$) to (Z_out1|-{$(dots3) + (0, 2)$});
+  \draw ($(dots3) - (0, 2)$) to (Z_out1|-{$(dots3) - (0, 2)$});
+\end{tikzpicture}
+\]
+As you can see, there is only one incoming edge, and so the inflow input port
+doesn't need to anything to be added. But there are two outgoing edges, so we
+need to copy the output so they can be passed to $\Sys{NYC}$ and
+$\Sys{Tallahassee}$ and add together the two outflows into the outflow input
+port of $\Sys{Boston}$.
+\end{example}
+
+\begin{exercise}
+  Prepare the cities of $\Sys{NYC}$ and $\Sys{Tallahassee}$ from
+  \cref{eqn.population_flow_graph} in the same way $\Sys{Boston}$ was prepared
+  in \cref{ex.prepared_city_sir_model}.
+\end{exercise}
+
+Next, we wire together these prepared cities (from \cref{eqn.sir_city_extra}).
+For each edge $\Sys{City}_1 \to \Sys{City}_2$ in our population flow graph, we
+will put the matrix $\const{Flow}_{\Sys{City}_1 \to \Sys{City}_2}$ on the wire
+leaving the prepared $\Sys{City}_1$ corresponding to the edge, then split the
+wire and plug one end into the corresponding outflow input port of $\Sys{City}_1$
+and the corresponding inflow input port of $\Sys{City}_2$.
+
+\begin{example}\label{ex.sir_city_extra_wire}
+Here is what it looks like to wire $\Sys{Boston}$ to $\Sys{NYC}$ along the edge
+$\Sys{Boston} \to \Sys{NYC}$ in the population flow graph \cref{eqn.population_flow_graph}:
+\begin{equation}\label{eqn.sir_city_extra_wire}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}
+, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0pt, bb port sep=1, baseline=(Sys.center)]
+	\node[bb={6}{1}, fill=blue!10] (Sys) {$\Sys{Boston}$};
+	\node[bb={6}{1}, fill=blue!10, below = 8 of Sys] (Sys2) {$\Sys{NYC}$};
+  
+  \node[draw=dgreen, circle, below=4 of Sys, anchor=center] (Flow) {$\const{Flow}$};
+
+  \node[draw=dgreen, circle, left = of Sys_in6] (plus2) {$+$};
+  \draw (plus2) to (Sys_in6);
+
+  \node[draw=dgreen, circle, left = of Sys2_in6] (plus2nyc) {$+$};
+  \draw (plus2nyc) to (Sys2_in6);
+
+  \node[left= of plus2] (dots2) {};
+  \node[right= of Sys_out1] (dots3) {};
+
+  \node[left= of plus2nyc] (dots2nyc) {};
+  \node[right= of Sys2_out1] (dots3nyc) {};
+
+  \node[bb={1}{1}, fit={($(Sys.north west) + (-4, 2)$) ($(Sys2.south west) - (0, 2)$) ($(dots3) + (2, 0)$)}] (Z) {};
+
+  \draw (Z_in1|-Sys_in1) to (Sys_in1);
+
+  \draw (plus2) to[out=120, in = 0]($(dots2) + (0, 2)$) ;
+  \draw (plus2nyc) to[out=120, in = 0]($(dots2nyc) + (0, 2)$) ;
+  \draw (plus2nyc) to[out=-120, in = 0]($(dots2nyc) - (0, 2)$) ;
+  \draw ($(dots2) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2) + (0, 2)$});
+  \draw ($(dots2nyc) + (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2nyc) + (0, 2)$});
+  \draw ($(dots2nyc) - (0, 2)$) to[out=180, in=0] (Z_in1|-{$(dots2nyc) - (0, 2)$});
+
+  \draw (Sys_out1) to ($(dots3) + (0, 2)$); 
+  \draw (Sys_out1) to ($(dots3) - (0, 2)$); 
+  \draw ($(dots3) + (0, 2)$) to (Z_out1|-{$(dots3) + (0, 2)$});
+  \draw (Sys2_out1) to ($(dots3nyc) + (0, 2)$); 
+  \draw (Sys2_out1) to ($(dots3nyc) - (0, 2)$); 
+  \draw ($(dots3nyc) + (0, 2)$) to (Z_out1|-{$(dots3nyc) + (0, 2)$});
+  \draw ($(dots3nyc) - (0, 2)$) to (Z_out1|-{$(dots3nyc) - (0, 2)$});
+
+  \coordinate (start) at ($(dots3) - (0, 2)$);
+  \coordinate[left = 2 of Flow] (finish);
+
+  \draw (finish) to (Flow);
+  \draw let \p1=(start), \p2=(Flow) in
+    (start) to[out=0, in=0] (\x1, \y2)  to[out=180, in=0] (Flow);
+    \draw (finish)  to[out=180, in=-120] (plus2);
+    \draw let \p1=(finish), \p2=(Sys2_in1) in
+      (finish) to[out=180, in=180] (\x1, \y2) to[out=180, in=180] (Sys2_in1);
+\end{tikzpicture}
+\end{equation}
+This wiring diagram says to take the population of $\Sys{Boston}$, take the
+proportion given by the flow rate $\const{Flow}_{\Sys{Boston} \to \Sys{NYC}}$,
+then set add this to the outflow parameter of $\Sys{Boston}$ and the inflow
+parameter of $\Sys{NYC}$.
+\end{example}
+
+
+\iffalse
 \begin{example}[Multi-city SIR models]\label{ex.multi_city_SIR_discrete}
   
   In \cref{ex.SIR_model_discrete}, we saw how a discrete version of the SIR
@@ -1339,6 +1868,8 @@ of the other:
   \cref{eqn.multi_city_SIR_model}. Do you see the population flowing between the
   two cities?
 \end{exercise}
+\fi
+
 %---- Subsection ----%
 \subsection{Wiring diagrams as lenses in categories of arities}
 
@@ -1348,7 +1879,7 @@ do so throughout the rest of the book. Its about time we explicitly described
 the rules one uses to draw these diagrams, and give a formal mathematical
 definition of them. The motto of this section is:
 \slogan{
-    A wiring diagram is just a lenses in a free cartesian category --- a category of \emph{arities.}
+    A wiring diagram is a lens in a free cartesian category --- a category of \emph{arities.}
   }
 
 We'll begin by describing wiring diagrams and their category in informal terms.
@@ -1551,6 +2082,8 @@ variables in the abstract, we can use it to define wiring diagrams. Recall from 
   The category $\Cat{WD}$ of wiring diagrams is defined to be the category of
   lenses in the category of arities $\arity$.
   $$\Cat{WD} := \Cat{Lens}_{\arity}.$$
+We consider $\Cat{WD}$ as a monoidal category in the same way we consider
+$\Cat{Lens}_{\arity}$ as a monoidal category.
 \end{definition}
 
 This definition shows us that the wiring diagrams we have been using are
@@ -1604,13 +2137,24 @@ following way:
      node[right= 2pt of Y_out2] (label1) {$b^+_2$}
    ;
 \end{tikzpicture}
-\quad\quad
-\begin{aligned}
-  w^{\ast} &= (a^+_1,\, a^+_2, a^+_3 \mapsto  a_2^+,\, a^+_3)\\
-  w^{\sharp\ast} &= (a^+_1,\, a^+_2,\, a^+_3,\,a^+_4,\,b^-_1 \mapsto a^+_2,\, a_1^+,\, b_1^-)
-\end{aligned}
+\begin{minipage}{20em}
+\[w = \begin{tikzpicture}[baseline=(current bounding box.center)]
+	\boxofbullets{2}{(0,0)}{b}{$b^+$}{right=0pt};
+	\boxofbullets{3}{(-2,0)}{a}{$a^+$}{left=0pt};
+	\draw[blue, dashed, |->] (pt_b_1) -- (pt_a_2);
+	\draw[blue, dashed, |->] (pt_b_2) -- (pt_a_3);
+\end{tikzpicture} \]
+\[w^{\sharp} = \begin{tikzpicture}[baseline=(current bounding box.center)]
+	\boxofbullets{3}{(0,0)}{b}{$a^-$}{right=0pt};
+	\boxofbullets{3}{(-2,0)}{a}{$a^+$}{left=0pt};
+	\boxofbullets{1}{(-2, -1)}{c}{$b^-$}{left=0pt};
+	\draw[blue, dashed, |->] (pt_b_1) -- (pt_a_2);
+	\draw[blue, dashed, |->] (pt_b_2) -- (pt_a_1);
+	\draw[blue, dashed, |->] (pt_b_3) -- (pt_c_1);
+\end{tikzpicture}
+\]
+\end{minipage}
 \end{equation}
-\spiz{redraw with ``boxofbullets''}
 
 
 \begin{exercise}
@@ -1634,22 +2178,212 @@ and vice versa:
 	\draw (X3_out1) to (Y_out2');
 \end{tikzpicture}
 \]
-\item $\lens{w^{\sharp\ast}}{w^{\ast}} : \lens{\XX^{\ord{2}} \times\XX^{\ord{1}}
+\item $\lens{w^{\sharp}}{w} : \lens{\XX^{\ord{2}} \times\XX^{\ord{1}}
     \times\XX^{\ord{2}}}{\XX \times\XX \times\XX^{\ord{2}}}
   \leftrightarrows \lens{\XX^{\ord{2}}}{\XX^{\ord{1}}}$
-  \[
-    \begin{aligned}
-      w^{\ast} &= (a_1^+,\, a_2^+,\, a_{31}^+,\, a_{32}^+ \mapsto a_{32}^+)\\
-      w^{\sharp\ast} &= (a_1^+,\, a_2^+,\, a_{31}^+,\, a_{32}^+,\, b_1^-,\,
-      b_2^- \mapsto a_{31}^+,\, b_1^-,\, b_2^-,\, a_1^+,\, a_2^+)
-    \end{aligned}
-  \]
+\[
+  w = \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+    \boxofbullets{2}{(-2, -1.25)}{a3}{$a^+_3$}{left=0pt};
+
+    \boxofbullets{1}{(0,0)}{b}{$b^+$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_b_1) -- (pt_a3_2);
+\end{tikzpicture}
+\]
+\[
+  w^{\sharp} = \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+    \boxofbullets{2}{(-2, -1.25)}{a3}{$a^+_3$}{left=0pt};
+    \boxofbullets{2}{(-2,-2.25)}{b-}{$b^-$}{left=0pt};
+
+    \boxofbullets{2}{(0,0)}{a1-}{$a^-_1$}{right=0pt};
+    \boxofbullets{1}{(0,-.75)}{a2-}{$a^-_2$}{right=0pt};
+    \boxofbullets{2}{(0,-1.5)}{a3-}{$a^-_3$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_a1-_1) -- (pt_a3_1);
+    \draw[blue, dashed, |->] (pt_a1-_2) -- (pt_b-_1);
+    \draw[blue, dashed, |->] (pt_a2-_1) -- (pt_b-_2);
+    \draw[blue, dashed, |->] (pt_a3-_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_a3-_2) -- (pt_a2_1);
+\end{tikzpicture}
+\]
   %%
   %% NOTE: This corresponds to example (5) in the collected diagrams
   %%       which can be found right after (cobordism)
   %%
 \end{enumerate}
 \end{exercise}
+
+Ok, so the wiring diagrams correponds to the lenses in the category of arities.
+But do they compose in the same way? Composition of wiring diagrams is given by
+nesting: to compute $\lens{w^{\sharp}}{w} \then \lens{u^{\sharp}}{u}$, we fill
+in the inner box of $\lens{u^{\sharp}}{u}$ with the outer box of
+$\lens{w^{\sharp}}{w}$, and then remove this middle layer of boxes.
+\begin{equation}\label{eqn.composing_wiring_diagrams}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Middle.center)]
+
+\node[bb={1}{1}, fill=blue!10] (TL) {\phantom{ space }};
+\node[bb={2}{0}, fill=blue!10, below = 4 of TL] (LL) {\phantom{sp}};
+\node[bb={1}{1}, fill=blue!10] (R) at ($(TL) + (6, -3)$) {\phantom{ space }};
+  
+\node[bb={1}{1}, fit={($(TL) + (-3,1)$) (LL) ($(R) + (2,0)$)}] (Middle) {};
+
+\draw (Middle_in1|-TL_in1) to (TL_in1);
+\draw (Middle_in1|-TL_in1) to[out=0, in=180] (LL_in1);
+\draw (Middle_in1|-LL_in2) to[out=0, in=180] (LL_in2);
+\draw (TL_out1) to[out=0, in=180] (Middle_out1|-TL_out1);
+\draw (TL_out1) to[out=0, in=180] (R_in1);
+\draw (R_out1) to[out=0, in=180] (Middle_out1|-R_out1);
+
+\draw[label]
+  node[right = 3pt of TL_in1] (label) {$a^-_{11}$}
+  node[left = 3pt of TL_out1] (label) {$a^+_{11}$}
+  node[right = 3pt of LL_in1] (label) {$a^-_{31}$}
+  node[right = 3pt of LL_in2] (label) {$a^-_{32}$}
+  node[right = 3pt of R_in1] (label) {$a^-_{21}$}
+  node[left = 3pt of R_out1] (label) {$a^+_{21}$}
+  node[left = 3pt of {Middle_in1|-TL_in1}] (label) {$b^-_1$}
+  node[left = 3pt of {Middle_in1|-LL_in2}] (label) {$b^-_2$}
+  node[right = 3pt of {Middle_out1|-TL_out1}] (label) {$b^+_1$}
+  node[right = 3pt of {Middle_out1|-R_out1}] (label) {$b^+_2$}
+;
+\end{tikzpicture}
+\quad
+\then
+\quad
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Outer.center)]
+
+\node[bb={3}{3}, fill=blue!10] (Middle) {\phantom{hello s}};
+
+\node[bb={1}{1}, fit={($(Middle.north west) + (-2, 2)$)($(Middle.south east) - (-2, 2)$)}] (Outer) {};
+
+\draw (Middle_out3) to (Outer_out1|-Middle_out3);
+\draw let \p1=(Middle.north east), \p2=(Middle.north west) in
+  (Middle_out1) to[out=0, in=0] (\x1, \y1 + 7) to (\x2, \y1 + 7) to[out=180, in=180] (Middle_in1);
+\draw let \p1=(Middle.south east), \p2=(Middle.south west) in
+  (Middle_out3) to[out=0, in=0] (\x1, \y1 - 7) to (\x2, \y1 - 7) to[out=180, in=180] (Middle_in3);
+
+\draw[label]
+  node[right = 3pt of Middle_in1] (label) {$b^-_1$}
+  node[right = 3pt of Middle_in3] (label) {$b^-_2$}
+  node[left = 3pt of Middle_out1] (label) {$b^+_1$}
+  node[left = 3pt of Middle_out3] (label) {$b^+_2$}
+;
+
+\draw[label] node[right = 3pt of {Outer_out1|-Middle_out3}] (label) {$c^+_1$};
+\end{tikzpicture}
+\quad
+= 
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Outer.center)]
+
+\node[bb={1}{1}, fill=blue!10] (TL) {\phantom{ space }};
+\node[bb={2}{0}, fill=blue!10, below = 4 of TL] (LL) {\phantom{sp}};
+\node[bb={1}{1}, fill=blue!10] (R) at ($(TL) + (6, -3)$) {\phantom{ space }};
+  
+\node[bb={2}{2}, fit={($(TL) + (-3,1)$) (LL) ($(R) + (2,0)$)}, dashed] (Middle) {};
+
+\draw (Middle_in1|-TL_in1) to (TL_in1);
+\draw (Middle_in1|-TL_in1) to[out=0, in=180] (LL_in1);
+\draw (Middle_in1|-LL_in2) to[out=0, in=180] (LL_in2);
+\draw (TL_out1) to[out=0, in=180] (Middle_out1|-TL_out1);
+\draw (TL_out1) to[out=0, in=180] (R_in1);
+\draw (R_out1) to[out=0, in=180] (Middle_out1|-R_out1);
+
+\draw[label]
+  node[right = 3pt of TL_in1] (label) {$a^-_{11}$}
+  node[left = 3pt of TL_out1] (label) {$a^+_{11}$}
+  node[right = 3pt of LL_in1] (label) {$a^-_{31}$}
+  node[right = 3pt of LL_in2] (label) {$a^-_{32}$}
+  node[right = 3pt of R_in1] (label) {$a^-_{21}$}
+  node[left = 3pt of R_out1] (label) {$a^+_{21}$}
+;
+
+\node[bb={1}{1}, fit={($(Middle.north west) + (-2, 2)$)($(Middle.south east) - (-2, 2)$)}] (Outer) {};
+
+\draw (Middle_out2|-R_out1) to (Outer_out1|-R_out1);
+\draw let \p1=(Middle.north east), \p2=(Middle.north west) in
+  (Middle_out1|-TL_out1) to[out=0, in=0] (\x1, \y1 + 7) to (\x2, \y1 + 7) to[out=180, in=180] (Middle_in1|-TL_in1);
+\draw let \p1=(Middle.south east), \p2=(Middle.south west) in
+  (Middle_out2|-R_out1) to[out=0, in=0] (\x1, \y1 - 7) to (\x2, \y1 - 7) to[out=180, in=180] (Middle_in2|-LL_in2);
+
+\draw[label] node[right = 3pt of {Outer_out1|-R_out1}] (label) {$c^+_1$};
+\end{tikzpicture}
+\end{equation}
+
+Let's say in prose how to compose two wiring diagrams. Then, we can check that
+this matches the formula given to us by lens composition in $\arity$.
+\begin{itemize}
+  \item An outer output port is wired to a middle output port, and this middle
+    output port is wired to an inner input port. So, to compose, we wire the
+    outer output port to this inner output port. 
+  \item A inner input port is either wired to an inner input port or a middle
+    input port. If it is wired to an inner input port, we leave it that way.
+    Suppose that it was instead wired to a middle input port. This middle input
+    port is wired either to a middle output port or an outer input port. If it
+    is wired to an outer input port, we then wire the inner input port to this
+    outer input port. But if it was wired to a middle output port, we need to
+    follow along to the inner output port that it is wired to; then we wire the
+    inner input port to this inner output port.
+\end{itemize}
+
+Phew. After that block of text, I hope the mathematics will feel refreshingly
+crisp. Let's see what the lens composition looks like in $\arity$:
+\[
+  \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+
+    \boxofbullets{2}{(0,0)}{b}{$b^+$}{above=0pt};
+
+    \boxofbullets{1}{(2,0)}{c}{$c^+$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_b_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_b_2) -- (pt_a2_1);
+    \draw[blue, dashed, |->] (pt_c_1) -- (pt_b_1);
+\end{tikzpicture}
+\]
+
+\[
+  \begin{tikzpicture}[baseline=(current bounding box.center)]
+    \boxofbullets{1}{(-2, 0)}{a1}{$a^+_1$}{left=0pt};
+    \boxofbullets{1}{(-2, -.5)}{a2}{$a^+_2$}{left=0pt};
+
+    \boxofbullets{1}{(0, 1.75)}{a12}{$a^+_1$}{above=0pt};
+    \boxofbullets{1}{(0, 1)}{a22}{$a^+_2$}{above=0pt};
+    \boxofbullets{2}{(0,0)}{b1}{$b^+$}{above=0pt};
+
+    \boxofbullets{1}{(2, 1.75)}{a13}{$a^+_1$}{above=0pt};
+    \boxofbullets{1}{(2, 1)}{a23}{$a^+_2$}{above=0pt};
+    \boxofbullets{2}{(2,0)}{b2}{$b^+$}{above=0pt};
+
+    \boxofbullets{1}{(4, 1.75)}{a14}{$a^-_1$}{right=0pt};
+    \boxofbullets{1}{(4, 1)}{a24}{$a^-_2$}{right=0pt};
+    \boxofbullets{2}{(4,0)}{a3}{$a^-_3$}{right=0pt};
+
+    \draw[blue, dashed, |->] (pt_b_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_b_2) -- (pt_a2_1);
+    \draw[blue, dashed, |->] (pt_a12_1) -- (pt_a1_1);
+    \draw[blue, dashed, |->] (pt_a22_1) -- (pt_a2_1);
+
+    \draw[blue, dashed, |->] (pt_a13_1) -- (pt_a12_1);
+    \draw[blue, dashed, |->] (pt_a23_1) -- (pt_a22_1);
+    \draw[blue, dashed, |->] (pt_b2_1) -- (pt_b1_1);
+    \draw[blue, dashed, |->] (pt_b2_2) -- (pt_b1_2);
+
+    \draw[blue, dashed, |->] (pt_a14_1) -- (pt_a13_1);
+    \draw[blue, dashed, |->] (pt_a24_1) -- (pt_a23_1);
+    \draw[blue, dashed, |->] (pt_a3_1) -- (pt_b2_1);
+    \draw[blue, dashed, |->] (pt_a3_2) -- (pt_b2_2);
+\end{tikzpicture}
+\]
+It's worth going through and seeing exactly how lens composition expresses the
+description we gave of nesting wiring diagrams above.
+
+
+%% writehere
 
 That $\arity$ is the free cartesian category generated by a single object
 means that it satisfies a very useful universal property.
@@ -1682,11 +2416,11 @@ $(c_2,\, c_2)$.
 By the functoriality of the lens construction, this means that given an object
 $C \in \cat{C}$ of a cartesian category of ``values that should be flowing on
 our wires'', we can interpret a wiring diagram as a lens in $\cat{C}$! We record
-this observation in the following proposition. \spiz{Have we given the monoidal structure on $\Cat{WD}$?}
+this observation in the following proposition. 
 \begin{proposition}\label{prop.wiring_diagram_as_lens}
   Let $C \in \cat{C}$ be an object of a cartesian category. Then there is a
   strong monoidal functor
-  $$\lens{\Fun{ev}_C}{\Fun{ev}_C} : \Cat{WD} \to \cat{C}$$
+  $$\lens{\Fun{ev}_C}{\Fun{ev}_C} : \Cat{WD} \to \Cat{Lens}_{\cat{C}}$$
   which interprets a wiring diagram as a lens in $\cat{C}$ with values in $C$
   flowing along its wires.
 \end{proposition}
@@ -1798,7 +2532,7 @@ lenses in the category of typed arities.
 
 As with the singly-typed case, we can interpret any typed wiring diagram as a
 lens in a cartesian category of our choosing.
-\begin{proposition}
+\begin{proposition}\label{prop.interpret_typed_wiring_diagram}
   For any family $C_{(-)} : \cat{T} \to \cat{C}$ of objects in a cartesian
   category $\cat{C}$, indexed by a set $\cat{T}$ of types, there is a strong
   monoidal functor
@@ -1849,13 +2583,213 @@ lens in a cartesian category of our choosing.
   actual sets $\{\const{a.m.},\const{p.m.}\}$ and $\{1, 2,\ldots, 12\}$.
 \end{example}
 
-\begin{exercise}
+\subsection{Wiring diagrams with operations as lenses in Lawvere theories}
 
-  
-  Write the wiring diagram from \cref{ex.multi_city_SIR_discrete} out as a lens
-  in $\arity_{\{\Out{SIR},\, \In{SIR} \}}$.
-\end{exercise}
+The wiring diagrams we have described as lenses in categories of arities are
+pure wiring diagrams. But in \cref{ex.wiring_lotka_volterra}, we used a wiring
+diagram (\cref{eqn.wiring_lotka_volterra}) with little green beads representing multiplication by a constant
+scalar, and in \cref{sec.multi_city_sir_model} we used a wiring diagram with
+little green beads representing multiplication by a matrix
+(\cref{eqn.sir_city_extra_wire}). It is very useful to be able to perform
+operations on the exposed variables we
+are passing to parameters.
 
+In this section, we will see that if we have an \emph{algebraic theory} of the
+kinds of operations we want to perform on our variables while we wire them, we can
+describe wiring diagrams with green beads representing those adjustments as
+lenses in the \emph{Lawvere theory} of that algebraic theory.
+
+Algebraic theories are theories of operations that are subject to certain
+equational laws.
+\begin{informal}
+A \emph{algebraic theory} $\mathbb{T}$ consists:
+\begin{itemize}
+  \item A set $\mathbb{T}_n$ of $n$-ary operations for each $n \in \nn$.
+  \item A set of \emph{laws} setting some composites of operations equal to others.
+\end{itemize}
+\end{informal}
+
+\begin{example}\label{ex.vector_theory}
+The algebraic theory of real vector spaces can be described like this:
+\begin{itemize}
+\item There is a binary operation $(-)+(-)$ of vector addition, and for every $r \in
+  \rr$ a unary operation $r\cdot(-)$ of scalar multiplication, and a nullary
+  operation (a.k.a. constant) $0$.
+\item These satisfy the laws that make $+$ and $0$ into an abelian group with
+  addition inverses given by $-1 \cdot(-)$, and which satisfy associativity and
+  distributivity with regards to scalar multiplication.
+\[
+\begin{aligned}
+(a + b) + c &= a + (b + c)\\
+0 + a &= a \\
+a + b &= b + a \\
+a + (-1 \cdot a) &= 0
+\end{aligned}
+\quad\quad
+\begin{aligned}
+r \cdot (s \cdot a) &= (rs) \cdot a \\
+(r + s) \cdot a &= r \cdot a + s \cdot a \\
+ 1 \cdot a &= a\\
+ 0 \cdot a &= 0
+\end{aligned}
+\]
+\end{itemize}
+\end{example}
+
+We can use an algebraic theory to organize the sorts of operations we are
+willing or able to perform on the values flowing through the wires of our wiring diagrams.
+\begin{informal}
+A wiring diagram with operations from an algebraic theory $\mathbb{T}$ is a
+wiring diagram where operations from the theory $\mathbb{T}$ can be drawn in
+little green beads on the wires. 
+\end{informal}
+
+\begin{example}
+  The wiring diagram \cref{eqn.wiring_lotka_volterra} (reproduced below) is a
+  wiring diagram in the algebraic theory of real vector spaces. The little green
+  beads have scalar multiplications drawn in them.
+  \[
+\begin{tikzpicture}[oriented WD, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm, baseline=(Z.center)]
+  \node[bb={4}{1}, fill=blue!10, dashed] (rabbit) {$\phantom{\Sys{Rabbits}}$};
+  \node[bb={4}{1}, fill=blue!10, dashed, below = 8 of rabbit] (fox) {$\phantom{\Sys{Foxes}}$};
+
+  \node[draw=dgreen, circle, inner sep = 0] (c2) at ($(fox_out1) + (2, 2)$){$c_2$};
+  \node[draw=dgreen, circle, inner sep = 0, ] (c1) at ($(rabbit_out1-|fox_out1) + (2, -2)$) {$c_1$};
+
+  \node[bb={2}{2}, fit = {($(rabbit.north east) + (5,2)$ ) ($(rabbit.north west) + (-2,0)$) ( $(fox.south east) + (5, -2)$ ) ($(fox.south west) + (-2, 0)$)}] (Z) {};
+
+ \draw (rabbit_out1) to ($(rabbit_out1-|Z_out1) + (0,2)$);
+ \draw (rabbit_out1) to[in=170] (c1);
+ \draw (rabbit_in1-|Z_in1) to (rabbit_in1);
+ \draw (fox_out1) to ($(fox_out1-|Z_out1) + (0,-2)$);
+ \draw (fox_out1) to (c2);
+ \draw (fox_in4-|Z_in1) to (fox_in4);
+
+ \coordinate[below = 4 of rabbit] (midpoint);
+ \draw (c1) to[out=350, in=10, looseness=2] (midpoint);
+ \draw (midpoint) to[out=190, in=180, looseness=3] (fox_in1);
+ \draw (c2) to[out=10, in=350, looseness=2] (midpoint);
+ \draw (midpoint) to[out=170, in=180, looseness=3] (rabbit_in4);
+\end{tikzpicture}
+  \]
+\end{example}
+
+%%
+%% :CUSTOM-ID:cite-me.lawvere
+%%
+
+We want to make these informal definitions precise. Ultimately, we want to be
+able to say that ``wiring diagrams with operations from $\mathbb{T}$ are lenses
+in such and such cartesian category''. We can do this with the notion of Lawvere theory. 
+
+Lawvere introduced his theories in his 1963 thesis ``Functorial Semantics of
+Algebraic Theories'' \cite{} as the invariant concepts of algebraic theories,
+freed from any particular presentation by symbols and their relations. In
+\cref{ex.vector_theory}, we presented the algebraic theory of real vector spaces
+in a particular way; but we could have done it differently, say by avoiding the
+vector $0$
+entirely and adding the law $(0 \cdot a) + b = b$. Lawvere wanted to avoid these
+petty differences in presentation. He focuses
+instead on the cartesian category freely
+containing the operations of the theory (satisfying their laws). This gives an invariant
+of the concept of real vector space that is independent of how that concept is presented.
+
+A Lawvere theory is, in some sense, a category of arities ``with extra maps''.
+We think of these extra maps as coming from the operations of some theory.
+\begin{definition}
+A $\cat{T}$-sorted Lawvere theory $\cat{L}$ is a cartesian category equipped with a
+faithful, bijective-on-objects functor $\arity_{\cat{T}} \hookrightarrow
+\cat{L}$. 
+
+If $\cat{T}$ has a single element, we refer to this as a \emph{single sorted}
+Lawvere theory.
+\end{definition}
+
+Where we wrote the objects of $\arity$ as $\XX^I$ to suggest the genericness of
+the generating object $\XX$, we will see that the objects
+of Lawvere theories are often $A^I$ for some ``actual'' object $A$ in some
+cartesian category.
+\begin{example}
+  The single sorted Lawvere theory $\Cat{Vect}$ of real vector spaces can be defined as follows:
+  \begin{itemize}
+    \item For every finite set $I$, it has an object $\rr^I \in \Cat{Vect}$.
+    \item A map $f : \rr^I \to \rr^J$ is a linear map, or equivalently a $J
+      \times I$ matrix.
+    \item The cartesian product $\rr^I \times \rr^J$ is $\rr^{I + J}$.
+ \end{itemize}
+
+ Since $\Cat{Vect}$ is a cartesian category, it admits a functor $\XX \mapsto
+ \rr$ from $\arity$. By construction, this functor is bijective on objects; we
+ just need to show that it is faithful. If $g^{\ast}, f^{\ast} : \XX^I \to
+ \XX^J$ are such that $g^{\ast} = f^{\ast}$ as maps $\rr^I \to \rr^J$, then in
+ particular $g^{\ast}(e_i) =f^{\ast}(e_i)$ for all standard basis vectors $e_i$
+ defined by
+\[
+e_i(j) \coloneqq \begin{cases} 1 &\mbox{if $i = j$,} \\0 &\mbox{otherwise.} \end{cases}
+\]
+But $g^{\ast}(e_i)(j) \coloneqq e_i(g(j))$ and $f^{\ast}(e_i)(j) \coloneqq
+e_i(f(j))$, so by varying $i$ we can test that $g(j) = f(j)$ for all $j \in J$,
+and therefore that $g^{\ast} = f^{\ast}$ as maps $\XX^I \to \XX^J$.
+\end{example}
+
+How do we know that the extra maps in a Lawvere theory really do come from the
+operations of an algebraic theory? We show that the Lawvere theory satisfies a
+certain universal property: cartesian functors out of it correpond to
+\emph{models} of the theory. If this is the case, we say that the Lawvere theory
+is \emph{presented} by the algebraic theory.
+
+\begin{informal}
+Let $\mathbb{T}$ be an algebraic theory. A \emph{model} of $\mathbb{T}$ in a
+cartesian category $\cat{C}$ is an object $C \in \cat{C}$ together with maps $m(f)
+: C^n \to C$ for each $n$-ary operation $f \in \mathbb{T}_n$ such that the maps
+$m(f)$ satisfy the laws of the theory.
+\end{informal}
+
+
+We can show that our Lawvere theory $\Cat{Vect}$ of vector spaces is presented
+by the theory of vector spaces of \cref{ex.vector_theory}.
+\begin{proposition}
+Let $\cat{C}$ be a cartesian category. Then for every real vector space in
+$\cat{C}$, by which we mean an object $V \in \cat{C}$ with a binary addition
+$+ : V^2 \to V$, a unary scalar multiplication $r\cdot : V \to V$ for each $r
+\in \rr$, and a nullary $0 : \ord{1} \to V$ which satisfy the laws of a vector
+space, there is a cartesian functor $\hat{V} : \Cat{Vect} \to \cat{C}$ sending
+$\rr$ to $V$. Moreover, this functor is unique up to a unique isomorphism among
+functors sending $\rr$ to $V$.
+\end{proposition}
+\begin{proof}[Proof Sketch]
+  We define the functor $\hat{V}$ by sending $\rr^I$ to $V^I$, and sending the
+  operations $+ : \rr^2 \to \rr$, $r \cdot : \rr \to \rr$, and $0 : \rr^0 \to
+  \rr$ to the corresponding operations on $V$. Given a general linear map $f :
+  \rr^I \to \rr^J$, $f$ can be expressed as a composite of these operations;
+  therefore, we can define $\hat{V}(f)$ to be the corresponding composite of the
+  operations on $V$. 
+\end{proof}
+
+\begin{definition}
+Let $\cat{L}$ be a Lawvere theory. The category $\Cat{WD}^{\cat{L}}$ of wiring
+diagrams with operations from $\cat{L}$ is the category of lenses in $\cat{L}$:
+\[
+\Cat{WD}^{\cat{L}} \coloneqq \Cat{Lens}_{ \cat{L} }.
+\]
+\end{definition}
+
+\begin{remark}
+The faithful, bijective-on-objects functor $\arity_{\cat{T}} \to \cat{L}$ lets
+us interpret every $\cat{T}$-typed wiring diagram as a wiring diagram with
+operations from $\cat{L}$ by \cref{prop.interpret_typed_wiring_diagram}.
+\end{remark}
+
+
+
+\begin{example}
+  The wiring diagram \cref{eqn.sir_city_extra_wire} is a wiring diagram with
+  operations from $\Cat{Vect}$, the theory of vector spaces. This is why we are
+  able to put matrices in the beads.
+\end{example}
+
+
+%% writehere
 \section{Non-deterministic doctrines}\label{sec.non_deterministic_systems}
 
 So far, we have seen how deterministic systems of the discrete- and
