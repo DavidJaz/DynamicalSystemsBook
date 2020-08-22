@@ -789,7 +789,7 @@ For each of the following functors $\smset\to\smset$, say if it is representable
 \end{exercise}
 
 \begin{proposition}\label{prop.representable_nt}
-For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ the $X$-component $(\yon^f)_X\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
+For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ the $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
 \end{proposition}
 
 \begin{exercise}
@@ -808,7 +808,7 @@ Prove that for any function $f\colon R\to S$, what we said was a natural transfo
 \begin{exercise}
 Let $X=\{a,b,c\}$. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component of, i.e.\ the function $X^S\to X^R$ coming from, the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
 \begin{enumerate}
-	\item $R=\5$, $S=\5$, $f=\id$.
+	\item $R=\5$, $S=\5$, $f=\id$.  (Here you're supposed to give a function called $X^{\id_\5}\colon X^\5\to X^\5$.)
 	\item $R=\2$, $S=\1$, $f$ is the unique function.
 	\item $R=\1$, $S=\2$, $f(1)=1$.
 	\item $R=\1$, $S=\2$, $f(1)=2$.
@@ -2622,6 +2622,8 @@ Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and 
 \end{enumerate}
 \end{exercise}
 
+So what is a map $p_1\otimes\cdots\otimes p_k\to q$ in general? It's a protocol by which he $k$-many participants $p_i$ together decide what decision $q$ must make, as well as how $q$'s choice among its options (the decision once made) is passed back and distributed as an option at each $p_i$.
+
 \begin{example}[Cellular automata who vote on their interaction pattern]\label{ex.cell_auto_vote_interaction}
 Recall from \cref{exc.cellular_automata} how we constructed cellular automata on a graph $G=(V,E)$. Here $E\ss V\times V$, or equivalently what we might call an \emph{interaction pattern} $I\colon V\to \2^V$, specifies the incoming neighbors $I(v)$ of each $v\in V$.
 
@@ -2769,12 +2771,17 @@ In order for the above picture to make sense, $A$ has the same output that $B$ h
 We could say that the person in \eqref{eqn.someone2} has interface $2\yon$, the units have interfaces $X\yon$ and $\yon^X$ respectively, and the whole system is closed; that is, the diagram represents a morphism $2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $2X\yon^X\to\yon$ is uniquely determined on positions, and on directions it is given by cases $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
 \end{example}
 
-In the above examples we have discussed a very general sort of interaction. One could wonder if it could be made even more general. There indeed may be ideas one could have in mind that simply cannot be expressed in $\poly$: it is only one category.
+We can easily generalize \cref{ex.assemble_machine}. Indeed, we will see in the next section that there is a polynomial $\ihom(q_1\otimes\cdots\otimes q_k\,,\,r)$ of all ways  $q_1,\ldots,q_k$ can interact in $r$, and that a map from some $p$ to it is just a bigger interaction pattern:
+\[
+\poly(p,[q_1\otimes\cdots\otimes q_k\,,\,r])\cong\poly(p\otimes q_1\otimes\cdots\otimes q_k\,,\,r).
+\]
+In other words, if $p$ thinks its deciding how $q_1,\ldots,q_k$ are wired up in $r$, and gets feedback from that wiring pattern itself, then in actuality $p$ is just part of a wiring diagram with $q_1,\ldots,q_k$ inside of $r$.\
 
-What's exciting about $\poly$ is that examples like \cref{ex.cell_auto_vote_interaction,ex.assemble_machine} show that it is quite general, and yet as we will see in \cref{sec.bonus_poly}, this single category has excellent formal properties. You can count on it not to crap out. On the spectrum from invention to discovery, $\poly$ itself is a discovery, and its application to dynamics (and later to data and decision) are invention.
+What it also means is that if you want, you can put a little dynamical system inside of $[q_1\otimes\cdots\otimes q_k,r]$ and have it constantly choosing interaction patterns. Let's see how it works.
+
 
 %---- Subsection ----%
-\subsection{Closure of $\otimes$}
+\subsection{Closure of $\otimes$}%[-,-]
 
 The parallel monoidal product is closed, meaning that there is an operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$ and an isomorphism
 \[

@@ -1505,26 +1505,14 @@ Use \cref{thm.connected_limits} in the following.
 \end{enumerate}
 \end{exercise}
 
-\begin{example}
-Suppose we have polynomials $p$ and $q$ and a position $i_0\in p(\1)$. It ponits to a certain part, a certain subpolynomial, of the composite $p\tri q$; how do we grab it? That is, how do we find the Cartesian subpolynomial
+While we're here, it will be helpful to record the following.
+\begin{proposition}
+For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $J$ is connected and $p\colon J\to\poly$ is a functor, then there is a natural isomorphism:
 \[
-  \prod_{d\in p[i_0]}\;\sum_{j\in q(\1)}\;\prod_{e\in q[j]}\;\yon
-  \ss
-  \sum_{i\in p(\1)}\;\prod_{d\in p[i]}\;\sum_{j\in q(\1)}\;\prod_{e\in q[j]}\;\yon
+	\left(\lim_{j\in J} p_j\right)\otimes q\cong
+	\lim_{j\in J} (p_j\otimes q).
 \]
-The answer is that we can get it by pullback
-\begin{equation}\label{eqn.cart_pullback_misc48}
-\begin{tikzcd}[background color=examplecolor]
-	\yon^{p[i_0]}\tri q\ar[d]\ar[r]&
-	\1\tri q\ar[r, equal]\ar[d, "i_0\tri q"]&
-	\1\ar[d, "i_0"]\\
-	p\tri q\ar[r, "\eta_p\tri q"']&
-	p\tri\1\tri q\ar[r, equal]\ar[ul, phantom, very near end, "\lrcorner"]&
-	p\tri \1\ar[ul, phantom, very near end, "\lrcorner"]
-\end{tikzcd}
-\end{equation}
-The map $\eta_p\colon p\to p\tri\1$ comes from \cref{thm.adjoint_quadruple}; it just extracts positions. The composite $\1\tri q$ is just $\1$ and similarly $p\tri\1\tri q\cong p\tri\1$. The left-hand square is a pullback by \cref{thm.connected_limits}. The lefthand map is Cartesian, because the pullback of a cartesian map is cartesian; see \cref{prop.pullback_cartesian}.
-\end{example}
+\end{proposition}
 
 
 \begin{proposition}
@@ -3225,7 +3213,7 @@ Let's see these with poly-boxes. First the counit law:
 \end{tikzpicture}
 \end{equation}
 Then the comultiplication law:
-\begin{equation}{eqn.comult_law_draw}
+\begin{equation}\label{eqn.comult_law_draw}
 \begin{tikzpicture}
 	\node (sp1) {
 	\begin{tikzpicture}[polybox, tos]
@@ -3414,6 +3402,8 @@ Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times 
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+\slogan{State categories don't make good interfaces for dynamics.}
 
 \begin{proposition}[Niu]
 The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
@@ -3607,6 +3597,9 @@ The following categories are equivalent:
 **
 \end{proof}
 
+Let $\cat{C}$ be a kategory, $A$ a set, and $f\colon A\to\Ob(\cat{C})$ a function to the objects of $\cat{C}$. There is an induced kategory $f^*\cat{C}$ with objects $A$ and cofunctor $f^*\cat{C}\to\cat{C}$ that is universal in the appropriate sense. Said more precisely, we have the following proposition.
+
+
 
 %-------- Section --------%
 \section{Cofree comonoids}
@@ -3630,8 +3623,8 @@ A position $t\in \tr_p\tri\1$ is a called a \emph{(possibly infinite) tree in $p
 
 \cref{def.cofree} is alluding to a specific image one can form of $\cofree{p}$ in terms of trees. Let's go through it in an example before giving the formula.
 
-\begin{example}
-Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees of height at most 3, i.e.\ four elements of $p\tri p\tri p\tri\1$:
+\begin{example}\label{ex.imagining_trees}
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees of height at most 3:
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=10mm},
@@ -3683,10 +3676,33 @@ Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. 
 		};
 \end{tikzpicture}
 \]
-In \cref{def.cofree}, when we speak of (possibly infinite) trees in $p$, we mean trees that can go on forever. START
+In \cref{def.cofree}, when we speak of (possibly infinite) trees in $p$, we mean trees that can go on forever. Let's imagine some:
+\begin{itemize}
+	\item The binary tree that's ``all red all the time''.
+	\item The binary tree where odd layers are red and even layers are blue.
+	\item The tree where all the nodes are red, except for the right-most branch, which is always green.%
+	\footnote{\;Note that branches are actually unordered, so it's technically wrong to think of it as a line of green up the \emph{right side}. Instead, it's just a line of green going up the tree forever.}
+	\item Completely random: for the root, randomly choose either red, blue, green, or yellow, and at every leaf, loop back to the beginning, i.e.\ randomly choose either red, blue, green, or yellow, etc.
+\end{itemize}
+
+There are uncountably many positions in $\cofree{p}$, at least for this particular $p$---in fact, even $\cofree{2\yon}$ has $2^\nn$-many positions---but only finitely many can be described in any finite language like English. Thus most of the elements of $\cofree{p}$ cannot be described.
 \end{example}
 
-Here is a picture of the formula.
+\begin{exercise}
+\begin{enumerate}
+	\item Interpret the four tree examples imagined in \cref{ex.imagining_trees} by drawing three or four layers (your choice).
+	\item Describe the set of trees (positions) in $\cofree{\1}$.
+	\item Describe the set of trees (positions) in $\cofree{\2}$.
+	\item Describe the set of trees (positions) in $\cofree{\yon}$.
+	\item Describe the set of trees (positions) in $\cofree{\yon^\2}$.
+	\item Describe the set of trees (positions) in $\cofree{\2\yon}$.
+	\item Describe the set of trees (positions) in $\cofree{\yon+\1}$.
+	\item Describe the set of trees (positions) in $\cofree{B\yon^A}$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+Three different construction: mine, Nelson's, Lack's. Here is a picture of the formula.
 
 \[
 \begin{tikzpicture}[polybox, tos]
@@ -3712,12 +3728,107 @@ Here is a picture of the formula.
 \end{tikzpicture}
 \]
 
+\paragraph{Consequences of adjointness.}
+
+Talk about how $f\colon S\yon^S\to p$ induces $S\yon^S\to\cofree{p}$.
+
+Show polybox picture of $S\yon^S$ splitting and then going to $p$ via $f$.
+
+Show graph fibration idea.
+
+Conjecture: for any tree that can be described in language, there is a finite state machine that accomplishes it.
+
+
+The following says that cofree kategories are very special objects, much like posets.
+
 \begin{proposition}
-Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is epic.
+Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is both monic and epic.
 \end{proposition}
+
+
+
+\begin{proposition}
+The cofree functor $p\mapsto\cofree{p}$ is lax monoidal; in particular there is a unique map $\yon\to\cofree{\yon}$, and for any $p,q\in\poly$ there is a natural map
+\[
+	\cofree{p}\otimes\cofree{q}\to\cofree{p\otimes q}.
+\]
+\end{proposition}
+\begin{proof}
+This follows formally from the fact that the forgetful functor $U\colon\smcat^\sharp\to\poly$ is strong monoidal with respect to $\otimes$. Indeed there are isomorphisms
+\begin{align*}
+	\poly(U(\cofree{p})\otimes U(\cofree{q}),p\otimes q)&\cong
+	\poly(U(\cofree{p}\otimes\cofree{q}),p\otimes q)\\&\cong
+	\smcat^\sharp(\cofree{p}\otimes\cofree{q},\cofree{p\otimes q}
+\end{align*}
+and counits $U(\cofree{p}\to p$ and $U(\cofree{q}\to q$.
+
+**
+\end{proof}
 
 %-------- Section --------%
 \section{Bimodules}
+
+\begin{definition}
+**
+\end{definition}
+\[
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m) {};
+  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$D$" below] (D) {};
+  	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
+  	\node[poly, cod, right= of D.south, yshift=-1ex, "$D$" right] (DD) {};
+  	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (C) {};
+%
+		\draw (m_pos) to[first] (D_pos);
+		\draw (D_dir) to[climb] (mm_pos);
+		\draw (mm_dir) to[last] (m_dir);
+		\draw[double] (D_pos) to[first] (DD_pos);
+		\draw[double] (DD_dir) to[last] (D_dir);
+		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw (mmm_dir) to[climb] (C_pos);
+		\draw (C_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+%
+	\node (p2) [below=of p1] {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m') {};
+  	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
+  	\node[poly, above=of mm', "\tiny$C$" above] (C') {};
+  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$D$" right] (D') {};
+  	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (CC') {};
+%
+		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw (mm'_dir) to[climb] (C'_pos);
+		\draw (C'_dir) to[last] (m'_dir);
+		\draw (mm'_pos) to[first] (D'_pos);
+		\draw (D'_dir) to[climb] (mmm'_pos);
+		\draw (mmm'_dir) to[last] (mm'_dir);
+		\draw[double] (C'_pos) to[first] (CC'_pos);
+		\draw[double] (CC'_dir) to[last] (C'_dir);
+	\end{tikzpicture}
+	};	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\]
+
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$m$" left] (m) {};
+	\node[poly, cod, right=of m, "$m$" right] (mm) {};
+	\node[poly, cod, above=of mm, "$C$" right] (C) {};
+	\node[poly, cod, below=of mm, "$D$" right] (D) {};
+%
+	\draw (m_pos) to[out=0, in=180] (D_pos);
+	\draw (D_dir) to[climb] (mm_pos);
+	\draw (mm_dir) to[climb] (C_pos);
+	\draw (C_dir) to[last] (m_dir);
+\end{tikzpicture}
+\]
 
 Recall from \cref{prop.basechange} that for any function $f\colon A\to B$, we have a base-change functor $f^*\colon B\poly\to A\poly$ and a cartesian morphism $f^*p\to p$ for any polynomial $p$ and isomorphism $p(\1)\cong B$.
 
@@ -3788,6 +3899,20 @@ For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the fol
 
 Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity cofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ module with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-module}, a certain constant left $\com{C}$ module with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},0)$-bimodule}, and a certain representable right $\com{C}$-module with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-module}.
 
+\begin{exercise}
+For any object $c\in \cat{C}$, consider the representable functor $\cat{C}(c,-)\colon\cat{C}\to\smset. What does it correspond to as a
+\begin{enumerate}
+	\item discrete opfibration over $\cat{C}$?
+	\item cartesian cofunctor to $\com{C}$?
+	\item linear left $\com{C}$-module?
+	\item constant left $\com{C}$-module?
+	\item $(\com{C},0)$-bimodule?
+	\item representable right $\com{C}$-module?
+	\item dynamical system with comonoid interface $\com{C}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 \begin{proposition}[Niu]
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
 \end{proposition}
@@ -3851,75 +3976,93 @@ If $m\in\poly$ is equipped with both a right $\com{C}$-module and a right $\com{
 \begin{proof}
 It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-module with carrier $\yon^M$ can be identified with a cofunctor $M\yon^M\to\com{C}$.
 
-Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ which we identify with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
+Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
 \end{proof}
 
-Misc:
+\subsection{$\otimes$ structure on $\smcat^\sharp$}
 
+The usual product of categories gives a monoidal operation on comonoids; the carrier polynomial of the product is the $\otimes$-product of the carrier polynomials.
+
+\begin{proposition}[$\otimes$ monoidal structure on $\Cat{Comon}(\poly)$]
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ and $\com{D}=(\ema{d},\epsilon,\delta)$ be comonoids. The polynomial $\ema{c}\otimes\ema{d}$ has a natural comonoid structure, which we denote $\com{C}\otimes\com{D}$. This construction gives a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{definition}
+Let $\cat{C}$ be a category. A  \emph{monaco structure on $\cat{C}$} is a pair of cofunctors $\intercal\colon\yon\to\ema{c}$, which we call its \emph{terminus} and a cofunctor $\curlyvee\colon\cat{C}\times\cat{C}\cof\cat{C}$, which we call its \emph{team-up product} satisfying the usual monoid equations. 
+
+Said another way, a \emph{monoidal kategory} is a monoid object $(\cat{C},\intercal, \curlyvee)$ in the monoidal category $(\Cat{Comon}(\poly), \otimes,\yon)$.
+\end{definition}
+
+\begin{example}
+Representable polynomials have at most one monoid structure under $\otimes$ by a theorem of Fox. But comonoid structures on a representable polynomial are just monoid structures on its underlying set. So a monoid $(M,e,*)$ in $\smset$ can be identified with a monaco category that has carrier $\yon^M$.
+
+A $\otimes$-monoidal structure on a linear $M\yon$ polynomial, on the other hand, can be identified with a monoid structure $(M,e,*)$ on the set $M$. But there is a unique comonoid structure on $M\yon$. So a monoid in $\smset$ can be identified with a monaco category having carrier $M\yon$.
+\end{example}
+
+\begin{example}\label{ex.monaco_cat}
+Consider the comonoid $\com{C}=(\ema{c},0,+)$ corresponding to the category
 \[
-\begin{tikzpicture}
-	\node (p1) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$m$" left] (m) {};
-  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$D$" below] (D) {};
-  	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
-  	\node[poly, cod, right= of D.south, yshift=-1ex, "$D$" right] (DD) {};
-  	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
-  	\node[poly, cod, above=of mmm, "$C$" right] (C) {};
-%
-		\draw (m_pos) to[first] (D_pos);
-		\draw (D_dir) to[climb] (mm_pos);
-		\draw (mm_dir) to[last] (m_dir);
-		\draw[double] (D_pos) to[first] (DD_pos);
-		\draw[double] (DD_dir) to[last] (D_dir);
-		\draw[double] (mm_pos) to[first] (mmm_pos);
-		\draw (mmm_dir) to[climb] (C_pos);
-		\draw (C_dir) to[last] (mm_dir);
-	\end{tikzpicture}
-	};
-%
-	\node (p2) [below=of p1] {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$m$" left] (m') {};
-  	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
-  	\node[poly, above=of mm', "\tiny$C$" above] (C') {};
-  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$D$" right] (D') {};
-  	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
-  	\node[poly, cod, above=of mmm, "$C$" right] (CC') {};
-%
-		\draw[double] (m'_pos) to[first] (mm'_pos);
-		\draw (mm'_dir) to[climb] (C'_pos);
-		\draw (C'_dir) to[last] (m'_dir);
-		\draw (mm'_pos) to[first] (D'_pos);
-		\draw (D'_dir) to[climb] (mmm'_pos);
-		\draw (mmm'_dir) to[last] (mm'_dir);
-		\draw[double] (C'_pos) to[first] (CC'_pos);
-		\draw[double] (CC'_dir) to[last] (C'_dir);
-	\end{tikzpicture}
-	};	
-	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
-\end{tikzpicture}
+\fbox{
+\begin{tikzcd}[ampersand replacement=\&]
+	\cdots\ar[r, "-1"']\&
+	\LMO{n}\ar[r, "-1"']\&
+	\cdots\ar[r, "-1"']\&
+	\LMO{2}\ar[r, "-1"']\&
+	\LMO{1}\ar[r, "-1"']\&
+	\LMO{0}
+\end{tikzcd}
+}
 \]
+It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its counit and comultiplication are given by $0$ and addition.
 
+This comonoid has a (non-symmetric) monaco structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
 \[
-\begin{tikzpicture}[polybox, tos]
-	\node[poly, dom, "$m$" left] (m) {};
-	\node[poly, cod, right=of m, "$m$" right] (mm) {};
-	\node[poly, cod, above=of mm, "$C$" right] (C) {};
-	\node[poly, cod, below=of mm, "$D$" right] (D) {};
-%
-	\draw (m_pos) to[out=0, in=180] (D_pos);
-	\draw (D_dir) to[climb] (mm_pos);
-	\draw (mm_dir) to[climb] (C_pos);
-	\draw (C_dir) to[last] (m_dir);
-\end{tikzpicture}
+\curlyvee_1(n_1,n_2)\coloneqq n_1+n_2,\]
+and on a morphism $-n_1-n_2\leq i\leq 0$ works as follows:
+\[
+\curlyvee^\sharp(i)\coloneqq	\big(\min(n_1,n_1+n_2+i),\max(0,n_2+i)\big)
 \]
+For example, say $n_1=3$ and $n_2=2$, so $\curlyvee_1(n_1,n_2)=5$. Let's pick $-5\leq i\geq 0$. 
+\[
+\begin{array}{c|c}
+	i&\curlyvee^\sharp(i)\\\hline
+	0&(3,2)\\
+	1&(3,1)\\
+	2&(3,0)\\
+	3&(2,0)\\
+	4&(1,0)\\
+	5&(0,0)
+\end{array}
+\]
+\end{example}
 
+\begin{exercise}
+Let $\com{C}$ be the comonoid from \cref{ex.monaco_cat}. We need to check that everything works correctly.
+\begin{enumerate}
+	\item Check that the terminus $\intercal\colon\yon\to\com{C}$ is a cofunctor.
+	\item Check that $\curlyvee$ preserves identities.
+	\item Check that $\curlyvee$ preserves codomains and compositions, and hence is a cofunctor.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
-
-
-
-
+\begin{exercise}
+Consider the polynomial
+\[
+  c\coloneqq
+  \sum_{n\in\nn}\sum_{\ell\colon\ord{n}\to\nn}
+  \yon^{\{\ell'\colon\ord{n}\to\nn\;\mid\; \ell'\leq\ell\}}
+\]
+A position in $c$ is a list of natural numbers, and a direction is a smaller list. 
+\begin{enumerate}
+	\item Find a comonoid structure on $c$.
+	\item Find a monaco structure $(\intercal,\curlyvee)$ on the comonoid you just found. (If you can't, start over.)
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 
 
