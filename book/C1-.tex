@@ -2770,7 +2770,7 @@ functors sending $\rr$ to $V$.
 Let $\cat{L}$ be a Lawvere theory. The category $\Cat{WD}^{\cat{L}}$ of wiring
 diagrams with operations from $\cat{L}$ is the category of lenses in $\cat{L}$:
 \[
-\Cat{WD}^{\cat{L}} \coloneqq \Cat{Lens}_{ \cat{L} }.
+\Cat{WD}_{\cat{L}} \coloneqq \Cat{Lens}_{ \cat{L} }.
 \]
 \end{definition}
 
@@ -3734,10 +3734,10 @@ costs are finite.
   \end{itemize}
 \end{definition}
 
-\begin{exercise}
-  Show that $\Fun{Cost}$ does indeed define a commutative monad on the category
-  of sets.
-\end{exercise}
+\begin{remark}
+We will prove that \cref{def.cost_monad} does indeed give a commutative monad in
+the upcoming \cref{ex.rig_monad}.
+\end{remark}
 
 Now we can quickly define our new sort of non-determinism.
 \begin{definition}
@@ -3780,6 +3780,62 @@ A (discrete-time) system with costs is a $\Fun{Cost}$-system.
   sequence of paramters starting at
   $\emptyset \in \State{Proj}$, and then ask the cost of $\Set{Steps} \in
   \State{Proj}$ at the end. 
+\end{example}
+
+We took $\Fun{Cost}$ to be the monad of best case costs. Let's show that there
+is also a monad $\Fun{Cost}^{\max}$ of worst case costs. Everything will be the same, but instead of
+\[f^{\Fun{Cost}}(c)(b) \coloneqq \min{a \in A} c(a) + f(a)(b),\]
+we will have
+\[
+f^{\Fun{Cost}^{\max}}(c)(b) \coloneqq \max{a \in A} c(a) + f(a)(b).
+\]
+It is worth noting that this formula has a formal similarity to the following
+formula:
+\[
+f^{R}(c)(b) \coloneqq \sum_{a \in A} c(a)\cdot f(a)(b).
+\]
+which resembles matrix multiplication. This is indeed the case; for any sort of
+(commutative) scalars, we get a monad that reproduces matrix arithmetic with
+those scalars. An appropriate set of scalars is called a \emph{commutative rig}.
+
+\begin{definition}
+A \emph{commutative rig} (for ``ri{\textbf{n}}g without
+{\textbf{n}}egatives''\footnote{Rigs are also sometimes referred to as ``semirings''.}) is a set $R$
+equipped with an abelian group structure $(R, +, 0)$ and a commutative monoid structure $(R,
+\cdot, 1)$ such that
+\[
+a \cdot (b + c) = a \cdot b + a \cdot c
+\]
+for all $a,\, b,\, c\in R$.
+\end{definition}
+
+\begin{example}
+  The following are important examples of rigs:
+  \begin{enumerate}
+    \item The natural numbers $\nn$ with their usual addition and multiplication
+      form a rig. Similarly, the non-negative rationals and reals form rigs with
+      their usual addition and multiplication. 
+    \item Any ring is a rig. In particular, $\zz$, $\qq$, and $\rr$ are all rigs
+      with their usual addition and multiplication.
+    \item The \emph{tropical rigs} are rigs where ``addition'' is actually
+      minimum or maximum, and ``multiplication'' is actually addition. In
+      particular, the \emph{rig of best-case costs} $[0, \infty]$ is a rig with $\min$ as its addition and $+$ as
+      its multiplication. In this rig, distributivity looks like
+      \[
+a + \min\{b, c\} = \min\{a + b, a + c\},
+      \]
+      and a linear combination looks like
+      \[ \min_{i \in I} c_i + x_i.\]
+      The additive unit is $\infty$, and the multiplicative unit is $0$.
+
+      Similarly, there is a \emph{rig of worst-case costs} on $[0,\infty]$ with
+      $\max$ as addition and $+$ as multiplication. This rig is remarkable in
+      that its additive and multiplicative unit are the same; they are both $0$.
+   \item In fact, any ordered commutative monoid $(M, +, 0, \leq)$ (where if $a \leq
+     b$, then $c + a \leq c + b$) which admits joins $a \vee b$ (that is, least
+     upper bounds) can be made into a commutative rig with addition given by
+     $\vee$ and multiplication given by $+$.
+  \end{enumerate}
 \end{example}
 
 
