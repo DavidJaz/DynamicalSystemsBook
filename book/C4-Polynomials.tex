@@ -1866,6 +1866,62 @@ Show that for any $p_1,p_2,q\in\poly$ there is an isomorphism
 \]
 \end{exercise}
 
+\begin{proposition}
+For any monoidal structure $(I,\odot)$ on $\smset$, there is a corresponding monoidal structure on $\poly$ with unit $\yon^I$. It is given by Day convolution, and it distributes over $+$. 
+
+In the case of $(0,+)$ and $(1,\times)$, this procedure returns the $(1,\times)$ and $(\yon,\otimes)$ monoidal structures respectively.
+\end{proposition}
+\begin{proof}
+Day convolution always takes a monoidal structure on $\smset$ and returns one on functors $\smset\to\smset$; the issue is whether $\poly$ is closed under the resulting monoidal product. We will show that it is, roughly because every polynomial is a coproduct of representables.
+
+**
+\end{proof}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Show that the operation $(A, B)\mapsto A+AB+B$ on $\smset$ is associative.
+	\item Show that $0$ is unital for the above operation.
+	\item Let $(1,\odot)$ denote the corresponding monoidal product on $\poly$. What is $(\yon^\3+\yon)\odot(\2\yon^\2+\2)$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\paragraph{$\otimes$-monoids in $\poly$}
+
+\begin{definition}
+A \emph{$\otimes$-monoid in $\poly$} consists of a polynomial $m$, a map $(*)\colon m\otimes m\to m$, and a position $e\colon\yon\to m$ that form a monoid in $(\poly,\yon,\otimes)$.
+\end{definition}
+
+These have a kind of swarm-like semantics, making individuals able to summarize the positions of a group of subordinates, as well as distribute instructions to those subordinates in a coherent way. 
+
+\begin{exercise}
+Explain how $\odot$ has the ``swarm-like'' semantics described above.
+\end{exercise}
+
+\begin{example}[Monoids in $\smset$ give linear $\otimes$-monoids]
+If $(M,e,(*))$ is a monoid in $(\smset,1,\times)$ then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid, roughly because $A\yon\otimes B\yon\cong (A\times B)\yon$. This construction is functorial and fully faithful: a map between monoids in $\smset$ can be identified with a map between $\otimes$-monoids.
+\end{example}
+
+\begin{example}[Comonoids in $\smset$ give representable $\otimes$-monoids]
+Every comonoid $(S,\epsilon,\delta)$ in $(\smset,1,\times)$ gives rise to a $\otimes$-monoid structure on $\yon^S$. This construction is again (contravariantly) functorial and fully faithful.
+\end{example}
+
+\begin{example}
+Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. Take $e=0$ and $(a,b)\mapsto(a+b, t\mapsto (\frac{at}{a+b},\frac{bt}{a+b}))$. This forms a $\otimes$-monoid.
+\end{example}
+
+\begin{proposition}
+If $m,n$ are the carriers of $\otimes$-monoids, then $m\otimes n$ naturally also carries a $\otimes$-monoid structure.
+\end{proposition}
+
+\begin{proposition}[Free $\otimes$-monoid]
+The forgetful functor from $\otimes$-monoids to $\poly$ has a left adjoint.
+\end{proposition}
+\begin{proof}
+The carrier $p'$ of the free $\otimes$-monoid on $p$ has positions $p'(\1)\cong\Set{List}(p(\1))$, i.e.\ lists of positions in $p$. Given a position $\ell=(i_1,\ldots,i_n)$, the direction-set there is given by $\prod_{j\in\ord{n}} p[j]$.
+**
+\end{proof}
+
 \paragraph{Bimorphic lenses}\label{page.bimorphic_lens}
 
 Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
