@@ -1622,8 +1622,8 @@ Here's a picture of one of the unit laws:
   	\draw (q_dir) -- node[above] {$\epsilon^\sharp$} (p_dir);
   	\draw (p'_pos) -- (q'_pos);
   	\draw (q'_dir) -- (p'_dir);
-  	\draw (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
+  	\draw (yX_pos) to[first] node[below] {$\delta_1$} (p_pos);
+  	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
   	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
   \end{tikzpicture}
 	};
@@ -1633,7 +1633,7 @@ Here's a picture of one of the unit laws:
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$} (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
   	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\epsilon^\sharp$} (p_dir);
   \end{tikzpicture}
@@ -1667,7 +1667,7 @@ Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the
 In particular, we have $\delta^1=\delta$ and we may write $\delta^0\coloneqq\id_c$ and $\delta^{-1}\coloneqq\epsilon$.
 \end{example}
 
-Polynomial comonoids are usually called \emph{polynomial comonads}. Though polynomials $p$ can be interpreted as polynomial \emph{functors} $p\colon\smset\to\smset$, we do not generally emphasize this part of the story; we use it when it comes in handy, but generally we think of polynomials more as dependent arenas, or sets of corollas. For this reason, we don't use 
+Polynomial comonoids are usually called \emph{polynomial comonads}. Though polynomials $p$ can be interpreted as polynomial \emph{functors} $p\colon\smset\to\smset$, we do not generally emphasize this part of the story; we use it when it comes in handy, but generally we think of polynomials more as dependent arenas, or sets of corollas.
 
 \begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
 Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
@@ -1679,7 +1679,6 @@ Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a can
   s&\Mapsto{\delta'} (s'\coloneqq s, s_1\mapsto (s_1'\coloneqq s_1, s_2\mapsto s_2)).\label{eqn.state_comonoid_eps_del}
 \end{align}
 If you know how to read such things, you'll see that each element $s\in S$ is just being passed in a straightforward way. But we find this notation cumbersome and prefer the poly-box notation.
-
 \[
 \begin{tikzpicture}
 	\node (id) {
@@ -1688,6 +1687,7 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
   	\node[poly, identity, right=of S, "$\yon$" right] (y) {\pphantom{s}{s}};
   	\draw (S_pos) to[first] (y_pos);
   	\draw (y_dir) to[last] (S_dir);
+		\node at ($(S)!.5!(y)$) {$\epsilon$};
   \end{tikzpicture}
   };
   \node[right=of id] (co) {
@@ -1696,7 +1696,7 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
   	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
   	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
   	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (q_dir) to[climb] node[left] {$\delta$} (r_pos);
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
   };
@@ -1705,11 +1705,11 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
 \end{example}
 
 \begin{exercise}
-Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomials $\delta^n\colon p\to p\tripow{(n+1)}$ set-theoretically, e.g.\ as in \cref{ex.state_comonad_1}
+Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomials $\delta^n\colon p\to p\tripow{(n+1)}$ either set-theoretically or in terms of poly-boxes as in \cref{ex.state_comonad_1}
 \end{exercise}
 
 \begin{example}[Picturing the comonoid $S\yon^S$]\label{ex.picturing_SyS}
-Let's see this whole thing in pictures. First of all, let's take $S\coloneqq\3$ and draw $\3\yon^\3$:
+Let's see this whole thing in pictures. First of all, let's take $S\coloneqq\3\cong\{\bul[red],\bul[dgreen],\bul[blue]\}$ and draw $\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[red],\bul[dgreen],\bul[blue]\}}$:
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$\3\yon^\3=$" left] {
@@ -1726,8 +1726,6 @@ Let's see this whole thing in pictures. First of all, let's take $S\coloneqq\3$ 
   };
 \end{tikzpicture}
 \]
-By assigning the arrows colors, we are implicitly using the isomorphism between the set of positions and the set of directions in each position. The comonoid structure of $S\yon^S$ relies on this isomorphism, so it is fair.
-
 The map $\epsilon\colon S\yon^S\to \yon$ can be drawn as follows:
 \[
 \begin{tikzpicture}[trees, bend right]
@@ -1749,7 +1747,7 @@ The map $\epsilon\colon S\yon^S\to \yon$ can be drawn as follows:
 It picks out one direction at each position, namely the one of the same color.
 
 The map $\delta\colon S\yon^S\to (S\yon^S)\tripow{2}$ can be drawn as follows:
-\[
+\begin{equation}\label{eqn.state_comonoid_trees}
 \begin{tikzpicture}[trees, 
   level 1/.style={sibling distance=5mm},
   level 2/.style={sibling distance=1.5mm},
@@ -1788,8 +1786,8 @@ The map $\delta\colon S\yon^S\to (S\yon^S)\tripow{2}$ can be drawn as follows:
 	};
 	};
 \end{tikzpicture}
-\]
-Note that $(S\yon^S)\tripow{2}$ has $SS^S$, or in this case $\8\1$ many trees, only three of which are being pointed to by $\delta$. That is, there is in general no rule that says the color of arrows should agree in any sense with the color of what it points to, but for the comonoid structure on $S\yon^S$, such a rule does hold.
+\end{equation}
+Note that $(S\yon^S)\tripow{2}$ has $SS^S$, or in this case $\8\1$ many trees, only three of which are being pointed to by $\delta$. That is, there is in general no rule on trees in that says the color of an arrow should agree in any sense with the color of the node it points to: \eqref{eqn.state_comonoid_trees} shows that the comonoid structure is pointing out the special trees where that does occur.
 
 It remains to check the comonoid laws, the three commutative diagrams in \eqref{eqn.comonoid_diagrams}. The first two say that the composites
 \[
@@ -1797,7 +1795,9 @@ S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\id\tri\epsilon}S\yon^S
 \qqand
 S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\epsilon\tri \id}S\yon^S
 \]
-are the identity. Let's return to the case $S=\3$. Then the second map in each case involves 81 different assignments, but only three of them will matter. Technically, we can use \cref{prop.vert_cart_factorization} to disregard all but three positions in $(S\yon^S)\tripow{2}\cong SS^S\yon^{SS}$. Since all three are strongly similar, we will draw only the red case. We also only draw the relevant passback maps.
+are the identity. Let's return to the case $S=\3$. Then the second map in each case involves 81 different assignments, but only three of them will matter.%
+\footnote{To say technically that we can disregard all but three positions in $(S\yon^S)\tripow{2}\cong SS^S\yon^{SS}$, one can use \cref{prop.vert_cart_factorization}.} 
+Since all three are strongly similar, we will draw only the red case. We also only draw the relevant passback maps.
 \[
 \begin{tikzpicture}[trees, 
   level 1/.style={sibling distance=5mm},
@@ -1898,13 +1898,13 @@ are the identity. Let's return to the case $S=\3$. Then the second map in each c
 	};
 \end{tikzpicture}
 \]
-We do not show associativity here, but instead leave it to the reader in \cref{ex.state_comonoid_assoc}.
+We do not show associativity here, but instead leave it to the reader in \cref{exc.state_comonoid_assoc}.
 \end{example}
 
-\begin{exercise}\label{ex.state_comonoid_assoc}
+\begin{exercise}\label{exc.state_comonoid_assoc}
 Let $S\coloneqq\2$ and $c\coloneqq \2\yon^\2$.
 \begin{enumerate}
-	\item Draw $c$.
+	\item Draw $c$ using color if possible.
 	\item We know $c$ is supposed to be the carrier of a comonoid $(c,\epsilon,\delta)$. Which two maps $ c\to c\tripow{3}$ are supposed to be equal by associativity?
 	\item Draw these two maps in the style of \cref{ex.picturing_SyS}.
 	\item Are they equal?
@@ -2012,7 +2012,7 @@ Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isom
 $A\Too{f}B$
 }
 \]
-We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w$:
+We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w\cong\yon^\2+\yon$:
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$w\coloneqq$" left] {
@@ -2030,7 +2030,7 @@ We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comon
 \end{tikzpicture}
 \]
 
-We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w_o$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
+We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w[o]$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
 \[
 \begin{tikzpicture}[trees, bend right=60]
   \node[red] (1) {$\bullet$} 
@@ -2144,7 +2144,51 @@ The map $\delta$ is going to tell us both about codomains and composition. Here 
 	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
 \end{tikzpicture}
 \]
-The on-positions map selects, for each position (either $A$ or $B$) the two-level tree starting at that position and having the correct codomains: the identity arrow on $A$ points to the corolla for $A$; the $f$ map points to the corolla for $B$; and the identity arrow on $B$ points to the corolla for $B$. The on-directions maps assign the correct composites.
+The on-positions map selects, for each position (either $A$ or $B$) the two-level tree starting at that position and having the correct codomains: the identity arrow on $A$ points to the corolla for $A$; the $f$ map points to the corolla for $B$; and the identity arrow on $B$ points to the corolla for $B$. The on-directions maps assign the correct composites. Here is $\delta\colon w\to w\tri w$ again, in terms of poly-boxes.
+\[
+\begin{tikzpicture}
+	\node (p1) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$i_A$\nodepart{two}$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\nodepart{two}$A$};
+  	\node[poly, cod, above=of q] (r) {$i_A$\nodepart{two}$A$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+	\node[right=1 of p1] (p2) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$f$\nodepart{two}$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\nodepart{two}$A$};
+  	\node[poly, cod, above=of q] (r) {$f$\nodepart{two}$A$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+	\node[right=1 of p2] (p3) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$f$\nodepart{two}$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$f$\nodepart{two}$A$};
+  	\node[poly, cod, above=of q] (r) {$i_B$\nodepart{two}$B$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+	\node[right=1 of p3] (p4) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$i_B$\nodepart{two}$B$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_B$\nodepart{two}$B$};
+  	\node[poly, cod, above=of q] (r) {$i_B$\nodepart{two}$B$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+\end{tikzpicture}
+\]
 
 It remains to check that $(w,\epsilon,\delta)$ really is a comonoid, i.e.\ that the diagrams in \eqref{eqn.comonoid_diagrams} commute. We will check unitality only for $A$; it is easier for $B$.
 \[
@@ -2212,6 +2256,7 @@ It remains to check that $(w,\epsilon,\delta)$ really is a comonoid, i.e.\ that 
 \]
 In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{W}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
 \end{example}
+
 
 \begin{exercise}
 Write out the data $(c,\epsilon,\delta)$ for the comonoid corresponding to the category 
@@ -2456,6 +2501,10 @@ Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_p
 In \cref{ex.associativity_pics} we have maps $\delta\then(\delta\tri c)$ and $\delta\then(c\tri\delta)$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $(f\then g)\then h$, and which corresponds to composing to the right, e.g.\ $f\then (g\then h)$?
 \end{exercise}
 
+\subsection{Comonoids in $\poly$ are categories}
+
+It turns out that comonoids in $\poly$ are precisely categories. Strangely, however, the a morphism between comonoids is not a functor but something people are calling a \emph{cofunctor}.
+
 \begin{definition}[Cofunctor]\label{def.cofunctor}
 Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\cod\colon C_1\to C_0$ the domain and codomain,%
 \footnote{We privilege the domain function $\dom\colon C_1\to C_0$ in the sense that an unnamed map $C_1\to C_0$ will be assumed to be $\dom$.}
@@ -2502,10 +2551,6 @@ The cofunctor laws can be written in commutative diagram form as follows:
 \end{tikzcd}
 \end{gather*}
 
-\begin{example}
-There is a cofunctor $S\yon^S\otimes T\yon^T\to S\yon^S$, and every cofunctor between state categories is of this form.
-\end{example}
-
 \begin{theorem}[Ahman-Uustalu]\label{thm.ahman_uustalu}
 There is an equivalence of categories
 \[
@@ -2515,6 +2560,20 @@ There is an equivalence of categories
 \begin{proof}
 This will be proved in \cref{ex.cofunctors_comon_homs}.
 \end{proof}
+
+Our first goal is to understand how one translates between categories $\cat{C}$ and comonoids $\com{C}=(\ema{c},\epsilon,\delta)$ in $\poly$. The idea is pretty simple: the objects of $\cat{C}$ are the positions of $\ema{c}$
+\[
+\Ob(\cat{C})\cong\ema{c}(\1)
+\]
+and for each such object $i$, the morphisms $\{f\colon i\to j\mid j\in\Ob(\cat{C})\}$ emanating from $i$ in $\cat{C}$ are the directions $\ema{c}[i]$ there.
+
+\begin{definition}
+Let $\cat{C}$ be a category. The \emph{emanation polynomial for $\cat{C}$} is the polynomial
+\[
+\ema{c}\coloneqq\sum_{i\in\Ob(\cat{C})}\yon^{\sum_{j\in\Ob(\cat{C})}\cat{C}(i,j)}
+\]
+\end{definition}
+
 
 \subsection{Understanding comonoids}\label{subsec.understanding_comonoids}
 Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
@@ -3401,11 +3460,15 @@ The two functions $\pi,\pi'$ are mutually inverse: the roundtrip on $S$ is ident
 Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times F$.
 \begin{enumerate}
 	\item Show that there exists a very well behaved lens $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$.
-	\item Show that there exists a cofunctor between the complete-graph category on $S$ and the complete-graph category on $T$.
+	\item Show that there exists a cofunctor between the state category on $S$ and the state category on $T$.
 	\item Show that there exists a comonoid homomorphism $S\yon^S\to T\yon^T$ between the state comonoids.
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+\begin{example}
+There is a cofunctor $S\yon^S\otimes T\yon^T\to S\yon^S$, and every cofunctor between state categories is of this form.
+\end{example}
 
 \slogan{State categories don't make good interfaces for dynamics.}
 
