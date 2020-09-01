@@ -2268,239 +2268,239 @@ For this exercise, you are not being asked to check the unitality or associativi
 Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polynomial, then there exists a unique comonoid structure on $p$.
 \end{exercise}
 
-
-\begin{exercise}\label{ex.fleece}
-\begin{enumerate}
-	\item Use \cref{ex.const_to_const} to show that for any polynomial comonoid $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
-	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\phi_c\colon c\to \fl{c}$ such that the induced map $(\phi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\phi_c$ is a product projection.
-	\item Show that $\phi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-\begin{definition}\label{def.fleece}
-Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\phi_c$ as the \emph{fleecing map}.
-
-If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
-\[
-\begin{tikzcd}
-	c\ar[r, "\delta"]\ar[d, "\phi_c"']&
-	c\tri c\ar[d, "\phi_c\tri\phi_c"]\\
-	\fl{c}\ar[r, "\fl{\delta}"']&
-	\fl{c}\tri \fl{c}
-\end{tikzcd}
-\]
-commute,%
-\footnote{Note that such a morphism $\fl{\delta}$ must be unique since $\phi_c$ is an epimorphism.}
-we say that $(\fl{c},\fl{\delta})$ is the \emph{fleece comagma} of $\com{C}$.
-\end{definition}
-
-By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
-
-\begin{example}[Associativity]\label{ex.associativity_pics}
-Consider the non-category drawn here:
-\[
-\boxCD{examplecolor}{
-\begin{tikzcd}[ampersand replacement=\&]
-	A\ar[r, "f"]\ar[rrr, bend left, "i"]\ar[rrr, bend right, "j"]\&
-	B\ar[r, "g"]\&
-	C\ar[r, "h"]\&
-	D
-\end{tikzcd}
-\leavevmode\\\bigskip
-$(f\then g)\then h=i\qqand f\then(g\then h)=j$
-}
-\]
-We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\4+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
-\[
-\fl{p}\coloneqq\{A\}\yon^{\{f,f\then g, i, j\}}+\{B\}\yon^{\{g,g\then h\}}+C\yon^{\{h\}}+\{D\}.
-\]
-Every symbol used there, excluding $\yon$, +, $\{$, and $\}$, but including ``$f$'' and ``$f\then g$'', etc., is just a variable name. Below is a picture of $\fl{p}$, where we use arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $f\then g$ and $g\then h$ are longer, and $i$ and $j$ are longest:
-\[
-\begin{tikzpicture}[rounded corners]
-\node[draw, "$\fl{p}$" above] {
-\begin{tikzpicture}[trees, sibling distance=1cm]
-	\node["\tiny $A$" below, red] (A) {$\bullet$}
-  	child[level distance=4mm] {coordinate (1)}
-		child[level distance=8mm] {coordinate (2)}
-		child[level distance=12mm] {coordinate (3)}
-		child[level distance=12mm] {coordinate (4)};
 %
-	\node["\tiny $B$" below, blue, right=3 of A] (B) {$\bullet$}
-		child[level distance=4mm] {coordinate (B1)}
-		child[level distance=8mm] {coordinate (B2)};
+%\begin{exercise}\label{ex.fleece}
+%\begin{enumerate}
+%	\item Use \cref{ex.const_to_const} to show that for any polynomial comonoid $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
+%	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\phi_c\colon c\to \fl{c}$ such that the induced map $(\phi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\phi_c$ is a product projection.
+%	\item Show that $\phi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
 %
-	\node["\tiny $C$" below, dgreen, right=2 of B] (C) {$\bullet$}
-		child[level distance=4mm] {coordinate (C1)};
+%\begin{definition}\label{def.fleece}
+%Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\phi_c$ as the \emph{fleecing map}.
 %
-	\node["\tiny $D$" below, right=1 of C] (D) {$\bullet$};
-	\begin{scope}[font=\scriptsize]
-  	\node[below left=1mm of 1] {$f$};
-  	\node[below left=1mm of 2] {$f\then g$};
-  	\node[below right=1mm of 3] {$i$};
-  	\node[below right=1mm of 4] {$j$};
-  	\node[below left=1mm of B1] {$g$};
-  	\node[below right=1mm of B2] {$g\then h$};
-  	\node[below left=1mm of C1] {$h$};
-	\end{scope}
-\end{tikzpicture}
-};
-\end{tikzpicture}
-\]
-Here's a picture of our map $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$.
-\begin{equation}\label{eqn.delta_misc33}
-\begin{tikzpicture}[trees, bend right=60,
-level 1/.style={sibling distance=5mm},
-level 2/.style={sibling distance=2.5mm}]
-	\node [red] (A1) {$\bullet$}
-		child[level distance =4mm] {coordinate (A11)}
-		child[level distance =8mm] {coordinate (A12)}
-		child[level distance =12mm] {coordinate (A13)}
-		child[level distance =12mm] {coordinate (A14)};
-	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-		child[level distance =4mm] {node [blue]{$\bullet$}
-			child[level distance=4mm] {coordinate (A21)}
-			child[level distance=8mm] {coordinate (A22)}
-		}
-		child[level distance =8mm] {node [dgreen] {$\bullet$}
-			child[level distance=4mm] {coordinate (A23)}
-		}
-		child[level distance =12mm] {node {$\bullet$}}
-		child[level distance =12mm] {node {$\bullet$}};			
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
+%\[
+%\begin{tikzcd}
+%	c\ar[r, "\delta"]\ar[d, "\phi_c"']&
+%	c\tri c\ar[d, "\phi_c\tri\phi_c"]\\
+%	\fl{c}\ar[r, "\fl{\delta}"']&
+%	\fl{c}\tri \fl{c}
+%\end{tikzcd}
+%\]
+%commute,%
+%\footnote{Note that such a morphism $\fl{\delta}$ must be unique since $\phi_c$ is an epimorphism.}
+%we say that $(\fl{c},\fl{\delta})$ is the \emph{fleece comagma} of $\com{C}$.
+%\end{definition}
 %
-	\node [blue, right=1.5 of A2] (B1) {$\bullet$}
-		child[level distance=4mm] {coordinate (B11)}
-		child[level distance=8mm] {coordinate (B12)};
-	\node [blue, right=1.5 of B1] (B2) {$\bullet$}
-		child[level distance=4mm] {node[dgreen] {$\bullet$}
-			child {coordinate (B21)}
-		}
-		child[level distance=8mm] {node {$\bullet$}};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (B1) -- (B2);
-	\draw[densely dotted, postaction={decorate}] (B21) to (B12);
+%By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
 %
-	\node [dgreen, right=1.5 of B2] (C1) {$\bullet$}
-		child[level distance=4mm] {coordinate (C11)};
-	\node[right=1 of C1, dgreen] (C2) {$\bullet$}
-		child[level distance=4mm] {node {$\bullet$}
-	};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (C1) -- (C2);
+%\begin{example}[Associativity]\label{ex.associativity_pics}
+%Consider the non-category drawn here:
+%\[
+%\boxCD{examplecolor}{
+%\begin{tikzcd}[ampersand replacement=\&]
+%	A\ar[r, "f"]\ar[rrr, bend left, "i"]\ar[rrr, bend right, "j"]\&
+%	B\ar[r, "g"]\&
+%	C\ar[r, "h"]\&
+%	D
+%\end{tikzcd}
+%\leavevmode\\\bigskip
+%$(f\then g)\then h=i\qqand f\then(g\then h)=j$
+%}
+%\]
+%We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\4+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
+%\[
+%\fl{p}\coloneqq\{A\}\yon^{\{f,f\then g, i, j\}}+\{B\}\yon^{\{g,g\then h\}}+C\yon^{\{h\}}+\{D\}.
+%\]
+%Every symbol used there, excluding $\yon$, +, $\{$, and $\}$, but including ``$f$'' and ``$f\then g$'', etc., is just a variable name. Below is a picture of $\fl{p}$, where we use arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $f\then g$ and $g\then h$ are longer, and $i$ and $j$ are longest:
+%\[
+%\begin{tikzpicture}[rounded corners]
+%\node[draw, "$\fl{p}$" above] {
+%\begin{tikzpicture}[trees, sibling distance=1cm]
+%	\node["\tiny $A$" below, red] (A) {$\bullet$}
+%  	child[level distance=4mm] {coordinate (1)}
+%		child[level distance=8mm] {coordinate (2)}
+%		child[level distance=12mm] {coordinate (3)}
+%		child[level distance=12mm] {coordinate (4)};
+%%
+%	\node["\tiny $B$" below, blue, right=3 of A] (B) {$\bullet$}
+%		child[level distance=4mm] {coordinate (B1)}
+%		child[level distance=8mm] {coordinate (B2)};
+%%
+%	\node["\tiny $C$" below, dgreen, right=2 of B] (C) {$\bullet$}
+%		child[level distance=4mm] {coordinate (C1)};
+%%
+%	\node["\tiny $D$" below, right=1 of C] (D) {$\bullet$};
+%	\begin{scope}[font=\scriptsize]
+%  	\node[below left=1mm of 1] {$f$};
+%  	\node[below left=1mm of 2] {$f\then g$};
+%  	\node[below right=1mm of 3] {$i$};
+%  	\node[below right=1mm of 4] {$j$};
+%  	\node[below left=1mm of B1] {$g$};
+%  	\node[below right=1mm of B2] {$g\then h$};
+%  	\node[below left=1mm of C1] {$h$};
+%	\end{scope}
+%\end{tikzpicture}
+%};
+%\end{tikzpicture}
+%\]
+%Here's a picture of our map $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$.
+%\begin{equation}\label{eqn.delta_misc33}
+%\begin{tikzpicture}[trees, bend right=60,
+%level 1/.style={sibling distance=5mm},
+%level 2/.style={sibling distance=2.5mm}]
+%	\node [red] (A1) {$\bullet$}
+%		child[level distance =4mm] {coordinate (A11)}
+%		child[level distance =8mm] {coordinate (A12)}
+%		child[level distance =12mm] {coordinate (A13)}
+%		child[level distance =12mm] {coordinate (A14)};
+%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {coordinate (A21)}
+%			child[level distance=8mm] {coordinate (A22)}
+%		}
+%		child[level distance =8mm] {node [dgreen] {$\bullet$}
+%			child[level distance=4mm] {coordinate (A23)}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%%
+%	\node [blue, right=1.5 of A2] (B1) {$\bullet$}
+%		child[level distance=4mm] {coordinate (B11)}
+%		child[level distance=8mm] {coordinate (B12)};
+%	\node [blue, right=1.5 of B1] (B2) {$\bullet$}
+%		child[level distance=4mm] {node[dgreen] {$\bullet$}
+%			child {coordinate (B21)}
+%		}
+%		child[level distance=8mm] {node {$\bullet$}};
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (B1) -- (B2);
+%	\draw[densely dotted, postaction={decorate}] (B21) to (B12);
+%%
+%	\node [dgreen, right=1.5 of B2] (C1) {$\bullet$}
+%		child[level distance=4mm] {coordinate (C11)};
+%	\node[right=1 of C1, dgreen] (C2) {$\bullet$}
+%		child[level distance=4mm] {node {$\bullet$}
+%	};
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (C1) -- (C2);
+%%
+%	\node [right=1 of C2] (D1) {$\bullet$};
+%	\node [right=1 of D1] (D2) {$\bullet$};
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
+%\end{tikzpicture}
+%\end{equation}
+%One should check in the red position that $(f\then g)\then h$ is going to $i$ and that $f\then (g\then h)$ is going to $j$. This should cause a failure in the associativity of $\delta$ and hence of $\fl{\delta}$.%
+%\footnote{Note that if $\fl{\delta}$ is not associative, then $\delta$ cannot be associative either; see \cref{ex.fleece_assoc}.}
 %
-	\node [right=1 of C2] (D1) {$\bullet$};
-	\node [right=1 of D1] (D2) {$\bullet$};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
-\end{tikzpicture}
-\end{equation}
-One should check in the red position that $(f\then g)\then h$ is going to $i$ and that $f\then (g\then h)$ is going to $j$. This should cause a failure in the associativity of $\delta$ and hence of $\fl{\delta}$.%
-\footnote{Note that if $\fl{\delta}$ is not associative, then $\delta$ cannot be associative either; see \cref{ex.fleece_assoc}.}
-
-Now we draw $\delta\then(\delta\tri \fl{p})$ and $\delta\then(\fl{p}\tri\delta)$ and see that they disagree at the $A$ position. Here is $\delta\then(\delta\tri \fl{p})$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
-\[
-\begin{tikzpicture}[trees, bend right=60,
-level 1/.style={sibling distance=5mm},
-level 2/.style={sibling distance=2.5mm}]
-	\node [red] (A1) {$\bullet$}
-		child[level distance =4mm] {coordinate (A11)}
-		child[level distance =8mm] {coordinate (A12)}
-		child[level distance =12mm] {coordinate (A13)}
-		child[level distance =12mm] {coordinate (A14)};
+%Now we draw $\delta\then(\delta\tri \fl{p})$ and $\delta\then(\fl{p}\tri\delta)$ and see that they disagree at the $A$ position. Here is $\delta\then(\delta\tri \fl{p})$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
+%\[
+%\begin{tikzpicture}[trees, bend right=60,
+%level 1/.style={sibling distance=5mm},
+%level 2/.style={sibling distance=2.5mm}]
+%	\node [red] (A1) {$\bullet$}
+%		child[level distance =4mm] {coordinate (A11)}
+%		child[level distance =8mm] {coordinate (A12)}
+%		child[level distance =12mm] {coordinate (A13)}
+%		child[level distance =12mm] {coordinate (A14)};
+%%
+%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {coordinate (A21)}
+%			child[level distance=8mm] {coordinate (A22)}
+%		}
+%		child[level distance =8mm] {node [dgreen] (A23') {$\bullet$}
+%			child[level distance=4mm] {coordinate (A23)}
+%		}
+%		child[level distance =12mm] {node (A24') {$\bullet$}}
+%		child[level distance =12mm] {node (A25') {$\bullet$}};			
+%%
+%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {node [dgreen] (A31') {$\bullet$}
+%				child [level distance=4mm] {coordinate (A31)}}
+%			child[level distance=8mm] {node (A32') {$\bullet$}}
+%		}
+%		child[level distance =8mm] {node [dgreen] {$\bullet$}
+%			child[level distance=4mm] {node (A33') {$\bullet$}}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%%
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
+%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%	\draw[densely dotted, bend right=20, dashed] (A31') to (A23');
+%	\draw[densely dotted, bend right=20, dashed] (A32') to (A25');
+%	\draw[densely dotted, bend right=20, dashed] (A33') to (A24');
+%	\draw[densely dotted, postaction={decorate}] (A31) to (A23);
+%\end{tikzpicture}
+%\]
+%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $i$. Now we draw $\delta\then(\fl{p}\tri\delta)$. Its second map $\fl{p}\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
+%\[
+%\begin{tikzpicture}[trees, bend right=60,
+%level 1/.style={sibling distance=5mm},
+%level 2/.style={sibling distance=2.5mm}]
+%	\node [red] (A1) {$\bullet$}
+%		child[level distance =4mm] {coordinate (A11)}
+%		child[level distance =8mm] {coordinate (A12)}
+%		child[level distance =12mm] {coordinate (A13)}
+%		child[level distance =12mm] {coordinate (A14)};
+%%
+%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {coordinate (A21)}
+%			child[level distance=8mm] {coordinate (A22)}
+%		}
+%		child[level distance =8mm] {node [dgreen]  {$\bullet$}
+%			child[level distance=4mm] {coordinate (A23)}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%%
+%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {node [dgreen] {$\bullet$}
+%				child [level distance=4mm] {coordinate (A31)}}
+%			child[level distance=8mm] {node {$\bullet$}}
+%		}
+%		child[level distance =8mm] {node [dgreen] {$\bullet$}
+%			child[level distance=4mm] {node {$\bullet$}}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%%
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
+%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%	\draw[densely dotted, postaction={decorate}] (A31) to (A22);
+%\end{tikzpicture}
+%\]
+%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $j$.
+%\end{example}
 %
-	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-		child[level distance =4mm] {node [blue]{$\bullet$}
-			child[level distance=4mm] {coordinate (A21)}
-			child[level distance=8mm] {coordinate (A22)}
-		}
-		child[level distance =8mm] {node [dgreen] (A23') {$\bullet$}
-			child[level distance=4mm] {coordinate (A23)}
-		}
-		child[level distance =12mm] {node (A24') {$\bullet$}}
-		child[level distance =12mm] {node (A25') {$\bullet$}};			
+%\begin{exercise}\label{ex.fleece_assoc}
+%Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_pics}.
+%\begin{enumerate}
+%	\item Redraw \cref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
+%	\item Use \cref{ex.fleece,def.fleece} to show that if $\delta$ is associative then $\fl{\delta}$ must be too.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
 %
-	\node [right=3.5 of A2, red] (A3) {$\bullet$}
-		child[level distance =4mm] {node [blue]{$\bullet$}
-			child[level distance=4mm] {node [dgreen] (A31') {$\bullet$}
-				child [level distance=4mm] {coordinate (A31)}}
-			child[level distance=8mm] {node (A32') {$\bullet$}}
-		}
-		child[level distance =8mm] {node [dgreen] {$\bullet$}
-			child[level distance=4mm] {node (A33') {$\bullet$}}
-		}
-		child[level distance =12mm] {node {$\bullet$}}
-		child[level distance =12mm] {node {$\bullet$}};			
+%\begin{exercise}
+%In \cref{ex.associativity_pics} we have maps $\delta\then(\delta\tri c)$ and $\delta\then(c\tri\delta)$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $(f\then g)\then h$, and which corresponds to composing to the right, e.g.\ $f\then (g\then h)$?
+%\end{exercise}
 %
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
-	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-	\draw[densely dotted, bend right=20, dashed] (A31') to (A23');
-	\draw[densely dotted, bend right=20, dashed] (A32') to (A25');
-	\draw[densely dotted, bend right=20, dashed] (A33') to (A24');
-	\draw[densely dotted, postaction={decorate}] (A31) to (A23);
-\end{tikzpicture}
-\]
-We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $i$. Now we draw $\delta\then(\fl{p}\tri\delta)$. Its second map $\fl{p}\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
-\[
-\begin{tikzpicture}[trees, bend right=60,
-level 1/.style={sibling distance=5mm},
-level 2/.style={sibling distance=2.5mm}]
-	\node [red] (A1) {$\bullet$}
-		child[level distance =4mm] {coordinate (A11)}
-		child[level distance =8mm] {coordinate (A12)}
-		child[level distance =12mm] {coordinate (A13)}
-		child[level distance =12mm] {coordinate (A14)};
-%
-	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-		child[level distance =4mm] {node [blue]{$\bullet$}
-			child[level distance=4mm] {coordinate (A21)}
-			child[level distance=8mm] {coordinate (A22)}
-		}
-		child[level distance =8mm] {node [dgreen]  {$\bullet$}
-			child[level distance=4mm] {coordinate (A23)}
-		}
-		child[level distance =12mm] {node {$\bullet$}}
-		child[level distance =12mm] {node {$\bullet$}};			
-%
-	\node [right=3.5 of A2, red] (A3) {$\bullet$}
-		child[level distance =4mm] {node [blue]{$\bullet$}
-			child[level distance=4mm] {node [dgreen] {$\bullet$}
-				child [level distance=4mm] {coordinate (A31)}}
-			child[level distance=8mm] {node {$\bullet$}}
-		}
-		child[level distance =8mm] {node [dgreen] {$\bullet$}
-			child[level distance=4mm] {node {$\bullet$}}
-		}
-		child[level distance =12mm] {node {$\bullet$}}
-		child[level distance =12mm] {node {$\bullet$}};			
-%
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
-	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-	\draw[densely dotted, postaction={decorate}] (A31) to (A22);
-\end{tikzpicture}
-\]
-We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $j$.
-\end{example}
-
-\begin{exercise}\label{ex.fleece_assoc}
-Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_pics}.
-\begin{enumerate}
-	\item Redraw \cref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
-	\item Use \cref{ex.fleece,def.fleece} to show that if $\delta$ is associative then $\fl{\delta}$ must be too.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-\begin{exercise}
-In \cref{ex.associativity_pics} we have maps $\delta\then(\delta\tri c)$ and $\delta\then(c\tri\delta)$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $(f\then g)\then h$, and which corresponds to composing to the right, e.g.\ $f\then (g\then h)$?
-\end{exercise}
-
 \subsection{Comonoids in $\poly$ are categories}
 
 It turns out that comonoids in $\poly$ are precisely categories. Strangely, however, the a morphism between comonoids is not a functor but something people are calling a \emph{cofunctor}.
