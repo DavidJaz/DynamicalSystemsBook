@@ -1000,7 +1000,43 @@ Here's a picture for the $k=4$ case:
 \]
 
 
-A few considerations might make \eqref{eqn.maps_to_comp} less scary. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation. The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$. The case $k=2$ is considered in \cref{ex.map_to_comp}. But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process''. 
+A few considerations might make \eqref{eqn.maps_to_comp} less scary. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation
+\[
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$p$" left] (c) {};
+  	\node[poly, cod, right=of c, "$q$" right] (c') {};
+  	\draw (c_pos) -- node[below] {$f_1$} (c'_pos);
+  	\draw (c'_dir) -- node[above] {$f^\sharp$} (c_dir);
+	\end{tikzpicture}
+\]
+The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$
+\[
+ \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$p$" left] (c) {};
+  	\node[poly, identity, right=of c, "$\yon$" right] (c') {};
+  	\draw (c_pos) -- node[below] {$!$} (c'_pos);
+  	\draw (c'_dir) -- node[above] {$f^\sharp$} (c_dir);
+	\end{tikzpicture}
+\]
+which we can rewrite simply as
+\begin{equation}\label{eqn.map_to_0ary_composite}
+ \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$p$" left] (c) {};
+  	\draw (c_pos) to[climb'] node[right] {$f^\sharp$} (c_dir);
+	\end{tikzpicture}
+\end{equation}
+The case $k=2$ looks like this
+\begin{equation}\label{eqn.map_to_2ary_composite}
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom] (p) {};
+	\node[poly, cod, right= 1.5cm of p.south, yshift=-1ex] (q) {};
+	\node[poly, cod, above=of q] (r) {};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+\end{tikzpicture}
+\end{equation}
+and is considered in \cref{ex.map_to_comp}. But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process''. 
 
 Suppose we're $p$ and someone gives us a decision $i\in p(\1)$ to make: we're supposed to pick an element of $p[i]$. Luckily, by virtue of our morphism $f\colon p\to q_1\tri\cdots\tri q_k$, consisting of steps $f_1,\ldots,f_k$ and an interpretation $f^\sharp$, we have a process to follow by which we can make the decision. Our first step is to ask $q_1$ to make decision $f_1(i)$. It dutifully chooses some option, say $e_1\in q_1[f_1(i)]$. We know exactly what to do: our second step is to ask $q_2$ to make decision $f_2(i,e_1)$. It dutifully chooses some option, say $e_2\in q_2[f_2(i,e_1)]$. We continue with the plan through step $k$, at which point we ask $q_k$ to make decision $f_k(i,e_1,\ldots,e_{k-1})$. It dutifully chooses some option, say $e_k$, which we then interpret via our passback function $f^\sharp$ to obtain the desired decision $f^\sharp(i,e_1,\ldots,e_k)\in p[i]$.
 
@@ -2574,15 +2610,65 @@ Let $\cat{C}$ be a category. The \emph{emanation polynomial for $\cat{C}$} is th
 \]
 \end{definition}
 
+\begin{exercise}
+What is the emanation polynomial for each of the following categories?
+\begin{enumerate}
+	\item \boxCD{exercisecolor}{$A\Too{f}B$}?
+	\item \boxCD{exercisecolor}{$B\From{f}A\To{g}C$}?
+	\item The empty category?
+	\item A monoid $(M, e, *)$?
+	\item The poset $(\nn,\leq)$?
+	\item The poset $(\nn,\geq)$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+A category $\cat{C}$ is more than its emanation polynomial $\ema{c}$, and a comonoid $(\ema{c},\epsilon,\delta)$ in $\poly$ is more than its carrier polynomial $\ema{c}$. The identities of $\cat{C}$ are all captured by the counit $\epsilon\colon\ema{c}\to\yon$ and the codomain and composition information of $\cat{C}$ are all captured by the comultiplication map $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$. Our goal is to make this clear so that we can justly proclaim:
+
+\slogan{Comonoids in $\poly$ are precisely categories!}
+
+
 
 \subsection{Understanding comonoids}\label{subsec.understanding_comonoids}
-Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
+
+We want to understand how the counit $\epsilon$ and comultiplication $\delta$ in a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ relate to identities, codomains, and composites in a category. We first use our work in \cref{subsec.working_with_composites} to get a better handle on $\epsilon$ and $\delta$. For example, since $\epsilon\colon\ema{c}\to\yon$ maps to the empty composite, we know by \eqref{eqn.map_to_0ary_composite} that it is of the form
+\[
+ \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$p$" left] (c) {$\epsilon^\sharp(i)$\nodepart{two}$i$};
+  	\draw (c_pos) to[climb'] node[right] {$\epsilon^\sharp$} (c_dir);
+	\end{tikzpicture}
+\]
+i.e.\ for every $i\in p(\1)$, a choice of element $\epsilon^\sharp(i)\in p[i]$. Rather than call it $\epsilon^\sharp$, we will refer to this map as $\idy$. Similarly, we know by \eqref{eqn.map_to_2ary_composite} that $\delta$ is of the form
+\[
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (yX) {};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, above=of p] (p') {};
+  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above left] {$\delta^\sharp$} (yX_dir);
+  \end{tikzpicture}
+ \]
+We've said that this secretly holds information about the codomains and composites for a category structure on $\ema{c}$. How does that work? We will soon find that $\delta_1$ is forced to be an identity, that $\delta_2$ holds codomain information, and that $\delta^\sharp$ holds composite information. So we will use that notation here
+\[
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (yX) {};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, cod, above=of p] (p') {};
+  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
+  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
+  \end{tikzpicture}
+ \]
+and our goal now is to see that $\cod$ really has something to do with codomains and $\comp$ really has something to do with composites, as advertised.
+
+To get started, we consider the first unitality equation from \eqref{eqn.comonoid_diagrams}:
 \[
 \begin{tikzpicture}
 	\node (1) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {};
-  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, above=of p] (p') {};
   	\node[poly, cod, right=of p] (q) {};
   	\node[poly, cod, identity, above=of q] (q') {};
@@ -2592,7 +2678,7 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
   	\draw (q'_dir) -- node[above] {$\idy$} (p'_dir);
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
 	\node[right=1.6 of 1] (2) {
@@ -2602,7 +2688,7 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
   	\node[poly, above=of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
 	};
@@ -2619,17 +2705,17 @@ Here is the first unitality equation from \eqref{eqn.comonoid_diagrams}:
 \end{tikzpicture}
 \]
 
-Let's rewrite our first equation and add some named fillers $i\in c(\1)$ and $d\in c[i]$ to get an equation:
+Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to the open slots, and hence obtain an equation:
 \[
 \begin{tikzpicture}
 	\node (2) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {$d\then\idy(\cod(d))$\nodepart{two}$i$};
-  	\node[poly, cod, right=3.8 of yX.south, yshift=-1ex] (p) {$d$\nodepart{two}$\delta_1(i)$};
-  	\node[poly, above=of p] (p') {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
+  	\node[poly, cod, right=5 of yX.south, yshift=-1ex] (p) {$d$\nodepart{two}$\delta_1(i)$};
+  	\node[poly, above left=1 and 0 of p] (p') {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
 	};
@@ -2644,10 +2730,9 @@ Let's rewrite our first equation and add some named fillers $i\in c(\1)$ and $d\
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
 \]
-Ah, ok, it's saying that $\delta_1(i)=i$ and that $d\then\idy(\cod(d))=d$, i.e.\ that composing a morphism $d$ with the identity morphism on its codomain returns $d$. Sounds good; thanks giant brain!
+First it's saying that $\delta_1(i)=i$. This is great news; it means we can forget about $\delta_1$, just as we said. But it's also saying a second thing, namely that $d\then\idy(\cod(d))=d$. Unpacking, this means that composing a morphism $d$ with the identity morphism on its codomain returns $d$. Pretty insightful of the comonoid to independently realize this fact, no?
 
-
-It's convenient that the bottom map $\delta_1$ to be identity function because it allows us to drop $\delta_1$ from our pictures. Here's a redrawing of $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ removed
+Before moving on, we redraw $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ (which the first unitality equation said was always identity) and replace it with a double arrow:
 \[
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {};
@@ -2655,11 +2740,11 @@ It's convenient that the bottom map $\delta_1$ to be identity function because i
   	\node[poly, cod, above=of p] (p') {};
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 \]
 
-Now we can write the other equation.
+Now we can write the other unitality equation.
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -2675,7 +2760,7 @@ Now we can write the other equation.
   	\draw (q'_dir) -- (p'_dir);
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, left] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
 	\node[right=1.6 of 1] (2) {
@@ -2685,7 +2770,7 @@ Now we can write the other equation.
   	\node[poly, cod, above=of p] (p') {};
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, left] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
   \end{tikzpicture}
 	};
@@ -2701,17 +2786,17 @@ Now we can write the other equation.
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
 \]
-Let's fill it in with $i\in c(\1)$ and $d\in c[i]$ to get some equations:
+Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equations:
 \[
 \begin{tikzpicture}
 	\node (2) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {$\idy(i)\then d$\nodepart{two}$i$};
   	\node[poly, right=3 of yX.south, yshift=-1ex] (p) {$\idy(i)$\nodepart{two}$i$};
-  	\node[poly, cod, above=of p] (p') {$d$\nodepart{two}$\cod(\idy(i))$};
+  	\node[poly, cod, above right=1 and 0 of p] (p') {$d$\nodepart{two}$\cod(\idy(i))$};
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\comp$} (yX_dir);
+  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
   \end{tikzpicture}
 	};
@@ -2748,9 +2833,10 @@ Let's fill it in with $i\in c(\1)$ and $d\in c[i]$ to get some equations:
 %	\node at ($(2.east)!.5!(3.west)$) {=};
 %\end{tikzpicture}
 \]
-Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$. We couldn't have said it better ourselves; thanks giant brain!
+Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$. We couldn't have said it better ourselves; it's like comonoids have a mind of their own. Thanks comonoid brain!
 
-Let's draw the associativity equation.\[
+Finally we draw the associativity equation.
+\[
 \begin{tikzpicture}
 	\node (p1) {
   \begin{tikzpicture}[polybox, tos, font=\tiny]
@@ -2841,74 +2927,7 @@ Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of em
 \]
 Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\then m')\then m''$, classic associativity. Amazing; thanks giant brain!
 
-%---- Subsection ----%
-\subsection{Constructing comonoids from categories}
-
-Given a category $\cat{C}$ with notation as in \cref{def.cofunctor}, we will construct a corresponding comonoid $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$. We usually denote objects of $\cat{C}$ by $i,j$ rather than $c$ so as not to confuse with $\ema{c}$. 
-
-For any object $i\in C_0$, define
-\[C_i\coloneqq\{m\in C_1\mid\dom(m)=i\}.\]
-Thus we have $C_1\cong\sum_{i\in C_0}C_i$, meaning that every morphism in $\cat{C}$ emanates from some object $i$.
-
-Our goal is to define a polynomial $\ema{c}\in\poly$ together with maps $\epsilon,\delta$ making it a comonoid. We define $\ema{c}$ to be the polynomial corresponding to the function $\dom\colon C_1\to C_0$, i.e.\
-\[
-  \ema{c}\coloneqq \sum_{c\in C_0}\yon^{C_i}
-\]
-We call $\ema{c}$ the \emph{emanation} polynomial of $\cat{C}$. Note that $\ema{c}(\1)\cong C_0$ and for each $i\in\ema{c}(\1)$ we have $\ema{c}_i=C_i$.
-
-\begin{exercise}
-For the category $\cat{G}\coloneqq\fbox{$\bullet\tto\bullet$}$, what is emanation polynomial $\ema{g}$?
-\end{exercise}
-
-To give a polynomial morphism $\ema{c}\to\yon$, one must simply assign an emanating morphism $\epsilon^\sharp(i) \in C_i$ to each object $i$ in the category; we choose identities:
-\[\epsilon^\sharp(i)\coloneqq\id_i.\]
-
-Before specifying the morphism $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$, let's write out the codomain using \cref{eqn.composite_formula}:
-\begin{align*}
-  \ema{c}\tri\ema{c}&\cong
-  \sum_{i\in C_0}\;\prod_{m\in C_i}\;\sum_{i'\in C_0}\;\prod_{m'\in C_{i'}}\yon\\&\cong
-  \sum_{i\in C_0}\;\sum_{i'\colon C_i\to C_0}\;\prod_{m\in C_i}\;\prod_{m'\in C_{i(m)}}\yon\\&\cong
-  \sum_{i\in C_0}\;\sum_{i'\colon C_i\to C_0}\yon^{\sum_{m\in C_i}C_{i(m)}}
-\end{align*}
-We define the on-positions function $\delta_1\colon\ema{c}(\1)\to(\ema{c}\tri\ema{c})(\1)$ by
-\begin{equation}\label{eqn.emanation_cat_delta}
-\delta_1(i)\coloneqq (i,m\mapsto\cod(m))
-\end{equation}
-which assigns to each object $i\in C_0$ the function taking the codomain $\cod(m)$ of every morphism $m\colon i\to\cod(m)$ emanating from it. At the position $i\in\ema{c}(\1)$, define the on-directions function $\delta^\sharp\colon(\ema{c}\tri\ema{c})_{\delta_1(i)}\to\ema{c}_i$ by
-\begin{align}\nonumber
-  \sum_{m\in C_i}C_{\cod(m)}&\To{\delta^\sharp_i}C_i\\\label{eqn.emanation_cat_delta_sharp}
-  (m,m')&\Mapsto{\delta^\sharp_i} m\then m'.
-\end{align}
-In other words $\delta_1$ is given by taking codomains and $\delta^\sharp$ is given by taking composites.
-
-\begin{proposition}
-Let $\cat{C}$ be a category and let $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ be defined as above. Then $\com{C}$ is a comonoid in $\poly$.
-\end{proposition}
-
-\begin{proof}[Proof sketch]
-It remains to check the unitality and associativity. The morphisms $\ema{c}\tri\epsilon$ and $\epsilon\tri \ema{c}$ are defined as follows:
-\begin{align*}
-	\sum_{i\in C_0}\sum_{i'\colon C_i\to C_0}\yon^{\sum_{m\in C_i}C_{i'(m)}}&
-	\too
-	\sum_{i\in C_0}\yon^{C_i}\\
-	(i,i')&\Mapsto{\ema{c}\tri\epsilon}
-	(i,m\mapsto (m,\id_{i'(m)}))\\
-	(i,i')&\Mapsto{\epsilon\tri\ema{c}}
-	(i'(\id_i), m\mapsto(\id_i, m))
-\intertext{Composing with $\delta$, which sends $i\mapsto(i,\cod,(m,m')\mapsto(m\then m'))$, we obtain}
-	(i,\cod)&\Mapsto{\ema{c}\tri\epsilon}
-	(i,m\mapsto (m\then\id_{\cod(m)}))\\
-	(i,\cod)&\Mapsto{\epsilon\tri\ema{c}}
-	(\cod(\id_i), m\mapsto(\id_i\then m))
-\end{align*}
-both of which are the identity on $\ema{c}$, namely $i\mapsto(i, m\mapsto m)$.
-
-We leave the proof of associativity to \cref{ex.comonoid_cat_assoc}.
-\end{proof}
-
-\begin{exercise}\label{ex.comonoid_cat_assoc}
-Show that for any category $\cat{C}$, if $\ema{c}$ is the associated emanation polynomial and $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ is the morphism as described in \eqref{eqn.emanation_cat_delta} and \eqref{eqn.emanation_cat_delta_sharp}, then $\delta$ is associative, i.e.\ satisfies the second commutative diagram from \cref{eqn.comonoid_diagrams}.
-\end{exercise}
+We've seen that all of the data and equations of categories are embedded, though in a very non-standard way, in the data and equations of polynomial comonoids.
 
 \begin{example}[Monoids]\label{ex.monoids}
 Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^2}$ and a morphism $\yon^M\to\yon^{M^2}$ can be identified with a function $M^2\to M$; under that identification we take $\delta\coloneqq *$.
@@ -2917,6 +2936,8 @@ Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the rep
 \begin{exercise}
 Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfy the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfy the unitality and associatitivity requirements of a comonoid in $(\poly,\yon,\tri)$.
 \end{exercise}
+
+START
 
 %---- Subsection ----%
 \subsection{Constructing categories from comonoids}
