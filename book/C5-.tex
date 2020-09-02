@@ -2552,7 +2552,7 @@ Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\co
 satisfying the following conditions:
 \begin{enumerate}[itemsep=0pt, label=\roman*.]
 	\item $F^\sharp(c,\id_{F_0c})=\id_c$ for any $c\in C_0$;
-	\item $F_0\cod F^\sharp(c,g)=\cod g$ for any $c\in C_0$ and $g\colon F_0(c)\to\cod(g)$ in $D$;
+	\item $F_0\cod F^\sharp(c,g)=\cod g$ for any $c\in C_0$ and $g\in D_{F_0(c)}$;
 	\item $F^\sharp(\cod F^\sharp(c,g_1),g_2)\circ F^\sharp(c,g_1)=F^\sharp(c,g_1\then g_2)$ for composable arrows $g_1,g_2$ out of $F_0 c$.
 \end{enumerate}
 In other words, $F^\sharp$ preserves identities, codomains, and compositions.
@@ -3010,15 +3010,11 @@ Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category
 We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $p\coloneqq A\yon$ has a unique comonoid structure. What category does it correspond to?
 \end{exercise}
 
-START
 %---- Subsection ----%
 \subsection{Morphisms of comonoids are cofunctors}
 
-Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$. Roughly speaking, all you really need to know is this:
-\slogan{Morphisms between comonoids are maps of polynomials, so they do the lensy / delegation thingy with the airplanes, but ensuring that everything's well-behaved with respect to identities, codomains, and composition.}
-That clears it up completely, right?
-
-Either way, let's do our due diligence, beginning with a definition.
+Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$. 
+Let's begin with a definition.
 
 \begin{definition}[Morphisms of comonoids]
 Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\delta')$ be polynomial comonoids as in \cref{def.comonoid}. A \emph{morphism} $\com{C}\to\com{C}'$ consists of a morphism $f\colon c\to c'$ of polynomials that commutes with the structure maps:
@@ -3039,7 +3035,7 @@ Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\d
 \]
 \end{definition}
 
-Let's see these with poly-boxes. First the counit law:
+Let's see the two laws of comonoid morphisms using poly-boxes. First the counit law:
 \begin{equation}\label{eqn.unit_law_draw}
 \begin{tikzpicture}
 	\node (id1) {
@@ -3048,14 +3044,14 @@ Let's see these with poly-boxes. First the counit law:
 		\node[poly, dgreen, right=1 of p, "$c'$" above] (q) {};
 		\draw (p_pos) to[first] (q_pos);
 		\draw (q_dir) to[last] (p_dir);
-		\draw[dgreen] (q_pos) to[climb'] (q_dir);
+		\draw[dgreen] (q_pos) to[climb'] node[right] {$\idy$} (q_dir);
 		\node at ($(p.east)!.5!(q.west)$) {$f$};
 	\end{tikzpicture}
 	};
 	\node[right=of id1] (id2) {
 	\begin{tikzpicture}[polybox, tos]
 		\node[poly, dom, blue, "$c\vphantom{c'}$" above] (p) {};
-		\draw[blue] (p_pos) to[climb'] (p_dir);
+		\draw[blue] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
 	\end{tikzpicture}	
 	};
 	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
@@ -3068,27 +3064,30 @@ Then the comultiplication law:
 	\begin{tikzpicture}[polybox, tos]
 		\node[poly, dom, blue] (c) {};
 		\node[poly, dgreen, right=1 of c] (c') {};
-		\node[poly, cod, dgreen, right=of c'.south, yshift=-1ex] (c'1) {};
+		\node[poly, cod, dgreen, right=2 of c'.south, yshift=-1ex] (c'1) {};
 		\node[poly, cod, dgreen, above=of c'1] (c'2) {};
+		\node at ($(c.east)!.5!(c'.west)$) {$f$};
 	%
 		\draw (c_pos) to[first] (c'_pos);
 		\draw (c'_dir) to[last] (c_dir);
-		\draw[dgreen] (c'_pos) to[first] (c'1_pos);
-		\draw[dgreen] (c'1_dir) to[climb] (c'2_pos);
-		\draw[dgreen] (c'2_dir) to[last] (c'_dir);
+		\draw[dgreen,double] (c'_pos) to[first] (c'1_pos);
+		\draw[dgreen] (c'1_dir) to[climb] node[left] {$\cod$} (c'2_pos);
+		\draw[dgreen] (c'2_dir) to[last] node[above,sloped] {$\comp$} (c'_dir);
 	\end{tikzpicture}
 	};
 	\node[right=of sp1] (sp2) {
 	\begin{tikzpicture}[polybox, tos]
 		\node[poly, dom, blue] (c) {};
-		\node[poly, blue, right=of c.south, yshift=-1ex] (c1) {};
+		\node[poly, blue, right=2 of c.south, yshift=-1ex] (c1) {};
 		\node[poly, blue, above=of c1] (c2) {};
 		\node[poly, cod, dgreen, right=1 of c1] (c'1) {};
 		\node[poly, cod, dgreen, right=1 of c2] (c'2) {};
+		\node at ($(c1.east)!.3!(c'1.west)$) {$f$};
+		\node at ($(c2.east)!.3!(c'2.west)$) {$f$};
 	%
-		\draw[blue] (c_pos) to[first] (c1_pos);
-		\draw[blue] (c1_dir) to[climb] (c2_pos);
-		\draw[blue] (c2_dir) to[last] (c_dir);
+		\draw[blue,double] (c_pos) to[first] (c1_pos);
+		\draw[blue] (c1_dir) to[climb] node[left] {$\cod$} (c2_pos);
+		\draw[blue] (c2_dir) to[last] node[above,sloped] {$\comp$} (c_dir);
 		\draw (c1_pos) to[first] (c'1_pos);
 		\draw (c'1_dir) to[last] (c1_dir);
 		\draw (c2_pos) to[first] (c'2_pos);
@@ -3098,20 +3097,26 @@ Then the comultiplication law:
 	\node at ($(sp1.east)!.5!(sp2.west)-(0,4pt)$) {$=$};
 \end{tikzpicture}
 \end{equation}
-
-So suppose $\cat{C}$ and $\cat{C}'$ are categories and $\com{C}=(\ema{c},\epsilon,\delta)$ and $\com{C}'=(\ema{c}',\epsilon',\delta')$ are the corresponding categories. In terms of categories, how do we say what a comonoid morphism $f\colon \com{C}\to\com{C}'$ is?
-
-The lens $f=\lens{f^\sharp}{f_1}$ includes a function $f_1\colon\ema{c}(\1)\to\ema{c}'(\1)$, meaning it sends objects $i\in \cat{C}$ to objects $f_1(i)\in\cat{C}'$. For every object $i\in\ema{c}(\1)$, it includes a function $f^\sharp\colon\ema{c}'_{f_1(i)}\to\ema{c}_i$, meaning that every morphism emanating from $f_1(i)$ in $\cat{C}'$ is passed back to a morphism emanating from $i$ in $\cat{C}$.
-
-Commutation with $\epsilon$ and $\epsilon'$ ensures that identities in $\cat{C}'$ are passed back to identities. Commutation with $\delta$ and $\delta'$ ensures that codomains are passed back to codomains, and composition is passed back to composition. This informal description seems reasonable, but it should be checked to really work. In particular, it should coincide with the definition of cofunctor given in \cref{def.cofunctor}.
+If we fill in \cref{eqn.unit_law_draw} with an object $i\in\ema{c}(\1)$, we obtain the equation
+\[f^\sharp(i,\idy(f_1(i)))=\idy(i),\]
+which is the first law of \cref{def.cofunctor}. If we fill in \cref{eqn.comult_law_draw} with $i\in\ema{c}(\1)$ and $m\in\ema{c}'[f(i)]$ and $m'\in\ema{c}'[\cod(m)]$, we obtain the equations
+\begin{gather*}
+  \cod(m)=f_1\big(\cod\big(f^\sharp(i,m)\big)\big)\\
+  f^\sharp(i,\comp(m,m'))=\comp(f^\sharp(i,m),f^\sharp(\cod(f^\sharp(i,m)),m'))
+\end{gather*}
+and these are the second and third laws of \cref{def.cofunctor}.
 
 \begin{exercise}\label{ex.cofunctors_comon_homs}
-Prove \cref{thm.ahman_uustalu} to a level of detail you find appropriate.
+Summarize the proof of \cref{thm.ahman_uustalu}, developed above. You may cite anything written in the text so far.
 \end{exercise}
 
 \paragraph{Examples of cofunctors}
 
-We saw in \cref{thm.ahman_uustalu} that cofunctors $\cat{C}\to\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference.
+We saw in \cref{thm.ahman_uustalu}, summarized in \cref{ex.cofunctors_comon_homs}, that cofunctors $\cat{C}\to\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
+
+The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their emanation polynomials. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forwards on objects and backwards on morphisms.
+
+Let's look at some examples.
 
 \begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
 For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the one-object category.
