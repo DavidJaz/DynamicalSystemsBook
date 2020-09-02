@@ -436,9 +436,9 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 
 
 \begin{proposition}
-For all sets $A,B$ and polynomials $p$, we have the following adjunction:
+For all sets $A,B$, we have the following adjunction:
 \[
-\poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri p\tri By\right)
+\poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
 \]
 \end{proposition}
 
@@ -3010,6 +3010,43 @@ Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category
 We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $p\coloneqq A\yon$ has a unique comonoid structure. What category does it correspond to?
 \end{exercise}
 
+\begin{definition}
+Let $\cat{C}$ be a category and $c\in\Ob(\cat{C})$ an object. The \emph{degree of $c$}, denoted $\deg(c)$ is the set of arrows in $\cat{C}$ that emanate from $c$.
+
+If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{n}$ for $n\in\nn$, we say $c$ has \emph{degree $n$}.
+\end{definition}
+
+\begin{exercise}
+\begin{enumerate}
+	\item If every object in $\cat{C}$ is linear, what does it mean about $\cat{C}$?
+	\item How many categories are there that have just one linear and one quadradic object?
+	\item Is the above the same as asking how many comonad structures on $\yon^\2+\yon$ there are?
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}\label{prop.cofunctors_isos}
+Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob(\cat{C})$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}{g)$.
+\end{proposition}
+\begin{proof}
+With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we have
+\begin{align*}
+	\id_c&=
+	F^\sharp_c(\id_d)\\&=
+	F^\sharp_c(g\then g')\\&=
+	F^\sharp_c(g)\then F^\sharp_{c'}(g')
+\end{align*}
+Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
+\end{proof}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Find a category structure for the polynomial $\yon^{\ord{n}+1}+\ord{n}\yon$.
+	\item Would you call your category ``star-shaped''?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
 %---- Subsection ----%
 \subsection{Morphisms of comonoids are cofunctors}
 
@@ -3110,13 +3147,87 @@ and these are the second and third laws of \cref{def.cofunctor}.
 Summarize the proof of \cref{thm.ahman_uustalu}, developed above. You may cite anything written in the text so far.
 \end{exercise}
 
-\paragraph{Examples of cofunctors}
+\paragraph{Examples of cofunctors.}
 
-We saw in \cref{thm.ahman_uustalu}, summarized in \cref{ex.cofunctors_comon_homs}, that cofunctors $\cat{C}\to\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
+We saw in \cref{thm.ahman_uustalu}, summarized in \cref{ex.cofunctors_comon_homs}, that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
 
 The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their emanation polynomials. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forwards on objects and backwards on morphisms.
 
 Let's look at some examples.
+
+\begin{example}\label{ex.BGEG}
+Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a cofunctor $G\yon^G\to\yon^G$ given by
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom] (p) {$g_1*g_2$\nodepart{two}$g_1$};
+	\node[poly, pure cod, right=of p] (q) {$g_2$\nodepart{two}\vphantom{$g_1$}};
+	\draw (p_pos) to[first] (q_pos);
+	\draw (q_dir) to[last] (p_dir);
+\end{tikzpicture}
+\]
+To see this is a cofunctor, we check that identities, codomains, and compositions are preserved. For any $g_1$, the identity $e$ is passed back to $g_1*e=g_1$, and this is the identity on $g_1$ in $G\yon^G$. Codomains are preserved because there is only one object in $\yon^G$. Composites are preserved because for any $g_2,g_3$, we have $g_1*(g_2*g_3)=(g_1*g_2)*g_3$.
+\end{example}
+
+\begin{exercise}\label{exc.BGEG}
+Does the idea of \cref{ex.BGEG} work when $G$ is merely a monoid, or does something go subtly wrong somehow?
+\end{exercise}
+
+\begin{proposition}
+There is an adjunction
+\[
+\smcat^\sharp(\cat{C},A\yon)\cong\smset(\Ob(\cat{C}),A)
+\]
+where $\cat{C}\in\smcat^\sharp$ is a comonoid and $A\in\smset$ is a set.  
+\end{proposition}
+
+\begin{example}\label{ex.cof_to_rr}
+Consider the category $\rr\yon^\rr$, where the codomain of $r$ emanating from $x$ is $x+r$, identities are $0$, and composition is given by addition. What are cofunctors into $\rr\yon^\rr$?
+
+Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofunctor. It assigns to every object $c$ both a real number $|c|\in\rr$ and a choice of emanating morphism $|c|^\sharp(r)\colon c\to c_r$ such that $|c|+r=|c_r|$. This assignment satisfies some laws. Namely we have $c_0=c$ and, given reals $r,s\in\rr$, we have $(c_r)_s=c_{r+s}$. 
+\end{example}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Do you think a cofunctor $\cat{C}\cof\rr\yon^\rr$ as in \cref{ex.cof_to_rr} should be called an $(\rr,0,+)$-action on the objects of $\cat{C}$, or a filtration, or a valuation, or something else?
+	\item Why?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Over two discrete objects $\{A,B\}$, how many cofunctors are there
+\[
+\yon^\2+\yon\cong\fbox{$A\to B$}\too\fbox{$A\tto B$}\cong\yon^\3+\yon
+\]
+from the walking arrow category to the walking parallel-arrows category?
+	\item What is meant more precisely by ``over two discrete objects $\{A,B\}$'' above?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Are cofunctors between posets interesting?
+\begin{enumerate}
+	\item Consider the chain poset $[n]\cong\sum_{i=1}^n\yon^i$. How many cofunctors are there from $[m]\to[n]$ are there for all $m,n\in\{0,1,2,3\}$?
+	\item What does a cofunctor from $\yon$ into a poset represent? Is there anything you'd call ``asymmetric'' about it?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of comonoids for which the carrier polynomial is $\yon^\2+\yon$?
+	\item For each category $\com{Q}_i$, describe how to imagine a cofunctor $\com{C}\to\com{Q}_i$ from an arbitrary category into it.
+	\item What cofunctors exist between the various $\com{Q}_i$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set. Hint: use \cref{prop.cofunctors_isos}.
+\end{exercise}
+
 
 \begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
 For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the one-object category.
@@ -3262,6 +3373,8 @@ There is a cofunctor $S\yon^S\otimes T\yon^T\to S\yon^S$, and every cofunctor be
 \end{example}
 
 \slogan{State categories don't make good interfaces for dynamics.}
+
+When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
 
 \begin{proposition}[Niu]
 The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.

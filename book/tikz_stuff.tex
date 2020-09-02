@@ -115,7 +115,7 @@ sep=0pt,
 }
 
 \tikzset{polybox/.style={
-	polyb/.style ={
+	poly/.style ={
   	rectangle split, 
   	rectangle split parts=2, 
 		rectangle split part align={bottom},
@@ -123,9 +123,6 @@ sep=0pt,
   	anchor=south, 
   	inner ysep=4.5,
 	  prefix after command={\pgfextra{\let\fixname=\tikzlastnode}},
-	},
-	poly/.style={
-		polyb,
 		append after command={\pgfextra{
 			\node[inner xsep=0, inner ysep=0, 
 				fit=(\fixname.north west) (\fixname.two split east)] 
@@ -133,41 +130,6 @@ sep=0pt,
 			\node[inner xsep=0, inner ysep=0, 
 				fit=(\fixname.south west) (\fixname.two split east)] 
 				(\fixname_pos) {};
-			}}
-	},
-	poly left/.style={
-		polyb,
-  	rectangle split horizontal,
-		append after command={\pgfextra{
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.north west) (\fixname.two split south)] 
-				(\fixname_dir) {};
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.north east) (\fixname.two split south)] 
-				(\fixname_pos) {};
-			}}
-	},
-	poly right/.style={
-		polyb,
-  	rectangle split horizontal,
-		append after command={\pgfextra{
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.north west) (\fixname.two split south)] 
-				(\fixname_pos) {};
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.north east) (\fixname.two split south)] 
-				(\fixname_dir) {};
-			}}
-	},
-	poly down/.style={
-		polyb,
-		append after command={\pgfextra{
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.north west) (\fixname.two split east)] 
-				(\fixname_pos) {};
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.south west) (\fixname.two split east)] 
-				(\fixname_dir) {};
 			}}
 	},
 	dom/.style={
@@ -190,6 +152,9 @@ sep=0pt,
 	},
 	pure dom/.style={
 		rectangle split part fill={none, blue!10!gray}
+	},
+	pure cod/.style={
+		rectangle split part fill={blue!10, gray}
 	},
 	linear cod/.style={
 		rectangle split part fill={blue!10!gray, none}	
