@@ -2942,7 +2942,7 @@ Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the rep
 \end{example}
 
 \begin{exercise}
-Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfy the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfy the unitality and associatitivity requirements of a comonoid in $(\poly,\yon,\tri)$.
+Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfies the unitality and associativity requirements of a comonoid in $(\poly,\yon,\tri)$.
 \end{exercise}
 
 
@@ -2976,9 +2976,9 @@ To calculate the codomains and compositions we examine the map $\delta\colon p\t
   };
 \end{tikzpicture}
 \]
-The $\epsilon$ map is saying that the identity on $s$ is $s$. Remember that both the set of objects and the set of morphisms emanating from any given object are $S$. The map $\cod=\delta_2$ is telling us that the codomain of a map $s_1$ is the object $s_1$, and that the composite of $s_1$ and $s_2$ is $s_1\then s_2=s_2$. 
+The $\epsilon$ map is saying that the identity on the object $s$ is the emanating morphism $s$. Remember that both the set of objects and the set of morphisms emanating from any given object are $S$. The map $\cod=\delta_2$ is telling us that the codomain of the morphism $s_1$ emanating from $s$ is the object $s_1$, and that the composite of $s_1$ and $s_2$ is $s_1\then s_2=s_2$. 
 
-What this all means is that $\cat{S}$ is the category with $S$-many objects and a unique morphism $s\to s'$ for any $s,s'\in S$. Here's a picture for $S=\3$ and $S=\1\5$, with all maps (even identities) drawn:
+What this all means is that $\cat{S}$ is the category with $S$-many objects and a unique morphism $s\to s'$ for any $s,s'\in S$. Here are pictures for $S=\3$ and $S=\1\5$, with all maps (even identities) drawn:
 \[
 \begin{tikzpicture}
 \def\n{3}% how many nodes
@@ -3012,7 +3012,7 @@ What this all means is that $\cat{S}$ is the category with $S$-many objects and 
 \]
 Some people would call this the contractible groupoid, or the terminal category with $S$-elements, or the unique category whose underlying graph is complete on $S$ vertices. The one that's \emph{least} good for us will be ``terminal'' category, because as we'll see, we're going to be interested in different sorts of morphisms between categories than the usual ones, namely cofunctors rather than functors, and $\cat{S}$ is not terminal for cofunctors.  
 
-Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}, because we use these to think about states of dynamical systems, and also because the state comonad in functional programming is $S\yon^S$.
+Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}, because we will use these to think about states of dynamical systems, and also because the state comonad in functional programming is $S\yon^S$.
 \end{example}
 
 \begin{exercise}
@@ -3028,7 +3028,9 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 \begin{exercise}
 \begin{enumerate}
 	\item If every object in $\cat{C}$ is linear, what does it mean about $\cat{C}$?
-	\item How many categories are there that have just one linear and one quadradic object?
+	\item Is it possible for an object in $\cat{C}$ to have degree $0$?
+	\item Find a category that has an object of degree $\nn$.
+	\item How many categories are there that have just one linear and one quadradic (degree 2) object?
 	\item Is the above the same as asking how many comonad structures on $\yon^\2+\yon$ there are?
 \end{enumerate}
 \end{exercise}
@@ -3249,7 +3251,7 @@ Let $S$ be a set. Describe a way to visualize cofunctors from categories into th
 \end{exercise}
 
 \begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
-For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the one-object category.
+For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the terminal (one morphism) category.
 
 This does not work for cofunctors, as we'll see in \cref{exc.rep_objects}. The comonoid corresponding to $\cat{T}$ is $\yon$ with its unique comonoid structure. Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. The reason is the codomain condition (\cref{def.cofunctor}, condition 2).
 \end{example}
@@ -3264,7 +3266,7 @@ We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid struc
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[Trajectories are co-representable]
+\begin{example}[Trajectories are co-representable]\label{ex.trajectories_corep}
 For a category $\cat{C}$, let's say that a \emph{trajectory in $\cat{C}$} is a choice, for each object $c\in\cat{C}$, of an emanating morphism $f\colon c\to c'$. For example, consider the category $(\nn,\leq)\times(\nn,\leq)$:
 \[
 \begin{tikzpicture}[shorten <=4pt, shorten >=4pt]
@@ -3293,13 +3295,22 @@ For a category $\cat{C}$, let's say that a \emph{trajectory in $\cat{C}$} is a c
 	\end{scope}
 \end{tikzpicture}
 \]
+In red we have drawn a trajectory: every object has been assigned an emanating morphism to another object; there doesn't need to be any rhyme or reason to our choice.
 
 For any category $\cat{C}$, the set of trajectories in $\cat{C}$ is in bijection with the set of cofunctors
 \[
 \cat{C}\cof\cat{N}
 \]
-where $\cat{N}$ is the monoid of natural numbers.
+where $\cat{N}=\yon^\nn$ is the monoid of natural numbers under addition.
 \end{example}
+
+\begin{exercise}
+At the end of \cref{ex.trajectories_corep} we said that a trajectory on $\cat{C}$ can be identified with a cofunctor $F\colon\cat{C}\cof\cat{N}$. But at first it appears that $F$ includes more than just a trajectory: for every object $c\in\Ob(\cat{C})$ and natural number $n\in\nn$, we have a morphism $F^\sharp_c(n)$ emanating from $c$. That's infinitely many emanating morphisms per object, whereas a trajectory seems to include only one emanating morphism per object.
+
+Explain why looks are deceiving in this case: why is a trajectory on $\cat{C}$ the same as a cofunctor $\cat{C}\to\cat{N}$?
+\end{exercise}
+
+We will see later in \cref{prop.traj_mon_poly} that the trajectories on a category form a monoid, and that this operation $\smcat^\sharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
 
 \begin{exercise}[Continuous trajectories]
 If we say that a continuous trajectory in $\cat{C}$ is a cofunctor $\cat{C}\to\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
@@ -3773,6 +3784,24 @@ and counits $U(\cofree{p}\to p$ and $U(\cofree{q}\to q$.
 
 **
 \end{proof}
+
+\begin{proposition}\label{prop.traj_mon_poly}
+There is a commutative square of left adjoints
+\[
+\begin{tikzcd}
+	\Cat{Mon}\op\ar[r, "U"]\ar[d, "\yon^-"']&
+	\smset\op\ar[d, "\yon^-"]\\
+	\smcat^\sharp\ar[r, "U"']&
+	\poly
+\end{tikzcd}
+\]
+where the functors denoted $U$ are forgetful functors.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+
 
 %-------- Section --------%
 \section{Bimodules}
