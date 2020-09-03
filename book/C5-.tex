@@ -2927,7 +2927,15 @@ Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of em
 \]
 Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\then m')\then m''$, classic associativity. Amazing; thanks again toad!
 
-We've seen that all of the data and equations of categories are embedded, though in a very non-standard way, in the data and equations of polynomial comonoids.
+We've seen that all of the data and equations of categories are embedded, though in a very non-standard way, in the data and equations of polynomial comonoids. 
+
+\begin{exercise}
+Let $\cat{C}$ be a category, $\ema{c}$ its emanation polynomial, and $i\in\Ob(\cat{C})$ an object. This exercise is for people who know the definition of the coslice category $i/\cat{C}$ of objects under $i$. Is it true that there is an isomorphism
+\[\Ob(c/\cat{C})i\cong^?\ema{c}[i]\]
+If so, describe it; if not, give a counterexample.
+\end{exercise}
+
+\subsection{Examples showing the correspondence between comonoids and categories}
 
 \begin{example}[Monoids]\label{ex.monoids}
 Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^2}$ and a morphism $\yon^M\to\yon^{M^2}$ can be identified with a function $M^2\to M$; under that identification we take $\delta\coloneqq *$.
@@ -2936,6 +2944,7 @@ Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the rep
 \begin{exercise}
 Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfy the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfy the unitality and associatitivity requirements of a comonoid in $(\poly,\yon,\tri)$.
 \end{exercise}
+
 
 
 \begin{example}[What category is $S\yon^S$?]
@@ -3025,7 +3034,7 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 \end{exercise}
 
 \begin{proposition}\label{prop.cofunctors_isos}
-Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob(\cat{C})$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}{g)$.
+Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob(\cat{C})$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}(g)$.
 \end{proposition}
 \begin{proof}
 With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we have
@@ -3038,12 +3047,12 @@ With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we hav
 Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
 \end{proof}
 
-\begin{exercise}
+\begin{exercise}\label{ex.star_shaped}
 \begin{enumerate}
 	\item Find a category structure for the polynomial $\yon^{\ord{n}+1}+\ord{n}\yon$.
 	\item Would you call your category ``star-shaped''?
 \qedhere
-\end{enumerate}
+\end{enumerate}
 \end{exercise}
 
 
@@ -3209,7 +3218,7 @@ from the walking arrow category to the walking parallel-arrows category?
 \begin{exercise}
 Are cofunctors between posets interesting?
 \begin{enumerate}
-	\item Consider the chain poset $[n]\cong\sum_{i=1}^n\yon^i$. How many cofunctors are there from $[m]\to[n]$ are there for all $m,n\in\{0,1,2,3\}$?
+	\item Consider the chain poset $[n]\cong\sum_{i=1}^n\yon^i$. How many cofunctors are there from $[m]\to[n]$ for all $m,n\in\{0,1,2,3\}$?
 	\item What does a cofunctor from $\yon$ into a poset represent? Is there anything you'd call ``asymmetric'' about it?
 \qedhere
 \end{enumerate}
@@ -3217,7 +3226,7 @@ Are cofunctors between posets interesting?
 
 \begin{exercise}
 \begin{enumerate}
-	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of comonoids for which the carrier polynomial is $\yon^\2+\yon$?
+	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of comonoids (defined up to isomorphism) for which the carrier polynomial is $\yon^\2+\yon$?
 	\item For each category $\com{Q}_i$, describe how to imagine a cofunctor $\com{C}\to\com{Q}_i$ from an arbitrary category into it.
 	\item What cofunctors exist between the various $\com{Q}_i$?
 \qedhere
@@ -3228,6 +3237,16 @@ Are cofunctors between posets interesting?
 Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set. Hint: use \cref{prop.cofunctors_isos}.
 \end{exercise}
 
+\begin{exercise}
+\begin{enumerate}
+	\item Recall the star-shaped category $\yon^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe cofunctors into it.
+	\item Describe cofunctors into $A\yon$ for a set $A$.
+	\item Describe cofunctors into $(\nn,\leq)$.
+	\item Describe cofunctors into $(\nn,\geq)$.
+	\item Let $\yon^\4+2\yon^\2+\yon$ denote the commutative square category. List the cofunctors from it to the walking arrow category $\yon^\2+\yon$? There should be six or so.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
 For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the one-object category.
@@ -3375,6 +3394,25 @@ There is a cofunctor $S\yon^S\otimes T\yon^T\to S\yon^S$, and every cofunctor be
 \slogan{State categories don't make good interfaces for dynamics.}
 
 When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
+
+\begin{exercise}
+Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r,n)\mapsto r+n$. More down to earth, it's the set of real numbers between 0 and 1, including 0 but not 1.
+\begin{enumerate}
+	\item Find a comonoid structure on $(\rr/\zz)\yon^\rr$.
+	\item Is it a groupoid?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+	\item If two categories are isomorphic in $\smcat$, does that imply they are isomorphic in $\smcat^\sharp$?
+	\item If so, prove it; if not, give a counterexample.
+	\item Is it true that for any two categories $\cat{C},\cat{D}$, there is a bijection between the set of isomorphisms $\cat{C}\To{\cong}\cat{D}$ in $\smcat$ and the set of isomorphisms $\cat{C}\overset{\cong}{\cof}\cat{D}$ between them in $\smcat^\sharp$?
+	\item If so, prove it; if not, give a counterexample.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \begin{proposition}[Niu]
 The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
@@ -3568,7 +3606,7 @@ The following categories are equivalent:
 **
 \end{proof}
 
-Let $\cat{C}$ be a kategory, $A$ a set, and $f\colon A\to\Ob(\cat{C})$ a function to the objects of $\cat{C}$. There is an induced kategory $f^*\cat{C}$ with objects $A$ and cofunctor $f^*\cat{C}\to\cat{C}$ that is universal in the appropriate sense. Said more precisely, we have the following proposition.
+Let $\cat{C}$ be a category, $A$ a set, and $f\colon A\to\Ob(\cat{C})$ a function to the objects of $\cat{C}$. There is an induced category $f^*\cat{C}$ with objects $A$ and cofunctor $f^*\cat{C}\to\cat{C}$ that is universal in the appropriate sense. Said more precisely, we have the following proposition.
 
 
 
@@ -3710,7 +3748,7 @@ Show graph fibration idea.
 Conjecture: for any tree that can be described in language, there is a finite state machine that accomplishes it.
 
 
-The following says that cofree kategories are very special objects, much like posets.
+The following says that cofree categories are very special objects, much like posets.
 
 \begin{proposition}
 Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is both monic and epic.
@@ -3964,7 +4002,7 @@ Let $\com{C}=(\ema{c},\epsilon,\delta)$ and $\com{D}=(\ema{d},\epsilon,\delta)$ 
 \begin{definition}
 Let $\cat{C}$ be a category. A  \emph{monaco structure on $\cat{C}$} is a pair of cofunctors $\intercal\colon\yon\to\ema{c}$, which we call its \emph{terminus} and a cofunctor $\curlyvee\colon\cat{C}\times\cat{C}\cof\cat{C}$, which we call its \emph{team-up product} satisfying the usual monoid equations. 
 
-Said another way, a \emph{monoidal kategory} is a monoid object $(\cat{C},\intercal, \curlyvee)$ in the monoidal category $(\Cat{Comon}(\poly), \otimes,\yon)$.
+Said another way, a \emph{monaco category} is a monoid object $(\cat{C},\intercal, \curlyvee)$ in the monoidal category $(\Cat{Comon}(\poly), \otimes,\yon)$.
 \end{definition}
 
 \begin{example}
