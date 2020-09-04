@@ -11,4 +11,287 @@
 
 
 
+\paragraph{Databases}
+
+Discrete opfibrations will be important in our story, so let's spend a bit of time on them. It turns out that discrete opfibrations on a category have a close relationship with databases. Let's start with a definition.
+
+
+\begin{definition}[Discrete opfibration]
+A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if, for every object $c\in\cat{C}$, object $d'\in\cat{D}$, and morphism $g\colon F(c)\to d'$ there exists a unique object $c'\in\cat{C}$ and morphism $f\colon c\to c'$ such that $F(c')=d'$ and $F(f)=g$.
+\[
+\begin{tikzcd}
+  c\ar[r, dashed, "f"]\ar[d, |->, "F"']&
+  c'\ar[d, |->, "F"]\\
+  F(c)\ar[r, "g"']&
+  d'
+\end{tikzcd}
+\]
+\end{definition}
+
+
+\begin{proposition}\label{prop.dopf_copresheaf}
+Given a functor $\cat{C}\to\smset$, its category of elements is a discrete opfibration over $\cat{C}$, and this is functorial. Moreover this functor is an equivalence of categories.
+\end{proposition}
+
+
+\begin{example}[Database]
+\end{example}
+
+\begin{definition}[Database schema and instance]
+Let $\cat{C}$ be a category. An \emph{attribute structure} on $\cat{C}$ is a pair $(V, \alpha)$ where
+\begin{enumerate}
+	\item $V$ is a set, elements of which are called \emph{attribute values} and
+	\item $\alpha\colon V\to \Ob(\cat{C})$ is a function, called the \emph{attribute assignment}.
+\end{enumerate}
+If $(V,\alpha)$ is an attribute structure on $\cat{C}$, we call the triple $(\cat{C},V,\alpha)$ a \emph{database schema} and refer to $\cat{C}$ as the \emph{entity category} of the schema.
+
+An \emph{instance} on $(\cat{C},V,\alpha)$ consists of a functor $I\colon\cat{C}\to\smset$ together with a function $v_c\colon I(c)\to\alpha\inv(c)$ for each $c\in\Ob(\cat{C})$.
+\end{definition}
+
+\begin{proposition}
+Let $\cat{C}$ be a category and $\eta_\cat{C}\colon\cat{C}\to\Ob(\cat{C})$ the unit cofunctor. An attribute structure on $\cat{C}$ can be identified with a $(\Ob(\cat{C}),0)$-bimodule $(\Ob(\cat{C})\bimodfrom[V]0$. An instance on $(\cat{C},V,\alpha)$ can be identified with a square of the form
+\[
+\begin{tikzcd}[background color=theoremcolor]
+	\cat{C}\ar[r, bimr-biml, "I"]\ar[d, "\cofun" marking, "\eta"']&
+	0\ar[d, equal]\\
+	\Ob(\cat{C})\ar[r, bimr-biml, "V"']&
+	0\ar[ul, phantom, "\hphantom{\scriptstyle\alpha}\Downarrow\scriptstyle\alpha"]
+\end{tikzcd}
+\]
+\end{proposition}
+
+
+
+\begin{proposition}\label{prop.cart_com_dopf}
+The category of polynomial comonoids and cartesian maps is equivalent to the category of categories and discrete opfibrations
+\[
+\Cat{Comon}(\poly)_{\text{cart}}\cong \smcat_{\text{dopf}}.
+\]
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{example}
+Let $S$ be a set and $\com{S}\coloneqq(S\yon^S,\epsilon,\delta)$ the state comonoid. Then by \cref{prop.dopf_copresheaf,prop.cart_com_dopf}, a comonoid $\com{C}$ equipped with a cartesian map $f\colon\com{C}\to\com{S}$ is the category of elements for a functor $\cat{S}\to\smset$. But $\cat{S}$ is terminal in $\smcat$, so every functor $F\colon \cat{S}\to\smset$ is constant on some set $X\in\smset$, and hence there is an isomorphism of categories $\cat{C}\cong X\times \cat{S}$.
+\end{example}
+
+
+%-------- Section --------%
+\section{Bimodules}
+
+\begin{definition}
+**
+\end{definition}
+\[
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m) {};
+  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$D$" below] (D) {};
+  	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
+  	\node[poly, cod, right= of D.south, yshift=-1ex, "$D$" right] (DD) {};
+  	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (C) {};
+%
+		\draw (m_pos) to[first] (D_pos);
+		\draw (D_dir) to[climb] (mm_pos);
+		\draw (mm_dir) to[last] (m_dir);
+		\draw[double] (D_pos) to[first] (DD_pos);
+		\draw[double] (DD_dir) to[last] (D_dir);
+		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw (mmm_dir) to[climb] (C_pos);
+		\draw (C_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+%
+	\node (p2) [below=of p1] {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m') {};
+  	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
+  	\node[poly, above=of mm', "\tiny$C$" above] (C') {};
+  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$D$" right] (D') {};
+  	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
+  	\node[poly, cod, above=of mmm, "$C$" right] (CC') {};
+%
+		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw (mm'_dir) to[climb] (C'_pos);
+		\draw (C'_dir) to[last] (m'_dir);
+		\draw (mm'_pos) to[first] (D'_pos);
+		\draw (D'_dir) to[climb] (mmm'_pos);
+		\draw (mmm'_dir) to[last] (mm'_dir);
+		\draw[double] (C'_pos) to[first] (CC'_pos);
+		\draw[double] (CC'_dir) to[last] (C'_dir);
+	\end{tikzpicture}
+	};	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\]
+
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$m$" left] (m) {};
+	\node[poly, cod, right=of m, "$m$" right] (mm) {};
+	\node[poly, cod, above=of mm, "$C$" right] (C) {};
+	\node[poly, cod, below=of mm, "$D$" right] (D) {};
+%
+	\draw (m_pos) to[out=0, in=180] (D_pos);
+	\draw (D_dir) to[climb] (mm_pos);
+	\draw (mm_dir) to[climb] (C_pos);
+	\draw (C_dir) to[last] (m_dir);
+\end{tikzpicture}
+\]
+
+Recall from \cref{prop.basechange} that for any function $f\colon A\to B$, we have a base-change functor $f^*\colon B\poly\to A\poly$ and a cartesian morphism $f^*p\to p$ for any polynomial $p$ and isomorphism $p(\1)\cong B$.
+
+\begin{proposition}\label{prop.right_modules_as_sums}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid and suppose that $\rho\colon m\to m\tri\ema{c}$ is a right $\com{C}$-module. Then for any set $A$ and function $f\colon A\to m\tri\1$, the polynomial $f^*m$ has an induced right module structure $\rho_f$ fitting into the commutative square below:
+\[
+\begin{tikzcd}
+  f^*m\ar[d]\ar[r, "\rho_f"]&
+  f^*m\tri\ema{c}\ar[d]\\
+  m\ar[r, "\rho"']&
+  m\tri\ema{c}
+\end{tikzcd}
+\]
+\end{proposition}
+\begin{proof}
+The pullback diagram to the left defines $f^*(m)$ and that to the right is its composition with $\ema{c}$
+\[
+\begin{tikzcd}
+	f^*m\ar[r]\ar[d]&
+	m\ar[d]\\
+	A\ar[r, "f"']&
+	m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\hspace{.7in}
+\begin{tikzcd}
+	f^*m\tri\ema{c}\ar[r]\ar[d]&
+	m\tri\ema{c}\ar[d]\\
+	A\ar[r, "f"']&
+	m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\]
+which is again a pullback by \cref{thm.connected_limits,exc.composing_with_constants}. Now the map $\rho\colon m\to m\tri\ema{c}$ induces a map $\rho_f\colon f^*(m)\to f^*(m)\tri c$; we claim it is a right module. It suffices to check that $\rho_f$ interacts properly with $\epsilon$ and $\delta$, which we leave to \cref{exc.right_modules_as_sums}.
+\end{proof}
+
+\begin{exercise}\label{exc.right_modules_as_sums}
+Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\to m\tri\1$ be as in \cref{prop.right_modules_as_sums}. Complete the proof of that proposition as follows:
+\begin{enumerate}
+	\item Show that $\rho_f\then\epsilon=\id_m$
+	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c})$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
+\begin{theorem}\label{thm.tfae_c_sets}
+For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following are equivalent:
+\begin{enumerate}
+	\item functors $\cat{C}\to\smset$
+	\item discrete opfibrations over $\cat{C}$
+	\item cartesian cofunctors to $\com{C}$
+	\item linear left $\com{C}$-modules
+	\item constant left $\com{C}$-modules
+	\item $(\com{C},0)$-bimodules
+	\item representable right $\com{C}$-modules
+	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$)
+	\item dynamical systems with comonoid interface $\com{C}$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\begin{description}
+	\item[$1\to 2$:] Category of elements.
+	\item[$2\to 1$:] Fibers.
+\\	\item[$4\to 3$:] Given a linear left module, we can factor the underlying morphism $A\yon\to\ema{c}\tri A\yon$ as a vertical followed by a cartesian using \cref{prop.vert_cart_factorization}. The intermediate object has the structure of a category.
+\end{description}
+\end{proof}
+
+Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity cofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ module with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-module}, a certain constant left $\com{C}$ module with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},0)$-bimodule}, and a certain representable right $\com{C}$-module with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-module}.
+
+\begin{exercise}
+For any object $c\in \cat{C}$, consider the representable functor $\cat{C}(c,-)\colon\cat{C}\to\smset$. What does it correspond to as a
+\begin{enumerate}
+	\item discrete opfibration over $\cat{C}$?
+	\item cartesian cofunctor to $\com{C}$?
+	\item linear left $\com{C}$-module?
+	\item constant left $\com{C}$-module?
+	\item $(\com{C},0)$-bimodule?
+	\item representable right $\com{C}$-module?
+	\item dynamical system with comonoid interface $\com{C}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}[Niu]
+The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
+\end{proposition}
+
+\begin{proposition}\label{prop.all_free_modules}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. For any set $G$, the polynomial $\yon^G\tri\ema{c}$ has a natural right $\com{C}$-module structure.
+\end{proposition}
+\begin{proof}
+We use the map $(\yon^G\tri\delta)\colon(\yon^G\tri\ema{c})\to(\yon^G\tri\ema{c}\tri\ema{c})$. It satisfies the unitality and associativity laws because $\ema{c}$ does.
+\end{proof}
+
+We can think of elements of $G$ as ``generators''. Then if $i'\colon G\to\ema{c}\tri\1$ assigns to every generator an object of a category $\cat{C}$, then we should be able to find the free $\cat{C}$-set that $i'$ generates.
+
+\begin{proposition}
+Functions $i'\colon G\to\ema{c}\tri\1$ are in bijection with positions $i\in\yon^G\tri\ema{c}\tri\1$. Let $m\coloneqq i^*(\yon^G\tri\ema{c})$ and let $\rho_i$ be the induced right $\com{C}$-module structure from \cref{prop.right_modules_as_sums}. Then $\rho_i$ corresponds to the free $\cat{C}$-set generated by $i'$. 
+\end{proposition}
+\begin{proof}
+The polynomial $m$ has the following form:
+\[
+m\cong\yon^{\sum_{g\in G}\ema{c}[i'(g)]}
+\]
+In particular $\rho_i$ is a representable right $\com{C}$-module, and we can identify it with a $\cat{C}$-set by \cref{thm.tfae_c_sets}. The elements of this $\cat{C}$-set are pairs $(g, f)$, where $g\in G$ is a generator and $f\colon i'(g)\to\cod(f)$ is a morphism in $\cat{C}$ emanating from $i'(g)$. It is easy to see that the module structure induced by \cref{prop.all_free_modules} is indeed the free one.
+\end{proof}
+
+
+\begin{proposition}
+Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
+
+Moreover, for any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
+\[
+\begin{tikzcd}
+  \yon\ar[r,biml-bimr, "F"]\ar[rr, biml-bimr, bend right=20pt, "\lim F"']&
+  \com{C}\ar[r,biml-bimr, "\yon^{\Ob(\cat{C})}"]&[5pt]
+  \yon
+\end{tikzcd}
+\]
+\end{proposition}
+
+\begin{proposition}\label{prop.break_up_right_mods}
+Let $\com{C}$ be a comonoid. For any set $I$ and right $\com{C}$-modules $(m_i)_{i\in I}$, the coproduct $m\coloneqq \sum_{i\in I}m_i$ has a natural right-module structure. Moreover, each representable summand in the carrier $m$ of a right $\com{C}$-module is itself a right-$\com{C}$ module and $m$ is their sum.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+%
+%Let $\sum_{I\in\smset}\prod_{i\in I}\module{}{\com{C}}$ denote the category whose objects are pairs $(I,(m_i)_{i\in I})$ where $I$ is a set and $m_i$ is a right $\com{C}$-module for each $i\in I$. A morphism $(I,(m_i)_{i\in I})\to(J,(n_j)_{j\in J})$ is a function $f\colon I\to J$ and, for each $i\in I$ a morphism $m_i\to n_{f(i)}$ of right-$\com{C}$ modules.
+%
+%\begin{proposition}
+%For any comonoid $\com{C}$ there is an adjunction
+%\[
+%\adj[40pt]{\module{}{\com{C}}}{\sum_{i\in I}m_i}{{(n(\1),n[-])}}{\sum_{I\in\smset}\prod_{i\in I}\module{}{\com{C}}}
+%\]
+%with functors labeled by where they send $n\in\module{}{\com{C}}$ and $(I,(m_i)_{i\in I})\in\sum_{I\in\smset}\prod_{i\in I}\module{}{\com{C}}$. 
+%
+%Moreover, the left adjoint is fully faithful.
+%\end{proposition}
+
+\begin{proposition}
+If $m\in\poly$ is equipped with both a right $\com{C}$-module and a right $\com{D}$-module structure, we can naturally equip $m$ with a $(\com{C}\times\com{D})$-module structure.
+\end{proposition}
+\begin{proof}
+It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-module with carrier $\yon^M$ can be identified with a cofunctor $M\yon^M\to\com{C}$.
+
+Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
+\end{proof}
+
+
+
+
+
+
 \end{document}
