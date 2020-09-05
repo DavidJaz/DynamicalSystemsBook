@@ -1,4 +1,5 @@
-\documentclass{memoir}
+\documentclass[oldfontcommands]{memoir}
+\usepackage[utf8]{inputenc}
 
 \settrims{0pt}{0pt} % page and stock same size
 \settypeblocksize{*}{34.5pc}{*} % {height}{width}{ratio}
@@ -19,6 +20,9 @@
 \usepackage{amssymb}
 
 % tikz %
+\usepackage{tikzit}
+\input{../book/2cat.tikzstyles}
+
   \usetikzlibrary{ 
   	cd,
   	math,
@@ -462,7 +466,6 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \end{tikzpicture}
 \]
 
-\fi
 
 %% lens composition in arity
 \[
@@ -514,7 +517,65 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \end{tikzpicture}
 \]
 
+% transformer box
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=0pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={0}{1}, fill=blue!10] (X) {$\Sys{Source}$};
+  \node[draw=dgreen,circle, right = of X] (n) {$\rho$};
+	\node[bb={1}{1}, fill=blue!10, right = of n] (Y) {$\Sys{Transformer}$};
+  \node[bb={0}{1}, fit={(X) (Y)}] (Z) {};
 
+  \draw (X_out1) -- (n) -- (Y_in1);
+  \draw (Y_out1) -- (Z_out1);
+\end{tikzpicture}
+\]
+
+% transformer box plugged in
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=0pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={0}{1}, fill=blue!10, dashed] (X) {$\phantom{\Sys{Source}}$};
+  \node[draw=dgreen,circle, right = of X] (n) {$\rho$};
+	\node[bb={1}{1}, fill=blue!10, right = of n, dashed] (Y) {$\phantom{\Sys{Transformer}}$};
+  \node[bb={0}{1}, fit={(X) (Y)}] (Z) {};
+
+
+  \draw (X_out1) -- (n) -- (Y_in1);
+  \draw (Y_out1) -- (Z_out1);
+  
+
+	\draw[label] 
+		node at ($(X_out1) + (5pt, 5pt)$) {$A$}
+		node at ($(Y_out1) + (5pt, 5pt)$) {$C$}
+		node at ($(Y_in1) + (-5pt, 5pt)$) {$B$}
+		;
+\end{tikzpicture}
+\]
+
+%% Monads
+\[
+  \begin{tikzpicture}
+    \node[draw=dgreen, circle] (M) {$f$};
+    \node[left= of M] (L) {};
+    \node[right = of M] (R) {};
+
+    \draw (L) -- (M) -- (R);
+  \end{tikzpicture}
+\]
+
+
+\[
+  \begin{tikzpicture}
+    \node[draw=dgreen, circle] (M) {$f$};
+    \node[left= of M] (L) {};
+    \node[right = of M] (R) {};
+
+    \draw (L) -- (M) -- (R);
+  \end{tikzpicture}
+\]
+\fi
+\[
+  \tikzfig{comonad}
+\]
 
 
 \end{document}
