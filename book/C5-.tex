@@ -3527,6 +3527,35 @@ But every morphism in $A\yon$ is an identity, so the result follows from the fac
 
 A cofunctor (map of polynomial comonoids) is called \emph{cartesian} if the underlying map $f\colon \ema{c}\to \ema{d}$ of polynomials is cartesian (i.e.\ for each position $i\in \ema{c}(\1)$, the map $f^\sharp_i\colon\ema{d}[f_1(i)]\to\ema{c}[i]$ is an isomorphism).
 
+\begin{proposition}\label{prop.factor_cofunctor}
+Every cofunctor $f\colon\cat{C}\cof\cat{D}$ factors as a vertical morphism followed by a cartesian morphism
+\[
+\cat{C}\overset{\text{vert}}{\cof}\cat{C}'\overset{\text{cart}}{\cat}\com{D}.
+\]
+\end{proposition}
+\begin{proof}
+A cofunctor $\cat{C}\cof\cat{D}$ is a map of polynomials $\ema{c}\to\ema{d}$ satisfying some properties, and any map of polynomials $f\colon\ema{c}\to\ema{d}$ can be factored as a vertical morphism followed by a cartesian morphism
+\[
+	\ema{c}\To{g}\ema{c'}\To{h}\ema{d}.
+\]
+For simplicity, assume $g_1\colon\ema{c}(\1)\to\ema{c}'(\1)$ is identity (rather than merely isomorphism) on positions and similarly that for each $i\in\ema{c}$ the map $h^\sharp_i\colon\ema{c}'[i]\to\ema{d}[h_1(i)]$ is identity (rather than merely isomorphism) on directions. 
+
+It suffices to show that the intermediate object $\ema{c'}$ can be endowed with the structure of a category such that $g$ and $h$ are cofunctors. Given an object $i\in\ema{c}'(\1)$, assign its identity to be the identity on $h_1(i)=f(i)$; then both $g$ and $h$ preserve identities because $f$ does. Given an emanating morphism $m\in\ema{c}'[i]=\ema{d}[f(i)]$, assign its codomain to be $\cod(m)\coloneqq\cod(f^\sharp_i(m))$, and given an emanating morphism $m'\in\ema{c}'[\cod(m)]$, assign the composite $m\then m'$ in $\ema{c}'$ to be $m\then m'$ in $\ema{d}$. In \cref{exc.factor_cofunctor} we will check that with these definitions, $\ema{c}'$ is a category and both $g$ and $h$ are cofunctors.
+\end{proof}
+
+\begin{exercise}\label{exc.factor_cofunctor}
+We will complete the proof of \cref{prop.factor_cofunctor}, using the same notation.
+\begin{enumerate}
+	\item Show that composition is associative and unital in $\ema{c}'$.
+	\item Show that $g$ preserves codomains.
+	\item Show that $g$ preserves compositions.
+	\item Show that $h$ preserves codomains.
+	\item Show that $h$ preserves compositions.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
 \begin{proposition}
 The wide subcategory of cartesian maps in $\smcat^\sharp$ is isomorphic to the category of wide subcategory of discrete opfibrations in $\smcat$.
 \end{proposition}
@@ -3559,15 +3588,6 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \end{enumerate}
 \end{exercise}
 
-\begin{proposition}
-Every morphism of polynomial comonoids $f\colon\com{C}\to\com{D}$ factors as a vertical morphism followed by a cartesian morphism
-\[
-\com{C}\To{\text{vert}}\com{C}'\To{\text{cart}}\com{D}.
-\]
-\end{proposition}
-\begin{proof}
-**
-\end{proof}
 
 We can now give a third equivalent formulation of cofunctors and comonoid morphisms.
 
