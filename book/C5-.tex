@@ -3525,18 +3525,29 @@ We need to show that for any comonoid $(\ema{c},\epsilon,\delta)$ and set $A$, w
 But every morphism in $A\yon$ is an identity, so the result follows from the fact that every cofunctor must pass identities back to identities. 
 \end{proof}
 
+A cofunctor (map of polynomial comonoids) is called \emph{cartesian} if the underlying map $f\colon \ema{c}\to \ema{d}$ of polynomials is cartesian (i.e.\ for each position $i\in \ema{c}(\1)$, the map $f^\sharp_i\colon\ema{d}[f_1(i)]\to\ema{c}[i]$ is an isomorphism).
+
+\begin{proposition}
+The wide subcategory of cartesian maps in $\smcat^\sharp$ is isomorphic to the category of wide subcategory of discrete opfibrations in $\smcat$.
+\end{proposition}
+\begin{proof}
+Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a cofunctor between them involve a map on objects, say $f\colon\Ob(\cat{C})\to\Ob(\cat{D})$. For any object $c\in\Ob(\cat{C})$, a functor gives a function, say $f_\sharp\colon\cat{C}[c]\to\cat{D}[f(c)]$ whereas a cofunctor gives a function $f^\sharp\colon\cat{D}[f(c)]\to\cat{C}[c]$. The cofunctor is cartesian iff $f^\sharp$ is an iso, and the functor is a discrete opfibration iff $f_\sharp$ is an iso. We thus transform our functor into a cofunctor (or vice versa) by taking the inverse function on morphisms. It is easy to check that this inverse appropriately preserves identities, codomains, and compositions.
+\end{proof}
+
 \begin{proposition}\label{prop.com_vert_cat_boo}
-The category of polynomial comonoids and vertical maps is equivalent to the opposite of the category of categories and bijective-on-objects functors,
+The wide subcategory of vertical maps in $\smcat^\sharp$ is isomorphic to the opposite of the wide subcategory bijective-on-objects maps in $\smcat$:
 \[
-\Cat{Comon}(\poly)_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
+\smcat^\sharp_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
 \]
 \end{proposition}
 \begin{proof}
-**
+Let $\cat{C}$ and $\cat{D}$ be categories. Given a vertical cofunctor $F\colon\cat{C}\cof\cat{D}$, we have a bijection $F_1\colon\Ob(\cat{C})\to\Ob(\cat{D})$; let $G_1$ be its inverse. We define a functor $G\colon\cat{D}\to\cat{C}$ on objects by $G_1$ and, for any $f\colon d\to d'$ in $\cat{D}$ we define $G(f)\coloneqq F^\sharp_{G_1(d)}$. It has the correct codomain: $\cod(G(f))=G_1(F_1(\cod(G(f))=G_1(\cod f)$. And it sends identities and compositions to identities and compositions by the laws of cofunctors.
+
+The construction of a vertical cofunctor from a bijective-on-objects functor is analogous, and it is easy to check that the two constructions are inverses.
 \end{proof}
 
 \begin{exercise}
-Let $S$ be a set and consider the state comonoid $\com{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that comonoids $\com{C}$ equipped with a vertical cofunctor $\com{S}\to\com{C}$ can be identified with categories with object-set $S$.
+Let $S$ be a set and consider the state category $\cat{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that categories $\cat{C}$ equipped with a vertical cofunctor $\cat{S}\to\cat{C}$ can be identified with categories whose set of objects is $S$.
 \end{exercise}
 
 \begin{exercise}
