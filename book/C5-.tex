@@ -2637,9 +2637,6 @@ A category $\cat{C}$ is more than its emanation polynomial $\ema{c}$, and a como
 \slogan{Comonoids in $\poly$ are precisely categories!}
 
 
-
-\subsection{Polynomial comonoids are categories}\label{subsec.understanding_comonoids}
-
 We want to understand how the counit $\epsilon$ and comultiplication $\delta$ in a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ relate to identities, codomains, and composites in a category. We first use our work in \cref{subsec.working_with_composites} to get a better handle on $\epsilon$ and $\delta$. For example, since $\epsilon\colon\ema{c}\to\yon$ maps to the empty composite, we know by \eqref{eqn.map_to_0ary_composite} that it is of the form
 \[
  \begin{tikzpicture}[polybox, mapstos]
@@ -3479,6 +3476,10 @@ It remains to show that $\com{C}$ is the coproduct of $\com{C}_1$ and $\com{C}_2
 \end{exercise}
 
 \begin{exercise}
+If $\com{C}=(\ema{c},\epsilon,\delta)$ is a category, show there is an induced category structure on the polynomial $\2\ema{c}$.
+\end{exercise}
+
+\begin{exercise}
 Check that the terminal comonoid is $\yon$.
 \end{exercise}
 
@@ -3499,7 +3500,7 @@ Let $\cat{C}$ be a category. It has only one object iff its emanation polynomial
 A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams \eqref{eqn.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
 \end{proof}
 
-\begin{exercise}
+\begin{exercise}\label{exc.lin_comon_set}
 Let $\Cat{Comon}(\poly)_{\text{lin}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=M\yon$ is linear. Show that there is an isomorphism of categories
 \[
 \Cat{Comon}(\poly)_{\text{lin}}\cong\smset.
@@ -3514,6 +3515,15 @@ The inclusion of linear comonoids into all comonoids has a left adjoint
 \]
 denoted by where they send a comonoid $(\ema{c},\epsilon,\delta)$ and a linear comonoid $A\yon$.
 \end{proposition}
+\begin{proof}
+We need to show that for any comonoid $(\ema{c},\epsilon,\delta)$ and set $A$, we have a natural isomorphism
+\[
+  \smcat^\sharp(\ema{c},A\yon).
+  \cong^?
+  \smcat^\sharp((\ema{c}\tri\1)\yon,A\yon)
+\]
+But every morphism in $A\yon$ is an identity, so the result follows from the fact that every cofunctor must pass identities back to identities. 
+\end{proof}
 
 \begin{proposition}\label{prop.com_vert_cat_boo}
 The category of polynomial comonoids and vertical maps is equivalent to the opposite of the category of categories and bijective-on-objects functors,
@@ -3597,17 +3607,17 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \end{enumerate}
 \end{exercise}
 
+As everyone reading this is probably aware, strict monoidal structure on a category $\cat{C}$ is a functor $1\to\cat{C}$ and a functor $\cat{C}\times\cat{C}\to\cat{C}$ that together satisfy the monoid equations. Here the $\times$ takes place in $\smcat$. 
 
-\begin{definition}
-Let $\cat{C}$ be a category. A  \emph{monaco structure on $\cat{C}$} is a pair of cofunctors $\intercal\colon\yon\to\ema{c}$, which we call its \emph{terminus} and a cofunctor $\curlyvee\colon\cat{C}\times\cat{C}\cof\cat{C}$, which we call its \emph{team-up product} satisfying the usual monoid equations. 
+What if we replace $\smcat$ with $\smcat^\sharp$? Then we'd need a cofunctor $\intercal\colon\yon\cof\cat{C}$, which we call the \emph{terminus} and a cofunctor $\curlyvee\colon\cat{C}\otimes\cat{C}\cof\cat{C}$, which we call the \emph{team-up product} satisfying the monoid equations. Let's call these $\otimes$-monoids in $\smcat^\sharp$. 
 
-Said another way, a \emph{monaco category} is a monoid object $(\cat{C},\intercal, \curlyvee)$ in the monoidal category $(\Cat{Comon}(\poly), \otimes,\yon)$.
-\end{definition}
+It appears that $\otimes$-monoids $(\cat{C},\intercal,\curlyvee)$ in $\smcat^\sharp$ could be interesting for thinking about the dynamics of something like ``swarms'': collections of dynamical systems that work very well together as a population. Indeed, $\curlyvee$ takes a pair of objects $c_1,c_2$ and returns a single object $c_1\curlyvee c_2$, but it takes a morphism $f\colon c_1\curlyvee c_2\to d$ emanating that object to a pair of morphisms $f_1\colon c_1\to d_1$ and $f_2\colon c_2\to d_2$ with $d_1\curlyvee d_2=d$.
 
-\begin{example}
-Representable polynomials have at most one monoid structure under $\otimes$ by a theorem of Fox. But comonoid structures on a representable polynomial are just monoid structures on its underlying set. So a monoid $(M,e,*)$ in $\smset$ can be identified with a monaco category that has carrier $\yon^M$.
 
-A $\otimes$-monoidal structure on a linear $M\yon$ polynomial, on the other hand, can be identified with a monoid structure $(M,e,*)$ on the set $M$. But there is a unique comonoid structure on $M\yon$. So a monoid in $\smset$ can be identified with a monaco category having carrier $M\yon$.
+\begin{example}[Representable and linear $\otimes$-monoids]
+Representable polynomials have at most one commutative $\otimes$-monoid structure by a theorem of Fox. Category (polynomial comonoid) structures on a representable polynomial $\yon^M$ are just monoid structures on its underlying set $M$. So a commutative monoid $(M,e,*)$ in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ that has carrier $\yon^M$.
+
+A $\otimes$-monoidal structure on a linear $M\yon$ polynomial, on the other hand, can be identified with a monoid structure $(M,e,*)$ on the set $M$. But there is a unique comonoid structure on $M\yon$. So a monoid in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ having carrier $M\yon$.
 \end{example}
 
 \begin{example}\label{ex.monaco_cat}
@@ -3626,12 +3636,12 @@ Consider the comonoid $\com{C}=(\ema{c},0,+)$ corresponding to the category
 \]
 It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its counit and comultiplication are given by $0$ and addition.
 
-This comonoid has a (non-symmetric) monaco structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
+This comonoid has a (non-symmetric) $\otimes$-monoid structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
 \[
 \curlyvee_1(n_1,n_2)\coloneqq n_1+n_2,\]
 and on a morphism $-n_1-n_2\leq i\leq 0$ works as follows:
 \[
-\curlyvee^\sharp(i)\coloneqq	\big(\min(n_1,n_1+n_2+i),\max(0,n_2+i)\big)
+\curlyvee^\sharp_{n_1+n_2}(i)\coloneqq	\big(\min(n_1,n_1+n_2+i),\max(0,n_2+i)\big)
 \]
 For example, say $n_1=3$ and $n_2=2$, so $\curlyvee_1(n_1,n_2)=5$. Let's pick $-5\leq i\geq 0$. 
 \[
@@ -3667,12 +3677,27 @@ Consider the polynomial
 A position in $c$ is a list of natural numbers, and a direction is a smaller list. 
 \begin{enumerate}
 	\item Find a comonoid structure on $c$.
-	\item Find a monaco structure $(\intercal,\curlyvee)$ on the comonoid you just found. (If you can't, start over.)
+	\item Find a $\otimes$-monoid structure $(\intercal,\curlyvee)$ on the comonoid you just found. (If you can't, start over.)
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-
+\begin{exercise}
+Every $\otimes$-monoid in $\smcat^\sharp$ has an underlying category. This forgetful functor has a left adjoint: to every category $\cat{C}\in\smcat^\sharp$ we can assign a \emph{free} $\otimes$-monoid.
+\begin{enumerate}
+	\item Make the above claim precise, but don't prove it yet.
+	\item We propose that if the emanation polynomial of $\cat{C}$ is $\ema{c}$ then the free $\otimes$-monoid on it has emanation polynomial $\ema{L_c}$ given by
+	\[
+	\ema{L_c}\coloneqq\sum_{[\ell_1,\ldots,\ell_n]\in\Set{List}(\ema{c}(\1))}\yon^{\ema{c}[\ell_1]\times\cdots\times\ema{c}[\ell_n]}.
+	\]
+	This is supposed to be a comonoid in $\poly$; what should be the identities, codomains, and composition?
+	\item	Propose a terminus $\intercal\colon\yon\to\ema{L_c}$.
+	\item Propose a team-up product $\curlyvee\colon\ema{L_c}\otimes\ema{L_c}\to\ema{L_c}$.
+	\item Does it look promising that these will satisfy the monoid laws?
+	\item Sketch an argument that this construction is left adjoint to the forgetful functor sending a $\otimes$-monoid in $\smcat^\sharp$ to its underlying category.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 
 %-------- Section --------%
