@@ -2625,6 +2625,7 @@ What is the emanation polynomial for each of the following categories?
 	\item \boxCD{exercisecolor}{$A\Too{f}B$}?
 	\item \boxCD{exercisecolor}{$B\From{f}A\To{g}C$}?
 	\item The empty category?
+	\item The monoid $(\nn,0,+)$?
 	\item A monoid $(M, e, *)$?
 	\item The poset $(\nn,\leq)$?
 	\item The poset $(\nn,\geq)$?
@@ -3739,16 +3740,20 @@ where the functors have been named by where they send $(\ema{c},\epsilon,\delta)
 This will be proved as \cref{??}.
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
-Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{trees in $p$}.
+Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{(possibly infinite) trees in $p$}.
 
-An object $t\in \tr_p\tri\1$ is a called a \emph{(possibly infinite) tree in $p$.} An emanating morphism $n\in\tr_p[t]$ is called a \emph{node in $t$}.
+An object $t\in \tr_p(\1)$ is a called a \emph{(possibly infinite) tree in $p$.} Given such an object $t$ in the category, an emanating morphism $n\in\tr_p[t]$ is called a \emph{path from root}.
 \end{definition}
 
-\cref{def.cofree} is alluding to a specific image one can form of $\cofree{p}$ in terms of trees. Let's go through it in an example before giving the formula.
+The terminology of \cref{def.cofree} is alluding to a specific way we like to imagine the comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, namely in terms of trees. To every polynomial $p$, we will associate a new polynomial $\tr_p$ whose positions are (possibly infinite) trees in $p$. To choose such tree we first choose its root to be some position $i\in p(\1)$. Then for every direction $d\in p[i]$ there, we choose another position, and for every direction from each of those we choose another position, and so on indefinitely.
+
+So a position in $\tr_p$ is one of these trees. Such a tree may end, namely if every one of the top-level positions have no directions, but often it will not end. Given such a tree, say $t$, a direction $d\in\tr_p[t]$ there is simply a path from the root to some node in the tree. 
+
+We'll explain the counit $\rt$ and the comultiplication $\fs$ after going through an example.
 
 \begin{example}\label{ex.imagining_trees}
-Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees of height at most 3:
-\[
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees in $p$:
+\begin{equation}\label{eqn.some_trees_misc58}
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=10mm},
   level 2/.style={sibling distance=5mm},
@@ -3798,34 +3803,88 @@ Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. 
 			}
 		};
 \end{tikzpicture}
-\]
-In \cref{def.cofree}, when we speak of (possibly infinite) trees in $p$, we mean trees that can go on forever. Let's imagine some:
+\end{equation}
+They all represent elements of $p\tripow{3}$, but only the third one---the sole yellow dot---would count as an element of $\tr_p$. 
+
+Indeed, in \cref{def.cofree}, when we speak of a (possibly infinite) tree in $p$, we mean at tree for which each node is a position in $p$ with each of its emanating directions filled by another position in $p$, and so on. Since three of the four trees shown in \eqref{eqn.some_trees_misc58} have open leaves---arrows emanating from the top---these trees are not elements of $\tr_p$. However, each of them could be extended to an actual element of $\tr_p$ by continually filling in each open leaf with another position of $p$.
+
+Let's imagine some actual elements of $\tr_p$:
 \begin{itemize}
 	\item The binary tree that's ``all red all the time''.
 	\item The binary tree where odd layers are red and even layers are blue.
 	\item The tree where all the nodes are red, except for the right-most branch, which is always green.%
 	\footnote{\;Note that branches are actually unordered, so it's technically wrong to think of it as a line of green up the \emph{right side}. Instead, it's just a line of green going up the tree forever.}
+	\item Any finite tree, where every branch terminates in a yellow dot.
 	\item Completely random: for the root, randomly choose either red, blue, green, or yellow, and at every leaf, loop back to the beginning, i.e.\ randomly choose either red, blue, green, or yellow, etc.
 \end{itemize}
-
-There are uncountably many positions in $\cofree{p}$, at least for this particular $p$---in fact, even $\cofree{2\yon}$ has $2^\nn$-many positions---but only finitely many can be described in any finite language like English. Thus most of the elements of $\cofree{p}$ cannot be described.
+These are the positions in the polynomial $\tr_p$ that underlies the cofree comonoid on $p$. There are uncountably many positions in $\cofree{p}$, at least for this particular $p$---in fact, even $\cofree{2\yon}$ has $2^\nn$-many positions---but only finitely many can be described in any finite language like English. Thus most of the elements of $\cofree{p}$ cannot be described.
 \end{example}
 
-\begin{exercise}
+\begin{exercise}\label{exc.trees_1}
 \begin{enumerate}
-	\item Interpret the four tree examples imagined in \cref{ex.imagining_trees} by drawing three or four layers (your choice).
-	\item Describe the set of trees (positions) in $\cofree{\1}$.
-	\item Describe the set of trees (positions) in $\cofree{\2}$.
-	\item Describe the set of trees (positions) in $\cofree{\yon}$.
-	\item Describe the set of trees (positions) in $\cofree{\yon^\2}$.
-	\item Describe the set of trees (positions) in $\cofree{\2\yon}$.
-	\item Describe the set of trees (positions) in $\cofree{\yon+\1}$.
-	\item Describe the set of trees (positions) in $\cofree{B\yon^A}$.
+	\item Interpret each of the five tree examples imagined in \cref{ex.imagining_trees} by drawing three or four layers (your choice) of it.
+\end{enumerate}
+For each of the following polynomials $p$, describe the set of trees (positions) in $\tr_{p}$.
+\begin{enumerate}[resume]
+	\item $p=\1$. (What is the set $\tr_p$ of trees in $p$?)
+	\item $p=\2$.
+	\item $p=\yon$.
+	\item $p=\yon^\2$.
+	\item $p={\2\yon}$.
+	\item $p={\yon+\1}$.
+	\item $p={B\yon^A}$ for some sets $A,B\in\smset$.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-Three different construction: mine, Nelson's, Lack's. Here is a picture of the formula.
+Now that we've explained the underlying polynomial $\tr_p$ of the cofree comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, we just need to explain how identities, codomains, and composition work, i.e.\ we just need to give the counit map $\rt\colon\tr_p\to\yon$ and the comultiplication map $\fs\colon\tr_p\to\tr_p\tri\tr_p$. 
+
+Again, the objects in the category $\cofree{p}$ are trees in $p$, and a morphism emanating from such a tree $t$ is a path from its root $r$ to some node. The map $\rt$, applied to $t$, returns $t$'s root $r$, or more precisely the path from $r$ to itself. The map $\fs$, applied to $t$, first needs to give a codomain (tree) to every path from the root to some other node $n$. It is just the subtree of $t$ whose root is $n$: the tree of all nodes starting at $n$. Now, given a path from the root of that tree (namely $n$) to another node, say $n'$, we need to give a path from $r$ to $n'$; we take it to be the composite of the path $r\to n$ and the path $n\to n'$.
+
+\begin{exercise}
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$ as in \cref{ex.imagining_trees}.
+\begin{enumerate}
+	\item Choose an object $t\in \tr_p$, i.e.\ a tree in $p$, and draw a finite approximation of it (say four layers).
+	\item What is the identity morphism at $t$?
+	\item Choose a nonidentity morphism $f$ emanating from $t$ and draw it.
+	\item What is the codomain of $f$? Draw a finite approximation of it.
+	\item Choose a morphism emanating from the codomain of $f$ and draw it.
+	\item What is the composite of your two morphisms? Draw it on $t$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}
+Let's take $p\coloneqq\1$. An element in $\tr_p(\1)$ is given by choosing an element $i\in p(\1)$ and filling each of its direction $p[i]$ with another element of $p(\1)$, and so on. But there is only one element of $p(\1)$ and it has no directions. So $\tr_\1$ has only one position, and the only emanating morphism there is the identity. In other words, $\tr_\1=\yon$.
+
+Since $\yon$ has a unique comonoid structure, we've described the cofree comonoid $\cofree(\1)$. It is a single tree consisting of a single node, and the only outgoing morphism is the identity on that node.
+\end{example}
+
+\begin{exercise}
+Let $A$ be a set.
+\begin{enumerate}
+	\item What is $\tr_A$? 
+	\item How is it given the structure of a category?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}
+Let $p\coloneqq\yon$. An element in $\tr_p(\1)$ is given by choosing an element $i\in p(\1)$ and filling each of its direction $p[i]$ with another element of $p(\1)$, and so on. There is only one way to do this, i.e.\ there is only one such tree, namely $t\coloneqq\fbox{$\bullet\to\bullet\to\bullet\to\cdots$}$.
+
+So $\tr_p$ has a single position, namely $t$. That position has an emanating morphism for each path out of the root, so it has $\nn$-many emanating morphisms: one for every length. Hence $\tr_\yon=\yon^\nn$.
+
+Of course the codomain of each morphism emanating from $t$ is again $t$: that's the only object. The composite of two paths, one of length $m$ and one of length $n$ is $m+n$. Hence we see that the category $\cofree(\yon)$ is the monoid $(\nn,0,+)$ considered as a category with one object.
+\end{example}
+
+\begin{exercise}
+Let $A$ be a set.
+\begin{enumerate}
+	\item What is $\tr_{A\yon}$? 
+	\item How is it given the structure of a category?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \[
 \begin{tikzpicture}[polybox, tos]
