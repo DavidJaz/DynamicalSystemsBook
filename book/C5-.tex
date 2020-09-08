@@ -3571,7 +3571,7 @@ The wide subcategory of vertical maps in $\smcat^\sharp$ is isomorphic to the op
 \]
 \end{proposition}
 \begin{proof}
-Let $\cat{C}$ and $\cat{D}$ be categories. Given a vertical cofunctor $F\colon\cat{C}\cof\cat{D}$, we have a bijection $F_1\colon\Ob(\cat{C})\to\Ob(\cat{D})$; let $G_1$ be its inverse. We define a functor $G\colon\cat{D}\to\cat{C}$ on objects by $G_1$ and, for any $f\colon d\to d'$ in $\cat{D}$ we define $G(f)\coloneqq F^\sharp_{G_1(d)}$. It has the correct codomain: $\cod(G(f))=G_1(F_1(\cod(G(f))=G_1(\cod f)$. And it sends identities and compositions to identities and compositions by the laws of cofunctors.
+Let $\cat{C}$ and $\cat{D}$ be categories. Given a vertical cofunctor $F\colon\cat{C}\cof\cat{D}$, we have a bijection $F_1\colon\Ob(\cat{C})\to\Ob(\cat{D})$; let $G_1$ be its inverse. We define a functor $G\colon\cat{D}\to\cat{C}$ on objects by $G_1$ and, for any $f\colon d\to d'$ in $\cat{D}$ we define $G(f)\coloneqq F^\sharp_{G_1(d)}$. It has the correct codomain: $\cod(G(f))=G_1(F_1(\cod(G(f)))=G_1(\cod f)$. And it sends identities and compositions to identities and compositions by the laws of cofunctors.
 
 The construction of a vertical cofunctor from a bijective-on-objects functor is analogous, and it is easy to check that the two constructions are inverses.
 \end{proof}
@@ -3610,10 +3610,10 @@ We define $\delta_{\cat{C}\otimes\cat{D}}\colon(\ema{c}\otimes\ema{d})\to(\ema{c
 \[
 \ema{c}\otimes\ema{d}\To{\delta_{\ema{c}}\otimes\delta_{\ema{d}}}(\ema{c}\tri\ema{c})\otimes(\ema{d}\tri\ema{d})\to(\ema{c}\otimes\ema{d})\tri(\ema{c}\otimes\ema{d}).
 \]
-One can check that this says that codomains and composition are defined coordinate-wise, and that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$. See \cref{***}.
+One can check that this says that codomains and composition are defined coordinate-wise, and that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$. See \cref{exc.dirichlet_on_catsharp}.
 \end{proof}
 
-\begin{exercise}
+\begin{exercise}\label{exc.dirichlet_on_catsharp}
 We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \begin{enumerate}
 	\item Show that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$, as described in \cref{prop.dirichlet_on_catsharp}, forms a comonoid.
@@ -3743,7 +3743,7 @@ where the functors have been named by where they send $(\ema{c},\epsilon,\delta)
 This will be proved as \cref{??}.
 
 %---- Subsection ----%
-\subsection{Cofree comonoids as trees}
+\subsection{Cofree comonoids as trees}\label{subsec.cofree_tree}
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
 Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{(possibly infinite) trees in $p$}.
@@ -3934,7 +3934,7 @@ with identities given by the empty list. An object $t\in\tr_p(\1)$ is a function
 \begin{exercise}
 Let $p\coloneqq B\yon^A$ for sets $A,B\in\smset$.
 \begin{enumerate}
-	\item Describe the objects of the category $\cofree{p}$.
+	\item Describe the objects of the cofree category $\cofree{p}$.
 	\item For a given such object, describe the emanating morphisms.
 	\item Describe how to take the codomain of a morphism.
 \qedhere
@@ -3944,12 +3944,105 @@ Let $p\coloneqq B\yon^A$ for sets $A,B\in\smset$.
 \begin{exercise}
 Let $p\coloneqq \yon+\1$.
 \begin{enumerate}
-	\item Describe the objects of the category $\cofree{p}$.
+	\item Describe the objects of the cofree category $\cofree{p}$.
 	\item For a given such object, describe the emanating morphisms.
 	\item Describe how to take the codomain of a morphism.
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+\begin{exercise}
+Let $p\coloneqq \{a,b,c,\ldots,z,\text{\textvisiblespace}\}\yon+\1$.
+\begin{enumerate}
+	\item Describe the objects of the cofree category $\cofree{p}$, and draw one.
+	\item For a given such object, describe the emanating morphisms.
+	\item Describe how to take the codomain of a morphism.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\paragraph{Decision trees.}
+
+(Fill)
+
+%---- Subsection ----%
+\subsection{Formal construction of $\cofree{p}$}
+
+We will sketch how one can formally construct $\cofree{p}$ from $p$. The first step is called copointing, and it's pretty easy: just multiply $p$ by $\yon$. It adds a kind of ``default'' direction to each position in $p$.
+
+\paragraph{Copointing.}
+
+\begin{definition}[Copointed polynomial]
+A \emph{copointed polynomial} is a pair $(p,\epsilon)$, where $p\in\poly$ is a polynomial and $\epsilon\colon p\to\yon$ is a morphism in $\poly$.
+
+A \emph{morphism} of copointed polynomials $f\colon (p,\epsilon)\to(p',\epsilon')$ is a morphism $f\colon p\to p'$ such that $\epsilon=f\then\epsilon'$.
+\end{definition}
+
+Comonoids in $\poly$ are triples $(p,\epsilon,\delta)$, with $(p,\epsilon)$ a copointed polynomial, so there are forgetful functors
+\[
+\Cat{Comon}(\poly)\to\Cat{Copnt}(\poly)\to\poly.
+\]
+We want to find the right adjoint to the composite---that's the functor $\cofree{-}\colon\poly\to\Cat{Comon}(\poly)$---and we will obtain it in two steps. 
+
+\begin{proposition}
+For any polynomial $p$, the polynomial $p\yon$ is naturally copointed by the projection to $\yon$, and the functor sending $p\mapsto p\yon$ is right adjoint to the forgetful functor
+\[
+\adj{\Cat{Copnt}(\poly)}{p\yon}{q}{\poly},
+\]
+where the functors are named by where they send $p\in\poly$ and $(q,\epsilon)\in\Cat{Copnt}(\poly)$.
+\end{proposition}
+\begin{proof}
+Clearly the product $p\yon\cong p\times\yon$ is copointed by the projection map, call it $\pi\colon p\yon\to\yon$, and the map $p\mapsto p\yon$ is functorial in $p$. For any copointed polynomial $q\To{\epsilon}\yon$, there is an obvious bijection between morphisms of polynomials $q\to p$ and commutative triangles
+\[
+\begin{tikzcd}[column sep=small]
+	q\ar[dr, "\epsilon"']\ar[rr]&&
+	p\yon\ar[dl, "\pi"]\\&
+	\yon
+\end{tikzcd}
+\]
+natural in both $q$ and $p$. This completes the proof.
+\end{proof}
+
+The reader might not remember any sort of copointing showing up in the tree description of $\cofree{p}=(\tr_p,\rt,\fs)$. Indeed, it was hidden in the fact that we allowed for trivial paths in the tree (e.g.\ the path from the root to itself). But we'll get to that.
+
+The copointing $p\mapsto p\yon$ just adds an extra direction to each position; we can denote this extra direction with an $=$, as we did in \cref{ex.walking_arrow}. So for example if $p=\yon^\3+\yon$, drawn as left, then $p\yon\cong\yon^\4+\yon^\2$ can be drawn as right:
+\[
+\begin{tikzpicture}
+	\node[draw, "$p$" below] (p1) {
+	\begin{tikzpicture}[trees, sibling distance=4mm]
+    \node (1) {$\bullet$} 
+      child 
+      child 
+      child;
+    \node[right=.75 of 1] (2) {$\bullet$} 
+      child;
+  \end{tikzpicture}
+  };
+	\node[draw, "$p\yon$" below] (p2) [right=of p1] {
+	\begin{tikzpicture}[trees, sibling distance=3mm]
+    \node (1) {$\bullet$} 
+      child {\idchild}
+      child 
+      child 
+      child;
+    \node[right=.75 of 1] (2) {$\bullet$} 
+      child {\idchild}
+      child;
+  \end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+It just adds a default direction to each position. A copointed map from $(q,\epsilon)$ to $(p\yon,\pi)$ must pass the default direction back to the default direction in $q$, but leaves the other directions in $p$ to go wherever they want to.
+
+\paragraph{Constructing the cofree comonoid.}
+
+It remains to show that we can functorially take any copointed polynomial $(q,\epsilon)$ and return a comonoid, and that this construction is right adjoint to the forgetful functor. From the description in \cref{subsec.cofree_tree}, we know the cofree comonoid is supposed to have something to do with infinite trees. And we know that the set of height-$n$ trees in $p$ is given by $p\tripow{n}$. So we might think we can somehow take a limit of these height-$n$ trees for various $n$. 
+
+The problem is there's no obvious maps between $p\tripow{n}$ and $p\tripow{n+1}$. Luckily, the copointing fixes that problem.
+
+
+%---- Subsection ----%
+\subsection{Consequences of adjointness}
 
 %\[
 %\begin{tikzpicture}[polybox, tos]
@@ -3975,10 +4068,6 @@ Let $p\coloneqq \yon+\1$.
 %\end{tikzpicture}
 %\]
 
-
-
-%---- Subsection ----%
-\subsection{Consequences of adjointness.}
 
 Talk about how $f\colon S\yon^S\to p$ induces $S\yon^S\to\cofree{p}$.
 
