@@ -3530,7 +3530,7 @@ A cofunctor (map of polynomial comonoids) is called \emph{cartesian} if the unde
 \begin{proposition}\label{prop.factor_cofunctor}
 Every cofunctor $f\colon\cat{C}\cof\cat{D}$ factors as a vertical morphism followed by a cartesian morphism
 \[
-\cat{C}\overset{\text{vert}}{\cof}\cat{C}'\overset{\text{cart}}{\cat}\com{D}.
+\cat{C}\overset{\text{vert}}{\cof}\cat{C}'\overset{\text{cart}}{\cof}\com{D}.
 \]
 \end{proposition}
 \begin{proof}
@@ -3587,23 +3587,6 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \qedhere
 \end{enumerate}
 \end{exercise}
-
-
-We can now give a third equivalent formulation of cofunctors and comonoid morphisms.
-
-\begin{proposition}
-The following categories are equivalent:
-\begin{enumerate}
-	\item The category $\smcat^\sharp$ of categories and cofunctors,
-	\item The category $\Cat{Comon}(\poly)$ of polynomial comonoids, and
-	\item The category whose objects are categories, morphisms $\cat{C}\to\cat{D}$ are spans of functors $\cat{C}\From{B}\cat{C}'\To{F}\cat{D}$, where $B$ is bijective on objects and $F$ is a discrete op-fibration; and composition is the usual composition of spans (by pullback in $\smcat$).
-\end{enumerate}
-\end{proposition}
-\begin{proof}
-**
-\end{proof}
-
-Let $\cat{C}$ be a category, $A$ a set, and $f\colon A\to\Ob(\cat{C})$ a function to the objects of $\cat{C}$. There is an induced category $f^*\cat{C}$ with objects $A$ and cofunctor $f^*\cat{C}\to\cat{C}$ that is universal in the appropriate sense. Said more precisely, we have the following proposition.
 
 \paragraph{Dirichlet monoidal product on $\smcat^\sharp$.}
 
