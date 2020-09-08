@@ -1632,7 +1632,7 @@ are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal
 %-------- Section --------%
 \section{Comonoids in $\poly$}
 
-The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. From there, all heaven breaks loose.
+The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. Every category in the usual sense is a comomonoid in $\poly$ and every comonoid in $\poly$ is a category. We find this revelation to be truly shocking, and suggests some very different ways to think about categories. Let's go through it.
 
 \begin{definition}[Comonoid]\label{def.comonoid}
 A \emph{comonoid} in a monoidal category $(\cat{C},I,\lhd)$
@@ -3620,118 +3620,128 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \qedhere
 \end{enumerate}
 \end{exercise}
-
-As everyone reading this is probably aware, strict monoidal structure on a category $\cat{C}$ is a functor $1\to\cat{C}$ and a functor $\cat{C}\times\cat{C}\to\cat{C}$ that together satisfy the monoid equations. Here the $\times$ takes place in $\smcat$. 
-
-What if we replace $\smcat$ with $\smcat^\sharp$? Then we'd need a cofunctor $\intercal\colon\yon\cof\cat{C}$, which we call the \emph{terminus} and a cofunctor $\curlyvee\colon\cat{C}\otimes\cat{C}\cof\cat{C}$, which we call the \emph{team-up product} satisfying the monoid equations. Let's call these $\otimes$-monoids in $\smcat^\sharp$. 
-
-It appears that $\otimes$-monoids $(\cat{C},\intercal,\curlyvee)$ in $\smcat^\sharp$ could be interesting for thinking about the dynamics of something like ``swarms'': collections of dynamical systems that work very well together as a population. Indeed, $\curlyvee$ takes a pair of objects $c_1,c_2$ and returns a single object $c_1\curlyvee c_2$, but it takes a morphism $f\colon c_1\curlyvee c_2\to d$ emanating that object to a pair of morphisms $f_1\colon c_1\to d_1$ and $f_2\colon c_2\to d_2$ with $d_1\curlyvee d_2=d$.
-
-
-\begin{example}[Representable and linear $\otimes$-monoids]
-Representable polynomials have at most one commutative $\otimes$-monoid structure by a theorem of Fox. Category (polynomial comonoid) structures on a representable polynomial $\yon^M$ are just monoid structures on its underlying set $M$. So a commutative monoid $(M,e,*)$ in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ that has carrier $\yon^M$.
-
-A $\otimes$-monoidal structure on a linear $M\yon$ polynomial, on the other hand, can be identified with a monoid structure $(M,e,*)$ on the set $M$. But there is a unique comonoid structure on $M\yon$. So a monoid in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ having carrier $M\yon$.
-\end{example}
-
-\begin{example}\label{ex.monaco_cat}
-Consider the comonoid $\com{C}=(\ema{c},0,+)$ corresponding to the category
-\[
-\fbox{
-\begin{tikzcd}[ampersand replacement=\&]
-	\cdots\ar[r, "-1"']\&
-	\LMO{n}\ar[r, "-1"']\&
-	\cdots\ar[r, "-1"']\&
-	\LMO{2}\ar[r, "-1"']\&
-	\LMO{1}\ar[r, "-1"']\&
-	\LMO{0}
-\end{tikzcd}
-}
-\]
-It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its counit and comultiplication are given by $0$ and addition.
-
-This comonoid has a (non-symmetric) $\otimes$-monoid structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
-\[
-\curlyvee_1(n_1,n_2)\coloneqq n_1+n_2,\]
-and on a morphism $-n_1-n_2\leq i\leq 0$ works as follows:
-\[
-\curlyvee^\sharp_{n_1+n_2}(i)\coloneqq	\big(\min(n_1,n_1+n_2+i),\max(0,n_2+i)\big)
-\]
-For example, say $n_1=3$ and $n_2=2$, so $\curlyvee_1(n_1,n_2)=5$. Let's pick $-5\leq i\geq 0$. 
-\[
-\begin{array}{c|c}
-	i&\curlyvee^\sharp(i)\\\hline
-	0&(3,2)\\
-	1&(3,1)\\
-	2&(3,0)\\
-	3&(2,0)\\
-	4&(1,0)\\
-	5&(0,0)
-\end{array}
-\]
-\end{example}
-
-\begin{exercise}
-Let $\com{C}$ be the comonoid from \cref{ex.monaco_cat}. We need to check that everything works correctly.
-\begin{enumerate}
-	\item Check that the terminus $\intercal\colon\yon\to\com{C}$ is a cofunctor.
-	\item Check that $\curlyvee$ preserves identities.
-	\item Check that $\curlyvee$ preserves codomains and compositions, and hence is a cofunctor.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-\begin{exercise}
-Consider the polynomial
-\[
-  c\coloneqq
-  \sum_{n\in\nn}\sum_{\ell\colon\ord{n}\to\nn}
-  \yon^{\{\ell'\colon\ord{n}\to\nn\;\mid\; \ell'\leq\ell\}}
-\]
-A position in $c$ is a list of natural numbers, and a direction is a smaller list. 
-\begin{enumerate}
-	\item Find a comonoid structure on $c$.
-	\item Find a $\otimes$-monoid structure $(\intercal,\curlyvee)$ on the comonoid you just found. (If you can't, start over.)
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-\begin{exercise}
-Every $\otimes$-monoid in $\smcat^\sharp$ has an underlying category. This forgetful functor has a left adjoint: to every category $\cat{C}\in\smcat^\sharp$ we can assign a \emph{free} $\otimes$-monoid.
-\begin{enumerate}
-	\item Make the above claim precise, but don't prove it yet.
-	\item We propose that if the emanation polynomial of $\cat{C}$ is $\ema{c}$ then the free $\otimes$-monoid on it has emanation polynomial $\ema{L_c}$ given by
-	\[
-	\ema{L_c}\coloneqq\sum_{[\ell_1,\ldots,\ell_n]\in\Set{List}(\ema{c}(\1))}\yon^{\ema{c}[\ell_1]\times\cdots\times\ema{c}[\ell_n]}.
-	\]
-	This is supposed to be a comonoid in $\poly$; what should be the identities, codomains, and composition?
-	\item	Propose a terminus $\intercal\colon\yon\to\ema{L_c}$.
-	\item Propose a team-up product $\curlyvee\colon\ema{L_c}\otimes\ema{L_c}\to\ema{L_c}$.
-	\item Does it look promising that these will satisfy the monoid laws?
-	\item Sketch an argument that this construction is left adjoint to the forgetful functor sending a $\otimes$-monoid in $\smcat^\sharp$ to its underlying category.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
+%
+%As everyone reading this is probably aware, strict monoidal structure on a category $\cat{C}$ is a functor $1\to\cat{C}$ and a functor $\cat{C}\times\cat{C}\to\cat{C}$ that together satisfy the monoid equations. Here the $\times$ takes place in $\smcat$. 
+%
+%If we replace $(\smcat,\1,\times)$ with $(\smcat^\sharp,\yon,\otimes)$, then a monoid is a cofunctor $\intercal\colon\yon\cof\cat{C}$, which we call the \emph{terminus}, and a cofunctor $\curlyvee\colon\cat{C}\otimes\cat{C}\cof\cat{C}$, which we call the \emph{team-up product} satisfying the monoid equations. Let's call these $\otimes$-monoids in $\smcat^\sharp$. 
+%
+%It appears that $\otimes$-monoids $(\cat{C},\intercal,\curlyvee)$ in $\smcat^\sharp$ could be interesting for thinking about the dynamics of something like ``swarms'': collections of dynamical systems that work very well together as a population. Indeed, $\curlyvee$ takes a pair of objects $c_1,c_2$ and returns a single object $c_1\curlyvee c_2$, but it takes a morphism $f\colon c_1\curlyvee c_2\to d$ emanating that object to a pair of morphisms $f_1\colon c_1\to d_1$ and $f_2\colon c_2\to d_2$ with $d_1\curlyvee d_2=d$.
+%
+%
+%\begin{example}[Representable and linear $\otimes$-monoids]
+%Representable polynomials have at most one commutative $\otimes$-monoid structure by a theorem of Fox. Category (polynomial comonoid) structures on a representable polynomial $\yon^M$ are just monoid structures on its underlying set $M$. So a commutative monoid $(M,e,*)$ in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ that has carrier $\yon^M$.
+%
+%A $\otimes$-monoidal structure on a linear $M\yon$ polynomial, on the other hand, can be identified with a monoid structure $(M,e,*)$ on the set $M$. But there is a unique comonoid structure on $M\yon$. So a monoid in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ having carrier $M\yon$.
+%\end{example}
+%
+%\begin{example}\label{ex.monaco_cat}
+%Consider the comonoid $\com{C}=(\ema{c},0,+)$ corresponding to the category
+%\[
+%\fbox{
+%\begin{tikzcd}[ampersand replacement=\&]
+%	\cdots\ar[r, "-1"']\&
+%	\LMO{n}\ar[r, "-1"']\&
+%	\cdots\ar[r, "-1"']\&
+%	\LMO{2}\ar[r, "-1"']\&
+%	\LMO{1}\ar[r, "-1"']\&
+%	\LMO{0}
+%\end{tikzcd}
+%}
+%\]
+%It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its counit and comultiplication are given by $0$ and addition.
+%
+%This comonoid has a (non-symmetric) $\otimes$-monoid structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
+%\[
+%\curlyvee_1(n_1,n_2)\coloneqq n_1+n_2,\]
+%and on a morphism $-n_1-n_2\leq i\leq 0$ works as follows:
+%\[
+%\curlyvee^\sharp_{n_1+n_2}(i)\coloneqq	\big(\min(n_1,n_1+n_2+i),\max(0,n_2+i)\big)
+%\]
+%For example, say $n_1=3$ and $n_2=2$, so $\curlyvee_1(n_1,n_2)=5$. Let's pick $-5\leq i\geq 0$. 
+%\[
+%\begin{array}{c|c}
+%	i&\curlyvee^\sharp(i)\\\hline
+%	0&(3,2)\\
+%	1&(3,1)\\
+%	2&(3,0)\\
+%	3&(2,0)\\
+%	4&(1,0)\\
+%	5&(0,0)
+%\end{array}
+%\]
+%\end{example}
+%
+%\begin{exercise}
+%Let $\com{C}$ be the comonoid from \cref{ex.monaco_cat}. We need to check that everything works correctly.
+%\begin{enumerate}
+%	\item Check that the terminus $\intercal\colon\yon\to\com{C}$ is a cofunctor.
+%	\item Check that $\curlyvee$ preserves identities.
+%	\item Check that $\curlyvee$ preserves codomains and compositions, and hence is a cofunctor.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%Consider the polynomial
+%\[
+%  c\coloneqq
+%  \sum_{n\in\nn}\sum_{\ell\colon\ord{n}\to\nn}
+%  \yon^{\{\ell'\colon\ord{n}\to\nn\;\mid\; \ell'\leq\ell\}}
+%\]
+%A position in $c$ is a list of natural numbers, and a direction is a smaller list. 
+%\begin{enumerate}
+%	\item Find a comonoid structure on $c$.
+%	\item Find a $\otimes$-monoid structure $(\intercal,\curlyvee)$ on the comonoid you just found. (If you can't, start over.)
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%Every $\otimes$-monoid in $\smcat^\sharp$ has an underlying category. This forgetful functor has a left adjoint: to every category $\cat{C}\in\smcat^\sharp$ we can assign a \emph{free} $\otimes$-monoid.
+%\begin{enumerate}
+%	\item Make the above claim precise, but don't prove it yet.
+%	\item We propose that if the emanation polynomial of $\cat{C}$ is $\ema{c}$ then the free $\otimes$-monoid on it has emanation polynomial $\ema{L_c}$ given by
+%	\[
+%	\ema{L_c}\coloneqq\sum_{[\ell_1,\ldots,\ell_n]\in\Set{List}(\ema{c}(\1))}\yon^{\ema{c}[\ell_1]\times\cdots\times\ema{c}[\ell_n]}.
+%	\]
+%	This is supposed to be a comonoid in $\poly$; what should be the identities, codomains, and composition?
+%	\item	Propose a terminus $\intercal\colon\yon\to\ema{L_c}$.
+%	\item Propose a team-up product $\curlyvee\colon\ema{L_c}\otimes\ema{L_c}\to\ema{L_c}$.
+%	\item Does it look promising that these will satisfy the monoid laws?
+%	\item Sketch an argument that this construction is left adjoint to the forgetful functor sending a $\otimes$-monoid in $\smcat^\sharp$ to its underlying category.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
 
 %-------- Section --------%
 \section{Cofree comonoids}
 
-Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. The main idea is that we can replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
+We can now return to dynamical systems. Recall that if $p\in\poly$ is a polynomial, then a dynamical system with interface $p$ consists of a set $S$ and a map of polynomials $f\colon S\yon^S\to p$. We think of positions in $p$ kind of like outputs---others can observe your position---but also as determining the set of inputs---directions---that could be input next.
+
+The way this map $f$ leads to something that seems to ``go on repeatedly'' is that $\ema{s}\coloneqq S\yon^S$ is a comonoid, so we have maps $\ema{s}\To{\delta}\ema{s}\tripow{n}\To{f\tripow{n}}p\tripow{n}$ for all $n$. This says that given any initial position in $S$, we automatically get a position in $p$, and for every direction there, another position in $p$, and for every direction there, another position in $p$, and so on $n$ times. This is the dynamics.
+
+So the above all works because we have a polynomial map $S\yon^S\to p$, where $S\yon^S$ is the underlying polynomial of a polynomial comonad. Since ``underlying polynomial'' is a functor $U\colon\smcat^\sharp\to\poly$, a seasoned category theorist might be tempted to ask, is there an adjunction
+\[
+\poly(U\com{C},p)\cong\smcat^\sharp(\com{C},\cofree{p}),
+\]
+for some functor $\cofree{}\colon\poly\to\smcat^\sharp$? In fact, there is; we refer to $\cofree{p}$ as the \emph{cofree comonoid} on $p$.
+
+Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. They allow us to replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
 
 \begin{theorem}[Cofree comonoid]\label{thm.cofree}
 The forgetful functor $\Cat{Comon}(\poly)\to\poly$ has a right adjoint
 \[
-  \adj{\Cat{Comon}(\poly)}{\ema{c}}{\cofree{p}}{\poly}
+  \adj{\smcat^\sharp}{\ema{c}}{\cofree{p}}{\poly}
 \]
-where the functors have been named by where they send $(\ema{c},\epsilon,\delta)\in\Cat{Comon}(\poly)$ and $p\in\poly$ respectively.
+where the functors have been named by where they send $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$ and $p\in\poly$ respectively.
 \end{theorem}
 This will be proved as \cref{??}.
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
-Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the comonoid of \emph{trees in $p$}.
+Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{trees in $p$}.
 
-A position $t\in \tr_p\tri\1$ is a called a \emph{(possibly infinite) tree in $p$.} A direction $n\in\tr_p[t]$ there is called a \emph{node in $t$}.
+An object $t\in \tr_p\tri\1$ is a called a \emph{(possibly infinite) tree in $p$.} An emanating morphism $n\in\tr_p[t]$ is called a \emph{node in $t$}.
 \end{definition}
 
 \cref{def.cofree} is alluding to a specific image one can form of $\cofree{p}$ in terms of trees. Let's go through it in an example before giving the formula.
