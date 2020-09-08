@@ -3718,6 +3718,9 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 %-------- Section --------%
 \section{Cofree comonoids}
 
+%---- Subsection ----%
+\subsection{Relation to dynamical systems}
+
 We can now return to dynamical systems. Recall that if $p\in\poly$ is a polynomial, then a dynamical system with interface $p$ consists of a set $S$ and a map of polynomials $f\colon S\yon^S\to p$. We think of positions in $p$ kind of like outputs---others can observe your position---but also as determining the set of inputs---directions---that could be input next.
 
 The way this map $f$ leads to something that seems to ``go on repeatedly'' is that $\ema{s}\coloneqq S\yon^S$ is a comonoid, so we have maps $\ema{s}\To{\delta}\ema{s}\tripow{n}\To{f\tripow{n}}p\tripow{n}$ for all $n$. This says that given any initial position in $S$, we automatically get a position in $p$, and for every direction there, another position in $p$, and for every direction there, another position in $p$, and so on $n$ times. This is the dynamics.
@@ -3738,6 +3741,9 @@ The forgetful functor $\Cat{Comon}(\poly)\to\poly$ has a right adjoint
 where the functors have been named by where they send $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$ and $p\in\poly$ respectively.
 \end{theorem}
 This will be proved as \cref{??}.
+
+%---- Subsection ----%
+\subsection{Cofree comonoids as trees}
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
 Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{(possibly infinite) trees in $p$}.
@@ -3804,7 +3810,7 @@ Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. 
 		};
 \end{tikzpicture}
 \end{equation}
-They all represent elements of $p\tripow{3}$, but only the third one---the sole yellow dot---would count as an element of $\tr_p$. 
+They all represent elements of $p\tripow{3}$, but only the third one---the single yellow dot---would count as an element of $\tr_p$. 
 
 Indeed, in \cref{def.cofree}, when we speak of a (possibly infinite) tree in $p$, we mean at tree for which each node is a position in $p$ with each of its emanating directions filled by another position in $p$, and so on. Since three of the four trees shown in \eqref{eqn.some_trees_misc58} have open leaves---arrows emanating from the top---these trees are not elements of $\tr_p$. However, each of them could be extended to an actual element of $\tr_p$ by continually filling in each open leaf with another position of $p$.
 
@@ -3886,31 +3892,93 @@ Let $A$ be a set.
 \end{enumerate}
 \end{exercise}
 
+\begin{example}
+Let $p\coloneqq\nn\yon^\2$. An element of $\tr_p$ might start like this:
 \[
-\begin{tikzpicture}[polybox, tos]
-	\node[poly, dom, "$q$" left] (q) {};
-	\node[poly, cod, below right=1.6 and 4 of q.south, "$p$" right] (p1) {};
-	\node[poly, cod, above=of p1, "$p$" right] (p2) {};
-	\node[poly, cod, above=of p2, "$p$" right] (p3) {};
-	\node[poly, cod, above=of p3, "$p$" right] (p4) {};
-	\node[poly, cod, above=of p4, "$p$" right] (p5) {};
-	\node[poly, draw=none, above=of p5] (ph) {};
-%
-	\draw (q_pos) to[first] (p1_pos);
-	\draw (p1_dir) to[climb] node[circle, inner sep=0, fill=white] (or2) {or}(p2_pos);
-	\draw (p2_dir) to[climb] node[circle, inner sep=0, fill=white] (or3) {or} (p3_pos);
-	\draw (p3_dir) to[climb] node[circle, inner sep=0, fill=white] (or4) {or} (p4_pos);
-	\draw (p4_dir) to[climb] node[circle, inner sep=0, fill=white] (or5) {or} (p5_pos);
-	\draw (p5_dir) to[climb] node[circle, inner sep=0, fill=white] (or6) {or} (ph_pos);
-	\draw[shorten <=4pt] (or2.center) to[last] (q_dir);
-	\draw[shorten <=4pt] (or3.center) to[last] (q_dir);
-	\draw[shorten <=4pt] (or4.center) to[last] (q_dir);
-	\draw[shorten <=4pt] (or5.center) to[last] (q_dir);
-	\draw[shorten <=4pt] (or6.center) to[last] (q_dir);
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm},
+  level 3/.style={sibling distance=2.5mm}]
+	\node {$17$}
+		child {node {$3$}
+			child {node {$0$}
+				child
+				child
+			}
+			child {node {$3$}
+				child
+				child
+			}
+		}
+		child {node {$1$}
+			child {node {$92$}
+				child
+				child
+			}
+			child {node {$6$}
+				child
+				child
+			}
+		};
 \end{tikzpicture}
 \]
+Any element of $\tr_p$ goes on forever: it's an infinite binary tree. At each node it has a choice of some natural number, since $\nn=p(\1)$ is the set of positions in $p$.
 
-\paragraph{Consequences of adjointness.}
+So such trees are the objects of the category $\cofree{p}=(\tr_p,\rt,\fs)$. A morphism emanating from a tree $t$ is a path from its root to another node, which is an element of $\Set{List}(\2)$, i.e.\ a finite list of choices in $\2$, which you can think of as a finite sequence of left/right choices. The codomain is whatever tree this path ends up on. 
+
+So the emanation polynomial of $\cofree{p}$ is
+\[\tr_p\cong\nn^{\Set{List}(\2)}\yon^{\Set{List}(\2)}\]
+with identities given by the empty list. An object $t\in\tr_p(\1)$ is a function $t\colon\Set{List}(\2)\to\nn$, a way to put a natural number at every node of the infinite binary tree. An emanating morphism $\ell\in\Set{List}(\2)$ is just a path from the root to another node, and its codomain is the other node. Formally it is the function $t'\colon\Set{List}(\2)\to\nn$ given by $t'(\ell')\coloneqq t(\ell:\ell')$, where $\ell:\ell'$ is the concatenation of these lists. Composition of morphisms is also given by concatenation of the corresponding lists.
+\end{example}
+
+\begin{exercise}
+Let $p\coloneqq B\yon^A$ for sets $A,B\in\smset$.
+\begin{enumerate}
+	\item Describe the objects of the category $\cofree{p}$.
+	\item For a given such object, describe the emanating morphisms.
+	\item Describe how to take the codomain of a morphism.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Let $p\coloneqq \yon+\1$.
+\begin{enumerate}
+	\item Describe the objects of the category $\cofree{p}$.
+	\item For a given such object, describe the emanating morphisms.
+	\item Describe how to take the codomain of a morphism.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+%\[
+%\begin{tikzpicture}[polybox, tos]
+%	\node[poly, dom, "$q$" left] (q) {};
+%	\node[poly, cod, below right=1.6 and 4 of q.south, "$p$" right] (p1) {};
+%	\node[poly, cod, above=of p1, "$p$" right] (p2) {};
+%	\node[poly, cod, above=of p2, "$p$" right] (p3) {};
+%	\node[poly, cod, above=of p3, "$p$" right] (p4) {};
+%	\node[poly, cod, above=of p4, "$p$" right] (p5) {};
+%	\node[poly, draw=none, above=of p5] (ph) {};
+%%
+%	\draw (q_pos) to[first] (p1_pos);
+%	\draw (p1_dir) to[climb] node[circle, inner sep=0, fill=white] (or2) {or}(p2_pos);
+%	\draw (p2_dir) to[climb] node[circle, inner sep=0, fill=white] (or3) {or} (p3_pos);
+%	\draw (p3_dir) to[climb] node[circle, inner sep=0, fill=white] (or4) {or} (p4_pos);
+%	\draw (p4_dir) to[climb] node[circle, inner sep=0, fill=white] (or5) {or} (p5_pos);
+%	\draw (p5_dir) to[climb] node[circle, inner sep=0, fill=white] (or6) {or} (ph_pos);
+%	\draw[shorten <=4pt] (or2.center) to[last] (q_dir);
+%	\draw[shorten <=4pt] (or3.center) to[last] (q_dir);
+%	\draw[shorten <=4pt] (or4.center) to[last] (q_dir);
+%	\draw[shorten <=4pt] (or5.center) to[last] (q_dir);
+%	\draw[shorten <=4pt] (or6.center) to[last] (q_dir);
+%\end{tikzpicture}
+%\]
+
+
+
+%---- Subsection ----%
+\subsection{Consequences of adjointness.}
 
 Talk about how $f\colon S\yon^S\to p$ induces $S\yon^S\to\cofree{p}$.
 
