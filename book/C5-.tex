@@ -2141,14 +2141,14 @@ Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\
       child {node [blue] {$\bullet$} 
       	child  {\idchild}
 			};
-    \node[right=1 of 4, blue] (5) {$\bullet$} 
+    \node[right=.8 of 4, blue] (5) {$\bullet$} 
       child  {
         node [red] {$\bullet$} 
  		    child  {\idchild}
       	child {}
 			\idchild
 			};
-    \node[right=1 of 5, blue] (6) {$\bullet$} 
+    \node[right=.6 of 5, blue] (6) {$\bullet$} 
       child {node [blue] {$\bullet$} 
       	child  {\idchild}
 			\idchild
@@ -3225,6 +3225,19 @@ from the walking arrow category to the walking parallel-arrows category?
 \end{exercise}
 
 \begin{exercise}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\com{C}$. There is a map of polynomials $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ given by
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom] (s) {$\cod(m)$\nodepart{two}$i$};
+	\node[poly, cod, right=of s] (c) {$m\vphantom{d}$\nodepart{two}$i$};
+	\draw[double] (s_pos) -- (c_pos);
+	\draw (c_dir) -- node[above] {$\cod$} (s_dir); 
+\end{tikzpicture}
+\]
+for an object $i\in\ema{c}(\1)$ and an outgoing morphism $m\in\ema{c}[i]$. Is this map a cofunctor?
+\end{exercise}
+
+\begin{exercise}
 Are cofunctors between posets interesting?
 \begin{enumerate}
 	\item Consider the chain poset $[n]\cong\sum_{i=1}^n\yon^i$. How many cofunctors are there from $[m]\to[n]$ for all $m,n\in\{0,1,2,3\}$?
@@ -4038,8 +4051,170 @@ It just adds a default direction to each position. A copointed map from $(q,\eps
 
 It remains to show that we can functorially take any copointed polynomial $(q,\epsilon)$ and return a comonoid, and that this construction is right adjoint to the forgetful functor. From the description in \cref{subsec.cofree_tree}, we know the cofree comonoid is supposed to have something to do with infinite trees. And we know that the set of height-$n$ trees in $p$ is given by $p\tripow{n}$. So we might think we can somehow take a limit of these height-$n$ trees for various $n$. 
 
-The problem is there's no obvious maps between $p\tripow{n}$ and $p\tripow{n+1}$. Luckily, the copointing fixes that problem.
+The problem is there's no obvious maps between $p\tripow{n}$ and $p\tripow{n+1}$. Luckily, the copointing fixes that problem. Given $\epsilon\colon q\to\yon$, we have two maps $q\tri q\tto q$, namely $q\tri\epsilon$ and $\epsilon\tri q$.
 
+\begin{example}
+Suppose $q=\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{i_B}$ with copointing $\epsilon$ selecting $i_A$ and $i_B$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$q\coloneqq$" left] {
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node["\tiny $A$" below, red] (1) {$\bullet$} 
+      child  {coordinate (iA) \idchild}
+      child {coordinate (f)};
+    \node[right=.8 of 1,"\tiny $B$" below, blue] (2) {$\bullet$} 
+      child  {coordinate (iB) \idchild};
+    \node[below left=0 of iA, font=\tiny] {$i_A$};
+    \node[below left=0 of iB, font=\tiny] {$i_B$};
+    \node[below right=0 of f, font=\tiny] {$f$};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Then $q\tri q$ looks as follows
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$q\tri q=$" left] {
+	\begin{tikzpicture}[trees,
+	  level 1/.style={sibling distance=5mm},
+  	level 2/.style={sibling distance=2.5mm}]
+    \node[red] (1) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			};
+    \node[right=1 of 1, red] (2) {$\bullet$} 
+      child  {
+        node [red]{$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=1 of 2, red] (3) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+				\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child {\idchild}
+      	child {}
+			};
+    \node[right=1 of 3, red] (4) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=.8 of 4, blue] (5) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			};
+    \node[right=.6 of 5, blue] (6) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+How can we picture the maps $(q\tri\epsilon),(\epsilon\tri q)\colon q\tri q\to q$?
+
+The map $q\tri\epsilon$ takes each position of $q\tri q$ to whatever is on the bottom layer: it takes the first four to $A$ and the last two to $B$. It passes back directions using the defaults ($i_A$ and $i_B$) on the top layer.
+
+The map $\epsilon\tri q$ uses the defaults on the bottom layer instead. Every position in $q\tri q$ has a default direction, and the corolla sitting there in the top layer is where $\epsilon\tri q$ sends it, with identity on directions. 
+\end{example}
+
+Indeed, for every $n$, there are $(n+1)$-many morphisms $q\tripow{n+1}\to q\tripow{n}$, so we have a diagram
+\begin{equation}\label{eq.simplicial_diag}
+\begin{tikzcd}
+	\yon&
+	q\ar[l, "\epsilon"']&
+	q\tri q\ar[l, shift left, "q\tri\epsilon"]\ar[l, shift right, "\epsilon\tri q"']&[10pt]
+	q\tripow{3}\ar[l, shift left=7pt, "q\tri q\tri\epsilon"]\ar[l, shift right=7pt, "\epsilon\tri q\tri q"']\ar[l, "q\tri\epsilon\tri q" description]&
+	\cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=6pt]\ar[l, shift right=2pt]
+\end{tikzcd}
+\end{equation}
+The cofree comonoid is given by the limit of this diagram.
+
+Let's denote the shape of this diagram by $\Delta_+$: its objects are finite ordered sets---including the empty set---and its morphisms are order-preserving injections. For any copointed polynomial $q\To{\epsilon}\yon$, we get a diagram $Q\colon\Delta_+\to\poly$ as above, and this is functorial in $q$.
+
+\begin{theorem}
+For any copointed polynomial $q\To{\epsilon}\yon$, let $\bar{q}$ denote the limit of $Q\colon\Delta_+\to\poly$. It naturally has the structure of a comonoid $(\bar{q},\epsilon,\delta)$, and this construction is right adjoint to the forgetful functor
+\[
+\adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Copnt}(\poly)}.
+\]
+\end{theorem}
+\begin{proof}[Proof sketch]
+We first give $\bar{q}$ the structure of a comonoid. Since $\bar{q}$ is the limit of \eqref{eq.simplicial_diag}, the inclusion the inclusion $\{0\}\to\Delta_+$ induces a projection map $\bar{q}\to\yon$, which we again call $\epsilon$. Since $\tri$ commutes with connected limits in both variables and $\Delta_+$ is connected, we have that $\bar{q}\tri\bar{q}$ is the limit of the following $\Delta_+\times\Delta_+$-shaped diagram:
+\[
+\bar{q}\tri\bar{q}\cong\lim\left(
+\begin{tikzcd}
+  q\tripow{(0+0)}&
+  q\tripow{(0+1)}\ar[l]&
+  q\tripow{(0+2)}\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
+  q\tripow{(0+3)}\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
+  \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
+  q\tripow{(1+0)}\ar[u]&
+  q\tripow{(1+1)}\ar[u]\ar[l]&
+  q\tripow{(1+2)}\ar[u]\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
+  q\tripow{(1+3)}\ar[u]\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
+  \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
+  q\tripow{(2+0)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]&
+  q\tripow{(2+1)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[l]&
+  q\tripow{(2+2)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
+  q\tripow{(2+3)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
+  \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
+  q\tripow{(3+0)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]&
+  q\tripow{(3+1)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]\ar[l]&
+  q\tripow{(3+2)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
+  q\tripow{(3+3)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
+  \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
+	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
+	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
+	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
+	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
+	\ddots
+\end{tikzcd}
+\right)
+\]
+There is a commutative diagram in $\smcat$
+\begin{equation}\label{eqn.simplicial_poly_misc384}
+\begin{tikzcd}[column sep=small]
+	\Delta_+\times\Delta_+\ar[rr, "+"]\ar[dr, bend right, near start, "{(m_1,m_2)\mapsto q\tripow{(m_1+m_2)}}"']&&
+	\Delta_+\ar[dl, bend left, near start, "n\mapsto q\tripow{n}"]\\&
+	\poly
+\end{tikzcd}
+\end{equation}
+which induces a map (in the opposite direction) between their limits $\delta\colon\bar{q}\to\bar{q}\tri\bar{q}$, which we take to be the comultiplication. Appending \eqref{eqn.simplicial_poly_misc384} with the inclusion $\{0\}\times\Delta_+\to\Delta_+\times\Delta_+$, etc., it is easy to see that $(\bar{q},\epsilon,\delta)$ satisfies the axioms of a comonoid.
+
+We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a counit map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eq.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{ex.delta_n_notation}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
+\[
+\begin{tikzcd}[column sep=large]
+	\ema{c}\ar[r, "\delta^{m+n-1}"]\ar[d, "\delta"']&
+	\ema{c}\tripow{(m+n)}\ar[d, equal]\\
+	\ema{c}\tri\ema{c}\ar[r, "\delta^{m-1}\tri\delta^{n-1}"']&
+	\ema{c}\tripow{m}\tri\ema{c}\tripow{n}
+\end{tikzcd}
+\]
+commutes for any $m,n\in\nn$. Both triangle equations are straightforward.
+\end{proof}
 
 %---- Subsection ----%
 \subsection{Consequences of adjointness}
