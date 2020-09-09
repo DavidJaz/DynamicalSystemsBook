@@ -4155,7 +4155,7 @@ The cofree comonoid is given by the limit of this diagram.
 
 Let's denote the shape of this diagram by $\Delta_+$: its objects are finite ordered sets---including the empty set---and its morphisms are order-preserving injections. For any copointed polynomial $q\To{\epsilon}\yon$, we get a diagram $Q\colon\Delta_+\to\poly$ as above, and this is functorial in $q$.
 
-\begin{theorem}
+\begin{theorem}\label{thm.cofree}
 For any copointed polynomial $q\To{\epsilon}\yon$, let $\bar{q}$ denote the limit of $Q\colon\Delta_+\to\poly$. It naturally has the structure of a comonoid $(\bar{q},\epsilon,\delta)$, and this construction is right adjoint to the forgetful functor
 \[
 \adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Copnt}(\poly)}.
@@ -4206,7 +4206,7 @@ which induces a map (in the opposite direction) between their limits $\delta\col
 
 We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a counit map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eq.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{ex.delta_n_notation}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
 \[
-\begin{tikzcd}[column sep=large]
+\begin{tikzcd}[column sep=50pt]
 	\ema{c}\ar[r, "\delta^{m+n-1}"]\ar[d, "\delta"']&
 	\ema{c}\tripow{(m+n)}\ar[d, equal]\\
 	\ema{c}\tri\ema{c}\ar[r, "\delta^{m-1}\tri\delta^{n-1}"']&
@@ -4215,6 +4215,38 @@ We sketch the proof that this construction is right adjoint to the forgetful fun
 \]
 commutes for any $m,n\in\nn$. Both triangle equations are straightforward.
 \end{proof}
+
+\begin{remark}
+The construction of the cofree comonoid from a copointed endofunctor in the proof of \cref{thm.cofree} is fairly standard; see \cite{lack2010note}. Nelson Niu has also constructed the cofree comonoid using a different limit diagram
+\[
+\begin{tikzcd}
+	\yon\ar[d]&
+	p\ar[d]&
+	p\tri p\ar[d]&
+	p\tri p\tri p\ar[d]&
+	\cdots\\
+	\1&
+	p\tri \1\ar[l, "!"]&
+	p\tri p\tri \1\ar[l, "p\tri\ !"]&
+	p\tri p\tri p\tri \1\ar[l, "p\tri p\tri\ !"]&
+	\cdots\ar[l]
+\end{tikzcd}
+\]
+in terms of the original polynomial $p$, rather than from its copointing. One could also use the following limit, again from the original polynomial $p$:
+\[
+\begin{tikzcd}[column sep=small]
+	\yon\ar[dr]&&
+	p\ar[dl]\ar[dr]&&
+	p\tri p\ar[dl]\ar[dr]&&
+	p\tri p\tri p\ar[dl]\ar[dr]&
+	\cdots\\&
+	\1&&
+	p\tri\1&&
+	p\tri p\tri \1&&
+	\cdots
+\end{tikzcd}
+\]
+\end{remark}
 
 %---- Subsection ----%
 \subsection{Consequences of adjointness}
