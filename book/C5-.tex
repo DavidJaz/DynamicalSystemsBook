@@ -3270,7 +3270,7 @@ Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to s
 \end{exercise}
 
 \begin{exercise}
-Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r,n)\mapsto r+n$. More down to earth, it's the set of real numbers between 0 and 1, including 0 but not 1.
+Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r,n)\mapsto r+n$. More down to earth, it's the set of real numbers between 0 and 1, including 0 but not 1.%]
 \begin{enumerate}
 	\item Find a comonoid structure on $(\rr/\zz)\yon^\rr$.
 	\item Is it a groupoid?
@@ -4214,33 +4214,55 @@ Recall from \cref{def.gen_moore} that a dependent system (or generalized Moore m
 But now we know that $S\yon^S$ is secretly the underlying polynomial of a comonoid. This means that $f$ has a mate, i.e.\ a corresponding cofunctor $S\yon^S\cof\cofree{p}$ to the category of $p$-trees. How does that work?
 
 \begin{example}\label{ex.cofree_dyn_sys}
-Let $S\coloneqq\3$ and $p\coloneqq\yon^\2+\yon$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.det_fsa_misc_398}, depicted here for your convenience:
+Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\yon$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.det_fsa_misc_398}, depicted here again for your convenience:
 \[
 \begin{tikzcd}[column sep=small]
-	\LMO{1}\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
-	\LMO{2}\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
-	\LMO{3}
+	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bul[red]
 \end{tikzcd}
 \]
 The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. Thus to each state $s\in S$, we need to associate a tree; which should it be? 
 
-The answer is that we associate to each state its tree of possible futures. For example, to the state $1$ we associate the tree
+The answer is that we associate to each state its tree of possible futures. For example, to the green state we associate the tree
 \[
 \treepic
 \]
-Let's call it $t$. We will say how $F$ acts on the other two states in \cref{exc.cofree_dyn_sys}, but before doing so, let's say how $F$ passes back directions. A direction $d\in\tr_p[t]$ is just a finite path, say of length $n$, out of the root. Each arrow $d\in p[\pi(t)]$ out of the root is passed back to a new state $\cod(f^\sharp(d))\in S$. This new state maps to the codomain of $d$, so we can repeat this procedure $n$ times.
+Let's call it $t$. We will say how $F$ acts on the other two states in \cref{exc.cofree_dyn_sys}, but before doing so, let's say how $F$ passes back directions. A direction $d\in\tr_p[t]$ is just a finite path, say left-left-right, coming out of the root. Each arrow $d\in p[\pi(t)]$ out of the root is passed back to a new state $\cod(f^\sharp(d))\in S$. This new state maps to the codomain of $d$, so we can repeat this procedure $n$ times.
 \end{example}
 
 \begin{exercise}\label{exc.cofree_dyn_sys}
 Let's finish off \cref{ex.cofree_dyn_sys}.
 \begin{enumerate}
-	\item Where does the cofunctor $F$ send the state $1$?
-	\item Where does the cofunctor $F$ send the state $1$?
+	\item To what tree does the cofunctor $F$ send the yellow state?
+	\item To what tree does the cofunctor $F$ send the red state?
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-Talk about how $f\colon S\yon^S\to p$ induces $S\yon^S\to\cofree{p}$.
+\begin{exercise}
+Let $S\coloneqq\4$ and $p\coloneqq\{\bul[red],\bul[dgreen],\bul[dyellow]\}\yon$, and let $f\colon S\yon^S\to p$ be the dynamical system depicted as follows:
+\[
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}
+  	\bul[red]\ar[r, bend left]&
+  	\bul[dgreen]\ar[d, bend left]\\
+  	\bul[red]\ar[u, bend left]&
+  	\bul[dyellow]\ar[l, bend left]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Let $s\in S$ be the state for which $f_1(s)=\bul[dgreen]$. 
+
+If $F\colon S\yon^S\cof\cofree{p}$ is the associated cofunctor, what is the tree $F_1(s)$?
+\end{exercise}
+
+\begin{exercise}
+Suppose $S$ is a set, $p$ is a polynomial, $f\colon S\yon^S\to p$ is a dynamical system, and $F\colon S\yon^S\cof\cofree{p}$ is the associated cofunctor. To every state $s\in S$, we get a tree $F(s)\in\tr_p$. What common feature do all such trees have when $S$ is a finite set? What do these trees look like?
+\end{exercise}
+
 
 Show polybox picture of $S\yon^S$ splitting repeatedly and each copy going to $p$ via $f$.
 
