@@ -2226,17 +2226,19 @@ A \emph{dependent system} is a map of polynomials
 for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states} and the polynomial $p$ is called the \emph{(poly-) interface}.
 \end{definition}
 
-What on earth do these things do? Let's start with something familiar.
+We could also call these \emph{generalized Moore machines}, since Moore machines were seen to be given by the special case $p=B\yon^A$ for sets $A,B$. But whether you call these things dependent systems or generalized Moore machines, the question is: what on earth do they do? Let's start with something familiar.
 
 \begin{example}\label{ex.regular_lang_stop}
 Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in ones language. For that, rather than use a map $S\yon^S\to 2\yon^A$, we could use a map
 \[
 (f_1,f^\sharp)\colon S\yon^S\to \yon^A+\1
 \]
-To give such a map, one first provides a function $f_1\colon S\to\2$; some elements of $S$ are sent to $1$ others are sent to $2$; those that are sent to $2$ are ``accepted''. This is captured by the fact that there are no options in the term $\1$, no input. On the other hand, those elements $s\in S$ that are sent to $f_1(s)=1$ then must assign a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$.
+To give such a map, one in particular provides a function $f_1\colon S\to\2$; here we are thinking of $\2$ as the set of positions in $\yon^A+\1$. A function $f_1$ sends some elements of $S$ to $1$ and sends others to $2$; those that are sent to $2$ are said to be ``accepted''. This is captured by the fact that there are no options in the term $\1$, no inputs available there. In other words, the function $f^\sharp$ is trivial there.
+
+On the other hand, $f^\sharp_s$ is not trivial on those elements $s\in S$ for which $f_1(s)=1$. They must come equipped with a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$. Again, this is in line with the way state machines encode regular languages.
 \end{example}
 
-\begin{exercise}
+\begin{exercise}\label{exc.det_fsa_misc_398}
 Consider the deterministic finite state automaton shown below
 \[
 \begin{tikzcd}[column sep=small]
@@ -2245,26 +2247,29 @@ Consider the deterministic finite state automaton shown below
 	\LMO{}
 \end{tikzcd}
 \]
-The state without any outgoing arrows is the accept state. Answer the following questions, in keeping with the notation from \cref{ex.regular_lang_stop}.
+The state without any outgoing arrows is the ``accept'' state for a regular language, and the left-most state is the start state. Answer the following questions, in keeping with the notation from \cref{ex.regular_lang_stop}.
 
 \begin{enumerate}
 	\item What is $S$?
 	\item What is $A$?
+	\item In terms of regular languages, what is the alphabet here?
 	\item Specify the morphism of polynomials $S\yon^S\to\yon^A+1$.
+	\item Name a word that is accepted by this machine.
+	\item Name a word that is not accepted by this machine.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
 \begin{example}[Inputting a start state]
-Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to system that starts not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
+Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to create a system that starts as not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
 
 Let $S'\coloneqq S+\1$, so that the start state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a morphism
 \[
 S'\yon^{S'}\to\yon+\yon^S
 \]
-that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ forever after.
+that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ so that it is a closed system forever after.
 
-To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we update the state from a state in $S$ we'll just do whatever our original dynamical system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
+To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
 \end{example}
 
 \begin{exercise}

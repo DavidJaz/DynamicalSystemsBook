@@ -195,8 +195,7 @@ bimr/.tip={Glyph[glyph math command=triangleright, glyph length=1.1ex]},
 }
 
 \newcommand{\treepic}{
-\begin{tikzpicture}[trees, scale=1.5]
-\begin{scope}[
+\begin{tikzpicture}[trees, scale=1.5,
   level 1/.style={sibling distance=20mm},
   level 2/.style={sibling distance=10mm},
   level 3/.style={sibling distance=5mm},
@@ -261,13 +260,16 @@ bimr/.tip={Glyph[glyph math command=triangleright, glyph length=1.1ex]},
   		}
   	}
   ;
-\end{scope}
-\draw[blue, densely dotted] (current bounding box.south west) rectangle
-(current bounding box.north east);
 \end{tikzpicture}
 }
 
-\newcommand{\coverpic}{\treepic}%{\earpic}
+\newcommand{\coverpic}{
+\begin{tikzpicture}
+	\node {\treepic};
+	\draw[blue, densely dotted] (current bounding box.south west) rectangle
+(current bounding box.north east);
+\end{tikzpicture}
+}%{\earpic}
 
 
 

@@ -22,76 +22,7 @@ Each pattern has a certain sort of shape---a certain repetitiveness---like the r
 \[\frac{1}{7}=.142857142857142857\cdots\]
 Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? And don't worry, the 1 won't haunt us, probably just because Hindi-Arabic numbers dealt with it in stride. Anyway, ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree you see here:
 \[
-\begin{tikzpicture}[trees, scale=1.5]
-\begin{scope}[
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm},
-  level 5/.style={sibling distance=1.25mm}]
-  \node[dgreen] (a) {$\bullet$}
-    child {node[dgreen] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
-     			}
-    			child  {node[red] {$\bullet$}}
-  			}
-    	}
-    	child {node[dyellow] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child  {node[red] {$\bullet$}}
-    	}
-    }
-    child {node[dyellow] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
-     			}
-    			child  {node[red] {$\bullet$}}
-  			}
-  		}
-  		child {node[red] {$\bullet$}
-  		}
-  	}
-  ;
-\end{scope}
-%\draw[blue, densely dotted] (current bounding box.south west) rectangle
-%(current bounding box.north east);
-\end{tikzpicture}
+\treepic
 \]
 Do you pick up on the fact that every tree sitting at a green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
 
@@ -3608,7 +3539,9 @@ The usual product of categories gives a monoidal operation on comonoids too, eve
 
 
 \begin{proposition}\label{prop.dirichlet_on_catsharp}
-The Dirichlet monoidal product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$. The Dirichlet product of two categories is their product in $\smcat$.
+The Dirichlet monoidal product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$, such that the functor
+$U\colon\smcat^\sharp\to\poly$
+is strong monoidal with respect to $\otimes$. The Dirichlet product of two categories is their product in $\smcat$.
 \end{proposition}
 \begin{proof}
 Let $\cat{C},\cat{D}\in\smcat^\sharp$ be categories with emanation polynomials $\ema{c},\ema{d}\in\poly$. The emanation polynomial of $\cat{C}\otimes\cat{D}$ is defined to be $\ema{c}\otimes\ema{d}$. A position in it is a pair $(c,d)$ of objects, one from $\cat{C}$ and one from $\cat{D}$; a direction there is a pair $(f,g)$ of a morphism emanating from $c$ and one emanating from $d$. 
@@ -3732,7 +3665,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \section{Cofree comonoids}
 
 %---- Subsection ----%
-\subsection{Relation to dynamical systems}
+\subsection{Introduction: Cofree comonoids and dynamical systems}
 
 We can now return to dynamical systems. Recall that if $p\in\poly$ is a polynomial, then a dynamical system with interface $p$ consists of a set $S$ and a map of polynomials $f\colon S\yon^S\to p$. We think of positions in $p$ kind of like outputs---others can observe your position---but also as determining the set of inputs---directions---that could be input next.
 
@@ -3742,7 +3675,7 @@ So the above all works because we have a polynomial map $S\yon^S\to p$, where $S
 \[
 \poly(U\com{C},p)\cong\smcat^\sharp(\com{C},\cofree{p}),
 \]
-for some functor $\cofree{}\colon\poly\to\smcat^\sharp$? In fact, there is; we refer to $\cofree{p}$ as the \emph{cofree comonoid} on $p$.
+for some functor $\cofree{}\colon\poly\to\smcat^\sharp$? In fact, there is; we refer to $\cofree{p}$ as the \emph{cofree comonoid} on $p$, or more descriptively, the \emph{category of $p$-trees.}
 
 Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. They allow us to replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
 
@@ -3759,19 +3692,19 @@ This will be proved as \cref{??}.
 \subsection{Cofree comonoids as trees}\label{subsec.cofree_tree}
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
-Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{(possibly infinite) trees in $p$}.
+Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{(possibly infinite) $p$-trees}.
 
 An object $t\in \tr_p(\1)$ is a called a \emph{(possibly infinite) tree in $p$.} Given such an object $t$ in the category, an emanating morphism $n\in\tr_p[t]$ is called a \emph{path from root}.
 \end{definition}
 
-The terminology of \cref{def.cofree} is alluding to a specific way we like to imagine the comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, namely in terms of trees. To every polynomial $p$, we will associate a new polynomial $\tr_p$ whose positions are (possibly infinite) trees in $p$. To choose such tree we first choose its root to be some position $i\in p(\1)$. Then for every direction $d\in p[i]$ there, we choose another position, and for every direction from each of those we choose another position, and so on indefinitely.
+The terminology of \cref{def.cofree} is alluding to a specific way we like to imagine the comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, namely in terms of trees. To every polynomial $p$, we will associate a new polynomial $\tr_p$ whose positions are (possibly infinite) $p$-trees. To choose such tree we first choose its root to be some position $i\in p(\1)$. Then for every direction $d\in p[i]$ there, we choose another position, and for every direction from each of those we choose another position, and so on indefinitely.
 
 So a position in $\tr_p$ is one of these trees. Such a tree may end, namely if every one of the top-level positions have no directions, but often it will not end. Given such a tree, say $t$, a direction $d\in\tr_p[t]$ there is simply a path from the root to some node in the tree. 
 
 We'll explain the counit $\rt$ and the comultiplication $\fs$ after going through an example.
 
 \begin{example}\label{ex.imagining_trees}
-Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees in $p$:
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four $p$-trees:
 \begin{equation}\label{eqn.some_trees_misc58}
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=10mm},
@@ -3845,7 +3778,7 @@ These are the positions in the polynomial $\tr_p$ that underlies the cofree como
 \end{enumerate}
 For each of the following polynomials $p$, describe the set of trees (positions) in $\tr_{p}$.
 \begin{enumerate}[resume]
-	\item $p=\1$. (What is the set $\tr_p$ of trees in $p$?)
+	\item $p=\1$. (What is the set $\tr_p$ of $p$-trees?)
 	\item $p=\2$.
 	\item $p=\yon$.
 	\item $p=\yon^\2$.
@@ -3858,7 +3791,7 @@ For each of the following polynomials $p$, describe the set of trees (positions)
 
 Now that we've explained the underlying polynomial $\tr_p$ of the cofree comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, we just need to explain how identities, codomains, and composition work, i.e.\ we just need to give the counit map $\rt\colon\tr_p\to\yon$ and the comultiplication map $\fs\colon\tr_p\to\tr_p\tri\tr_p$. 
 
-Again, the objects in the category $\cofree{p}$ are trees in $p$, and a morphism emanating from such a tree $t$ is a path from its root $r$ to some node. The map $\rt$, applied to $t$, returns $t$'s root $r$, or more precisely the path from $r$ to itself. The map $\fs$, applied to $t$, first needs to give a codomain (tree) to every path from the root to some other node $n$. It is just the subtree of $t$ whose root is $n$: the tree of all nodes starting at $n$. Now, given a path from the root of that tree (namely $n$) to another node, say $n'$, we need to give a path from $r$ to $n'$; we take it to be the composite of the path $r\to n$ and the path $n\to n'$.
+Again, the objects in the category $\cofree{p}$ are $p$-trees, and a morphism emanating from such a tree $t$ is a path from its root $r$ to some node. The map $\rt$, applied to $t$, returns $t$'s root $r$, or more precisely the path from $r$ to itself. The map $\fs$, applied to $t$, first needs to give a codomain (tree) to every path from the root to some other node $n$. It is just the subtree of $t$ whose root is $n$: the tree of all nodes starting at $n$. Now, given a path from the root of that tree (namely $n$) to another node, say $n'$, we need to give a path from $r$ to $n'$; we take it to be the composite of the path $r\to n$ and the path $n\to n'$.
 
 \begin{exercise}
 Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$ as in \cref{ex.imagining_trees}.
@@ -3974,6 +3907,7 @@ Let $p\coloneqq \{a,b,c,\ldots,z,\text{\textvisiblespace}\}\yon+\1$.
 \end{enumerate}
 \end{exercise}
 
+
 \paragraph{Decision trees.}
 
 (Fill)
@@ -4049,7 +3983,7 @@ It just adds a default direction to each position. A copointed map from $(q,\eps
 
 \paragraph{Constructing the cofree comonoid.}
 
-It remains to show that we can functorially take any copointed polynomial $(q,\epsilon)$ and return a comonoid, and that this construction is right adjoint to the forgetful functor. From the description in \cref{subsec.cofree_tree}, we know the cofree comonoid is supposed to have something to do with infinite trees. And we know that the set of height-$n$ trees in $p$ is given by $p\tripow{n}$. So we might think we can somehow take a limit of these height-$n$ trees for various $n$. 
+It remains to show that we can functorially take any copointed polynomial $(q,\epsilon)$ and return a comonoid, and that this construction is right adjoint to the forgetful functor. From the description in \cref{subsec.cofree_tree}, we know the cofree comonoid is supposed to have something to do with infinite trees. And we know that the set of height-$n$ $p$-trees is given by $p\tripow{n}$. So we might think we can somehow take a limit of these height-$n$ trees for various $n$. 
 
 The problem is there's no obvious maps between $p\tripow{n}$ and $p\tripow{n+1}$. Luckily, the copointing fixes that problem. Given $\epsilon\colon q\to\yon$, we have two maps $q\tri q\tto q$, namely $q\tri\epsilon$ and $\epsilon\tri q$.
 
@@ -4217,24 +4151,24 @@ commutes for any $m,n\in\nn$. Both triangle equations are straightforward.
 \end{proof}
 
 \begin{remark}
-The construction of the cofree comonoid from a copointed endofunctor in the proof of \cref{thm.cofree} is fairly standard; see \cite{lack2010note}. Nelson Niu has also constructed the cofree comonoid using a different limit diagram
+The construction of the cofree comonoid from a copointed endofunctor in the proof of \cref{thm.cofree} is fairly standard; see \cite{lack2010note}. Nelson Niu has also constructed the cofree comonoid on a polynomial using a different limit diagram
 \[
 \begin{tikzcd}
 	\yon\ar[d]&
 	p\ar[d]&
-	p\tri p\ar[d]&
+	p\tri p\ar[d]&[10pt]
 	p\tri p\tri p\ar[d]&
 	\cdots\\
 	\1&
 	p\tri \1\ar[l, "!"]&
-	p\tri p\tri \1\ar[l, "p\tri\ !"]&
-	p\tri p\tri p\tri \1\ar[l, "p\tri p\tri\ !"]&
+	p\tri p\tri \1\ar[l, "p\tri\,!"]&
+	p\tri p\tri p\tri \1\ar[l, "p\tri p\tri\,!"]&
 	\cdots\ar[l]
 \end{tikzcd}
 \]
-in terms of the original polynomial $p$, rather than from its copointing. One could also use the following limit, again from the original polynomial $p$:
+in terms of the original polynomial $p$, rather than from its copointing $p\yon$; that is, this construction is right adjoint to $\Cat{Comon}(\poly)\to\poly$. One could also construct this right adjoint using the following limit, again applied to the original polynomial $p$:
 \[
-\begin{tikzcd}[column sep=small]
+\begin{tikzcd}[sep=small]
 	\yon\ar[dr]&&
 	p\ar[dl]\ar[dr]&&
 	p\tri p\ar[dl]\ar[dr]&&
@@ -4275,40 +4209,88 @@ in terms of the original polynomial $p$, rather than from its copointing. One co
 %\end{tikzpicture}
 %\]
 
+Recall from \cref{def.gen_moore} that a dependent system (or generalized Moore machine) is a map of polynomials $f\colon S\yon^S\to p$. Here $S$ is called the set of states and $p$ is the interface. 
+
+But now we know that $S\yon^S$ is secretly the underlying polynomial of a comonoid. This means that $f$ has a mate, i.e.\ a corresponding cofunctor $S\yon^S\cof\cofree{p}$ to the category of $p$-trees. How does that work?
+
+\begin{example}\label{ex.cofree_dyn_sys}
+Let $S\coloneqq\3$ and $p\coloneqq\yon^\2+\yon$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.det_fsa_misc_398}, depicted here for your convenience:
+\[
+\begin{tikzcd}[column sep=small]
+	\LMO{1}\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\LMO{2}\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\LMO{3}
+\end{tikzcd}
+\]
+The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. Thus to each state $s\in S$, we need to associate a tree; which should it be? 
+
+The answer is that we associate to each state its tree of possible futures. For example, to the state $1$ we associate the tree
+\[
+\treepic
+\]
+Let's call it $t$. We will say how $F$ acts on the other two states in \cref{exc.cofree_dyn_sys}, but before doing so, let's say how $F$ passes back directions. A direction $d\in\tree_p[t]$ is just a finite path, say of length $n$, out of the root. Each arrow $d\in p[\pi(t)]$ out of the root is passed back to a new state $\cod(f^\sharp(d))\in S$. This new state maps to the codomain of $d$, so we can repeat this procedure $n$ times.
+\end{example}
+
+\begin{exercise}\label{exc.cofree_dyn_sys}
+Let's finish off \cref{ex.cofree_dyn_sys}.
+\begin{enumerate}
+	\item Where does the cofunctor $F$ send the state $1$?
+	\item Where does the cofunctor $F$ send the state $1$?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 Talk about how $f\colon S\yon^S\to p$ induces $S\yon^S\to\cofree{p}$.
 
-Show polybox picture of $S\yon^S$ splitting and then going to $p$ via $f$.
+Show polybox picture of $S\yon^S$ splitting repeatedly and each copy going to $p$ via $f$.
 
 Show graph fibration idea.
 
-Conjecture: for any tree that can be described in language, there is a finite state machine that accomplishes it.
-
-
-The following says that cofree categories are very special objects, much like posets.
 
 \begin{proposition}
-Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is both monic and epic.
-\end{proposition}
-
-
-
-\begin{proposition}
-The cofree functor $p\mapsto\cofree{p}$ is lax monoidal; in particular there is a unique map $\yon\to\cofree{\yon}$, and for any $p,q\in\poly$ there is a natural map
-\[
-	\cofree{p}\otimes\cofree{q}\to\cofree{p\otimes q}.
-\]
+The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\smcat^\sharp$.
 \end{proposition}
 \begin{proof}
-This follows formally from the fact that the forgetful functor $U\colon\smcat^\sharp\to\poly$ is strong monoidal with respect to $\otimes$. Indeed there are isomorphisms
-\begin{align*}
-	\poly(U(\cofree{p})\otimes U(\cofree{q}),p\otimes q)&\cong
-	\poly(U(\cofree{p}\otimes\cofree{q}),p\otimes q)\\&\cong
-	\smcat^\sharp(\cofree{p}\otimes\cofree{q},\cofree{p\otimes q}
-\end{align*}
-and counits $U(\cofree{p}\to p$ and $U(\cofree{q}\to q$.
+The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{n})}\cong\cofree{\yon^{\ord{n}}}$ is the $n$-fold product of $\yon^\nn$ in $\smcat^\sharp$. We thus want to find cofunctors $e\colon \yon\to\yon^\nn$ and $m\colon\yon^{\List(\2)}\to\yon^\nn$ that satisfy the axioms of a monoid. 
 
-**
+The unique polynomial map $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the polynomial map $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\smcat^\sharp,\yon,\times)$.
+\end{proof}
+
+Discuss counit map $\pi\colon\tr_p\to p$, the map sending each $p$-tree to its \emph{root corolla} and each direction there back to the one-step path.
+
+%---- Subsection ----%
+\subsection{Some math about cofree comonoids}
+
+\begin{proposition}\label{prop.cofree_free_on_graph}
+For every polynomial $p$, the cofree category $\cofree{p}$ is free on a graph. That is, there is a graph $G_p$ whose associated free category in the usual sense (the category of vertices and paths in $G_p$) is isomorphic to $\cofree{p}$.
+\end{proposition}
+\begin{proof}
+For vertices, we let $V_p$ denote the set of $p$-trees,
+\[V_p\coloneqq\tr_p(\1).\]
+For arrows we use the map $\pi\colon\tr_p\to p$ from \cref{**} to define
+\[
+A_p\coloneqq\sum_{t\in\tr_p(\1)}p[\pi_1(t)]
+\]
+In other words $A_p$ is the set $\{d\in p[\pi_1(t)]\,\mid\,t\in\tr_p\}$ of directions in $p$ that emanate from the root corolla of each $p$-tree. The source of $(t,d)$ is $t$ and the target is $\cod(\pi^\sharp_t(d))$. It is clear that every morphism in $\cofree{t}$ is the composite of a finite sequence of such morphisms, completing the proof.
+\end{proof}
+
+
+\begin{corollary}
+Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in $\cat{C}_p$ is both monic and epic.
+\end{corollary}
+\begin{proof}
+The free category on a graph always has this property, so the result follows from \cref{prop.cofree_free_on_graph}.
+\end{proof}
+
+\begin{proposition}
+The cofree functor $p\mapsto\cofree{p}=(\tr_p,\rt,\fs)$ is lax monoidal; in particular there is a map of polynomials $\yon\to\tr_\yon$, and for any $p,q\in\poly$ there is a natural map
+\[
+	\tr_p\otimes\tr_q\to\tr_{p\otimes q}.
+\]
+satisfying the usual conditions.
+\end{proposition}
+\begin{proof}
+By \cref{prop.dirichlet_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\poly$ is strong monoidal. A consequence of Kelly's doctrinal adjunction theorem \cite{kelly1974doctrinal} says that the right adjoint of an op-lax monoidal functor is lax monoidal.
 \end{proof}
 
 \begin{proposition}\label{prop.traj_mon_poly}
