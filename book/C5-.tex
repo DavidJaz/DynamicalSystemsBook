@@ -1635,7 +1635,7 @@ We'll put the associativity and the other unitality picture in the following exe
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[$\delta^{n}$ notation]\label{••}
+\begin{example}[$\delta^{n}$ notation]\label{ex.delta_n_notation}
 Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the two ways to get a map $c\to c\tri c\tri c$ have the same result. This is true for any $n\in\nn$: we get an induced map $c\to c\tripow{n+1}$, which by mild abuse of notation we denote $\delta^n$:
 \[
 	c\To{\delta}c\tri c\To{c\tri\delta}c\tri c\tri c\To{c\tripow{2}\tri\delta}\cdots\To{c\tripow{n}\tri\delta}c\tripow{(n+1)}.
@@ -4263,7 +4263,7 @@ If $F\colon S\yon^S\cof\cofree{p}$ is the associated cofunctor, what is the tree
 Suppose $S$ is a set, $p$ is a polynomial, $f\colon S\yon^S\to p$ is a dynamical system, and $F\colon S\yon^S\cof\cofree{p}$ is the associated cofunctor. To every state $s\in S$, we get a tree $F(s)\in\tr_p$. What common feature do all such trees have when $S$ is a finite set? What do these trees look like?
 \end{exercise}
 
-The way the adjunction works is as follows. Suppose that $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid and $p$ is a polynomial. Then given a map of polynomials $f\colon\ema{c}\to p$, we can form a map $\ema{c}\to p\tripow{k}$ for any $k\in\inn$ as follows. First use the comonoid structure to obtain $\delta^{k-1}\colon\ema{c}\to\ema{c}\tripow{k}$ as in \cref{ex.delta_n_notation}. Second we use the monoidality of $\tri$ to get $f\tripow{k}\colon\ema{c}\tripow{k}\to p\tripow{k}$. Composing we obtain
+The way the adjunction works is as follows. Suppose that $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid and $p$ is a polynomial. Then given a map of polynomials $f\colon\ema{c}\to p$, we can form a map $\ema{c}\to p\tripow{k}$ for any $k\in\nn$ as follows. First use the comonoid structure to obtain $\delta^{k-1}\colon\ema{c}\to\ema{c}\tripow{k}$ as in \cref{ex.delta_n_notation}. Second we use the monoidality of $\tri$ to get $f\tripow{k}\colon\ema{c}\tripow{k}\to p\tripow{k}$. Composing we obtain
 \[
 \ema{c}\To{\delta^{k-1}}\ema{c}\tripow{k}\To{f\tripow{k}}p\tripow{k}
 \]
