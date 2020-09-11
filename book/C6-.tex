@@ -268,14 +268,14 @@ Let $\com{C}$ be a comonoid. For any set $I$ and right $\com{C}$-modules $(m_i)_
 **
 \end{proof}
 %
-%Let $\sum_{I\in\smset}\prod_{i\in I}\module{}{\com{C}}$ denote the category whose objects are pairs $(I,(m_i)_{i\in I})$ where $I$ is a set and $m_i$ is a right $\com{C}$-module for each $i\in I$. A morphism $(I,(m_i)_{i\in I})\to(J,(n_j)_{j\in J})$ is a function $f\colon I\to J$ and, for each $i\in I$ a morphism $m_i\to n_{f(i)}$ of right-$\com{C}$ modules.
+%Let $\sum_{I\in\smset}\prod_{i\in I}\bimod{}{\com{C}}$ denote the category whose objects are pairs $(I,(m_i)_{i\in I})$ where $I$ is a set and $m_i$ is a right $\com{C}$-module for each $i\in I$. A morphism $(I,(m_i)_{i\in I})\to(J,(n_j)_{j\in J})$ is a function $f\colon I\to J$ and, for each $i\in I$ a morphism $m_i\to n_{f(i)}$ of right-$\com{C}$ modules.
 %
 %\begin{proposition}
 %For any comonoid $\com{C}$ there is an adjunction
 %\[
-%\adj[40pt]{\module{}{\com{C}}}{\sum_{i\in I}m_i}{{(n(\1),n[-])}}{\sum_{I\in\smset}\prod_{i\in I}\module{}{\com{C}}}
+%\adj[40pt]{\bimod{}{\com{C}}}{\sum_{i\in I}m_i}{{(n(\1),n[-])}}{\sum_{I\in\smset}\prod_{i\in I}\bimod{}{\com{C}}}
 %\]
-%with functors labeled by where they send $n\in\module{}{\com{C}}$ and $(I,(m_i)_{i\in I})\in\sum_{I\in\smset}\prod_{i\in I}\module{}{\com{C}}$. 
+%with functors labeled by where they send $n\in\bimod{}{\com{C}}$ and $(I,(m_i)_{i\in I})\in\sum_{I\in\smset}\prod_{i\in I}\bimod{}{\com{C}}$. 
 %
 %Moreover, the left adjoint is fully faithful.
 %\end{proposition}
@@ -291,7 +291,25 @@ Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, 
 
 
 
+\section{Questions}
 
+In this section, we lay out some questions that whose answers may or may not be known, but which were not known to us at the time of writing. They vary from concrete to open-ended, they are not organized in any particular way, and are in no sense complete. Still we hope they may be useful to some readers.
 
+\begin{enumerate}
+  \item What can you say about the internal logic for the topos $\cofree{p}\smset$ of dynamical systems with interface $p$, in terms of $p$?
+  \item How does the logic of the topos $\cofree{p}$ help us talk about issues that might be useful in studying dynamical systems?
+  \item Morphisms $p\to q$ in $\poly$ give rise to left adjoints $\cofree{p}\to\cofree{q}$ that preserve connected limits. These are not geometric morphisms in general; in some sense they are worse and in some sense they are better. They are worse in that they do not preserve the terminal object, but they are better in that they preserve every connected limit not just finite ones. How do these left adjoints translate statements from the internal language of $p$ to that of $q$?
+  \item Consider the $\times$-monoids and $\otimes$-monoids in three categories: $\poly$, $\smcat^\sharp$, and $\bimod{}{}$. Find examples of these comonoids, and perhaps characterize them or create a theory of them.
+  \item Is there a functor $\poly$ has pullbacks, so one can consider the bicategory of spans in $\poly$. Is there a functor from that to $\bimod{}{}$ that sends $p\mapsto\cofree{p}$?
+  \item Databases are static things, whereas dynamical systems are dynamic; yet we see them both in terms of $\poly$. How do they interact? Can a dynamical system read from or write to a database in any sense?
+  \item Can we do database aggregation in a nice dynamic way?
+  \item In the theory of polynomial functors, sums of representable functors $\smset\to\smset$, what happens if we replace sets with homotopy types: how much goes through? Is anything improved?
+  \item Are there any functors $\smset\to\smset$ that aren't polynomial, but which admit a comonoid structure with respect to composition $(\yon,\tri)$?
+  \item Characterize the monads in poly? They're generalizations of one-object operads (which are the Cartesian ones), but how can we think about them?
+  \item Both functors and cofunctors give left adjoint bimodules: for functors $F\colon\cat{D}\to\cat{C}$ we use the pullback $\Delta_F$ and for cofunctors $G\colon\cat{C}\cof\cat{D}$ we use the companion as in \cref{**}. Can we characterize left adjoint bimodules in general?
+  \item What limits exist in $\smcat^\sharp$? Describe them combinatorially.
+  \item Since the forgetful functor $U\colon\smcat^\sharp\to\poly$ is faithful, it reflects monomorphisms: if $f\colon\cat{C}\cof\cat{D}$ is a cofunctor whose underlying map on emanation polynomials is monic, then it is monic. Are all monomorphisms in $\cat^\sharp$ of this form?
+  \item At first blush it appears that $\poly$ may be suitable as the semantics of a language for protocols. Develop such a language or showcase the limitations that make it impossible or inconvenient.
+\end{enumerate}
 
 \end{document}
