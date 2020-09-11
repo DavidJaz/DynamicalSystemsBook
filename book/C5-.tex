@@ -3704,7 +3704,7 @@ So a position in $\tr_p$ is one of these trees. Such a tree may end, namely if e
 We'll explain the counit $\rt$ and the comultiplication $\fs$ after going through an example.
 
 \begin{example}\label{ex.imagining_trees}
-Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four $p$-trees:
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees in $p$:
 \begin{equation}\label{eqn.some_trees_misc58}
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=10mm},
@@ -4268,7 +4268,7 @@ The way the adjunction works is as follows. Suppose that $\cat{C}=(\ema{c},\epsi
 \ema{c}\To{\delta^{k-1}}\ema{c}\tripow{k}\To{f\tripow{k}}p\tripow{k}
 \]
 This is a generalization of what we called ``speeding up dynamical systems'' in \cref{eqn.speedup}. In terms of poly-boxes it looks like this for $k=3$:
-\[
+\begin{equation}\label{eqn.comon_delta_k}
 \begin{tikzpicture}
 	\node (given) {
 	\begin{tikzpicture}[polybox, tos]
@@ -4308,10 +4308,43 @@ This is a generalization of what we called ``speeding up dynamical systems'' in 
 	\node[above] at (obtain.north) (obtain_lab) {Obtain for $k=3$};
 	\node at (given|-obtain_lab) {Given $f\colon \ema{c}\to p$};
 \end{tikzpicture}
-\]
+\end{equation}
 So for any $k\in\nn$, we have a map from $\ema{c}$ to $p$-trees of height $k$, and we put them together to obtain the map $\cat{C}\to\cofree{p}$. The fact that we have an adjunction $\adj{\smcat^\sharp}{}{}{\poly}$ means that there is nothing more or less in a cofunctor $\cat{C}\to\cofree{p}$ than the map $\ema{c}\to p$ of polynomials.
 
 It is also worthwhile understanding the unit and counit of this cofree adjunction. The counit is a map of polynomials $\tr_p\to p$ natural in $p\in\poly$. On positions, it sends a tree $t$ to its root corolla. Given a direction in the root corolla, we obtain a direction in $t$, i.e.\ a path (of length 1) emanating from the root.
+
+\begin{example}
+Let's consider $p=\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$ as in \cref{ex.imagining_trees}. Given a $p$-tree $t$ that starts like this:
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm},
+  level 3/.style={sibling distance=2.5mm}]
+	\node[red] (a) {$\bullet$}
+		child {node[red] {$\bullet$}
+			child {node[dyellow] {$\bullet$}}
+			child {node[dyellow] {$\bullet$}}
+		}
+		child {node[dgreen] {$\bullet$}
+			child {node[dgreen] {$\bullet$}
+				child
+			}
+		}
+		;
+\end{tikzpicture}
+\]
+its root corolla is simply
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm}]
+	\node[red] (a) {$\bullet$}
+		child 
+		child
+		;
+\end{tikzpicture}
+\]
+So the map $\tr_p\to p$ sends $t$ to $\bul[red]$. It passes each of the two directions emanating from $\bul[red]$ to the corresponding direction emanating from the root of $t$.
+\end{example}
 
 \begin{exercise}
 Let $p\coloneqq\yon^\2+\1$.
@@ -4330,23 +4363,43 @@ Given a comonoid $\cat{C}=(\ema{c},\epsilon,\delta)$, the unit cofunctor $\cat{C
 Consider the walking arrow category $\cat{W}=\fbox{$\bullet\to\bullet$}$. Draw the cofunctor $\cat{W}\to\cofree{\yon^\2+\yon}$.
 \end{exercise}
 
+\paragraph{Dynamical systems and graph fibrations.}
 
+In \cref{ex.cofree_dyn_sys}, there's a certain relationship we can see between the graph we associate to the dynamical system $S\yon^S\to p$, namely 
+\[
+\begin{tikzcd}[column sep=small]
+	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bul[red]
+\end{tikzcd}
+\]
+and the trees (which are also graphs) that its mate $S\yon^S\to\cofree{p}$ associates to each element of $S$, e.g.\ for the green dot:
+\[
+\treepic
+\]
+Indeed, there is a map of graphs from the latter to the former, which sends all the green dots in the tree to the green dot in the dynamical system, etc. This map of graphs is a kind of \emph{fibration}, or maybe we should say op-fibration, in the sense that the set of arrows emanating from every dot in the tree is in bijection with the set of arrows emanating from its image in the dynamical system graph.
 
+\begin{exercise}
+\begin{enumerate}
+	\item Draw the other two trees associated to the dynamical system in \cref{ex.cofree_dyn_sys}.
+	\item Do they also have an op-fibration down to the dynamical system graph?
+	\item Are these op-fibrations special in any way? That is, are they unique, or have any universal property?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
+\paragraph{Replacing $S\yon^S$ by another comonoid.}
 
-Show graph fibration idea.
+For any interface $p$, we defined a dependent dynamical system---also called a generalized Moore machine---to be a set $S$ and a polynomial map $S\yon^S\to p$. But now it seems that what really makes this work is that $S\yon^S$ underlies a comonoid. This suggests that we could instead have defined a dependent dynamical system to be a comonoid $\cat{C}=(\ema{c},\epsilon,\delta)$ together with a map $\ema{c}\to p$. What are the similarities and differences?
 
+Here are some similarities. We still get a cofunctor $F\colon\cat{C}\to\cofree{p}$, so we associate a $p$-tree to each object in $\cat{C}$ and pass back paths out of its root to morphisms in $\cat{C}$. In terms of dynamics, we would think of objects in $\cat{C}$ as internal states. We still have the situation from \eqref{eqn.comon_delta_k}, meaning that for every state $c\in\cat{C}$, we get a position $i\coloneqq F_1(c)$ in $p(\1)$, and for every direction $d\in p[i]$ there we get a new state $\cod(F^\sharp_c(d))\in\cat{C}$. 
 
-\begin{proposition}
-The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\smcat^\sharp$.
-\end{proposition}
-\begin{proof}
-The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{n})}\cong\cofree{\yon^{\ord{n}}}$ is the $n$-fold product of $\yon^\nn$ in $\smcat^\sharp$. We thus want to find cofunctors $e\colon \yon\to\yon^\nn$ and $m\colon\yon^{\List(\2)}\to\yon^\nn$ that satisfy the axioms of a monoid. 
+But in fact we get a little more from $F$, and this is where the differences come in. Namely, given a direction $d\in p[i]$, we get the morphism $F^\sharp_c(d)$ itself. In the state category $S\yon^S$, there is a unique morphism between every two objects, so this passed-back morphism carries no data beyond what its codomain is. But for a more general comonoid $\cat{C}$, the morphisms \emph{do} carry data. 
 
-The unique polynomial map $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the polynomial map $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\smcat^\sharp,\yon,\times)$.
-\end{proof}
+Thus we can think of a map $\ema{c}\to p$ as a dynamical system that ``records its history''. That is, given a path $\cofree{p}$, a sequence of inputs to our dynamical system, we get a morphism in $\cat{C}$. If, unlike in a state category $S\yon^S$, there are multiple morphisms between objects, we will know which one was actually taken by the system.
 
-Discuss counit map $\pi\colon\tr_p\to p$, the map sending each $p$-tree to its \emph{root corolla} and each direction there back to the one-step path.
+This seems like a nice generalization of dynamical systems---history-recording dynamical systems---and may have some use. However, we will see in \cref{chapter.6} that there are strpmg theoretical reason to emphasize the ahistorical state categories $S\yon^S$. For one thing, the category of all such $S\yon^S$-style dynamical systems on $p$ forms a topos for any $p\in\poly$.
+
 
 %---- Subsection ----%
 \subsection{Some math about cofree comonoids}
@@ -4372,7 +4425,7 @@ Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in 
 The free category on a graph always has this property, so the result follows from \cref{prop.cofree_free_on_graph}.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{prop.cofree_lax_monoidal}
 The cofree functor $p\mapsto\cofree{p}=(\tr_p,\rt,\fs)$ is lax monoidal; in particular there is a map of polynomials $\yon\to\tr_\yon$, and for any $p,q\in\poly$ there is a natural map
 \[
 	\tr_p\otimes\tr_q\to\tr_{p\otimes q}.
@@ -4382,6 +4435,25 @@ satisfying the usual conditions.
 \begin{proof}
 By \cref{prop.dirichlet_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\poly$ is strong monoidal. A consequence of Kelly's doctrinal adjunction theorem \cite{kelly1974doctrinal} says that the right adjoint of an op-lax monoidal functor is lax monoidal.
 \end{proof}
+
+\begin{exercise}
+\begin{enumerate}
+	\item What polynomial is $\tr_\yon$?
+	\item What is the map $\yon\to\tr_\yon$ from \cref{prop.cofree_lax_monoidal}?
+	\item Explain in words how to think about the map $\tr_p\otimes\tr_q\to\tr_{p\otimes q}$ from \cref{prop.cofree_lax_monoidal}, for arbitrary $p,q\in\poly$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}
+The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\smcat^\sharp$.
+\end{proposition}
+\begin{proof}
+The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{n})}\cong\cofree{\yon^{\ord{n}}}$ is the $n$-fold product of $\yon^\nn$ in $\smcat^\sharp$. We thus want to find cofunctors $e\colon \yon\to\yon^\nn$ and $m\colon\yon^{\List(\2)}\to\yon^\nn$ that satisfy the axioms of a monoid. 
+
+The unique polynomial map $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the polynomial map $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\smcat^\sharp,\yon,\times)$.
+\end{proof}
+
 
 \begin{proposition}\label{prop.traj_mon_poly}
 There is a commutative square of left adjoints
