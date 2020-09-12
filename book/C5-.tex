@@ -3935,7 +3935,7 @@ Comonoids in $\poly$ are triples $(p,\epsilon,\delta)$, with $(p,\epsilon)$ a co
 \]
 We want to find the right adjoint to the composite---that's the functor $\cofree{-}\colon\poly\to\Cat{Comon}(\poly)$---and we will obtain it in two steps. 
 
-\begin{proposition}
+\begin{proposition}\label{prop.copointing}
 For any polynomial $p$, the polynomial $p\yon$ is naturally copointed by the projection to $\yon$, and the functor sending $p\mapsto p\yon$ is right adjoint to the forgetful functor
 \[
 \adj{\Cat{Copnt}(\poly)}{p\yon}{q}{\poly},
@@ -3984,6 +3984,20 @@ The copointing $p\mapsto p\yon$ just adds an extra direction to each position; w
 \end{tikzpicture}
 \]
 It just adds a default direction to each position. A copointed map from $(q,\epsilon)$ to $(p\yon,\pi)$ must pass the default direction back to the default direction in $q$, but leaves the other directions in $p$ to go wherever they want to.
+
+\begin{example}[Slowing down dynamical systems]
+Given a dynamical system $f\colon S\yon^S\to p$, we automatically get a map $S\yon^S\to p\yon$ to the cofree pointing. We called this ``adding a pause button'' in \cref{ex.pause}. Thus we can take any dynamical system and replace it with one whose interface is copointed.
+
+We can use a copointed interface to slow down a dynamical system, in a kind of inverse to how we sped up dynamical systems in \eqref{eqn.speedup}. There we took a dynamical system $f$ with interface $p$ and produced one and produced one with interface $p\tripow{k}$. Here we will take one with interface $p\tripow{k}$ and produce one with interface $p$.
+
+To do this, we need $p$ to be copointed, i.e.\ we need to have in hand a map $\epsilon\colon p\to\yon$, and as we saw above that we can always assume that. Now for any $k\in\nn$ we have $k$-many maps $p\tripow{k}\to p$. For example, if $k=3$, we have
+\[
+\{\epsilon\tri\epsilon\tri p,\epsilon\tri p\tri\epsilon,p\tri\epsilon\tri\epsilon\}\ss\poly(p\tripow{3},p)
+\]
+So given a dynamical system $S\yon^S\to p\tripow{k}$, which outputs as its position a whole $k$-fold strategy at one time and which takes as input sequences of $k$-many inputs, we can feed it one input and $k-1$ pauses. This is what you get when you compose $S\yon^S\to p\tripow{k}\to p$.
+
+Given a dynamical system $f\colon S\yon^S\to p$, where $p$ is copointed and $f$ preserves the copoint, we could speed it up as before to get $S\yon^S\to p\tripow{k}$ and then slow it down to get $S\yon^S\to p$, and we get back $f$. So slowing down is a retract of speeding up in this sense.
+\end{example}
 
 \paragraph{Constructing the cofree comonoid.}
 

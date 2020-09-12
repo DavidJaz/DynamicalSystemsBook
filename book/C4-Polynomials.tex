@@ -2260,6 +2260,12 @@ The state without any outgoing arrows is the ``accept'' state for a regular lang
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[Adding a pause button]\label{ex.pause}
+Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a pause button'', meaning that for any state (and any position), we add an input that keeps the state where it is.
+
+To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by identity (see \cref{**}). By the universal property of products, we can pair $f$ and $\epsilon$ to get a map $(f,\epsilon)\colon S\yon^S\to p\yon\cong p\times \yon$. This process is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
+\end{example}
+
 \begin{example}[Inputting a start state]
 Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to create a system that starts as not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
 
@@ -3112,6 +3118,16 @@ Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism
 
 \noindent$\Leftarrow$: Suppose that $f_1$ is a monomorphism and that for each $i\in p(\1)$ the function $f_i^\sharp$ is an epimorphism. Let $r$ be a polynomial, $g,h\colon r\tto p$ two morphisms, and suppose $fg=fh$. Then $f_1g_1=f_1h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $g^\sharp_kf^\sharp_{g_1k}=h^\sharp_kf^\sharp_{g_1k}$ for any $k\in r(\1)$. But $f^\sharp_{g_1k}$ is an epimorphism, so in fact $g^\sharp_k=h^\sharp_k$, as desired.
 \end{proof}
+
+\begin{example}
+Choose a finite nonempty set $\ord{k}$ for $1\leq k\in\nn$, e.g.\ $\ord{k}=\1\2$. There is a monomorphism
+\[
+(f,f^\sharp)\colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
+\]
+such that the trajectory ``going around and around the $k$-clock'' comes from the usual counting trajectory \cref{ex.counting_trajectory} $\nn\yon^\nn\to\yon$.
+
+On positions we have $f(i)=i$, for all natural numbers $1\leq i\leq k$. On directions we have $f^\sharp(n)=n\mod k$.
+\end{example}
 
 \begin{proposition}\label{prop.epis_in_poly}
 Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is an epimorphism iff the function $f_1\colon p(\1)\to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$ the induced function 
