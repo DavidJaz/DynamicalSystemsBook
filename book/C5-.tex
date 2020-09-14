@@ -2534,7 +2534,7 @@ There is an equivalence of categories
 \]
 \end{theorem}
 \begin{proof}
-This will be proved in \cref{ex.cofunctors_comon_homs}.
+This will be proved as \cref{prop.copointing,thm.cofree}.
 \end{proof}
 
 Our first goal is to understand how one translates between categories $\cat{C}$ and comonoids $\com{C}=(\ema{c},\epsilon,\delta)$ in $\poly$. The idea is pretty simple: the objects of $\cat{C}$ are the positions of $\ema{c}$
@@ -3124,6 +3124,13 @@ To see this is a cofunctor, we check that identities, codomains, and composition
 \begin{exercise}\label{exc.BGEG}
 Does the idea of \cref{ex.BGEG} work when $G$ is merely a monoid, or does something go subtly wrong somehow?
 \end{exercise}
+
+\begin{proposition}\label{prop.monoids_ff}
+There is a fully faithful functor $\Cat{Mon}\op\to\smcat^\sharp$, whose image is precisely those categories whose emanation polynomial is representable.
+\end{proposition}
+\begin{proof}
+Given a monoid $(M,e,*)$, we think of it as a category with one object; its emanation polynomial $\yon^M$ is representable. A cofunctor between such categories carries no data in its on-objects part, and codomains are automatically preserved. Cofunctors $\yon^M\to\yon^N$ simply carry elements of $N$ to elements of $M$, preserving identity and composition, exactly the description of monoid homomorphisms.
+\end{proof}
 
 \begin{proposition}
 There is an adjunction
@@ -3914,7 +3921,15 @@ Let $p\coloneqq \{a,b,c,\ldots,z,\text{\textvisiblespace}\}\yon+\1$.
 
 \paragraph{Decision trees.}
 
-(Fill)
+When you talk about your future, what exactly might you be talking about? In some sense you can make choices that change what will happen to you, but in another sense it's as though for each such choice there is something beyond your control that makes a new situation for you. You're constantly in the position of needing to make a choice, but its results are beyond your control.
+
+This is very much how positions $t\in\cofree{p}$ look. Such a position is a decision tree: at each stage (node), you have an element $i\in p(\1)$, which we've been calling a decision. It has $p[i]$-many options, each of which, say $d\in p[i]$ results in a new node $\cod(d)$ of the tree.
+
+So a position $t$ is like a future: it is a current decision, and for every option there, a new decision tree. It's all the decisions you could possibly make, and for each actual choice, it's a new future. A direction at $t$ is just a choice of finite path through the tree: a sequence of choices. 
+
+\begin{exercise}
+If someone says that they understand a future to be a decision tree $t\in\cofree{p}$, explain in your own words how they're thinking about the term ``future''. How does it agree or disagree with your own intuition about what a ``future'' is?
+\end{exercise}
 
 %---- Subsection ----%
 \subsection{Formal construction of $\cofree{p}$}
@@ -4281,6 +4296,16 @@ If $F\colon S\yon^S\cof\cofree{p}$ is the associated cofunctor, what is the tree
 Suppose $S$ is a set, $p$ is a polynomial, $f\colon S\yon^S\to p$ is a dynamical system, and $F\colon S\yon^S\cof\cofree{p}$ is the associated cofunctor. To every state $s\in S$, we get a tree $F(s)\in\tr_p$. What common feature do all such trees have when $S$ is a finite set? What do these trees look like?
 \end{exercise}
 
+\begin{exercise}
+In \cref{ex.counting_trajectory} we considered a dynamical $\nn\yon^\nn\to\nn\yon$ that acts like a stop watch, ticking up for ever.
+\begin{enumerate}
+	\item Obtain a map of polynomials $\nn\yon^\nn\to\yon$ from adjointness of the cofree construction.
+	\item Obtain a map of polynomials $\nn\yon^\nn\to\nn$.
+	\item Does the pairing of the two maps you found have the stopwatch behavior we were looking for?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 The way the adjunction works is as follows. Suppose that $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid and $p$ is a polynomial. Then given a map of polynomials $f\colon\ema{c}\to p$, we can form a map $\ema{c}\to p\tripow{k}$ for any $k\in\nn$ as follows. First use the comonoid structure to obtain $\delta^{k-1}\colon\ema{c}\to\ema{c}\tripow{k}$ as in \cref{ex.delta_n_notation}. Second we use the monoidality of $\tri$ to get $f\tripow{k}\colon\ema{c}\tripow{k}\to p\tripow{k}$. Composing we obtain
 \[
 \ema{c}\To{\delta^{k-1}}\ema{c}\tripow{k}\To{f\tripow{k}}p\tripow{k}
@@ -4463,7 +4488,7 @@ By \cref{prop.dirichlet_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\
 \end{enumerate}
 \end{exercise}
 
-\begin{proposition}
+\begin{proposition}\label{prop.ynn_monoid}
 The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\smcat^\sharp$.
 \end{proposition}
 \begin{proof}
@@ -4472,6 +4497,16 @@ The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{
 The unique polynomial map $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the polynomial map $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\smcat^\sharp,\yon,\times)$.
 \end{proof}
 
+\begin{proposition}\label{prop.catsharp_to_mon}
+The functor
+\[\smcat^\sharp(-,\yon^\nn)\colon\smcat^\sharp\to\Cat{Mon}\op\]
+represented by $\yon^\nn$ is right adjoint to the inclusion $\Cat{Mon}\op\to\smcat^\sharp$ from \cref{prop.monoids_ff}.
+\end{proposition}
+\begin{proof}
+We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}. A cofunctor $\cat{C}\cof\yon^\nn$ is a trajectory in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The trajectory assigning the identity to each object is the unit of the monoid. Let's denote this functor by $T\coloneqq\smcat^\sharp(-,\yon^\nn)$.
+
+Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\them m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to T(\cat{C})$: it assigns to each $m\in M$ a trajectory in $\cat{C}$, preserving unit and multiplication.
+\end{proof}
 
 \begin{proposition}\label{prop.traj_mon_poly}
 There is a commutative square of left adjoints
@@ -4486,7 +4521,9 @@ There is a commutative square of left adjoints
 where the functors denoted $U$ are forgetful functors.
 \end{proposition}
 \begin{proof}
-**
+Using the fully faithful functor $\yon^-\colon\Cat{Mon}\op\tofrom\smcat^\sharp$ from \cref{prop.monoids_ff}, it is easy to check that the above diagram commutes. 
+
+The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\smcat^\sharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\smcat^\sharp$ is a left adjoint in \cref{prop.catsharp_to_mon}.
 \end{proof}
 
 

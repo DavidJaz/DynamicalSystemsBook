@@ -2029,6 +2029,18 @@ S\yon^S\to B\yon^A
 \]
 or to say it another way, a lens from $(S,S)\to(A,B)$ in the sense of \cref{eqn.bimorphic_lens}.
 
+\begin{example}\label{ex.counting_trajectory}
+There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,...$. It is a Moore machine of type $(\1,\nn)$ with states $\nn$. The polynomial map $\nn\yon^\nn\to\nn\yon$ is given by identity on positions and $n\mapsto n+1$ on directions
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom] (s) {$n+1$\nodepart{two}$n$};
+	\node[poly, cod, linear, right=of s] (p) {$\vphantom{1}$\nodepart{two}$n$};
+	\draw (s_pos) to[first] (p_pos);
+	\draw (p_dir) to[last] (s_dir);
+\end{tikzpicture}
+\]
+\end{example}
+
 We can generalize both $S\yon^S$ and $B\yon^A$ in \cref{def.moore_machine_again}, though the latter is much simpler and we'll spend much of the section on it. After some examples, we'll briefly preview something we're going to spend a lot of time later, namely what's special about $S\yon^S$; then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same system.
 
 \begin{example}\label{ex.Moore_three}
@@ -2226,7 +2238,13 @@ A \emph{dependent system} is a map of polynomials
 for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states} and the polynomial $p$ is called the \emph{(poly-) interface}.
 \end{definition}
 
-We could also call these \emph{generalized Moore machines}, since Moore machines were seen to be given by the special case $p=B\yon^A$ for sets $A,B$. But whether you call these things dependent systems or generalized Moore machines, the question is: what on earth do they do? Let's start with something familiar.
+We could also call these \emph{generalized Moore machines}, since Moore machines were seen to be given by the special case $p=B\yon^A$ for sets $A,B$. A polynomial might be $p=B_1\yon^{A_1}+\cdots+B_k\yon^{A_k}$ (though it doesn't have to be finite), so the output is an element of the coproduct $B_1+\cdots+B_k$, and the choice of output determines what sort of input you get. What kind of output is that?
+
+We now begin to think of outputs not only as outward expressions, but as positions that one takes within ones arena, terminology we've been using all along. If the arena is your body, this would be positions of your body. This includes where you go, as well as the direction you're looking with your head and eyes, whether your lips are pursed or not, etc. In fact, all talking and gesturing is performed by changing your position. And your position determines what inputs you'll notice: if your eyes are closed, your input type is different than if your eyes are open.
+
+If we squint, we could even see an output more as a sensing apparatus than anything else. This is pretty philosophical, but imagine your outputs---what you say and do---are more there as a question to the world, a way of sensing what the world is like.
+
+But however you think of dependent systems, we need to get a feel for how they work. Let's start with something familiar.
 
 \begin{example}\label{ex.regular_lang_stop}
 Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in ones language. For that, rather than use a map $S\yon^S\to 2\yon^A$, we could use a map
@@ -2264,6 +2282,20 @@ The state without any outgoing arrows is the ``accept'' state for a regular lang
 Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a pause button'', meaning that for any state (and any position), we add an input that keeps the state where it is.
 
 To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by identity (see \cref{**}). By the universal property of products, we can pair $f$ and $\epsilon$ to get a map $(f,\epsilon)\colon S\yon^S\to p\yon\cong p\times \yon$. This process is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
+\end{example}
+
+\begin{example}
+Suppose given a dependent dynamical system $f$ that sometimes outputs an element of $A$ and sometimes outputs only the hum. That is, its interface is $A\yon+\yon$. What if we want to turn that into a dynamical system that always outputs an $A$ by constantly repeating the last thing output by $f$. How do we construct it?
+
+The output to our whole system is supposed to be $A\yon$, and we already have $f\colon S\yon^S\to A\yon+\yon$. It will be enough to construct a map $g\colon (A\yon+\yon)\otimes A\yon^A\to A\yon$, because then we can use
+\[
+(SA\yon^{SA})\cong(S\yon^S)\otimes (A\yon^A)\To{f\otimes\id}(A\yon+\yon)\To{g}A\yon
+\]
+as our overall dynamical system. Since $\otimes$ distributes over $+$, we need to give $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. For the latter we use the identity, which we called $\epsilon\colon A\yon^A\to\yon$ and for the former we use
+\[
+A\yon\otimes A\yon^A\cong (A\yon\otimes\yon^A)\otimes A\yon\To{\epsilon\otimes\id}\yon\otimes A\yon
+\]
+This accomplishes what we wanted.
 \end{example}
 
 \begin{example}[Inputting a start state]
@@ -3082,7 +3114,7 @@ where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
 Prove \cref{cor.substituting_adj} from \cref{prop.two_var_adj}.
 \end{exercise}
 
-\begin{proposition}
+\begin{proposition}\label{prop.yoneda_left_adjoint}
 The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
 \[
 \adjr{\smset\op}{\yon^-}{\Gamma}{\poly}
@@ -3119,7 +3151,7 @@ Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism
 \noindent$\Leftarrow$: Suppose that $f_1$ is a monomorphism and that for each $i\in p(\1)$ the function $f_i^\sharp$ is an epimorphism. Let $r$ be a polynomial, $g,h\colon r\tto p$ two morphisms, and suppose $fg=fh$. Then $f_1g_1=f_1h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $g^\sharp_kf^\sharp_{g_1k}=h^\sharp_kf^\sharp_{g_1k}$ for any $k\in r(\1)$. But $f^\sharp_{g_1k}$ is an epimorphism, so in fact $g^\sharp_k=h^\sharp_k$, as desired.
 \end{proof}
 
-\begin{example}
+\begin{example}\label{ex.clock_in_N}
 Choose a finite nonempty set $\ord{k}$ for $1\leq k\in\nn$, e.g.\ $\ord{k}=\1\2$. There is a monomorphism
 \[
 (f,f^\sharp)\colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
@@ -3128,6 +3160,12 @@ such that the trajectory ``going around and around the $k$-clock'' comes from th
 
 On positions we have $f(i)=i$, for all natural numbers $1\leq i\leq k$. On directions we have $f^\sharp(n)=n\mod k$.
 \end{example}
+
+\begin{exercise}
+In \cref{ex.clock_in_N} we gave a map $\1\2\yon^{\1\2}\to\nn\yon^\nn$. This allows us to turn any dynamical system with $\nn$-many states into a dynamical system with 12 states, while keeping the same interface, say $p$. 
+
+Explain how the behavior of the new system $\1\2\yon^{\1\2}\to p$ would be seen to relate to the behavior of the old system $\nn\yon^\nn\to p$.
+\end{exercise}
 
 \begin{proposition}\label{prop.epis_in_poly}
 Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is an epimorphism iff the function $f_1\colon p(\1)\to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$ the induced function 
