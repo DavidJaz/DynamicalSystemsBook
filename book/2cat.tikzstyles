@@ -8,9 +8,12 @@
 \tikzstyle{function red}=[fill={rgb,255: red,191; green,0; blue,64}, draw={rgb,255: red,191; green,0; blue,64}, shape=circle, inner sep=1]
 \tikzstyle{function blue}=[fill=blue, draw=blue, shape=circle, inner sep=1]
 \tikzstyle{function orange}=[fill={rgb,255: red,255; green,128; blue,0}, draw={rgb,255: red,255; green,128; blue,0}, shape=circle, inner sep=1]
+\tikzstyle{new style 0}=[fill={rgb,255: red,76; green,169; blue,170}, draw={rgb,255: red,76; green,169; blue,170}, shape=circle, inner sep=1]
 
 % Edge styles
 \tikzstyle{object red}=[-, draw={rgb,255: red,191; green,0; blue,64}, thick]
 \tikzstyle{object blue}=[-, draw=blue, thick]
 \tikzstyle{object}=[-]
 \tikzstyle{object orange}=[-, draw={rgb,255: red,255; green,128; blue,0}, thick]
+\tikzstyle{new edge style 0}=[-, draw={rgb,255: red,76; green,169; blue,170}, thick]
+\tikzstyle{new edge style 1}=[-]

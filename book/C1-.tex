@@ -5649,6 +5649,187 @@ an indexed category.
   We note that this is evidently functorial.
 \end{definition}
 
+To see that to every $r : C' \to C$ we get a functor $r^{\ast} : \smctx{C} \to
+\smctx{C'}$, we can use string diagrams. We can draw $r$ as
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function clear] (0) at (0, 0) {$r$};
+		\node [style=none] (1) at (-1, 0) {};
+		\node [style=none] (2) at (1, 0) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=new edge style 0] (1.center) to (0);
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (0) to (2.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+so that the action of $r^{\ast}$ is given by 
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function clear] (0) at (1, 0) {$f$};
+		\node [style=none] (1) at (2, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+		\node [style=function clear] (3) at (0, -0.5) {$r$};
+		\node [style=none] (4) at (-1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object] (1.center) to (0);
+		\draw [style=object] (0) to (2.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (0) to (3);
+		\draw [style=new edge style 0] (3) to (4.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+If we note that $r$ satisfies the following laws:
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function clear] (0) at (0, 0) {$r$};
+		\node [style=function blue] (1) at (1, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue] (1) to (0);
+		\draw [style=new edge style 0] (0) to (2.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=new style 0] (1) at (1, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=new edge style 0] (1) to (2.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function clear] (0) at (-1, 0) {$r$};
+		\node [style=none] (2) at (-2, 0) {};
+		\node [style=none] (3) at (0, 0) {};
+		\node [style=none] (4) at (1, 0.5) {};
+		\node [style=none] (6) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=new edge style 0] (0) to (2.center);
+		\draw [style=object blue, bend right, looseness=0.75] (4.center) to (3.center);
+		\draw [style=object blue, bend left, looseness=0.75] (6.center) to (3.center);
+		\draw [style=object blue] (3.center) to (0);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (3) at (1, 0.5) {};
+		\node [style=none] (4) at (-1, 0) {};
+		\node [style=function clear] (5) at (0, 0.5) {$r$};
+		\node [style=none] (6) at (-2, 0) {};
+		\node [style=none] (7) at (0, -0.5) {};
+		\node [style=function clear] (8) at (0, -0.5) {$r$};
+		\node [style=none] (9) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=new edge style 0] (4.center) to (6.center);
+		\draw [style=new edge style 0, bend right, looseness=0.75] (5) to (4.center);
+		\draw [style=new edge style 0, bend left, looseness=0.75] (7.center) to (4.center);
+		\draw [style=object blue] (9.center) to (8);
+		\draw [style=object blue] (3.center) to (5);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+we can then prove that $r^{\ast}$ is a functor graphically:
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (1) at (2, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+		\node [style=function clear] (3) at (0, -0.5) {$r$};
+		\node [style=function blue] (4) at (1, -0.5) {};
+		\node [style=none] (5) at (-1, -0.5) {};
+		\node [style=none] (6) at (-1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object] (1.center) to (2.center);
+		\draw [style=object blue] (4) to (3);
+		\draw [style=new edge style 0, in=0, out=180] (3) to (6.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (1) at (1, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+		\node [style=new style 0] (4) at (0, -0.5) {};
+		\node [style=none] (6) at (-1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object] (1.center) to (2.center);
+		\draw [style=new edge style 0] (4) to (6.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function clear] (0) at (3.5, 0) {$g$};
+		\node [style=none] (1) at (4.5, 0) {};
+		\node [style=none] (2) at (2.5, 0) {};
+		\node [style=none] (3) at (0.75, -1.5) {};
+		\node [style=function clear] (4) at (1.5, 0) {$f$};
+		\node [style=none] (5) at (2.5, 0) {};
+		\node [style=none] (6) at (-2, 0) {};
+		\node [style=none] (8) at (0, -1) {};
+		\node [style=none] (9) at (0.75, -0.5) {};
+		\node [style=function clear] (10) at (-1, -1) {$r$};
+		\node [style=none] (11) at (-2, -1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object] (1.center) to (0);
+		\draw [style=object] (0) to (2.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (0) to (3.center);
+		\draw [style=object] (5.center) to (4);
+		\draw [style=object] (4) to (6.center);
+		\draw [style=object blue] (8.center) to (10);
+		\draw [style=object blue, bend right, looseness=0.75] (9.center) to (8.center);
+		\draw [style=object blue, bend left, looseness=0.75] (3.center) to (8.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (9.center);
+		\draw [style=new edge style 0] (10) to (11.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function clear] (0) at (2.5, 0) {$g$};
+		\node [style=none] (1) at (3.5, 0) {};
+		\node [style=none] (2) at (1.5, 0) {};
+		\node [style=function clear] (3) at (1.5, -0.5) {$r$};
+		\node [style=function clear] (4) at (0.5, 0) {$f$};
+		\node [style=none] (5) at (1.5, 0) {};
+		\node [style=none] (6) at (-2, 0) {};
+		\node [style=none] (8) at (-1, -1) {};
+		\node [style=function clear] (9) at (-0.25, -0.5) {$r$};
+		\node [style=none] (11) at (-2, -1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object] (1.center) to (0);
+		\draw [style=object] (0) to (2.center);
+		\draw [style=object blue, in=0, out=-120] (0) to (3);
+		\draw [style=object] (5.center) to (4);
+		\draw [style=object] (4) to (6.center);
+		\draw [style=new edge style 0, bend right, looseness=0.75] (9) to (8.center);
+		\draw [style=new edge style 0, in=-45, out=180, looseness=1.25] (3) to (8.center);
+		\draw [style=object blue, in=0, out=-120] (4) to (9);
+		\draw [style=new edge style 0] (8.center) to (11.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+
+
 \begin{proposition}\label{prop.lenses_as_groth_construction}
   The category $\Cat{Lens}_{\cat{C}}$ of lenses in $\cat{C}$ is the
   Grothendieck construction of the indexed category of \emph{opposites} of the
@@ -5706,10 +5887,766 @@ $\smctx{C}$ so that a map is of the form $C \times X \to M Y$. If the resulting
 categories $\smctx{C}^M$ remain indexed over $\cat{C}$, we have a ready made
 notion of monadic lens and monadic lens composition given by the Grothendieck construction!
 
+We will be able to define composition in the categories $\smctx{C}^M$ by making
+use of the natural map 
+\[
+\lambda : C \times MX \xto{\eta \times MX} MC \times MX \xto{\sigma} M(C \times X)
+\]
 
+Using string diagrams, we may draw this map as 
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-1, 0.5) {};
+		\node [style=none] (2) at (1, 0.5) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+		\node [style=none] (4) at (1, -0.5) {};
+		\node [style=none] (5) at (0, 0) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (3.center) to (5.center);
+		\draw [style=object blue, in=-180, out=0] (5.center) to (2.center);
+		\draw [style=object red, in=180, out=0, looseness=0.75] (0.center) to (5.center);
+		\draw [style=object red, in=-180, out=0, looseness=0.75] (5.center) to (4.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+
+\begin{definition}
+  Let $\cat{C}$ be a cartesian category an $M : \cat{C} \to \cat{C}$ a
+  commutative monad. For an object $C \in \cat{C}$, there is a category
+  $\smctx{C}^M$ with:
+\begin{itemize}
+  \item Objects the objects of $\cat{C}$.
+  \item Map $f : X \wavyto Y$ are maps $f : C \times X \to MY$ in $\cat{C}$.
+  \item The identity $X \wavyto X$ is $\pi_2 \then \eta$.
+  \item The composite $f \then g$ of $f : X \wavyto Y$ and $g : Y \wavyto Z$ is
+    given by 
+$$f \then g \coloneqq (\Delta_C \times MX) \then (C \times f) \then \lambda
+\then Mg \then \mu.$$ 
+$$C \times X \to C \times C \times X \to C \times MY \to M(C \times Y) \to M^2Z
+\to MZ$$
+\end{itemize}
+\end{definition}
+
+We can show that $\smctx{C}^M$ is indeed a category using string diagrams. In
+string diagrams, a map $f : C \times X \to MY$ in $\smctx{C}^M$ is drawn
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (1) at (1, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+		\node [style=function clear] (4) at (0, 0) {$f$};
+		\node [style=none] (5) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (4) to (5.center);
+		\draw [style=object] (1.center) to (4);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+
+and composition is drawn
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (2) at (-1.5, 0) {};
+		\node [style=function clear] (4) at (0, 0) {$f$};
+		\node [style=none] (6) at (3, 0) {};
+		\node [style=none] (7) at (0.75, 0) {};
+		\node [style=none] (8) at (0.75, -0.5) {};
+		\node [style=function clear] (9) at (1.5, 0) {$g$};
+		\node [style=none] (10) at (2, -0.5) {};
+		\node [style=none] (11) at (-1, -0.75) {};
+		\node [style=none] (12) at (-0.5, -0.5) {};
+		\node [style=none] (13) at (-1.5, -0.75) {};
+		\node [style=none] (14) at (-0.5, -1) {};
+		\node [style=none] (15) at (2, -1) {};
+		\node [style=none] (16) at (2.5, -0.75) {};
+		\node [style=none] (17) at (2, -0.5) {};
+		\node [style=none] (18) at (3, -0.75) {};
+		\node [style=none] (19) at (2, -1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=180, out=0] (14.center) to (8.center);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (9) to (10.center);
+		\draw [style=object] (6.center) to (9);
+		\draw [style=object] (9) to (7.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (9) to (8.center);
+		\draw [style=object blue] (11.center) to (13.center);
+		\draw [style=object blue, in=45, out=-180, looseness=0.75] (12.center) to (11.center);
+		\draw [style=object blue, in=315, out=-180, looseness=0.75] (14.center) to (11.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (12.center);
+		\draw [style=object] (7.center) to (4);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (4) to (8.center);
+		\draw [style=object red, in=180, out=0, looseness=1.25] (8.center) to (15.center);
+		\draw [style=object red] (16.center) to (18.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (17.center) to (16.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (19.center) to (16.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+The identity is drawn
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-1.5, 0) {};
+		\node [style=none] (1) at (1.5, 0) {};
+		\node [style=none] (2) at (-1.5, -0.5) {};
+		\node [style=function blue] (3) at (-0.5, -0.5) {};
+		\node [style=function red] (4) at (0.5, -0.5) {};
+		\node [style=none] (5) at (1.5, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object] (0.center) to (1.center);
+		\draw [style=object blue] (2.center) to (3);
+		\draw [style=object red] (4) to (5.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+In order to show that this composition is unital and associative, we will need
+to show that the following four laws hold relating $\lambda$ to the struction of
+$M$ and of $C \times (-)$:
+\begin{equation}\label{eqn.dist_law_unit}
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function red] (0) at (-1, 0.5) {};
+		\node [style=none] (2) at (1, 0.5) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+		\node [style=none] (4) at (1, -0.5) {};
+		\node [style=none] (5) at (0, 0) {};
+		\node [style=none] (6) at (-2, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (3.center) to (5.center);
+		\draw [style=object blue, in=-180, out=0] (5.center) to (2.center);
+		\draw [style=object red, in=180, out=0, looseness=0.75] (0) to (5.center);
+		\draw [style=object red, in=-180, out=0, looseness=0.75] (5.center) to (4.center);
+		\draw [style=object blue] (6.center) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-1, 0.5) {};
+		\node [style=none] (1) at (1, 0.5) {};
+		\node [style=function red] (2) at (0, -0.5) {};
+		\node [style=none] (3) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red] (2) to (3.center);
+		\draw [style=object blue] (0.center) to (1.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\end{equation}
+\begin{equation}\label{eqn.dist_law_counit}
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=function blue] (0) at (0, 0.5) {};
+		\node [style=none] (2) at (-2, 0.5) {};
+		\node [style=none] (3) at (0, -0.5) {};
+		\node [style=none] (4) at (-2, -0.5) {};
+		\node [style=none] (5) at (-1, 0) {};
+		\node [style=none] (6) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=0, out=180, looseness=0.75] (3.center) to (5.center);
+		\draw [style=object red, in=0, out=180] (5.center) to (2.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (0) to (5.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (5.center) to (4.center);
+		\draw [style=object red] (6.center) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (1, 0.5) {};
+		\node [style=none] (1) at (-1, 0.5) {};
+		\node [style=function blue] (2) at (0, -0.5) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue] (2) to (3.center);
+		\draw [style=object red] (0.center) to (1.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\end{equation}
+\begin{equation}\label{eqn.dist_law_mult}
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-1, 0.5) {};
+		\node [style=none] (2) at (1, 0.5) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+		\node [style=none] (4) at (1, -0.5) {};
+		\node [style=none] (5) at (0, 0) {};
+		\node [style=none] (6) at (-1, 0.5) {};
+		\node [style=none] (7) at (-2, 1) {};
+		\node [style=none] (9) at (-2, 0) {};
+		\node [style=none] (10) at (-2, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (3.center) to (5.center);
+		\draw [style=object blue, in=-180, out=0] (5.center) to (2.center);
+		\draw [style=object red, in=180, out=0, looseness=0.75] (0.center) to (5.center);
+		\draw [style=object red, in=-180, out=0, looseness=0.75] (5.center) to (4.center);
+		\draw [style=object red, bend left, looseness=0.75] (7.center) to (6.center);
+		\draw [style=object red, bend right, looseness=0.75] (9.center) to (6.center);
+		\draw [style=object blue] (10.center) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (-2, 1) {};
+		\node [style=none] (2) at (2, 1) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+		\node [style=none] (4) at (1, -0.5) {};
+		\node [style=none] (5) at (0, 0) {};
+		\node [style=none] (7) at (-2, 0) {};
+		\node [style=none] (9) at (-2, -1) {};
+		\node [style=none] (10) at (1, -1.5) {};
+		\node [style=none] (11) at (-1, -0.5) {};
+		\node [style=none] (12) at (-2, 0) {};
+		\node [style=none] (13) at (2, -1) {};
+		\node [style=none] (14) at (1, -0.5) {};
+		\node [style=none] (15) at (3, -1) {};
+		\node [style=none] (16) at (1, -1.5) {};
+		\node [style=none] (17) at (3, 1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (3.center) to (5.center);
+		\draw [style=object blue, in=-180, out=0] (5.center) to (2.center);
+		\draw [style=object red, in=180, out=0, looseness=0.75] (0.center) to (5.center);
+		\draw [style=object red, in=-180, out=0, looseness=0.75] (5.center) to (4.center);
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (9.center) to (11.center);
+		\draw [style=object red, in=180, out=0, looseness=0.75] (7.center) to (11.center);
+		\draw [style=object red, in=-180, out=0, looseness=0.75] (11.center) to (10.center);
+		\draw [style=object red] (13.center) to (15.center);
+		\draw [style=object red, bend left, looseness=0.75] (14.center) to (13.center);
+		\draw [style=object red, bend right, looseness=0.75] (16.center) to (13.center);
+		\draw [style=object blue] (2.center) to (17.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\end{equation}
+\begin{equation}\label{eqn.dist_law_comult}
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (0, 0.5) {};
+		\node [style=none] (2) at (-2, 0.5) {};
+		\node [style=none] (3) at (0, -0.5) {};
+		\node [style=none] (4) at (-2, -0.5) {};
+		\node [style=none] (5) at (-1, 0) {};
+		\node [style=none] (6) at (0, 0.5) {};
+		\node [style=none] (7) at (1, 1) {};
+		\node [style=none] (9) at (1, 0) {};
+		\node [style=none] (10) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=0, out=180, looseness=0.75] (3.center) to (5.center);
+		\draw [style=object red, in=0, out=180] (5.center) to (2.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (0.center) to (5.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (5.center) to (4.center);
+		\draw [style=object blue, bend right, looseness=0.75] (7.center) to (6.center);
+		\draw [style=object blue, bend left, looseness=0.75] (9.center) to (6.center);
+		\draw [style=object red] (10.center) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (3, 1) {};
+		\node [style=none] (2) at (-1, 1) {};
+		\node [style=none] (3) at (2, -0.5) {};
+		\node [style=none] (4) at (0, -0.5) {};
+		\node [style=none] (5) at (1, 0) {};
+		\node [style=none] (7) at (3, 0) {};
+		\node [style=none] (9) at (3, -1) {};
+		\node [style=none] (10) at (0, -1.5) {};
+		\node [style=none] (11) at (2, -0.5) {};
+		\node [style=none] (12) at (3, 0) {};
+		\node [style=none] (13) at (-1, -1) {};
+		\node [style=none] (14) at (0, -0.5) {};
+		\node [style=none] (15) at (-2, -1) {};
+		\node [style=none] (16) at (0, -1.5) {};
+		\node [style=none] (17) at (-2, 1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=0, out=180, looseness=0.75] (3.center) to (5.center);
+		\draw [style=object red, in=0, out=180] (5.center) to (2.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (0.center) to (5.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (5.center) to (4.center);
+		\draw [style=object red, in=0, out=180, looseness=0.75] (9.center) to (11.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (7.center) to (11.center);
+		\draw [style=object blue, in=0, out=180, looseness=0.75] (11.center) to (10.center);
+		\draw [style=object blue] (13.center) to (15.center);
+		\draw [style=object blue, bend right, looseness=0.75] (14.center) to (13.center);
+		\draw [style=object blue, bend left, looseness=0.75] (16.center) to (13.center);
+		\draw [style=object red] (2.center) to (17.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\end{equation}
+
+We will prove these laws in the upcoming \cref{lem.dist_law}\footnote{And we
+  will re-express them as commutative diagrams there.} Using them, we can see
+that composition in $\smctx{C}^M$ is unital and associative.
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (2) at (-1.5, 0) {};
+		\node [style=function clear] (4) at (0, 0) {$f$};
+		\node [style=none] (6) at (3, 0) {};
+		\node [style=none] (7) at (0.75, 0) {};
+		\node [style=none] (8) at (0.75, -0.75) {};
+		\node [style=none] (11) at (-1, -0.75) {};
+		\node [style=none] (12) at (-0.5, -0.5) {};
+		\node [style=none] (13) at (-1.5, -0.75) {};
+		\node [style=none] (14) at (-0.5, -1) {};
+		\node [style=none] (16) at (2.5, -0.75) {};
+		\node [style=function red] (17) at (2, -0.5) {};
+		\node [style=none] (18) at (3, -0.75) {};
+		\node [style=none] (19) at (1.75, -1) {};
+		\node [style=function blue] (20) at (1.5, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=180, out=0] (14.center) to (8.center);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object blue] (11.center) to (13.center);
+		\draw [style=object blue, in=45, out=-180, looseness=0.75] (12.center) to (11.center);
+		\draw [style=object blue, in=315, out=-180, looseness=0.75] (14.center) to (11.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (12.center);
+		\draw [style=object] (7.center) to (4);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (4) to (8.center);
+		\draw [style=object red] (16.center) to (18.center);
+		\draw [style=object red, in=135, out=0, looseness=1.25] (17) to (16.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (19.center) to (16.center);
+		\draw [style=object blue, in=-180, out=0] (8.center) to (20);
+		\draw [style=object] (7.center) to (6.center);
+		\draw [style=object red, in=180, out=0, looseness=1.25] (8.center) to (19.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (6) at (-0.5, 0) {};
+		\node [style=none] (7) at (3, 0) {};
+		\node [style=function clear] (9) at (1, 0) {$f$};
+		\node [style=none] (10) at (0.5, -0.5) {};
+		\node [style=none] (11) at (2.5, -0.75) {};
+		\node [style=function red] (12) at (2, -0.5) {};
+		\node [style=none] (13) at (3, -0.75) {};
+		\node [style=none] (14) at (2, -1) {};
+		\node [style=none] (15) at (0.5, -1) {};
+		\node [style=none] (16) at (0, -0.75) {};
+		\node [style=none] (17) at (0.5, -0.5) {};
+		\node [style=none] (18) at (-0.5, -0.75) {};
+		\node [style=function blue] (19) at (0.5, -1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (9) to (10.center);
+		\draw [style=object] (6.center) to (9);
+		\draw [style=object] (9) to (7.center);
+		\draw [style=object red] (11.center) to (13.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (12) to (11.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (14.center) to (11.center);
+		\draw [style=object blue] (16.center) to (18.center);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (17.center) to (16.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (19) to (16.center);
+		\draw [style=object red, in=180, out=-45] (9) to (14.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (1) at (1, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+		\node [style=function clear] (4) at (0, 0) {$f$};
+		\node [style=none] (5) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (4) to (5.center);
+		\draw [style=object] (1.center) to (4);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (0) at (2.25, 0) {};
+		\node [style=function clear] (1) at (0.75, 0) {$f$};
+		\node [style=none] (2) at (-2.25, 0) {};
+		\node [style=none] (3) at (0, 0) {};
+		\node [style=none] (4) at (0, -0.75) {};
+		\node [style=none] (5) at (1.75, -0.75) {};
+		\node [style=none] (6) at (1.25, -0.5) {};
+		\node [style=none] (7) at (2.25, -0.75) {};
+		\node [style=none] (8) at (1.25, -1) {};
+		\node [style=none] (9) at (-1.75, -0.75) {};
+		\node [style=function blue] (10) at (-1.25, -0.5) {};
+		\node [style=none] (11) at (-2.25, -0.75) {};
+		\node [style=none] (12) at (-1, -1) {};
+		\node [style=function red] (13) at (-0.75, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=0, out=180] (8.center) to (4.center);
+		\draw [style=object] (1) to (0.center);
+		\draw [style=object red] (5.center) to (7.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (6.center) to (5.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (8.center) to (5.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (1) to (6.center);
+		\draw [style=object] (3.center) to (1);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (1) to (4.center);
+		\draw [style=object blue] (9.center) to (11.center);
+		\draw [style=object blue, in=45, out=180, looseness=1.25] (10) to (9.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (12.center) to (9.center);
+		\draw [style=object red, in=0, out=180] (4.center) to (13);
+		\draw [style=object] (3.center) to (2.center);
+		\draw [style=object blue, in=0, out=180, looseness=1.25] (4.center) to (12.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (6) at (3, 0) {};
+		\node [style=none] (7) at (-0.5, 0) {};
+		\node [style=function clear] (9) at (1.5, 0) {$f$};
+		\node [style=none] (10) at (2, -0.5) {};
+		\node [style=none] (11) at (0, -0.75) {};
+		\node [style=function blue] (12) at (0.5, -0.5) {};
+		\node [style=none] (13) at (-0.5, -0.75) {};
+		\node [style=none] (14) at (0.5, -1) {};
+		\node [style=none] (15) at (2, -1) {};
+		\node [style=none] (16) at (2.5, -0.75) {};
+		\node [style=none] (17) at (2, -0.5) {};
+		\node [style=none] (18) at (3, -0.75) {};
+		\node [style=function red] (19) at (2, -1) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (9) to (10.center);
+		\draw [style=object] (6.center) to (9);
+		\draw [style=object] (9) to (7.center);
+		\draw [style=object blue] (11.center) to (13.center);
+		\draw [style=object blue, in=45, out=-180, looseness=0.75] (12) to (11.center);
+		\draw [style=object blue, in=315, out=-180, looseness=0.75] (14.center) to (11.center);
+		\draw [style=object red] (16.center) to (18.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (17.center) to (16.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (19) to (16.center);
+		\draw [style=object blue, in=0, out=-135] (9) to (14.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (1) at (1, 0) {};
+		\node [style=none] (2) at (-1, 0) {};
+		\node [style=none] (3) at (-1, -0.5) {};
+		\node [style=function clear] (4) at (0, 0) {$f$};
+		\node [style=none] (5) at (1, -0.5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (4) to (5.center);
+		\draw [style=object] (1.center) to (4);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (3.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (2) at (-4, 0) {};
+		\node [style=function clear] (4) at (-2, 0) {$f$};
+		\node [style=none] (6) at (1, 0) {};
+		\node [style=none] (7) at (-1.25, 0) {};
+		\node [style=none] (8) at (-1.25, -0.5) {};
+		\node [style=function clear] (9) at (-0.5, 0) {$g$};
+		\node [style=none] (10) at (0, -0.5) {};
+		\node [style=none] (15) at (0, -1) {};
+		\node [style=none] (16) at (0.5, -0.75) {};
+		\node [style=none] (17) at (0, -0.5) {};
+		\node [style=none] (19) at (0, -1) {};
+		\node [style=none] (20) at (3.75, 0) {};
+		\node [style=none] (21) at (1, 0) {};
+		\node [style=none] (22) at (1.25, -1) {};
+		\node [style=function clear] (23) at (2, 0) {$h$};
+		\node [style=none] (24) at (2.75, -0.75) {};
+		\node [style=none] (25) at (-1.25, -1.5) {};
+		\node [style=none] (26) at (2.75, -1.25) {};
+		\node [style=none] (27) at (3.25, -1) {};
+		\node [style=none] (28) at (2.75, -0.75) {};
+		\node [style=none] (29) at (3.75, -1) {};
+		\node [style=none] (30) at (2.75, -1.25) {};
+		\node [style=none] (31) at (-2.5, -0.5) {};
+		\node [style=none] (32) at (-2.5, -1) {};
+		\node [style=none] (33) at (-3, -0.75) {};
+		\node [style=none] (34) at (-2.5, -0.5) {};
+		\node [style=none] (35) at (-2.5, -1) {};
+		\node [style=none] (37) at (-3, -0.75) {};
+		\node [style=none] (38) at (-3, -1.25) {};
+		\node [style=none] (39) at (-3.5, -1) {};
+		\node [style=none] (40) at (-3, -0.75) {};
+		\node [style=none] (41) at (-1.25, -1.5) {};
+		\node [style=none] (42) at (-4, -1) {};
+		\node [style=none] (43) at (0.5, -1.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=-180, out=15] (43.center) to (22.center);
+		\draw [style=object blue, in=180, out=0, looseness=1.25] (35.center) to (8.center);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (9) to (10.center);
+		\draw [style=object] (6.center) to (9);
+		\draw [style=object] (9) to (7.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (9) to (8.center);
+		\draw [style=object] (7.center) to (4);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (17.center) to (16.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (19.center) to (16.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (23) to (24.center);
+		\draw [style=object] (20.center) to (23);
+		\draw [style=object] (23) to (21.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (23) to (22.center);
+		\draw [style=object red, in=-180, out=0] (22.center) to (26.center);
+		\draw [style=object red] (27.center) to (29.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (28.center) to (27.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (30.center) to (27.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (4) to (8.center);
+		\draw [style=object red, in=180, out=0, looseness=1.25] (8.center) to (15.center);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (34.center) to (33.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (35.center) to (33.center);
+		\draw [style=object blue, in=-120, out=0] (34.center) to (4);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (40.center) to (39.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (41.center) to (39.center);
+		\draw [style=object blue] (42.center) to (39.center);
+		\draw [style=object red, in=180, out=0, looseness=1.25] (16.center) to (22.center);
+		\draw [style=object blue, in=-165, out=0] (41.center) to (43.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (2) at (-4, 0) {};
+		\node [style=function clear] (4) at (-2, 0) {$f$};
+		\node [style=none] (6) at (1, 0) {};
+		\node [style=none] (7) at (-1.25, 0) {};
+		\node [style=none] (8) at (-1.25, -0.5) {};
+		\node [style=function clear] (9) at (-0.5, 0) {$g$};
+		\node [style=none] (10) at (2.25, -1) {};
+		\node [style=none] (15) at (2.25, -1.5) {};
+		\node [style=none] (16) at (2.75, -1.25) {};
+		\node [style=none] (17) at (2.25, -1) {};
+		\node [style=none] (19) at (2.25, -1.5) {};
+		\node [style=none] (20) at (3.75, 0) {};
+		\node [style=none] (21) at (1, 0) {};
+		\node [style=none] (24) at (2.75, -0.75) {};
+		\node [style=none] (25) at (-1.25, -1.5) {};
+		\node [style=none] (26) at (2.75, -1.25) {};
+		\node [style=none] (27) at (3.25, -1) {};
+		\node [style=none] (28) at (2.75, -0.75) {};
+		\node [style=none] (29) at (3.75, -1) {};
+		\node [style=none] (30) at (2.75, -1.25) {};
+		\node [style=none] (31) at (-2.5, -0.5) {};
+		\node [style=none] (32) at (-2.5, -1) {};
+		\node [style=none] (33) at (-3, -0.75) {};
+		\node [style=none] (34) at (-2.5, -0.5) {};
+		\node [style=none] (35) at (-2.5, -1) {};
+		\node [style=none] (37) at (-3, -0.75) {};
+		\node [style=none] (38) at (-3, -1.25) {};
+		\node [style=none] (39) at (-3.5, -1) {};
+		\node [style=none] (40) at (-3, -0.75) {};
+		\node [style=none] (41) at (-1.25, -1.5) {};
+		\node [style=none] (42) at (-4, -1) {};
+		\node [style=function clear] (43) at (2, 0) {$h$};
+		\node [style=none] (44) at (1, -0.75) {};
+		\node [style=none] (45) at (0.25, -1.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object blue, in=180, out=0, looseness=1.25] (35.center) to (8.center);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object] (6.center) to (9);
+		\draw [style=object] (9) to (7.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (9) to (8.center);
+		\draw [style=object] (7.center) to (4);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (17.center) to (16.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (19.center) to (16.center);
+		\draw [style=object red] (27.center) to (29.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (28.center) to (27.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (30.center) to (27.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (4) to (8.center);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (34.center) to (33.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (35.center) to (33.center);
+		\draw [style=object blue, in=-120, out=0] (34.center) to (4);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (40.center) to (39.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (41.center) to (39.center);
+		\draw [style=object blue] (42.center) to (39.center);
+		\draw [style=object red, in=0, out=180, looseness=0.50] (17.center) to (44.center);
+		\draw [style=object red, in=-30, out=180, looseness=0.50] (44.center) to (9);
+		\draw [style=object red, in=0, out=180, looseness=0.75] (19.center) to (45.center);
+		\draw [style=object red, in=0, out=-165, looseness=0.25] (45.center) to (8.center);
+		\draw [style=object blue, in=180, out=0, looseness=0.50] (41.center) to (45.center);
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (45.center) to (44.center);
+		\draw [style=object blue] (44.center) to (43);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (43) to (24.center);
+		\draw [style=object] (20.center) to (43);
+		\draw [style=object] (43) to (21.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
+\[
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (2) at (3.75, 0) {};
+		\node [style=function clear] (4) at (1.75, 0) {$h$};
+		\node [style=none] (6) at (-1.25, 0) {};
+		\node [style=none] (7) at (1, 0) {};
+		\node [style=none] (8) at (1, -0.5) {};
+		\node [style=function clear] (9) at (0.25, 0) {$g$};
+		\node [style=none] (10) at (-2.5, -1) {};
+		\node [style=none] (15) at (-2.5, -1.5) {};
+		\node [style=none] (16) at (-3, -1.25) {};
+		\node [style=none] (17) at (-2.5, -1) {};
+		\node [style=none] (19) at (-2.5, -1.5) {};
+		\node [style=none] (20) at (-4, 0) {};
+		\node [style=none] (21) at (-1.25, 0) {};
+		\node [style=function clear] (23) at (-2.25, 0) {$f$};
+		\node [style=none] (24) at (-3, -0.75) {};
+		\node [style=none] (25) at (1, -1.5) {};
+		\node [style=none] (26) at (-3, -1.25) {};
+		\node [style=none] (27) at (-3.5, -1) {};
+		\node [style=none] (28) at (-3, -0.75) {};
+		\node [style=none] (29) at (-4, -1) {};
+		\node [style=none] (30) at (-3, -1.25) {};
+		\node [style=none] (31) at (2.25, -0.5) {};
+		\node [style=none] (32) at (2.25, -1) {};
+		\node [style=none] (33) at (2.75, -0.75) {};
+		\node [style=none] (34) at (2.25, -0.5) {};
+		\node [style=none] (35) at (2.25, -1) {};
+		\node [style=none] (37) at (2.75, -0.75) {};
+		\node [style=none] (38) at (2.75, -1.25) {};
+		\node [style=none] (39) at (3.25, -1) {};
+		\node [style=none] (40) at (2.75, -0.75) {};
+		\node [style=none] (41) at (1, -1.5) {};
+		\node [style=none] (42) at (3.75, -1) {};
+		\node [style=none] (43) at (-2.25, 0) {};
+		\node [style=none] (44) at (-1.25, -0.75) {};
+		\node [style=none] (45) at (-0.5, -1.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=0, out=180, looseness=1.25] (35.center) to (8.center);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object] (6.center) to (9);
+		\draw [style=object] (9) to (7.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (9) to (8.center);
+		\draw [style=object] (7.center) to (4);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (17.center) to (16.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (19.center) to (16.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (23) to (24.center);
+		\draw [style=object] (20.center) to (23);
+		\draw [style=object] (23) to (21.center);
+		\draw [style=object blue] (27.center) to (29.center);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (28.center) to (27.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (30.center) to (27.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (8.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (34.center) to (33.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (35.center) to (33.center);
+		\draw [style=object red, in=-60, out=180] (34.center) to (4);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (40.center) to (39.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (41.center) to (39.center);
+		\draw [style=object red] (42.center) to (39.center);
+		\draw [style=object blue, in=180, out=0, looseness=0.50] (17.center) to (44.center);
+		\draw [style=object blue, in=210, out=0, looseness=0.50] (44.center) to (9);
+		\draw [style=object blue, in=180, out=0, looseness=0.75] (19.center) to (45.center);
+		\draw [style=object blue, in=180, out=-15, looseness=0.25] (45.center) to (8.center);
+		\draw [style=object red, in=0, out=-180, looseness=0.50] (41.center) to (45.center);
+		\draw [style=object red, in=0, out=-180, looseness=0.75] (45.center) to (44.center);
+		\draw [style=object red] (44.center) to (43.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+=
+\begin{tikzpicture}[baseline=(current bounding box.center)] 
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=none] (2) at (3.75, 0) {};
+		\node [style=function clear] (4) at (1.75, 0) {$h$};
+		\node [style=none] (6) at (-1.25, 0) {};
+		\node [style=none] (7) at (1, 0) {};
+		\node [style=none] (8) at (1, -0.5) {};
+		\node [style=function clear] (9) at (0.25, 0) {$g$};
+		\node [style=none] (10) at (-0.25, -0.5) {};
+		\node [style=none] (15) at (-0.25, -1) {};
+		\node [style=none] (16) at (-0.75, -0.75) {};
+		\node [style=none] (17) at (-0.25, -0.5) {};
+		\node [style=none] (19) at (-0.25, -1) {};
+		\node [style=none] (20) at (-4, 0) {};
+		\node [style=none] (21) at (-1.25, 0) {};
+		\node [style=none] (22) at (-1.5, -1) {};
+		\node [style=function clear] (23) at (-2.25, 0) {$f$};
+		\node [style=none] (24) at (-3, -0.75) {};
+		\node [style=none] (25) at (1, -1.5) {};
+		\node [style=none] (26) at (-3, -1.25) {};
+		\node [style=none] (27) at (-3.5, -1) {};
+		\node [style=none] (28) at (-3, -0.75) {};
+		\node [style=none] (29) at (-4, -1) {};
+		\node [style=none] (30) at (-3, -1.25) {};
+		\node [style=none] (31) at (2.25, -0.5) {};
+		\node [style=none] (32) at (2.25, -1) {};
+		\node [style=none] (33) at (2.75, -0.75) {};
+		\node [style=none] (34) at (2.25, -0.5) {};
+		\node [style=none] (35) at (2.25, -1) {};
+		\node [style=none] (37) at (2.75, -0.75) {};
+		\node [style=none] (38) at (2.75, -1.25) {};
+		\node [style=none] (39) at (3.25, -1) {};
+		\node [style=none] (40) at (2.75, -0.75) {};
+		\node [style=none] (41) at (1, -1.5) {};
+		\node [style=none] (42) at (3.75, -1) {};
+		\node [style=none] (43) at (-0.75, -1.25) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=object red, in=0, out=165] (43.center) to (22.center);
+		\draw [style=object red, in=0, out=180, looseness=1.25] (35.center) to (8.center);
+		\draw [style=object] (4) to (2.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (9) to (10.center);
+		\draw [style=object] (6.center) to (9);
+		\draw [style=object] (9) to (7.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (9) to (8.center);
+		\draw [style=object] (7.center) to (4);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (17.center) to (16.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (19.center) to (16.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (23) to (24.center);
+		\draw [style=object] (20.center) to (23);
+		\draw [style=object] (23) to (21.center);
+		\draw [style=object red, in=180, out=-60, looseness=0.75] (23) to (22.center);
+		\draw [style=object blue, in=0, out=180] (22.center) to (26.center);
+		\draw [style=object blue] (27.center) to (29.center);
+		\draw [style=object blue, in=45, out=180, looseness=0.75] (28.center) to (27.center);
+		\draw [style=object blue, in=-45, out=180, looseness=0.75] (30.center) to (27.center);
+		\draw [style=object blue, in=0, out=-120, looseness=0.75] (4) to (8.center);
+		\draw [style=object blue, in=0, out=180, looseness=1.25] (8.center) to (15.center);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (34.center) to (33.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (35.center) to (33.center);
+		\draw [style=object red, in=-60, out=180] (34.center) to (4);
+		\draw [style=object red, in=135, out=0, looseness=0.75] (40.center) to (39.center);
+		\draw [style=object red, in=-135, out=0, looseness=0.75] (41.center) to (39.center);
+		\draw [style=object red] (42.center) to (39.center);
+		\draw [style=object blue, in=0, out=180, looseness=1.25] (16.center) to (22.center);
+		\draw [style=object red, in=-15, out=180] (41.center) to (43.center);
+	\end{pgfonlayer}
+\end{tikzpicture}
+\]
 
 %% writehere
 
+\begin{lemma}\label{lem.dist_law}
+Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category
+$\cat{C}$. Then the map $\lambda : C \times M X \to M(C \times X)$ defined by
+$$\lambda \coloneqq (\eta \times MX) \then \sigma$$
+is natural in both $X$ and $C$. Furthermore, the following four diagrams
+commute:
+
+\end{lemma}
 
 \end{document}
 
