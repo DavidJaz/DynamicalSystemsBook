@@ -7,9 +7,45 @@
 
 
 %------------ Chapter ------------%
-\chapter{Bimodules as data migration functors}\label{chapter.6}
+\chapter{Patterns}\label{chapter.6} 
 
-In the last chapter we talked about 
+%-------- Section --------%
+\section{Introduction}\label{sec.c6_intro}
+
+\slogan{What is a pattern?}
+
+We are receptive to patterns; in fact we find that our thoughts are operating on them constantly. What patterns are you picking up on right now? Maybe you can stick with one or more of them as we try to tell a story about patterns in the abstract.
+
+Each pattern has a certain sort of shape---a certain repetitiveness---like the rational number
+\[\frac{1}{7}=.142857142857142857\cdots\]
+Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? And don't worry, the 1 won't haunt us, probably just because Hindi-Arabic numbers dealt with it in stride. Anyway, ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree we saw last chapter in \cref{ex.cofree_dyn_sys}:
+\[
+\treepic
+\]
+Do you pick up on the fact that every tree sitting at a green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
+
+Indeed, when someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}, something with a rhyme to it. If they pick up on something again and again, it's a pattern. That's rhymes reason.
+
+Isn't it true that in some sense a pattern is dynamic, that it's not a still-life, but more like a movie? And in some sense don't we move \emph{with} this pattern, either caught up in it like a nightmare replaying endlessly or skillfully manifesting it like a star basketball player making another beautiful point? Good or bad, to our benefit or loss, we notice and pick up on the pattern, and we carry its load. Maybe we could say that it's like the pattern is a molecule and some part of us is like a receptor for this kind of molecule.
+
+Our lives are patterned, and so are the lives of our machines and computer programs. Day in and day out, our billions of receptors pick up on patterns in what we call reality, catching on to existing possibilities there. Day in and day out, our cars and boats and web browsers latch onto patterns and make them available to thought; thought plays the role of a pilot sitting in the cockpit.
+
+Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We pick up patterns and we operate on them. We are like a sort of ``module'' bridging two realms, one called reality and one called mind. 
+
+\begin{figure}
+\centergraphics{graphics/lawvere.png}
+\caption{A picture by Bill Lawvere of something he was talking about once, that's related but a bit obscure. Anyway, neat-looking huh? It looks a little like our story, kinda lensy, dynamic systemsy, relating outside and inside. \spiz{Jaz, feel free to replace this paragraph with anything you want.}}
+\end{figure}
+
+A distilled version of the story so far---up to the end of the last paragraph---can be formalized mathematically, and we do so in this chapter. That is, we'll discuss the sense in which \emph{bimodules} $m$ (playing the role of ``us'' in the above story) sit between two toposes (``realms''). From one realm (playing the role of ``reality''), the bimodule $m$ ``picks up'' patterns. The other realm (playing the role of ``mind'') operates and moves through these patterns. Though the mind realm need not be any smaller than the reality realm, the two sides of this story are not symmetric in terms of how they interact with $m$.
+
+We saw in \cref{chapter.5} that the comonoids $\com{C}$ in the monoidal category $(\poly,\yon,\circ)$ can be identified with categories $\cat{C}$.  The cofree comonoid $\cofree{p}$ of $p$-trees for arbitrary polynomial $p$ were seen to be particularly interesting from a dynamics point of view, lending themselves to much of the language of ``patterns'' used in the story above. 
+
+The story of this chapter really gets started when we realize that copresheaves $\Phi\colon\cat{C}_p\to\smset$ on these cofree categories can be identified with dependent dynamical systems in the sense of \cref{def.gen_moore}. But more generally, copresheaves on any category have a number of pleasant characterizations in terms of comonoids in $\poly$. 
+
+Moreover, the bimodules $\cofree{q}\tickar[m]\cofree{p}$ between comonoids $\cofree{q}$ and $\cofree{p}$ correspond to parametric right adjoints $\cofree{p}\set\to\cofree{q}\set$ between the associated copresheaf categories, allowing us to migrate a dynamical system $\Phi$ of type $p$ to one of type $q$. One can describe this migration, this parametric right adjoint, in terms of receptors---or what database theorists call ``frozen instances''---picking up patterns in $\Phi$ and then sorting them into copresheaves on the target category $\cofree{q}$.
+
+Our goal in this chapter is to say the above carefully and with plenty of examples.
 
 
 \paragraph{Databases}
