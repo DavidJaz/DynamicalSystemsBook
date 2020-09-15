@@ -36,7 +36,7 @@ Somehow there is coherence between the patterns we pick up on and the way we ope
 
 \begin{figure}
 \centergraphics{graphics/lawvere.png}
-\caption{A picture by Bill Lawvere of something he was talking about once, that's related but a bit obscure. Anyway, neat-looking huh? It looks a little like our story, kinda lensy, dynamic systemsy, relating outside and inside. Lawvere consistently displays genius. But as neat as it is, we each have our own muse; and here we continue with our own story. \spiz{Jaz, feel free to replace this paragraph with anything you want.}}
+\caption{A picture by Bill Lawvere of something he was talking about once, that's related but a bit obscure. Anyway, neat-looking huh? It looks a little like our story, kinda lensy, dynamic systemsy, relating outside and inside. \spiz{Jaz, feel free to replace this paragraph with anything you want.}}
 \end{figure}
 
 A distilled version of the story so far---up to the end of the last paragraph---can be formalized mathematically, and we do so in this chapter. That is, we'll discuss the sense in which \emph{bimodules} $m$ (playing the role of ``us'' in the above story) sit between two toposes (``realms''). From one realm (playing the role of ``reality''), the bimodule $m$ ``picks up'' patterns. The other realm (playing the role of ``mind'') operates and moves through these patterns. Though the mind realm need not be any smaller than the reality realm, the two sides of this story are not symmetric in terms of how they interact with $m$.
@@ -3003,7 +3003,11 @@ Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that o
 %---- Subsection ----%
 \subsection{Morphisms of comonoids are cofunctors}
 
-Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$. 
+Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$.
+
+
+\slogan{Cofunctors $F$ are forward on objects, and backwards on morphisms. It's good to remember: Codomains are objects, so $F$ preserves them going forwards; identities and composites are morphisms, so $F$ preserves them going backwards.}
+ 
 Let's begin with a definition.
 
 \begin{definition}[Morphisms of comonoids]\label{def.morphism_comonoids}
@@ -3106,7 +3110,11 @@ We saw in \cref{thm.ahman_uustalu}, summarized in \cref{ex.cofunctors_comon_homs
 
 The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their emanation polynomials. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forwards on objects and backwards on morphisms.
 
-Let's look at some examples.
+\slogan{
+If a functor $\cat{C}\to\cat{D}$ is a \emph{picture} of $\cat{C}$ in $\cat{D}$, then a cofunctor $\cat{C}\cof\cat{D}$ is a \emph{$D$-shaped crystallization of $C$}.
+}
+
+Let's look at some examples to see how cofunctors look like crystallizations, or perhaps partitions.
 
 \begin{example}\label{ex.BGEG}
 Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a cofunctor $G\yon^G\to\yon^G$ given by
@@ -3671,6 +3679,8 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 %\end{enumerate}
 %\end{exercise}
 %
+
+
 
 %-------- Section --------%
 \section{Cofree comonoids}
