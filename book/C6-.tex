@@ -7,12 +7,37 @@
 
 
 %------------ Chapter ------------%
-\chapter{Applications of modules in $\smcat^\sharp$:\\dynamical systems and databases}\label{chapter.6} 
+\chapter{Applications of bimodules in $\smcat^\sharp$:\\dynamical systems and databases}\label{chapter.6} 
 
 %-------- Section --------%
 \section{Introduction}\label{sec.c6_intro}
 
 %Old "pattern" stuff moved to after end document.
+
+In the previous chapter we saw that comonoids in $\poly$ are categories, but that morphisms of comonoids are not functors; they're called cofunctors. If someone were to ask ``which are better, functors or cofunctors'', the answer is clear. Functors are fundamental to mathematics itself, relating branches from set theory to logic to algebra to measure theory, etc. Cofunctors don't have anywhere near that sort of reach in terms of applicability. Still they provide an interesting way to compare categories, as well as invariants like the monoid of direction fields on a category.
+
+In this chapter we'll consider another kind of morphism between categories, one that is a bit more familiar, namely the bimodules between comonoids. One might want to call them bi-co-modules, but this name is just a bit too long and the name bimodule is not ambiguous, so we'll go with it.
+
+It turns out that bimodules between comonoids in $\poly$ (categories) are also important objects of study in category theory. If $\cat{C}$ and $\cat{D}$ are categories, it turns out that a bimodule between them can be identified with what's known as a \emph{parametric right adjoint} between the associated copresheaf categories $\cat{C}\set$ and $\cat{D}\set$. These come up in $\infty$-category theory, but they also have a much more practical usage: they are the so-called \emph{data migration functors}.
+
+Indeed, we'll make due on a claim we made in \cref{chapter.4}, that there is a strong connection between databases and bimodules between polynomial comonads. Databases have two parts: they have a schema, a specification of various types and relationships between them, and an instance, which is actual data sorted into those types and having those relationships. As we'll see, one can formalize the schema as a category $\cat{C}$ and the instance as a functor $I\colon\cat{C}\to\smset$. Here's an example of a theorem we'll prove:
+
+\begin{theorem}\label{thm.tfae_c_sets}
+For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following are equivalent:
+\begin{enumerate}
+	\item functors $\cat{C}\to\smset$
+	\item discrete opfibrations over $\cat{C}$
+	\item cartesian cofunctors to $\com{C}$
+	\item linear left $\com{C}$-modules
+	\item constant left $\com{C}$-modules
+	\item $(\com{C},0)$-bimodules
+	\item representable right $\com{C}$-modules
+	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$)
+	\item dynamical systems with comonoid interface $\com{C}$
+\end{enumerate}
+\end{theorem}
+The proof will be given in \cref{**}.
+
 \paragraph{Databases}
 
 Discrete opfibrations will be important in our story, so let's spend a bit of time on them. It turns out that discrete opfibrations on a category have a close relationship with databases. Let's start with a definition.
