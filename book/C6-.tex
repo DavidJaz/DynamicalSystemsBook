@@ -57,27 +57,83 @@ Now recall that any monoid can be understood as a category with one object, let'
 \slogan{$G$-sets are copresheaves on $\cat{G}$, the associated one-object category.}
 \end{example}
 
-\begin{example}[Clue game]
+\begin{example}[Clue game]\label{ex.clue_game}
 There is a game that is played in the US, called Clue, where the players are detectives trying to solve a murder mystery. The game consists of a board together with a deck of several cards, and on each card there is both some printed words and a picture. For one card, the words might say ``Ms. White'' and it shows a picture of a woman. Every card has a type: it is either a room card, a weapon card, or a person card; e.g.\ there is a card that says ``knife'' and show a picture of a knife.
 
 Now consider the commutative square category whose objects are labeled as follows:
 \[
 \cat{W}\coloneqq\boxCD{examplecolor}{
-\begin{tikzcd}[ampersand replacement=\&]
-	\LTO{Card}\ar[r]\ar[d]\&
-	\LTO{Picture}\ar[d]\\
-	\LTO{Words}\ar[r]\&
+\begin{tikzcd}[sep=large, ampersand replacement=\&]
+	\LTO{Card}\ar[r, "\text{has picture}"]\ar[d, "\text{has word}"']\&[10pt]
+	\LTO{Picture}\ar[d, "\text{has type}"]\\
+	\LTO{Word}\ar[r, "\text{has type}"']\&
 	\LTO{Type}
+	\ar[ul, phantom, "\checkmark"]
 \end{tikzcd}
 }
 \]
-A functor $D\colon\cat{W}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, motive). The particulars of the Hasbro Clue deck $D$ are not important for us; we are interested in the structure they have created.
+A functor $D\colon\cat{W}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, motive, whatever). 
 
-So let's write out our own $D$ in the form of a database:
+Here we will give our version of the game. Here is the functor $\deck\colon\cat{W}\to\smset$, written as a database instance with schema $\cat{W}$:
 \[
-d
+\begin{array}{| l || l | l | l |}
+	\bhline
+  \multicolumn{4}{| c |}{\text{Deck Card}}\\\bhline
+  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
+  W&\text{White}&\circ&\text{Color}\\\hline
+  B&\text{Black}&\bullet&\text{Color}\\\hline
+  C&\text{Circle}&O&\text{Object}\\\hline
+  T&\text{Table}&\Pi&\text{Object}\\\hline
+  P&\text{Person}&\tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
+  H&\text{Here}&\cdot&\text{Place}\\\hline
+  U&\text{Up}&\uparrow&\text{Place}\\\hline
+  D&\text{down}&\downarrow&\text{Place}\\\hline
+  L&\text{Left}&\leftarrow&\text{Place}\\\hline
+  R&\text{Right}&\rightarrow&\text{Place}\\\bhline
+\end{array}
 \]
-
+\[\footnotesize
+\begin{array}{| l || l |}
+  \bhline
+  \multicolumn{2}{| c |}{\text{Deck Picture}}\\\bhline
+  \textbf{Picture}&\textbf{has type}\\\bbhline
+  \circ&\text{Color}\\\hline
+  \bullet&\text{Color}\\\hline
+  O&\text{Object}\\\hline
+  \Pi&\text{Object}\\\hline
+  \tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
+  \cdot&\text{Place}\\\hline
+  \uparrow&\text{Place}\\\hline
+  \downarrow&\text{Place}\\\hline
+  \leftarrow&\text{Place}\\\hline
+  \rightarrow&\text{Place}\\\bhline
+\end{array}
+\hspace{.5in}
+\begin{array}{| l || l |}
+  \bhline
+  \multicolumn{2}{| c |}{\text{Deck Word}}\\\bhline
+  \textbf{Word}&\textbf{has type}\\\bbhline
+  \text{White}&\text{Color}\\\hline
+  \text{Black}&\text{Color}\\\hline
+  \text{Circle}&\text{Object}\\\hline
+  \text{Table}&\text{Object}\\\hline
+  \text{Person}&\text{Object}\\\hline
+  \text{Here}&\text{Place}\\\hline
+  \text{Up}&\text{Place}\\\hline
+  \text{Down}&\text{Place}\\\hline
+  \text{Left}&\text{Place}\\\hline
+  \text{Right}&\text{Place}\\\bhline
+\end{array}
+\hspace{.5in}
+\begin{array}{| l ||}
+  \bhline
+  \multicolumn{1}{| c |}{\text{Deck Type}}\\\bhline
+  \textbf{Type}\\\bbhline
+	\text{Color}\\\hline
+  \text{Object}\\\hline
+  \text{Place}\\\bhline
+\end{array}
+\]
 \end{example}
 
 
@@ -98,32 +154,6 @@ A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if,
 Given a functor $\cat{C}\to\smset$, its category of elements is a discrete opfibration over $\cat{C}$, and this is functorial. Moreover this functor is an equivalence of categories.
 \end{proposition}
 
-
-\begin{example}[Database]
-\end{example}
-
-\begin{definition}[Database schema and instance]
-Let $\cat{C}$ be a category. An \emph{attribute structure} on $\cat{C}$ is a pair $(V, \alpha)$ where
-\begin{enumerate}
-	\item $V$ is a set, elements of which are called \emph{attribute values} and
-	\item $\alpha\colon V\to \Ob(\cat{C})$ is a function, called the \emph{attribute assignment}.
-\end{enumerate}
-If $(V,\alpha)$ is an attribute structure on $\cat{C}$, we call the triple $(\cat{C},V,\alpha)$ a \emph{database schema} and refer to $\cat{C}$ as the \emph{entity category} of the schema.
-
-An \emph{instance} on $(\cat{C},V,\alpha)$ consists of a functor $I\colon\cat{C}\to\smset$ together with a function $v_c\colon I(c)\to\alpha\inv(c)$ for each $c\in\Ob(\cat{C})$.
-\end{definition}
-
-\begin{proposition}
-Let $\cat{C}$ be a category and $\eta_\cat{C}\colon\cat{C}\to\Ob(\cat{C})$ the unit cofunctor. An attribute structure on $\cat{C}$ can be identified with a $(\Ob(\cat{C}),0)$-bimodule $(\Ob(\cat{C})\bimodfrom[V]0$. An instance on $(\cat{C},V,\alpha)$ can be identified with a square of the form
-\[
-\begin{tikzcd}[background color=theoremcolor]
-	\cat{C}\ar[r, bimr-biml, "I"]\ar[d, "\cofun" marking, "\eta"']&
-	0\ar[d, equal]\\
-	\Ob(\cat{C})\ar[r, bimr-biml, "V"']&
-	0\ar[ul, phantom, "\hphantom{\scriptstyle\alpha}\Downarrow\scriptstyle\alpha"]
-\end{tikzcd}
-\]
-\end{proposition}
 
 
 
@@ -288,6 +318,58 @@ For any object $c\in \cat{C}$, consider the representable functor $\cat{C}(c,-)\
 \end{enumerate}
 \end{exercise}
 
+\begin{example}\label{ex.clue_as_module}
+We continue with the Clue game from \cref{ex.clue_game}. The database instance is encoded as:
+\[
+\left(
+ \begin{array}{ccc}
+ 	10&&10\\
+	&+\\
+	10&&3
+ \end{array}
+\right)
+\too
+\left(
+	\begin{array}{ccc}
+		\left(
+ 		\begin{array}{ccc}
+  		\1\0&&\1\0\\
+  		&+\\
+  		\1\0&&\3
+   	\end{array}
+		\right)^\4
+		&&
+		\left(
+ 		\begin{array}{ccc}
+  		\1\0&&\1\0\\
+  		&+\\
+  		\1\0&&\3
+   	\end{array}
+		\right)^\2
+		\\
+		&+\\
+		\left(
+ 		\begin{array}{ccc}
+  		\1\0&&\1\0\\
+  		&+\\
+  		\1\0&&\3
+   	\end{array}
+		\right)^\2
+		&&
+		\left(
+ 		\begin{array}{ccc}
+  		\1\0&&\1\0\\
+  		&+\\
+  		\1\0&&\3
+   	\end{array}
+		\right)^\1
+  \end{array}
+\right)
+\]
+Or if you prefer, $\3\3\to\3\3^\4+\3\3^\2+\3\3^\2+\3\3$.
+\end{example}
+
+
 \begin{proposition}[Niu]
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
 \end{proposition}
@@ -313,7 +395,7 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 \end{proof}
 
 
-\begin{proposition}
+\begin{proposition}[Niu]
 Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
 
 Moreover, for any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
@@ -354,7 +436,122 @@ It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is repr
 Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
 \end{proof}
 
+\subsection{Bimodules as data migration functors}
 
+
+\begin{example}
+We continue with the Clue game from \cref{ex.clue_game,ex.clue_as_module}. The database instance is encoded as a map
+\[\3\3\to(\yon^\4+\2\yon^\2+\yon)\tri\3\3.\]
+In this example we will first grab the three-element set of types, and then we'll make a new $\1\2$-element instance of the commutative square $\yon^\4+\2\yon^\2+\yon$ that copies that three-element set four times.
+
+\[
+\bullet
+\bimodfrom[\yon]
+\begin{tikzcd}[sep=small, ampersand replacement=\&]
+	\bullet\ar[r]\ar[d]\&
+	\bullet\ar[d]\\
+	\bullet\ar[r]\&
+	\bullet
+	\ar[ul, phantom, "\tiny\checkmark"]
+\end{tikzcd}
+\bimodfrom[\3\3]\0
+\]
+The composite is the three-element set of types $\bullet\bimodfrom[\3]\0$, where here $\3$ is shorthand for $\{\text{Color,Object,Place}\}$. Now we can compose it with the ``copy-all'' map:
+\[
+\begin{tikzcd}[sep=small, ampersand replacement=\&]
+	\bullet\ar[r]\ar[d]\&
+	\bullet\ar[d]\\
+	\bullet\ar[r]\&
+	\bullet
+	\ar[ul, phantom, "\tiny\checkmark"]
+\end{tikzcd}
+\bimodfrom[\4\yon]
+\bullet
+\bimodfrom[\3]\0
+\]
+The result is the following $\cat{W}$-set:
+\[
+\begin{array}{| l || l | l | l |}
+	\bhline
+  \multicolumn{4}{| c |}{\text{Copy Types Deck Card}}\\\bhline
+  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
+  \text{Color}&\text{Color}&\text{Color}&\text{Color}\\\hline
+  \text{Object}&\text{Object}&\text{Object}&\text{Object}\\\hline
+  \text{Place}&\text{Place}&\text{Place}&\text{Place}\\\bhline
+\end{array}
+\]
+\[\footnotesize
+\begin{array}{| l || l |}
+  \bhline
+  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
+  \textbf{Picture}&\textbf{has type}\\\bbhline
+  \text{Color}&\text{Color}\\\hline
+  \text{Object}&\text{Object}\\\hline
+  \text{Place}&\text{Place}\\\hline
+\end{array}
+\hspace{.5in}
+\begin{array}{| l || l |}
+  \bhline
+  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
+  \textbf{Picture}&\textbf{has type}\\\bbhline
+  \text{Color}&\text{Color}\\\hline
+  \text{Object}&\text{Object}\\\hline
+  \text{Place}&\text{Place}\\\hline
+\end{array}
+\hspace{.5in}
+\begin{array}{| l ||}
+  \bhline
+  \multicolumn{1}{| c |}{\text{Copy Types Deck Type}}\\\bhline
+  \textbf{Type}\\\bbhline
+	\text{Color}\\\hline
+  \text{Object}\\\hline
+  \text{Place}\\\bhline
+\end{array}
+\]
+Now why would we want to do this? The answer is that the maps of bimodules from this instance to the Deck are exactly what are called the \emph{suggestions} in the original Clue game. There are $\3\0$ of them:
+\[
+\left\{
+\begin{array}{lllll}
+  (\circ,O,\cdot),&
+  (\circ,O,\uparrow),&
+  (\circ,O,\downarrow),&
+  (\circ,O,\from),&
+  (\circ,O,\to),\\
+%
+  (\circ,\Pi,\cdot),&
+  (\circ,\Pi,\uparrow),&
+  (\circ,\Pi,\downarrow),&
+  (\circ,\Pi,\from),&
+  (\circ,\Pi,\to),\\
+%
+  (\circ,\tikzsymStrichmaxerl[1.2],\cdot),&
+  (\circ,\tikzsymStrichmaxerl[1.2],\uparrow),&
+  (\circ,\tikzsymStrichmaxerl[1.2],\downarrow),&
+  (\circ,\tikzsymStrichmaxerl[1.2],\from),&
+  (\circ,\tikzsymStrichmaxerl[1.2],\to),\\
+%
+  (\bullet,O,\cdot),&
+  (\bullet,O,\uparrow),&
+  (\bullet,O,\downarrow),&
+  (\bullet,O,\from),&
+  (\bullet,O,\to),\\
+%
+  (\bullet,\Pi,\cdot),&
+  (\bullet,\Pi,\uparrow),&
+  (\bullet,\Pi,\downarrow),&
+  (\bullet,\Pi,\from),&
+  (\bullet,\Pi,\to),\\
+%
+  (\bullet,\tikzsymStrichmaxerl[1.2],\cdot),&
+  (\bullet,\tikzsymStrichmaxerl[1.2],\uparrow),&
+  (\bullet,\tikzsymStrichmaxerl[1.2],\downarrow),&
+  (\bullet,\tikzsymStrichmaxerl[1.2],\from),&
+  (\bullet,\tikzsymStrichmaxerl[1.2],\to)
+%
+\end{array}
+\right\}
+\]
+\end{example}
 %-------- Section --------%
 \section{Discussion and open questions}\label{sec.discussion_open_qs}
 
@@ -376,6 +573,8 @@ In this section, we lay out some questions that whose answers may or may not be 
   \item Since the forgetful functor $U\colon\smcat^\sharp\to\poly$ is faithful, it reflects monomorphisms: if $f\colon\cat{C}\cof\cat{D}$ is a cofunctor whose underlying map on emanation polynomials is monic, then it is monic. Are all monomorphisms in $\smcat^\sharp$ of this form?
   \item At first blush it appears that $\poly$ may be suitable as the semantics of a language for protocols. Develop such a language or showcase the limitations that make it impossible or inconvenient.
 \end{enumerate}
+
+
 
 \end{document}
 

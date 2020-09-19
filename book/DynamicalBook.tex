@@ -37,6 +37,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 \usepackage{tikz}
 \usepackage{varwidth}
 \usepackage[prefix=tikzsym]{tikzsymbols}
+\usepackage{makecell}%database table thickness
 %\usepackage{graphicx}
 %\usepackage[all]{xy}
 
@@ -475,11 +476,16 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\qand}{\quad\text{and}\quad}
 \newcommand{\qqand}{\qquad\text{and}\qquad}
 
+\newcommand{\bhline}{\Xhline{2\arrayrulewidth}}
+\newcommand{\bbhline}{\Xhline{2.5\arrayrulewidth}}
+\newcommand{\bbbhline}{\Xhline{3\arrayrulewidth}}
+
 \newcommand{\tr}{\Set{tree}}
 \newcommand{\rt}{\fun{root}}
 \newcommand{\fs}{\fun{focus}}
 \newcommand{\lensput}{\fun{put}}
 \newcommand{\lensget}{\fun{get}}
+\newcommand{\deck}{\Fun{Deck}}
 
 \newcommand{\mdot}{{\cdot}}
 \newcommand{\cofree}[1]{\com{T}_{#1}}
