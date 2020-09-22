@@ -2799,8 +2799,7 @@ diagrams with operations from $\cat{L}$.
 \end{example}
 
 
-%% writehere
-\section{Non-deterministic doctrines}\label{sec.non_deterministic_systems}
+\chapter{Non-deterministic doctrines}\label{sec.non_deterministic_systems}
 
 So far, we have seen how deterministic systems of the discrete- and
 continuous-time variety can be wired together. But modelling a system
@@ -2827,7 +2826,7 @@ doctrines. The kind of non-deterministism --- possibilistic, stochastic, etc.
 --- will be encoded in a \emph{commutative monad}
 (\cref{def.commutative_monad}). 
 
-\subsection{Possibilistic  systems}
+\section{Possibilistic  systems}
 
 Suppose that we are observing a deterministic system $\Sys{S}$ from the outside.
 We can choose what input $i \in \In{S}$ to put into the system, and we observe
@@ -3181,7 +3180,7 @@ $\powset$ gives us a function $\powset \expose{S} : \powset\State{S} \to
 set of possible outputs, which is the best we could hope to know.
 
 
-\subsection{Stochastic systems}
+\section{Stochastic systems}
 Possibility is not the only kind of non-determinism. When studying how things
 change in the world, we often notice that we can only predict how likely some
 change will be, and not precisely which change will occur. If instead of asking
@@ -3603,7 +3602,7 @@ $p$ on states and an input $i$ to the distribution
 s \mapsto \sum_{s' \in \State{S}} p(s') \update{S}(s', i)(s).
 \]
 
-\subsection{Monadic doctrines and the Kleisli category}\label{sec.monad_doctrine}
+\section{Monadic doctrines and the Kleisli category}\label{sec.monad_doctrine}
 We have now seen two sorts of non-determinism expressed by commutative monads.
 To each of these we associated a doctrine:
 \begin{itemize}
@@ -4303,7 +4302,7 @@ f^R\left( \sum_{i}r_i x_i \right) = \sum_{i} r_i f(x_i).
 \end{proposition}
 
 
-\subsection{Adding rewards to non-deterministic systems}
+\section{Adding rewards to non-deterministic systems}
 
 A common way to think of a discrete-time system is as a \emph{decision process}. We
 think of the system $\Sys{A}$ as an \emph{agent} who needs to make a decision.
@@ -4597,7 +4596,7 @@ E\left( r \mapsto \sum_i \lambda_i p_i(r) \right) = \sum_{r \in \rr} \sum_i \lam
 
 
 
-\subsection{Changing the flavor of non-determinism: Monad maps}
+\section{Changing the flavor of non-determinism: Monad maps}
 
 In the same way that $0$ is a number, determinstic systems are 
 non-deterministic systems, just with a trivial sort of non-determinism. Deterministic systems are $M$-systems for the
@@ -5095,7 +5094,15 @@ should be free to change the passback direction.
 In this section, we will give a new perspective on the category of lenses using
 the \emph{Grothendieck construction}. This perspective constructs the category
 of lenses out of an \emph{indexed category} $\smctx{-} : \cat{C}\op \to
-\Cat{Cat}$ of objects of the cartesian category $\cat{C}$ \emph{in context}. 
+\Cat{Cat}$ of objects of the cartesian category $\cat{C}$ \emph{in context}.
+This construction works for \emph{any} indxed category $\cat{A} : \cat{C}\op \to
+\Cat{Cat}$, which lets us define a notion of $\cat{A}$-lenses out of any indexed
+category. By choosing an appropriate indexed category, we will arrive at the
+notion of $M$-lenses for a commutative monad $M$; this will give us the wiring
+diagram calculus for non-deterministic systems that we wanted.
+
+First, we introduce the abstract categorical notions of \emph{indexed category}
+and the \emph{Grothendieck construction}.
 
 
 
@@ -5227,7 +5234,7 @@ see in the next section that the category of charts can be described as the
 Grothendieck construction of a certain indexed category.
 
 %---- Section ----%
-\subsection{Maps with context, charts, and lenses}\label{sec.context_indexed_cat}
+\subsection{Maps with context and lenses}\label{sec.context_indexed_cat}
 
 In this section, we'll see the category $\Cat{Lens}_{\cat{C}}$ of lenses in a
 cartesian category $\cat{C}$ can be described using
@@ -5623,7 +5630,7 @@ appealing to the following diagrams:
     \item 
 $$(\Delta_C \times X) \then (\pi_2 \times X) = (\Delta_C \times X) \then (C
 \times \pi_2)$$
-These are both maps $C \times X \to C \times C \times C \to X$.
+These are both maps $C \times X \to C \times C \times C \times X$.
 \item $$( \Delta_C \times X ) \then (C \times \Delta_C \times X) = \id_{C \times
   X} =  ( \Delta_C \times
 X) \then (\Delta_C\times X \times C).$$
@@ -5879,6 +5886,20 @@ of lens, and use this idea to define lenses from any indexed category.
 $$\Cat{Lens}_{\cat{A}} = \int^{C \in \cat{C}} \cat{A}(C)\op.$$
 \end{definition}
 
+\begin{example}\label{ex.dependent_lenses_via_groth}
+Recall the indexed category $\smset^{(-)} : \smset\op \to \Cat{Cat}$ of
+dependent sets from \cref{ex.indexed_cat_of_dependent_sets}. A
+$\smset^{(-)}$-lens $\lens{f^{\sharp}}{f} : \lens{A^-_a}{a \in A^+} \fromto
+\lens{B^-_b}{b \in B^+}$ consists of
+\begin{itemize}
+\item A passforward function $f : A^+ \to B^+$, and
+  \item A family of passback functions $f^{\sharp}_{a} : B^_ \to A^-$ for every
+    $a \in A^+$.
+\end{itemize}
+We call these \emph{dependent lenses}, and they will be a major character in the
+later chapters of this book.
+\end{example}
+
 \subsection{Monadic lenses as generalized lenses}
 
 Now we are ready to define monadic lenses. We have a formula: we just need to
@@ -5913,7 +5934,7 @@ Using string diagrams, we may draw this map as
 \]
 
 \begin{definition}
-  Let $\cat{C}$ be a cartesian category an $M : \cat{C} \to \cat{C}$ a
+  Let $\cat{C}$ be a cartesian category and $M : \cat{C} \to \cat{C}$ a
   commutative monad. For an object $C \in \cat{C}$, there is a category
   $\smctx{C}^M$ with:
 \begin{itemize}
@@ -5922,10 +5943,11 @@ Using string diagrams, we may draw this map as
   \item The identity $X \wavyto X$ is $\pi_2 \then \eta$.
   \item The composite $f \then g$ of $f : X \wavyto Y$ and $g : Y \wavyto Z$ is
     given by 
-$$f \then g \coloneqq (\Delta_C \times MX) \then (C \times f) \then \lambda
+$$f \then g \coloneqq (\Delta_C \times X) \then (C \times f) \then \lambda
 \then Mg \then \mu.$$ 
 $$C \times X \to C \times C \times X \to C \times MY \to M(C \times Y) \to M^2Z
 \to MZ$$
+Here, $\lambda \coloneqq (\eta \times MX) \then \sigma$.
 \end{itemize}
 \end{definition}
 
@@ -6009,7 +6031,7 @@ The identity is drawn
 \end{tikzpicture}
 \]
 In order to show that this composition is unital and associative, we will need
-to show that the following four laws hold relating $\lambda$ to the struction of
+to show that the following four laws hold relating $\lambda$ to the structure of
 $M$ and of $C \times (-)$:
 \begin{equation}\label{eqn.dist_law_unit}
 \begin{tikzpicture}[baseline=(current bounding box.center)]
@@ -6497,6 +6519,7 @@ that composition in $\smctx{C}^M$ is unital and associative.
 \end{tikzpicture}
 \]
 \[
+ =
 \begin{tikzpicture}[baseline=(current bounding box.center)] 
 	\begin{pgfonlayer}{nodelayer}
 		\node [style=none] (2) at (3.75, 0) {};
@@ -6637,7 +6660,31 @@ that composition in $\smctx{C}^M$ is unital and associative.
 \end{tikzpicture}
 \]
 
-%% writehere
+This shows that $\smctx{C}^M$ is a category. We furthermore want an indexed
+category $\smctx{-}^M : \cat{C}\op \to \Cat{Cat}$, so that we can apply the
+generalized lens construction to it and get a category of $M$-lenses.
+
+\begin{theorem}
+  Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category.
+  Then there is an indexed category
+\[
+\smctx{-}^M : \cat{C}\op \to \Cat{Cat}
+\]
+which sends an object $C \in \cat{C}$ to the category $\smctx{C}^M$ and which
+sends a map $r : C' \to C$ to the functor 
+\[
+r^{\ast} : \smctx{C}^M \to \smctx{C'}^M
+\]
+which acts as the identity on objects and which sends a morphism $f : C \times X
+\to MY$ to the composite $C' \times X \xto{r \times X} C \times X \xto{f} MY$.
+\end{theorem}
+
+We can show that the reindexing $r^{\ast}$ given by $r : C' \to C$ as defined
+above is indeed a functor by appealing to the naturality of $\lambda$ in $C$.
+This indexed category is in fact a strict functor (as opposed to a pseudo-functor), as can be seen right away
+from the definition of the reindexing functors.
+
+We now return to prove the crucial laws which undergird the above graphical arguments.
 
 \begin{lemma}\label{lem.dist_law}
 Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category
@@ -6645,8 +6692,40 @@ $\cat{C}$. Then the map $\lambda : C \times M X \to M(C \times X)$ defined by
 $$\lambda \coloneqq (\eta \times MX) \then \sigma$$
 is natural in both $X$ and $C$. Furthermore, the following four diagrams
 commute:
+\begin{equation}
+\begin{tikzcd}
+C \times X \arrow[rd, "\eta"'] \arrow[r, "C \times \eta"] & C \times MX \arrow[d, "\lambda"] \\
+                                                          & M(C \times X)                   
+\end{tikzcd}
+\end{equation}
+\begin{equation}
+\begin{tikzcd}
+C \times MX \arrow[r, "\lambda"] \arrow[rd, "\pi_2"'] & M(C \times X) \arrow[d, "M\pi_2"] \\
+                                                      & MX                               
+\end{tikzcd}
+\end{equation}
 
+\begin{equation}
+\begin{tikzcd}
+C \times M^2X \arrow[d, "\lambda"'] \arrow[rr, "C \times \mu"] &                                   & C \times M X \arrow[d, "\lambda"] \\
+M(C \times M X) \arrow[r, "M\lambda"']                          & M^2(C \times X) \arrow[r, "\mu"'] & M(C \times X)                    
+\end{tikzcd}
+\end{equation}
+
+\begin{equation}
+\begin{tikzcd}
+C \times MX \arrow[rr, "\lambda"] \arrow[d, "\Delta_C \times MX"'] &                                              & M(C \times X) \arrow[d, "M(\Delta_C \times X)"] \\
+C \times C \times MX \arrow[r, "C \times \lambda"']                & C \times M(C \times X) \arrow[r, "\lambda"'] & M(C \times C \times X)                         
+\end{tikzcd}
+\end{equation}
 \end{lemma}
+\begin{proof}
+
+\end{proof}
+
+\section{Monadic Lenses}
+
+
 
 \end{document}
 
