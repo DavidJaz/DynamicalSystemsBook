@@ -14,16 +14,16 @@
 
 %Old "pattern" stuff moved to after end document.
 
-In the previous chapter we saw that comonoids in $\poly$ are categories, but that morphisms of comonoids are not functors; they're called cofunctors. If someone were to ask ``which are better, functors or cofunctors'', the answer is clear. Functors are fundamental to mathematics itself, relating branches from set theory to logic to algebra to measure theory, etc. Cofunctors don't have anywhere near that sort of reach in terms of applicability. Still they provide an interesting way to compare categories, as well as invariants like the monoid of direction fields on a category.
+In the previous chapter we saw that comonoids in $\poly$ are categories, but that morphisms of comonoids are not functors; they're called cofunctors. If someone were to ask ``which are better, functors or cofunctors'', the answer is clear. Functors are fundamental to mathematics itself, relating branches from set theory to logic to algebra to measure theory, etc. Cofunctors don't have anywhere near that sort of reach in terms of applicability. Still they provide an interesting way to compare categories, as well as new invariants of categories, like the monoid of direction fields on a category.
 
-In this chapter we'll consider another kind of morphism between categories, one that is a bit more familiar, namely the bimodules between comonoids. One might want to call them bi-co-modules, but this name is just a bit too long and the name bimodule is not ambiguous, so we'll go with it.
+In this chapter we'll consider another kind of morphism between comonoids in $\poly$, i.e.\ categories, and one that is a bit more familiar than cofunctors. Namely, we'll consider the bimodules between comonoids. One might want to call them bi-co-modules, but this name is just a bit too long and the name bimodule is not ambiguous, so we'll go with it. So why do I say they're more familiar?
 
-It turns out that bimodules between comonoids in $\poly$ (categories) are also important objects of study in category theory. If $\cat{C}$ and $\cat{D}$ are categories, Richard Garner showed that a bimodule between them can be identified with what's known as a \emph{parametric right adjoint} between the associated copresheaf categories $\cat{C}\set$ and $\cat{D}\set$. These come up in $\infty$-category theory, but they also have a much more practical usage: they are the so-called \emph{data migration functors}.
+It turns out that bimodules between comonoids in $\poly$ (categories) are also important objects of study in category theory. If $\cat{C}$ and $\cat{D}$ are categories, Richard Garner showed that a bimodule between them can be identified with what's known as a \emph{parametric right adjoint} between the associated copresheaf categories $\cat{C}\set$ and $\cat{D}\set$. Parametric right adjoints, or \emph{pra}'s come up in $\infty$-category theory, but they also have a much more practical usage: they are the so-called \emph{data migration functors}.
 
-Indeed, we'll make due on a claim we made in \cref{chapter.4}, that there is a strong connection between databases and bimodules between polynomial comonads. Databases have two parts: they have a schema, a specification of various types and relationships between them, and an instance, which is actual data sorted into those types and having those relationships. As we'll see, one can formalize the schema as a category $\cat{C}$ and the instance as a functor $I\colon\cat{C}\to\smset$. Here's an example of a theorem we'll prove:
+Indeed, we'll make due on a claim we made in \cref{chapter.4}, that there is a strong connection between the basic theory of databases and the theory of bimodules in $\poly$. Databases have two parts: they have a schema, a specification of various types and relationships between them, and an instance, which is actual data sorted into those types and having those relationships. As we'll see, one can formalize the schema as a category $\cat{C}$ and the instance as a functor $I\colon\cat{C}\to\smset$. Here's an example of a theorem we'll prove:
 
 \begin{theorem}\label{thm.tfae_c_sets}
-For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following are equivalent:
+For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$, also understood as a category $\cat{C}$, the following categories are equivalent:
 \begin{enumerate}
 	\item functors $\cat{C}\to\smset$;
 	\item discrete opfibrations over $\cat{C}$;
@@ -32,33 +32,37 @@ For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the fol
 	\item constant left $\com{C}$-modules;
 	\item $(\com{C},0)$-bimodules;
 	\item representable right $\com{C}$-modules;
-	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$);
-	\item dynamical systems with comonoid interface $\com{C}$.
+	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$).
 \end{enumerate}
+Moreover, up to isomorphism, a $\com{C}$-coalgebra can be identified with a dynamical system with comonoid interface $\com{C}$.
 \end{theorem}
-The proof will be given in \cref{**}.
+The proof will be given in \cref{thm.tfae_c_sets}.
 
 The plan of the chapter is as follows. We'll begin in \cref{sec.copresheaves_data_ds} by reviewing copresheaves on a category, and their relationship to databases and dynamical systems. Then in \cref{sec.bimodules} we'll prove a number of theoretical results, including \cref{thm.tfae_c_sets} and Garner's ``bimodules are parametric right adjoints'' result. We'll continue to give intuition and applications in database and dynamical systems theory. Finally in \cref{sec.discussion_open_qs} we'll provide some looser discussion and lay out some open questions.
 
 %-------- Section --------%
 \section{Copresheaves, databases, and dynamical systems}\label{sec.copresheaves_data_ds}
 
-Let $\cat{C}$ be a small category. One of the most important constructions in category theory is that of the category of copresheaves (or presheaves) on $\cat{C}$. This is the category
+Let $\cat{C}$ be a small category. One of the most important constructions in category theory is that of the category of copresheaves on $\cat{C}$.%
+\footnote{Many would say that presheaves on $\cat{C}$ are more fundamental, but since the notions are equivalent---just use $\cat{C}\op$ to switch between them---we will consider the difference moot. We will focus on copresheaves.}
+This is the category
 \[
 \cat{C}\set\coloneqq\Cat{Fun}(\cat{C},\smset)
 \]
 whose objects are functors $\cat{C}\to\smset$ and whose morphisms are natural transformations between them.
 
 \begin{example}
-Suppose $(G,e,*)$ is a monoid (e.g.\ a group). In a first course on abstract algebra, one encounters the notion of a \emph{$G$-set}, which is a set $X$ together with a $G$ action: for every element $g\in G$ we get a function $\alpha_g\colon X\to X$; we might write $\alpha_g(x)$ as $g\cdot x$. Actions need to satisfy two rules: $e\cdot x=x$ and $g\cdot(h\cdot x)=(g*h)\cdot x$. A morphism between $G$-sets is a function $f\colon X\to Y$ such that $f(g\cdot x)=g\cdot (f(x))$ for all $g\in G$ and $x\in X$.
+Suppose $(G,e,*)$ is a monoid (e.g.\ a group). In a first course on abstract algebra, one encounters the notion of a \emph{$G$-set}, which is a set $X$ together with a $G$ action: for every element $g\in G$ we get a function $\alpha_g\colon X\to X$; we might write $\alpha_g(x)$ as $g\cdot x$. To be a $G$-action, the $\cdot$ operation needs to satisfy two rules: $e\cdot x=x$ and $g\cdot(h\cdot x)=(g*h)\cdot x$. A morphism between two $G$-sets (sets $X$ and $Y$, each equipped with a $G$-action) is just a function $f\colon X\to Y$ that  satisfies a single rule: $f(g\cdot x)=g\cdot (f(x))$ for all $g\in G$ and $x\in X$.
 
-Now recall that any monoid can be understood as a category with one object, let's call our category $\cat{G}$ and the unique object $\Delta$. Then it turns out that $G$-sets are precisely functors $F\colon\cat{G}\to\smset$: the set $F(\Delta)$ is our $X$ above, and since the elements of $G$ are now morphisms $g\colon \Delta\to\Delta$, they are sent to functions $F(g)\colon X\to X$. The axioms of a functor---preservation of identities and compositions---ensure the two rules of $G$-sets. Finally, morphisms between $G$-sets are exactly the natural transformations between functors.
+Now recall that any monoid (e.g.\ a group) $G$ can be understood as a category with one object, let's call our category $\cat{G}$ and the unique object $\blacktriangle$. The elements of $G$, including the identity and the multiplication, are encoded as the morphisms $\blacktriangle\to\blacktriangle$ in $\cat{G}$. 
 
-\slogan{$G$-sets are copresheaves on $\cat{G}$, the associated one-object category.}
+It turns out that $G$-sets are precisely functors $F\colon\cat{G}\to\smset$: the set $F(\blacktriangle)$ is our $X$ above, and since the elements of $G$ are now morphisms $g\colon \blacktriangle\to\blacktriangle$, the functor $F$ sends them to functions $F(g)\colon X\to X$; this is the $g\cdot-$ operation. The axioms of a functor---preservation of identities and compositions---ensure the two rules of the $\cdot$ operation. Finally, morphisms between $G$-sets are exactly the natural transformations between functors; the naturality condition becomes the rule $f(g\cdot x)=g\cdot (f(x))$ we saw above.
+
+\slogan{$G$-sets are copresheaves on the associated one-object category $\cat{G}$.}
 \end{example}
 
 \begin{example}[Clue game]\label{ex.clue_game}
-There is a game that is played in the US, called Clue, where the players are detectives trying to solve a murder mystery. The game consists of a board together with a deck of several cards, and on each card there is both some printed words and a picture. For one card, the words might say ``Ms. White'' and it shows a picture of a woman. Every card has a type: it is either a room card, a weapon card, or a person card; e.g.\ there is a card that says ``knife'' and show a picture of a knife.
+There is a game that is played in the US, called Clue, where each players is a detective trying to solve a murder mystery. The game consists of a board together with a deck of several cards, and on each card there is both some printed words and a picture. For one card, the words might say ``Ms.\ White'' and the picture shows a woman; for another card, the words might say ``knife'' and the picture shows a knife. Every card has a type: it is either a room card, a weapon card, or a person card; e.g.\ the Ms.\ White card is a person card and the knife card is a weapon card.
 
 Now consider the commutative square category whose objects are labeled as follows:
 \[
@@ -72,9 +76,9 @@ Now consider the commutative square category whose objects are labeled as follow
 \end{tikzcd}
 }
 \]
-A functor $D\colon\cat{W}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, motive, whatever). 
+A functor $D\colon\cat{W}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, whatever). Of course, a priori, $D$ is just a commutative square of sets and functions, but we'll refer to elements of $D(\text{Card})$ as cards, etc.
 
-Here we will give our version of the game. Here is the functor $\deck\colon\cat{W}\to\smset$, written as a database instance with schema $\cat{W}$:
+Here we will give our own version of the game and use it to illustrate databases. It will be a running example throughout the chapter. We start with a functor $\deck\colon\cat{W}\to\smset$, written as a database instance with schema $\cat{W}$:
 \[
 \begin{array}{| l || l | l | l |}
 	\bhline
@@ -87,7 +91,7 @@ Here we will give our version of the game. Here is the functor $\deck\colon\cat{
   P&\text{Person}&\tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
   H&\text{Here}&\cdot&\text{Place}\\\hline
   U&\text{Up}&\uparrow&\text{Place}\\\hline
-  D&\text{down}&\downarrow&\text{Place}\\\hline
+  D&\text{Down}&\downarrow&\text{Place}\\\hline
   L&\text{Left}&\leftarrow&\text{Place}\\\hline
   R&\text{Right}&\rightarrow&\text{Place}\\\bhline
 \end{array}
@@ -137,6 +141,15 @@ Here we will give our version of the game. Here is the functor $\deck\colon\cat{
 \end{example}
 
 
+\begin{exercise}
+\begin{enumerate}
+	\item Do you think there is anything mathematically-special about the database instance presented in \cref{ex.clue_game}? That is, as a functor $\cat{W}\to\smset$, does it seem relatively generic, or does something about it seem special?
+	\item If you'd say it's not special, why not? If you'd say it is special, give another instance (functor $\cat{W}\to\smset$, written in database form) that is not special in this way. 
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
 \begin{definition}[Discrete opfibration]
 A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if, for every object $c\in\cat{C}$, object $d'\in\cat{D}$, and morphism $g\colon F(c)\to d'$ there exists a unique object $c'\in\cat{C}$ and morphism $f\colon c\to c'$ such that $F(c')=d'$ and $F(f)=g$.
 \[
@@ -148,7 +161,6 @@ A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if,
 \end{tikzcd}
 \]
 \end{definition}
-
 
 \begin{proposition}\label{prop.dopf_copresheaf}
 Given a functor $\cat{C}\to\smset$, its category of elements is a discrete opfibration over $\cat{C}$, and this is functorial. Moreover this functor is an equivalence of categories.
@@ -370,10 +382,6 @@ Or if you prefer, $\3\3\to\3\3^\4+\3\3^\2+\3\3^\2+\3\3$.
 \end{example}
 
 
-\begin{proposition}[Niu]
-The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
-\end{proposition}
-
 \begin{proposition}\label{prop.all_free_modules}
 Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. For any set $G$, the polynomial $\yon^G\tri\ema{c}$ has a natural right $\com{C}$-module structure.
 \end{proposition}
@@ -397,8 +405,10 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 
 \begin{proposition}[Niu]
 Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
+\end{proposition}
 
-Moreover, for any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
+\begin{proposition}
+For any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
 \[
 \begin{tikzcd}
   \yon\ar[r,biml-bimr, "F"]\ar[rr, biml-bimr, bend right=20pt, "\lim F"']&
@@ -436,10 +446,11 @@ It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is repr
 Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
 \end{proof}
 
+
 \subsection{Bimodules as data migration functors}
 
 
-\begin{example}
+\begin{example}\label{ex.clue_suggestions}
 We continue with the Clue game from \cref{ex.clue_game,ex.clue_as_module}. The database instance is encoded as a map
 \[\3\3\to(\yon^\4+\2\yon^\2+\yon)\tri\3\3.\]
 In this example we will first grab the three-element set of types, and then we'll make a new $\1\2$-element instance of the commutative square $\yon^\4+\2\yon^\2+\yon$ that copies that three-element set four times.
@@ -552,6 +563,26 @@ Now why would we want to do this? The answer is that the maps of bimodules from 
 \right\}
 \]
 \end{example}
+
+\begin{exercise}
+Show that the $\3\3$-card deck from \cref{ex.clue_suggestions} factors---up to isomorphism---through a bimodule of the form $\yon^\4+\2\yon^\2+\yon\bimodfrom\yon^\2+\yon$, where $\yon^\2+\yon$ carries the walking arrow.
+\end{exercise}
+
+\subsection{Composing bimodules}
+
+\begin{proposition}[Niu]\label{prop.composite_for_nats}
+The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
+\end{proposition}
+
+
+\begin{example}
+Using \cref{prop.composite_for_nats} we can obtain the $\3\0$ clue suggestions from \cref{ex.clue_suggestions} as a composite of bimodules.
+(finish)
+\end{example}
+
+\section{The proarrow equipment}
+
+
 %-------- Section --------%
 \section{Discussion and open questions}\label{sec.discussion_open_qs}
 
