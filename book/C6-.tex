@@ -181,13 +181,13 @@ For now, we again consider our clue game. If we want to think of our pictures, e
 \begin{definition}[Discrete opfibration]\label{def.dopf}
 Let $\cat{C}$ be a category. A pair $(\cat{I},\pi)$, where $\cat{I}$ is a category and $\pi\colon\cat{I}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
 \begin{itemize}
-	\item for every object $c\in\cat{I}$, object $d'\in\cat{C}$, and morphism $g\colon \pi(c)\to d'$ there exists a unique object $c'\in\cat{I}$ and morphism $f\colon c\to c'$ such that $\pi(c')=d'$ and $\pi(f)=g$.
+	\item for every object $c\in\cat{I}$, object $d'\in\cat{C}$, and morphism $f\colon \pi(c)\to d'$ there exists a unique object $c'\in\cat{I}$ and morphism $\bar{f}\colon c\to c'$ such that $\pi(c')=d'$ and $\pi(\bar{f})=f$.
 \end{itemize}
 \[
 \begin{tikzcd}
-  c\ar[r, dashed, "f"]\ar[d, |->, "\pi"']&
+  c\ar[r, dashed, "\bar{f}"]\ar[d, |->, "\pi"']&
   c'\ar[d, |->, "\pi"]\\
-  \pi(c)\ar[r, "g"']&
+  \pi(c)\ar[r, "f"']&
   d'
 \end{tikzcd}
 \]
@@ -203,6 +203,17 @@ A \emph{morphism} $(\cat{I},\pi)\to(\cat{I}',\pi')$ between discrete opfibration
 
 \begin{exercise}
 Show that if $F\colon \cat{I}\to\cat{I}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, then $F$ is also a discrete opfibration. 
+\end{exercise}
+
+\begin{exercise}\label{exc.dopf_cof}
+Suppose $\pi\colon\cat{I}\to\cat{C}$ is a discrete opfibration and $i\in\cat{I}
+$ is an object. With notation as in \cref{def.dopf}, show the following:
+\begin{enumerate}
+	\item Show that the lift $\bar{\id_{\pi(i)}=\id_i$ of the identity on $\pi(i)$ is the identity on $i$.
+	\item Show that for $f\colon\pi(i)\to c$ and $g\colon c\to c'$, we have $\bar{f}\then\bar{g}=\bar{f\then g}$.
+	\item Show that $\pi$ is a cofunctor.
+\qedhere
+\end{enumerate}
 \end{exercise}
 
 \begin{definition}[Category of elements $\int^\cat{C}I$]\label{def.cat_elements}
@@ -245,21 +256,26 @@ Fill
 \end{proof}
 
 
+Recall from \cref{**} that a dynamical system on a category $\cat{C}$ consists of a set $S$ and a cofunctor $S\yon^S\cof\cat{C}$ from the state category on $S$ to $\cat{C}$.
 
-
-\begin{proposition}\label{prop.cart_com_dopf}
-The category of polynomial comonoids and cartesian maps is equivalent to the category of categories and discrete opfibrations
-\[
-\Cat{Comon}(\poly)_{\text{cart}}\cong \smcat_{\text{dopf}}.
-\]
+\begin{proposition}[Database states are dynamical systems]\label{prop.ds_dopf}
+Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with dynamical systems on $\cat{C}$. This association is only functorial on the groupoid of objects and isomorphisms.
 \end{proposition}
 \begin{proof}
-**
+Given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, take $S\coloneqq\Ob(\cat{S})$ and define $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\ema{c}$ by $\varphi_1=\pi$ and with $\varphi^\sharp$ given by the lifting: $\varphi(g)\coloneqq \hat{g}$ as in \cref{def.dopf}. One checks using \cref{exc.dopf_cof} that this defines a cofunctor. 
+
+Conversely, given a cofunctor $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\ema{c}$, the function $\varphi_1$ induces a map of polynomials $S\yon\to\ema{c}$, and we can factor it as a vertical followed by a cartesian $S\yon\to\ema{s}\To{\psi}\ema{c}$. We can give $\ema{s}$ the structure of a category such that $\psi$ is a cofunctor; see \cref{exc.ds_dopf}.
 \end{proof}
 
-\begin{example}
-Let $S$ be a set and $\com{S}\coloneqq(S\yon^S,\epsilon,\delta)$ the state comonoid. Then by \cref{prop.dopf_copresheaf,prop.cart_com_dopf}, a comonoid $\com{C}$ equipped with a cartesian map $f\colon\com{C}\to\com{S}$ is the category of elements for a functor $\cat{S}\to\smset$. But $\cat{S}$ is terminal in $\smcat$, so every functor $F\colon \cat{S}\to\smset$ is constant on some set $X\in\smset$, and hence there is an isomorphism of categories $\cat{C}\cong X\times \cat{S}$.
-\end{example}
+\begin{exercise}\label{exc.ds_dopf}
+With notation as in \cref{prop.ds_dopf}, complete the proof as follows.
+\begin{enumerate}
+	\item Check that $(\varphi,\varphi^\sharp)$ defined in the first paragraph is indeed a cofunctor.
+	\item Find a comonoid structure on $\ema{s}$ such that $\psi$ is a cofunctor, as stated in the second paragraph. 
+	\item Show that the two directions are inverse, up to isomorphism.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 
 %-------- Section --------%
