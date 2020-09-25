@@ -66,7 +66,7 @@ There is a game that is played in the US, called Clue, where each players is a d
 
 Now consider the commutative square category whose objects are labeled as follows:
 \[
-\cat{W}\coloneqq\boxCD{examplecolor}{
+\Cat{Sq}\coloneqq\boxCD{examplecolor}{
 \begin{tikzcd}[sep=large, ampersand replacement=\&]
 	\LTO{Card}\ar[r, "\text{has picture}"]\ar[d, "\text{has word}"']\&[10pt]
 	\LTO{Picture}\ar[d, "\text{has type}"]\\
@@ -76,10 +76,11 @@ Now consider the commutative square category whose objects are labeled as follow
 \end{tikzcd}
 }
 \]
-A functor $D\colon\cat{W}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, whatever). Of course, a priori, $D$ is just a commutative square of sets and functions, but we'll refer to elements of $D(\text{Card})$ as cards, etc.
+A functor $D\colon\Cat{Sq}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, whatever). Of course, a priori, $D$ is just a commutative square of sets and functions, but we'll refer to elements of $D(\text{Card})$ as cards, etc.
 
-Here we will give our own version of the game and use it to illustrate databases. It will be a running example throughout the chapter. We start with a functor $\deck\colon\cat{W}\to\smset$, written as a database instance with schema $\cat{W}$:
-\[
+Here we will give our own version of the game and use it to illustrate databases. It will be a running example throughout the chapter. We start with a functor $\deck\colon\Cat{Sq}\to\smset$, written as a database instance with schema $\Cat{Sq}$:
+\begin{equation}\label{eqn.clue_database_instance}
+\begin{gathered}
 \begin{array}{| l || l | l | l |}
 	\bhline
   \multicolumn{4}{| c |}{\text{Deck Card}}\\\bhline
@@ -95,8 +96,8 @@ Here we will give our own version of the game and use it to illustrate databases
   L&\text{Left}&\leftarrow&\text{Place}\\\hline
   R&\text{Right}&\rightarrow&\text{Place}\\\bhline
 \end{array}
-\]
-\[\footnotesize
+\\~\\
+\footnotesize
 \begin{array}{| l || l |}
   \bhline
   \multicolumn{2}{| c |}{\text{Deck Picture}}\\\bhline
@@ -137,21 +138,45 @@ Here we will give our own version of the game and use it to illustrate databases
   \text{Object}\\\hline
   \text{Place}\\\bhline
 \end{array}
-\]
+\end{gathered}
+\end{equation}
 \end{example}
 
 
 \begin{exercise}
 \begin{enumerate}
-  \item With the instance $\Fun{Deck}\colon\cat{W}\to\smset$, what set is $\Fun{Deck}(\text{Card})$?
+  \item With the instance $\Fun{Deck}\colon\Cat{Sq}\to\smset$, what set is $\Fun{Deck}(\text{Card})$?
   \item What set is $\Fun{Deck}(\text{Word})$?
   \item What is the function $\Fun{Deck}(\text{has word})\colon\Fun{Deck}(\text{Card})\to\Fun{Deck}(\text{Card})$?
-	\item Do you think there is anything mathematically-special about the database instance presented in \cref{ex.clue_game}? That is, as a functor $\cat{W}\to\smset$, does it seem relatively generic, or does something about it seem special?
-	\item If you'd say it's not special, why not? If you'd say it is special, give another instance (functor $\cat{W}\to\smset$, written in database form) that is not special in this way. 
+	\item Do you think there is anything mathematically-special about the database instance presented in \cref{ex.clue_game}? That is, as a functor $\Cat{Sq}\to\smset$, does it seem relatively generic, or does something about it seem special?
+	\item If you'd say it's not special, why not? If you'd say it is special, give another instance (functor $\Cat{Sq}\to\smset$, written in database form) that is not special in this way. 
 \qedhere
 \end{enumerate}
 \end{exercise}
 
+\begin{example}
+Continuing with \cref{ex.clue_game}, we again consider the commutative square category 
+\[
+\Cat{Sq}=
+\begin{tikzcd}[sep=small, ampersand replacement=\&]
+	\LTO{Card}\ar[r]\ar[d]\&[10pt]
+	\LTO{Picture}\ar[d]\\
+	\LTO{Word}\ar[r]\&
+	\LTO{Type}
+	\ar[ul, phantom, "\checkmark"]
+\end{tikzcd}
+\]
+Let $P\coloneqq\{r,g,b\}^{\ord{100}\times\ord{100}}$ be a set whose elements we call images, let $W\coloneqq\List(\{\text{a},\ldots,\text{z}\})$ be a set whose elements we call words, and let $T\coloneqq\{\text{Color,Object,Place}\}$ be a set whose elements we call types. We can thus create a database instance $J\colon\Cat{Sq}\to\smset$ sending
+\[
+  J(\Set{Type})\coloneq T,\quad
+  J(\Set{Word})\coloneqq W\times T,\quad
+  J(\Set{Picture})\coloneqq P\times T,\quad
+  J(\Set{Card})\coloneqq P\times W\times T
+\]
+with the maps in $\Cat{Sq}$ sent to the evident product projections. We will later see in \cref{**} where these products and projections come from.
+
+For now, we again consider our clue game. If we want to think of our pictures really as pictures or our words really as words, we need to be given a map of database instances---a natural transformation---of the form $\tau\colon\Fun{Deck}\to J$. In particular, $\tau$ assigns every card in the deck a word, a picture, and a type.
+\end{example}
 
 \begin{definition}[Discrete opfibration]
 A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if, for every object $c\in\cat{C}$, object $d'\in\cat{D}$, and morphism $g\colon F(c)\to d'$ there exists a unique object $c'\in\cat{C}$ and morphism $f\colon c\to c'$ such that $F(c')=d'$ and $F(f)=g$.
@@ -497,7 +522,7 @@ The composite is the three-element set of types $\bullet\bimodfrom[\3]\0$, where
 \bullet
 \bimodfrom[\3]\0
 \]
-The result is the following $\cat{W}$-set:
+The result is the following $\Cat{Sq}$-set:
 \[
 \begin{array}{| l || l | l | l |}
 	\bhline
@@ -665,3 +690,28 @@ In this section, we lay out some questions that whose answers may or may not be 
 %Our goal in this chapter is to say the above carefully and with plenty of examples.
 %
 
+
+
+%\begin{definition}[Database schema and instance]
+%Let $\cat{C}$ be a category. An \emph{attribute structure} on $\cat{C}$ is a pair $(V, \alpha)$ where
+%\begin{enumerate}
+%	\item $V$ is a set, elements of which are called \emph{attribute values} and
+%	\item $\alpha\colon V\to \Ob(\cat{C})$ is a function, called the \emph{attribute assignment}.
+%\end{enumerate}
+%If $(V,\alpha)$ is an attribute structure on $\cat{C}$, we call the triple $(\cat{C},V,\alpha)$ a \emph{database schema} and refer to $\cat{C}$ as the \emph{entity category} of the schema.
+%
+%An \emph{instance} on $(\cat{C},V,\alpha)$ consists of a functor $I\colon\cat{C}\to\smset$ together with a function $v_c\colon I(c)\to\alpha\inv(c)$ for each $c\in\Ob(\cat{C})$.
+%\end{definition}
+%
+%\begin{proposition}
+%Let $\cat{C}$ be a category and $\eta_\cat{C}\colon\cat{C}\to\Ob(\cat{C})$ the unit cofunctor. An attribute structure on $\cat{C}$ can be identified with a $(\Ob(\cat{C}),0)$-bimodule $\Ob(\cat{C})\bimodfrom[V]0$. An instance on $(\cat{C},V,\alpha)$ can be identified with a square of the form
+%\[
+%\begin{tikzcd}[background color=theoremcolor]
+%	\cat{C}\ar[r, bimr-biml, "I"]\ar[d, "\cofun" marking, "\eta"']&
+%	0\ar[d, equal]\\
+%	\Ob(\cat{C})\ar[r, bimr-biml, "V"']&
+%	0\ar[ul, phantom, "\hphantom{\scriptstyle\alpha}\Downarrow\scriptstyle\alpha"]
+%\end{tikzcd}
+%\]
+%\end{proposition}
+%

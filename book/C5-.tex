@@ -2649,7 +2649,7 @@ Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the
 First it's saying that $\delta_1(i)=i$. This is great news; it means we can forget about $\delta_1$, just as we said earlier. Second it's saying that $d\then\idy(\cod(d))=d$. Unpacking, this means that composing a morphism $d$ with the identity morphism on its codomain returns $d$. It's neat to watch the comonoid laws declaring the standard laws of categories. It's like meeting a like-minded toad; we never knew toads could be like-minded, but the phenomena don't lie.
 
 Before moving on, we redraw $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ (which the first unitality equation said was always identity) and replace it with a double arrow:
-\[
+\begin{equation}\label{eqn.cod_comp}
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {};
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
@@ -2658,7 +2658,7 @@ Before moving on, we redraw $\delta\colon c\to c\tri c$ with the information-lac
   	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
-\]
+\end{equation}
 
 Now we can write the other unitality equation.
 \[
@@ -3163,6 +3163,24 @@ Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. We have a stat
 \end{tikzpicture}
 \]
 for an object $i\in\ema{c}(\1)$ and an outgoing morphism $m\in\ema{c}[i]$. Is this map a cofunctor?
+\end{exercise}
+
+\begin{example}[Canonical cofunctors from state categories]\label{ex.cof_from_state}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid, where $\delta=(\id,\cod,\comp)$ as in \eqref{eqn.cod_comp}. For any position $i\in\ema{c}(\1)$, there is a cofunctor
+\[
+	(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}.
+\]
+That is, an object $f\in \ema{c}[i]$ is also a morphism in $\cat{C}$ and we send it to its codomain $\cod(f)$. A morphism in $\cat{C}$ emanating from $\cod(f)$ is passed back to its composite with $f$. 
+\end{example}
+
+\begin{exercise}
+Suppose $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid.
+\begin{enumerate}
+	\item Show that the map $(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ from \cref{ex.cof_from_state} satisfies the conditions necessary for being a cofunctor (identities, codomains, and composites).
+	\item Find a comonoid structure on the polynomial $p\coloneqq\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $p\to\ema{c}$.
+	\item Is the polynomial map $p\to\ema{c}$ an epimorphism?
+\qedhere
+\end{enumerate}
 \end{exercise}
 
 \begin{exercise}
