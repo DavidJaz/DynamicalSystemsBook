@@ -166,33 +166,83 @@ Continuing with \cref{ex.clue_game}, we again consider the commutative square ca
 	\ar[ul, phantom, "\checkmark"]
 \end{tikzcd}
 \]
-Let $P\coloneqq\{r,g,b\}^{\ord{100}\times\ord{100}}$ be a set whose elements we call images, let $W\coloneqq\List(\{\text{a},\ldots,\text{z}\})$ be a set whose elements we call words, and let $T\coloneqq\{\text{Color,Object,Place}\}$ be a set whose elements we call types. We can thus create a database instance $J\colon\Cat{Sq}\to\smset$ sending
+Let $P\coloneqq\{b,w\}^{\ord{100}\times\ord{100}}$ be a set whose elements we call (black and white) pictures, let $W\coloneqq\List(\{\text{A,a},\ldots,\text{Z,z}\})$ be a set whose elements we call words, and let $T\coloneqq\{\text{Color,Object,Place}\}$ be a set whose elements we call types. We can thus create a database instance $J\colon\Cat{Sq}\to\smset$ sending
 \[
-  J(\Set{Type})\coloneq T,\quad
-  J(\Set{Word})\coloneqq W\times T,\quad
-  J(\Set{Picture})\coloneqq P\times T,\quad
-  J(\Set{Card})\coloneqq P\times W\times T
+  J(\text{Type})\coloneq T,\quad
+  J(\text{Word})\coloneqq W\times T,\quad
+  J(\text{Picture})\coloneqq P\times T,\quad
+  J(\text{Card})\coloneqq P\times W\times T
 \]
 with the maps in $\Cat{Sq}$ sent to the evident product projections. We will later see in \cref{**} where these products and projections come from.
 
-For now, we again consider our clue game. If we want to think of our pictures really as pictures or our words really as words, we need to be given a map of database instances---a natural transformation---of the form $\tau\colon\Fun{Deck}\to J$. In particular, $\tau$ assigns every card in the deck a word, a picture, and a type.
+For now, we again consider our clue game. If we want to think of our pictures, e.g.\ $\tikzsymStrichmaxerl[1.2]$, really as pictures or our words, e.g.\ ``Person'', really as words, then we need to be given a map of database instances---a natural transformation---of the form $\tau\colon\Fun{Deck}\to J$. In particular, $\tau$ assigns every card in the deck a word, a picture, and a type.
 \end{example}
 
-\begin{definition}[Discrete opfibration]
-A functor $F\colon\cat{C}\to\cat{D}$ is called a \emph{discrete opfibration} if, for every object $c\in\cat{C}$, object $d'\in\cat{D}$, and morphism $g\colon F(c)\to d'$ there exists a unique object $c'\in\cat{C}$ and morphism $f\colon c\to c'$ such that $F(c')=d'$ and $F(f)=g$.
+\begin{definition}[Discrete opfibration]\label{def.dopf}
+Let $\cat{C}$ be a category. A pair $(\cat{I},\pi)$, where $\cat{I}$ is a category and $\pi\colon\cat{I}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
+\begin{itemize}
+	\item for every object $c\in\cat{I}$, object $d'\in\cat{C}$, and morphism $g\colon \pi(c)\to d'$ there exists a unique object $c'\in\cat{I}$ and morphism $f\colon c\to c'$ such that $\pi(c')=d'$ and $\pi(f)=g$.
+\end{itemize}
 \[
 \begin{tikzcd}
-  c\ar[r, dashed, "f"]\ar[d, |->, "F"']&
-  c'\ar[d, |->, "F"]\\
-  F(c)\ar[r, "g"']&
+  c\ar[r, dashed, "f"]\ar[d, |->, "\pi"']&
+  c'\ar[d, |->, "\pi"]\\
+  \pi(c)\ar[r, "g"']&
   d'
 \end{tikzcd}
 \]
+A \emph{morphism} $(\cat{I},\pi)\to(\cat{I}',\pi')$ between discrete opfibrations over $\cat{C}$ is a functor $F\colon\cat{I}\to\cat{I}'$ making the following triangle commute:
+\begin{equation}\label{eqn.dopf_triangle}
+\begin{tikzcd}[column sep=small]
+	\cat{I}\ar[dr, "\pi"']\ar[rr, "F"]&&
+	\cat{I}'\ar[dl, "\pi'"]\\&
+	\cat{C}
+\end{tikzcd}
+\end{equation}
 \end{definition}
 
-\begin{proposition}\label{prop.dopf_copresheaf}
-Given a functor $\cat{C}\to\smset$, its category of elements is a discrete opfibration over $\cat{C}$, and this is functorial. Moreover this functor is an equivalence of categories.
+\begin{exercise}
+Show that if $F\colon \cat{I}\to\cat{I}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, then $F$ is also a discrete opfibration. 
+\end{exercise}
+
+\begin{definition}[Category of elements $\int^\cat{C}I$]\label{def.cat_elements}
+Given a functor $I\colon\cat{C}\to\smset$, its category of elements $\int^\cat{C}I$ is defined to have objects
+\[
+\Ob(\int^\cat{C}I)\coloneqq\{(c,x)\mid c\in\Ob(\cat{C}), x\in I(c)\}
+\]
+and given two objects $(c,x)$ and $(c',x')$, the hom-set is given by
+\[
+\Hom((c,x),(c',x'))\coloneqq\{f\colon c\to c'\mid I(f)(x)=x'\}.
+\]
+Identities and composites in $(\int^\cat{C}I)$ are inherited from $\cat{C}$.
+
+There is a functor $\pi\colon(\int^\cat{C}I)\to\cat{C}$ sending $\pi(c,x)\coloneqq c$ and $\pi(f)\coloneqq f$.
+\end{definition}
+
+\begin{exercise}
+Show that if $I\colon\cat{C}\to\smset$ is a functor then the functor $\pi\colon(\int^\cat{C}I)\to\cat{C}$ defined in \cref{def.cat_elements} is a discrete opfibration, as in \cref{def.dopf}.
+\end{exercise}
+
+\begin{exercise}
+Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ is a natural transformation. 
+\begin{enumerate}
+	\item Show that $\alpha$ induces a functor $(\int^\cat{C}I)\to(\int^\cat{C}J)$.
+	\item Show that it is a morphism of discrete opfibrations in the sense of \cref{def.dopf}.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{proposition}
+Let $\cat{C}$ be a category. The following are equivalent:
+\begin{enumerate}
+	\item the category of functors $\cat{C}\to\smset$,
+	\item the category of discrete opfibrations over $\cat{C}$,
+	\item the category of cartesian cofunctors into $\cat{C}$.
+\end{enumerate}
 \end{proposition}
+\begin{proof}
+Fill
+\end{proof}
 
 
 
