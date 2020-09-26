@@ -179,34 +179,35 @@ For now, we again consider our clue game. If we want to think of our pictures, e
 \end{example}
 
 \begin{definition}[Discrete opfibration]\label{def.dopf}
-Let $\cat{C}$ be a category. A pair $(\cat{I},\pi)$, where $\cat{I}$ is a category and $\pi\colon\cat{I}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
+Let $\cat{C}$ be a category. A pair $(\cat{S},\pi)$, where $\cat{S}$ is a category and $\pi\colon\cat{S}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
 \begin{itemize}
-	\item for every object $c\in\cat{I}$, object $d'\in\cat{C}$, and morphism $f\colon \pi(c)\to d'$ there exists a unique object $c'\in\cat{I}$ and morphism $\bar{f}\colon c\to c'$ such that $\pi(c')=d'$ and $\pi(\bar{f})=f$.
+	\item for every object $s\in\cat{S}$, object $c'\in\cat{C}$, and morphism $f\colon \pi(s)\to c'$ there exists a unique object $s'\in\cat{S}$ and morphism $\bar{f}\colon s\to s'$ such that $\pi(s')=c'$ and $\pi(\bar{f})=f$.
 \end{itemize}
 \[
 \begin{tikzcd}
-  c\ar[r, dashed, "\bar{f}"]\ar[d, |->, "\pi"']&
-  c'\ar[d, |->, "\pi"]\\
-  \pi(c)\ar[r, "f"']&
-  d'
+  s\ar[r, dashed, "\bar{f}"]\ar[d, |->, "\pi"']&
+  s'\ar[d, |->, "\pi"]\\
+  \pi(s)\ar[r, "f"']&
+  c'
 \end{tikzcd}
 \]
-A \emph{morphism} $(\cat{I},\pi)\to(\cat{I}',\pi')$ between discrete opfibrations over $\cat{C}$ is a functor $F\colon\cat{I}\to\cat{I}'$ making the following triangle commute:
+A \emph{morphism} $(\cat{S},\pi)\to(\cat{S}',\pi')$ between discrete opfibrations over $\cat{C}$ is a functor $F\colon\cat{S}\to\cat{S}'$ making the following triangle commute:
 \begin{equation}\label{eqn.dopf_triangle}
 \begin{tikzcd}[column sep=small]
-	\cat{I}\ar[dr, "\pi"']\ar[rr, "F"]&&
-	\cat{I}'\ar[dl, "\pi'"]\\&
+	\cat{S}\ar[dr, "\pi"']\ar[rr, "F"]&&
+	\cat{S}'\ar[dl, "\pi'"]\\&
 	\cat{C}
 \end{tikzcd}
 \end{equation}
+We denote the category of discrete opfibrations into $\cat{C}$ by $\Cat{dopf}(\cat{C})$.
 \end{definition}
 
 \begin{exercise}
-Show that if $F\colon \cat{I}\to\cat{I}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, then $F$ is also a discrete opfibration. 
+Show that if $F\colon \cat{S}\to\cat{S}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, then $F$ is also a discrete opfibration. 
 \end{exercise}
 
 \begin{exercise}\label{exc.dopf_cof}
-Suppose $\pi\colon\cat{I}\to\cat{C}$ is a discrete opfibration and $i\in\cat{I}
+Suppose $\pi\colon\cat{S}\to\cat{C}$ is a discrete opfibration and $i\in\cat{S}
 $ is an object. With notation as in \cref{def.dopf}, show the following:
 \begin{enumerate}
 	\item Show that the lift $\bar{\id_{\pi(i)}}=\id_i$ of the identity on $\pi(i)$ is the identity on $i$.
@@ -234,33 +235,52 @@ There is a functor $\pi\colon(\int^\cat{C}I)\to\cat{C}$ sending $\pi(c,x)\colone
 Show that if $I\colon\cat{C}\to\smset$ is a functor then the functor $\pi\colon(\int^\cat{C}I)\to\cat{C}$ defined in \cref{def.cat_elements} is a discrete opfibration, as in \cref{def.dopf}.
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise}\label{exc.elts_functor}
 Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ is a natural transformation. 
 \begin{enumerate}
 	\item Show that $\alpha$ induces a functor $(\int^\cat{C}I)\to(\int^\cat{C}J)$.
 	\item Show that it is a morphism of discrete opfibrations in the sense of \cref{def.dopf}.
-\qedhere
+	\item Show that this construction is functorial. We denote this functor by
 \end{enumerate}
+	\[
+	\int^\cat{C}\colon\cat{C}\set\to\Cat{dopf}(\cat{C})
+\qedhere	
+	\]
 \end{exercise}
+
 
 \begin{proposition}
 Let $\cat{C}$ be a category. The following are equivalent:
 \begin{enumerate}
-	\item the category of functors $\cat{C}\to\smset$,
+	\item the category $\cat{C}\set$ of functors $\cat{C}\to\smset$,
 	\item the category of discrete opfibrations over $\cat{C}$,
 	\item the category of cartesian cofunctors into $\cat{C}$.
 \end{enumerate}
 \end{proposition}
 \begin{proof}
-Fill
+By \cref{exc.elts_functor} we have a functor $\int^\cat{C}\colon\cat{C}\set\to\Cat{dopf}(\cat{C})$. There is a functor going back: given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $(\partial\pi)\colon\cat{C}\to\smset$ on $c\in\Ob(\cat{C})$ and $f\colon c\to c'$ by 
+\begin{align*}
+	(\partial\pi)(c)&\coloneqq\{s\in\cat{S}\mid\pi(s)=c\}\\
+	(\partial\pi)(f)(s)&\coloneqq\bar{f}(s).
+\end{align*}
+On objects, the roundtrip $\cat{C}\set\to\cat{C}\set$ sends $I\colon\cat{C}\to\smset$ to the functor
+\begin{align*}
+	c&
+	\mapsto\{s\in\int^\cat{C}I\mid \pi(s)\\&
+	=\{(c,x)\mid x\in I(c)\}&=I(c).
+\end{align*}
+The roundtrip $\Cat{dopf}(\cat{C})\to\Cat{dopf}(\cat{C})$ sends $\pi\colon\cat{S}\to\cat{C}$ to the discrete opfibration whose object set is $\{(c,s)\in\Ob(\cat{C})\times\Ob(\cat{S})\mid\pi(s)=c\}$ and this set is clearly in bijection with $\Ob(\cat{S})$. Proceeding similarly, one defines an isomorphism of categories $\cat{S}\cong\int^\cat{C}\partial\pi$.
+
+The above correspondence is well-known; it remains to address the relationship between (2) and (3). FILL
 \end{proof}
 
 
 Recall from \cref{**} that a dynamical system on a category $\cat{C}$ consists of a set $S$ and a cofunctor $S\yon^S\cof\cat{C}$ from the state category on $S$ to $\cat{C}$.
 
 \begin{proposition}[Database states are dynamical systems]\label{prop.ds_dopf}
-Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with dynamical systems on $\cat{C}$. This association is only functorial on the groupoid of objects and isomorphisms.
+Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with dynamical systems on $\cat{C}$.
 \end{proposition}
+In case it isn't clear, this association is only functorial on the groupoid of objects and isomorphisms.
 \begin{proof}
 Given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, take $S\coloneqq\Ob(\cat{S})$ and define $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\ema{c}$ by $\varphi_1=\pi$ and with $\varphi^\sharp$ given by the lifting: $\varphi(g)\coloneqq \hat{g}$ as in \cref{def.dopf}. One checks using \cref{exc.dopf_cof} that this defines a cofunctor. 
 
