@@ -643,7 +643,7 @@ In fact $\poly$ has infinite coproducts, infinite products, and is completely di
 Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal. Moreover $\otimes$ is also a closed monoidal structure and it distributes over $+$.
 \end{proposition}
 
-\begin{proposition}
+\begin{proposition}\label{prop.adjoint_quadruple}
 $\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:
 \begin{equation*}%\label{eqn.adjoints_galore}
 \begin{tikzcd}[column sep=60pt]
@@ -3160,7 +3160,7 @@ Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{pr
 
 \paragraph{Epi-mono factorization.}
 
-\begin{proposition}
+\begin{proposition}\label{prop.monics_in_poly}
 Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism iff the function $f_1\colon p(\1)\to q(\1)$ is a monomorphism in $\smset$ and, for each $i\in p(\1)$ the function $f_i^\sharp\colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
 \begin{proof}

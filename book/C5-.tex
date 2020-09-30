@@ -351,11 +351,12 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 \end{exercise}
 
 
-\begin{proposition}
+\begin{proposition}\label{prop.flipping_reps_lins}
 For all sets $A,B$, we have the following adjunction:
 \[
 \poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
 \]
+Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
 \end{proposition}
 
 \[
@@ -384,7 +385,10 @@ For all sets $A,B$, we have the following adjunction:
  \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
 \end{tikzpicture} 
 \]
-
+Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
+\begin{proof}
+Fill.
+\end{proof}
 
 \begin{exercise}
 Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
