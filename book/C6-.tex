@@ -210,7 +210,7 @@ Consider now the database instance shown here:
   Sales&Carla\\~
 \end{tabular}
 \]
-Consider this database state as a functor $S\colon\cat{C}\to\smset$.
+Consider this database instance as a functor $S\colon\cat{C}\to\smset$.
 \begin{enumerate}[resume]
 	\item Say what sets $S$ assigns the two objects.
 	\item Say what functions $S$ assigns the three generating morphisms.
@@ -331,7 +331,7 @@ Finally, given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $\
 
 Recall from \cref{**} that a dynamical system on a category $\cat{C}$ consists of a set $S$ and a cofunctor $S\yon^S\cof\cat{C}$ from the state category on $S$ to $\cat{C}$.
 
-\begin{proposition}[Database states are dynamical systems]\label{prop.ds_dopf}
+\begin{proposition}[Database instances are dynamical systems]\label{prop.ds_dopf}
 Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with dynamical systems on $\cat{C}$.
 \end{proposition}
 In case it isn't clear, this association is only functorial on the groupoid of objects and isomorphisms.
@@ -360,7 +360,7 @@ In \cref{ex.cofree_dyn_sys} we had a dynamical system with $S\coloneqq\{\bul[dgr
 	\bul[red]
 \end{tikzcd}
 \end{equation}
-The polynomial map $f$ induces a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. We can now see this as a database state on $\cofree{p}$, considered as a database schema. 
+The polynomial map $f$ induces a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. We can now see this as a database instance on $\cofree{p}$, considered as a database schema. 
 
 The cofree category $\cofree{t}$ is actually the free category on a graph, as we saw in \cref{prop.cofree_free_on_graph}, and so the schema is easy. There is one table for each tree (object in $\cofree{p}$), e.g.\ we have a table associated to this tree:
 \[
@@ -368,23 +368,23 @@ The cofree category $\cofree{t}$ is actually the free category on a graph, as we
 \]
 The table has two columns, say left and right, corresponding to the two arrows emanating from the root node. The left column refers back to the same table, and the right column refers to another table (the one corresponding to the yellow dot).
 
-Again, there are infinitely many tables in this schema. Only three of them have data in them; the rest are empty. We know in advance that this state has three rows in total, since $|S|=3$.
+Again, there are infinitely many tables in this schema. Only three of them have data in them; the rest are empty. We know in advance that this instance has three rows in total, since $|S|=3$.
 \end{example}
 
 Given a dynamical system $S\yon^S\to p$, we extend it to a cofunctor $\varphi\colon S\yon^S\cof\cofree{p}$. By \cref{prop.tfae_dopf,prop.ds_dopf}, we can consider it as a discrete opfibration over $\cofree{p}$. By \cref{exc.elts_free_grph} the category $\elts \varphi$ is again free on a graph. It is this graph that we usually draw when depicting the dynamical system, e.g.\ in \eqref{eqn.dyn_sys_misc573}.
 
 
 \begin{exercise}
-Give an example of a dynamical system on $p\coloneqq\yon^\2+\yon$ for which the corresponding database state has a table with at least two rows.
+Give an example of a dynamical system on $p\coloneqq\yon^\2+\yon$ for which the corresponding database instance has a table with at least two rows.
 \end{exercise}
 
 \begin{exercise}
 A dynamical system with interface $\yon$ is a map $S\yon^S\to\yon$.
 \begin{enumerate}
 	\item What is the corresponding database schema?
-	\item Explain what the corresponding database state looks like.
+	\item Explain what the corresponding database instance looks like.
 	\item In particular, how many total rows does it have?
-	\item Give an example with $|S|=7$, displayed both as a dynamical system (with states and transitions) and as a database state.	
+	\item Give an example with $|S|=7$, displayed both as a dynamical system (with states and transitions) and as a database instance.	
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -392,13 +392,13 @@ A dynamical system with interface $\yon$ is a map $S\yon^S\to\yon$.
 %-------- Section --------%
 \section{Bimodules}\label{sec.bimodules}
 
-One might think that the database story---or you could call it the copresheaves story---is somewhat tacked on to the main line here: cartesian cofunctors $\cat{S}\cof\cat{C}$ can be seen as database states on $\cat{C}$, but perhaps this is just an incidental curiosity. In this section we'll see that in fact copresheaves, i.e.\ set-valued functors on categories, are a major aspect of the story.
+One might think that the database story---or you could call it the copresheaves story---is somewhat tacked on to the main line here: cartesian cofunctors $\cat{S}\cof\cat{C}$ can be seen as database instances on $\cat{C}$, but perhaps this is just an incidental curiosity. In this section we'll see that in fact copresheaves, i.e.\ set-valued functors on categories, are a major aspect of the story.
 
 In a monoidal category, one can not only consider monoids and comonoids, but also modules between these. For example, in the monoidal category of abelian groups under bilinear product, the monoid objects are rings and the bimodules are bimodules in the usual sense. Here we are interested in comonoids rather than monoids, so we should be interested in bi-comodules; we will just call these bimodules for linguistic convenience.
 
-We will see that bimodules in $\poly$ are equivalent to data-migration functors. Given comonoids/categories $\cat{C}$ and $\cat{D}$, a bimodule $\cat{C}\bimodfrom[m]\cat{D}$ is a way of moving database states on $\cat{D}$ to database states on $\cat{C}$. One could call it a ``$\cat{D}$-indexed union of conjunctive queries.''
+We will see that bimodules in $\poly$ are equivalent to data-migration functors. Given comonoids/categories $\cat{C}$ and $\cat{D}$, a bimodule $\cat{C}\bimodfrom[m]\cat{D}$ is a way of moving database instances on $\cat{D}$ to database instances on $\cat{C}$. One could call it a ``$\cat{D}$-indexed union of conjunctive queries.''
 
-\begin{definition}[Bimodule]
+\begin{definition}[Bimodule]\label{def.bimodule}
 Let $\cat{C}=(\ema{c},\epsilon,\delta)$ and $\cat{D}=(\ema{d},\epsilon,\delta)$ be comonoids. A \emph{$(\cat{C},\cat{D})$-bimodule} $(m,\lambda,\rho)$, denoted $\cat{C}\bimodfrom[m]\cat{D}$ or in shorthand $\ema{c}\bimodfrom[m]\ema{d}$,%
 %
 \footnote{Note that the symbol $\ema{c}\bimodfrom\ema{d}$ looks like it's going backwards, from $\ema{d}$ to $\ema{c}$; this is good because we'll see that this is the direction of data migration for a $(\cat{C},\cat{D})$-bimodule. But the symbology is also mnemonically good because the $\tri$'s go in the correct direction $\ema{c}\tri m\from m$ and $m\to m\tri\ema{d}$.}
@@ -542,32 +542,109 @@ Let $\cat{C}=(\ema{c},\epsilon,\delta)$ be a category. Recall from \cref{**} tha
 \end{enumerate}
 \end{exercise}
 
+\begin{definition}[$\com{C}$-coalgebra]
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid. A \emph{$\com{C}$-coalgebra} consists of a set $S$ and a function $\alpha\colon S\to\ema{c}\tri S$, making the two diagrams below commute:
+\[
+\begin{tikzcd}
+	\ema{c}\tri S\ar[d, "\epsilon\tri "']&
+	S\ar[l, "\alpha"']\ar[dl, equal, bend left]\\
+	S
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}
+	\ema{c}\tri S\ar[d, "\delta\tri S"']&
+	S\ar[l, "\alpha"']\ar[d, "\alpha"]\\
+	\ema{c}\tri\ema{c}\tri m&
+	\ema{c}\tri S\ar[l, "\ema{c}\tri\alpha"]
+\end{tikzcd}
+\]
+In other words, it is a left $\ema{c}$-comodule whose carrier is constant on a set. A morphism is a function $S\to T$ commuting with $\alpha$, just as for comodules; see \cref{def.bimodule}.
+\end{definition}
+
 In order to as quickly as possible orient the reader to bimodules, we begin by proving the following.
 
 \begin{theorem}\label{thm.tfae_c_sets}
-For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following categories are isomorphic:
+For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following categories are equivalent:
 \begin{enumerate}
 	\item functors $\cat{C}\to\smset$;
 	\item discrete opfibrations over $\cat{C}$;
 	\item cartesian cofunctors to $\com{C}$;
-	\item representable right $\com{C}$-modules; and
-	\item linear left $\com{C}$-modules;
-	\item constant left $\com{C}$-modules;
+	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$);
 	\item $(\com{C},0)$-bimodules;
-	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$).
+	\item constant left $\com{C}$-modules;
+	\item linear left $\com{C}$-modules;
+	\item representable right $\com{C}$-modules (opposite);
 \end{enumerate}
 In fact, all but the first are isomorphic categories, and their core groupoid of is that of dynamical systems with interface $\cat{C}$.
 \end{theorem}
 \begin{proof}
 \begin{description}
 	\item[$1\simeq 2\cong 3$:] This was shown in \cref{prop.tfae_dopf}.
-	\item[$3\cong 4$:] Fill
+	\item[$3\cong 4$:] Given a cartesian cofunctor $(\pi_1,\pi^\sharp)\colon\cat{S}\cof\cat{C}$, let $S\coloneqq\Ob(\cat{S})$ and define a $\ema{c}$-coalgebra structure $\alpha\colon S\to\ema{c}\tri S$ on an object $s\in\Ob(\cat{S})$ and an emanating morphism $f\colon\pi_1(s)\to c'$ in $\cat{C}$ by
+	\[
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$S$" left] (yX) {$\varnothing$\nodepart{two}$s$};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\ema{c}$" right] (p) {$f$\nodepart{two}$\pi_1(s)$};
+  	\node[poly, above=of p, "$S$" right] (p') {$\varnothing$\nodepart{two}$\cod\pi^\sharp_s(f)$};
+  	\draw (yX_pos) to[first] node[below] {$\alpha_1$}(p_pos);
+  	\draw (p_dir) to[climb] node[right] {$\alpha_2$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above left] {$!$} (yX_dir);
+  \end{tikzpicture}
+	\]
+	We check that this is indeed a coalgebra using properties of cofunctors. For identities in $\com{C}$, we have
+	\begin{align*}
+  	\alpha_2(s,\id_{\pi_1(s)})&=
+  	\cod\pi^\sharp_s(\id_{\pi_1(s)})\\&=
+		\cod\id_{s}=s
+	\end{align*}
+	and for compositions in $\com{C}$ we have
+	\begin{align*}
+		\alpha_2(s, f\then g)&=
+		\cod\left(\pi_s^\sharp(f\then g)\right)\\&=
+		\cod\left(\pi_s^\sharp(f)\then\pi^\sharp_{\cod\pi^\sharp_s(f)}g\right)\\&=
+		\cod\left(\pi^\sharp_{\cod\pi^\sharp_s(f)}g\right)\\&=
+		\alpha_2(\alpha_2(s,f),g).
+	\end{align*}
+	Going back, if we're given a coalgebra $\alpha\colon S\to\ema{c}\tri S$, we obtain a function $\alpha_1\colon S\to\ema{c}\tri\1$ and we define $\ema{s}\coloneqq \alpha_1^*\ema{c}$ and the cartesian map $\varphi\coloneqq(\alpha_1,\id)\colon\ema{s}\to\ema{c}$ to be the base change from \cref{prop.basechange}. We need to show $\ema{s}$ has a comonoid structure $(\ema{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the counit $\epsilon\colon\ema{s}\to\yon$ using $\alpha_1$ and the counit on $\ema{c}$:
+	\[
+	\begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$\ema{s}$" below] (c) {$\id_{\alpha_1(s)}$\nodepart{two}$s\vphantom{s_1}$};
+  	\node[poly, cod, right=of c, "$\ema{c}$" below] (c') {$\id_{\alpha_1{s}}$\nodepart{two}$\alpha_1(s)$};
+  	\draw (c_pos) -- node[below] {$\alpha_1$} (c'_pos);
+  	\draw[double] (c'_dir) -- (c_dir);
+		\draw (c'_pos) to[climb'] node[right] {$\epsilon_\ema{c}$} (c'_dir);
+	\end{tikzpicture}
+	\]
+ We comultiplication $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ using $\alpha_2$ for the codomain, and using the composite $\then$ from $\ema{c}$:
+	\[
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$\ema{s}$" left] (yX) {$f\then g$\nodepart{two}$s$};
+  	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex, "$\ema{s}$" right] (p) {$f$\nodepart{two}$s$};
+  	\node[poly, cod, above=of p, "$\ema{s}$" right] (p') {$g$\nodepart{two}$\alpha_2(s,f)$};
+  	\draw[double] (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
+  \end{tikzpicture}	
+  \]
+  In \cref{exc.tfae_c_sets} we check that $(\ema{s},\epsilon,\delta)$ really is a comonoid, that $(\alpha_1,\id)\colon\ema{s}\to\ema{c}$ is a cofunctor, that the roundtrips between cartesian cofunctors and coalgebras are identities, and that these assignments are functorial.
 	\item[$4\cong5$:]Fill
 	\item[$5\cong6$:]Fill
 	\item[$6\cong7\cong8$:]Fill
 \end{description}
 The last claim was proven in \cref{prop.ds_dopf}.
 \end{proof}
+
+\begin{exercise}\label{exc.tfae_c_sets}
+Complete the proof of \cref{thm.tfae_c_sets} by proving the following.
+\begin{enumerate}
+	\item Show that $(\ema{s},\epsilon,\delta)$ really is a comonoid.
+	\item Show that $(\alpha_1,\id)\colon\ema{s}\to\ema{c}$ is a cofunctor.
+	\item Show that the roundtrips between cartesian cofunctors and coalgebras are identities.
+	\item Show that the assignment of a $\com{C}$-coalgebra to a cartesian cofunctor over $\cat{C}$ is functorial.
+	\item Show that the assignment of a cartesian cofunctor over $\cat{C}$ to a $\com{C}$-coalgebra is functorial.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity cofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ module with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-module}, a certain constant left $\com{C}$ module with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},0)$-bimodule}, and a certain representable right $\com{C}$-module with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-module}.
 

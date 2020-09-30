@@ -1185,7 +1185,7 @@ But it gets animated when someone chooses a map from an arbitrary representable 
 	\draw (p'_pos) -- (q'_pos);
 	\draw (q'_dir) -- (p'_dir);
 	\draw (yX_pos) to[first] node[below] {$i_1$} (p_pos);
-	\draw (p_dir) to[climb] node[left] {$i_2$} (p'_pos);
+	\draw (p_dir) to[climb] node[right] {$i_2$} (p'_pos);
 	\draw (p'_dir) to[last] node[above] {$i^\sharp$} (yX_dir);
 \end{tikzpicture}
 \]
@@ -1650,7 +1650,7 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
   	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
   	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
   	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] node[left] {$\delta$} (r_pos);
+  	\draw (q_dir) to[climb] node[right] {$\delta$} (r_pos);
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
   };
@@ -2561,7 +2561,7 @@ i.e.\ for every $i\in \ema{c}(\1)$, a choice of element $\epsilon^\sharp(i)\in \
   	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, above=of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
   	\draw (p'_dir) to[last] node[above left] {$\delta^\sharp$} (yX_dir);
   \end{tikzpicture}
  \]
@@ -2572,7 +2572,7 @@ We've said that this secretly holds information about the codomains and composit
   	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
  \]
@@ -2593,7 +2593,7 @@ To get started, we consider the first unitality equation from \eqref{eqn.comonoi
   	\draw (p'_pos) -- (q'_pos);
   	\draw (q'_dir) -- node[above] {$\idy$} (p'_dir);
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
@@ -2603,7 +2603,7 @@ To get started, we consider the first unitality equation from \eqref{eqn.comonoi
   	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, above left=.5 of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
@@ -2630,7 +2630,7 @@ Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the
   	\node[poly, cod, right=5 of yX.south, yshift=-1ex] (p) {$d$\nodepart{two}$\delta_1(i)$};
   	\node[poly, above left=1 and 0 of p] (p') {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
@@ -2655,7 +2655,7 @@ Before moving on, we redraw $\delta\colon c\to c\tri c$ with the information-lac
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 \end{equation}
@@ -2675,7 +2675,7 @@ Now we can write the other unitality equation.
   	\draw (p'_pos) -- (q'_pos);
   	\draw (q'_dir) -- (p'_dir);
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
@@ -2685,7 +2685,7 @@ Now we can write the other unitality equation.
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
   \end{tikzpicture}
@@ -2711,7 +2711,7 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
   	\node[poly, right=3 of yX.south, yshift=-1ex] (p) {$\idy(i)$\nodepart{two}$i$};
   	\node[poly, cod, above right=1 and 0 of p] (p') {$d$\nodepart{two}$\cod(\idy(i))$};
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
   \end{tikzpicture}
@@ -2733,7 +2733,7 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
 %  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\nodepart{two}$i$};
 %  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\nodepart{two}$\cod(\idy(i))$};
 %  	\draw[double] (c_pos) -- (c1_pos);
-%  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+%  	\draw (c1_dir) to[climb] node[right] {cod} (c2_pos);
 %  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
 %  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
 %	\end{tikzpicture}
@@ -2764,12 +2764,12 @@ Finally we draw the associativity equation.
   	\node[poly, cod, above=of mmm, "$c$" right] (C) {};
 %
 		\draw[double] (m_pos) to[first] (D_pos);
-		\draw (D_dir) to[climb] node[left] {$\cod$} (mm_pos);
+		\draw (D_dir) to[climb] node[right] {$\cod$} (mm_pos);
 		\draw (mm_dir) to[last] node[above, sloped] {$\comp$} (m_dir);
 		\draw[double] (D_pos) to[first] (DD_pos);
 		\draw[double] (DD_dir) to[last] (D_dir);
 		\draw[double] (mm_pos) to[first] (mmm_pos);
-		\draw (mmm_dir) to[climb] node[left] {$\cod$} (C_pos);
+		\draw (mmm_dir) to[climb] node[right] {$\cod$} (C_pos);
 		\draw (C_dir) to[last] node[above, sloped] {$\comp$} (mm_dir);
 	\end{tikzpicture}
 	};
@@ -2784,10 +2784,10 @@ Finally we draw the associativity equation.
   	\node[poly, cod, above=of mmm, "$c$" right] (CC') {};
 %
 		\draw[double] (m'_pos) to[first] (mm'_pos);
-		\draw (mm'_dir) to[climb] node[left] {$\cod$} (C'_pos);
+		\draw (mm'_dir) to[climb] node[right] {$\cod$} (C'_pos);
 		\draw (C'_dir) to[last] node[above, sloped] {$\comp$} (m'_dir);
 		\draw[double] (mm'_pos) to[first] (D'_pos);
-		\draw (D'_dir) to[climb] node[left] {$\cod$} (mmm'_pos);
+		\draw (D'_dir) to[climb] node[right] {$\cod$} (mmm'_pos);
 		\draw (mmm'_dir) to[last] node[above, sloped] {$\comp$} (mm'_dir);
 		\draw[double] (C'_pos) to[first] (CC'_pos);
 		\draw[double] (CC'_dir) to[last] (C'_dir);
@@ -2886,7 +2886,7 @@ To calculate the codomains and compositions we examine the map $\delta\colon p\t
   	\node[poly, cod, right=2 of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
   	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
   	\draw[double] (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] node[left] {$\cod$} (r_pos);
+  	\draw (q_dir) to[climb] node[right] {$\cod$} (r_pos);
   	\draw (r_dir) to[last] node[above, sloped] {$\comp$} (p_dir);
   \end{tikzpicture}  
   };
@@ -3043,7 +3043,7 @@ Then the comultiplication law:
 		\draw (c_pos) to[first] (c'_pos);
 		\draw (c'_dir) to[last] (c_dir);
 		\draw[dgreen,double] (c'_pos) to[first] (c'1_pos);
-		\draw[dgreen] (c'1_dir) to[climb] node[left] {$\cod$} (c'2_pos);
+		\draw[dgreen] (c'1_dir) to[climb] node[right] {$\cod$} (c'2_pos);
 		\draw[dgreen] (c'2_dir) to[last] node[above,sloped] {$\comp$} (c'_dir);
 	\end{tikzpicture}
 	};
@@ -3058,7 +3058,7 @@ Then the comultiplication law:
 		\node at ($(c2.east)!.3!(c'2.west)$) {$f$};
 	%
 		\draw[blue,double] (c_pos) to[first] (c1_pos);
-		\draw[blue] (c1_dir) to[climb] node[left] {$\cod$} (c2_pos);
+		\draw[blue] (c1_dir) to[climb] node[right] {$\cod$} (c2_pos);
 		\draw[blue] (c2_dir) to[last] node[above,sloped] {$\comp$} (c_dir);
 		\draw (c1_pos) to[first] (c'1_pos);
 		\draw (c'1_dir) to[last] (c1_dir);
