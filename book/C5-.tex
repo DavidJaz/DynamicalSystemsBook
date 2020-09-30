@@ -3241,8 +3241,8 @@ We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid struc
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[Trajectories are co-representable]\label{ex.trajectories_corep}
-For a category $\cat{C}$, let's say that a \emph{trajectory in $\cat{C}$} is a choice, for each object $c\in\cat{C}$, of an emanating morphism $f\colon c\to c'$. For example, consider the category $(\nn,\leq)\times(\nn,\leq)$:
+\begin{example}[Policies are co-representable]\label{ex.trajectories_corep}
+For a category $\cat{C}$, let's say that a \emph{policy in $\cat{C}$} is a choice, for each object $c\in\cat{C}$, of an emanating morphism $f\colon c\to c'$. For example, consider the category $(\nn,\leq)\times(\nn,\leq)$:
 \[
 \begin{tikzpicture}[shorten <=4pt, shorten >=4pt]
 	\foreach \i in {0,1,2,3} 
@@ -3270,7 +3270,7 @@ For a category $\cat{C}$, let's say that a \emph{trajectory in $\cat{C}$} is a c
 	\end{scope}
 \end{tikzpicture}
 \]
-In red we have drawn a trajectory: every object has been assigned an emanating morphism to another object; there doesn't need to be any rhyme or reason to our choice.
+In red we have drawn a policy: every object has been assigned an emanating morphism to another object; there doesn't need to be any rhyme or reason to our choice.
 
 For any category $\cat{C}$, the set of trajectories in $\cat{C}$ is in bijection with the set of cofunctors
 \[
@@ -3280,15 +3280,15 @@ where $\cat{N}=\yon^\nn$ is the monoid of natural numbers under addition.
 \end{example}
 
 \begin{exercise}
-At the end of \cref{ex.trajectories_corep} we said that a trajectory on $\cat{C}$ can be identified with a cofunctor $F\colon\cat{C}\cof\cat{N}$. But at first it appears that $F$ includes more than just a trajectory: for every object $c\in\Ob(\cat{C})$ and natural number $n\in\nn$, we have a morphism $F^\sharp_c(n)$ emanating from $c$. That's infinitely many emanating morphisms per object, whereas a trajectory seems to include only one emanating morphism per object.
+At the end of \cref{ex.trajectories_corep} we said that a policy on $\cat{C}$ can be identified with a cofunctor $F\colon\cat{C}\cof\cat{N}$. But at first it appears that $F$ includes more than just a policy: for every object $c\in\Ob(\cat{C})$ and natural number $n\in\nn$, we have a morphism $F^\sharp_c(n)$ emanating from $c$. That's infinitely many emanating morphisms per object, whereas a policy seems to include only one emanating morphism per object.
 
-Explain why looks are deceiving in this case: why is a trajectory on $\cat{C}$ the same as a cofunctor $\cat{C}\cof\cat{N}$?
+Explain why looks are deceiving in this case: why is a policy on $\cat{C}$ the same as a cofunctor $\cat{C}\cof\cat{N}$?
 \end{exercise}
 
 We will see later in \cref{prop.traj_mon_poly} that the trajectories on a category form a monoid, and that this operation $\smcat^\sharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
 
 \begin{exercise}[Continuous trajectories]
-Suppose we say that a continuous trajectory in $\cat{C}$ is a cofunctor $\cat{C}\cof\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
+Suppose we say that a continuous policy in $\cat{C}$ is a cofunctor $\cat{C}\cof\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
 
 Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
 \end{exercise}
@@ -4312,7 +4312,7 @@ Suppose $S$ is a set, $p$ is a polynomial, $f\colon S\yon^S\to p$ is a dynamical
 \end{exercise}
 
 \begin{exercise}
-In \cref{ex.counting_trajectory} we considered a dynamical $\nn\yon^\nn\to\nn\yon$ that acts like a stop watch, ticking up for ever.
+In \cref{ex.counting_policy} we considered a dynamical $\nn\yon^\nn\to\nn\yon$ that acts like a stop watch, ticking up for ever.
 \begin{enumerate}
 	\item Obtain a map of polynomials $\nn\yon^\nn\to\yon$ from adjointness of the cofree construction.
 	\item Obtain a map of polynomials $\nn\yon^\nn\to\nn$.
@@ -4518,9 +4518,9 @@ The functor
 represented by $\yon^\nn$ is right adjoint to the inclusion $\Cat{Mon}\op\to\smcat^\sharp$ from \cref{prop.monoids_ff}.
 \end{proposition}
 \begin{proof}
-We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}. A cofunctor $\cat{C}\cof\yon^\nn$ is a trajectory in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The trajectory assigning the identity to each object is the unit of the monoid. Let's denote this functor by $T\coloneqq\smcat^\sharp(-,\yon^\nn)$.
+We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}. A cofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The policy assigning the identity to each object is the unit of the monoid. Let's denote this functor by $T\coloneqq\smcat^\sharp(-,\yon^\nn)$.
 
-Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to T(\cat{C})$: it assigns to each $m\in M$ a trajectory in $\cat{C}$, preserving unit and multiplication.
+Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to T(\cat{C})$: it assigns to each $m\in M$ a policy in $\cat{C}$, preserving unit and multiplication.
 \end{proof}
 
 \begin{proposition}\label{prop.traj_mon_poly}
