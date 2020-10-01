@@ -605,7 +605,7 @@ In fact, all but the first are isomorphic categories, and their core groupoid of
 		\cod\left(\pi^\sharp_{\cod\pi^\sharp_s(f)}g\right)\\&=
 		\alpha_2(\alpha_2(s,f),g).
 	\end{align*}
-	Going back, if we're given a coalgebra $\alpha\colon S\to\ema{c}\tri S$, we obtain a function $\alpha_1\colon S\to\ema{c}\tri\1$ and we define $\ema{s}\coloneqq \alpha_1^*\ema{c}$ and the cartesian map $\varphi\coloneqq(\alpha_1,\id)\colon\ema{s}\to\ema{c}$ to be the base change from \cref{prop.basechange}. We need to show $\ema{s}$ has a comonoid structure $(\ema{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the counit $\epsilon\colon\ema{s}\to\yon$ using $\alpha_1$ and the counit on $\ema{c}$:
+	Going backwards, if we're given a coalgebra $\alpha\colon S\to\ema{c}\tri S$, we obtain a function $\alpha_1\colon S\to\ema{c}\tri\1$ and we define $\ema{s}\coloneqq \alpha_1^*\ema{c}$ and the cartesian map $\varphi\coloneqq(\alpha_1,\id)\colon\ema{s}\to\ema{c}$ to be the base change from \cref{prop.basechange}. We need to show $\ema{s}$ has a comonoid structure $(\ema{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the counit $\epsilon\colon\ema{s}\to\yon$ using $\alpha_1$ and the counit on $\ema{c}$:
 	\[
 	\begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$\ema{s}$" below] (c) {$\id_{\alpha_1(s)}$\nodepart{two}$s\vphantom{s_1}$};
@@ -636,8 +636,41 @@ In fact, all but the first are isomorphic categories, and their core groupoid of
 	\[
 		\poly(S\yon,\ema{c}\tri S\yon)\cong\poly(\yon^S,\yon^S\tri\ema{c}).
 	\]
-	Fill..
+	In pictures,
+	\[
+	\begin{tikzpicture}
+		\node (p1) {
+		\begin{tikzpicture}[polybox, tos]
+			\node[poly, linear dom] (s) {};
+			\node[poly, cod, right=of s.south, yshift=-1ex] (c) {};
+			\node[poly, linear cod, above=of c] (s') {};
+    	\node[left=0pt of s_pos] {$S$};
+    	\node[right=0pt of c_pos] {$\ema{c}(\1)$};
+    	\node[right=0pt of c_dir] {$\ema{c}[\ ]$};
+    	\node[right=0pt of s'_pos] {$S$};
+			\draw (s_pos) to[first] node[below] {$f$} (c_pos);
+			\draw (c_dir) to[climb] node[right] {$g$} (s'_pos);
+			\draw (s'_dir) to[last] node[above] {$!$} (s_dir);
+		\end{tikzpicture}
+		};
+		\node (p2) [right=2 of p1] {
+		\begin{tikzpicture}[polybox, tos]
+			\node[poly, pure dom] (s) {};
+			\node[poly, pure cod, right=of s.south, yshift=-1ex] (s') {};
+			\node[poly, cod, above=of s'] (c) {};
+    	\node[left=0pt of s_dir] {$S$};
+    	\node[right=0pt of c_pos] {$\ema{c}(\1)$};
+    	\node[right=0pt of c_dir] {$\ema{c}[\ ]$};
+    	\node[right=0pt of s'_dir] {$S$};
+			\draw (s_pos) to[first] node[below] {$!$} (s'_pos);
+			\draw (s'_dir) to[climb] node[right] {$f$} (c_pos);
+			\draw (c_dir) to[last] node[above] {$g$} (s_dir);
+		\end{tikzpicture}		
+		};
+	\end{tikzpicture}
+	\]
 \end{description}
+\noindent
 The last claim was proven in \cref{prop.ds_dopf}.
 \end{proof}
 
