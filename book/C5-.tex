@@ -351,11 +351,12 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 \end{exercise}
 
 
-\begin{proposition}
+\begin{proposition}\label{prop.flipping_reps_lins}
 For all sets $A,B$, we have the following adjunction:
 \[
 \poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
 \]
+Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
 \end{proposition}
 
 \[
@@ -384,7 +385,10 @@ For all sets $A,B$, we have the following adjunction:
  \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
 \end{tikzpicture} 
 \]
-
+Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
+\begin{proof}
+Fill.
+\end{proof}
 
 \begin{exercise}
 Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
@@ -1185,7 +1189,7 @@ But it gets animated when someone chooses a map from an arbitrary representable 
 	\draw (p'_pos) -- (q'_pos);
 	\draw (q'_dir) -- (p'_dir);
 	\draw (yX_pos) to[first] node[below] {$i_1$} (p_pos);
-	\draw (p_dir) to[climb] node[left] {$i_2$} (p'_pos);
+	\draw (p_dir) to[climb] node[right] {$i_2$} (p'_pos);
 	\draw (p'_dir) to[last] node[above] {$i^\sharp$} (yX_dir);
 \end{tikzpicture}
 \]
@@ -1650,7 +1654,7 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
   	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
   	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
   	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] node[left] {$\delta$} (r_pos);
+  	\draw (q_dir) to[climb] node[right] {$\delta$} (r_pos);
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
   };
@@ -2561,7 +2565,7 @@ i.e.\ for every $i\in \ema{c}(\1)$, a choice of element $\epsilon^\sharp(i)\in \
   	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, above=of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\delta_2$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
   	\draw (p'_dir) to[last] node[above left] {$\delta^\sharp$} (yX_dir);
   \end{tikzpicture}
  \]
@@ -2572,7 +2576,7 @@ We've said that this secretly holds information about the codomains and composit
   	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
  \]
@@ -2593,7 +2597,7 @@ To get started, we consider the first unitality equation from \eqref{eqn.comonoi
   	\draw (p'_pos) -- (q'_pos);
   	\draw (q'_dir) -- node[above] {$\idy$} (p'_dir);
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
@@ -2603,7 +2607,7 @@ To get started, we consider the first unitality equation from \eqref{eqn.comonoi
   	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, above left=.5 of p] (p') {};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
@@ -2630,7 +2634,7 @@ Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the
   	\node[poly, cod, right=5 of yX.south, yshift=-1ex] (p) {$d$\nodepart{two}$\delta_1(i)$};
   	\node[poly, above left=1 and 0 of p] (p') {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
   \end{tikzpicture}
@@ -2649,16 +2653,16 @@ Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the
 First it's saying that $\delta_1(i)=i$. This is great news; it means we can forget about $\delta_1$, just as we said earlier. Second it's saying that $d\then\idy(\cod(d))=d$. Unpacking, this means that composing a morphism $d$ with the identity morphism on its codomain returns $d$. It's neat to watch the comonoid laws declaring the standard laws of categories. It's like meeting a like-minded toad; we never knew toads could be like-minded, but the phenomena don't lie.
 
 Before moving on, we redraw $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ (which the first unitality equation said was always identity) and replace it with a double arrow:
-\[
+\begin{equation}\label{eqn.cod_comp}
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom] (yX) {};
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
-\]
+\end{equation}
 
 Now we can write the other unitality equation.
 \[
@@ -2675,7 +2679,7 @@ Now we can write the other unitality equation.
   	\draw (p'_pos) -- (q'_pos);
   	\draw (q'_dir) -- (p'_dir);
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
   \end{tikzpicture}
 	};
@@ -2685,7 +2689,7 @@ Now we can write the other unitality equation.
   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
   	\node[poly, cod, above=of p] (p') {};
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
   \end{tikzpicture}
@@ -2711,7 +2715,7 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
   	\node[poly, right=3 of yX.south, yshift=-1ex] (p) {$\idy(i)$\nodepart{two}$i$};
   	\node[poly, cod, above right=1 and 0 of p] (p') {$d$\nodepart{two}$\cod(\idy(i))$};
   	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[left] {$\cod$} (p'_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
 		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
   \end{tikzpicture}
@@ -2733,7 +2737,7 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
 %  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\nodepart{two}$i$};
 %  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\nodepart{two}$\cod(\idy(i))$};
 %  	\draw[double] (c_pos) -- (c1_pos);
-%  	\draw (c1_dir) to[climb] node[left] {cod} (c2_pos);
+%  	\draw (c1_dir) to[climb] node[right] {cod} (c2_pos);
 %  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
 %  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
 %	\end{tikzpicture}
@@ -2764,12 +2768,12 @@ Finally we draw the associativity equation.
   	\node[poly, cod, above=of mmm, "$c$" right] (C) {};
 %
 		\draw[double] (m_pos) to[first] (D_pos);
-		\draw (D_dir) to[climb] node[left] {$\cod$} (mm_pos);
+		\draw (D_dir) to[climb] node[right] {$\cod$} (mm_pos);
 		\draw (mm_dir) to[last] node[above, sloped] {$\comp$} (m_dir);
 		\draw[double] (D_pos) to[first] (DD_pos);
 		\draw[double] (DD_dir) to[last] (D_dir);
 		\draw[double] (mm_pos) to[first] (mmm_pos);
-		\draw (mmm_dir) to[climb] node[left] {$\cod$} (C_pos);
+		\draw (mmm_dir) to[climb] node[right] {$\cod$} (C_pos);
 		\draw (C_dir) to[last] node[above, sloped] {$\comp$} (mm_dir);
 	\end{tikzpicture}
 	};
@@ -2784,10 +2788,10 @@ Finally we draw the associativity equation.
   	\node[poly, cod, above=of mmm, "$c$" right] (CC') {};
 %
 		\draw[double] (m'_pos) to[first] (mm'_pos);
-		\draw (mm'_dir) to[climb] node[left] {$\cod$} (C'_pos);
+		\draw (mm'_dir) to[climb] node[right] {$\cod$} (C'_pos);
 		\draw (C'_dir) to[last] node[above, sloped] {$\comp$} (m'_dir);
 		\draw[double] (mm'_pos) to[first] (D'_pos);
-		\draw (D'_dir) to[climb] node[left] {$\cod$} (mmm'_pos);
+		\draw (D'_dir) to[climb] node[right] {$\cod$} (mmm'_pos);
 		\draw (mmm'_dir) to[last] node[above, sloped] {$\comp$} (mm'_dir);
 		\draw[double] (C'_pos) to[first] (CC'_pos);
 		\draw[double] (CC'_dir) to[last] (C'_dir);
@@ -2886,7 +2890,7 @@ To calculate the codomains and compositions we examine the map $\delta\colon p\t
   	\node[poly, cod, right=2 of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
   	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
   	\draw[double] (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] node[left] {$\cod$} (r_pos);
+  	\draw (q_dir) to[climb] node[right] {$\cod$} (r_pos);
   	\draw (r_dir) to[last] node[above, sloped] {$\comp$} (p_dir);
   \end{tikzpicture}  
   };
@@ -3043,7 +3047,7 @@ Then the comultiplication law:
 		\draw (c_pos) to[first] (c'_pos);
 		\draw (c'_dir) to[last] (c_dir);
 		\draw[dgreen,double] (c'_pos) to[first] (c'1_pos);
-		\draw[dgreen] (c'1_dir) to[climb] node[left] {$\cod$} (c'2_pos);
+		\draw[dgreen] (c'1_dir) to[climb] node[right] {$\cod$} (c'2_pos);
 		\draw[dgreen] (c'2_dir) to[last] node[above,sloped] {$\comp$} (c'_dir);
 	\end{tikzpicture}
 	};
@@ -3058,7 +3062,7 @@ Then the comultiplication law:
 		\node at ($(c2.east)!.3!(c'2.west)$) {$f$};
 	%
 		\draw[blue,double] (c_pos) to[first] (c1_pos);
-		\draw[blue] (c1_dir) to[climb] node[left] {$\cod$} (c2_pos);
+		\draw[blue] (c1_dir) to[climb] node[right] {$\cod$} (c2_pos);
 		\draw[blue] (c2_dir) to[last] node[above,sloped] {$\comp$} (c_dir);
 		\draw (c1_pos) to[first] (c'1_pos);
 		\draw (c'1_dir) to[last] (c1_dir);
@@ -3165,6 +3169,33 @@ Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. We have a stat
 for an object $i\in\ema{c}(\1)$ and an outgoing morphism $m\in\ema{c}[i]$. Is this map a cofunctor?
 \end{exercise}
 
+\begin{example}[Canonical cofunctors from state categories]\label{ex.cof_from_state}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid, where $\delta=(\id,\cod,\comp)$ as in \eqref{eqn.cod_comp}. For any position $i\in\ema{c}(\1)$, there is a cofunctor
+\[
+	(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}.
+\]
+That is, an object $f\in \ema{c}[i]$ is also a morphism in $\cat{C}$ and we send it to its codomain $\cod(f)$. A morphism in $\cat{C}$ emanating from $\cod(f)$ is passed back to its composite with $f$. 
+\end{example}
+
+\begin{exercise}
+Suppose $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid.
+\begin{enumerate}
+	\item Show that the map $(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ from \cref{ex.cof_from_state} satisfies the conditions necessary for being a cofunctor (identities, codomains, and composites).
+	\item Find a comonoid structure on the polynomial $p\coloneqq\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $p\to\ema{c}$.
+	\item Is the polynomial map $p\to\ema{c}$ an epimorphism?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Suppose $\ema{c},\ema{d},\ema{e}$ are polynomials, each with a comonoid structure, and that $f\colon \ema{c}\to\ema{d}$ and $g\colon\ema{d}\to\ema{e}$ are maps of polynomials.
+\begin{enumerate}
+	\item If $f$ and $f\then g$ are each cofunctors, is $g$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
+	\item If $g$ and $f\then g$ are each cofunctors, is $f$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 \begin{exercise}
 Are cofunctors between posets interesting?
 \begin{enumerate}
@@ -3214,8 +3245,8 @@ We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid struc
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[Trajectories are co-representable]\label{ex.trajectories_corep}
-For a category $\cat{C}$, let's say that a \emph{trajectory in $\cat{C}$} is a choice, for each object $c\in\cat{C}$, of an emanating morphism $f\colon c\to c'$. For example, consider the category $(\nn,\leq)\times(\nn,\leq)$:
+\begin{example}[Policies are co-representable]\label{ex.trajectories_corep}
+For a category $\cat{C}$, let's say that a \emph{policy in $\cat{C}$} is a choice, for each object $c\in\cat{C}$, of an emanating morphism $f\colon c\to c'$. For example, consider the category $(\nn,\leq)\times(\nn,\leq)$:
 \[
 \begin{tikzpicture}[shorten <=4pt, shorten >=4pt]
 	\foreach \i in {0,1,2,3} 
@@ -3243,7 +3274,7 @@ For a category $\cat{C}$, let's say that a \emph{trajectory in $\cat{C}$} is a c
 	\end{scope}
 \end{tikzpicture}
 \]
-In red we have drawn a trajectory: every object has been assigned an emanating morphism to another object; there doesn't need to be any rhyme or reason to our choice.
+In red we have drawn a policy: every object has been assigned an emanating morphism to another object; there doesn't need to be any rhyme or reason to our choice.
 
 For any category $\cat{C}$, the set of trajectories in $\cat{C}$ is in bijection with the set of cofunctors
 \[
@@ -3253,15 +3284,15 @@ where $\cat{N}=\yon^\nn$ is the monoid of natural numbers under addition.
 \end{example}
 
 \begin{exercise}
-At the end of \cref{ex.trajectories_corep} we said that a trajectory on $\cat{C}$ can be identified with a cofunctor $F\colon\cat{C}\cof\cat{N}$. But at first it appears that $F$ includes more than just a trajectory: for every object $c\in\Ob(\cat{C})$ and natural number $n\in\nn$, we have a morphism $F^\sharp_c(n)$ emanating from $c$. That's infinitely many emanating morphisms per object, whereas a trajectory seems to include only one emanating morphism per object.
+At the end of \cref{ex.trajectories_corep} we said that a policy on $\cat{C}$ can be identified with a cofunctor $F\colon\cat{C}\cof\cat{N}$. But at first it appears that $F$ includes more than just a policy: for every object $c\in\Ob(\cat{C})$ and natural number $n\in\nn$, we have a morphism $F^\sharp_c(n)$ emanating from $c$. That's infinitely many emanating morphisms per object, whereas a policy seems to include only one emanating morphism per object.
 
-Explain why looks are deceiving in this case: why is a trajectory on $\cat{C}$ the same as a cofunctor $\cat{C}\cof\cat{N}$?
+Explain why looks are deceiving in this case: why is a policy on $\cat{C}$ the same as a cofunctor $\cat{C}\cof\cat{N}$?
 \end{exercise}
 
 We will see later in \cref{prop.traj_mon_poly} that the trajectories on a category form a monoid, and that this operation $\smcat^\sharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
 
 \begin{exercise}[Continuous trajectories]
-Suppose we say that a continuous trajectory in $\cat{C}$ is a cofunctor $\cat{C}\cof\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
+Suppose we say that a continuous policy in $\cat{C}$ is a cofunctor $\cat{C}\cof\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
 
 Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
 \end{exercise}
@@ -4285,7 +4316,7 @@ Suppose $S$ is a set, $p$ is a polynomial, $f\colon S\yon^S\to p$ is a dynamical
 \end{exercise}
 
 \begin{exercise}
-In \cref{ex.counting_trajectory} we considered a dynamical $\nn\yon^\nn\to\nn\yon$ that acts like a stop watch, ticking up for ever.
+In \cref{ex.counting_policy} we considered a dynamical $\nn\yon^\nn\to\nn\yon$ that acts like a stop watch, ticking up for ever.
 \begin{enumerate}
 	\item Obtain a map of polynomials $\nn\yon^\nn\to\yon$ from adjointness of the cofree construction.
 	\item Obtain a map of polynomials $\nn\yon^\nn\to\nn$.
@@ -4491,9 +4522,9 @@ The functor
 represented by $\yon^\nn$ is right adjoint to the inclusion $\Cat{Mon}\op\to\smcat^\sharp$ from \cref{prop.monoids_ff}.
 \end{proposition}
 \begin{proof}
-We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}. A cofunctor $\cat{C}\cof\yon^\nn$ is a trajectory in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The trajectory assigning the identity to each object is the unit of the monoid. Let's denote this functor by $T\coloneqq\smcat^\sharp(-,\yon^\nn)$.
+We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}. A cofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The policy assigning the identity to each object is the unit of the monoid. Let's denote this functor by $T\coloneqq\smcat^\sharp(-,\yon^\nn)$.
 
-Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to T(\cat{C})$: it assigns to each $m\in M$ a trajectory in $\cat{C}$, preserving unit and multiplication.
+Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to T(\cat{C})$: it assigns to each $m\in M$ a policy in $\cat{C}$, preserving unit and multiplication.
 \end{proof}
 
 \begin{proposition}\label{prop.traj_mon_poly}

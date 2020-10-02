@@ -1221,7 +1221,7 @@ composition of behaviors.
           A_1 \ar[dd, "j"'] \ar[rr, "f_1"] & & A_2 \ar[dd, "k"]  \ar[rr, "f_2"]&
           & A_3 \ar[dd, "\ell"]\\
            & \alpha &  & \beta &\\
-          B_1 \ar[rr, "g_1"'] & & B_2 \ar[rr, "f_2"] & & B_3
+          B_1 \ar[rr, "g_1"'] & & B_2 \ar[rr, "f_2"'] & & B_3
         \end{tikzcd} \mapsto
         \begin{tikzcd}[sep=small]
           A_1 \ar[dd, "j"'] \ar[rr, "f_2 f_1"] & & A_3 \ar[dd, "\ell"] \\
@@ -1257,7 +1257,7 @@ composition of behaviors.
         \begin{tikzcd}[sep=small]
           A \ar[rr, "f"] \ar[dd, equals] & & A \ar[dd, equals] \\
            & f & \\
-          B \ar[rr, "f"] & & B
+          B \ar[rr, "f"'] & & B
         \end{tikzcd}
         \]
         which we will also refer to as $f$, for convenience.
