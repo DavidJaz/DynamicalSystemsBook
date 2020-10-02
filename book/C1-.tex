@@ -1099,6 +1099,20 @@ Here's a picture so that you can see the information flow for the composite of l
 \end{tikzpicture}
 \end{equation}
 
+\begin{remark}\label{rmk.generalized_elements}
+  Even though our definition of lens was given in an arbitrary cartesian
+  category $\cat{C}$, we felt comfortable defining it in terms of elements.
+  Going forward, we will also reason with it using elements. This trick works for any cartesian category by using
+  ``generalized elements''. We interpret an ``element'' $x$ in an object $X$ as
+  a map $x : Z \to X$. If we do work with $x$ to get a new element $f(x)$ of
+  $Y$, then by the Yoneda lemma there is a map $f : X \to Y$ in
+  the category which does that work by post-composition: $f(x) = f \circ x$.
+
+  The take-away is that even in a totally arbitrary cartesian category whose
+  objects are not sets of any kind, we can still reason about them as if they
+  were --- at least when it comes to pairing elements and applying functions.
+\end{remark}
+
 This gives us a category of lenses in any cartesian category $\cat{C}$.
 
 \begin{definition}\label{def.lens_category}
@@ -3062,7 +3076,7 @@ transformation $\sigma : MA \times MB \to M(A \times B)$ for which the following
 \end{itemize}
 \end{definition}
 
-\begin{remark}
+\begin{remark}\label{rmk.haskell_do}
   If you are familiar with the programming language Haskell, you will likely be
   familiar with the notion of monad. What we have called $\eta_A$ here (which is
   traditional in the category theory literature) is called
@@ -3087,7 +3101,7 @@ transformation $\sigma : MA \times MB \to M(A \times B)$ for which the following
                a <- ma
                return (a, b)
   \end{minted}
-  That is, a monad is commutative when its order of execution doesn't matter.
+  That is, a monad is commutative when its order of execution doesn't matter. 
 \end{remark}
 
 \begin{proposition}\label{prop.powerset_commutative_monad}
@@ -3179,6 +3193,117 @@ $\powset$ gives us a function $\powset \expose{S} : \powset\State{S} \to
 \powset\Out{S}$. Applying this to our current set of possible states gives us a
 set of possible outputs, which is the best we could hope to know.
 
+\paragraph{Do Notation}\label{sec.do_notation}
+
+If we have a function $f : X \to Y$, we can think of this as mapping $x$ in $X$
+to $f(x)$ in $Y$ using ``generalized elements'' (see
+\cref{rmk.generalized_elements}). The \emph{do notation} extends this way of
+writing morphisms in a cartesian category to include the action of a commutative
+monad $M$. The do notation is based on this simple
+equation for $f : X \to MY$:
+\begin{equation}\label{eqn.do_notation_def}
+\unalignedDo{
+  $x \from m$,
+  $f(x)$
+}
+\coloneqq f^M(m)
+\end{equation}
+where $m$ is an element of $MX$ and $f : X \to MY$. For $M = \probset$, we can
+understand the do notation in this way: $m$ is a subset of $X$, $f^M(m)$ is the
+subset $\{f(x) \in Y \mid x \in m\}$. We see this reflected in the do notation;
+we can read it as saying ``get an element $x$ from $m$, and then apply $f(x)$ to
+it; join together all the results.'' As we see more monads, we will see that a
+similar story can be told about them using the do notation.
+
+
+There are a few rules for do notation which correspond to the laws for a
+monad. We can discover them by using \cref{eqn.do_notation_def} to expand out a
+few terms. First of all, since $\eta^M = \id_{MX}$, if $m$ is an element of $MX$, then
+\[
+  \unalignedDo{
+    $x \from m$,
+    $\eta(x)$
+  } = m
+\]
+Next, since $\eta \then f^M = f$, we find that
+\[
+  \unalignedDo{
+    $x' \from \eta(x)$,
+    $f(x')$
+  }
+  = f(x) 
+\]
+Finally, since $f^M \then g^M = (f \then g^M)^M$, we find that
+\[
+\unalignedDo{
+  \(y \from \unalignedDo{
+    $x \from m$,
+    $f(x)$
+  }\),
+  $g(y)$
+} = 
+\unalignedDo{
+  $x \from m$,
+  {
+    \unalignedDo{
+       $y \from f(x)$,
+       $g(y)$
+    }
+  }
+}
+\]
+Because these
+two expressions with nested do's are equal, we can simplify
+our notation by writing them as:
+\[
+\unalignedDo{
+  $x \from m$,
+  $y \from f(x)$,
+  $g(y)$
+}
+\]
+
+So far, we haven't used any pairs $(x, y)$ in our do notation. To use pairs, we
+need our monad to be commutative. We can write down two expressions, assuming $m_1$ is an element of $MX$ and $m_2$ is an element of $MY$. A monad is
+commutative precisely when these two expressions are equal:
+\[
+  \unalignedDo{
+    $x \from m_1$,
+    $y \from m_2$,
+    $\eta{(x, y)}$
+  }
+  =
+  \unalignedDo{
+    $y \from m_2$,
+    $x \from m_1$,
+    $\eta{(x, y)}$
+  }
+\]
+When they are both equal, they are $\sigma(m_1, m_2)$, where $\sigma : MX \times MY \to M(X \times
+Y)$ is from the definition of a commutative monad. This lets us describe morphisms
+quite nicely. For example, given $f : X \to MY$, $g : Z \to MW$, and $h : Y
+\times W \to MQ$, we may define
+\[
+  \unalignedDo{
+    $y \from f(x)$,
+    $w \from g(z)$,
+    $h{(y, w)}$
+  }
+\]
+which desugars to the composite
+\[
+X \times Z \xto{f \times g} MY \times MW \xto{\sigma} M(Y \times W) \xto{h^M}
+MQ.
+\]
+
+In particular, to iterate a system $\Sys{S}$ with update $\update{S} : \State{S}
+\times \In{S} \to \probset \State{S}$, we can define
+\[
+U(S, i) \coloneqq \unalignedDo{
+  $s \from S$,
+  $\update{S}{(s, i)}$
+}
+\]
 
 \section{Stochastic systems}
 Possibility is not the only kind of non-determinism. When studying how things
@@ -3626,7 +3751,15 @@ commutativity then makes the Kleisli category into a symmetric monoidal category
     \item A map $f : A \wavyto B$ in $\Cat{Kl}(M)$ is a map $f : A \to MB$ in $\cat{C}$.
     \item The identity $\id_A : A \wavyto A$ is $\eta_A : A \to MA$.
     \item For $f : A \wavyto B$ and $g : B \wavyto C$, their composite is $f
-      \then g^M : A \to MC$. Since $g^M = Mg \then \mu$, the Kleisli composite
+      \then g^M : A \to MC$. In do notation, the Kleisli composite is given by 
+\[
+(f \then g)(a) \coloneqq \unalignedDo{
+  $b \from f(a)$,
+  $g(b)$
+}.
+\]
+
+ Since $g^M = Mg \then \mu$, the Kleisli composite
       may be equivalently defined
       as $f \then Mg \then \mu$.
   \end{itemize}
@@ -4071,9 +4204,6 @@ a category. We use the monad laws \cref{eqn.monad_laws}:
 \end{tikzpicture}
 \]
 
-Though this string diagarm notation is great for proving things about the
-Kleisli category of a monad, it doesn't have the tools to talk about the
-\emph{commutativity} of a monad.
 
 \begin{example}\label{ex.powerset_kleisli}
   The Kleisli category $\Cat{Kl}(\powset)$ of the powerset monad $\powset$ is
@@ -4300,6 +4430,7 @@ f^R\left( \sum_{i}r_i x_i \right) = \sum_{i} r_i f(x_i).
       \]
   \end{itemize}
 \end{proposition}
+
 
 
 \section{Adding rewards to non-deterministic systems}
@@ -4596,7 +4727,7 @@ E\left( r \mapsto \sum_i \lambda_i p_i(r) \right) = \sum_{r \in \rr} \sum_i \lam
 
 
 
-\section{Changing the flavor of non-determinism: Monad maps}
+\section{Changing the flavor of non-determinism: Monad maps}\label{sec.monad_map}
 
 In the same way that $0$ is a number, determinstic systems are 
 non-deterministic systems, just with a trivial sort of non-determinism. Deterministic systems are $M$-systems for the
@@ -5120,8 +5251,8 @@ passback maps that take $C^+$ as an extra argument.
 %%
 
 \begin{definition}
-  An \emph{indexed category} $\cat{A} : \cat{C}\op \to \Cat{Cat}$ is a
-  contravariant (pseudo-) functor\footnote{A pseudo-functor is like a functor,
+  A \emph{strict indexed category} $\cat{A} : \cat{C}\op \to \Cat{Cat}$ is a
+  contravariant functor\footnote{A pseudo-functor is like a functor,
     but it only satisfies the functoriality conditions up to isomorphism, and
     these isomorphisms must satisfy some laws that make them ``cohere''. The
     indexed categories we will see in \cref{chapter.1,chapter.2,chapter.3}
@@ -5134,28 +5265,22 @@ passback maps that take $C^+$ as an extra argument.
   \item For every map $f : C \to C'$ in the base, a \emph{pullback} functor
     $f^{\ast} : \cat{A}(C') \to \cat{A}(C)$, which we think of as ``reindexing''
     the objects of $\cat{A}(C')$ so that they live over $\cat{A}(C)$.
-  \item (Psuedo-functoriality) For any two functions $f : C \to C'$ and $g : C' \to C''$, we need a
-    natural isomorphism $f^{\ast} \circ g^{\ast} \xequals{\gamma_{g, f}} (g \circ
-    f)^{\ast}$. And for any object $C$, we need a natural isomorphism $:
-    \id_{\cat{A}(C)} \xequals{\iota_C } (\id_C)^{\ast}$. These are required to satisfy a
-    few \emph{coherence conditions}:
-\begin{align}
-  \gamma_{h,gf} \circ (\gamma_{g, f}h^{\ast}) &= \gamma_{hg, f} \circ (f^{\ast}\gamma_{h, g}) \\
-  \gamma_{\id_C, f} \circ (f^{\ast}\iota_C) &= \gamma_{f, \id_{C'}} \circ (\iota_{C'} f^{\ast}).
-\end{align}
-   Often, $\gamma$ and $\iota$ will both be identities, and these equalities
-   will follow trivially.
+  \item Reindexing is functorial: $(f \then g)^{\ast} = g^{\ast} \then f^{\ast}$
+    and $\id^{\ast} = \id$.
   \end{itemize}
 \end{definition}
 
-\begin{remark}\label{rmk.coherence_condition_indexed_cat}
-  The coherence conditions are almost always trivial --- if not strictly
-  identities, then they are probably just a shuffling of parentheses. For this
-  reason, and because keeping track of them is a headache, we will omit
-  discussion of the coherences. We will write a coherence with a big equals,
-  like this $f^{\ast} \circ g^{\ast} \xequals{\phantom{ \gamma_{g, f} }} (g \circ
-    f)^{\ast}$ and leave the name implicit. The coherence conditions ensure that
-    working with these isomorphisms as though they really were equalities works well.
+\begin{remark}\label{rmk.co(Pseudo-functoriality)}
+    We have given the definition of a \emph{strict} indexed category. A general
+    indexed category is a \emph{pseudo-}functor $\cat{A} : \cat{C}\op \to
+    \Cat{Cat}$, which is like a functor but functoriality only holds up to
+    coherent isomorphism. As in the case of monoidal categories, the coherences
+    in the isomorphisms are often just bookkeeping trivialities. 
+
+However, the
+    theory of strict indexed categories is noticeably easier, and most of our
+    examples will be strict. Since we will mostly be using strict indexed
+    categories, we will often refer to them simply as ``indexed categories''.
 \end{remark}
 
 Indexed categories are quite common throughout mathematics. We will construct a
@@ -5179,7 +5304,7 @@ $$f^{\ast} : \smset^A \to \smset^{A'}$$
    A' \to \smset$ is the set $X_{f(a')}$ on the index $a' \in A'$. The families
    of functions get reindexed the same way.
      \item Since our reindexing is just given by precomposition, it is clearly
-       functorial on the nose (that is, not just up to isomorphism).
+       functorial.
   \end{itemize}
   We will return to this example in much greater detail in \cref{chapter.4}.
 \end{example} 
@@ -5638,6 +5763,11 @@ These are all maps $C \times X \to C \times X$.
   \end{enumerate}
 \end{exercise}
 
+\begin{exercise}\label{ex.maps_with_no_context}
+Show that $\smctx{\ord{1}}$ is equivalent to the underlying cartesian category
+$\cat{C}$. In other words, maps in the context $\ord{1}$ have ``no context''.
+\end{exercise}
+
 Together, we can arrange the categories of maps with context into
 an indexed category.
 \begin{definition}
@@ -5647,11 +5777,13 @@ an indexed category.
   \begin{itemize}
     \item For $C \in \cat{C}$, we have the category $\smctx{C}$ of maps with
       context $C$.
-    \item For a map $r : C' \to C$, we get a functor
+    \item For a map $r : C' \to C$, we get a reindexing functor
       $$r^{\ast} : \smctx{C} \to \smctx{C'}$$
       given by sending each object to itself, but each morphism $f : C \times X
       \to Y$ in $\smctx{C}$ to the map $r^{\ast}f \coloneqq f \circ (r \times X)$:
       $$C' \times X \xto{r \times X} C \times X \xto{f} Y.$$
+      On elements,
+      $$r^{\ast}f(c', x) \coloneqq f(r(c'), x).$$
   \end{itemize}
   We note that this is evidently functorial.
 \end{definition}
@@ -5893,12 +6025,118 @@ $\smset^{(-)}$-lens $\lens{f^{\sharp}}{f} : \lens{A^-_a}{a \in A^+} \fromto
 \lens{B^-_b}{b \in B^+}$ consists of
 \begin{itemize}
 \item A passforward function $f : A^+ \to B^+$, and
-  \item A family of passback functions $f^{\sharp}_{a} : B^_ \to A^-$ for every
+  \item A family of passback functions $f^{\sharp}_{a} : B^- \to A^-$ for every
     $a \in A^+$.
 \end{itemize}
 We call these \emph{dependent lenses}, and they will be a major character in the
 later chapters of this book.
 \end{example}
+
+\subsection{Monoidal indexed categories and the product of lenses}
+
+To describe wiring diagrams, it is not enough just to have the category of
+lenses; we also need the monoidal product 
+$$\lens{A^-}{A^+} \otimes \lens{B^-}{B^+} \coloneqq \lens{A^- \times B^-}{A^+
+  \times B^+}.$$
+
+We need this product to put systems together before wiring them. In order to
+wire together non-deterministic systems, we will need to generalize this product
+of lenses to generalized lenses. For this, we will need the notion of an
+\emph{monoidal indexed category} and the associated \emph{monoidal Grothendieck
+  construction} as defined in \cite{MoellerVasilakopolou}.
+
+\begin{definition}\label{def.monoidal_indexed}
+A \emph{monoidal strict indexed category} $(\cat{A} : \cat{C}\op \to \Cat{Cat},
+\otimes, \ord{1}, \boxtimes, \mathbb{1})$ consists of:
+\begin{itemize}
+  \item A strict indexed category $\cat{A} : \cat{C}\op \to \Cat{Cat}$,
+\item A monoidal structure $(\otimes, \ord{1})$ on $\cat{C}$,
+\item A natural family of functors $\boxtimes : \cat{A}(C) \times \cat{A}(C')
+  \to \cat{A}(C \otimes C')$ and $\mathbb{1} \in \cat{A}(\ord{1})$ with natural
+  isomorphisms 
+$$A_1 \boxtimes (A_2 \boxtimes A_3) \cong (A_1 \boxtimes A_2) \boxtimes A_3,$$
+$$\mathbb{1} \boxtimes A \cong A \cong A \boxtimes \mathbb{1}.$$
+These natural isomorphisms are required to satisfy coherences reminiscent of
+those of a monoidal category.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[\cite{MoellerVasilakopolou}]\label{thm.monoidal_indexed}
+Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be a monoidal indexed category. Then
+the Grothendieck construction $\int^{C : \cat{C}} \cat{A}(C)$ may be equipped
+with a monoidal structure 
+$$\lens{A^-}{A^+} \otimes \lens{B^-}{B^+} \coloneqq \lens{A^- \boxtimes B^-}{A^+
+\otimes B^+}.$$
+\end{theorem}
+
+If the base of indexing $\cat{C}$ is cartesian, then there is a simpler way to
+describe a monoidal structure on an indexed category $\cat{A} : \cat{C}\op \to \Cat{Cat}$.
+
+\begin{theorem}[\cite{ShulmanMonoidal}]\label{thm.monoidal_indexed_cartesian}
+Let $\cat{C}$ be a cartesian category. Then a monoidal structures on a strict indexed
+category $\cat{A} :
+\cat{C}\op \to \Cat{Cat}$ whose underlying monoidal structure on $\cat{C}$ is
+given by the cartesian product may be equivalently given by the data:
+\begin{itemize}
+  \item A monoidal structure $\otimes : \cat{A}(C) \times \cat{A}(C) \to
+    \cat{A}(C)$ and $\ord{1} \in \cat{A}(C)$ for each $C \in \cat{C}$, 
+  \item A lax structure on each reindexing $r^{\ast} : \cat{A}(C) \to \cat{A}(C')$
+    for each $r : C' \to C$, so that the lax structure on $(r_2 \circ
+    r_1)^{\ast}$ is the composite of the lax structures on $r_2$ and $r_1$.
+\end{itemize}
+\end{theorem}
+\begin{proof}[Proof Sketch]
+We define the product $\otimes : \cat{A}(C) \times \cat{A}(C) \to \cat{A}(C)$ as
+$\boxtimes \circ \Delta^{\ast}$ where $\Delta : C \to C \times C$ is the
+diagonal. We similarly define $\ord{1} \in \cat{A}(C)$ as $!^{\ast}(\mathbb{1})$.
+\end{proof}
+
+We use \cref{thm.monoidal_indexed_cartesian} and \cref{thm.monoidal_indexed} to
+recover the product of lenses.
+\begin{lemma}\label{lem.context_monoidal}
+Let $\cat{C}$ be a cartesian category and let $C \in \cat{C}$. The category
+$\smctx{C}$ has a monoidal structure given by $X \otimes Y \coloneqq X \times
+Y$, $\ord{1} \coloneqq \ord{1}$, and 
+  $$f \otimes g \coloneqq C \times X \times Y \xto{\Delta} C \times C \times X
+  \times Y \xto{\sim} C \times X \times C \times Y \xto{f \times g} X' \times Y'.$$
+In terms of elements, 
+$$(f \otimes g)(c, x, y) \coloneqq (f(c, x), g(c, y)).$$
+\end{lemma}
+\begin{proof}
+  We begin by showing that $\otimes$ is functorial:
+\begin{align*}
+  ( (f' \circ f) \otimes (g' \circ g))(c, x, y) &= ((f' \circ f)(c, x), (g' \circ g)(c, y))\\
+&= (f'(c, f(c, x)), g'(c, g'(c, y))) \\
+  &= (f' \otimes g')(f(c, x), g(c, y)) \\
+&= (f' \otimes g') \circ (f \otimes g)(x, y).
+\end{align*}
+
+Next, we need associators $X \otimes (Y \otimes Z) \cong (X \otimes Y) \otimes
+Z$ and unitors $\ord{1} \otimes X \cong X \cong X \otimes \ord{1}$. We may
+get these by applying $!^{\ast} : \cat{C} \to \smctx{C}$ (which sends $f : X \to
+Y$ to $f \circ \pi_1 : C \times X \to Y$) to the associators and unitors of
+$\cat{C}$. It is straightforward to see that these are natural with respect to maps in $\smctx{C}$. 
+\end{proof}
+
+
+\begin{proposition}
+Let $\cat{C}$ be a cartesian category. Then $\smctx{-} : \cat{C}\op \to
+\Cat{Cat}$ may be endowed with a monoidal structure so that the induced monoidal
+structure on the Grothendieck construction is the product of lenses
+$$\lens{A^-}{A^+} \otimes \lens{B^-}{B^+} \coloneqq \lens{A^- \times B^-}{A^+
+  \times B^+}.$$
+\end{proposition}
+\begin{proof}
+By \cref{lem.context_monoidal}, there is monoidal structure on each $\smctx{C}$.
+We note that by definition, each reindexing $r^{\ast} : \smctx{C} \to
+\smctx{C'}$ along $r : C' \to C$ preserves this monoidal structure strictly.
+\begin{align*}
+r^{\ast}(f \otimes g)(c', (x, y)) &= (f \otimes g)(r(c'), (x, y)) \\
+&= (f(r(c'), x), g(r(c'), y)) \\
+&= (r^{\ast}f \otimes r^{\ast} g)(c, (x, y)).
+\end{aling*}
+The rest then follows by \cref{thm.monoidal_indexed_cartesian} and \cref{thm.monoidal_indexed}.
+\end{proof}
 
 \subsection{Monadic lenses as generalized lenses}
 
@@ -6692,12 +6930,12 @@ $\cat{C}$. Then the map $\lambda : C \times M X \to M(C \times X)$ defined by
 $$\lambda \coloneqq (\eta \times MX) \then \sigma$$
 is natural in both $X$ and $C$. Furthermore, the following four diagrams
 commute:
-\begin{equation}
+\begin{equation}\label{eqn.dist_law_right}
 \begin{tikzcd}
 C \times X \arrow[rd, "\eta"'] \arrow[r, "C \times \eta"] & C \times MX \arrow[d, "\lambda"] \\
                                                           & M(C \times X)                   
 \end{tikzcd}
-\end{equation}
+\end{equation}\label{eqn.dist_law_left}
 \begin{equation}
 \begin{tikzcd}
 C \times MX \arrow[r, "\lambda"] \arrow[rd, "\pi_2"'] & M(C \times X) \arrow[d, "M\pi_2"] \\
@@ -6705,23 +6943,50 @@ C \times MX \arrow[r, "\lambda"] \arrow[rd, "\pi_2"'] & M(C \times X) \arrow[d, 
 \end{tikzcd}
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eqn.dist_law_mult_right}
 \begin{tikzcd}
 C \times M^2X \arrow[d, "\lambda"'] \arrow[rr, "C \times \mu"] &                                   & C \times M X \arrow[d, "\lambda"] \\
 M(C \times M X) \arrow[r, "M\lambda"']                          & M^2(C \times X) \arrow[r, "\mu"'] & M(C \times X)                    
 \end{tikzcd}
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{eqn.dist_law_mult_right}
 \begin{tikzcd}
 C \times MX \arrow[rr, "\lambda"] \arrow[d, "\Delta_C \times MX"'] &                                              & M(C \times X) \arrow[d, "M(\Delta_C \times X)"] \\
 C \times C \times MX \arrow[r, "C \times \lambda"']                & C \times M(C \times X) \arrow[r, "\lambda"'] & M(C \times C \times X)                         
 \end{tikzcd}
 \end{equation}
 \end{lemma}
+
+\begin{exercise}
+Prove \cref{lem.dist_law} by showing that the diagrams commute. This uses the
+properties of the commutativity $\sigma$ and naturality.
+\end{exercise}
+
+In order to wire diagrams together, we also need the monoidal product on lenses. 
+\begin{lemma}
+  Let $\cat{C}$ be a cartesian category and let $M : \cat{C} \to \cat{C}$ be a
+  commutative monad. Then for any $C \in \cat{C}$, there is a symmetric monoidal
+  structure on $\smctx{C}^M$ given by $X \otimes Y \coloneqq X \times Y$ and 
+$$f \otimes g \coloneqq C \times X \times Y \xto{\Delta} C \times C \times X
+\times Y \xto{\sim} C \times X \times C \times Y \xto{f \times g} M X \times M Y
+\xto{\sigma} M(X \times Y).$$
+\end{lemma}
 \begin{proof}
 
 \end{proof}
+
+
+\section{Changing the Flavor of Non-determinism}
+
+In \cref{sec.monad_map}, we saw how commutative monad maps $\phi : M \to N$ let
+us change the flavor of non-determinism. In particular, since the unit $\eta :
+\id \to M$ is always a commutative monad map, we can always interpret a
+deterministic system as a non-deterministic system. 
+
+In this section, we'll show that any commutative monad morphism $\phi : M \to N$
+induces a
+
 
 \section{Monadic Lenses}
 

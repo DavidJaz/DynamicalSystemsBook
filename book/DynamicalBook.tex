@@ -121,8 +121,17 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 	\tikzcdset{arrow style=tikz, diagrams={>=To}}
 	
 	\input{tikz_stuff}
-	
-	
+
+\newcommand{\unalignedDo}[1]{\framebox{\begin{tikzpicture}[baseline=(current bounding box.center),every node/.style={inner sep=0pt, minimum size=0pt,outer sep=0pt}]
+\node(do) {\textbf{do}};
+\coordinate (11) at ($(do.east)+(0.25cm,0)$);
+    \foreach \line [count=\k] in {#1}
+    {
+    \pgfmathtruncatemacro{\kn}{\k+1}
+    \node(\kn1)[anchor=north west] at ($(\k1.south west)-(0,0.25cm)$) {\line};
+    }
+\end{tikzpicture}}}
+
 
 % mdframed/tablefootnote%
 % This makes \tablefootnote allow construction of footnotes that appear at bottom of page instead of inside frame
