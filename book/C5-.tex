@@ -1543,7 +1543,7 @@ are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal
 %-------- Section --------%
 \section{Comonoids in $\poly$}\label{sec.comonoids_in_poly}
 
-\slogan{Imagine a sort of realm, where there are various positions you can be in. From every position, there are a number of moves you can make, possibly infinitely many. But whatever move you make, you'll end up in a new position. Well, technically it counts as a move to simply stay where you are, so you might end up in the same position. But wherever you move to, you can move again, and the any number of moves from an original place counts as a single move. What sort of realm is this?}
+\slogan{Imagine a sort of realm, where there are various positions you can be in. From every position, there are a number of moves you can make, possibly infinitely many. But whatever move you make, you'll end up in a new position. Well, technically it counts as a move to simply stay where you are, so you might end up in the same position. But wherever you move to, you can move again, and any number of moves from an original place counts as a single move. What sort of realm is this?}
 
 The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. Every category in the usual sense is a comomonoid in $\poly$ and every comonoid in $\poly$ is a category. We find this revelation to be truly shocking, and suggests some very different ways to think about categories. Let's go through it.
 
@@ -2865,7 +2865,9 @@ Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the rep
 Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfies the unitality and associativity requirements of a comonoid in $(\poly,\yon,\tri)$.
 \end{exercise}
 
-
+\begin{example}[Cyclic lists]
+For any $n\in\nn$, consider the monoid (group) $\zz/n$. As a functor $c_n\coloneqq\yon^{\zz/n}$ sends a set $X$ to the set of length-$n$ tuples in $X$. But the comonoid structure lets us think of these as cyclic lists. Indeed, $\epsilon\colon c_n\to\yon$ allows us to pick out the ``current'' element via the map $\epsilon\tri X\colon c_n\tri X\to X$, and $\delta$ lets us move around the list.
+\end{example}
 
 \begin{example}[What category is $S\yon^S$?]
 The first comonoid we introduced, back in \cref{ex.state_comonad_1} was $\com{S}=(p,\epsilon,\delta)$, where $p=S\yon^S$ for some set $S$. Now we know that comonoids correspond to categories. So what category $\cat{S}$ corresponds to $\com{S}$?
