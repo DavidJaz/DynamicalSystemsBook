@@ -4894,6 +4894,16 @@ non-determinism is the same as changing our non-determinism and then iterating. 
   \[
 f^M \then \phi = \phi \then (f \then \phi)^N.
   \]
+  In do notation, this reads
+\[
+  \phi\left(  \unalignedDo{
+   $x \from m$,
+   $f(x)$,
+  }\right) = \unalignedDo{
+    $x \from \phi(m)$,
+    $\phi(f(x))$
+  }
+\]
 \end{lemma}
 \begin{proof}
 Before we begin, we note that, by the
@@ -6134,7 +6144,7 @@ We note that by definition, each reindexing $r^{\ast} : \smctx{C} \to
 r^{\ast}(f \otimes g)(c', (x, y)) &= (f \otimes g)(r(c'), (x, y)) \\
 &= (f(r(c'), x), g(r(c'), y)) \\
 &= (r^{\ast}f \otimes r^{\ast} g)(c, (x, y)).
-\end{aling*}
+\end{align*}
 The rest then follows by \cref{thm.monoidal_indexed_cartesian} and \cref{thm.monoidal_indexed}.
 \end{proof}
 
@@ -6171,6 +6181,18 @@ Using string diagrams, we may draw this map as
 \end{tikzpicture}
 \]
 
+Using do notation, we may describe this map as
+\[
+  (c, m) \mapsto \unalignedDo{
+    $c' \from \eta(c)$,
+    $x \from m$,
+    ${\eta(c', x)}$
+  } = \unalignedDo{
+    $x \from m$,
+    ${\eta(c, x)}$
+  }
+\]
+
 \begin{definition}
   Let $\cat{C}$ be a cartesian category and $M : \cat{C} \to \cat{C}$ a
   commutative monad. For an object $C \in \cat{C}$, there is a category
@@ -6186,6 +6208,14 @@ $$f \then g \coloneqq (\Delta_C \times X) \then (C \times f) \then \lambda
 $$C \times X \to C \times C \times X \to C \times MY \to M(C \times Y) \to M^2Z
 \to MZ$$
 Here, $\lambda \coloneqq (\eta \times MX) \then \sigma$.
+Using do notation, we may describe the composite $f \then g$ as 
+\[
+(c, m) \mapsto \unalignedDo{
+  $x \from m$,
+  $y \from { f(c, x) }$,
+  ${ g(c, y) }$
+}
+\]
 \end{itemize}
 \end{definition}
 
@@ -6899,31 +6929,7 @@ that composition in $\smctx{C}^M$ is unital and associative.
 \end{tikzpicture}
 \]
 
-This shows that $\smctx{C}^M$ is a category. We furthermore want an indexed
-category $\smctx{-}^M : \cat{C}\op \to \Cat{Cat}$, so that we can apply the
-generalized lens construction to it and get a category of $M$-lenses.
-
-\begin{theorem}
-  Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category.
-  Then there is an indexed category
-\[
-\smctx{-}^M : \cat{C}\op \to \Cat{Cat}
-\]
-which sends an object $C \in \cat{C}$ to the category $\smctx{C}^M$ and which
-sends a map $r : C' \to C$ to the functor 
-\[
-r^{\ast} : \smctx{C}^M \to \smctx{C'}^M
-\]
-which acts as the identity on objects and which sends a morphism $f : C \times X
-\to MY$ to the composite $C' \times X \xto{r \times X} C \times X \xto{f} MY$.
-\end{theorem}
-
-We can show that the reindexing $r^{\ast}$ given by $r : C' \to C$ as defined
-above is indeed a functor by appealing to the naturality of $\lambda$ in $C$.
-This indexed category is in fact a strict functor (as opposed to a pseudo-functor), as can be seen right away
-from the definition of the reindexing functors.
-
-We now return to prove the crucial laws which undergird the above graphical arguments.
+This shows that $\smctx{C}^M$ is a category. We now prove the crucial laws which undergird the above graphical arguments.
 
 \begin{lemma}\label{lem.dist_law}
 Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category
@@ -6961,22 +6967,154 @@ C \times C \times MX \arrow[r, "C \times \lambda"']                & C \times M(
 
 \begin{exercise}
 Prove \cref{lem.dist_law} by showing that the diagrams commute. This uses the
-properties of the commutativity $\sigma$ and naturality.
+properties of the commutativity $\sigma$ and naturality. You may find the do
+notation helpful.
 \end{exercise}
 
 In order to wire diagrams together, we also need the monoidal product on lenses. 
 \begin{lemma}
   Let $\cat{C}$ be a cartesian category and let $M : \cat{C} \to \cat{C}$ be a
   commutative monad. Then for any $C \in \cat{C}$, there is a symmetric monoidal
-  structure on $\smctx{C}^M$ given by $X \otimes Y \coloneqq X \times Y$ and 
+  structure on $\smctx{C}^M$ given by $X \otimes Y \coloneqq X \times Y$, with
+  unit $\ord{1}$, and 
 $$f \otimes g \coloneqq C \times X \times Y \xto{\Delta} C \times C \times X
 \times Y \xto{\sim} C \times X \times C \times Y \xto{f \times g} M X \times M Y
 \xto{\sigma} M(X \times Y).$$
+
+With the do notation, $f \otimes g$ may be defined as 
+\[
+(c, x, y) \mapsto \unalignedDo{
+  $z \from {f(c, x)}$,
+  $w \from {g(c, y)}$,
+  ${\eta(z, w)}$
+}
+\]
 \end{lemma}
 \begin{proof}
+We will use the do notation to argue this. The proofs in the do notation can,
+with some care, be extended out into diagram chases if the reader desires to do
+so.
 
+We will show that $\otimes$ is functorial. Let $f : X_1 \to Y_1$, $g : X_2 \to
+Y_2$, $f' : Y_1 \to Z_1$ and $g' : Y_2 \to Z_2$. Then
+\begin{align*}
+ (f \otimes g) \then (f' \otimes g') &= (c, x_1, x_2) \mapsto \unalignedDo{
+                                       $y_1 \from {f(c, x_1)}$,
+                                       $y_2 \from {g(c, x_2)}$,
+                                       $z_1 \from {f'(c, y_1)}$,
+                                       $z_2 \from {g'(c, y_2)}$,
+                                       ${\eta(z_1, z_2)}$
+} \\ 
+  &= (c, x_1, x_2) \mapsto \unalignedDo{
+     $y_1 \from {f(c, x_1)}$,
+     $z_1 \from { f'(c, y_1) }$,
+     $y_2 \from {g(c, x_2)}$,
+     $z_2 \from {g'(c, y_2)}$,
+     ${\eta(z_1, z_2)}$
+    } \\
+  &= (f \then f') \otimes (g \then g')
+\end{align*}
+Note the use of commutativity.
+
+Next, we need to give associators $\alpha : (X \otimes Y) \otimes Z \to X
+\otimes (Y \otimes Z)$ and unitors $\ell : \ord{1} \otimes X \to X$ and $r : X
+\otimes \ord{1} \to X$.
+\begin{align*}
+  \alpha(c, (x, y), z) &\coloneqq \eta(x, (y, z)).\\
+  \ell(c, (\ast, x)) &\coloneqq \eta(x) \\
+  r(c, (x, \ast)) &\coloneqq \eta(x)
+\end{align*}
+These can easily be seen to satisfy the required coherences, and they are just
+defined by shuffling the parentheses about.
 \end{proof}
 
+From this, we may finally prove the following theorem.
+
+\begin{theorem}\label{thm.bikleisli_indexed_cat}
+Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category.
+Then there is a monoidal strict indexed category 
+\[
+\smctx{-}^M : \cat{C}\op \to \Cat{Cat}
+\]
+which sends an object $C \in \cat{C}$ to the category $\smctx{C}^M$ and which
+sends a map $r : C' \to C$ to the functor 
+\[
+r^{\ast} : \smctx{C}^M \to \smctx{C'}^M
+\]
+which acts as the identity on objects and which sends a morphism $f : C \times X
+\to MY$ to the composite $C' \times X \xto{r \times X} C \times X \xto{f} MY$.
+\end{theorem}
+\begin{proof}
+  All that remains to be proven is functoriality in $C$. Letting $r : C' \to C$,
+  we get a functor $r^{\ast} : \smctx{C}^M \to \smctx{C'}^M$ given by sending $f
+  : C \times X \to MY$ to $f \circ (r \times X) : C' \times X \to MY$. In terms
+  of elements, this means
+ \[
+r^{\ast}f(c', x) \coloneqq f(r(c'), x)
+\]
+Using the do notation, we can quickly show that this is functorial:
+\begin{align*}
+  r^{\ast}(g \circ f)(c', x) &= (g\circ f)(r(c'), x) \\
+  &= \unalignedDo{
+    ${y \from f(r(c'), x)}$,
+    ${g(r(c'), y)}$
+    } \\
+  &= \unalignedDo{
+    ${y \from r^{\ast}f(c', x)}$,
+    ${r^{\ast}g(c', y)}$
+    } \\
+&= (r^{\ast}g \circ r^{\ast}f)(c', x)
+\end{align*}
+To show that it is monoidal, we may also use the do notation:
+\begin{align*}
+  r^{\ast}(f \otimes g)(c', x, y) &= (f \otimes g)(r(c'), x, y)\\
+&= \unalignedDo{
+     ${z \from f(r(c'), x)}$,
+     ${w \from g(r(c'), y)}$,
+      ${\eta(z, w)}$
+} \\
+  &= \unalignedDo{
+     ${z \from r^{\ast}f(c', x)}$,
+     ${w \from r^{\ast}g(c', y)}$,
+    ${\eta(z, w)}$
+    }\\
+    &= (r^{\ast}f) \otimes (r^{\ast}g)(c', x, y)
+\end{align*}
+\end{proof}
+
+
+With \cref{thm.bikleisli_indexed_cat} in hand, we may now define the category of
+monadic lenses.
+
+\begin{definition}
+  For a commutative monad $M : \cat{C} \to \cat{C}$ on a cartesian category, we
+  define the symmetric monoidal category of $M$-lenses to be the symmetric monoidal category of $\smctx{-}^M$-lenses:
+\[
+\Cat{Lens}^M_{\cat{C}} \coloneqq \int^{C : \cat{C}}\smctx{C}^M\op
+\]
+\end{definition}
+
+\begin{exercise}
+  Show that the category of $M$-lenses may be described as follows:
+\begin{itemize}
+  \item Its objects are pairs $\lens{A^-}{A^+}$ of objects of $\cat{C}$.
+  \item Its maps are $M$-lenses $\lens{f^{\sharp}}{f} : \lens{A^-}{A^+} \fromto
+    \lens{B^-}{B^+}$ where $f : A^+ \to B^+$ and $f^{\sharp} : A^+ \times B^-
+    \to MA^-$.
+  \item The identity is $\lens{\eta \circ \pi_2}{\id}$.
+  \item Composition is defined by
+\[
+\lens{f^{\sharp}}{f} \then \lens{g^{\sharp}}{g} \coloneqq \lens{h}{f \then g}
+\]
+where $h$ is defined in the do notation as
+\[
+h(a^+, c^-) \coloneqq \unalignedDo{
+  ${b^- \from g^{\sharp}(f(a^+), c^-)}$,
+  ${f^{\sharp}(a^+, b^-)}$
+}
+\]
+\end{itemize}
+\end{exercise}
 
 \section{Changing the Flavor of Non-determinism}
 
@@ -6986,12 +7124,230 @@ us change the flavor of non-determinism. In particular, since the unit $\eta :
 deterministic system as a non-deterministic system. 
 
 In this section, we'll show that any commutative monad morphism $\phi : M \to N$
-induces a
+induces a symmetric monoidal functor $\Cat{Lens}_{\cat{C}}^M \to
+\Cat{Lens}_{\cat{C}}^N$. We will do this using the functoriality of the
+Grothendieck construction: any \emph{indexed functor} induces a functor on the
+Grothendieck constructions.
+
+\begin{definition}
+  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ and $\cat{B} : \cat{D}\op \to
+  \Cat{Cat}$ be strict indexed categories. A \emph{strict indexed functor}
+  $(F, \overline{F}) : \cat{A} \to \cat{B}$ is a pair consisting of
+  \begin{itemize}
+  \item A functor $F : \cat{C} \to \cat{D}$, and
+    \item A natural transformation $\overline{F} : \cat{A} \to \cat{B} \circ
+      F\op$. Explicitly, this is a family of functors $\overline{F}_C :
+      \cat{A}(C) \to \cat{B}(FC)$ so that for any $r : C' \to C$, we have that
+      $\overline{F} \circ r^{\ast} = (Fr)^{\ast} \circ \overline{F}$.
+\end{itemize}
+
+If $\cat{A}$ and $\cat{B}$ are monoidal strict indexed categories, then an
+indexed functor $(F, \overline{F}) : \cat{A} \to \cat{B}$ is strict monoidal if
+$F(C_1 \otimes C_2) = FC_1 \otimes FC_2$ and $\overline{F}(A_1 \boxtimes A_2) =
+\overline{F}(A_1) \boxtimes \overline{F}(A_2)$, and $F$ and $\overline{F}$ send
+associators to associators and unitors to unitors.
+\end{definition}
+
+\begin{proposition}\label{prop.functoriality_monoidal_groth}
+  Let $(F, \overline{F}) : \cat{A} \to \cat{B}$ be a strict indexed functor.
+  Then there is a functor 
+\[
+\lens{\overline{F}}{F} : \int^{C : \cat{C}}\cat{A}(C) \to \int^{D : \cat{D}}\cat{B}(D)
+\]
+given by
+$$\lens{\overline{F}}{F}\lens{f_{\flat}}{f} \coloneqq
+\lens{\overline{F}f_{\flat}}{Ff}.$$ 
+
+If furthermore $(F, \overline{F})$ is strictly monoidal, then so is $\lens{\overline{F}}{F}$.
+\end{proposition}
+\begin{proof}
+We will show that this assignment is functorial. Recall that 
+\[
+\lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g} \coloneqq \lens{f_{\flat} \then
+  f^{\ast}g_{\flat}}{f \then g}.
+\]
+We may therefore calculate:
+\begin{align*}
+\lens{\overline{F}}{F}\left(\lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g}  \right) &= \lens{\overline{F}(f_{\flat} \then f^{\ast}g_{\flat})}{F(f \then g)}\\
+&= \lens{\overline{F}f_{\flat}\then \overline{F}(f^{\ast}g_{\flat})}{Ff \then Fg}\\
+&= \lens{\overline{F}f_{\flat} \then (Ff)^{\ast}(\overline{F}g_{\flat})}{Ff \then Fg}\\
+&= \lens{\overline{F}}{F}\lens{f_{\flat}}{f} \then \lens{\overline{F}}{F}\lens{g_{\flat}}{g}
+\end{align*}
+We end by noting that $\lens{\overline{F}}{F}\lens{\id}{\id} = \lens{\id}{\id}$
+by functoriality of $F$ and $\overline{F}$.
+
+If $(F, \overline{F})$ is strictly monoidal, then so is $\lens{\overline{F}}{F}$
+because the monoidal structure of the Grothendieck constructions are defined by
+pairing the monoidal structures of the base.
+\end{proof}
 
 
-\section{Monadic Lenses}
+\begin{proposition}
+  Let $\phi : M \to N$ be a commutative monad morphism. Then there is a strict
+  monoidal functor 
+$$\phi_{\ast} : \Cat{Lens}_{\cat{C}}^M \to \Cat{Lens}_{\cat{C}}^N$$
+Given by 
+$$\phi_{\ast} \lens{f^{\sharp}}{f} \coloneqq \lens{f^{\sharp} \then \phi}{f}.$$
+\end{proposition}
+\begin{proof}
+  We will show that a commutative monad morphism induces a strict monoidal
+  indexed functor 
+$$(\id, \phi_{\ast}) : \smctx{-}^M \to \smctx{-}N.$$
+The result will then follow by \cref{prop.functoriality_monoidal_groth}.
+
+We need to give a family of strict monoidal functors $\phi_{\ast} : \smctx{C}^M \to
+\smctx{C}^N$, natural in $C$. We take $\phi_{\ast}$ to act as the identity on
+objects, and for $f : C \times X \to MY$, we define 
+$$\phi_{\ast} f \coloneqq f \then \phi.$$
+We now show that this is functorial using the do notation:
+\begin{align*}
+  \phi_{\ast}(f \then g) &= f \then g \then \phi \\
+&= (c, x) \mapsto \phi\left( \, \unalignedDo{
+          ${y \from f(c, x)}$,
+          ${g(c, y)}$
+ }\,\right) \\
+  &= (c , x) \mapsto \unalignedDo{
+    ${y \from \phi(f(c, x))}$,
+    ${\phi(g(c, y))}$
+    }&\mbox{by \cref{lem.com_monad_map_lift}}\\
+&= \phi_{\ast}f \then \phi_{\ast}g.
+\end{align*}
+We also note that $\phi_{\ast} \id = \id$ since 
+\begin{align*}
+\phi_{\ast}(\id) = \pi_2 \then \eta^M \then \phi \\
+&= \pi_2 \then \eta^N\\
+&= \id
+\end{align*}
+
+We may also use the do notation to prove strict monoidal-ness. We begin by
+noting that the functor is strictly monoidal on objects since it is identity on
+objects and the monoidal structures are defined identically.
+\begin{align*}
+  \phi_{\ast}(f \otimes g) &= (c, x_1, x_2) \mapsto \phi\left( \, \unalignedDo{
+                             ${y_1 \from f(c, x_1)}$,
+${y_2 \from g(c, x_2)}$,
+${\eta^M(y_1, y_2}$
+                             } \,  \right) \\
+&= \unalignedDo{
+                             ${y_1 \from \phi(f(c, x_1))}$,
+${y_2 \from \phi(g(c, x_2))}$,
+${\phi\eta^M(y_1, y_2}$
+                             }\\
+&= \unalignedDo{
+                             ${y_1 \from \phi(f(c, x_1))}$,
+${y_2 \from \phi(g(c, x_2))}$,
+${\eta^N(y_1, y_2}$
+                             } \\
+&= \phi_{\ast}f \otimes \phi_{\ast}g.
+\end{align*}
+\end{proof}
+
+The theorem has a useful corollary: we can always wire together
+non-deterministic systems with wiring diagrams.
+\begin{corollary}
+  For any commutative monad $M : \cat{C} \to \cat{C}$, there is a strictly
+  monoidal functor 
+$$\eta_{\ast} : \Cat{Lens}_{\cat{C}} \to \Cat{Lens}_{\cat{C}}^M.$$ 
+\end{corollary}
+
+\begin{example}
+
+Suppose we have two people $\Sys{S_1}$ and $\Sys{S_2}$ flipping coins.
+$\Sys{S_1}$ flips a single fair coin and exposes its value:
+  \[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={0}{1}, fill=blue!10] (X) {$\Sys{\Sys{S_1}}$};
+	\draw[label] 
+		node [right=2pt of X_out1] {$\{\const{heads}, \const{tails}\}$}
+		;
+\end{tikzpicture}
+  \]
+  That is, $\State{S_1} = \{\const{heads}, \const{tails}\}$
+  \begin{align*}
+ \update{S_1}(\_) &= \frac{1}{2}\const{heads} + \frac{1}{2} \const{tails}\\
+ \expose{S_1} &= \id.
+\end{align*}
+On the other hand, $\Sys{S_2}$ will flip either a left coin or a right coin, and
+expose the resulting value. But these coins are biased in different ways The coin that $\Sys{S_2}$ flips is determined by
+whether it sees $\const{heads}$ or $\const{tails}$.
+  \[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={1}{1}, fill=blue!10] (X) {$\Sys{S_2}$};
+	\draw[label] 
+		node [right=2pt of X_out1] {$\{\const{heads}, \const{tails}\}$}
+		;
+\end{tikzpicture}
+  \]
+  That is, $\State{S_1} = \{\const{heads}, \const{tails}\}$ and
+  \begin{align*}
+\update{S_2}(\_, \const{heads}) &= \frac{1}{4}\const{heads} + \frac{3}{4}\const{tails}\\
+\update{S_2}(\_, \const{tails}) &= \frac{3}{4}\const{heads} + \frac{1}{4}\const{tails}\\
+\expose{S_2} &= \id.
+    \end{align*}
+We can now imagine that $\Sys{S_1}$ sends the result of their coin flip over a
+channel to $\Sys{S_2}$. But this channel has noise given by 
+\begin{align*}
+  \rho(\const{heads}) &= \frac{9}{10}\const{heads} + \frac{1}{10}\const{tails} \\
+  \rho(\const{tails}) &= \frac{1}{10}\const{heads} + \frac{9}{10}\const{tails} 
+\end{align*}
+
+Explictly, we will compose with the wiring diagram:
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=0pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={0}{1}, fill=blue!10, dashed] (X) {$\phantom{\Sys{Source}}$};
+  \node[draw=dgreen,circle, right = of X] (n) {$\rho$};
+	\node[bb={1}{1}, fill=blue!10, right = of n, dashed] (Y) {$\phantom{\Sys{Transformer}}$};
+  \node[bb={0}{1}, fit={(X) (Y)}] (Z) {};
 
 
+  \draw (X_out1) -- (n) -- (Y_in1);
+  \draw (Y_out1) -- (Z_out1);
+  
+
+	\draw[label] 
+		node at ($(X_out1) + (5pt, 5pt)$) {$A$}
+		node at ($(Y_out1) + (5pt, 5pt)$) {$C$}
+		node at ($(Y_in1) + (-5pt, 5pt)$) {$B$}
+		;
+\end{tikzpicture}
+\]
+We can describe this as a $\probset$-lens 
+\[
+\lens{w^{\sharp}}{w} : \lens{\In{S_1} \times \In{S_2}}{\Out{S_1} \times
+  \Out{S_2}} \fromto \lens{\{\ast\}}{\Out{S_2}}
+\]
+\begin{itemize}
+\item $w : \Out{S_1} \times \Out{S_2} \to \Out{S_2}$ is the projection $\pi_2$.
+\item $w^{\sharp}: \Out{S_1} \times \Out{S_2} \times \{\ast\} 
+  \to \probset ( \In{S_1} \times \In{S_2} )$ is given by 
+$$w^{\sharp}(x, y, \ast) = (\ast, \rho(x)).$$
+\end{itemize}
+
+We may now form the composite system:
+\[
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=0pt, bb port sep=1, baseline=(X.center)]
+	\node[bb={0}{1}, fill=blue!10] (X) {$\Sys{S_1}$};
+  \node[draw=dgreen,circle, right = of X] (n) {$\rho$};
+	\node[bb={1}{1}, fill=blue!10, right = of n] (Y) {$\Sys{S_2}$};
+  \node[bb={0}{1}, fit={(X) (Y)}] (Z) {};
+
+  \draw (X_out1) -- (n) -- (Y_in1);
+  \draw (Y_out1) -- (Z_out1);
+\end{tikzpicture}
+\]
+This has states $\State{S_1} \times \State{S_2}$, exposes just the state of
+$\State{S_2}$, and updates in the following way:
+\begin{align*}
+ \update{}((\_, \_), \ast) = \begin{aligned}
+   &\hphantom{+} \frac{1}{2}\left( \frac{9}{10}\frac{1}{4} + \frac{1}{10}\frac{3}{4} \right)(\const{heads}, \const{heads}) \\
+&+\frac{1}{2}\left( \frac{1}{10}\frac{3}{4} + \frac{9}{10}\frac{1}{4} \right)(\const{tails}, \const{heads})\\
+ &+\frac{1}{2}\left( \frac{9}{10}\frac{3}{4} + \frac{1}{10}\frac{1}{4} \right)(\const{heads}, \const{tails})\\
+ &+\frac{1}{2}\left( \frac{1}{10}\frac{3}{4} + \frac{9}{10}\frac{1}{4} \right)(\const{tails}, \const{tails})\\
+\end{aligned}\\
+\end{align*}
+
+
+\end{example}
 
 \end{document}
 
