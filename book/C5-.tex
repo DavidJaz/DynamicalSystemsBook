@@ -2867,6 +2867,8 @@ Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality an
 
 \begin{example}[Cyclic lists]
 For any $n\in\nn$, consider the monoid (group) $\zz/n$. As a functor $c_n\coloneqq\yon^{\zz/n}$ sends a set $X$ to the set of length-$n$ tuples in $X$. But the comonoid structure lets us think of these as cyclic lists. Indeed, $\epsilon\colon c_n\to\yon$ allows us to pick out the ``current'' element via the map $\epsilon\tri X\colon c_n\tri X\to X$, and $\delta$ lets us move around the list.
+
+We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}c_n$ is also a comonoid.
 \end{example}
 
 \begin{example}[What category is $S\yon^S$?]

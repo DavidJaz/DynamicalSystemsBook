@@ -1012,15 +1012,35 @@ Show that the $\3\3$-card deck from \cref{ex.clue_suggestions} factors---up to i
 
 \subsection{Composing bimodules}
 
+We denote the composite of $\ema{e}\bimod[n]\ema{d}\bimod[m]\ema{c}$ by 
+\[\ema{e}\bimod[n\tri_\ema{d}m]\ema{c}.\]
+
 \begin{proposition}[Niu]\label{prop.composite_for_nats}
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
 \end{proposition}
 
+\begin{proposition}
+For any categories $\cat{C}$ and $\cat{D}$ and $(\cat{D},\cat{C})$-bimodule $\ema{d}\bimod[m]\ema{c}$, we have
+\[
+m\tri_\ema{c}\ema{c}\cong m
+\]
+where $\ema{c}\bimod[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
+\end{proposition}
 
 \begin{example}
 Using \cref{prop.composite_for_nats} we can obtain the $\3\0$ clue suggestions from \cref{ex.clue_suggestions} as a composite of bimodules.
 (finish)
 \end{example}
+
+\begin{proposition}
+Every bimodule $\ema{c}\bimod[S]\0$, is isomorphic to the composite
+\[
+\ema{c}\bimod[S\yon]\yon\bimod[\1]\0
+\]
+for a bimodule $\ema{c}\bimod[S\yon]\yon$ with carrier $S\yon\in\poly$.
+
+Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimod{\yon^S}\ema{c}$ with carrier $\yon^S\in\poly$.
+\end{proposition}
 
 \section{The proarrow equipment}
 A type of categorical structure called pro arrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
@@ -1031,6 +1051,7 @@ A type of categorical structure called pro arrow equipment gives a nice way to o
 In this section, we lay out some questions that whose answers may or may not be known, but which were not known to us at the time of writing. They vary from concrete to open-ended, they are not organized in any particular way, and are in no sense complete. Still we hope they may be useful to some readers.
 
 \begin{enumerate}
+  \item What can you say about comonoids in the category of all functors $\smset\to\smset$, e.g. ones that aren't polynomial.
   \item What can you say about the internal logic for the topos $\cofree{p}\set$ of dynamical systems with interface $p$, in terms of $p$?
   \item How does the logic of the topos $\cofree{p}$ help us talk about issues that might be useful in studying dynamical systems?
   \item Morphisms $p\to q$ in $\poly$ give rise to left adjoints $\cofree{p}\to\cofree{q}$ that preserve connected limits. These are not geometric morphisms in general; in some sense they are worse and in some sense they are better. They are worse in that they do not preserve the terminal object, but they are better in that they preserve every connected limit not just finite ones. How do these left adjoints translate statements from the internal language of $p$ to that of $q$?
