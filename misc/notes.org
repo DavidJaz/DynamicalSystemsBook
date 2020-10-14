@@ -304,3 +304,8 @@ x  The double category of arenas and what that means for behaviors of wired syst
    I need to find the online generator I used for this. I just googled something like "Markov text generator".
 *** Lawvere's thesis
    [[../book/C1-.tex::#cite-me.lawvere][find it here]]
+*** SIR model
+   [[file://../book/C2-.tex::#cite-me.SIR][find it here]]
+
+   Learned about this here:
+  [[https://www.researchgate.net/publication/329946076_Exact_Solution_to_a_Dynamic_SIR_Model][this paper, and it cites the bailey sir model used]] 
