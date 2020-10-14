@@ -2959,20 +2959,6 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 \end{enumerate}
 \end{exercise}
 
-\begin{proposition}\label{prop.cofunctors_isos}
-Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob(\cat{C})$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}(g)$.
-\end{proposition}
-\begin{proof}
-With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we have
-\begin{align*}
-	\id_c&=
-	F^\sharp_c(\id_d)\\&=
-	F^\sharp_c(g\then g')\\&=
-	F^\sharp_c(g)\then F^\sharp_{c'}(g')
-\end{align*}
-Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
-\end{proof}
-
 \begin{exercise}\label{ex.star_shaped}
 \begin{enumerate}
 	\item Find a category structure for the polynomial $\yon^{\ord{n}+1}+\ord{n}\yon$.
@@ -3090,6 +3076,21 @@ and these are the second and third laws of \cref{def.cofunctor}.
 Summarize the proof of \cref{thm.ahman_uustalu}, developed above. You may cite anything written in the text so far.
 \end{exercise}
 
+\begin{proposition}\label{prop.cofunctors_isos}
+Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob(\cat{C})$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}(g)$.
+\end{proposition}
+\begin{proof}
+With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we have
+\begin{align*}
+	\id_c&=
+	F^\sharp_c(\id_d)\\&=
+	F^\sharp_c(g\then g')\\&=
+	F^\sharp_c(g)\then F^\sharp_{c'}(g')
+\end{align*}
+Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
+\end{proof}
+
+
 \paragraph{Examples of cofunctors.}
 
 We saw in \cref{thm.ahman_uustalu}, summarized in \cref{ex.cofunctors_comon_homs}, that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
@@ -3198,6 +3199,17 @@ Suppose $\ema{c},\ema{d},\ema{e}$ are polynomials, each with a comonoid structur
 	\item If $g$ and $f\then g$ are each cofunctors, is $f$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
 \qedhere
 \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+	\item For any category $\cat{C}$ with emanation polynomial $\ema{c}$, find a category with emanation polynomial $\ema{c}\yon$.
+	\item Show your construction is functorial; i.e.\ given a cofunctor $\ema{c}\cof\ema{d}$, find one $\ema{c}\yon\cof\ema{d}\yon$, preserving identity and composition.
+	\item Is your functor either a monad or a comonad on $\smcat^\sharp$?
+	\item What category do you get by repeatedly applying this functor to $\yon$?
+\qedhere
+\end{enumerate}
+
 \end{exercise}
 
 \begin{exercise}
