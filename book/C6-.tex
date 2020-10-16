@@ -1012,19 +1012,19 @@ Show that the $\3\3$-card deck from \cref{ex.clue_suggestions} factors---up to i
 
 \subsection{Composing bimodules}
 
-We denote the composite of $\ema{e}\bimod[n]\ema{d}\bimod[m]\ema{c}$ by 
-\[\ema{e}\bimod[n\tri_\ema{d}m]\ema{c}.\]
+We denote the composite of $\ema{e}\bimodfrom[n]\ema{d}\bimodfrom[m]\ema{c}$ by 
+\[\ema{e}\bimodfrom[n\tri_\ema{d}m]\ema{c}.\]
 
 \begin{proposition}[Niu]\label{prop.composite_for_nats}
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
 \end{proposition}
 
 \begin{proposition}
-For any categories $\cat{C}$ and $\cat{D}$ and $(\cat{D},\cat{C})$-bimodule $\ema{d}\bimod[m]\ema{c}$, we have
+For any categories $\cat{C}$ and $\cat{D}$ and $(\cat{D},\cat{C})$-bimodule $\ema{d}\bimodfrom[m]\ema{c}$, we have
 \[
 m\tri_\ema{c}\ema{c}\cong m
 \]
-where $\ema{c}\bimod[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
+where $\ema{c}\bimodfrom[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
 \end{proposition}
 
 \begin{example}
@@ -1033,14 +1033,23 @@ Using \cref{prop.composite_for_nats} we can obtain the $\3\0$ clue suggestions f
 \end{example}
 
 \begin{proposition}
-Every bimodule $\ema{c}\bimod[S]\0$, is isomorphic to the composite
+Every bimodule $\ema{c}\bimodfrom[S]\0$, is isomorphic to the composite
 \[
-\ema{c}\bimod[S\yon]\yon\bimod[\1]\0
+\ema{c}\bimodfrom[S\yon]\yon\bimodfrom[\1]\0
 \]
-for a bimodule $\ema{c}\bimod[S\yon]\yon$ with carrier $S\yon\in\poly$.
+for a bimodule $\ema{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
 
-Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimod{\yon^S}\ema{c}$ with carrier $\yon^S\in\poly$.
+Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with carrier $\yon^S\in\poly$.
 \end{proposition}
+
+\subsection{Morphisms between bimodules}
+
+\begin{proposition}
+The category $\bimod{\ema{d}}{\ema{c}}$ is a rig category: it has a terminal object (carried by $\ema{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
+\end{proposition}
+\begin{proof}
+For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
+\end{proof}
 
 \section{The proarrow equipment}
 A type of categorical structure called pro arrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
