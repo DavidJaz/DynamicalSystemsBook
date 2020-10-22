@@ -1942,7 +1942,7 @@ define the notion of behavior in general.
 
 We can express a section of an indexed category in terms of a functor into its
 Grothendieck construction.
-\begin{proposition}
+\begin{proposition}\label{prop.section_indexed_category}
   Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be a strict indexed category. A section $T$
   of $\cat{A}$ is equivalently given by the data of a functor $\hat{T} : \cat{C}
   \to \int^{C : \cat{C}} \cat{A}(C)$ for which the composite $\cat{C} \xto{\hat{T}}
@@ -2478,7 +2478,297 @@ Euclidean spaces for the category $\Cat{Man}$ of smooth manifolds in the
 definition of $\eucdiff$. Certainly, $\Cat{Man}$ is a cartesian category and so
 $\smctx{} : \Cat{Man}\op \to \Cat{Cat}$ is a perfectly good indexed category.
 But the tangent bundle of a general smooth manifold is not necessarily a product
-like it is for $\rr^n$. While it is true that for $\rr^n$
+like it is for $\rr^n$. So we would need to change our indexed category as well!
+
+\iffalse
+We could certainly do this, but if we only want to add circles then we can do
+something less drastic. We can consider the cartesian category whose objects are
+of the form $\rr^n \times T^m$, where $T^m = S^1 \times \cdots \times S^1$ is
+the $m$-fold torus, and whose maps are smooth maps. Since the circle is
+\emph{parallelizable}, which is to say that one can define a vector field on the
+circle as a function in $\rr$, the tangent bundle of $\rr^n \times T^m$ is a
+product of this space with $\rr^{n + m}$. 
+
+\begin{definition}
+  Let $\Cat{Tori}$ denote the category whose objects are $\rr^n \times T^m$ and
+  smooth maps between them. We note that this is a cartesian category, with
+  $$(\rr^n \times T^m) \times (\rr^k \times T^q) = \rr^{n + k} \times T^{m + q}.$$
+\end{definition}
+
+\begin{definition}
+ The \emph{toric differential doctrine} consists of $\smctx{-} : \Cat{Tori}\op
+ \to \Cat{Cat}$ together with the section $T$ given by $T(\rr^n \times T^m) =
+ \rr^{n + m}$ and for $f : \rr^n \times T^m \to \rr^k \times T^q$, $Tf : (\rr^n
+ \times T^m) \times \rr^{n + m} \to \rr^k \times T^q$ defined to be
+ \[
+Tf((p,t),(v, u)) \coloneqq ()
+ \]
+\end{definition}
+\fi
+
+Now, strictly speaking we don't \emph{have} to do this if we only want to add
+circles, because circles have a trivial tangent bundle. But it will turn out
+that defining the section $T$ will involve choosing, once and for all, a
+particular trivialization of the tangent bundle of the circle and expressing all
+derivatives in terms of this. It will end up much easier to simply jump over to manifolds.
+
+We recall that to any manifold $M$ there is an associated tangent bundle $\pi :
+TM \to M$. A vector field on a manifold $M$ is a section $v : M \to TM$ of the
+tangent bundle. We recall a bit about tangent bundles now.
+\begin{proposition}
+The assignment of a manifold $M$ to its tangent space $TM$ is functorial in that
+it extends to an assignment
+\[
+f : M \to N \mapsto Tf : TM \to TN
+\]
+which, on Euclidean spaces gives $Tf(p, v) = Df_p v$. Furthermore, the tangent
+bundle $\pi : TM \to M$ is natural in the the diagram
+\[
+  \begin{tikzcd}
+    TM \ar[d, "\pi"'] \ar[r, "Tf"]& TN \ar[d, "\pi"] \\
+    M \ar[r, "f"'] & N
+  \end{tikzcd}
+\]
+commutes.
+\end{proposition}
+
+There is something special about the tangent bundle which allows it to be
+re-indexed to a different manifold: it is a \emph{submersion}. Not all pullbacks
+of manifolds exist, but all pullbacks of submersions exist and are submersions.
+\begin{definition}
+  A \emph{submsersion} $\phi : M \to N$ is a map of manifolds for which $T_p\phi
+  : T_p M \to T_{\phi(p)} N$ is surjective for each $p \in M$.
+
+  We note that every isomorphism is a submersion, and that the composite of
+  submersions is a submersion.
+\end{definition}
+
+\begin{lemma}\label{lem.submersion_closed_pullback}
+ Let $\phi : A \to B$ be a submersion. Then for any $f : C \to B$, the set
+ theoretic pullback $A \times_B C = \{(a, c) \in A \times C \mid \phi(a) =
+ f(c)\}$ may be given the structure of a smooth manifold so that the two
+ projections $A \times_B C \to A$ and $A \times_B C \to C$ are smooth, and so
+ that the resulting square is a pullback square in the category of manifolds.
+ Furthermore, the projection $ f^{\ast}\phi : A \times_B C \to C$ is also a submersion.
+ 
+ In short, we say that pullbacks of submersions exist and are themselves submersions.
+\end{lemma}
+
+This situation arises enough that we can give an abstract definition of it. 
+\begin{definition}
+Let $\cat{C}$ be a category. A class of \emph{display maps} in
+$\cat{C}$ is a class of maps $\cat{D}$ which satisfies the following: 
+\begin{itemize}
+  \item Every isomorphism is in $\cat{D}$.
+  \item $\cat{D}$ is closed under composition. If $f$ and $g$ are composable arrows in $\cat{D}$, then $f \then g$ is
+    in $\cat{D}$.
+  \item $\cat{D}$ is closed under pullback. If $f : A \to B$ is in $\cat{D}$ and
+    $g : C \to B$ is any map, then the pullback $g^{\ast} f : A \times_B C \to
+    C$ exists and is in $\cat{D}$.
+\end{itemize}
+A \emph{category with display maps} $(\cat{C}, \cat{D})$ is a category $\cat{C}$ equipped with a
+class $\cat{D}$ of display maps.
+\end{definition}
+
+We have seen that $(\Cat{Man}, \Cat{Subm})$ is a category with display maps by
+\cref{lem.submersion_closed_pullback}. There are two other common classes of display map categories.
+  \begin{itemize}
+   \item If $\cat{C}$ has all pullbacks, then we may take all maps to be display maps.
+   \item If $\cat{C}$ is cartesian, then we may take the product projections
+     to be the display maps. 
+  \end{itemize}
+The first of these obviously works, but the second requires a bit of proof (and
+to be a bit more carefully defined).
+\begin{proposition}\label{prop.cartesian_display_maps}
+ Let $\cat{C}$ be a cartesian category. Let $\cat{D}$ denote the class of maps
+ $f : A \to B$ for which there exists a $C \in \cat{C}$ and an isomorphism $i :
+ A \to C \times B$ for which $f = i \then \pi_2$. That is, $\cat{D}$ is the
+ class of maps which are product projections up to an isomorphism. Then
+ $(\cat{C}, \cat{D})$ is a display map category.
+\end{proposition}
+\begin{proof}
+  We verify the conditions
+\begin{itemize}
+  \item If $i : A \to B$ is an isomorphism, then $f \then \pi_2\inv : A \to
+    \ord{1} \times B$ is also an isomorphism. By construction, $f = f \then
+    \pi_2 \inv \then \pi_2$, so every isomorphism is a product projection up to isomorphism. 
+  \item Suppose that $f : A \to B$ is isomorphic to a product projection $\pi_2 : C \times
+    B \to B$ in that $f = i \then \pi_2$, and $g : B \to X$ is isomorphic to a product projection $\pi_2 : Y
+    \times X \to X$ in that $g = j \then \pi_2$. We may then see that $f \then
+    g$ is a product projection up to isomorphism by contemplating the following
+    commutative diagram:
+\[
+\begin{tikzcd}
+A \arrow[d, "f"'] \arrow[r, "i"] & C \times B \arrow[ld, "\pi_2"] \arrow[r, "C \times j"] & C \times (Y \times X) \arrow[r, "\alpha"] \arrow[ld, "\pi_2"] & (C \times Y) \times X \arrow[llldd, "\pi_2", bend left] \\
+B \arrow[d, "g"'] \arrow[r, "j"] & Y \times X \arrow[ld, "\pi_2"]                        &                                                               &                                                         \\
+X                                &                                                        &                                                               &                                                        
+\end{tikzcd}
+\]
+\item Let $f : A \to B$ be a equal to $i \then \pi_2$ with $i : A \to C \times
+  B$ an isomorphism. Let $k : X \to B$ be any other map. We will show that
+  $\pi_2 : C \times X \to X$ fits in a pullback diagram as follows:
+  \[
+\begin{tikzcd}
+Z \arrow[rdd, "x"', bend right] \arrow[rrrd, "a", bend left] \arrow[rd, "{(a \then i \then \pi_1, x)}", dashed] &                                                       &                               &                  \\
+                                                                                                                & C \times X \arrow[r, "C \times k"] \arrow[d, "\pi_2"] & C \times B \arrow[r, "i\inv"] & A \arrow[d, "f"] \\
+                                                                                                                & X \arrow[rr, "k"']                                    &                               & B               
+\end{tikzcd}
+\]
+The square commutes since $i\inv \then f = \pi_2 : C \times B \to B$. We see that it satisfies the universal property by making the definition of the
+dashed arrow given in the diagram. The lower triangle commutes by definition, so
+consider the upper triangle, seeking to show that 
+$a = (a\then i \then \pi_1, x) \then (C \times k) \then i\inv$. We calculate:
+\begin{align*}
+(a\then i \then \pi_1, x) \then (C \times k) \then i\inv &= (a\then i \then \pi_1, x \then k) \then i\inv \\
+ &= (a\then i \then \pi_1, a \then f) \then i\inv \\
+ &= (a\then i \then \pi_1, a \then i \then \pi_2) \then i\inv \\
+ &= a \then i \then i \inv \\
+&= a.
+\end{align*}
+\end{itemize}
+Now, if $z : Z \to C$ were any other map so that $(z, x) \then C \times k \then
+i\inv = a$, we would have $(z, a \then i \then \pi_2) \then i\inv = a$, or $(z,
+a \then i \then pi_2) = a \then i$, from which we may deduce that $z = a \then i
+\then \pi_1$. This proves uniqueness of the dashed map.
+\end{proof}
+
+
+We can now construct the indexed category that will form the basis of our new
+differential doctrine. We will do so at the general level of display map
+categories, since the construction relies only on this structure.
+\begin{definition}
+Let $(\cat{C}, \cat{D})$ be a category with display maps. The indexed category $\cat{D} : \cat{C}\op \to \Cat{Cat}$ is defined as
+follows:
+\begin{itemize}
+  \item To each object $C \in \cat{C}$, $\cat{D}(M)$ is the category with
+    objects the display maps
+    $\phi : E \to C$ and maps $f : E \to E'$ such that $f \then \phi' = \phi$.
+    That is, it is the full subcategory of the slice category over $C$ spanned
+    by the display maps.
+  \item To each map $f : C' \to C$, we associate the functor $f^{\ast} :
+    \cat{D}(N) \to \cat{D}(M)$ given by taking the pullback along $f$.
+\end{itemize}
+We note that this is functorial up to coherent isomorphism by the uniqueness (up
+to unique isomorphism) of the pullback.
+\end{definition}
+ 
+We can specialize this to the category of smooth manifolds with submersions the
+display maps
+\begin{definition}
+The indexed category $\Cat{Subm} : \Cat{Man}\op \to \Cat{Cat}$ is defined as follows:
+\begin{itemize}
+  \item To each manifold $M$, $\Cat{Subm}(M)$ is the category of submersions
+    $\phi : E \to M$ and maps $f : E \to E'$ such that $f \then \phi' = \phi$.
+  \item To each map $f : M \to N$, we associate the functor $f^{\ast} :
+    \Cat{Subm}(N) \to \Cat{Subm}(M)$ given by taking the pullback along $f$.
+\end{itemize}
+\end{definition}
+
+\begin{exercise}
+ Let $\cat{C}$ be a cartesian category, and equip it with the class $\cat{D}$ of maps
+ which are isomorphic to product projections, as in
+ \cref{prop.cartesian_display_maps}. Prove that $\cat{D} : \cat{C}\op \to
+ \Cat{Cat}$ is equivalent, as an indexed category, to $\smctx{-} : \cat{C}\op
+ \to \Cat{Cat}$.
+\end{exercise}
+
+If $(\cat{C}, \cat{D})$ is a category with display maps, then the category of
+charts of $\cat{D} : \cat{C}\op \to \Cat{Cat}$ is easy to understand in terms of $\cat{D}$.
+\begin{proposition}\label{prop.display_maps_charts}
+Let $(\cat{C}, \cat{D})$ be a category with display maps. Then the category
+$\Cat{Chart}_{\cat{D}} = \int^{C \in \cat{C}}\cat{D}(C)$ 
+of charts for $\cat{D} : \cat{C}\op \to \Cat{Cat}$ is equivalent to the category
+whose objects are display maps and whose morphisms are commutative squares
+between them. 
+\end{proposition}
+\begin{proof}
+An object $\lens{a^-}{A^+}$ of the category of charts is a pair consisting of an
+object $A^+ \in \cat{C}$ and a display map $a^- : A^- \to A^+$ in
+$\cat{D}(A^+)$. But $A^+$ is determined, as the codomain, by $a^-$; so the
+objects of the category of charts are in bijection with the display maps. We
+then show that the charts are similarly in bijection with
+the squares between display maps.
+
+A chart $\lens{f_{\flat}}{f} : \lens{a^-}{A^+} \rightrightarrows
+\lens{b^-}{B^+}$ for this indexed category is a pair consisting of a map $f :
+A^+ \to B^+$ in $\cat{C}$ and a triangle
+\[
+\begin{tikzcd}
+A^- \arrow[rd, "a^-"'] \arrow[rr, "f_{\flat}"] &     & f^{\ast}B^- \arrow[ld, "f^{\ast}b^-"] \\
+                                               & A^+ &                                      
+\end{tikzcd}
+\]
+By the universal property of the pullback, this data is equivalently given by
+the data of a square
+\[
+\begin{tikzcd}
+A^- \arrow[d, "a^-"'] \arrow[r, "\hat{f_{\flat}}"] & B^- \arrow[d, "b^-"] \\
+A^+ \arrow[r, "f"']                                & B^+                 
+\end{tikzcd}
+\]
+Now, consider a composite square
+\[
+\begin{tikzcd}
+A^- \arrow[d, "a^-"'] \arrow[r, "\hat{f_{\flat}}"] & B^- \arrow[d, "b^-"] \arrow[r, "\hat{g_{\flat}}"] & C^- \arrow[d, "c^-"] \\
+A^+ \arrow[r, "f"']                                & B^+ \arrow[r, "g"']                               & C^+                 
+\end{tikzcd}
+\]
+We can see that the arrow $f_{\flat} \then f^{\ast}g_{\flat} : A^- \to
+f^{\ast}g^{\ast}B^-$ composes with the projections from the pullbacks to give
+the top half of the outer square, and therefore it is the unique map into the
+pullback induced by the outer square.
+\end{proof}
+
+\begin{corollary}
+Let $(\cat{C}, \cat{D})$ be a category with display maps. To give a section of
+$\cat{D} : \cat{C}\op \to \Cat{Cat}$, it suffices to give an endofunctor $T :
+\cat{C} \to \cat{C}$ together with a natural transformation $\pi : T \to
+\id_{\cat{C}}$ whose components are all display maps.
+\end{corollary}
+\begin{proof}
+Such an endofunctor $T$ with natural transformation $\pi$ gives us a functor $C
+\mapsto \pi : TC \to C$ going from $\cat{C}$ to the category of display maps in
+$\cat{C}$ and squares between them. This functor will assign to each $f : C' \to
+C$ the naturality square 
+\[
+\begin{tikzcd}
+TC' \arrow[d, "\pi"'] \arrow[r, "Tf"] & TC \arrow[d, "\pi"] \\
+C' \arrow[r, "f"']                                & C
+\end{tikzcd}
+\]
+We note that the evident projection of the codomain composes with this functor
+to give $\id_{\cat{C}}$. By \cref{prop.display_maps_charts}, this is equivalent
+to giving such a functor into $\Cat{Chart}_{\cat{D}}$, which, by
+\cref{prop.section_indexed_category} is equivalent to giving a section of
+$\cat{D}$.
+\end{proof}
+
+We may therefore define a doctrine associated to any category with display maps
+$(\cat{C}, \cat{D})$ with such an endofunctor $T : \cat{C} \to \cat{C}$ and
+natural transformation $\pi : T \to \id_{\cat{C}}$ whose components are all
+display maps.
+
+\begin{definition}
+Let $(\cat{C}, \cat{D})$ be a category with display maps and let $T : \cat{C}
+\to \cat{C}$ be an endofunctor and
+$\pi : T \to \id_{\cat{C}}$ a natural transformation whose components are all
+display maps. Then this data forms a doctrine $\dispdoc_{\cat{D}, T}$ given by $\cat{D} : \cat{C}\op \to
+\Cat{Cat}$ and the section induced by sending $C$ to $\pi : TC \to C$ in $\cat{D}(C)$.
+\end{definition}
+
+With one last lemma, we will finally be able to define our general differential doctrine.
+\begin{lemma}
+The tangent bundle $\pi : TM \to M$ of a manifold $M$ is a submersion.
+\end{lemma}
+
+\begin{definition}
+The \emph{general differential doctrine} $\diffdoc$ is defined to be the display
+category doctrine
+$\dispdoc_{\Cat{Subm}, T}$ associated to the $\Cat{Subm} : \Cat{Man}\op \to
+\Cat{Cat}$ and the tangent bundle functor $T$.
+\end{definition}
+
+
 % writehere
 
 \subsection{Non-deterministic doctrines}
