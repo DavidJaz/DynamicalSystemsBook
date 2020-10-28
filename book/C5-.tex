@@ -2906,7 +2906,8 @@ What it also means is that if you want, you can put a little dynamical system in
 %---- Subsection ----%
 \subsection{Closure of $\otimes$}%[-,-]
 
-The parallel monoidal product is closed, meaning that there is an operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$ and an isomorphism
+
+The parallel monoidal product is closed---we have a monoidal closed structure on $\poly$---meaning that there is an operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$ and an isomorphism
 \[
   \poly(p\otimes q,r)\cong\poly(p,\ihom{q,r})
 \]
@@ -2914,6 +2915,16 @@ natural in $p,q,r$. The closure operation is defined on $q,r$ as follows:
 \begin{equation}\label{eqn.dir_hom}
 	\ihom{q,r}\coloneqq\prod_{j\in q(\1)}r\circ(q[j]\yon)
 \end{equation}
+
+\begin{exercise}
+Show that there is an isomorphism
+\[
+\scalebox{1.3}{$\displaystyle
+[q,r]\cong\sum_{f\colon p\to q}\yon^{\sum_{i\in q(\1)}r[f(i)]}
+$}
+\]
+where the sum is indexed by $f\in\poly(p,q)$.
+\end{exercise}
 
 \begin{example}\label{ex.double_dual}
 For any $A\in\smset$ we have

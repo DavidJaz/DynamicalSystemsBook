@@ -3981,16 +3981,16 @@ A \emph{morphism} of copointed polynomials $f\colon (p,\epsilon)\to(p',\epsilon'
 
 Comonoids in $\poly$ are triples $(p,\epsilon,\delta)$, with $(p,\epsilon)$ a copointed polynomial, so there are forgetful functors
 \[
-\Cat{Comon}(\poly)\to\Cat{Copnt}(\poly)\to\poly.
+\Cat{Comon}(\poly)\to\Cat{Cpt}(\poly)\to\poly.
 \]
 We want to find the right adjoint to the composite---that's the functor $\cofree{-}\colon\poly\to\Cat{Comon}(\poly)$---and we will obtain it in two steps. 
 
 \begin{proposition}\label{prop.copointing}
 For any polynomial $p$, the polynomial $p\yon$ is naturally copointed by the projection to $\yon$, and the functor sending $p\mapsto p\yon$ is right adjoint to the forgetful functor
 \[
-\adj{\Cat{Copnt}(\poly)}{p\yon}{q}{\poly},
+\adj{\Cat{Cpt}(\poly)}{p\yon}{q}{\poly},
 \]
-where the functors are named by where they send $p\in\poly$ and $(q,\epsilon)\in\Cat{Copnt}(\poly)$.
+where the functors are named by where they send $p\in\poly$ and $(q,\epsilon)\in\Cat{Cpt}(\poly)$.
 \end{proposition}
 \begin{proof}
 Clearly the product $p\yon\cong p\times\yon$ is copointed by the projection map, call it $\pi\colon p\yon\to\yon$, and the map $p\mapsto p\yon$ is functorial in $p$. For any copointed polynomial $q\To{\epsilon}\yon$, there is an obvious bijection between morphisms of polynomials $q\to p$ and commutative triangles
@@ -4003,6 +4003,10 @@ Clearly the product $p\yon\cong p\times\yon$ is copointed by the projection map,
 \]
 natural in both $q$ and $p$. This completes the proof.
 \end{proof}
+
+\begin{exercise}
+Show that the copointing functor is essentially surjective. That is, every polynomial $p$ equipped with a map $\epsilon\colon p\to\yon$ is isomorphic to one of the form $p'\yon$ (equipped with the projection $p'\yon\to\yon$).
+\end{exercise}
 
 The reader might not remember any sort of copointing showing up in the tree description of $\cofree{p}=(\tr_p,\rt,\fs)$. Indeed, it was hidden in the fact that we allowed for trivial paths in the tree (e.g.\ the path from the root to itself). But we'll get to that.
 
@@ -4048,6 +4052,15 @@ So given a dynamical system $S\yon^S\to p\tripow{k}$, which outputs as its posit
 
 Given a dynamical system $f\colon S\yon^S\to p$, where $p$ is copointed and $f$ preserves the copoint, we could speed it up as before to get $S\yon^S\to p\tripow{k}$ and then slow it down to get $S\yon^S\to p$, and we get back $f$. So slowing down is a retract of speeding up in this sense.
 \end{example}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Show that there is a monoidal structure $(\yon,\otimes)$ on $\Cat{Cpt}(\poly)$ such that the forgetful functor $U\colon\Cat{Cpt}(\poly)\to\poly$ is strong monoidal.
+	\item Show that this monoidal structure is closed, i.e.\ that there is an internal hom $[-,-]$ on $\Cat{Cpt}(\poly)$. Hint: you should have $U([p\yon,q\yon]_{\Cat{Cpt}})\cong[p\yon,q]_{\poly}\yon$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 
 \paragraph{Constructing the cofree comonoid.}
 
@@ -4160,7 +4173,7 @@ Let's denote the shape of this diagram by $\Delta_+$: its objects are finite ord
 \begin{theorem}\label{thm.cofree}
 For any copointed polynomial $q\To{\epsilon}\yon$, let $\bar{q}$ denote the limit of $Q\colon\Delta_+\to\poly$. It naturally has the structure of a comonoid $(\bar{q},\epsilon,\delta)$, and this construction is right adjoint to the forgetful functor
 \[
-\adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Copnt}(\poly)}.
+\adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Cpt}(\poly)}.
 \]
 \end{theorem}
 \begin{proof}[Proof sketch]
