@@ -19,10 +19,6 @@ I will think about it.\\
 \end{quote}
 
 %\tableofcontents*
-\bigskip
-\begin{center}
-	\today
-\end{center}
 
 %-------- Section --------%
 \section{Introduction}
@@ -3023,6 +3019,36 @@ In other words $\ihom{p,\yon}$ holds within it all of the possible ways $p$ can 
 To investigate this just a bit, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$. That is, for each position in $p$ it produces a direction there, which is just what $p$ needs as input.
 
 Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,\yon)$. Then each state $s$ would include a guess $g(s)$ about what the state of the environment is in. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,\yon}$. The robot's states model environmental conditions.
+\end{example}
+
+
+\begin{exercise}\label{exc.sum_times_closure}
+Show that for any polynomials $p_1,p_2,q$, we have an isomorphism
+\[
+[p_1+p_2,q]\cong[p_1,q]\times[p_2,q].
+\]
+\end{exercise}
+
+\begin{example}[Chu $\&$]
+Suppose given polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
+\[
+	\varphi_1\colon p_1\otimes q_1\to r
+	\qqand
+	\varphi_2\colon p_2\otimes q_2\to r
+\]
+One might call these ``$r$-Chu spaces''. One operation you can do with these as Chu spaces is to return something denoted $\varphi_1\&\varphi_2$, or ``$\varphi_1$ \emph{with} $\varphi_2$'' of the following type:
+\[
+\varphi_1\&\varphi_2\colon (p_1\times p_2)\otimes (q_1+q_2)\to r
+\]
+Suppose given a position in $p_1$ and a position in $p_2$. Then given a position in either $q_1$ or $q_2$, one evaluates either $\varphi_1$ or $\varphi_2$ respectively to get a position in $r$; given a direction there, one returns the corresponding direction in $q_1$ or $q_2$ respectively, as well as a direction in $p_1\times p_2$ which is either a direction in $p_1$ or in $p_2$.
+
+This sounds complicated, but it can be done formally, once we have monoidal closure. We first rearrange both $\varphi_1,\varphi_2$ to be $p$-centric, using monoidal currying:
+\[
+\psi_1\colon p_1\to [q_1,r]
+\qqand
+\psi_2\colon p_2\to [q_2,r]
+\]
+Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to[q_1,r]\times[q_2,r]$. Now we use \cref{exc.sum_times_closure} to see that $[q_1,r]\times[q_2,r]\cong[q_1+q_2,r]$, and then finally monoidal-uncurry to obtain $p_1\times p_2)\otimes(q_1+q_2)\to r$ as desired.
 \end{example}
 
 
