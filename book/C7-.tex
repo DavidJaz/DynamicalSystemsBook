@@ -900,6 +900,14 @@ Thus $m(1)$ is a database instance on $\cat{D}$; in particular, each position in
 
 Before we knew about bimodule structures, what we called positions and directions---and what we often think of as outputs and inputs of a system---were understood as each forming an ordinary set. In the presence of a bimodule structure, the positions $m(\1)$ have been organized into a $\cat{D}$-set and the directions $m[i]$ have been organized into a $\cat{C}$-set for each position $i$. We are listening for $\cat{C}$-sets and positioning ourselves in a $\cat{D}$-set.
 
+\begin{theorem}
+The 2-functor $\Fun{Copsh}\bimod{}{}\to\smcat$ given by $\cat{C}\mapsto\bimod{C}{\0}$ is fully faithful.
+\end{theorem}
+\begin{proof}
+The functor $\Fun{Copsh}$ sends $\cat{C}$ to the corresponding copresheaf category $\cat{C}\set$ by \cref{thm.tfae_c_sets}.
+
+**Finish**
+\end{proof}
 
 
 %\begin{example}\label{ex.clue_suggestions}
@@ -1069,8 +1077,42 @@ The category $\bimod{\ema{d}}{\ema{c}}$ is a rig category: it has a terminal obj
 For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
 \end{proof}
 
+
+
+
 \section{The proarrow equipment}
 A type of categorical structure called pro arrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
+
+\subsection{Adjoint bimodules}
+
+\begin{proposition}
+A functor $F\colon\cat{C}\to\cat{D}$ gives rise to a right adjoint bimodule (= left adjoint pra) $\ema{c}\bimodfrom[\Delta_F]\ema{d}$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimodule (= right adjoint pra) $\ema{c}\bimodfrom[\wh\varphi]\ema{d}$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+A pra $\cat{C}\smset\to\cat{D}\smset$ is a left adjoint if it is of the form $\Sigma_G\circ\Delta_F$ for functors $\cat{C}\From{F}\cat{X}\To{G}\cat{D}$, where $G$ is a discrete opfibration.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{corollary}\label{cor.cartesian_cof_extra_adjoint}
+If $\varphi\colon\cat{C}\cof\cat{D}$ is a cartesian cofunctor corresponding to a discrete opfibration $F\colon\cat{C}\to\cat{D}$, then there is an isomorphism $\wh{\varphi}\cong\Delta_F$. In particular, this gives rise to an adjoint triple.
+\end{corollary}
+\begin{proof}
+**
+\end{proof}
+
 
 %-------- Section --------%
 \section{Discussion and open questions}\label{sec.discussion_open_qs}
