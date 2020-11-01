@@ -883,8 +883,43 @@ It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is repr
 Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
 \end{proof}
 
+\subsection{Morphisms between bimodules}
+
+\begin{proposition}
+The category $\bimod{\ema{d}}{\ema{c}}$ is a rig category: it has a terminal object (carried by $\ema{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
+\end{proposition}
+\begin{proof}
+For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
+\end{proof}
+
+\paragraph{Adjoint bimodules}
+
+\begin{exercise}
+Recall that there is a unique $(\0,\cat{C})$-bimodule, namely $\0\bimodfrom[\0]\cat{C}$.
+\begin{enumerate}
+	\item Show that $\0$ has a left adjoint $\cat{C}\bimodfrom\0$; what is its carrier?
+	\item Show that $\0$ has a right adjoint $\cat{C}\bimodfrom\0$; what is its carrier?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \subsection{Bimodules as data migration functors}
+
+
+\begin{proposition}\label{prop.prafunctor}
+Let $\cat{C}$ and $\cat{D}$ be categories; the following conditions on a functor $F\colon\cat{C}\set\to\cat{D}\set$ are equivalent.
+\begin{enumerate}
+	\item $F$ is composition with a $(\cat{D},\cat{C})$-bimodule.
+	\item $F$ is a parametric right adjoint in the sense of \cite{}.
+	\item $F$ ... $\Sigma\Pi\Delta$
+	\item $F$ profunctor + discrete opfibration
+	\item $F$ preserves connected limits.
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}{Pra-functors}
+Let $\cat{C}$ and $\cat{D}$ be categories. A \emph{pra-functor} (also called a \emph{parametric right adjoint functor}) $\cat{C}\set\to\cat{D}\set$ is one satisfying any of the conditions of \cref{prop.prafunctor}
+\end{definition}
 
 When a polynomial
 \[
@@ -1067,15 +1102,6 @@ for a bimodule $\ema{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
 
 Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with carrier $\yon^S\in\poly$.
 \end{proposition}
-
-\subsection{Morphisms between bimodules}
-
-\begin{proposition}
-The category $\bimod{\ema{d}}{\ema{c}}$ is a rig category: it has a terminal object (carried by $\ema{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
-\end{proposition}
-\begin{proof}
-For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
-\end{proof}
 
 
 
