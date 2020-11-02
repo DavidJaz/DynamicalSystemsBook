@@ -1125,6 +1125,14 @@ A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimod
 **
 \end{proof}
 
+\begin{example}[Types on database tables]
+For a category $\cat{C}$, a functor $\cat{C}\to\smset$ doesn't appear to have actual attributes, e.g.\ string, integers, etc., attached to its elements. To correct this, let's add a type $T_c$ to each table in $c$, and ask that each row in $c$ is assigned an element of $T_c$.
+
+To do this, we give a functor $T\colon\Ob(\cat{C})\to\smset$, i.e.\ $\Ob(\cat{C})\bimodfrom[T]\0$. We also have the canonical cofunctor $o\colon\cat{C}\cof\Ob(\cat{C})$. Now given an arbitrary instance $\cat{C}\bimodfrom[I]\0$, there are two things we could do. We could push it forward along the left adjoint prafunctor $\Ob(\cat{C})\bimodfrom\cat{C}$ and then map it to $T$. 
+
+Perhaps better would be to compose $T$ with the right adjoint prafunctor $\cat{C}\bimodfrom\Ob(\cat{C})\bimodfrom[T]\0$ and map $I$ into that composite. The reason it is better is that the category of coalgebras $I$ equipped with a map into a fixed coalgebra $X$ (e.g.\ $X=\check{o}\tri_{\Ob\cat{C}}T$) is equivalent to the category of coalgebras (instances) on the category of elements $\int^\cat{C}X$. So we have found that instances, even equipped with types, can be understood just in terms of $\cat{C}$-sets, beefing up $\cat{C}$ if necessary.
+\end{example}
+
 \begin{proposition}
 A pra $\cat{C}\smset\to\cat{D}\smset$ is a left adjoint if it is of the form $\Sigma_G\circ\Delta_F$ for functors $\cat{C}\From{F}\cat{X}\To{G}\cat{D}$, where $G$ is a discrete opfibration.
 \end{proposition}
@@ -1161,6 +1169,7 @@ In this section, we lay out some questions that whose answers may or may not be 
   \item What limits exist in $\smcat^\sharp$? Describe them combinatorially.
   \item Since the forgetful functor $U\colon\smcat^\sharp\to\poly$ is faithful, it reflects monomorphisms: if $f\colon\cat{C}\cof\cat{D}$ is a cofunctor whose underlying map on emanation polynomials is monic, then it is monic. Are all monomorphisms in $\smcat^\sharp$ of this form?
   \item At first blush it appears that $\poly$ may be suitable as the semantics of a language for protocols. Develop such a language or showcase the limitations that make it impossible or inconvenient.
+  \item Are there polynomials $p$ such that one use something like G\"odel numbers to encode logical propositions from the topos $\tr_p\set$ into a ``language'' that $p$-dynamical systems can ``work with''?
 \end{enumerate}
 
 
