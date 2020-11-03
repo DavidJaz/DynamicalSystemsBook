@@ -387,7 +387,23 @@ Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
 \]
 Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
 \begin{proof}
-Fill.
+We prove this in two pieces: that
+\begin{equation} \label{eqn.flipping1}
+\poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
+\end{equation}
+and that
+\begin{equation} \label{eqn.flipping2}
+\poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
+\end{equation}
+
+For \cref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
+Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
+So this follows from the corresponding universal properties.
+
+For \cref{eqn.flipping2}, we first write out the two sets by hand.
+To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
+Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
+These are clearly isomorphic.
 \end{proof}
 
 \begin{exercise}
