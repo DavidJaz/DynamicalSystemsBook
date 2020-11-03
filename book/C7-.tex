@@ -843,6 +843,115 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 \begin{proposition}[Niu]
 Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
 \end{proposition}
+\begin{proof}
+    Given a left $\com{C}$-module $m$, we begin by denoting it using polyboxes:
+    	\[
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+  	\node[poly, cod, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" right] (c)  {$f$ \nodepart{two} $i$};
+  	\node[poly, cod, above=of c, "$m$" right] (mm) {$q$};
+  	\draw (m_pos) to[first] node[below] {$\lambda_1$}(c_pos);
+  	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+  	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+  \end{tikzpicture}
+	\]
+	satisfying
+	\begin{equation} \label{eqn.resp_counit}
+    \begin{tikzpicture}
+    	\node (1) {
+    \begin{tikzpicture}[polybox, tos]
+      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+      	\node[poly, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+      	\node[poly, above=of c, "$m$" above] (mm) {$q'$};
+      	\node[poly, cod, identity, right=of c] (y) {};
+      	\node[poly, cod, above=of y, "$m$" above] (mmm) {$q'$};
+      	\draw (c_pos) -- (y_pos);
+      	\draw (y_dir) -- node[above] {$\idy$} (c_dir);
+      	\draw[double] (mm_pos) -- (mmm_pos);
+      	\draw[double] (mmm_dir) -- (mm_dir);
+      	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+      	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+      	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+    \end{tikzpicture}
+    	};
+    \node[right=1.6 of 1] (2) {
+    \begin{tikzpicture}[polybox, tos]
+      \node[poly, dom, "$m$" left] (m) {$q'$ \nodepart{two} $j$};
+      \node[poly, cod, right= of m, "$m$" right] (mm) {$q'$ \nodepart{two} $j$};
+  	  \draw[double] (m_pos) -- (mm_pos);
+      \draw[double] (mm_dir) -- (m_dir);
+    \end{tikzpicture}
+    };
+	\node at ($(1.east)!.5!(2.west)$) {=};
+    \end{tikzpicture}
+	\end{equation}
+	and
+	\begin{equation} \label{eqn.resp_comult}
+    \begin{tikzpicture}
+    	\node (1) {
+    \begin{tikzpicture}[polybox, tos]
+      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+      	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+      	\node[poly, above=of c, "$m$" above] (mm) {};
+      	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+      	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+      	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+    %
+    	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+    	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+    	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+    	\draw[double] (c_pos) to[first] (cc_pos);
+    	\draw (cc_dir) to[climb] node[right] {$\cod$} (ccc_pos);
+    	\draw (ccc_dir) to[last] node[above, sloped] {$\comp$}  (c_dir);
+    	\draw[double] (mm_pos) to[first] (mmm_pos);
+    	\draw[double] (mmm_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+    	\node[right=1.8 of 1] (2) {
+    \begin{tikzpicture}[polybox, tos]
+      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+      	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {$f$ \nodepart{two} $i$};
+      	\node[poly, above=of c, "$m$" above] (mm) {};
+      	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+      	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+      	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+    %
+    	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+    	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+    	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+    	\draw[double] (c_pos) to[first] (cc_pos);
+    	\draw[double] (cc_dir) to[last] (c_dir);
+    	\draw (mm_pos) to[first] node[below] {$\lambda_1$} (ccc_pos);
+    	\draw (ccc_dir) to[climb] node[right] {$\lambda_2$} (mmm_pos);
+    	\draw (mmm_dir) to[last] node[above left] {$\lambda^\sharp$} (mm_dir);
+	\end{tikzpicture}    	};
+    	\node at ($(1.east)!.5!(2.west)$) {=};
+    \end{tikzpicture}
+    \end{equation}
+    
+    We give the functor $L \colon \cat{C} \to \poly$ corresponding to $m$.
+    To each object $i \in \Ob(\cat{C}) = \ema{c}(\1)$, we assign
+    \[
+        L(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
+    \]
+    Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L(f) \colon L(i) \to L(\cod(f))$.
+    On positions, $L(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_comult} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L(\cod(f))$.
+    On directions, $L(f)$ sends each $q \in L(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L(i)[j]$.
+    
+    It is routine to check that \eqref{eqn.resp_counit} implies that $F$ preserves identities, while \eqref{eqn.resp_comult} implies that $F$ preserves composition.
+    
+    Conversely, it is clear that we can recover the left $\com{C}$-module $m$ equipped with $\lambda \colon m \to c \tri m$ to which a functor $L \colon \cat{C} \to \poly$ corresponds as follows.
+    We can write
+    \[
+        m = \sum_{i \in \cat{C}} L(i).
+    \]
+    Then $\lambda_1$ sends each $j \in m(\1)$ to the unique $i \in \cat{C}$ for which $j \in L(i)(\1)$.
+    Meanwhile, by our construction above, $\lambda_2$ and $\lambda^\sharp$ can be directly recovered from the behavior of $L$ on morphisms in $\cat{C}$.
+    Similarly, \eqref{eqn.resp_counit} and \eqref{eqn.resp_comult} follow from the functoriality of $F$.
+    
+    **Finish with morphisms**
+\end{proof}
+
 
 \begin{proposition}
 For any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
