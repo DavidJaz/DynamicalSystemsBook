@@ -7,7 +7,7 @@
 
 
 %------------ Chapter ------------%
-\chapter{How systems behave: Trajectories, Steady States, and Periodic Orbits}\label{chapter.2}
+\chapter{How systems behave}\label{chapter.2}
 
 \section{Introduction}
 
@@ -1872,6 +1872,50 @@ which is to say more precisely that every equivalence class $[(f, p)] \in
   \end{enumerate}
 \end{exercise}
 
+\begin{example}
+  A profunctor $\ord{1} \tickar \cat{A}$ is the same thing as a functor $\cat{A}
+  \to \smset$, and a profunctor $\cat{A} \tickar \ord{1}$ is the same thing as a
+  functor $\cat{A}\op \to \smset$. Profunctors are therefore intimately related
+  with presheaves.
+\end{example}
+
+Now, we are ready to put functors and profunctors together into a double category.
+\begin{definition}\label{def.double_cat_of_cats}
+The double category $\Cat{Cat}$ of categories, profunctors, and functors
+has
+\begin{itemize}
+\item Objects the categories.
+\item Horizontal category the category of categories and profunctors.
+\item Vertical category the category of categories and functors between them.
+\item A square 
+\[
+\begin{tikzcd}[sep = small]
+  \cat{A} \ar[rr, tick, "P"] \ar[dd, "F"'] & & \cat{B} \ar[dd, "G"] \\
+  & \alpha & \\
+\cat{C} \ar[rr, tick, "Q"'] & & \cat{D}
+\end{tikzcd}
+\]
+Is a natural transformation $\alpha : P \rightarrow Q(F, G)$, where $Q(F, G)$ is
+the profunctor $\cat{A}\op \times \cat{B} \xto{F\op \times G} \cat{C} \times
+\cat{D} \xto{Q} \smset$. For $p : A \tickar B$, we have $\alpha(p) : FA \tickar
+GB$, and naturality says that $\alpha(fpg) = (Ff)\alpha(p)(Gg)$.
+\item Vertical composition of squares is given by composing the natural transformations.
+\item Given squares $\alpha : P_1 \rightarrow Q_1(F_1, F_2)$ and $\beta : P_2
+  \to Q_2(F_2, F_3)$, we define their horizontal composite $\alpha \mid \beta :
+  P_1 \cdot P_2 \to (Q_1 \cdot Q_2)(F_1, F_3)$ by 
+$$(\alpha \mid \beta)(A_1 \xtickar{p_1} A_2 \xtickar{p_2} A_3) = F_1 A_1
+\xtickar{\alpha(p_1)} F_2 A_2 \xtickar{\beta(p_2)} F_3 A_3$$
+and checking that this descends correctly to the quotient.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+  We are using ``$\Cat{Cat}$'' to refer to the category of categories and
+  functors and to the double category of categories, profunctors, and functors.
+  The one we mean will be clear from context, and the category of categories and
+  functors is the vertical category of the double category of categories.
+\end{remark}
+
 \begin{remark}
   We omit full proofs of associativity and unitality for profunctor composition
   because they are best done with the \emph{coend calculus}, and this would take
@@ -2768,8 +2812,121 @@ $\dispdoc_{\Cat{Subm}, T}$ associated to the $\Cat{Subm} : \Cat{Man}\op \to
 \Cat{Cat}$ and the tangent bundle functor $T$.
 \end{definition}
 
+A dynamical system in the general differential doctrine $\diffdoc$ consists of a
+state space $\State{S}$, and output space $\Out{S}$, but then a \emph{submersion
+of inputs} $\pi_{\In{S}} : \In{S} \to \Out{S}$. We can think of $\pi$ as assigning to
+each input the output that it is valid for. The update then has signature 
+$$\update{S} : \expose{S}^{\ast} \pi_{\In{S}} \to \pi_{T\State{S}}$$
+which is to say that it is a triangle of the form
+\[
+\begin{tikzcd}
+\State{S} \times_{\Out{S}} \In{S} \ar[dr, "\pi_1"'] \ar[rr, "\update{S}"] & & T\State{S} \ar[dl, "\pi"]
+\\
+& \State{S} &
+\end{tikzcd}
+\] 
+which assigns to each state-input pair $(s, i)$ where $i$ is valid given the
+state $s$ in the sense that $\expose{S}(s) = \pi_{\In{S}}(i)$ to a tangent
+vector at $s$. There will be a lot more to say about dynamical systems in which
+the sorts of inputs allowed depend on the current output in later chapters, but
+for now we'll have to content ourselves with a simple example.
 
-% writehere
+\begin{example}
+Let's see an example of a situation where the inputs may differ over different
+outputs. Suppose we have a robot on a distant planet, and we are directing it.
+When we tell it to move in a direction, the robot will move in the given
+direction at a given speed $k$. We want to keep
+track of the position of the robot as it moves around the planet.
+
+We can model this situation as follows: since the surface of the planet is a
+sphere and we want to keep track of where the robot is, we will let $\State{S} =
+S^2$ be a sphere. We will also have the robot reveal its position to us, so that
+$\Out{S} = S^2$ and $\expose{S} = \id$.
+
+Now, in any given position $p \in \Out{S}$, we want the space of inputs
+$\In{S}_p$ valid for $p$ to be the directions we can give to the robot: that is
+to say, $\In{S}_p \cong S^1$ should form a circle. However, we want these
+directions to be directions that the robot could actually travel, so we will let
+$\In{S}_p = \{v \in T_p \Out{S}\mid |v| = 1\}$ be the unit circle in the tangent
+space at $p$. Then we may describe the fact that the robot moves in the
+direction we tell it by defining
+$$\update{S}(s, i) = ki.$$
+\end{example}
+
+We note that any system $\Sys{S}$ in the Euclidean differential doctrine can be
+considered as
+a system in the general differential doctrine by defining the bundle of inputs
+to the $\pi_1 : \Out{S} \times \In{S} \to \Out{S}$ and noting that the pullback
+of a product projection is a product projection, so that we may take the domain
+of the new update $u : \expose{S}^{\ast} \pi_1 \to \pi_{T\State{S}}$ to be
+$\State{S} \times \In{S}$, just as it was. We may then define $u(s, i) = (s,
+\update{S}(s, i))$, equating $T\State{S} = T\rr^n$ with $\rr^n \times \rr^n$.
+Later, when we discuss change of doctrine, we will see that this follows from a
+\emph{morphism of doctrines} $\eucdiff \to \diffdoc$.
+
+We can now describe periodic orbits as behaviors in the general differential doctrine.
+\begin{example}
+  Let $\Sys{Clock_k}$ be the system in $\diffdoc$ with:
+\begin{itemize}
+ \item State space $ \State{Clock_k} = \rr / k \zz$,
+ \item Output space $\Out{Clock_k} = \rr / k \zz$ with $\expose{Clock_k} = \id$.
+ \item Input bundle the identity $\In{Clock_k} = \id_{\Out{Clock_k}}$.
+ \item Update $\update{Clock_k} : \State{Clock_k} \to T\State{Clock_k}$ the
+   assigning each state $s$ to the vector $Tq(1)$, the pushforward of the
+   constant vector $1$ on $\rr$ by the quotient
+   $q : \rr \to \rr / k \zz$.
+\end{itemize}
+The universal property of $\rr / k \zz$ says that a smooth function $\gamma :
+\rr \to M$ factors through $q : \rr \to \rr / k \zz$ if and only if $\gamma(kn)
+= \gamma(0)$ for all $n \in \zz$.
+
+A chart for $\Sys{Clock_k}$ into a system $\Sys{S}$ is a square
+\[
+  \begin{tikzcd}
+    \rr / k \zz \ar[r, "p"] \ar[d, equals] & \In{S} \ar[d, "\pi"] \\
+    \rr / k \zz \ar[r, "v"'] & \Out{S}
+  \end{tikzcd}
+\]
+By the various universal properties involved, this is the same data as a pair of maps $\hat{p} : \rr \to
+\In{S}$ and $\hat{v} : \rr \to \Out{S}$ for which $\hat{p}(nk) = 0$ and
+$\hat{v}(nk) = 0$ for all $n \in \zz$, and for which $\pi \circ \hat{i} =
+\hat{v}$.
+
+Now, a behavior $\phi : \Sys{Clock_k} \to \Sys{S}$ is a square
+  \[
+    \begin{tikzcd}
+      \lens{T(\rr / k \zz)}{\rr / k \zz} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{1}{\id}"'] \ar[d, shift left, leftarrow] &
+      \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{{\ast}}{\rr} \ar[r, shift right] \ar[r,
+      shift left, "\lens{p}{v}"'] & \lens{\In{S}}{\Out{S}}
+    \end{tikzcd}
+  \]
+  Let $\hat{\phi} : \rr \to \State{S}$ be $\phi \circ q$. First, this being a
+  square means that $\expose{S} \circ \phi = v$, or that
+  $\expose{S}(\hat{\phi}(t)) = v(t)$. Second, we have that
+  \[
+\phi^{\ast}\update{S} \circ p = T\phi \circ \update{Clock_k},
+  \]
+  which is to say
+  \[
+\update{S}(\phi(t), p(t)) = T\phi(Tq(1)).
+\]
+Re-expressing this in terms of $\hat{\phi} = \phi \circ q$, we see that this
+means that
+\[
+\update{S}(\hat{\phi}(t), \hat{p}(t)) = \frac{d\hat{\phi}}{dt}.
+\]
+This says that $\hat{\phi}$ is a trajectory for the system. Since by definition
+$\hat{\phi}$ is periodic, and any such periodic map would factor through $q$, we
+may conclude that behaviors $\Sys{Clock_k} \to \Sys{S}$ are periodic orbits
+(with period dividing $k$) of $\Sys{S}$.
+\end{example}
+
+\begin{exercise}
+
+\end{exercise}
 
 \subsection{Non-deterministic doctrines}
 
@@ -2777,33 +2934,39 @@ In this section, we will define the non-deterministic doctrines. We've already
 done most of the work for this back in 
 
 \section{Behaviors in general}\label{sec.behaviors_general}
-Let's take a minute to see what composition of squares in the double category of
+Now that we have defined the general notion of doctrine and seen how the
+behaviors of a system in any doctrine are given by squares in the double
+categories of arenas in that doctrine, we can quickly derive a few
+compositionality results about systems. In the next section, we will organize
+these results into \emph{doubly indexed functors}, but for now, it will suffice
+to understand what they mean on their own.
+
+Let's see what composition of squares in the double category of
 arenas means for systems. Horizontal composition is familiar because it's what
 lets us compose behaviors:
 \[
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-    \lens{\State{S}}{\State{S}} \ar[r, shift left, "\lens{\psi \circ
-      \pi_2}{\psi}"] \ar[r, shift right] \ar[d, shift left, leftarrow,
+    \lens{T\State{S}}{\State{S}} \ar[r, shift left, "\lens{T\psi}{\psi}"] \ar[r, shift right] \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right] &
-    \lens{\State{U}}{\State{U}}\ar[d, shift left, leftarrow,
+    \lens{T\State{U}}{\State{U}}\ar[d, shift left, leftarrow,
     "\lens{\update{U}}{\expose{U}}"] \ar[d, shift right] \\
     \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f}"'] \ar[r,
     shift left] & \lens{\In{S}}{\Out{S}} \ar[r, shift right,
     "\lens{g_{\flat}}{g}"'] \ar[r, shift left]& \lens{\In{U}}{\Out{U}}
   \end{tikzcd} \xequals{\quad}
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\psi\phi \circ
-      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T(\psi\phi)}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-    \lens{\State{U}}{\State{U}} \ar[d, shift left, leftarrow,
+    \lens{T\State{U}}{\State{U}} \ar[d, shift left, leftarrow,
     "\lens{\update{U}}{\expose{U}}"] \ar[d, shift right]\\
     \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g}"']
     \ar[r, shift left] & \lens{\In{U}}{\Out{U}}
   \end{tikzcd}
 \]
+So, we have a category of systems and behaviors in any doctrine, just as we
+defined in the deterministic doctrine.
 
 On the other hand, vertical composition tells us something else interesting: if
 you get a chart $\lens{g_{\flat}}{g}$ by wiring together a chart
@@ -2812,10 +2975,9 @@ chart $\lens{f_{\flat}}{f}$ induces a behavior with chart $\lens{g_{\flat}}{g}$
 on the wired together systems.
 \[
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
     \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
         leftarrow] \ar[r, shift right, "\lens{f_{\flat}}{f}"']
@@ -2825,10 +2987,9 @@ on the wired together systems.
     \ar[r, shift left] & \lens{I'}{O'} \\
   \end{tikzcd} \xequals{\quad}
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{f^{\sharp}}{f} \circ \lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{k^{\sharp}}{k} \circ \lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
     \lens{I}{O} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
     \ar[r, shift left] & \lens{I}{O'}
@@ -2861,7 +3022,33 @@ Recall the categories $\Cat{Sys}\lens{I}{O}$ of systems with the interface
 $\lens{I}{O}$ from
 \cref{def.cat_of_systems_discrete}. One thing that vertical composition in the
 double category of arenas shows us is that wiring together systems is functorial
-with respect to behaviors that don't change the interface.
+with respect to simulations --- that is, behaviors that don't change the
+interface.
+
+We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary doctrine.
+  \begin{definition}
+  Let $\mathbb{D} = (\cat{A}, T)$ be a dynamical system doctrine. For a
+    $\cat{A}$-arena $\lens{I}{O}$, the category $\Cat{Sys}\lens{A}{C}$ of
+    $\mathbb{D}$-systems with interface $\lens{I}{O}$ is defined by:
+\begin{itemize}
+  \item Its objects are $\cat{A}$-lenses $\lens{\update{S}}{\expose{S}} :
+    \lens{T\State{S}}{\State{S}} \fromto \lens{I}{O}$, which we can call
+    \emph{systems} in this general setting.
+  \item Its maps are \emph{simulations}, the squares 
+\[
+    \begin{tikzcd}
+      \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{I}{O} \ar[r, shift right, equals] \ar[r,
+      shift left, equals] & \lens{I}{O}
+    \end{tikzcd}
+\]
+\item Composition is given by horizontal composition in the double category
+  $\Cat{Arena}_{\cat{A}}$ of $\cat{A}$-arenas.
+\end{itemize}
+  \end{definition}
 \begin{proposition}\label{prop.lens_comp_functor_discrete}
   For a lens $\lens{f^{\sharp}}{f} : \lens{I}{O} \leftrightarrows
   \lens{I'}{O'}$, we get a functor
@@ -2870,24 +3057,22 @@ with respect to behaviors that don't change the interface.
   Given by composing with $\lens{f^\sharp}{f}$:
   \begin{itemize}
     \item For a system $\Sys{S} = \lens{\update{S}}{\expose{S}} :
-      \lens{\State{S}}{\State{S}}\fromto \lens{I}{O}$,
+      \lens{T\State{S}}{\State{S}}\fromto \lens{I}{O}$,
       $$\Cat{Sys}\lens{f^{\sharp}}{f}(\Sys{S}) = \lens{f^{\sharp}}{f} \circ \lens{\update{S}}{\expose{S}}.$$
     \item For a behavior, $\Cat{Sys}\lens{f^{\sharp}}{f}$ acts in the following way:
       \[
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
     \lens{I}{O} \ar[r, shift right, equals]
     \ar[r, shift left, equals] & \lens{I}{O'}
   \end{tikzcd} \quad \mapsto \quad
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
     \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{f^{\sharp}}{f}"'] \ar[d, shift left,
         leftarrow] \ar[r, shift right, equals]
@@ -2903,67 +3088,18 @@ with respect to behaviors that don't change the interface.
   The functoriality of this construction can be seen immediately from the
   interchange law of the double category:
   \begin{align*}
-  \frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
-    \circ \pi_2}{\psi} \right. }{\littlelens{f^{\sharp}}{f}} &= \frac{\left.\littlelens{\phi \circ \pi_2}{\phi} \middle| \littlelens{psi
-    \circ \pi_2}{\psi} \right. }{\left. \littlelens{f^{\sharp}}{f} \middle| \littlelens{f^{\sharp}}{f} \right.} &\mbox{by the horizontal identity law,}\\
+  \frac{\left.\littlelens{T\phi}{\phi} \middle| \littlelens{T\psi}{\psi} \right. }{\littlelens{f^{\sharp}}{f}} &= \frac{\left.\littlelens{T\phi }{\phi} \middle| \littlelens{T\psi
+    }{\psi} \right. }{\left. \littlelens{f^{\sharp}}{f} \middle| \littlelens{f^{\sharp}}{f} \right.} &\mbox{by the horizontal identity law,}\\
     &= \left.
-      \frac{\littlelens{\phi \circ \pi_2}{\phi}}{\littlelens{f^{\sharp}}{f}}
-      \middle|\frac{\littlelens{\psi \circ
-          \pi_2}{\psi}}{\littlelens{f^{\sharp}}{f}} \right. &\mbox{by the interchange law.}
+      \frac{\littlelens{T\phi }{\phi}}{\littlelens{f^{\sharp}}{f}}
+      \middle|\frac{\littlelens{T\psi}{\psi}}{\littlelens{f^{\sharp}}{f}} \right. &\mbox{by the interchange law.}
   \end{align*}
+  Identities are clearly preserved, since the underlying morphism $\phi :
+  \State{T} \to \State{S}$ is not changed. 
 \end{proof}
 
 
 
-\section{The double category of arenas, charts, and lenses}
-\jaz{WRITE-ME}
-
-We've seen a bit of what we can do with the double category of arenas, but it does remain for us to show that \cref{def.double_category_of_arenas_discrete}
-really gives a double category. We could do this by hand, but we'll do it
-diagrammatically by generalizing the double category of arenas to any indexed
-category.
-
-
-  While we're busy generalizing, let's go a bit deeper. Note that in order to make the square in
-  \cref{eqn.behavior_as_square_of_arenas_discrete}, we had to use the section
-  $\lens{- \circ \pi_2}{-}$ we constructed in
-  \cref{prop.section_charts_discrete} to turn the function $\phi : \State{T} \to
-  \State{S}$ into a chart $\lens{\phi \circ \pi_2}{\phi} :
-  \lens{\State{T}}{\State{T}} \tto \lens{\State{S}}{\State{S}}$. This
-  observation lets us generalize the above definition of categories of systems
-  (from \cref{def.cat_of_systems_discrete})
-  to \emph{any indexed category with a section}!
-  \begin{definition}
-    Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category, and let
-    $\lens{T-}{-} : \cat{C} \to \Cat{Chart}_{\cat{A}}$ be a section. For a
-    $\cat{A}$-arena $\lens{A}{C}$, the category $\Cat{Sys}\lens{A}{C}$ of
-    $(\cat{A}, T)$-systems with interface $\lens{A}{C}$ is defined by:
-\begin{itemize}
-  \item Its objects are $\cat{A}$-lenses $\lens{\update{S}}{\expose{S}} :
-    \lens{T\State{S}}{\State{S}} \fromto \lens{A}{C}$, which we can call
-    \emph{systems} in this general setting.
-  \item Its maps are squares 
-\[
-    \begin{tikzcd}
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
-      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
-      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
-      \lens{A}{C} \ar[r, shift right, equals] \ar[r,
-      shift left, equals] & \lens{A}{C}
-    \end{tikzcd}
-\]
-\item Composition is given by horizontal composition in the double category
-  $\Cat{Arena}_{\cat{A}}$ of $\cat{A}$-arenas.
-\end{itemize}
-  \end{definition}
-
-\begin{example}
-  A profunctor $\ord{1} \tickar \cat{A}$ is the same thing as a functor $\cat{A}
-  \to \smset$, and a profunctor $\cat{A} \tickar \ord{1}$ is the same thing as a
-  functor $\cat{A}\op \to \smset$. Profunctors are therefore intimately related
-  with presheaves.
-\end{example}
 
 \begin{example}\label{ex.profunctor_from_chart}
   The notion of profunctor gives us a nice way to understand the relationship
@@ -3001,42 +3137,6 @@ categories $\Cat{Sys}\lens{I}{O}$ and $\Cat{Sys}\lens{I'}{O'}$ is given by
 composition on the left and right.
 \end{example}
 
-Now, we are ready to put functors and profunctors together into a double category.
-\begin{definition}\label{def.double_cat_of_cats}
-The double category $\Cat{Cat}$ of categories, profunctors, and functors
-has
-\begin{itemize}
-\item Objects the categories.
-\item Horizontal category the category of categories and profunctors.
-\item Vertical category the category of categories and functors between them.
-\item A square 
-\[
-\begin{tikzcd}[sep = small]
-  \cat{A} \ar[rr, tick, "P"] \ar[dd, "F"'] & & \cat{B} \ar[dd, "G"] \\
-  & \alpha & \\
-\cat{C} \ar[rr, tick, "Q"'] & & \cat{D}
-\end{tikzcd}
-\]
-Is a natural transformation $\alpha : P \rightarrow Q(F, G)$, where $Q(F, G)$ is
-the profunctor $\cat{A}\op \times \cat{B} \xto{F\op \times G} \cat{C} \times
-\cat{D} \xto{Q} \smset$. For $p : A \tickar B$, we have $\alpha(p) : FA \tickar
-GB$, and naturality says that $\alpha(fpg) = (Ff)\alpha(p)(Gg)$.
-\item Vertical composition of squares is given by composing the natural transformations.
-\item Given squares $\alpha : P_1 \rightarrow Q_1(F_1, F_2)$ and $\beta : P_2
-  \to Q_2(F_2, F_3)$, we define their horizontal composite $\alpha \mid \beta :
-  P_1 \cdot P_2 \to (Q_1 \cdot Q_2)(F_1, F_3)$ by 
-$$(\alpha \mid \beta)(A_1 \xtickar{p_1} A_2 \xtickar{p_2} A_3) = F_1 A_1
-\xtickar{\alpha(p_1)} F_2 A_2 \xtickar{\beta(p_2)} F_3 A_3$$
-and checking that this descends correctly to the quotient.
-\end{itemize}
-\end{definition}
-
-\begin{remark}
-  We are using ``$\Cat{Cat}$'' to refer to the category of categories and
-  functors and to the double category of categories, profunctors, and functors.
-  The one we mean will be clear from context, and the category of categories and
-  functors is the vertical category of the double category of categories.
-\end{remark}
 
 \begin{example}\label{ex.prof_square_from_arena_square}
   With a little work in the double category of arenas, we can give a very useful
@@ -3073,30 +3173,28 @@ does to an element $\phi$ of $\Cat{Sys}\lens{f_{\flat}}{f}\left(\Sys{T},
 \[
   \phi =
     \begin{tikzcd}
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, shift right] \ar[d, shift right,
+      \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
-      \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
-      shift left] & \lens{\In{S}}{\Out{S}}
+      \lens{I_1}{O_1} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+      shift left] & \lens{I_2}{O_2}
     \end{tikzcd}
 \]
 in the double category of arenas. Therefore, we can define
 $\Cat{Sys}(\alpha)(\phi)$ to be the vertical composite:
 \[
   \begin{tikzcd}
-    \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
-      \pi_2}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
-    \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+    \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
-    \lens{\In{T}}{\Out{T}} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
+    \lens{I_1}{O_1} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
         leftarrow] \ar[r, shift right, "\lens{f^{\sharp}}{f}"']
-    \ar[r, shift left] & \lens{\In{S}}{\Out{S}} \ar[d, shift left, leftarrow,
+    \ar[r, shift left] & \lens{I_2}{O_2} \ar[d, shift left, leftarrow,
         "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
-    \lens{I}{O} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
-    \ar[r, shift left] & \lens{I'}{O'} \\
+    \lens{I_3}{O_3} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
+    \ar[r, shift left] & \lens{I_4}{O_4} \\
   \end{tikzcd}
 \]
 Or, a little more concisely in double category notation:
