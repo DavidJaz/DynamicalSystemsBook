@@ -61,122 +61,122 @@ It turns out that $G$-sets are precisely functors $F\colon\cat{G}\to\smset$: the
 \slogan{$G$-sets are copresheaves on the associated one-object category $\cat{G}$.}
 \end{example}
 
-\begin{example}[Clue game]\label{ex.clue_game}
-There is a game that is played in the US, called Clue, where each players is a detective trying to solve a murder mystery. The game consists of a board together with a deck of several cards, and on each card there is both some printed words and a picture. For one card, the words might say ``Ms.\ White'' and the picture shows a woman; for another card, the words might say ``knife'' and the picture shows a knife. Every card has a type: it is either a room card, a weapon card, or a person card; e.g.\ the Ms.\ White card is a person card and the knife card is a weapon card.
-
-Now consider the commutative square category whose objects are labeled as follows:
-\[
-\Cat{Sq}\coloneqq\boxCD{examplecolor}{
-\begin{tikzcd}[sep=large, ampersand replacement=\&]
-	\LTO{Card}\ar[r, "\text{has picture}"]\ar[d, "\text{has word}"']\&[10pt]
-	\LTO{Picture}\ar[d, "\text{has type}"]\\
-	\LTO{Word}\ar[r, "\text{has type}"']\&
-	\LTO{Type}
-	\ar[ul, phantom, "\checkmark"]
-\end{tikzcd}
-}
-\]
-A functor $D\colon\Cat{Sq}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, whatever). Of course, a priori, $D$ is just a commutative square of sets and functions, but we'll refer to elements of $D(\text{Card})$ as cards, etc.
-
-Here we will give our own version of the game and use it to illustrate databases. It will be a running example throughout the chapter. We start with a functor $\deck\colon\Cat{Sq}\to\smset$, written as a database instance with schema $\Cat{Sq}$:
-\begin{equation}\label{eqn.clue_database_instance}
-\begin{gathered}
-\begin{array}{| l || l | l | l |}
-	\bhline
-  \multicolumn{4}{| c |}{\text{Deck Card}}\\\bhline
-  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
-  W&\text{White}&\circ&\text{Color}\\\hline
-  B&\text{Black}&\bullet&\text{Color}\\\hline
-  C&\text{Circle}&O&\text{Object}\\\hline
-  T&\text{Table}&\Pi&\text{Object}\\\hline
-  P&\text{Person}&\tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
-  H&\text{Here}&\cdot&\text{Place}\\\hline
-  U&\text{Up}&\uparrow&\text{Place}\\\hline
-  D&\text{Down}&\downarrow&\text{Place}\\\hline
-  L&\text{Left}&\leftarrow&\text{Place}\\\hline
-  R&\text{Right}&\rightarrow&\text{Place}\\\bhline
-\end{array}
-\\~\\
-\footnotesize
-\begin{array}{| l || l |}
-  \bhline
-  \multicolumn{2}{| c |}{\text{Deck Picture}}\\\bhline
-  \textbf{Picture}&\textbf{has type}\\\bbhline
-  \circ&\text{Color}\\\hline
-  \bullet&\text{Color}\\\hline
-  O&\text{Object}\\\hline
-  \Pi&\text{Object}\\\hline
-  \tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
-  \cdot&\text{Place}\\\hline
-  \uparrow&\text{Place}\\\hline
-  \downarrow&\text{Place}\\\hline
-  \leftarrow&\text{Place}\\\hline
-  \rightarrow&\text{Place}\\\bhline
-\end{array}
-\hspace{.5in}
-\begin{array}{| l || l |}
-  \bhline
-  \multicolumn{2}{| c |}{\text{Deck Word}}\\\bhline
-  \textbf{Word}&\textbf{has type}\\\bbhline
-  \text{White}&\text{Color}\\\hline
-  \text{Black}&\text{Color}\\\hline
-  \text{Circle}&\text{Object}\\\hline
-  \text{Table}&\text{Object}\\\hline
-  \text{Person}&\text{Object}\\\hline
-  \text{Here}&\text{Place}\\\hline
-  \text{Up}&\text{Place}\\\hline
-  \text{Down}&\text{Place}\\\hline
-  \text{Left}&\text{Place}\\\hline
-  \text{Right}&\text{Place}\\\bhline
-\end{array}
-\hspace{.5in}
-\begin{array}{| l ||}
-  \bhline
-  \multicolumn{1}{| c |}{\text{Deck Type}}\\\bhline
-  \textbf{Type}\\\bbhline
-	\text{Color}\\\hline
-  \text{Object}\\\hline
-  \text{Place}\\\bhline
-\end{array}
-\end{gathered}
-\end{equation}
-\end{example}
-
-
-\begin{exercise}
-\begin{enumerate}
-  \item With the instance $\Fun{Deck}\colon\Cat{Sq}\to\smset$, what set is $\Fun{Deck}(\text{Card})$?
-  \item What set is $\Fun{Deck}(\text{Word})$?
-  \item What is the function $\Fun{Deck}(\text{has word})\colon\Fun{Deck}(\text{Card})\to\Fun{Deck}(\text{Card})$?
-	\item Do you think there is anything mathematically-special about the database instance presented in \cref{ex.clue_game}? That is, as a functor $\Cat{Sq}\to\smset$, does it seem relatively generic, or does something about it seem special?
-	\item If you'd say it's not special, why not? If you'd say it is special, give another instance (functor $\Cat{Sq}\to\smset$, written in database form) that is not special in this way. 
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-\begin{example}
-Continuing with \cref{ex.clue_game}, we again consider the commutative square category 
-\[
-\Cat{Sq}=
-\begin{tikzcd}[sep=small, ampersand replacement=\&]
-	\LTO{Card}\ar[r]\ar[d]\&[10pt]
-	\LTO{Picture}\ar[d]\\
-	\LTO{Word}\ar[r]\&
-	\LTO{Type}
-	\ar[ul, phantom, "\checkmark"]
-\end{tikzcd}
-\]
-Let $P\coloneqq\{b,w\}^{\ord{100}\times\ord{100}}$ be a set whose elements we call (black and white) pictures, let $W\coloneqq\List(\{\text{A,a},\ldots,\text{Z,z}\})$ be a set whose elements we call words, and let $T\coloneqq\{\text{Color,Object,Place}\}$ be a set whose elements we call types. We can thus create a database instance $J\colon\Cat{Sq}\to\smset$ sending
-\[
-  J(\text{Type})\coloneq T,\quad
-  J(\text{Word})\coloneqq W\times T,\quad
-  J(\text{Picture})\coloneqq P\times T,\quad
-  J(\text{Card})\coloneqq P\times W\times T
-\]
-with the maps in $\Cat{Sq}$ sent to the evident product projections. We will later see in \cref{**} where these products and projections come from.
-
-For now, we again consider our clue game. If we want to think of our pictures, e.g.\ $\tikzsymStrichmaxerl[1.2]$, really as pictures or our words, e.g.\ ``Person'', really as words, then we need to be given a map of database instances---a natural transformation---of the form $\tau\colon\Fun{Deck}\to J$. In particular, $\tau$ assigns every card in the deck a word, a picture, and a type.
-\end{example}
+%\begin{example}[Clue game]\label{ex.clue_game}
+%There is a game that is played in the US, called Clue, where each players is a detective trying to solve a murder mystery. The game consists of a board together with a deck of several cards, and on each card there is both some printed words and a picture. For one card, the words might say ``Ms.\ White'' and the picture shows a woman; for another card, the words might say ``knife'' and the picture shows a knife. Every card has a type: it is either a room card, a weapon card, or a person card; e.g.\ the Ms.\ White card is a person card and the knife card is a weapon card.
+%
+%Now consider the commutative square category whose objects are labeled as follows:
+%\[
+%\Cat{Sq}\coloneqq\boxCD{examplecolor}{
+%\begin{tikzcd}[sep=large, ampersand replacement=\&]
+%	\LTO{Card}\ar[r, "\text{has picture}"]\ar[d, "\text{has word}"']\&[10pt]
+%	\LTO{Picture}\ar[d, "\text{has type}"]\\
+%	\LTO{Word}\ar[r, "\text{has type}"']\&
+%	\LTO{Type}
+%	\ar[ul, phantom, "\checkmark"]
+%\end{tikzcd}
+%}
+%\]
+%A functor $D\colon\Cat{Sq}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, whatever). Of course, a priori, $D$ is just a commutative square of sets and functions, but we'll refer to elements of $D(\text{Card})$ as cards, etc.
+%
+%Here we will give our own version of the game and use it to illustrate databases. It will be a running example throughout the chapter. We start with a functor $\deck\colon\Cat{Sq}\to\smset$, written as a database instance with schema $\Cat{Sq}$:
+%\begin{equation}\label{eqn.clue_database_instance}
+%\begin{gathered}
+%\begin{array}{| l || l | l | l |}
+%	\bhline
+%  \multicolumn{4}{| c |}{\text{Deck Card}}\\\bhline
+%  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
+%  W&\text{White}&\circ&\text{Color}\\\hline
+%  B&\text{Black}&\bullet&\text{Color}\\\hline
+%  C&\text{Circle}&O&\text{Object}\\\hline
+%  T&\text{Table}&\Pi&\text{Object}\\\hline
+%  P&\text{Person}&\tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
+%  H&\text{Here}&\cdot&\text{Place}\\\hline
+%  U&\text{Up}&\uparrow&\text{Place}\\\hline
+%  D&\text{Down}&\downarrow&\text{Place}\\\hline
+%  L&\text{Left}&\leftarrow&\text{Place}\\\hline
+%  R&\text{Right}&\rightarrow&\text{Place}\\\bhline
+%\end{array}
+%\\~\\
+%\footnotesize
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Deck Picture}}\\\bhline
+%  \textbf{Picture}&\textbf{has type}\\\bbhline
+%  \circ&\text{Color}\\\hline
+%  \bullet&\text{Color}\\\hline
+%  O&\text{Object}\\\hline
+%  \Pi&\text{Object}\\\hline
+%  \tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
+%  \cdot&\text{Place}\\\hline
+%  \uparrow&\text{Place}\\\hline
+%  \downarrow&\text{Place}\\\hline
+%  \leftarrow&\text{Place}\\\hline
+%  \rightarrow&\text{Place}\\\bhline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Deck Word}}\\\bhline
+%  \textbf{Word}&\textbf{has type}\\\bbhline
+%  \text{White}&\text{Color}\\\hline
+%  \text{Black}&\text{Color}\\\hline
+%  \text{Circle}&\text{Object}\\\hline
+%  \text{Table}&\text{Object}\\\hline
+%  \text{Person}&\text{Object}\\\hline
+%  \text{Here}&\text{Place}\\\hline
+%  \text{Up}&\text{Place}\\\hline
+%  \text{Down}&\text{Place}\\\hline
+%  \text{Left}&\text{Place}\\\hline
+%  \text{Right}&\text{Place}\\\bhline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l ||}
+%  \bhline
+%  \multicolumn{1}{| c |}{\text{Deck Type}}\\\bhline
+%  \textbf{Type}\\\bbhline
+%	\text{Color}\\\hline
+%  \text{Object}\\\hline
+%  \text{Place}\\\bhline
+%\end{array}
+%\end{gathered}
+%\end{equation}
+%\end{example}
+%
+%
+%\begin{exercise}
+%\begin{enumerate}
+%  \item With the instance $\Fun{Deck}\colon\Cat{Sq}\to\smset$, what set is $\Fun{Deck}(\text{Card})$?
+%  \item What set is $\Fun{Deck}(\text{Word})$?
+%  \item What is the function $\Fun{Deck}(\text{has word})\colon\Fun{Deck}(\text{Card})\to\Fun{Deck}(\text{Card})$?
+%	\item Do you think there is anything mathematically-special about the database instance presented in \cref{ex.clue_game}? That is, as a functor $\Cat{Sq}\to\smset$, does it seem relatively generic, or does something about it seem special?
+%	\item If you'd say it's not special, why not? If you'd say it is special, give another instance (functor $\Cat{Sq}\to\smset$, written in database form) that is not special in this way. 
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{example}
+%Continuing with \cref{ex.clue_game}, we again consider the commutative square category 
+%\[
+%\Cat{Sq}=
+%\begin{tikzcd}[sep=small, ampersand replacement=\&]
+%	\LTO{Card}\ar[r]\ar[d]\&[10pt]
+%	\LTO{Picture}\ar[d]\\
+%	\LTO{Word}\ar[r]\&
+%	\LTO{Type}
+%	\ar[ul, phantom, "\checkmark"]
+%\end{tikzcd}
+%\]
+%Let $P\coloneqq\{b,w\}^{\ord{100}\times\ord{100}}$ be a set whose elements we call (black and white) pictures, let $W\coloneqq\List(\{\text{A,a},\ldots,\text{Z,z}\})$ be a set whose elements we call words, and let $T\coloneqq\{\text{Color,Object,Place}\}$ be a set whose elements we call types. We can thus create a database instance $J\colon\Cat{Sq}\to\smset$ sending
+%\[
+%  J(\text{Type})\coloneq T,\quad
+%  J(\text{Word})\coloneqq W\times T,\quad
+%  J(\text{Picture})\coloneqq P\times T,\quad
+%  J(\text{Card})\coloneqq P\times W\times T
+%\]
+%with the maps in $\Cat{Sq}$ sent to the evident product projections. We will later see in \cref{**} where these products and projections come from.
+%
+%For now, we again consider our clue game. If we want to think of our pictures, e.g.\ $\tikzsymStrichmaxerl[1.2]$, really as pictures or our words, e.g.\ ``Person'', really as words, then we need to be given a map of database instances---a natural transformation---of the form $\tau\colon\Fun{Deck}\to J$. In particular, $\tau$ assigns every card in the deck a word, a picture, and a type.
+%\end{example}
 
 \begin{exercise}\label{exc.classic_db}
 Consider the category $\cat{C}$ shown here:
@@ -711,56 +711,56 @@ We saw in \cref{thm.tfae_c_sets} that the category $\bimod{\cat{C}}{\0}$ of $(\c
 \end{enumerate}
 \end{exercise}
 
-\begin{example}\label{ex.clue_as_module}
-We continue with the Clue game from \cref{ex.clue_game}. The database instance is encoded as:
-\[
-\left(
- \begin{array}{ccc}
- 	10&&10\\
-	&+\\
-	10&&3
- \end{array}
-\right)
-\too
-\left(
-	\begin{array}{ccc}
-		\left(
- 		\begin{array}{ccc}
-  		\1\0&&\1\0\\
-  		&+\\
-  		\1\0&&\3
-   	\end{array}
-		\right)^\4
-		&&
-		\left(
- 		\begin{array}{ccc}
-  		\1\0&&\1\0\\
-  		&+\\
-  		\1\0&&\3
-   	\end{array}
-		\right)^\2
-		\\
-		&+\\
-		\left(
- 		\begin{array}{ccc}
-  		\1\0&&\1\0\\
-  		&+\\
-  		\1\0&&\3
-   	\end{array}
-		\right)^\2
-		&&
-		\left(
- 		\begin{array}{ccc}
-  		\1\0&&\1\0\\
-  		&+\\
-  		\1\0&&\3
-   	\end{array}
-		\right)^\1
-  \end{array}
-\right)
-\]
-Or if you prefer, $\3\3\to\3\3^\4+\3\3^\2+\3\3^\2+\3\3$.
-\end{example}
+%\begin{example}\label{ex.clue_as_module}
+%We continue with the Clue game from \cref{ex.clue_game}. The database instance is encoded as:
+%\[
+%\left(
+% \begin{array}{ccc}
+% 	10&&10\\
+%	&+\\
+%	10&&3
+% \end{array}
+%\right)
+%\too
+%\left(
+%	\begin{array}{ccc}
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\4
+%		&&
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\2
+%		\\
+%		&+\\
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\2
+%		&&
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\1
+%  \end{array}
+%\right)
+%\]
+%Or if you prefer, $\3\3\to\3\3^\4+\3\3^\2+\3\3^\2+\3\3$.
+%\end{example}
 
 
 
@@ -807,6 +807,16 @@ Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\t
 \end{enumerate}
 \end{exercise}
 
+\begin{definition}[Polynomial functors of many variables]
+GK definition.
+\end{definition}
+
+\begin{proposition}
+The bicategory of polynomial functors in the sense of \cite{GK} is precisely that of bimodules between discrete categories.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
 
 
 \begin{proposition}\label{prop.all_free_modules}
@@ -833,6 +843,115 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 \begin{proposition}[Niu]
 Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
 \end{proposition}
+\begin{proof}
+    Given a left $\com{C}$-module $m$, we begin by denoting it using polyboxes:
+    	\[
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+  	\node[poly, cod, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" right] (c)  {$f$ \nodepart{two} $i$};
+  	\node[poly, cod, above=of c, "$m$" right] (mm) {$q$};
+  	\draw (m_pos) to[first] node[below] {$\lambda_1$}(c_pos);
+  	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+  	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+  \end{tikzpicture}
+	\]
+	satisfying
+	\begin{equation} \label{eqn.resp_counit}
+    \begin{tikzpicture}
+    	\node (1) {
+    \begin{tikzpicture}[polybox, tos]
+      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+      	\node[poly, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+      	\node[poly, above=of c, "$m$" above] (mm) {$q'$};
+      	\node[poly, cod, identity, right=of c] (y) {};
+      	\node[poly, cod, above=of y, "$m$" above] (mmm) {$q'$};
+      	\draw (c_pos) -- (y_pos);
+      	\draw (y_dir) -- node[above] {$\idy$} (c_dir);
+      	\draw[double] (mm_pos) -- (mmm_pos);
+      	\draw[double] (mmm_dir) -- (mm_dir);
+      	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+      	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+      	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+    \end{tikzpicture}
+    	};
+    \node[right=1.6 of 1] (2) {
+    \begin{tikzpicture}[polybox, tos]
+      \node[poly, dom, "$m$" left] (m) {$q'$ \nodepart{two} $j$};
+      \node[poly, cod, right= of m, "$m$" right] (mm) {$q'$ \nodepart{two} $j$};
+  	  \draw[double] (m_pos) -- (mm_pos);
+      \draw[double] (mm_dir) -- (m_dir);
+    \end{tikzpicture}
+    };
+	\node at ($(1.east)!.5!(2.west)$) {=};
+    \end{tikzpicture}
+	\end{equation}
+	and
+	\begin{equation} \label{eqn.resp_comult}
+    \begin{tikzpicture}
+    	\node (1) {
+    \begin{tikzpicture}[polybox, tos]
+      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+      	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+      	\node[poly, above=of c, "$m$" above] (mm) {};
+      	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+      	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+      	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+    %
+    	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+    	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+    	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+    	\draw[double] (c_pos) to[first] (cc_pos);
+    	\draw (cc_dir) to[climb] node[right] {$\cod$} (ccc_pos);
+    	\draw (ccc_dir) to[last] node[above, sloped] {$\comp$}  (c_dir);
+    	\draw[double] (mm_pos) to[first] (mmm_pos);
+    	\draw[double] (mmm_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+    	\node[right=1.8 of 1] (2) {
+    \begin{tikzpicture}[polybox, tos]
+      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+      	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {$f$ \nodepart{two} $i$};
+      	\node[poly, above=of c, "$m$" above] (mm) {};
+      	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+      	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+      	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+    %
+    	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+    	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+    	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+    	\draw[double] (c_pos) to[first] (cc_pos);
+    	\draw[double] (cc_dir) to[last] (c_dir);
+    	\draw (mm_pos) to[first] node[below] {$\lambda_1$} (ccc_pos);
+    	\draw (ccc_dir) to[climb] node[right] {$\lambda_2$} (mmm_pos);
+    	\draw (mmm_dir) to[last] node[above left] {$\lambda^\sharp$} (mm_dir);
+	\end{tikzpicture}    	};
+    	\node at ($(1.east)!.5!(2.west)$) {=};
+    \end{tikzpicture}
+    \end{equation}
+    
+    We give the functor $L \colon \cat{C} \to \poly$ corresponding to $m$.
+    To each object $i \in \Ob(\cat{C}) = \ema{c}(\1)$, we assign
+    \[
+        L(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
+    \]
+    Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L(f) \colon L(i) \to L(\cod(f))$.
+    On positions, $L(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_comult} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L(\cod(f))$.
+    On directions, $L(f)$ sends each $q \in L(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L(i)[j]$.
+    
+    It is routine to check that \eqref{eqn.resp_counit} implies that $F$ preserves identities, while \eqref{eqn.resp_comult} implies that $F$ preserves composition.
+    
+    Conversely, it is clear that we can recover the left $\com{C}$-module $m$ equipped with $\lambda \colon m \to c \tri m$ to which a functor $L \colon \cat{C} \to \poly$ corresponds as follows.
+    We can write
+    \[
+        m = \sum_{i \in \cat{C}} L(i).
+    \]
+    Then $\lambda_1$ sends each $j \in m(\1)$ to the unique $i \in \cat{C}$ for which $j \in L(i)(\1)$.
+    Meanwhile, by our construction above, $\lambda_2$ and $\lambda^\sharp$ can be directly recovered from the behavior of $L$ on morphisms in $\cat{C}$.
+    Similarly, \eqref{eqn.resp_counit} and \eqref{eqn.resp_comult} follow from the functoriality of $F$.
+    
+    **Finish with morphisms**
+\end{proof}
+
 
 \begin{proposition}
 For any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
@@ -873,8 +992,43 @@ It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is repr
 Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
 \end{proof}
 
+\subsection{Morphisms between bimodules}
+
+\begin{proposition}
+The category $\bimod{\ema{d}}{\ema{c}}$ is a rig category: it has a terminal object (carried by $\ema{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
+\end{proposition}
+\begin{proof}
+For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
+\end{proof}
+
+\paragraph{Adjoint bimodules}
+
+\begin{exercise}
+Recall that there is a unique $(\0,\cat{C})$-bimodule, namely $\0\bimodfrom[\0]\cat{C}$.
+\begin{enumerate}
+	\item Show that $\0$ has a left adjoint $\cat{C}\bimodfrom\0$; what is its carrier?
+	\item Show that $\0$ has a right adjoint $\cat{C}\bimodfrom\0$; what is its carrier?
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \subsection{Bimodules as data migration functors}
+
+
+\begin{proposition}\label{prop.prafunctor}
+Let $\cat{C}$ and $\cat{D}$ be categories; the following conditions on a functor $F\colon\cat{C}\set\to\cat{D}\set$ are equivalent.
+\begin{enumerate}
+	\item $F$ is composition with a $(\cat{D},\cat{C})$-bimodule.
+	\item $F$ is a parametric right adjoint in the sense of \cite{}.
+	\item $F$ ... $\Sigma\Pi\Delta$
+	\item $F$ profunctor + discrete opfibration
+	\item $F$ preserves connected limits.
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}{Pra-functors}
+Let $\cat{C}$ and $\cat{D}$ be categories. A \emph{pra-functor} (also called a \emph{parametric right adjoint functor}) $\cat{C}\set\to\cat{D}\set$ is one satisfying any of the conditions of \cref{prop.prafunctor}
+\end{definition}
 
 When a polynomial
 \[
@@ -890,124 +1044,140 @@ Thus $m(1)$ is a database instance on $\cat{D}$; in particular, each position in
 
 Before we knew about bimodule structures, what we called positions and directions---and what we often think of as outputs and inputs of a system---were understood as each forming an ordinary set. In the presence of a bimodule structure, the positions $m(\1)$ have been organized into a $\cat{D}$-set and the directions $m[i]$ have been organized into a $\cat{C}$-set for each position $i$. We are listening for $\cat{C}$-sets and positioning ourselves in a $\cat{D}$-set.
 
+\begin{theorem}
+The 2-functor $\Fun{Copsh}\bimod{}{}\to\smcat$ given by $\cat{C}\mapsto\bimod{C}{\0}$ is fully faithful.
+\end{theorem}
+\begin{proof}
+The functor $\Fun{Copsh}$ sends $\cat{C}$ to the corresponding copresheaf category $\cat{C}\set$ by \cref{thm.tfae_c_sets}.
+
+**Finish**
+\end{proof}
 
 
-\begin{example}\label{ex.clue_suggestions}
-We continue with the Clue game from \cref{ex.clue_game,ex.clue_as_module}. The database instance is encoded as a map
-\[\3\3\to(\yon^\4+\2\yon^\2+\yon)\tri\3\3.\]
-In this example we will first grab the three-element set of types, and then we'll make a new $\1\2$-element instance of the commutative square $\yon^\4+\2\yon^\2+\yon$ that copies that three-element set four times.
-
-\[
-\bullet
-\bimodfrom[\yon]
-\begin{tikzcd}[sep=small, ampersand replacement=\&]
-	\bullet\ar[r]\ar[d]\&
-	\bullet\ar[d]\\
-	\bullet\ar[r]\&
-	\bullet
-	\ar[ul, phantom, "\tiny\checkmark"]
-\end{tikzcd}
-\bimodfrom[\3\3]\0
-\]
-The composite is the three-element set of types $\bullet\bimodfrom[\3]\0$, where here $\3$ is shorthand for $\{\text{Color,Object,Place}\}$. Now we can compose it with the ``copy-all'' map:
-\[
-\begin{tikzcd}[sep=small, ampersand replacement=\&]
-	\bullet\ar[r]\ar[d]\&
-	\bullet\ar[d]\\
-	\bullet\ar[r]\&
-	\bullet
-	\ar[ul, phantom, "\tiny\checkmark"]
-\end{tikzcd}
-\bimodfrom[\4\yon]
-\bullet
-\bimodfrom[\3]\0
-\]
-The result is the following $\Cat{Sq}$-set:
-\[
-\begin{array}{| l || l | l | l |}
-	\bhline
-  \multicolumn{4}{| c |}{\text{Copy Types Deck Card}}\\\bhline
-  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
-  \text{Color}&\text{Color}&\text{Color}&\text{Color}\\\hline
-  \text{Object}&\text{Object}&\text{Object}&\text{Object}\\\hline
-  \text{Place}&\text{Place}&\text{Place}&\text{Place}\\\bhline
-\end{array}
-\]
-\[\footnotesize
-\begin{array}{| l || l |}
-  \bhline
-  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
-  \textbf{Picture}&\textbf{has type}\\\bbhline
-  \text{Color}&\text{Color}\\\hline
-  \text{Object}&\text{Object}\\\hline
-  \text{Place}&\text{Place}\\\hline
-\end{array}
-\hspace{.5in}
-\begin{array}{| l || l |}
-  \bhline
-  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
-  \textbf{Picture}&\textbf{has type}\\\bbhline
-  \text{Color}&\text{Color}\\\hline
-  \text{Object}&\text{Object}\\\hline
-  \text{Place}&\text{Place}\\\hline
-\end{array}
-\hspace{.5in}
-\begin{array}{| l ||}
-  \bhline
-  \multicolumn{1}{| c |}{\text{Copy Types Deck Type}}\\\bhline
-  \textbf{Type}\\\bbhline
-	\text{Color}\\\hline
-  \text{Object}\\\hline
-  \text{Place}\\\bhline
-\end{array}
-\]
-Now why would we want to do this? The answer is that the maps of bimodules from this instance to the Deck are exactly what are called the \emph{suggestions} in the original Clue game. There are $\3\0$ of them:
-\[
-\left\{
-\begin{array}{lllll}
-  (\circ,O,\cdot),&
-  (\circ,O,\uparrow),&
-  (\circ,O,\downarrow),&
-  (\circ,O,\from),&
-  (\circ,O,\to),\\
+%\begin{example}\label{ex.clue_suggestions}
+%We continue with the Clue game from \cref{ex.clue_game,ex.clue_as_module}. The database instance is encoded as a map
+%\[\3\3\to(\yon^\4+\2\yon^\2+\yon)\tri\3\3.\]
+%In this example we will first grab the three-element set of types, and then we'll make a new $\1\2$-element instance of the commutative square $\yon^\4+\2\yon^\2+\yon$ that copies that three-element set four times.
 %
-  (\circ,\Pi,\cdot),&
-  (\circ,\Pi,\uparrow),&
-  (\circ,\Pi,\downarrow),&
-  (\circ,\Pi,\from),&
-  (\circ,\Pi,\to),\\
+%\[
+%\bullet
+%\bimodfrom[\yon]
+%\begin{tikzcd}[sep=small, ampersand replacement=\&]
+%	\bullet\ar[r]\ar[d]\&
+%	\bullet\ar[d]\\
+%	\bullet\ar[r]\&
+%	\bullet
+%	\ar[ul, phantom, "\tiny\checkmark"]
+%\end{tikzcd}
+%\bimodfrom[\3\3]\0
+%\]
+%The composite is the three-element set of types $\bullet\bimodfrom[\3]\0$, where here $\3$ is shorthand for $\{\text{Color,Object,Place}\}$. Now we can compose it with the ``copy-all'' map:
+%\[
+%\begin{tikzcd}[sep=small, ampersand replacement=\&]
+%	\bullet\ar[r]\ar[d]\&
+%	\bullet\ar[d]\\
+%	\bullet\ar[r]\&
+%	\bullet
+%	\ar[ul, phantom, "\tiny\checkmark"]
+%\end{tikzcd}
+%\bimodfrom[\4\yon]
+%\bullet
+%\bimodfrom[\3]\0
+%\]
+%The result is the following $\Cat{Sq}$-set:
+%\[
+%\begin{array}{| l || l | l | l |}
+%	\bhline
+%  \multicolumn{4}{| c |}{\text{Copy Types Deck Card}}\\\bhline
+%  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
+%  \text{Color}&\text{Color}&\text{Color}&\text{Color}\\\hline
+%  \text{Object}&\text{Object}&\text{Object}&\text{Object}\\\hline
+%  \text{Place}&\text{Place}&\text{Place}&\text{Place}\\\bhline
+%\end{array}
+%\]
+%\[\footnotesize
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
+%  \textbf{Picture}&\textbf{has type}\\\bbhline
+%  \text{Color}&\text{Color}\\\hline
+%  \text{Object}&\text{Object}\\\hline
+%  \text{Place}&\text{Place}\\\hline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
+%  \textbf{Picture}&\textbf{has type}\\\bbhline
+%  \text{Color}&\text{Color}\\\hline
+%  \text{Object}&\text{Object}\\\hline
+%  \text{Place}&\text{Place}\\\hline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l ||}
+%  \bhline
+%  \multicolumn{1}{| c |}{\text{Copy Types Deck Type}}\\\bhline
+%  \textbf{Type}\\\bbhline
+%	\text{Color}\\\hline
+%  \text{Object}\\\hline
+%  \text{Place}\\\bhline
+%\end{array}
+%\]
+%Now why would we want to do this? The answer is that the maps of bimodules from this instance to the Deck are exactly what are called the \emph{suggestions} in the original Clue game. There are $\3\0$ of them:
+%\[
+%\left\{
+%\begin{array}{lllll}
+%  (\circ,O,\cdot),&
+%  (\circ,O,\uparrow),&
+%  (\circ,O,\downarrow),&
+%  (\circ,O,\from),&
+%  (\circ,O,\to),\\
+%%
+%  (\circ,\Pi,\cdot),&
+%  (\circ,\Pi,\uparrow),&
+%  (\circ,\Pi,\downarrow),&
+%  (\circ,\Pi,\from),&
+%  (\circ,\Pi,\to),\\
+%%
+%  (\circ,\tikzsymStrichmaxerl[1.2],\cdot),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\uparrow),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\downarrow),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\from),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\to),\\
+%%
+%  (\bullet,O,\cdot),&
+%  (\bullet,O,\uparrow),&
+%  (\bullet,O,\downarrow),&
+%  (\bullet,O,\from),&
+%  (\bullet,O,\to),\\
+%%
+%  (\bullet,\Pi,\cdot),&
+%  (\bullet,\Pi,\uparrow),&
+%  (\bullet,\Pi,\downarrow),&
+%  (\bullet,\Pi,\from),&
+%  (\bullet,\Pi,\to),\\
+%%
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\cdot),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\uparrow),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\downarrow),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\from),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\to)
+%%
+%\end{array}
+%\right\}
+%\]
+%\end{example}
 %
-  (\circ,\tikzsymStrichmaxerl[1.2],\cdot),&
-  (\circ,\tikzsymStrichmaxerl[1.2],\uparrow),&
-  (\circ,\tikzsymStrichmaxerl[1.2],\downarrow),&
-  (\circ,\tikzsymStrichmaxerl[1.2],\from),&
-  (\circ,\tikzsymStrichmaxerl[1.2],\to),\\
-%
-  (\bullet,O,\cdot),&
-  (\bullet,O,\uparrow),&
-  (\bullet,O,\downarrow),&
-  (\bullet,O,\from),&
-  (\bullet,O,\to),\\
-%
-  (\bullet,\Pi,\cdot),&
-  (\bullet,\Pi,\uparrow),&
-  (\bullet,\Pi,\downarrow),&
-  (\bullet,\Pi,\from),&
-  (\bullet,\Pi,\to),\\
-%
-  (\bullet,\tikzsymStrichmaxerl[1.2],\cdot),&
-  (\bullet,\tikzsymStrichmaxerl[1.2],\uparrow),&
-  (\bullet,\tikzsymStrichmaxerl[1.2],\downarrow),&
-  (\bullet,\tikzsymStrichmaxerl[1.2],\from),&
-  (\bullet,\tikzsymStrichmaxerl[1.2],\to)
-%
-\end{array}
-\right\}
-\]
-\end{example}
+%\begin{exercise}
+%Show that the $\3\3$-card deck from \cref{ex.clue_suggestions} factors---up to isomorphism---through a bimodule of the form $\yon^\4+\2\yon^\2+\yon\bimodfrom\yon^\2+\yon$, where $\yon^\2+\yon$ carries the walking arrow.
+%\end{exercise}
 
 \begin{exercise}
-Show that the $\3\3$-card deck from \cref{ex.clue_suggestions} factors---up to isomorphism---through a bimodule of the form $\yon^\4+\2\yon^\2+\yon\bimodfrom\yon^\2+\yon$, where $\yon^\2+\yon$ carries the walking arrow.
+Consider the query on $\yon^\nn$ from \cref{ex.siblings} asking for siblings. 
+\begin{enumerate}
+	\item Write out the corresponding $\yon^\nn$ instance in table form.
+	\item Draw it as a dynamical system.
+\end{enumerate}
 \end{exercise}
 
 \subsection{Composing bimodules}
@@ -1027,10 +1197,10 @@ m\tri_\ema{c}\ema{c}\cong m
 where $\ema{c}\bimodfrom[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
 \end{proposition}
 
-\begin{example}
-Using \cref{prop.composite_for_nats} we can obtain the $\3\0$ clue suggestions from \cref{ex.clue_suggestions} as a composite of bimodules.
-(finish)
-\end{example}
+%\begin{example}
+%Using \cref{prop.composite_for_nats} we can obtain the $\3\0$ clue suggestions from \cref{ex.clue_suggestions} as a composite of bimodules.
+%(finish)
+%\end{example}
 
 \begin{proposition}
 Every bimodule $\ema{c}\bimodfrom[S]\0$, is isomorphic to the composite
@@ -1042,17 +1212,50 @@ for a bimodule $\ema{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
 Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with carrier $\yon^S\in\poly$.
 \end{proposition}
 
-\subsection{Morphisms between bimodules}
 
-\begin{proposition}
-The category $\bimod{\ema{d}}{\ema{c}}$ is a rig category: it has a terminal object (carried by $\ema{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
-\end{proposition}
-\begin{proof}
-For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
-\end{proof}
+
 
 \section{The proarrow equipment}
 A type of categorical structure called pro arrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
+
+\subsection{Adjoint bimodules}
+
+\begin{proposition}
+A functor $F\colon\cat{C}\to\cat{D}$ gives rise to a right adjoint bimodule (= left adjoint pra) $\ema{c}\bimodfrom[\Delta_F]\ema{d}$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimodule (= right adjoint pra) $\ema{c}\bimodfrom[\wh\varphi]\ema{d}$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{example}[Types on database tables]
+For a category $\cat{C}$, a functor $\cat{C}\to\smset$ doesn't appear to have actual attributes, e.g.\ string, integers, etc., attached to its elements. To correct this, let's add a type $T_c$ to each table in $c$, and ask that each row in $c$ is assigned an element of $T_c$.
+
+To do this, we give a functor $T\colon\Ob(\cat{C})\to\smset$, i.e.\ $\Ob(\cat{C})\bimodfrom[T]\0$. We also have the canonical cofunctor $o\colon\cat{C}\cof\Ob(\cat{C})$. Now given an arbitrary instance $\cat{C}\bimodfrom[I]\0$, there are two things we could do. We could push it forward along the left adjoint prafunctor $\Ob(\cat{C})\bimodfrom\cat{C}$ and then map it to $T$. 
+
+Perhaps better would be to compose $T$ with the right adjoint prafunctor $\cat{C}\bimodfrom\Ob(\cat{C})\bimodfrom[T]\0$ and map $I$ into that composite. The reason it is better is that the category of coalgebras $I$ equipped with a map into a fixed coalgebra $X$ (e.g.\ $X=\check{o}\tri_{\Ob\cat{C}}T$) is equivalent to the category of coalgebras (instances) on the category of elements $\int^\cat{C}X$. So we have found that instances, even equipped with types, can be understood just in terms of $\cat{C}$-sets, beefing up $\cat{C}$ if necessary.
+\end{example}
+
+\begin{proposition}
+A pra $\cat{C}\smset\to\cat{D}\smset$ is a left adjoint if it is of the form $\Sigma_G\circ\Delta_F$ for functors $\cat{C}\From{F}\cat{X}\To{G}\cat{D}$, where $G$ is a discrete opfibration.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{corollary}\label{cor.cartesian_cof_extra_adjoint}
+If $\varphi\colon\cat{C}\cof\cat{D}$ is a cartesian cofunctor corresponding to a discrete opfibration $F\colon\cat{C}\to\cat{D}$, then there is an isomorphism $\wh{\varphi}\cong\Delta_F$. In particular, this gives rise to an adjoint triple.
+\end{corollary}
+\begin{proof}
+**
+\end{proof}
+
 
 %-------- Section --------%
 \section{Discussion and open questions}\label{sec.discussion_open_qs}
@@ -1075,6 +1278,7 @@ In this section, we lay out some questions that whose answers may or may not be 
   \item What limits exist in $\smcat^\sharp$? Describe them combinatorially.
   \item Since the forgetful functor $U\colon\smcat^\sharp\to\poly$ is faithful, it reflects monomorphisms: if $f\colon\cat{C}\cof\cat{D}$ is a cofunctor whose underlying map on emanation polynomials is monic, then it is monic. Are all monomorphisms in $\smcat^\sharp$ of this form?
   \item At first blush it appears that $\poly$ may be suitable as the semantics of a language for protocols. Develop such a language or showcase the limitations that make it impossible or inconvenient.
+  \item Are there polynomials $p$ such that one use something like G\"odel numbers to encode logical propositions from the topos $\tr_p\set$ into a ``language'' that $p$-dynamical systems can ``work with''?
 \end{enumerate}
 
 

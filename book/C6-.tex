@@ -387,7 +387,23 @@ Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
 \]
 Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
 \begin{proof}
-Fill.
+We prove this in two pieces: that
+\begin{equation} \label{eqn.flipping1}
+\poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
+\end{equation}
+and that
+\begin{equation} \label{eqn.flipping2}
+\poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
+\end{equation}
+
+For \cref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
+Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
+So this follows from the corresponding universal properties.
+
+For \cref{eqn.flipping2}, we first write out the two sets by hand.
+To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
+Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
+These are clearly isomorphic.
 \end{proof}
 
 \begin{exercise}
@@ -3966,6 +3982,15 @@ So a position $t$ is like a future: it is a current decision, and for every opti
 If someone says that they understand a future to be a decision tree $t\in\cofree{p}$, explain in your own words how they're thinking about the term ``future''. How does it agree or disagree with your own intuition about what a ``future'' is?
 \end{exercise}
 
+\begin{exercise}
+Let $G$ be a finite directed graph, and let $\Cat{Fr}(G)$ be the associated free category. 
+\begin{enumerate}
+	\item Construct a cofunctor $\Cat{Fr}(G)\cof\cofree{\1+\yon+\yon^\2+\yon^\3+\cdots}$.
+	\item Would you say it associates to each node in $G$ its ``future'' decision tree?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 %---- Subsection ----%
 \subsection{Formal construction of $\cofree{p}$}
 
@@ -3981,16 +4006,16 @@ A \emph{morphism} of copointed polynomials $f\colon (p,\epsilon)\to(p',\epsilon'
 
 Comonoids in $\poly$ are triples $(p,\epsilon,\delta)$, with $(p,\epsilon)$ a copointed polynomial, so there are forgetful functors
 \[
-\Cat{Comon}(\poly)\to\Cat{Copnt}(\poly)\to\poly.
+\Cat{Comon}(\poly)\to\Cat{Cpt}(\poly)\to\poly.
 \]
 We want to find the right adjoint to the composite---that's the functor $\cofree{-}\colon\poly\to\Cat{Comon}(\poly)$---and we will obtain it in two steps. 
 
 \begin{proposition}\label{prop.copointing}
 For any polynomial $p$, the polynomial $p\yon$ is naturally copointed by the projection to $\yon$, and the functor sending $p\mapsto p\yon$ is right adjoint to the forgetful functor
 \[
-\adj{\Cat{Copnt}(\poly)}{p\yon}{q}{\poly},
+\adj{\Cat{Cpt}(\poly)}{p\yon}{q}{\poly},
 \]
-where the functors are named by where they send $p\in\poly$ and $(q,\epsilon)\in\Cat{Copnt}(\poly)$.
+where the functors are named by where they send $p\in\poly$ and $(q,\epsilon)\in\Cat{Cpt}(\poly)$.
 \end{proposition}
 \begin{proof}
 Clearly the product $p\yon\cong p\times\yon$ is copointed by the projection map, call it $\pi\colon p\yon\to\yon$, and the map $p\mapsto p\yon$ is functorial in $p$. For any copointed polynomial $q\To{\epsilon}\yon$, there is an obvious bijection between morphisms of polynomials $q\to p$ and commutative triangles
@@ -4003,6 +4028,10 @@ Clearly the product $p\yon\cong p\times\yon$ is copointed by the projection map,
 \]
 natural in both $q$ and $p$. This completes the proof.
 \end{proof}
+
+\begin{exercise}
+Show that the copointing functor is essentially surjective. That is, every polynomial $p$ equipped with a map $\epsilon\colon p\to\yon$ is isomorphic to one of the form $p'\yon$ (equipped with the projection $p'\yon\to\yon$).
+\end{exercise}
 
 The reader might not remember any sort of copointing showing up in the tree description of $\cofree{p}=(\tr_p,\rt,\fs)$. Indeed, it was hidden in the fact that we allowed for trivial paths in the tree (e.g.\ the path from the root to itself). But we'll get to that.
 
@@ -4048,6 +4077,15 @@ So given a dynamical system $S\yon^S\to p\tripow{k}$, which outputs as its posit
 
 Given a dynamical system $f\colon S\yon^S\to p$, where $p$ is copointed and $f$ preserves the copoint, we could speed it up as before to get $S\yon^S\to p\tripow{k}$ and then slow it down to get $S\yon^S\to p$, and we get back $f$. So slowing down is a retract of speeding up in this sense.
 \end{example}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Show that there is a monoidal structure $(\yon,\otimes)$ on $\Cat{Cpt}(\poly)$ such that the forgetful functor $U\colon\Cat{Cpt}(\poly)\to\poly$ is strong monoidal.
+	\item Show that this monoidal structure is closed, i.e.\ that there is an internal hom $[-,-]$ on $\Cat{Cpt}(\poly)$. Hint: you should have $U([p\yon,q\yon]_{\Cat{Cpt}})\cong[p\yon,q]_{\poly}\yon$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 
 \paragraph{Constructing the cofree comonoid.}
 
@@ -4160,7 +4198,7 @@ Let's denote the shape of this diagram by $\Delta_+$: its objects are finite ord
 \begin{theorem}\label{thm.cofree}
 For any copointed polynomial $q\To{\epsilon}\yon$, let $\bar{q}$ denote the limit of $Q\colon\Delta_+\to\poly$. It naturally has the structure of a comonoid $(\bar{q},\epsilon,\delta)$, and this construction is right adjoint to the forgetful functor
 \[
-\adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Copnt}(\poly)}.
+\adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Cpt}(\poly)}.
 \]
 \end{theorem}
 \begin{proof}[Proof sketch]
@@ -4249,6 +4287,15 @@ in terms of the original polynomial $p$, rather than from its copointing $p\yon$
 \end{tikzcd}
 \]
 \end{remark}
+
+We record the following proposition here; it will be useful in \cref{cor.cartesian_cof_extra_adjoint}.
+
+\begin{proposition}
+If $f\colon p\to q$ is a Cartesian map of polynomials, then $\tr_f\colon\tr_p\to\tr_q$ is a Cartesian cofunctor.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
 
 %---- Subsection ----%
 \subsection{Consequences of adjointness}
