@@ -2475,6 +2475,17 @@ Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polyno
 %In \cref{ex.associativity_pics} we have maps $\delta\then(\delta\tri c)$ and $\delta\then(c\tri\delta)$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $(f\then g)\then h$, and which corresponds to composing to the right, e.g.\ $f\then (g\then h)$?
 %\end{exercise}
 %
+
+\begin{example}[The category of $A$-streams]\label{ex.streams_category}
+For any set $A$, the set $A^\nn$ of $A$-streams
+\[
+s=(a_0\leadsto a_1\leadsto a_2\leadsto a_3\leadsto\cdots)
+\]
+are the objects of a category, where the set of morphisms emanating from each stream $s\in A^\nn$ is $\nn$. The identity on $s$ is given by $0$ and the composite of two morphisms is the sum of the corresponding natural numbers.
+
+We will see this category again in \cref{ex.streams_cofree}.
+\end{example}
+
 \subsection{Comonoids in $\poly$ are categories}
 
 It turns out that comonoids in $\poly$ are precisely categories. Strangely, however, the a morphism between comonoids is not a functor but something people are calling a \emph{cofunctor}.
@@ -3949,6 +3960,12 @@ Let $p\coloneqq B\yon^A$ for sets $A,B\in\smset$.
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[$\cofree{A\yon}$ for linear polynomials]\label{ex.streams_cofree}
+Let $A\in\smset$ be a set. The cofree comonoid $\cofree{A\yon}$ on the associated linear polynomial has as emanation polynomial $\tr_{A\yon}\cong (A\yon)^\nn$. Its objects are $A$-streams. For each stream $t\colon \nn\to A$, an emanating morphism is just an element $n\in\nn$. The identity is $0\in\nn$, the codomain of $n$ is the composite function $\nn\To{+n}\nn\To{t}A$, and if we denote it by $n\colon t\to (t+n)$ then the composite of morphisms $n,n'$ is $(n+n')\colon t\to (t+n+n')$.
+
+We first saw this category in \cref{ex.streams_category}
+\end{example}
+
 \begin{exercise}
 Let $p\coloneqq \yon+\1$.
 \begin{enumerate}
@@ -4291,11 +4308,22 @@ in terms of the original polynomial $p$, rather than from its copointing $p\yon$
 We record the following proposition here; it will be useful in \cref{cor.cartesian_cof_extra_adjoint}.
 
 \begin{proposition}
-If $f\colon p\to q$ is a Cartesian map of polynomials, then $\tr_f\colon\tr_p\to\tr_q$ is a Cartesian cofunctor.
+If $f\colon p\to q$ is a Cartesian map of polynomials, then $\tr_f\colon\tr_p\to\tr_q$ is a Cartesian cofunctor. That is, for each tree $t\in\tr_p(\1)$ the function $\tr_f^\sharp\colon\tr_p[t]\To{\cong}\tr_q[\tr_f(t)]$ is a bijection.
 \end{proposition}
 \begin{proof}
 **
 \end{proof}
+
+\begin{proposition}
+The cofree comonoid functor is lax monoidal; in particular, we have maps
+\[
+\yon\to\cofree{\yon}
+\qqand
+\cofree{p}\otimes\cofree{q}\to\cofree{p\otimes q}
+\]
+for any $p,q\in\poly$.
+\end{proposition}
+
 
 %---- Subsection ----%
 \subsection{Consequences of adjointness}
