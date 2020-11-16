@@ -929,28 +929,70 @@ Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalen
     \end{tikzpicture}
     \end{equation}
     
-    We give the functor $L \colon \cat{C} \to \poly$ corresponding to $m$.
+    We give the functor $L_m \colon \cat{C} \to \poly$ corresponding to $m$.
     To each object $i \in \Ob(\cat{C}) = \ema{c}(\1)$, we assign
     \[
-        L(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
+        L_m(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
     \]
-    Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L(f) \colon L(i) \to L(\cod(f))$.
-    On positions, $L(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_comult} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L(\cod(f))$.
-    On directions, $L(f)$ sends each $q \in L(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L(i)[j]$.
+    This is the pullback in the diagram
+    \[
+    \begin{tikzcd}
+        L_m(i) \ar[r] \ar[d, "\text{cart}"'] & \yon^{\ema{c}[i]} \tri m \ar[d, "\text{cart}"] \\
+        m \ar[r] & \ema{c} \tri m \ar[ul, phantom, very near end, "\lrcorner"]
+    \end{tikzcd}
+    \]
+    where the map $\yon^{\ema{c}[i]} \tri m \to \ema{c} \tri m$ is the cartesian map $\yon^{\ema{c}[i]} \to \ema{c}$ associated to the position $i$ composed with $m$; see \cref{prop.comp_pres_cart,prop.pullback_cartesian}.
     
-    It is routine to check that \eqref{eqn.resp_counit} implies that $F$ preserves identities, while \eqref{eqn.resp_comult} implies that $F$ preserves composition.
+    Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L_m(f) \colon L_m(i) \to L_m(\cod(f))$.
+    On positions, $L_m(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_comult} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L_m(\cod(f))$.
+    On directions, $L_m(f)$ sends each $q \in L_m(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L_m(i)[j]$.
     
-    Conversely, it is clear that we can recover the left $\com{C}$-module $m$ equipped with $\lambda \colon m \to c \tri m$ to which a functor $L \colon \cat{C} \to \poly$ corresponds as follows.
+    It is routine to check that \eqref{eqn.resp_counit} implies that $L_m$ preserves identities, while \eqref{eqn.resp_comult} implies that $L_m$ preserves composition.
+    
+    Conversely, it is clear that we can recover the left $\com{C}$-module $m_L$ equipped with $\lambda \colon m_L \to c \tri m_L$ to which a functor $L \colon \cat{C} \to \poly$ corresponds as follows.
     We can write
     \[
-        m = \sum_{i \in \cat{C}} L(i).
+        m_L = \sum_{i \in \cat{C}} L(i).
     \]
-    Then $\lambda_1$ sends each $j \in m(\1)$ to the unique $i \in \cat{C}$ for which $j \in L(i)(\1)$.
+    Then $\lambda_1$ sends each $j \in m_L(\1)$ to the unique $i \in \cat{C}$ for which $j \in L(i)(\1)$.
     Meanwhile, by our construction above, $\lambda_2$ and $\lambda^\sharp$ can be directly recovered from the behavior of $L$ on morphisms in $\cat{C}$.
     Similarly, \eqref{eqn.resp_counit} and \eqref{eqn.resp_comult} follow from the functoriality of $F$.
     
-    **Finish with morphisms**
+    Suppose we are given a map of left $\com{C}$-modules $\varphi \colon m \to m'$ satisfying the commutative diagram
+    \[
+    \begin{tikzcd}
+      m \ar[r, "\lambda"] \ar[d, "\varphi"'] & \ema{c} \tri m \ar[d, "\ema{c} \tri \varphi"] \\
+      m' \ar[r, "\lambda'"'] & \ema{c} \tri m'
+    \end{tikzcd}
+    \]
+    We will give a natural transformation $L_\varphi \colon L_m \to L_{m'}$ by giving a component morphism of polynomials $(L_\varphi)_i \colon L_m(i) \to L_{m'}(i)$ for each object $i$ in $\cat{C}$, then verifying naturality.
+    
+    We construct the following diagram, where the top and bottom squares are pullbacks:
+    \[
+    \begin{tikzcd}[sep=5pt]
+        L_m(i) \ar[rr] \ar[dd, dashed, "(L_\varphi)_i"'] \ar[dr] & & \yon^{\ema{c}[i]} \tri m \ar[dd] \ar[dr] \\
+        & m \ar[rr, crossing over] & & \ema{c} \tri m \ar[dd] \\
+        L_{m'}(i) \ar[rr] \ar[dr] & & \yon^{\ema{c}[i]} \tri m' \ar[dr] \\
+        & m' \ar[from=uu, crossing over] \ar[rr] & & \ema{c} \tri m'
+    \end{tikzcd}
+    \]
+    The component $(L_\varphi)_i$ is given by the induced dashed arrow.
+    The naturality will be proven in \cref{exc.natural_poly_module}.
+    
+    **Finish morphisms**
 \end{proof}
+
+\begin{exercise} \label{exc.natural_poly_module}
+    Complete the above proof by showing that $L_{\varphi} \colon L_m \to L_{m'}$ is natural; that is, for a morphism $f \colon i \to i'$ in $\cat{C}$, the naturality square 
+    \[
+    \begin{tikzcd}
+        L_m(i) \ar[d, ""] \ar[r] & L_{m'}(i) \ar[d] \\
+        L_m(i') \ar[r] & L_{m'}(i')
+    \end{tikzcd}
+    \]
+    commutes.
+    **Finish labels**
+\end{exercise}
 
 
 \begin{proposition}
