@@ -468,11 +468,11 @@ We draw the commutativity of \cref{eqn.bimod_coherence} using polyboxes.
 	\node (p1) {
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom, "$m$" left] (m) {};
-  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$D$" below] (D) {};
+  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$C$" below] (D) {};
   	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
-  	\node[poly, cod, right= of D.south, yshift=-1ex, "$D$" right] (DD) {};
+  	\node[poly, cod, right= of D.south, yshift=-1ex, "$C$" right] (DD) {};
   	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
-  	\node[poly, cod, above=of mmm, "$C$" right] (C) {};
+  	\node[poly, cod, above=of mmm, "$D$" right] (C) {};
 %
 		\draw (m_pos) to[first] (D_pos);
 		\draw (D_dir) to[climb] (mm_pos);
@@ -489,10 +489,10 @@ We draw the commutativity of \cref{eqn.bimod_coherence} using polyboxes.
   \begin{tikzpicture}[polybox, tos]
   	\node[poly, dom, "$m$" left] (m') {};
   	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
-  	\node[poly, above=of mm', "\tiny$C$" above] (C') {};
-  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$D$" right] (D') {};
+  	\node[poly, above=of mm', "\tiny$D$" above] (C') {};
+  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$C$" right] (D') {};
   	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
-  	\node[poly, cod, above=of mmm, "$C$" right] (CC') {};
+  	\node[poly, cod, above=of mmm, "$D$" right] (CC') {};
 %
 		\draw[double] (m'_pos) to[first] (mm'_pos);
 		\draw (mm'_dir) to[climb] (C'_pos);
@@ -521,8 +521,8 @@ Note that \cref{eqn.bimod_coherence_polybox} means that we can unambiguously wri
 \begin{tikzpicture}[polybox, tos]
 	\node[poly, dom, "$m$" left] (m) {};
 	\node[poly, cod, right=of m, "$m$" right] (mm) {};
-	\node[poly, cod, above=of mm, "$C$" right] (C) {};
-	\node[poly, cod, below=of mm, "$D$" right] (D) {};
+	\node[poly, cod, above=of mm, "$D$" right] (C) {};
+	\node[poly, cod, below=of mm, "$C$" right] (D) {};
 %
 	\draw (m_pos) to[out=0, in=180] (D_pos);
 	\draw (D_dir) to[climb] (mm_pos);
