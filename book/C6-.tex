@@ -1535,14 +1535,14 @@ If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian then so is $(f\tri g)\c
 For any $h\colon A\to B$ of sets, all faces of the cube
 \[
 \begin{tikzcd}[sep=small]
-  qpA\ar[rr]\ar[dd]\ar[dr]&&
-  qpB\ar[dd]\ar[dr]\\&
-  qp'A\ar[rr, crossing over]&&
-  qp'B\ar[dd]\\
-  q'pA\ar[rr]\ar[dr]&&
-  q'pB\ar[dr]\\&
-  q'p'A\ar[from=uu, crossing over]\ar[rr]&&
-  q'p'B
+  pqA\ar[rr]\ar[dd]\ar[dr]&&
+  pqB\ar[dd]\ar[dr]\\&
+  pq'A\ar[rr, crossing over]&&
+  pq'B\ar[dd]\\
+  pq'A\ar[rr]\ar[dr]&&
+  pq'B\ar[dr]\\&
+  p'q'A\ar[from=uu, crossing over]\ar[rr]&&
+  p'q'B
 \end{tikzcd}
 \]
 are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal is too by standard properties of pullbacks.
