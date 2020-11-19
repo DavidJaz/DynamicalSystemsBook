@@ -2536,6 +2536,36 @@ The cofunctor laws can be written in commutative diagram form as follows:
 \end{tikzcd}
 \end{gather*}
 
+\begin{example}[Systems of ODEs]
+A system of ordinary differentrial equations (ODEs) in $n$ variables, e.g.
+\begin{align*}
+    \dot{x}_1 &= f_1(x_1, \ldots, x_n) \\
+    \dot{x}_2 &= f_2(x_1, \ldots, x_n) \\
+    & \; \; \; \vdots \\
+    \dot{x}_n &= f_n(x_1, \ldots, x_n)
+\end{align*}
+can be understood as a vector field on $\rr^n$. Usually, we are interested in integrating this vector field to get flow lines, or integral curves. In other words, for each point $x = (x_1, \ldots, x_n)$ and each amount of time $t \in \rr$, we can go forward from $x$ for time $t$ and arrive at a new point $x^{+t}$. These satisfy the equations
+\begin{equation} \label{eqn.cofunctor_ode}
+    x^{+0} = x \qqand x^{+t_1+t_2} = (x^{+t_1})^{+t_2}. 
+\end{equation}
+Let's call such things \emph{dynamical systems} with time domain $(T, 0, +)$; above, we used $T = \rr$, but any monoid will do.
+
+Dynamical systems in the above sense are cofunctors $F \colon \rr^n \yon^{\rr^n} \cof \yon^T$.
+In order to say this, we first need to say how both $\cat{C} := \rr^n \yon^{\rr^n}$ and $\yon^T$ are being considered as categories.
+The category $\cat{C}$ has objects $\rr^n$, and for each object $x \in \rr^n$ and outgoing arrow $v \in \rr^n$, the codomain of $v$ is $x + v$; in other words, $v$ is a vector emanating from $x$.
+The identity is $v = 0$, and composition is given by addition.
+The category $\yon^T$ is the monoid $T$ considered as a category with one object, $\bullet$.
+
+The cofunctor assigns to every object $x \in \rr^n$ the unique object $F(x) = \bullet$, and to each element $t \in T$ the morphism $F^\sharp(x, t) = x^{+t} - x \in \rr^n$, which can be interpreted as a vector emanating from $x$.
+Its codomain is $\cod F^\sharp(x, t) = x^{+t}$, and we will see that \eqref{eqn.cofunctor_ode} ensures the cofunctoriality properties.
+
+The codomain law ii is vacuously true, since $\yon^T$ only has one object.
+Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
+\[
+    F^\sharp(x^{+t_1}, t_2) + F^\sharp(x, t_1) = (x^{+t_1})^{+t_2} - x^{+t_1} + x^{+t_1} - x = x^{+t_1 + t_2} - x = F^\sharp(x, t_1+t_2).
+\]
+\end{example}
+
 \begin{theorem}[Ahman-Uustalu]\label{thm.ahman_uustalu}
 There is an equivalence of categories
 \[
@@ -3502,6 +3532,22 @@ Check that the terminal comonoid is $\yon$.
 \begin{proposition}[Niu]
 The category $\smcat^\sharp$ has products.
 \end{proposition}
+
+\begin{proposition}[Porst]
+The forgetful functor $\Cat{Comon}(\poly) \to \poly$ is comonadic.
+\end{proposition}
+\begin{proof}
+The fact that a forgetful functor $\Cat{Comon}(\poly) \to \poly$ is comonadic if it has a right adjoint follows from Beck's monadicity theorem via an obvious generalization of an argument given by Par{\'e} in \cite[pp.~138-9]{pare1969absolute}, as pointed out by Porst in \cite[Fact~3.1]{porst2019colimits}.
+\end{proof}
+
+\begin{corollary}
+The category $\smcat^\sharp = \Cat{Comon}(\poly)$ has all small colimits.
+They are created by the underlying polynomial functor $\Cat{Comon}(\poly) \to \poly$.
+\end{corollary}
+\begin{proof}
+It is well known that a comonadic functor creates all colimits that exist in its codomain \cite{nlab:created-limit}.
+By \cref{thm.poly_colimits}, the category $\poly$ has all small colimits.
+\end{proof}
 
 \begin{proposition}
 Let $\Cat{Comon}(\poly)_{\text{rep}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=\yon^M$ is representable. Then there is an isomorphism of categories
