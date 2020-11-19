@@ -2225,6 +2225,7 @@ behavior in a general doctrine.
       shift left, "\lens{f_{\flat}}{f}"'] & \lens{\In{S}}{\Out{S}}
     \end{tikzcd}
  \]
+ We will often refer to this square by $\phi$ as well.
 \end{definition}
 
 In \cref{sec.behaviors_general}, we will see what composition in the double
@@ -2483,7 +2484,7 @@ pair of elements $i \in \In{S}$ and $o \in \Out{S}$.
 
 A $\lens{i}{o}$-behavior $s : \Sys{Fix} \to \Sys{S}$ consists of a
 differentiable function $s : \rr^0 \to \State{S}$ --- which is to say a state
-$s \in \State{S}$ -- such that the following is a square in the category of
+$s \in \State{S}$ -- such that the following is a square in the double category of
 arenas:
 \[
     \begin{tikzcd}
@@ -2831,6 +2832,20 @@ vector at $s$. There will be a lot more to say about dynamical systems in which
 the sorts of inputs allowed depend on the current output in later chapters, but
 for now we'll have to content ourselves with a simple example.
 
+The general differential doctrine $\diffdoc$ answers the questions of
+\cref{informal.doctrine} in the following way:
+\begin{enumerate}
+  \item A state is a point in a smooth manifold.
+  \item The output is a smooth function of the state.
+  \item The kind of input can dependend on the output, but it does so
+    continuously (in the sense that the assignment sending an input to the
+    output it is valid for is a submersion).
+  \item A possible change in a state is given by a tangent vector.
+  \item For a state to change means that it is tending in this direction. That
+    is, it has derivative equal to the given tangent vector.
+  \item The changes in state vary differentiably with the input.
+\end{enumerate}
+
 \begin{example}
 Let's see an example of a situation where the inputs may differ over different
 outputs. Suppose we have a robot on a distant planet, and we are directing it.
@@ -2844,10 +2859,10 @@ S^2$ be a sphere. We will also have the robot reveal its position to us, so that
 $\Out{S} = S^2$ and $\expose{S} = \id$.
 
 Now, in any given position $p \in \Out{S}$, we want the space of inputs
-$\In{S}_p$ valid for $p$ to be the directions we can give to the robot: that is
-to say, $\In{S}_p \cong S^1$ should form a circle. However, we want these
+$\In{S_p}$ valid for $p$ to be the directions we can give to the robot: that is
+to say, $\In{S_p} \cong S^1$ should form a circle. However, we want these
 directions to be directions that the robot could actually travel, so we will let
-$\In{S}_p = \{v \in T_p \Out{S}\mid |v| = 1\}$ be the unit circle in the tangent
+$\In{S_p} = \{v \in T_p \Out{S}\mid |v| = 1\}$ be the unit circle in the tangent
 space at $p$. Then we may describe the fact that the robot moves in the
 direction we tell it by defining
 $$\update{S}(s, i) = ki.$$
@@ -2931,15 +2946,99 @@ may conclude that behaviors $\Sys{Clock_k} \to \Sys{S}$ are periodic orbits
 \subsection{Non-deterministic doctrines}
 
 In this section, we will define the non-deterministic doctrines. We've already
-done most of the work for this back in 
+done most of the work for this back in \cref{chapter.2}. In particular, in
+\cref{thm.bikleisli_indexed_cat}, we showed that to every commutative monad $M :
+\cat{C} \to \cat{C}$ on a cartesian category, there is a monoidal strict indexed
+category
+$$\smctx{}^M : \cat{C}\op \to \Cat{Cat}$$
+sending each object $C \in \cat{C}$ to the category $\smctx{C}^M$ of Klesli maps
+$C \times X \to MY$ in the context of $C$. We will take this to be the indexed
+category underlying the doctrine of non-deterministic systems associated to $M$;
+it remains to construct a section $T$.
+
+\begin{proposition}\label{prop.section_bikliesli}
+The assigment defined by 
+\begin{itemize}
+  \item $C \in \cat{C}$ is assigned to $C \in \smctx{C}^M$, and
+\item $f : C' \to C$ is assigned to 
+$$C' \times C' \xto{\pi_2 \then f \then \eta} MC$$
+\end{itemize}
+yields a section $T : \cat{C} \to \smctx{-}^M$.
+\end{proposition}
+\begin{proof}
+We see immediately that $T\id_C = \id_{TC}$. It remains to show that for $f : C'
+\to C$ and $g : C'' \to C'$, we have 
+$$Tg \then g^{\ast} Tf = T(g \then f).$$
+In the do notation, the composite on the left is given by 
+\[
+(c''_1, c''_2) \mapsto \unalignedDo{
+  {c' \from \eta(g(c''_2))},
+  {\eta(f(c'))}
+} = \eta(f(g(c''_2 )))
+\]
+which is the right hand side.
+\end{proof}
+
+\begin{definition}\label{def.non-det_doctrine}
+  Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category
+  $\cat{C}$. The \emph{$M$-flavored non-deterministic doctrine} $\nondeterm_M$
+  is defined to be the indexed category $\smctx{-}^M : \cat{C}\op \to \Cat{Cat}$
+  together with section defined in \cref{prop.section_bikliesli}. 
+\end{definition}
+
+The non-deterministic doctrine $\nondeterm_M$ answers the questions of
+\cref{informal.doctrine} in the following way (taking $\cat{C} = \smset$ for concreteness):
+\begin{enumerate}
+  \item A state is an element of a set.
+  \item The output is a deterministic function of the state.
+  \item The kind of input does not depend on the output. 
+  \item A possible change in a state is given by an $M$-distribution over states
+    (element of
+    $M\State{S}$).
+  \item A state changes by transitioning into another state. 
+  \item The changes in state vary arbitrarily with input.
+\end{enumerate}
+
+\begin{exercise}
+Answer these questions more specifically for the following doctrines:
+\begin{enumerate}
+  \item The non-deterministic Moore machine doctrine $\nondeterm_{\powset}$.
+  \item The probabilistic doctrine $\nondeterm_{\probset}$.
+\item The worst-case cost doctrine $\nondeterm_{\Cat{Cost}}$.
+\end{enumerate}
+\end{exercise}
+
+Behaviors in non-deterministic doctrines tend to be a little strict. This is
+because the notion of trajectory is a bit more subtle in the non-deterministic
+case. When does a sequence $s : \nn \to \State{S}$ constitute a trajectory of
+the system $\Sys{S}$? Is it when $s_t$ \emph{will} transition to $s_{t +1}$ (in
+that $\update{S}(s_t, i_t) = \eta(s_{t+ 1})$)? Or perhaps when it \emph{can}
+transition that way --- but how do we express this notion in general?
+
+While the notion of behavior we have given in this chapter works well for
+deterministic and differential doctrines, it does not work as well for
+non-deterministic doctrines. Instead of asking whether or not a sequence of
+states is a trajectory, we might instead want to ask how possible or likely it is
+for such a sequence of states to occur through an evolution of the system.
+Figuring out how to express this idea nicely and generally remains future work.
+
+On the other hand, simulations of non-deterministic doctrines remain
+interesting, because they tell us when we might be able to use a simpler model
+for our system without changing the exposed behavior.
+
+\begin{exercise}
+  
+\end{exercise}
 
 \section{Behaviors in general}\label{sec.behaviors_general}
 Now that we have defined the general notion of doctrine and seen how the
 behaviors of a system in any doctrine are given by squares in the double
 categories of arenas in that doctrine, we can quickly derive a few
-compositionality results about systems. In the next section, we will organize
-these results into \emph{doubly indexed functors}, but for now, it will suffice
-to understand what they mean on their own.
+compositionality results about systems. We are now in peak category theory
+territory: the statements of our propositions are far longer than their proofs,
+which amount to trivial calculations in the double category of arenas. As in
+much of categorical work, the difficulty is in understanding what to propose;
+once that work is done, the proof flows smoothly from the definitions.
 
 Let's see what composition of squares in the double category of
 arenas means for systems. Horizontal composition is familiar because it's what
@@ -3013,7 +3112,7 @@ on the wired together systems.
   vertically composing the square in
   \cref{eqn.understanding_squares_in_double_cat_of_arenas2} with the square in
   \cref{eqn.understanding_squares_in_double_cat_of_arenas}. This basic fact
-  underlies our arguments in \cref{sec.steady_states_matrix_arithmetic}. 
+  underlies our arguments in the upcoming \cref{sec.steady_states_matrix_arithmetic}. 
 
 We'll return to this idea in \cref{ex.prof_square_from_arena_square}.
 \end{example}
@@ -3034,7 +3133,8 @@ We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary doctrine.
   \item Its objects are $\cat{A}$-lenses $\lens{\update{S}}{\expose{S}} :
     \lens{T\State{S}}{\State{S}} \fromto \lens{I}{O}$, which we can call
     \emph{systems} in this general setting.
-  \item Its maps are \emph{simulations}, the squares 
+  \item Its maps are \emph{simulations}, the behaviors which have identity
+    chart. That is, the maps are the squares 
 \[
     \begin{tikzcd}
       \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T\phi}{\phi}"] \ar[r, shift right] \ar[d, shift right,
@@ -3049,6 +3149,18 @@ We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary doctrine.
   $\Cat{Arena}_{\cat{A}}$ of $\cat{A}$-arenas.
 \end{itemize}
   \end{definition}
+
+Now, thanks to the double category of arenas, we can show that every lens
+$\lens{f^{\sharp}}{f} : \lens{I}{O} \fromto \lens{I'}{O'}$ gives a functor 
+  $$\Cat{Sys}\lens{f^\sharp}{f} : \Cat{Sys}\lens{I}{O} \to
+  \Cat{Sys}\lens{I}{O}.$$
+We can see this functor as the operation of wiring together our
+$\lens{I}{O}$-systems along the lens $\lens{f^{\sharp}}{f}$ to get
+$\lens{I'}{O'}$-systems. The functoriality of this operation say that wiring
+preserves simulations --- if systems $\Sys{S_i}$ simulate $\Sys{T_i}$ by $\phi_i$,
+then the wired together systems $\Sys{S}$ simulate $\Sys{T}$ by $\phi = \prod_i
+\phi_i$. 
+
 \begin{proposition}\label{prop.lens_comp_functor_discrete}
   For a lens $\lens{f^{\sharp}}{f} : \lens{I}{O} \leftrightarrows
   \lens{I'}{O'}$, we get a functor
@@ -3099,21 +3211,22 @@ We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary doctrine.
 \end{proof}
 
 
-
-
-\begin{example}\label{ex.profunctor_from_chart}
   The notion of profunctor gives us a nice way to understand the relationship
   between a behavior $\phi : \Sys{T} \to \Sys{S}$ and its chart
-  $\lens{f_{\flat}}{f} : \lens{I}{O} \tto \lens{I'}{O'}$.
+  $\lens{f_{\flat}}{f} : \lens{I}{O} \tto \lens{I'}{O'}$. When we are using
+  behaviors, we usually have the chart $\lens{f_{\flat}}{f}$ in mind first, and
+  then look for behaviors with this chart. For example, when finding
+  trajectories, we first set the parameters for our system and then solve it. We
+  can use profunctors to formalize this relationship.
 
-  As we saw in \cref{def.cat_of_systems_discrete}, for every arena $\lens{I}{O}$
-  we have a category $\Cat{Sys}\lens{I}{O}$ of systems with interface
-  $\lens{I}{O}$. Given a chart $\lens{f_{\flat}}{f} : \lens{I}{O} \tto
+
+\begin{proposition}\label{prop.profunctor_from_chart}
+  Given a chart $\lens{f_{\flat}}{f} : \lens{I}{O} \tto
   \lens{I'}{O'}$, we get a profunctor
   $$\Cat{Sys}\lens{f_{\flat}}{f} : \Cat{Sys}\lens{I}{O} \tickar
   \Cat{Sys}\lens{I'}{O'}$$
 
-  Which is defined like this:
+  Defined by:
 \begin{align*}
   \Cat{Sys}\lens{f_{\flat}}{f}(\Sys{T}, \Sys{S}) &= \left\{ \phi : \State{T} \to
                                                    \State{S}\, \middle| \mbox{ $\phi$ is a behavior with chart $\lens{f_{\flat}}{f}$} \right\}\\
@@ -3132,23 +3245,34 @@ We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary doctrine.
                     \right\}
 \end{align*}
 
-The action of the profunctor $\Cat{Sys}\lens{f_{\flat}}{f}$ on behaviors in the
+The action of the profunctor $\Cat{Sys}\lens{f_{\flat}}{f}$ on simulations in the
 categories $\Cat{Sys}\lens{I}{O}$ and $\Cat{Sys}\lens{I'}{O'}$ is given by
-composition on the left and right.
-\end{example}
+composition on the left and right. That is, for simulations $\phi : \Sys{T'} \to
+\Sys{T}$ and $\psi : \Sys{S} \to \Sys{S'}$ and $\lens{f_{\flat}}{f}$-behavior
+$\beta \in \Cat{Sys}\lens{f_{\flat}}{f}(\Sys{T}, \Sys{S})$, we define 
+\begin{equation}\label{eqn.profunctor_from_chart}
+\phi \cdot \beta \cdot \psi := \phi \mid \beta \mid \psi.
+\end{equation}
+\end{proposition}
+
+\begin{exercise}\label{ex.profunctor_from_chart}
+ Prove \cref{prop.profunctor_from_chart}. That is, show that the action defined
+ in \cref{eqn.profunctor_from_chart} is functorial, giving a functor 
+$$\Cat{Sys}\littlelens{I}{O}\op \times \Cat{Sys}\littlelens{I'}{O'} \to \smset.$$
+(Hint: use the double categorical notation. It will be much more concise.)
+\end{exercise}
 
 
-\begin{example}\label{ex.prof_square_from_arena_square}
   With a little work in the double category of arenas, we can give a very useful
   example of a square in the double category of profunctors. Consider this
   square in the double category of arenas:
 \[ \alpha = 
   \begin{tikzcd}
-    \lens{I_1}{O_1} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
+    \lens{I_1}{O_1} \ar[d, shift right, "\lens{j_{\flat}}{j}"'] \ar[d, shift left,
         leftarrow] \ar[r, shift right]
     \ar[r, shift left, "\lens{f^{\sharp}}{f}"] & \lens{I_2}{O_2} \ar[d, shift left, leftarrow,
         "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
-    \lens{I_3}{O_3} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
+    \lens{I_3}{O_3} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
     \ar[r, shift left] & \lens{I_4}{O_4} \\
   \end{tikzcd} 
 \]
@@ -3156,15 +3280,27 @@ As we saw in \cref{prop.lens_comp_functor_discrete}, we get functors
 $\Cat{Sys}\lens{j^{\sharp}}{j} : \Cat{Sys}\lens{I_1}{O_1} \to
 \Cat{Sys}\lens{I_3}{O_3}$ and $\Cat{Sys}\lens{k^{\sharp}}{k} :
 \Cat{Sys}\lens{I_2}{O_2} \to \Cat{Sys}\lens{I_4}{O_4}$ given by composing with
-these lenses. We also saw in \cref{ex.profunctor_from_chart} that we get
+these lenses. We also saw in \cref{prop.profunctor_from_chart} that we get
 profunctors $\Cat{Sys}\lens{f_{\flat}}{f} : \Cat{Sys}\lens{I_1}{O_1} \tickar
 \Cat{Sys}\lens{I_2}{O_2}$ and $\Cat{Sys}\lens{g_{\flat}}{g} :
-\Cat{Sys}\lens{I_3}{O_3} \tickar \Cat{Sys}\lens{I_4}{O_4}$ from these charts. In
-this example, we'll observe that we can get a square of profunctors 
+\Cat{Sys}\lens{I_3}{O_3} \tickar \Cat{Sys}\lens{I_4}{O_4}$ from these charts. We
+can also get a square of profunctors 
+from the square $\alpha$ in the double category of arenas:
+\[
+\begin{tikzcd}
+  \Cat{Sys}\littlelens{I_1}{O_1} \ar[rr, tick,
+  "{\Cat{Sys}\lens{f_{\flat}}{f}}"]\ar[dd,
+  "{\Cat{Sys}\littlelens{j^{\sharp}}{j}}"'] & &
+  \Cat{Sys}\littlelens{I_2}{O_2} \ar[dd, "{\Cat{Sys}\littlelens{k^{\sharp}}{k}}"]\\
+ &\Cat{Sys}(\alpha) & \\
+\Cat{Sys}\littlelens{I_3}{O_3} \ar[rr, tick,
+"{\Cat{Sys}\lens{g_{\flat}}{g}}"']& & \Cat{Sys}\littlelens{I_4}{O_4}
+\end{tikzcd}
+\]
+That is, a natural transformation of the following signature:
 \[
 \Cat{Sys}(\alpha) : \Cat{Sys}\lens{f_{\flat}}{f} \to
-\Cat{Sys}\lens{g_{\flat}}{g}\left( \Cat{Sys}\littlelens{j^{\sharp}}{j}, \Cat{Sys}\littlelens{k^{\sharp}}{k} \right)\]
-from the square $\alpha$ in the double category of arenas.
+\Cat{Sys}\lens{g_{\flat}}{g}\left( \Cat{Sys}\littlelens{j^{\sharp}}{j}, \Cat{Sys}\littlelens{k^{\sharp}}{k} \right).\]
 
 To define the natural transformation $\Cat{Sys}(\alpha)$, we need to say what it
 does to an element $\phi$ of $\Cat{Sys}\lens{f_{\flat}}{f}\left(\Sys{T},
@@ -3200,10 +3336,39 @@ $\Cat{Sys}(\alpha)(\phi)$ to be the vertical composite:
 Or, a little more concisely in double category notation:
 $$\Cat{Sys}(\alpha)(\phi) = \frac{\phi}{\alpha}.$$
 
+We record this observation in a proposition.
+\begin{proposition}\label{prop.prof_square_from_arena_square}
+  Given a square
+\[ \alpha = 
+  \begin{tikzcd}
+    \lens{I_1}{O_1} \ar[d, shift right, "\lens{j_{\flat}}{j}"'] \ar[d, shift left,
+        leftarrow] \ar[r, shift right]
+    \ar[r, shift left, "\lens{f^{\sharp}}{f}"] & \lens{I_2}{O_2} \ar[d, shift left, leftarrow,
+        "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
+    \lens{I_3}{O_3} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
+    \ar[r, shift left] & \lens{I_4}{O_4} \\
+  \end{tikzcd} 
+\]
+in the double category of arenas, we get a square
+
+\[
+\begin{tikzcd}
+  \Cat{Sys}\littlelens{I_1}{O_1} \ar[rr, tick,
+  "{\Cat{Sys}\lens{f_{\flat}}{f}}"]\ar[dd,
+  "{\Cat{Sys}\littlelens{j^{\sharp}}{j}}"'] & &
+  \Cat{Sys}\littlelens{I_2}{O_2} \ar[dd, "{\Cat{Sys}\littlelens{k^{\sharp}}{k}}"]\\
+ &\Cat{Sys}(\alpha) & \\
+\Cat{Sys}\littlelens{I_3}{O_3} \ar[rr, tick,
+"{\Cat{Sys}\lens{g_{\flat}}{g}}"']& & \Cat{Sys}\littlelens{I_4}{O_4}
+\end{tikzcd}
+\]
+in the double category of categories, functors, and profunctors given by 
+$$\Cat{Sys}(\alpha)(\phi) = \frac{\phi}{\alpha}.$$
+
+\end{proposition}
+
 The naturality of this transformation follows from the double category laws. We
 leave the particulars as an exercise.
-\end{example}
-
 \begin{exercise}\label{ex.prof_square_from_arena_square_naturality}
   Prove that the family of functions 
   \[
