@@ -839,161 +839,40 @@ m\cong\yon^{\sum_{g\in G}\ema{c}[i'(g)]}
 In particular $\rho_i$ is a representable right $\com{C}$-module, and we can identify it with a $\cat{C}$-set by \cref{thm.tfae_c_sets}. The elements of this $\cat{C}$-set are pairs $(g, f)$, where $g\in G$ is a generator and $f\colon i'(g)\to\cod(f)$ is a morphism in $\cat{C}$ emanating from $i'(g)$. It is easy to see that the module structure induced by \cref{prop.all_free_modules} is indeed the free one.
 \end{proof}
 
-
-\begin{proposition}[Niu]
-Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
-\end{proposition}
-\begin{proof}
-    Given a left $\com{C}$-module $m$, we begin by denoting it using polyboxes:
-    	\[
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-  	\node[poly, cod, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" right] (c)  {$f$ \nodepart{two} $i$};
-  	\node[poly, cod, above=of c, "$m$" right] (mm) {$q$};
-  	\draw (m_pos) to[first] node[below] {$\lambda_1$}(c_pos);
-  	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
-  	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
-  \end{tikzpicture}
-	\]
-	satisfying
-	\begin{equation} \label{eqn.resp_counit}
-    \begin{tikzpicture}
-    	\node (1) {
-    \begin{tikzpicture}[polybox, tos]
-      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-      	\node[poly, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
-      	\node[poly, above=of c, "$m$" above] (mm) {$q'$};
-      	\node[poly, cod, identity, right=of c] (y) {};
-      	\node[poly, cod, above=of y, "$m$" above] (mmm) {$q'$};
-      	\draw (c_pos) -- (y_pos);
-      	\draw (y_dir) -- node[above] {$\idy$} (c_dir);
-      	\draw[double] (mm_pos) -- (mmm_pos);
-      	\draw[double] (mmm_dir) -- (mm_dir);
-      	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
-      	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
-      	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
-    \end{tikzpicture}
-    	};
-    \node[right=1.6 of 1] (2) {
-    \begin{tikzpicture}[polybox, tos]
-      \node[poly, dom, "$m$" left] (m) {$q'$ \nodepart{two} $j$};
-      \node[poly, cod, right= of m, "$m$" right] (mm) {$q'$ \nodepart{two} $j$};
-  	  \draw[double] (m_pos) -- (mm_pos);
-      \draw[double] (mm_dir) -- (m_dir);
-    \end{tikzpicture}
-    };
-	\node at ($(1.east)!.5!(2.west)$) {=};
-    \end{tikzpicture}
-	\end{equation}
-	and
-	\begin{equation} \label{eqn.resp_comult}
-    \begin{tikzpicture}
-    	\node (1) {
-    \begin{tikzpicture}[polybox, tos]
-      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-      	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
-      	\node[poly, above=of c, "$m$" above] (mm) {};
-      	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
-      	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
-      	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
-    %
-    	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
-    	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
-    	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
-    	\draw[double] (c_pos) to[first] (cc_pos);
-    	\draw (cc_dir) to[climb] node[right] {$\cod$} (ccc_pos);
-    	\draw (ccc_dir) to[last] node[above, sloped] {$\comp$}  (c_dir);
-    	\draw[double] (mm_pos) to[first] (mmm_pos);
-    	\draw[double] (mmm_dir) to[last] (mm_dir);
-	\end{tikzpicture}
-	};
-    	\node[right=1.8 of 1] (2) {
-    \begin{tikzpicture}[polybox, tos]
-      	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-      	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {$f$ \nodepart{two} $i$};
-      	\node[poly, above=of c, "$m$" above] (mm) {};
-      	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
-      	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
-      	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
-    %
-    	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
-    	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
-    	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
-    	\draw[double] (c_pos) to[first] (cc_pos);
-    	\draw[double] (cc_dir) to[last] (c_dir);
-    	\draw (mm_pos) to[first] node[below] {$\lambda_1$} (ccc_pos);
-    	\draw (ccc_dir) to[climb] node[right] {$\lambda_2$} (mmm_pos);
-    	\draw (mmm_dir) to[last] node[above left] {$\lambda^\sharp$} (mm_dir);
-	\end{tikzpicture}    	};
-    	\node at ($(1.east)!.5!(2.west)$) {=};
-    \end{tikzpicture}
-    \end{equation}
-    
-    We give the functor $L_m \colon \cat{C} \to \poly$ corresponding to $m$.
-    To each object $i \in \Ob(\cat{C}) = \ema{c}(\1)$, we assign
-    \[
-        L_m(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
-    \]
-    This is the pullback in the diagram
+\begin{exercise}
+Let $\cat{C}$ be a category and $i \in \cat{C}$ an object.
+\begin{enumerate}
+    \item Consider $i$ as a map $\yon \to \ema{c}$.
+    Show that the vertical-cartesian factorization of this map is $\yon \to \yon^{\ema{c}[i]} \To{\varphi} \ema{c}$.
+    \item Use \cref{prop.comp_pres_cart} to show that $\yon^{\ema{c}[i]} \tri \ema{c} \to \ema{c} \tri \ema{c}$ is cartesian.
+    \item Show that there is a commutative square
     \[
     \begin{tikzcd}
-        L_m(i) \ar[r] \ar[d, "\text{cart}"'] & \yon^{\ema{c}[i]} \tri m \ar[d, "\text{cart}"] \\
-        m \ar[r] & \ema{c} \tri m \ar[ul, phantom, very near end, "\lrcorner"]
+        \yon^{\ema{c}[i]} \ar[r, "\delta^i"] \ar[d, "\varphi"'] & \yon^{\ema{c}[i]} \tri \ema{c} \ar[d, "\text{cart}"] \\
+        \ema{c} \ar[r, "\delta"'] & \ema{c} \tri \ema{c} \ar[ul, phantom, very near end, "\lrcorner"]
     \end{tikzcd}
     \]
-    where the map $\yon^{\ema{c}[i]} \tri m \to \ema{c} \tri m$ is the cartesian map $\yon^{\ema{c}[i]} \to \ema{c}$ associated to the position $i$ composed with $m$; see \cref{prop.comp_pres_cart,prop.pullback_cartesian}.
-    
-    Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L_m(f) \colon L_m(i) \to L_m(\cod(f))$.
-    On positions, $L_m(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_comult} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L_m(\cod(f))$.
-    On directions, $L_m(f)$ sends each $q \in L_m(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L_m(i)[j]$.
-    
-    It is routine to check that \eqref{eqn.resp_counit} implies that $L_m$ preserves identities, while \eqref{eqn.resp_comult} implies that $L_m$ preserves composition.
-    
-    Conversely, it is clear that we can recover the left $\com{C}$-module $m_L$ equipped with $\lambda \colon m_L \to c \tri m_L$ to which a functor $L \colon \cat{C} \to \poly$ corresponds as follows.
-    We can write
-    \[
-        m_L = \sum_{i \in \cat{C}} L(i).
-    \]
-    Then $\lambda_1$ sends each $j \in m_L(\1)$ to the unique $i \in \cat{C}$ for which $j \in L(i)(\1)$.
-    Meanwhile, by our construction above, $\lambda_2$ and $\lambda^\sharp$ can be directly recovered from the behavior of $L$ on morphisms in $\cat{C}$.
-    Similarly, \eqref{eqn.resp_counit} and \eqref{eqn.resp_comult} follow from the functoriality of $F$.
-    
-    Suppose we are given a map of left $\com{C}$-modules $\varphi \colon m \to m'$ satisfying the commutative diagram
-    \[
-    \begin{tikzcd}
-      m \ar[r, "\lambda"] \ar[d, "\varphi"'] & \ema{c} \tri m \ar[d, "\ema{c} \tri \varphi"] \\
-      m' \ar[r, "\lambda'"'] & \ema{c} \tri m'
-    \end{tikzcd}
-    \]
-    We will give a natural transformation $L_\varphi \colon L_m \to L_{m'}$ by giving a component morphism of polynomials $(L_\varphi)_i \colon L_m(i) \to L_{m'}(i)$ for each object $i$ in $\cat{C}$, then verifying naturality.
-    
-    We construct the following diagram, where the top and bottom squares are pullbacks:
-    \[
-    \begin{tikzcd}[sep=5pt]
-        L_m(i) \ar[rr] \ar[dd, dashed, "(L_\varphi)_i"'] \ar[dr] & & \yon^{\ema{c}[i]} \tri m \ar[dd] \ar[dr] \\
-        & m \ar[rr, crossing over] & & \ema{c} \tri m \ar[dd] \\
-        L_{m'}(i) \ar[rr] \ar[dr] & & \yon^{\ema{c}[i]} \tri m' \ar[dr] \\
-        & m' \ar[from=uu, crossing over] \ar[rr] & & \ema{c} \tri m'
-    \end{tikzcd}
-    \]
-    The component $(L_\varphi)_i$ is given by the induced dashed arrow.
-    The naturality will be proven in \cref{exc.natural_poly_module}.
-    
-    **Finish morphisms**
-\end{proof}
-
-\begin{exercise} \label{exc.natural_poly_module}
-    Complete the above proof by showing that $L_{\varphi} \colon L_m \to L_{m'}$ is natural; that is, for a morphism $f \colon i \to i'$ in $\cat{C}$, the naturality square 
-    \[
-    \begin{tikzcd}
-        L_m(i) \ar[d, ""] \ar[r] & L_{m'}(i) \ar[d] \\
-        L_m(i') \ar[r] & L_{m'}(i')
-    \end{tikzcd}
-    \]
-    commutes.
-    **Finish labels**
+    \item Show that this square is a pullback, as indicated.
+    \item Show that $\delta^i$ makes $\yon^{\ema{c}[i]}$ a right $\com{C}$-module.
+    \qedhere
+\end{enumerate}
 \end{exercise}
 
+The map $\delta^i$ can be seen as the restriction of $\delta \colon \ema{c} \to \ema{c} \tri \ema{c}$ to a single starting position.
+
+We can extend this to a functor $\cat{C} \to \bimod{\yon}{\cat{C}}$ that sends the object $i$ to $\yon^{\ema{c}[i]}$. Given a morphism $f \colon i \to i'$ in $\cat{C}$, we get a function $\ema{c}[i'] \to \ema{c}[i]$ given by composition with $f$, and hence a map of polynomials $\yon^{\ema{c}[f]} \colon \yon^{\ema{c}[i]} \to \yon^{\ema{c}[i']}$.
+
+\begin{exercise}
+\begin{enumerate}
+    \item Show that $\yon^{\ema{c}[f]}$ is a map of right $\com{C}$-modules.
+    \item Show that the construction $\yon^{\ema{c}[f]}$ is functorial in $f$. \qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}[Yoneda]
+Let $\cat{C}$ be a category.
+We refer to the above functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ as the \emph{Yoneda} functor.
+\end{definition}
 
 \begin{proposition}
 For any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
@@ -1227,9 +1106,190 @@ Consider the query on $\yon^\nn$ from \cref{ex.siblings} asking for siblings.
 We denote the composite of $\ema{e}\bimodfrom[n]\ema{d}\bimodfrom[m]\ema{c}$ by 
 \[\ema{e}\bimodfrom[n\tri_\ema{d}m]\ema{c}.\]
 
+\begin{theorem} \label{thm.pra_tensored_cat}
+For any categories $\cat{C}$ and $\cat{D}$, the functor 
+\[
+    \bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})
+\]
+is an equivalence.
+\end{theorem}
+\begin{proof}
+%     Given a left $\com{C}$-module $m$, we begin by denoting it using polyboxes:
+%     	\[
+%   \begin{tikzpicture}[polybox, tos]
+%   	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%   	\node[poly, cod, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" right] (c)  {$f$ \nodepart{two} $i$};
+%   	\node[poly, cod, above=of c, "$m$" right] (mm) {$q$};
+%   	\draw (m_pos) to[first] node[below] {$\lambda_1$}(c_pos);
+%   	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%   	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%   \end{tikzpicture}
+% 	\]
+% 	satisfying
+% 	\begin{equation} \label{eqn.resp_counit}
+%     \begin{tikzpicture}
+%     	\node (1) {
+%     \begin{tikzpicture}[polybox, tos]
+%       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%       	\node[poly, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+%       	\node[poly, above=of c, "$m$" above] (mm) {$q'$};
+%       	\node[poly, cod, identity, right=of c] (y) {};
+%       	\node[poly, cod, above=of y, "$m$" above] (mmm) {$q'$};
+%       	\draw (c_pos) -- (y_pos);
+%       	\draw (y_dir) -- node[above] {$\idy$} (c_dir);
+%       	\draw[double] (mm_pos) -- (mmm_pos);
+%       	\draw[double] (mmm_dir) -- (mm_dir);
+%       	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+%       	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%       	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%     \end{tikzpicture}
+%     	};
+%     \node[right=1.6 of 1] (2) {
+%     \begin{tikzpicture}[polybox, tos]
+%       \node[poly, dom, "$m$" left] (m) {$q'$ \nodepart{two} $j$};
+%       \node[poly, cod, right= of m, "$m$" right] (mm) {$q'$ \nodepart{two} $j$};
+%   	  \draw[double] (m_pos) -- (mm_pos);
+%       \draw[double] (mm_dir) -- (m_dir);
+%     \end{tikzpicture}
+%     };
+% 	\node at ($(1.east)!.5!(2.west)$) {=};
+%     \end{tikzpicture}
+% 	\end{equation}
+% 	and
+% 	\begin{equation} \label{eqn.resp_comult}
+%     \begin{tikzpicture}
+%     	\node (1) {
+%     \begin{tikzpicture}[polybox, tos]
+%       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%       	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+%       	\node[poly, above=of c, "$m$" above] (mm) {};
+%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+%       	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+%       	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+%     %
+%     	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+%     	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%     	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%     	\draw[double] (c_pos) to[first] (cc_pos);
+%     	\draw (cc_dir) to[climb] node[right] {$\cod$} (ccc_pos);
+%     	\draw (ccc_dir) to[last] node[above, sloped] {$\comp$}  (c_dir);
+%     	\draw[double] (mm_pos) to[first] (mmm_pos);
+%     	\draw[double] (mmm_dir) to[last] (mm_dir);
+% 	\end{tikzpicture}
+% 	};
+%     	\node[right=1.8 of 1] (2) {
+%     \begin{tikzpicture}[polybox, tos]
+%       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%       	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {$f$ \nodepart{two} $i$};
+%       	\node[poly, above=of c, "$m$" above] (mm) {};
+%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+%       	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+%       	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+%     %
+%     	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+%     	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%     	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%     	\draw[double] (c_pos) to[first] (cc_pos);
+%     	\draw[double] (cc_dir) to[last] (c_dir);
+%     	\draw (mm_pos) to[first] node[below] {$\lambda_1$} (ccc_pos);
+%     	\draw (ccc_dir) to[climb] node[right] {$\lambda_2$} (mmm_pos);
+%     	\draw (mmm_dir) to[last] node[above left] {$\lambda^\sharp$} (mm_dir);
+% 	\end{tikzpicture}    	};
+%     	\node at ($(1.east)!.5!(2.west)$) {=};
+%     \end{tikzpicture}
+%     \end{equation}
+    
+%     We give the functor $L_m \colon \cat{C} \to \poly$ corresponding to $m$.
+%     To each object $i \in \Ob(\cat{C}) = \ema{c}(\1)$, we assign
+%     \[
+%         L_m(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
+%     \]
+%     This is the pullback in the diagram
+%     \[
+%     \begin{tikzcd}
+%         L_m(i) \ar[r] \ar[d, "\text{cart}"'] & \yon^{\ema{c}[i]} \tri m \ar[d, "\text{cart}"] \\
+%         m \ar[r] & \ema{c} \tri m \ar[ul, phantom, very near end, "\lrcorner"]
+%     \end{tikzcd}
+%     \]
+%     where the map $\yon^{\ema{c}[i]} \tri m \to \ema{c} \tri m$ is the cartesian map $\yon^{\ema{c}[i]} \to \ema{c}$ associated to the position $i$ composed with $m$; see \cref{prop.comp_pres_cart,prop.pullback_cartesian}.
+    
+%     Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L_m(f) \colon L_m(i) \to L_m(\cod(f))$.
+%     On positions, $L_m(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_comult} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L_m(\cod(f))$.
+%     On directions, $L_m(f)$ sends each $q \in L_m(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L_m(i)[j]$.
+    
+%     It is routine to check that \eqref{eqn.resp_counit} implies that $L_m$ preserves identities, while \eqref{eqn.resp_comult} implies that $L_m$ preserves composition.
+    
+%     Conversely, it is clear that we can recover the left $\com{C}$-module $m_L$ equipped with $\lambda \colon m_L \to c \tri m_L$ to which a functor $L \colon \cat{C} \to \poly$ corresponds as follows.
+%     We can write
+%     \[
+%         m_L := \sum_{i \in \cat{C}} L(i).
+%     \]
+%     Then $\lambda_1$ sends each $j \in m_L(\1)$ to the unique $i \in \cat{C}$ for which $j \in L(i)(\1)$.
+%     Meanwhile, by our construction above, $\lambda_2$ and $\lambda^\sharp$ can be directly recovered from the behavior of $L$ on morphisms in $\cat{C}$.
+%     Similarly, \eqref{eqn.resp_counit} and \eqref{eqn.resp_comult} follow from the functoriality of $F$.
+    
+%     Suppose we are given a map of left $\com{C}$-modules $\varphi \colon m \to m'$ satisfying the commutative diagram
+%     \[
+%     \begin{tikzcd}
+%       m \ar[r, "\lambda"] \ar[d, "\varphi"'] & \ema{c} \tri m \ar[d, "\ema{c} \tri \varphi"] \\
+%       m' \ar[r, "\lambda'"'] & \ema{c} \tri m'
+%     \end{tikzcd}
+%     \]
+%     We will give a natural transformation $L_\varphi \colon L_m \to L_{m'}$ by giving a component morphism of polynomials $(L_\varphi)_i \colon L_m(i) \to L_{m'}(i)$ for each object $i$ in $\cat{C}$, then verifying naturality.
+    
+%     We construct the following diagram, where the top and bottom squares are pullbacks:
+%     \[
+%     \begin{tikzcd}[sep=5pt]
+%         L_m(i) \ar[rr] \ar[dd, dashed, "(L_\varphi)_i"'] \ar[dr] & & \yon^{\ema{c}[i]} \tri m \ar[dd] \ar[dr] \\
+%         & m \ar[rr, crossing over] & & \ema{c} \tri m \ar[dd] \\
+%         L_{m'}(i) \ar[rr] \ar[dr] & & \yon^{\ema{c}[i]} \tri m' \ar[dr] \\
+%         & m' \ar[from=uu, crossing over] \ar[rr] & & \ema{c} \tri m'
+%     \end{tikzcd}
+%     \]
+%     The component $(L_\varphi)_i$ is given by the induced dashed arrow.
+%     The naturality will be proven in \cref{exc.natural_poly_module}.
+    
+%     Conversely, given functors $L, L' \colon \cat{C} \to \poly$ and a natural transformation $\alpha \colon L \to L'$, we can use the fact that $m_L \cong \sum_{i \in \cat{C}} L(i)$ and the universal property of coproducts to extend the maps $L(i) \To{\alpha_i} L'(i) \to m_{L'}$ over all $i \in \cat{C}$ to a map $\varphi_{\alpha} \colon m_L \to m_{L'}$
+\end{proof}
+
+
+\begin{corollary}
+For any categories $\cat{C}_1, \cat{C}_2$, and $\cat{D}$, the functor
+\[
+    \bimod{\cat{C}_1 \otimes \cat{C}_2}{\cat{D}} \to \smcat(\cat{C}_1, \bimod{\cat{C}_2}{\cat{D}})
+\]
+is an equivalence.
+\end{corollary}
+\begin{proof}
+** $\cat{C}_1 \otimes \cat{C}_2$ is the usual product of categories **
+\end{proof}
+
+
+\begin{corollary}[Niu]
+Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
+\end{corollary}
+\begin{proof}
+Use \cref{thm.pra_tensored_cat} with $\cat{D} = \yon$ and the equivalence $\bimod{\yon}{\yon} \cong \poly$.
+\end{proof}
+
+\begin{exercise} \label{exc.natural_poly_module}
+    Complete the above proof by showing that $L_{\varphi} \colon L_m \to L_{m'}$ is natural; that is, for a morphism $f \colon i \to i'$ in $\cat{C}$, the naturality square 
+    \[
+    \begin{tikzcd}
+        L_m(i) \ar[d, "(L_{\varphi})_i"'] \ar[r, "L_m(f)"] & L_{m'}(i) \ar[d, "(L_{\varphi})_{i'}"] \\
+        L_m(i') \ar[r, "L_{m'}(f)"'] & L_{m'}(i')
+    \end{tikzcd}
+    \]
+    commutes.
+\end{exercise}
+
+
+
 \begin{proposition}[Niu]\label{prop.composite_for_nats}
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
 \end{proposition}
+
+
 
 \begin{proposition}
 For any categories $\cat{C}$ and $\cat{D}$ and $(\cat{D},\cat{C})$-bimodule $\ema{d}\bimodfrom[m]\ema{c}$, we have
@@ -1275,6 +1335,10 @@ A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimod
 \begin{proof}
 **
 \end{proof}
+
+\begin{proposition} \label{prop.terminal_cof_principal}
+For any category $\cat{C}$, the pras associated to the terminal cofunctor $\cat{C} \cof \yon$ are the principal left and right $\com{C}$-modules.
+\end{proposition}
 
 \begin{example}[Types on database tables]
 For a category $\cat{C}$, a functor $\cat{C}\to\smset$ doesn't appear to have actual attributes, e.g.\ string, integers, etc., attached to its elements. To correct this, let's add a type $T_c$ to each table in $c$, and ask that each row in $c$ is assigned an element of $T_c$.
