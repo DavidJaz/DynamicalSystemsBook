@@ -2190,7 +2190,7 @@ We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\
 as desired.
 \end{proof}
 
-\begin{example}
+\begin{example} \label{ex.labeled_transition}
 Consider two four-state dynamical systems $4\yon^4\to \rr\yon^{\{r,b\}}$ and $4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
 \[
 \begin{tikzpicture}
@@ -2291,6 +2291,21 @@ The state without any outgoing arrows is the ``accept'' state for a regular lang
 	\item Name a word that is not accepted by this machine.
 \qedhere
 \end{enumerate}
+\end{exercise}
+
+\begin{example}[Graphs] \label{ex.graph_dyn}
+Given a graph $G = (E \tto V)$ with source map $s \colon E \to V$ and target map $t \colon E \to V$, there is an associated polynomial
+\[
+    g := \sum_{v \in V} \yon^{s\inv(v)}.
+\]
+We call this the \emph{emanation polynomial of $G$}.
+
+The graph itself can be seen as a dynamical system $f \colon V\yon^V \to g$, where $f_1 = \id_V$ and $f^\sharp(v, e) = t(e)$.
+\end{example}
+
+\begin{exercise}
+Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
+Draw the associated labeled transition system as in \cref{ex.labeled_transition}.
 \end{exercise}
 
 \begin{example}[Adding a pause button]\label{ex.pause}

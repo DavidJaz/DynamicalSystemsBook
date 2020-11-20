@@ -869,10 +869,17 @@ We can extend this to a functor $\cat{C} \to \bimod{\yon}{\cat{C}}$ that sends t
 \end{enumerate}
 \end{exercise}
 
-\begin{definition}[Yoneda]
+\begin{definition}[Yoneda] \label{def.yoneda_functor}
 Let $\cat{C}$ be a category.
 We refer to the above functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ as the \emph{Yoneda} functor.
 \end{definition}
+
+\begin{proposition}
+The Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ is fully faithful.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
 
 \begin{proposition}
 For any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
@@ -1106,6 +1113,13 @@ Consider the query on $\yon^\nn$ from \cref{ex.siblings} asking for siblings.
 We denote the composite of $\ema{e}\bimodfrom[n]\ema{d}\bimodfrom[m]\ema{c}$ by 
 \[\ema{e}\bimodfrom[n\tri_\ema{d}m]\ema{c}.\]
 
+Recall the Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ from \cref{def.yoneda_functor}.
+Using bimodule composition, we obtain the composite functor
+\[
+    \cat{C} \times \bimod{\cat{C}}{\cat{D}} \To{\yon^{\ema{c}[-]} \times \bimod{\cat{C}}{\cat{D}}} \bimod{\yon}{\cat{C}} \times \bimod{\cat{C}}{\cat{D}} \to \bimod{\yon}{\cat{D}}.
+\]
+By the cartesian closure of $\smcat$, this can be identified with a functor $\bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})$.
+
 \begin{theorem} \label{thm.pra_tensored_cat}
 For any categories $\cat{C}$ and $\cat{D}$, the functor 
 \[
@@ -1272,18 +1286,40 @@ Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalen
 Use \cref{thm.pra_tensored_cat} with $\cat{D} = \yon$ and the equivalence $\bimod{\yon}{\yon} \cong \poly$.
 \end{proof}
 
-\begin{exercise} \label{exc.natural_poly_module}
-    Complete the above proof by showing that $L_{\varphi} \colon L_m \to L_{m'}$ is natural; that is, for a morphism $f \colon i \to i'$ in $\cat{C}$, the naturality square 
-    \[
-    \begin{tikzcd}
-        L_m(i) \ar[d, "(L_{\varphi})_i"'] \ar[r, "L_m(f)"] & L_{m'}(i) \ar[d, "(L_{\varphi})_{i'}"] \\
-        L_m(i') \ar[r, "L_{m'}(f)"'] & L_{m'}(i')
-    \end{tikzcd}
-    \]
-    commutes.
-\end{exercise}
+% \begin{exercise} \label{exc.natural_poly_module}
+%     Complete the above proof by showing that $L_{\varphi} \colon L_m \to L_{m'}$ is natural; that is, for a morphism $f \colon i \to i'$ in $\cat{C}$, the naturality square 
+%     \[
+%     \begin{tikzcd}
+%         L_m(i) \ar[d, "(L_{\varphi})_i"'] \ar[r, "L_m(f)"] & L_{m'}(i) \ar[d, "(L_{\varphi})_{i'}"] \\
+%         L_m(i') \ar[r, "L_{m'}(f)"'] & L_{m'}(i')
+%     \end{tikzcd}
+%     \]
+%     commutes.
+% \end{exercise}
 
+\begin{definition}
+For any category $\cat{C}$, define the category of \emph{polynomials in $\cat{C}$}, denoted $\smset[\cat{C}]$, by
+\[
+    \smset[\cat{C}] := \bimod{\yon}{\cat{C}}
+\]
+\end{definition}
 
+\begin{example}
+When $\cat{C} = \yon$, we have $\smset[\yon] \cong \poly$, and for any set $I$ considered as a discrete category $I\yon$, we have $\smset[I\yon]$ is the category of polynomial functors in $I$ many variables.
+
+For arbitrary $\cat{C}$, we can think of $\smset[\cat{C}]$ as a polynomial rig with variables in $\Ob\cat{C}$, but with arbitrary limits replacing the mere products you would find when $\cat{C}$ is a discrete category.
+\end{example}
+
+\begin{proposition}
+For any category $\cat{C}$, the category $\smset[\cat{C}]$ is the free coproduct completion of $(\cat{C}\set)\op$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{theorem}
+For any $(\cat{C}, \cat{D})$-bimodule $m$, the functor $\smset[\cat{C}] \to \smset[\cat{D}]$ defined by composition with $m$ preserves constants, addition, and multiplication; in particular, it's a map of rig categories.
+\end{theorem}
 
 \begin{proposition}[Niu]\label{prop.composite_for_nats}
 The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
