@@ -2558,9 +2558,92 @@ that the Grothendieck construction is a sort of sum.\footnote{The Grothendieck
   defined above is associative and unital.
 \end{exercise}
 
-The confluence of notation with that of charts is no accident. Indeed, we will
-see in the next section that the category of charts can be described as the
-Grothendieck construction of a certain indexed category.
+\paragraph{Pure and cartesian maps.}\label{sec.pure_and_cartesian_maps}
+
+A map in a Grothendieck construction is a pair $\lens{f_{\flat}}{f} :
+\lens{A}{C} \tto \lens{A'}{C'}$ of maps $f : C \to C'$ and $f_{\flat}: A \to
+f^{\ast}A'$. It is not too hard to see that a map is an isomorphism in a Grothendieck
+construction if and only if both its constituent maps are isomorphisms in their
+respective categories.
+
+\begin{proposition}\label{prop.isomorphism_in_groth_construction}
+Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category and let $\lens{f_{\flat}}{f} :
+\lens{A}{C} \tto \lens{A'}{C'}$ be a map in its Grothendieck construction. Then
+$\lens{f_{\flat}}{f}$ is an isomorphism if and only if $f$ is an isomorphism in
+$\cat{C}$ and $f_{\flat}$ is an isomorphism in $\cat{A}(C)$.
+\end{proposition}
+\begin{proof}
+First, let's show that if both $f$ and $f_{\flat}$ are isomorphisms, then
+$\lens{f_{\flat}}{f}$ is an isomorphism. We then have $f\inv : C' \to C$ and
+$f_{\flat}\inv : f^{\ast}A' \to A$. From $f_{\flat}\inv$, we can form
+$(f\inv)^{\ast} (f_{\flat}\inv) : (f\inv)^{\ast}f^{\ast} A' \to
+(f\inv)^{\ast}A$, which we can pre-compose with some of the coherences to have
+the signature $A' \to (f\inv)^{\ast} A$:
+$$A' \xequals{\,} (f \circ f\inv)^{\ast} A' \xequals{\,} 
+(f\inv)^{\ast} f^{\ast} A' \xto{(f\inv)^{\ast} (f_{\flat}\inv)} (f\inv)^{\ast} A.$$
+Now, consider the map $\lens{(f\inv)^{\ast}f_{\flat}\inv}{f\inv} : \lens{A'}{C'}
+\tto \lens{A}{C}$. We'll show that this is an
+inverse to $\lens{f_{\flat}}{f}$. Certainly, the bottom components will work
+out; we just need to worry about the top. That is, we need to show that
+$f^{\ast}((f\inv)^{\ast} f_{\flat}\inv) \circ f_{\flat} = \id$ and
+$(f\inv)^{\ast}(f_{\flat}) \circ (f\inv)^{\ast}(f_{\flat}\inv) = \id$. Both of
+these follow quickly by functoriality.
+
+On the other hand, suppose that $\lens{f_{\flat}}{f}$ is an isomorphism with
+inverse $\lens{g_{\flat}}{g}$. Then $gf = \id$ and $fg = \id$, so $f$ is an
+isomorphism. We can focus on $f_{\flat}$. We know that $f^{\ast}g_{\flat} \circ
+f_{\flat} = \id$ and $g^{\ast}f_{\flat} \circ g_{\flat} = \id$. Applying
+$f^{\ast}$ to the second equation, we find that $f_{\flat} \circ
+f^{\ast}g_{\flat} = \id$, so that $f_{\flat}$ is an isomorphism with inverse $f^{\ast}g_{\flat}$.
+\end{proof}  
+
+\begin{remark}
+  \cref{prop.isomorphism_in_groth_construction} gives a general solution to
+  \cref{ex.isomorphism_in_category_of_charts}, since the category of charts is a
+  Grothendieck construction.
+\end{remark}
+
+This proposition suggests two interesting classes of maps in a Grothendieck
+construction: the maps $\lens{f_{\flat}}{f}$ for which $f$ is an isomorphism, and
+those for which $f_{\flat}$ is an isomorphism.
+\begin{definition}\label{def.pure_and_cartesian}
+Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ be an indexed category and let
+$\lens{f_{\flat}}{f}$ be a map in its Grothendieck construction. We say that
+$\lens{f_{\flat}}{f}$ is
+\begin{itemize}
+\item \emph{pure} if $f$ is an isomorphism, and
+\item \emph{cartesian} if $f_{\flat}$ is an isomorphism.
+\end{itemize}
+\end{definition}
+
+The pure maps correspond essentially to the maps in the categories $\cat{A}(C)$
+at a given index $C$, while the cartesian maps correspond essentially to the
+maps in $\cat{C}$.
+
+\begin{remark}
+  The name ``pure'' is non-standard. The usual name is ``vertical''. But we are
+  about to talk about ``vertical'' maps in a technical sense when we come to
+  double categories, so we've renamed the concept here to avoid confusion later.
+\end{remark}
+
+\begin{example}
+  We have often seen systems that expose their entire state, like $\Sys{Time}$ 
+  of \cref{ex.trajectory_as_behavior_discrete}. Considered as lenses, these are
+  \emph{pure} in the sense that their $\expose{}$ function is an isomorphism.
+\end{example}
+
+\begin{exercise}\label{ex.2-of-3_for_pure_cartesian}
+  Let $\lens{f_{\flat}}{f}$ and $\lens{g_{\flat}}{g}$ be composable maps in a Grothendieck construction,
+  \begin{enumerate}
+    \item Suppose that $\lens{g_{\flat}}{g}$ is cartesian.  Show that
+      $\lens{f_{\flat}}{f}$ is cartesian if and only if their composite is
+      cartesian. Is the same true for pure maps?
+    \item Suppose that $\lens{f_{\flat}}{f}$ is pure. Show that
+      $\lens{g_{\flat}}{g}$ is pure if and only if their composite is pure. Is
+      the same true for cartesian maps?
+  \end{enumerate}
+\end{exercise}
+
 
 %---- Section ----%
 \subsection{Maps with context and lenses}\label{sec.context_indexed_cat}
