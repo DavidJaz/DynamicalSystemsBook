@@ -3026,8 +3026,92 @@ On the other hand, simulations of non-deterministic doctrines remain
 interesting, because they tell us when we might be able to use a simpler model
 for our system without changing the exposed behavior.
 
-\begin{exercise}
-  
-\end{exercise}
+\jaz{I should include an example of non-deterministic simulation here.}
+
+\section{Restriction of Doctines}
+
+Now that we have a concise, formal definition of dynamical system doctrine, we
+can begin to treat doctrines as mathematical objects. In this section, we will
+look at a simple way to construct a new doctrine from an old one:
+\emph{restriction} along a functor. 
+
+We will use restrictions of doctrines in
+order to more precisely control some of the upcoming functoriality results.
+Often, we will only be able to prove a theorem by restricting the doctrine beforehand.
+
+
+Since a doctrine $\dd$ consists of an indexed category $\cat{A} : \cat{C}\op \to
+\Cat{Cat}$ together with a section $T$, if we have a functor $F : \cat{D} \to
+\cat{C}$ then we should be able to produce a new doctrine by composing $\cat{A}$
+and $T$ with $F$. We call this new doctrine $\dd|_F$ the \emph{restriction} of
+$\dd$ along $F$.
+
+\begin{definition}
+Let $\dd = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a doctrine of dynamical
+systems. For any functor $F : \cat{D} \to \cat{C}$, we have a new doctrine
+
+$$\dd|_F := (\cat{A} \circ F\op, T \circ F)$$
+
+where $T \circ F$ is the section given by
+\begin{itemize}
+  \item $(T \circ F)(D) := T(FD)$, and
+  \item $(T \circ F)(f) := T(Ff)$, which may see has the correct codomain since
+    $(\cat{A} \circ F\op)(f)(T \circ F)(D) = \cat{A}(Ff)T(FD)$.
+\end{itemize}
+\end{definition}
+
+Since an indexed category is no more than a functor into $\Cat{Cat}$, $\cat{A}
+\circ F\op$ is an indexed category. It only remains to check that $T \circ F$ as
+defined is indeed a section of the Grothendieck construction of $\cat{A} \circ
+F\op$; this calculation is a straightforward unfolding of definitions.
+
+\begin{example}\label{ex.affine_restriction_euclidean}
+In the next chapter we will see a few approximation methods as ways of changing
+doctrine. 
+
+ However, these approximations do not preserve all features of the
+doctrines; in general, they are only exact for a restricted class of functions. For example, the Euler method which approximates a differential
+equation
+$$\frac{ds}{dt} = F(s, p)$$
+on a Euclidean space by the discrete-time update function 
+$$u(s, p) = s + \epsilon F(s, p)$$
+only exactly reproduces \emph{affine} behaviors of systems. Being affine is a
+rather severe restriction on the behavior of a dynamical system, but it does
+allow the important case of steady states.
+
+In order to capture Euler approximation as a change of doctrine in the exact
+manner to be explored in the next chapter, we therefore need to restrict the
+Euclidean differential doctrine $\eucdiff$ to \emph{affine} functions. Recall
+that the indexing base of $\eucdiff$ is the category $\Cat{Euc}$ of Euclidean
+spaces and differentiable functions. We may therefore take our restriction functor to be
+the inclusion $\Cat{Aff} \hookrightarrow \Cat{Euc}$ of affine functions between
+Euclidean spaces.
+\end{example}
+
+Now that we have the formalities out of the way, let's understand what
+restricting a doctrine means for the theory of systems in it. Because we have
+changed the indexing base for the doctrine, we have changed the objects of
+states and exposed variables, and the bottom part of both the lenses and charts. 
+
+In particular, the object of states of a $\dd|_F$-doctrine is now an object of
+$\cat{D}$ and not of $\cat{C}$. The exposed variable $\expose{S} : \State{S} \to
+\Out{S}$ is now a map in $\cat{D}$. Furthermore, and rather drastically, the underlying map $\phi :
+\State{T} \to \State{S}$ of a behavior is also a map in $\cat{D}$.
+
+\begin{example}
+Continuing from \cref{ex.affine_restriction_euclidean}, we may consider what a
+behavior represented by the system $\Sys{T} = \lens{t \mapsto 1}{\id} : \lens{\rr}{\rr} \tto
+\lens{\ord{1}}{\rr}$ is in the restricted doctrine $\eucdiff|_{\Cat{Aff}}$.
+
+Since $\Sys{T}$ represents trajectories in $\eucdiff$, it will represent
+trajectories in $\eucdiff|_{\Cat{Aff}}$. However, we have restricted the
+underlying map $s : \rr \to \State{S}$ to lie in $\Cat{Aff}$ --- that is, to be
+affine. There are not often affine solutions to general differential equations,
+so for the most part we will simply find that a system $\Sys{S}$ has \emph{no}
+trajectories (in this restricted doctrine), or very few.
+
+However, any constant function is affine; for this reason, all steady states are
+affine functions, and so remain behaviors in this restricted doctrine.
+\end{example}
 
 \end{document}

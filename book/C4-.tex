@@ -176,15 +176,22 @@ since it is a sort of double categorical generalization of an indexed category.
 We'll see the definition of this notion in
 \cref{sec.indexed_double_category_of_systems}.
 
-We will then show how doubly
+The main reason for introducing doubly indexed categories is that doubly indexed
+\emph{functors} will organize the variety of compositionality results we will
+prove in this and the next chapter. 
+
+We will show how doubly
 indexed categories of systems can be constructed systematically from their
-doctrine. In particular, we will show that there is a \emph{2-functor}
+doctrine. In particular, we will show that there is a
+\emph{2-functor} \jaz{I am starting to think that I should put the
+  2-functoriality of this into an appendix so that I don't have to introduce
+  2-categories and 2-functors here.}
 $$\textbf{Sys} : \textbf{Doctrine} \to \textbf{DblIx}$$
 sending a doctrine to the doubly indexed category of systems in it. The
 2-functoriality of this construction will let us explore \emph{change of
   doctrine}. Changes of doctrine will include the changes in flavors of
 non-determinism given by commutative monad morphisms described in
-\cref{chapter.2} and various sorts of \emph{approximation} of differential
+\cref{chapter.2}, and various sorts of \emph{approximation} of differential
 systems by discrete ones. 
 
 
@@ -620,10 +627,9 @@ This is defined in \cref{prop.lens_comp_functor_discrete}.
   &= \left\{  
     {
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, dashed, shift left, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{T\State{T}}{\State{T}} \ar[r, dashed, shift left, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
-      \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
       \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
       shift left] \& \lens{\In{S}}{\Out{S}}
@@ -1083,7 +1089,7 @@ following data:
         \begin{tikzcd}[sep=tiny]
           FD \ar[dd, "Fj"'] \ar[rr, "h_D"] & & GD
  \ar[dd, "Gj"] \\
-           & v_f & \\
+           & h_j & \\
           FD' \ar[rr, "h_{D'}"'] & & GD'
         \end{tikzcd}
 \]
@@ -1110,9 +1116,239 @@ $$F\alpha \mid h_{j_2} = h_{j_1} \mid G\alpha.$$
 \end{itemize}
 \end{definition}
 
+\begin{remark}
+Note that vertical (resp. horizontal) natural transformations are named for
+the direction of arrow they assign to objects. However, a vertical
+transformation is defined by its action $v_f$ on \emph{horizontal} maps $f$, and dually a
+horizontal transformation $h_j$ by its action on \emph{vertical} maps $j$.
+Taking $f$ (resp. $j$) to be an identity $\id_D$ yields the vertical (resp.
+horizontal) arrow associated to the object $D$.
+\end{remark}
 
-\subsection{Functoriality of the Vertical Slice Construction}\label{sec.functoriality_vertical_slice}
+Natural transformations between double functors can be composed in the
+appropriate directions.
+\begin{lemma}
+Suppose that $v_1 : F_1 \Rightarrow F_2$ and $v_2 : F_2 \Rightarrow F_2$ are
+vertical transformations. We have a vertical composite $\frac{v_1}{v_2}$ defined
+by
+$$\left( \frac{v_1}{v_2} \right)_f \coloneqq \frac{(v_1)_f}{(v_2)_f}$$
+for horizontal maps $f$. Dually, for horizontal transformations $h_1 : F_1
+\Rightarrow F_2$ and $h_2 : F_2 \Rightarrow F_3$, there is a horizontal
+composite $h_1 \mid h_2$ defined by
+$$(h_1 \mid h_2)_j := (h_1)_j \mid (h_2)_j$$
+for every vertical map $j$.
+\end{lemma}
+\begin{proof}
+  We will prove that $\frac{v_1}{v_2}$ is a vertical transformation; the proof
+  that $h_1 \mid h_2$ is a horizontal transformation is precisely dual. 
+  \begin{itemize}
+  \item (Vertical Naturality) This follows by the same argument as for Square
+    Naturality below, taking $\alpha = j$ for a vertical$j : D_1 \to D_2$.
 
+\item (Horizontal naturality) For horizontal maps $f_1 :D_1 \to D_2$ and $f_2 :
+  D_2 \to D_3$, we have
+  \begin{align*}
+    \frac{v_1}{v_2}_{f_1 \mid f_2} &= \frac{(v_1)_{f_1 \mid f_2}}{(v_2)_{f_1 \mid f_2}} \\
+                                   &= \frac{(v_1)_{f_1} \mid (v_1)_{f_2}}{(v_2)_{f_1} \mid (v_2)_{f_2}} \\
+                                   &= \left. \frac{(v_1)_{f_1}}{(v_2)_{f_1}} \middle| \frac{(v_1)_{f_2}}{(v_2)_{f_2}} \right.\\
+    &= \left. \left( \frac{v_1}{v_2} \right)_{f_1} \middle| \left( \frac{v_1}{v_2} \right)_{f_2} \right. .
+  \end{align*}
+
+    
+\item (Horizontal Unity) This holds by definition.
+
+\item (Square Naturality) Consider a square $\alpha$ of the following signature:
+\[
+        \begin{tikzcd}[sep=tiny]
+          D_1 \ar[dd, "j_1"'] \ar[rr, "f_1"] & & D_2
+ \ar[dd, "j_2"] \\
+           & \alpha & \\
+          D_3 \ar[rr, "f_2"'] & & D_4
+        \end{tikzcd}
+\]
+  Then
+    \begin{align*}
+      \frac{F_1 \alpha}{\left( \frac{v_1}{v_2} \right)_{f_2}} &= \begin{tabular}{c}
+        $F_1 \alpha $ \\ \hline
+        $(v_1)_{f_2}$ \\ \hline
+        $(v_2)_{f_2}$ 
+     \end{tabular} \\
+&= \begin{tabular}{c}
+        $(v_1)_{f_1}$ \\ \hline
+        $F_2 \alpha$ \\ \hline
+        $(v_2)_{f_2}$ 
+     \end{tabular} \\
+&= \begin{tabular}{c}
+        $(v_1)_{f_1}$ \\ \hline
+        $(v_2)_{f_1}$ \\ \hline
+        $F_3 \alpha$ 
+     \end{tabular} \\
+&= \frac{\left( \frac{v_1}{v_2} \right)_{f_1}}{F_3 \alpha}.
+    \end{align*}
+  \end{itemize}
+  
+\end{proof}
+
+Amongst double functors we have found two sorts of maps --- vertical and
+horizontal --- each with their own sort of composition. This suggests that there
+should be a \emph{double category} of double functors $\cat{D} \to \cat{E}$,
+just as there is a category of functors between two categories. 
+
+\begin{theorem}
+Let $\cat{D}$ and $\cat{E}$ be double categories. There is a double category
+$\Cat{Fun}(\cat{D}, \cat{E})$ of double functors from $\cat{D}$ to $\cat{E}$
+whose vertical maps are vertical transformations, horizontal maps are horizontal
+transformations, and whose squares
+\[
+        \begin{tikzcd}[sep=tiny]
+          F_1 \ar[dd, "v_1"'] \ar[rr, "h_1"] & & F_2
+ \ar[dd, "v_2"] \\
+           & \alpha & \\
+          F_3 \ar[rr, "h_2"'] & & F_4
+        \end{tikzcd}
+      \]
+      are \emph{modifications} defined in the following way. To each object $D
+      \in \cat{D}$, we have a square
+\[
+        \begin{tikzcd}[sep=tiny]
+          F_1D \ar[dd, "(h_1)_D"'] \ar[rr, "( v_1 )_D"] & & F_2D
+ \ar[dd, "( v_2 )_D"] \\
+           & \alpha_D & \\
+          F_3 D \ar[rr, "( h_2 )_D"'] & & F_4 D
+        \end{tikzcd}
+\]
+which satisfies the following laws:
+\begin{itemize}
+  \item (Horizontal Coherence) For every horizontal $f : D_1 \to D_2$, we have
+    that
+    \[
+    (v_1)_f \mid \alpha_{D_2} = \alpha_{D_1} \mid (v_2)_f.
+  \]
+  We note that this law requires us to use the vertical naturality law of $v_1$
+  and $v_2$ so that these composites have the same signature.
+  \item (Vertical Coherence) For every vertical $j : D_1 \to D_2$, we have that
+    \[
+    \frac{\alpha_{D_1}}{(h_2)_j} = \frac{(h_1)_j}{\alpha_{D_2}}.
+    \]
+  We note that this law requires us to use the horizontal naturality law of $h_1$
+  and $h_2$ so that these composites have the same signature.
+\end{itemize}
+ The compositions $\alpha \mid \beta$ and $\frac{\alpha}{\beta}$ are given
+ componentwise by $\alpha_D \mid \beta_D$ and $\frac{\alpha_D}{\beta_D}$.      
+\end{theorem}
+\begin{proof}
+  Since the compositions of modifications are given componentwise, they will
+  satisfy associativity and interchange. We just need to show that they are well
+  defined, which is to say that they satisfy the laws of a modification. This is
+  a straightforward calculation; we'll prove Vertical Coherence for horizontal
+  composition since the other cases are similar.
+
+  Let $\alpha$ and $\beta$ be modifications with the following signatures:
+  \[
+        \begin{tikzcd}[sep=tiny]
+          F_1 \ar[dd, "v_1"'] \ar[rr, "h_1"] & & F_2
+ \ar[dd, "v_2"] \\
+           & \alpha & \\
+          F_3 \ar[rr, "h_2"'] & & F_4
+        \end{tikzcd}
+        \quad\mbox{and}\quad
+        \begin{tikzcd}[sep=tiny]
+          F_2 \ar[dd, "v_2"'] \ar[rr, "h_3"] & & F_5
+ \ar[dd, "v_3"] \\
+           & \beta & \\
+          F_4 \ar[rr, "h_4"'] & & F_6
+        \end{tikzcd}
+\]
+  Let $j : D_1 \to D_2$ be a vertical map in $\cat{D}$. We calculate:
+  \begin{align*}
+    \frac{(\alpha \mid \beta)_{D_1}}{(h_2 \mid h_4)_{j}} &= \frac{\alpha_{D_1} \mid \beta_{D_1}}{(h_2)_j \mid (h_4)_j} \\
+                                                         &= \left. \frac{\alpha_{D_1}}{(h_2)_{j}} \middle| \frac{\beta_{D_1}}{(h_4)_{j}} \right. \\
+                                                         &= \left. \frac{(h_1)_{j}}{\alpha_{D_2}} \middle| \frac{(h_3)_{j}}{\beta_{D_2}} \right. \\
+                                                         &= \frac{(h_1 \mid h_3)_{j}}{(\alpha \mid \beta)_{D_2}}.
+  \end{align*}
+\end{proof}
+
+Before we move on, let's record an important lemma relating modifications to squares.
+\begin{lemma}
+  Let
+  \[
+        \begin{tikzcd}[sep=tiny]
+          F_1 \ar[dd, "v_1"'] \ar[rr, "h_1"] & & F_2
+ \ar[dd, "v_2"] \\
+           & \alpha & \\
+          F_3 \ar[rr, "h_2"'] & & F_4
+        \end{tikzcd}
+  \]
+  be a modification, and
+  \[
+        \begin{tikzcd}[sep=tiny]
+          D_1 \ar[dd, "j_1"'] \ar[rr, "f_1"] & & D_2
+ \ar[dd, "j_2"] \\
+           & s & \\
+          D_3 \ar[rr, "f_2"'] & & D_4
+        \end{tikzcd}
+  \]
+  be a square in $\cat{D}$. We then have the following four-fold equality in $\cat{E}$:
+  \[
+    \begin{tikzcd}[ampersand replacement = \&]
+  \begin{tabular}{c|c}
+    $\alpha_{D_1}$ & $(v_2)_{f_1}$ \\ \hline
+    $(h_2)_{j_1}$ & $F_4 s$
+  \end{tabular}     \ar[r,
+      equals] \ar[d, equals] \& \begin{tabular}{c|c}
+    $(v_1)_{f_1}$ & $\alpha_{D_2}$ \\ \hline
+    $F_3 s$ & $(h_2)_{j_2}$
+  \end{tabular} \ar[d, equals]\\
+   \begin{tabular}{c|c}
+    $(h_1)_{j_1}$ & $F_2 s$ \\ \hline
+  $\alpha_{D_3}$   & $(v_2)_{f_2}$
+  \end{tabular}   \ar[r, equals] \&  \begin{tabular}{c|c}
+    $F_1 s$ &  $(h_1)_{j_2}$ \\ \hline
+    $(v_2)_{f_1}$ & $\alpha_{D_3}$
+                                     \end{tabular}
+\end{tikzcd}
+  \]
+ We may refer to the single square given by any of these composites by $\alpha_s$. 
+\end{lemma}
+\begin{proof}
+These all follow by cycling through the square naturality laws of the
+transformations and the coherence laws of the modification. 
+\end{proof}
+
+\subsection{Vertical Slice Construction: Functoriality}\label{sec.functoriality_vertical_slice}
+
+In this section, we will describe the functoriality of the vertical slice
+construction. Since the vertical slice construction takes a double functor $F :
+\cat{D}_0 \to \cat{D}_1$ and produces a doubly indexed category $\sigma F :
+\cat{D}_{1} \to \Cat{Cat}$, we will need to show that from a certain sort of map
+between double functors we get a \emph{doubly indexed functor} between the
+resulting vertical slices.
+
+First, we will describe the appropriate notion of map between double functors.
+This gives us a category which we will call the \emph{category of double
+  functors} $\Cat{DblFun}$ \footnote{Though one could define other categories
+  whose objects are double
+functors, this is the only such category we will use in
+this book.}
+\begin{definition}
+The category $\Cat{DblFun}$ has objects the double functor $F : \cat{D}_0 \to
+\cat{D}_1$. A map $F_1 \to F_2$ is a triple $(v_0, v_1, v)$ where $v_0 :
+\cat{D}_{00} \to \cat{D}_{10}$ and $v_1 : \cat{D}_{01} \to \cat{D}_{11}$ are
+double functors and $v : F_2 \circ v_0 \Rightarrow v_1 \circ F_1$ is a vertical
+transformation.
+\[
+        \begin{tikzcd}
+          \cat{D}_{00} \ar[dd, "F_1"'] \ar[rr, "v_0"] & & \cat{D}_{10}
+ \ar[dd, "F_2"] \ar[ddll, Rightarrow, "v"] \\
+           &  & \\
+          \cat{D}_{01} \ar[rr, "v_1"'] & & \cat{D}_{11}
+        \end{tikzcd}
+\]
+Composition of $(v_0, v_1, v) : F_1 \to F_2$ with $(w_0, w_1, w) : F_2 \to F_3$
+is given by $(w_0 \circ v_0, w_1 \circ v_1, v \ast w)$ where $v \ast w$ is the
+vertical transformation with horizontal components given by
+$$(v \ast w)_f := \frac{w_{v_0 f}}{w_1 v_f}.$$
+\end{definition}
 
 \section{Change of Doctrine}
 
