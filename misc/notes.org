@@ -283,6 +283,13 @@ x  The double category of arenas and what that means for behaviors of wired syst
 
    [[file:../book/C1-.tex::#moore-machine-example][Check it out here]]
 
+
+
+** <2021-01-13 qua> 
+
+*** TODO Add section in C3- on double cat of "quintets" in cat
+     I am using facts about pasting of natural transformations in squares as part of my work on doubly indexed categories. It might be a good idea to have a section where I explain how these pasting diagrams work and prove the associativity and interchange laws for them (which do come up when defining the composition of the laxators in lax doubly indexed functors).
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction

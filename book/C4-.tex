@@ -548,7 +548,7 @@ in $\Cat{Cat}$.
 This data is required to satisfy the following laws:
 \begin{itemize}
   \item (Vertical Functoriality) For vertical maps $j : D \to D'$ and $k : D' \to D''$, we have
-    that $$\cat{A}\left( \frac{j}{k} \right) = \cat{A}(k) \circ \cat{A}(j)$$
+    that $$\cat{A}\left( \frac{j}{k} \right) = \frac{\cat{A}(j)}{\cat{A}(k)}$$
 and that $\cat{A}(\id_D) = \id_{\cat{A}(D)}$.\footnote{Here, we are hiding some
   coherence issues. While our doubly indexed category of deterministic systems
   will satisfy this functoriality condition on the nose, we will soon see a
@@ -908,7 +908,7 @@ functor $\ord{1} : \ord{1} \to \Cat{Matrix}$ picking out this special element.
 \subsection{The Vertical Slice Construction: Definition}
 
 We are now ready to define the vertical slice construction.
-  \begin{definition}[The Vertical Slice Construction]
+  \begin{definition}[The Vertical Slice Construction]\label{defn.vertical_slice}
 Let $F : \cat{D}_0 \to \cat{D}_1$ be a double functor. The \emph{vertical slice
   construction} of $F$ is the doubly indexed category 
 $$\sigma F : \cat{D}_1 \to \Cat{Cat}$$
@@ -1349,6 +1349,392 @@ is given by $(w_0 \circ v_0, w_1 \circ v_1, v \ast w)$ where $v \ast w$ is the
 vertical transformation with horizontal components given by
 $$(v \ast w)_f := \frac{w_{v_0 f}}{w_1 v_f}.$$
 \end{definition}
+
+It remains to check that this does indeed yield a category. We leave this as an
+exercise, since it gives some good practice in using all the various laws for
+double functors and double transformations.
+
+\begin{exercise}
+Prove that the definition of $\Cat{DblFun}$ does indeed yield a category. That
+is:
+\begin{enumerate}
+  \item Prove that $(\id_{\cat{D}_0}, \id_{\cat{D}_1}, \id_{F})$ provides an
+    identity map $F \to F$.
+  \item Prove that composition is associative. The key part will be showing that
+    $(v \ast w) \ast u = v \ast (w \ast u)$.
+\end{enumerate}
+\end{exercise}
+
+
+Next, we need to describe the appropriate category of doubly indexed categories.
+There are two sorts of maps of doubly indexed categories which we will need in
+this book: \emph{lax} doubly indexed functors, and (\emph{taut}) doubly indexed
+functors. In this chapter, we will be using \emph{taut} doubly indexed functors
+--- which we may just call doubly indexed functors --- which are a special case
+of the more general lax variety.
+
+
+\begin{definition}\label{def.lax_doubly_indexed_functor}
+  Let $\cat{A} : \cat{D}_1 \to \Cat{Cat}$ and $\cat{B} : \cat{D}_2 \to
+  \Cat{Cat}$ be doubly indexed categories. A \emph{lax doubly indexed functor}
+  $(F^0, F) : \cat{A} \rightharpoonup \cat{B}$ consists of:
+  \[
+\begin{tikzcd}
+\cat{D}_1 \arrow[dd, "{F^0}"'] \arrow[rrd, "{ \cat{A} }", bend left] & {} \arrow[dd, "{F}"', Rightarrow] &      \\
+  &   & \Cat{Cat} \\
+\cat{D}_2 \arrow[rru, bend right, "{\cat{B}}"']      & {}   &     
+\end{tikzcd}
+  \]
+  
+\begin{itemize}
+  \item A double functor $$F^0 : \cat{D}_1 \to \cat{D}_2.$$
+  \item For each object $D \in \cat{D}_1$, a functor $$F^D : \cat{A}(D)
+    \to \cat{B}(F^0D).$$
+  \item For every vertical map $j : D_1 \to D_2$ in $\cat{D}_1$, a natural
+    transformation 
+\[
+\begin{tikzcd}
+  \cat{A}(D_1) \ar[d, "{\cat{A}(j)}"'] \ar[r, "F^{D_1}"] & \cat{B}(F^0D_1)
+\ar[dl, Rightarrow, "F^j"']  \ar[d, "\cat{B}(F^0j)"] \\
+\cat{A}(D_2) \ar[r,"F^{D_2}"'] & \cat{B}(F^0D_2)
+\end{tikzcd}
+\]
+We ask that $F^{\id_{D}} = \id$. We recall (from
+    \cref{prop.transformation_as_square_in_cat}) that we may think of such a
+    natural transformation as a square 
+\[
+\begin{tikzcd}[sep=tiny]
+\cat{A}(D_1) \ar[d, "F^{D_1}"'] \ar[rr, tick, equals] & & \cat{A}(D_1) \ar[d,
+"\cat{A}(j)"] \\
+\cat{B}(F^0 D_1) \ar[d, "\cat{B}(F^0 j)"'] & F^j & \cat{A}(D_2) \ar[d,
+"F^{D_2}"] \\
+\cat{B}(F^0 D_2) \ar[rr, tick, equals]  &  & \cat{B}(F^0 D_2)
+\end{tikzcd}
+\]
+   \item For every horizontal map $f : D_1 \to D_2$, a square
+\[
+\begin{tikzcd}[sep=tiny]
+\cat{A}(D_1) \ar[rr, tick,"\cat{A}(f)"] \ar[dd, "F^{D_1}"'] & & \cat{A}(D_2) \ar[dd, "F^{D_2}"]\\
+& F^{j} & \\
+\cat{B}(F^0D_1) \ar[rr, tick, "\cat{B}(F^0 f)"'] &  &\cat{B}(F^0 D_2)
+\end{tikzcd}
+\]
+in $\Cat{Cat}$. We ask that $F^{\id_{D}} = \id$.
+\end{itemize}
+
+This data is required to satisfy the following laws:
+\begin{itemize}
+  \item (Vertical Lax Functoriality) For composable vertical maps $j : D_1 \to D_2$ and $k :
+    D_2 \to D_3$, 
+\[
+F^{\frac{j}{k}} = 
+\begin{tikzcd}
+  \cat{A}(D_1) \ar[d, "{\cat{A}(j)}"'] \ar[r, "F^{D_1}"] & \cat{B}(F^0D_1)
+\ar[dl, Rightarrow, "F^j"']  \ar[d, "\cat{B}(F^0j)"]  \\
+\cat{A}(D_2) \ar[d, "{\cat{A}(k)}"']\ar[r,"F^{D_2}"] & \cat{B}(F^0D_2)\ar[d, "\cat{B}(F^0k)"] \ar[dl, Rightarrow, "F^k"'] \\
+\cat{A}(D_3) \ar[r,"F^{D_3}"']& \cat{B}(F^0D_3) 
+\end{tikzcd}
+\]
+This is, in terms of squares in $\Cat{Cat}$:
+    $$F^{\frac{j}{k}} = \left. \frac{F^j}{\cat{B}(F^0k)} \middle| \frac{\cat{A}(j)}{F^k} \right.$$
+  \item (Horizontal functoriality) For composable horizontal arrows $f : D_1 \to
+    D_2$ and $g : D_2 \to D_3$, 
+$$\frac{\mu^{\cat{A}}_{f, g}}{F^{f \mid g}} = \frac{F^f \mid
+  F^g}{\mu^{\cat{B}}_{F^0f, F^0g}}.$$ 
+\item (Functorial Interchange) For any square
+\[
+\begin{tikzcd}[sep=tiny]
+D_1 \ar[rr, "f"] \ar[dd, "j"'] & & D_2 \ar[dd, "k"] \\
+ & \alpha & \\
+D_3 \ar[rr, "g"'] & & D_4
+\end{tikzcd}
+\]
+in $\cat{D}_1$, we have that
+\[
+  \left. F^j \,\middle|\, \frac{\cat{A}(\alpha)}{F^g} \right. = \left.
+    \frac{F^f}{\cat{B}(F^0 \alpha)} \,\middle|\, F^k \right. .
+\]
+\end{itemize}
+
+A lax doubly indexed functor is \emph{taut} --- which we will in refer to just
+as a doubly indexed functor --- if the natural transformations $F^j$ associated
+to vertical maps $j : D_1 \to D_2$ in $\cat{D}_1$ are natural isomorphisms.
+
+\end{definition}
+
+The definition of doubly indexed functor involves a lot of data, but this is
+because it is a big collection of functoriality results. 
+
+We need to compose lax doubly indexed functors.
+\begin{definition}
+If $(F^0, F) : \cat{A} \to \cat{B}$ and $(G^0, G) : \cat{B} \to \cat{C}$ are two
+doubly indexed functors, we define their composite 
+\[
+(F^0, F) \then (G^0, G) \coloneqq (F^0 \then G^0, F \then G)
+\]
+where $F \then G$ is defined by:
+\begin{itemize}
+  \item We define $(F \then G)^D \coloneqq F^D \then G^{F_0 D}$.
+    We note that in $\Cat{Cat}$, where functors are the vertical maps, this can
+    be written
+\[
+(F \then G)^D = \frac{F^D}{G^{F^0 D}}.
+\]
+  \item For a vertical $j : D_1 \to D_2$, we define 
+\[
+\begin{tikzcd}
+  \cat{A}(D_1) \ar[d, "{\cat{A}(j)}"'] \ar[r, "{ (F \then G) }^{D_1}"] & \cat{C}(G^0F^0D_1)
+\ar[dl, Rightarrow, "(F \then G)^j"']  \ar[d, "\cat{C}(G^0F^0j)"] \\
+\cat{A}(D_2) \ar[r,"(F \then G)^{D_2}"'] & \cat{C}(G^0F^0D_2)
+\end{tikzcd} \coloneqq 
+\begin{tikzcd}
+  \cat{A}(D_1) \ar[d, "{\cat{A}(j)}"'] \ar[r, "F^{D_1}"] & \cat{B}(F^0D_1)
+\ar[dl, Rightarrow, "F^j"']  \ar[d, "\cat{B}(F^0j)"] \ar[r, "G^{F^0D_1}"] & \cat{C}(G^0F^0D_1) \ar[d,
+"\cat{C}(G^0F^0 j)"] \ar[dl, Rightarrow, "G^{F^0 j}"']\\
+\cat{A}(D_2) \ar[r,"F^{D_2}"'] & \cat{B}(F^0D_2) \ar[r, "G^{F^0 D_2}"'] & \cat{C}(G^0F^0D_2)
+\end{tikzcd}
+\]
+We note that by \cref{lemma.transformation_as_square_vertical}, this corresponds
+to the composite of squares: 
+\[
+(F \then G)^j \coloneqq \left. \frac{F^{D_1}}{G^{F^0 j}} \middle|
+  \frac{F^j}{G^{F^0 D_2}} \right.
+\]
+\item For a horizontal $f : D_1 \to D_2$, we define
+\[
+(F \then G)^f \coloneqq \frac{F^f}{G^{F^0 f}}.
+\]
+\end{itemize}
+
+We refer to the category of doubly indexed categories and lax doubly indexed
+functors by $\Cat{LaxDblIx}$ and the category of doubly indexed categories and
+(taut) doubly indexed functors by $\Cat{DblIx}$.
+\end{definition}
+
+Let's show that this composition operation does indeed produce a lax doubly
+indexed functor.
+
+\begin{itemize}
+  \item (Vertical Lax Functoriality) For composable vertical maps $j : D_1 \to
+    D_2$ and $k : D_2 \to D_3$, consider the following diagram:
+\[
+\begin{tikzcd}
+  \cat{A}(D_1) \ar[d, "{\cat{A}(j)}"'] \ar[r, "F^{D_1}"] & \cat{B}(F^0D_1)
+\ar[dl, Rightarrow, "F^j"']  \ar[d, "\cat{B}(F^0j)"] \ar[r, "G^{F^0D_1}"] & \cat{C}(G^0F^0D_1) \ar[d,
+"\cat{C}(G^0F^0 j)"] \ar[dl, Rightarrow, "G^{F^0 j}"']\\
+\cat{A}(D_2) \ar[d, "{\cat{A}(k)}"']\ar[r,"F^{D_2}"] & \cat{B}(F^0D_2)\ar[d, "\cat{B}(F^0k)"] \ar[dl, Rightarrow, "F^k"'] \ar[r, "G^{F^0 D_2}"] &
+\cat{C}(G^0F^0D_2) \ar[dl, Rightarrow, "G^{F^0 k}"']\ar[d, "\cat{C}(G^0F^0 k)"] \\
+\cat{A}(D_3) \ar[r,"F^{D_3}"']& \cat{B}(F^0D_3) \ar[r, "G^{F^0 D_2}"'] & \cat{B}(G^0 F^0 D_3)
+\end{tikzcd}
+\]
+There is a single natural transformation given as the composite of this
+``pasting diagram''. But, if we read it by composing vertically first, and then
+composing horizontally second, we arive at $(F \then G)^{\frac{j}{k}}$, while if
+we read it by composing horizontally first and then vertically second, we get
+the composite of $(F \then G)^j$ and $(F \then G)^k$ as desired.
+\item (Horizontal Functoriality) Let $f : D_1 \to D_2$ and $g : D_2 \to D_3$ be
+  horizontal maps. We then calculate:
+  \begin{align*}
+    \frac{\mu_{f,g}^{\cat{A}}}{(F \then G)^{f \mid g}} &= {\begin{tabular}{c}$\mu_{f, g}^{\cat{A}}$ \\ \hline $F^{f \mid g}$ \\ \hline $G^{F^0(f \mid g)}$ \end{tabular}} \\
+    &= {\begin{tabular}{c} $F^f \mid F^g$ \\  \hline $\mu^{\cat{B}}_{F^0f, F^0g}$ \\ \hline  $G^{F^0f \mid F^0 g}$ \end{tabular}} \\
+    &= {\begin{tabular}{c} $F^f \mid F^g$ \\ \hline $G^{F^0f} \mid G^{F^0 g}$ \\  \hline $\mu^{\cat{C}}_{G^0F^0f, G^0F^0g}$   \end{tabular}} \\
+                                                       &= {\begin{tabular}{c} $\left. \frac{F^f}{G^{F^0f}} \middle| \frac{F^g}{G^{F^0 g}} \right.$ \\  \hline $\mu^{\cat{C}}_{G^0F^0f, G^0F^0g}$   \end{tabular}} \\
+    &= \frac{(F\then G)^f \mid (F \then G)^g}{\mu^{\cat{C}}_{G^0F^0f, G^0F^0g}}.
+  \end{align*}
+\item (Functorial Interchange) Consider a square
+\[
+\begin{tikzcd}[sep=tiny]
+D_1 \ar[rr, "f"] \ar[dd, "j"'] & & D_2 \ar[dd, "k"] \\
+ & \alpha & \\
+D_3 \ar[rr, "g"'] & & D_4
+\end{tikzcd}
+\]
+
+We may then calculate:
+\[
+\begin{tikzcd}
+\bullet \ar[r,equals, tick] \ar[d] \ar[rd, "F^D", phantom] & \bullet
+\ar[r,equals,tick] \ar[d]                                    & \bullet
+\ar[r, tick] \ar[d] \ar[rd, "{ \cat{A} }(\alpha)", phantom] & \bullet \ar[d] \\
+\bullet \ar[d] \ar[r, tick]                            & \bullet \ar[d]
+\ar[r, "F^j", phantom]                    & \bullet \ar[d] \ar[r, tick] \ar[rd, "F^g", phantom]             & \bullet \ar[d] \\
+\bullet \ar[d] \ar[r, "G^{F^0j}", phantom]       & \bullet \ar[d]
+\ar[r, equals, tick] \ar[rd, "G^{F^0 D_3}", phantom] & \bullet \ar[d]
+\ar[r, tick] \ar[rd, "G^{F^0 g}", phantom]        & \bullet \ar[d] \\
+\bullet \ar[r, equals, tick]                                      & \bullet
+\ar[r, equals, tick]                                              & \bullet
+\ar[r, tick]                                                  & \bullet          
+\end{tikzcd} =
+\begin{tikzcd}
+\bullet \arrow[r, equals, tick] \arrow[d] \arrow[rd, "F^D", phantom] & \bullet
+\arrow[r, tick] \arrow[d] \arrow[rd, "F^f", phantom]                   & \bullet \arrow[r, equals, tick] \arrow[d]                                    & \bullet \arrow[d] \\
+\bullet \arrow[d] \arrow[r, equals, tick]                            & \bullet
+\arrow[d] \arrow[r, tick] \arrow[rd, "{\cat{B}(F^0 \alpha)}", phantom] & {} \arrow[d] \arrow[r, "F^k", phantom]                         & \bullet \arrow[d] \\
+\bullet \arrow[d] \arrow[r, "G^{F^0j}", phantom]       & \bullet \arrow[d]
+\arrow[r, tick] \arrow[rd, "G^{F^0 g}", phantom]             & \bullet \arrow[d] \arrow[r, equals, tick] \arrow[rd, "G^{F^0 D_3}", phantom] & \bullet \arrow[d] \\
+\bullet \arrow[r, equals, tick]                                      & \bullet
+\arrow[r, tick]                                                        & \bullet
+\arrow[r, equals, tick]                                              & \bullet          
+\end{tikzcd} =
+\begin{tikzcd}
+\bullet \arrow[r, tick] \arrow[d] \arrow[rd, "F^D", phantom]                      & \bullet \arrow[r, equals, tick] \arrow[d] \arrow[rd, "F^f", phantom] & \bullet \arrow[r, equals, tick] \arrow[d]                                    & \bullet \arrow[d] \\
+\bullet \arrow[d] \arrow[r, tick] \arrow[rd, "G^{F^0 f}", phantom]                & \bullet \arrow[d] \arrow[r, equals, tick]                            & {} \arrow[d] \arrow[r, "F^k", phantom]                         & \bullet \arrow[d] \\
+\bullet \arrow[d] \arrow[r, tick] \arrow[rd, "{\mbox{\small $\cat{C}(G^0F^0 \alpha)$} }", phantom] & \bullet \arrow[d] \arrow[r, "G^{F^0 k}", phantom]      & \bullet \arrow[d] \arrow[r, equals, tick] \arrow[rd, "G^{F^0 D_3}", phantom] & \bullet \arrow[d] \\
+\bullet \arrow[r, tick]                                                           & \bullet \arrow[r, equals, tick]                                      & \bullet \arrow[r, equals, tick]                                              & \bullet          
+\end{tikzcd}
+\]
+\end{itemize}
+
+Now that we have a category of doubly indexed categories, we can state the functoriality result:
+\begin{theorem}\label{thm.functoriality_vertical_slice}
+  The vertical slice construction (\cref{defn.vertical_slice}) gives a functor
+  $$\sigma : \Cat{DblFun} \to \Cat{DblIx}.$$
+\end{theorem}
+
+We will spend the rest of this section proving this theorem.
+\begin{proposition}\label{prop.vertical_slice_action}
+  Let $(v_0, v_1, v) : F_1 \to F_2$ be a map in $\Cat{DblFun}$. Then we have a
+  doubly indexed functor 
+  \[
+\begin{tikzcd}
+\cat{D}_{01} \arrow[dd, "{v_1}"'] \arrow[rrd, "{ \sigma F_1}", bend left] & {}
+\arrow[dd, "{\sigma v}"', Rightarrow] &      \\
+  &   & \Cat{Cat} \\
+\cat{D}_{11} \arrow[rru, bend right, "{\sigma F_2}"']      & {}   &     
+\end{tikzcd}
+  \]
+\end{proposition}
+\begin{proof}
+We define $\sigma v$ as follows:
+  \begin{itemize}
+  \item We have $\sigma v^D : \sigma F_1(D) \to \sigma F_2(v_1 D)$ given by the
+    following action on maps:
+    \[
+        \begin{tikzcd}[sep=tiny]
+          F_1A_1 \ar[dd, "{ j_1 }"'] \ar[rr, "{ F_1f }"] & & F_1A_2 \ar[dd, "{ j_2 }"] \\
+           & \alpha & \\
+          D \ar[rr, equals] & & D
+        \end{tikzcd}
+        \quad\mapsto\quad
+        \begin{tikzcd}[sep=tiny]
+          F_2v_0A_1 \ar[dd, "v_{A_1}"'] \ar[rr, "F_2 v_0f"] & & F_2 v_0 A_2 \ar[dd, "v_{A_2}"] \\
+          & v_f & \\
+          v_1F_1A_1 \ar[dd, "v_1j_1"'] \ar[rr, "v_1F_1f"] & & FA_2 \ar[dd, "v_1j_2"] \\
+           & v_1\alpha & \\
+          v_1D \ar[rr, equals] & & v_1D
+        \end{tikzcd}
+    \]
+    In short: 
+\[
+  \sigma v^D(f, \alpha) \coloneqq \left( v_0f,\, \frac{v_f}{v_1 \alpha} \right).
+\]
+\item For any vertical map $j : D_1 \to D_2$ in $\cat{D}_{01}$, we will show
+  that 
+$$\sigma F_2(v_1 j) \circ \sigma v^{D_1} = \sigma v^{D_2} \circ \sigma F_1 (j)$$
+so that we may take $\sigma v^j$ to be the identity natural transformation.
+\begin{align*}
+  \sigma F_2(v_1 j) \circ \sigma v^{D_1}(f, \alpha) &= \sigma F_2(v_1 j)\left( v_0 f, \frac{v_f}{v_1 \alpha} \right) \\
+&= \left( v_0 f, {\begin{tabular}{c} $v_f$ \\ \hline $v_1 \alpha$ \\ \hline $v_1 j$ \end{tabular}} \right) \\
+&= \left( v_0 f, \frac{v_f}{v_1 \left( \frac{\alpha}{j} \right)} \right) \\
+  &= \sigma v^{D_2}\left( f, \frac{\alpha}{j} \right)\\
+&= \sigma v^{D_2} \circ \sigma F_1 (j) (f, \alpha)
+\end{align*}
+
+\item For a horizontal map $\varphi : D_1 \to D_2$, we give the square 
+\[
+\begin{tikzcd}[sep=tiny]
+\sigma F_1(D_1) \ar[rr, tick,"\sigma F_1(f)"] \ar[dd, "\sigma v^{D_1}"'] & &
+\sigma F_1(D_2) \ar[dd, "\sigma v^{D_2}"]\\
+& \sigma v^{\varphi} & \\
+\sigma F_2(v_1 D_2) \ar[rr, tick, "\sigma F_2 (v_1 f)"'] &  &\sigma F_2(v_1 D_2)
+\end{tikzcd}
+\]
+defined by 
+    \[
+        \begin{tikzcd}[sep=tiny]
+          F_1A_1 \ar[dd, "{ j_1 }"'] \ar[rr, "{ F_1f }"] & & F_1A_2 \ar[dd, "{ j_2 }"] \\
+           & \alpha & \\
+          D \ar[rr, "{ \varphi }"'] & & D
+        \end{tikzcd}
+        \quad\mapsto\quad
+        \begin{tikzcd}[sep=tiny]
+          F_2v_0A_1 \ar[dd, "v_{A_1}"'] \ar[rr, "F_2 v_0f"] & & F_2 v_0 A_2 \ar[dd, "v_{A_2}"] \\
+          & v_f & \\
+          v_1F_1A_1 \ar[dd, "v_1j_1"'] \ar[rr, "v_1F_1f"] & & FA_2 \ar[dd, "v_1j_2"] \\
+           & v_1\alpha & \\
+          v_1D \ar[rr, "v_1 {\varphi}"'] & & v_1D
+        \end{tikzcd}
+    \]
+    In short:
+\[
+  \sigma v^{\varphi}(f, \alpha) \coloneqq \left( v_0f,\, \frac{v_f}{v_1 \alpha} \right).
+\]
+  \end{itemize}
+
+We will show that this data satisfies the laws of a doubly indexed functor.
+\begin{itemize}
+  \item (Vertical Lax Functoriality)As we've taken the natural transformations $\sigma v^j$ to be
+    identities, they are functorial since composites of identities are identities.
+  \item (Horizontal functoriality) For composable horizontal maps $\varphi_1 : D_1 \to
+    D_2$ and $\varphi_2 : D_2 \to D_3$, we may calculate:
+\begin{align*}
+\left( \frac{\mu^{\sigma F_1}_{\varphi_1, \varphi_2}}{\sigma v^{\varphi_1 \mid \varphi_2}} \right)((f_1, \alpha_1), (f_2, \alpha_2)) &= \left( v_1(f_1 \mid f_2),\, \frac{v_{f_1 \mid f_2}}{v_1(\alpha_1 \mid \alpha_2)}\right) \\
+&= \left( v_1 f_1 \mid v_1 f_2,\, \frac{v_{f_1} \mid v_{f_2}}{v_1 \alpha_1 \mid v_1 \alpha_2} \right) \\
+&= \left( v_1 f_1 \mid v_1 f_2,\, \left. \frac{v_{f_1}}{v_1 \alpha_1} \middle| \frac{v_{f_2}}{v_1 \alpha_2}\right. \right) \\
+&= \left( \frac{v^{\varphi_1} \mid v^{\varphi_2}}{\mu^{\sigma F_2}_{v_1 \varphi_1, v_2 \varphi_2}} \right)((f_1, \alpha_1), (f_2, \alpha_2)).
+\end{align*}
+
+\item (Functorial Interchange) Consider a square
+\[
+\begin{tikzcd}[sep=tiny]
+D_1 \ar[rr, "\varphi_1"] \ar[dd, "j_1"'] & & D_2 \ar[dd, "f_2"] \\
+ & \beta & \\
+D_3 \ar[rr, "\varphi_2"'] & & D_4
+\end{tikzcd}
+\]
+
+Since $\sigma v^{j_1}$ and $\sigma v^{j_2}$ are identities, we just need to show
+that 
+$$\frac{\sigma F_1 (\beta)}{\sigma v^{\varphi_2}} = \frac{\sigma
+  v^{\varphi_1}}{\sigma F_2 (v_1 \beta)}.$$
+To that end, we calculate:
+\begin{align*}
+\left( \frac{\sigma F_1 (\beta)}{\sigma v^{\varphi_2}} \right)(f, \alpha) &= \sigma v^{\varphi_2}\left( f,\, \frac{\alpha}{\beta} \right) \\
+&= \left( v_1 f,\, \frac{v_f}{v_1\left( \frac{\alpha}{\beta} \right)} \right) \\
+&= \left( v_1 f,\, {\begin{tabular}{c} $v_f$ \\ \hline $v_1 \alpha$ \\ \hline $v_1 \beta$ \end{tabular}} \right) \\
+&= \sigma F_2(v_1 \beta)\left( v_1 f,\,  \frac{v_f}{v_1 \alpha} \right) \\
+&= \left( \frac{\sigma v^{\varphi_1}}{F_2(v_1 \beta)} \right)(f, \alpha).
+\end{align*}
+\end{itemize}
+
+\end{proof}
+
+We now finish the proof of \cref{thm.functoriality_vertical_slice}.
+\begin{lemma}
+The assignment $(v_0, v_1, v) \mapsto (v_1, \sigma v)$ defined in
+\cref{prop.vertical_slice_action} is functorial.
+\end{lemma}
+\begin{proof}
+Let $(v_0, v_1, v) : F_1 \to F_2$ and $(w_0, w_1, w) : F_2 \to F_3$ be maps in
+$\Cat{DblFun}$. We will show that
+$$(v_1 \then w_1,\, \sigma(v \ast w)) = (v_1, \sigma v) \then (w_1, \sigma w).$$
+The first components of these pairs are equal by definition, so we just need to
+show that $\sigma(v \ast w) = \sigma v \then \sigma w$.
+\begin{itemize}
+\item This calculation is the same as for a general horizontal. 
+  \item For a vertical $j : D_1 \to D_2$, we calculate, we note that both sides
+    are the same identity natural transformation.
+  \item For a horizontal $\varphi : D_1 \to D_2$, we calculate:
+  \begin{align*}
+\sigma(v \ast w)^{\varphi}(f, \alpha) &\coloneqq \left( w_0v_0f, \frac{(v \ast w)_f}{w_1
+    v_1 \alpha} \right)  \\ 
+    &= \left( w_0 v_0 f, {\begin{tabular}{c} $w_{v_0 f}$\\ \hline $w_1 v_f$ \\ \hline $w_1 v_1 \alpha$ \end{tabular}} \right) \\
+                              &= \left( w_0v_0 f, \frac{w_{v_0 f}}{w_1 \left( \frac{v_f}{v_1 \alpha} \right)} \right) \\
+                              &= \sigma w^{v_1 \varphi} \left( v_0 f, \frac{v_f}{v_1 \alpha} \right) \\
+    &= (\sigma v^{\varphi}) \then (\sigma w^{v_1 \varphi})(f, \alpha).
+    \end{align*}
+\end{itemize}
+\end{proof}
 
 \section{Change of Doctrine}
 

@@ -1924,6 +1924,158 @@ and checking that this descends correctly to the quotient.
   %% :CUSTOM-ID:cite-me.profunctors
   %%
 \end{remark}
+
+Before we move on from the double category $\Cat{Cat}$, let's record an
+important relationship between its squares (natural transformations between
+profunctors) and natural transformations between functors. We will show that
+natural transformations are the same thing as squares in $\Cat{Cat}$ whose top
+and bottom sides are hom profunctors.
+\begin{proposition}\label{prop.transformation_as_square_in_cat}
+  Let $F$ and $G : \cat{A} \to \cat{B}$ be functors. Then there is a
+  (natural) bijection
+  \[
+\{\mbox{Natural transformations }F \Rightarrow G\} \cong \left\{\mbox{Squares} \begin{tikzcd}[sep = tiny]
+  \cat{A} \ar[rr, tick, equals] \ar[dd, "F"'] & & \cat{A} \ar[dd, "G"] \\
+  & \alpha & \\
+\cat{B} \ar[rr, tick, equals] & & \cat{B}
+\end{tikzcd} \right\}
+  \]
+  given by sending the natural transformation $\alpha : F \Rightarrow G$ to the
+  transformation $\bar{\alpha} : \cat{A}(X, Y) \Rightarrow \cat{B}(FX, GY)$ that
+  sends any $f : X \to Y$ the diagonal $\alpha_f$ of the naturality square:
+  \[
+    \begin{tikzcd}
+      FX \ar[r, "\alpha_X"] \ar[d, "Ff"'] \ar[dr, "\alpha_f"]& GX \ar[d, "Gf"] \\
+      FY \ar[r, "\alpha_Y"] & GY
+    \end{tikzcd}
+  \]
+\end{proposition}
+\begin{proof}
+First, let's check that the transformation $\bar{\alpha}(f) = \alpha_f$ is
+natural. If $x : X' \to X$ and $y : Y \to Y'$, then we can form the following
+commutative diagram of naturality squares:
+\[
+    \begin{tikzcd}
+      FX' \ar[r, "\alpha_{X'}"] \ar[d, "Fx"'] & GX' \ar[d, "Gx"] \\
+      FX \ar[r, "\alpha_X"] \ar[d, "Ff"'] \ar[dr, "\alpha_f"]& GX \ar[d, "Gf"] \\
+      FY \ar[r, "\alpha_{Y}"] \ar[d, "Fy"'] & GY \ar[d, "Gy"] \\
+      FY' \ar[r, "\alpha_{Y'}"] & GY'
+    \end{tikzcd}
+\]
+The diagonal of the outer square is by definition $\bar{\alpha}(x\then f\then y)$, but we
+can see from the commutativity of the diagram that it equals $Fx \then \alpha_f
+\then Gy$.
+
+It remains to show that any natural transformation $\beta : \cat{A}(X, Y)
+\Rightarrow \cat{B}(FX, GY)$ arises uniquely as $\bar{\alpha}$ for a natural
+transformation $\alpha : F \Rightarrow G$. Given such a $\beta$, define $\alpha_X
+:= \beta(\id_{X})$. We need to prove the naturality of $\alpha$ by showing that
+any solid square
+\[
+    \begin{tikzcd}
+      FX \ar[r, "\alpha_X"] \ar[d, "Ff"'] \ar[dr, dashed, "\beta(f)"] & GX \ar[d, "Gf"] \\
+      FY \ar[r, "\alpha_Y"] & GY
+    \end{tikzcd}
+\]
+commutes. But note that if we put in the dashed $\beta(f)$, we can see that both
+triangles commute by the naturality of $\beta(f)$:
+$$\beta(f) = \beta(\id_X \then f) = \beta(\id_X) \then Gf = \alpha_X \then Gf.$$
+$$\beta(f) = \beta(f \then \id_Y) = Ff \then \beta(\id_Y) = Ff \then \alpha_Y.$$
+This also shows that $\beta(f) = \bar{\alpha}(f)$, which completes the proof.
+\end{proof}
+
+There are two ways to compose natural transformations: vertically, and
+horizontally. The above bijection respects both of these compositions. In the
+following lemmas we take the notation from \cref{prop.transformation_as_square_in_cat}.
+
+\begin{lemma}
+  Let $\alpha : F \Rightarrow G$ and $\beta : G \Rightarrow H$. Then 
+$$\overline{\alpha \then \beta} = \bar{\alpha} \mid \bar{\beta}.$$
+\end{lemma}
+\begin{proof}
+What we have written here simply as an equality is not quite accurate; this is
+because the two sides do not have equal signature, only isomorphic signature. To
+correctly compare them, we must conjugate by the appropriate isomorphisms. Here,
+with signature included, is the actual equality we will prove:
+\[
+\begin{tikzcd}[sep = tiny]
+  \cat{A} \ar[r, tick, equals] \ar[dd, equals] & \cat{A} \ar[r, tick, equals] &
+  \cat{A} \ar[dd, equals] \\
+& \cong & \\
+  \cat{A} \ar[rr, tick, equals] \ar[dd, "F"'] & & \cat{A} \ar[dd, "H"] \\
+  & \overline{\alpha \then \beta} & \\
+\cat{B} \ar[rr, tick, equals] & & \cat{B}
+\end{tikzcd}
+\quad = \quad 
+\begin{tikzcd}[sep = tiny]
+  \cat{A} \ar[rr, tick, equals] \ar[dd, "F"'] & & \cat{A} \ar[rr, tick, equals]
+  \ar[dd, "G"'] & & \cat{A} \ar[dd, "H"] \\
+  & \bar{\alpha} & & \bar{\beta} & \\
+\cat{B} \ar[rr, tick, equals] \ar[dd, equals] & & \cat{B} \ar[rr, tick, equals] & &
+ \cat{B} \ar[dd, equals]\\
+ & & \cong & & \\
+\cat{B} \ar[rrrr, tick, equals] & & & & \cat{B}
+\end{tikzcd}
+\]
+We note that both of these isomorphisms are given by composing two arrows, so we
+will show that given $f : X \to Y$ and $g : Y \to Z$,
+\[
+(\alpha \then \beta)_{f \then g} = \alpha_f \then \beta_g.
+\]
+
+We will do this by contemplating the following diagram:
+\[
+\begin{tikzcd}
+FX \ar[d, "Ff"'] \ar[r, "\alpha_X"] \ar[dr, "\alpha_f"] & GX\ar[d, "Gf"] \ar[r, "\beta_X"] & HX\ar[d, "Hf"]  \\
+FY\ar[d, "Fg"'] \ar[r, "\alpha_Y"] & GY\ar[d, "Gg"] \ar[r, "\beta_Y"] \ar[dr, "\beta_g"]& HY\ar[d, "Hg"]  \\
+FZ \ar[r, "\alpha_Z"] & GZ \ar[r, "\beta_Z"] & HZ
+\end{tikzcd}
+\]
+
+The naturality square for the composite $f \then g$ under the composite $\alpha
+\then \beta$ is the outer square, and
+therefore its diagonal $(\alpha \then \beta)_{f \then g}$ is the composite of
+the diagonals in the diagram, which is $\alpha_f \then \beta_g$.
+\end{proof}
+
+\begin{lemma}\label{lemma.transformation_as_square_vertical}
+ Let $F_1,\, G_1 : \cat{A} \to \cat{B}$ and $F_2,\, G_2 : \cat{B} \to \cat{C}$
+ be functors, and let $\alpha : F_1 \Rightarrow G_1$ and $\beta : F_2
+ \Rightarrow G_2$ be natural transformations. We may define their composite $\alpha \ast \beta$ by
+\[
+(\alpha \ast \beta)_X \coloneqq F_2\alpha_X \then \beta_{G_1 X}.
+\]
+With this definition, we have
+\[
+\overline{\alpha \ast \beta} = \frac{\bar{\alpha}}{\bar{\beta}}
+\]
+\end{lemma}
+\begin{proof}
+This time, we may prove the equality as stated. It comes down to showing that 
+\[
+(\alpha \ast \beta)_f = \beta_{\alpha_f} 
+\]
+for any $f : X \to Y$. Consider the following diagram:
+\[
+\begin{tikzcd}& & & F_2F_1 X \ar[ddrr,color=red, "F_2\alpha_f"]
+  \arrow[dl,color=blue,"F_2\alpha_X \then \beta_{F_1 X}" description] \arrow[dlll, color=red,
+  "\beta_{F_1X}"']\arrow[rr]\arrow[dd, color=blue,"F_2F_1f"] & & F_2G_1 X
+  \arrow[dlll, crossing over]\arrow[dd] \\ G_2F_1X \ar[ddrr, crossing over,
+  color=red, "G_2\alpha_f"] \arrow[rr,crossing over]\arrow[dd] & & G_2G_1
+  X & & \\& & & F_2F_1Y\arrow[dl,color=blue,"F_2\alpha_Y \then \beta_{F_1 Y}" description] \arrow[dlll]\arrow[rr] &  & F_2G_1 Y\arrow[dlll,
+  color=red,"\beta_{G_1 Y}"] \\ G_2F_1 Y \arrow[rr] & & G_2G_1Y\arrow[from=uu,crossing
+  over, color=blue,"G_2G_1f"] & & 
+\end{tikzcd}
+\]
+The back and front faces are the $\alpha$ naturality square of $f$ pushed
+through $F_2$ and $G_2$ respectively. The $\beta$ naturality square
+of $\alpha_f$ is in the middle, colored in red. The $\alpha \ast \beta$
+naturality square of $f$ is in the middle, colored in blue. We note that the
+diagonal of both these squares is the diagonal of the whole cube $F_2 F_1 X \to
+G_2 G_1 Y$, which means that they are equal. But this is what we were trying to show. 
+
+\end{proof}
+
 \section{Dynamical System Doctrines}\label{sec.doctrines}
 
 In \cref{sec.wiring_together_non_det}, we saw how from the data of an indexed
