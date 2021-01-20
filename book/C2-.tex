@@ -1505,7 +1505,7 @@ the upcoming \cref{ex.rig_monad}.
 \end{remark}
 
 Now we can quickly define our new sort of non-determinism.
-\begin{definition}
+\begin{definition}\label{def.system_with_costs}
 A (discrete-time) system with costs is a $\Fun{Cost}$-system.
 \end{definition}
 
@@ -4406,7 +4406,7 @@ induces a symmetric monoidal functor $\Cat{Lens}_{\cat{C}}^M \to
 Grothendieck construction: any \emph{indexed functor} induces a functor on the
 Grothendieck constructions.
 
-\begin{definition}
+\begin{definition}\label{def.indexed_functor}
   Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ and $\cat{B} : \cat{D}\op \to
   \Cat{Cat}$ be strict indexed categories. A \emph{strict indexed functor}
   $(F, \overline{F}) : \cat{A} \to \cat{B}$ is a pair consisting of
@@ -4458,20 +4458,12 @@ because the monoidal structure of the Grothendieck constructions are defined by
 pairing the monoidal structures of the base.
 \end{proof}
 
-
-\begin{proposition}
+\begin{proposition}\label{prop.commutative_monad_indexed_functor}
   Let $\phi : M \to N$ be a commutative monad morphism. Then there is a strict
-  monoidal functor 
-$$\phi_{\ast} : \Cat{Lens}_{\cat{C}}^M \to \Cat{Lens}_{\cat{C}}^N$$
-Given by 
-$$\phi_{\ast} \lens{f^{\sharp}}{f} \coloneqq \lens{f^{\sharp} \then \phi}{f}.$$
+  monoidal indexed functor
+  $$(\id, \phi_{\ast}) : \smctx{-}^M \to \smctx{-}^N.$$
 \end{proposition}
 \begin{proof}
-  We will show that a commutative monad morphism induces a strict monoidal
-  indexed functor 
-$$(\id, \phi_{\ast}) : \smctx{-}^M \to \smctx{-}N.$$
-The result will then follow by \cref{prop.functoriality_monoidal_groth}.
-
 We need to give a family of strict monoidal functors $\phi_{\ast} : \smctx{C}^M \to
 \smctx{C}^N$, natural in $C$. We take $\phi_{\ast}$ to act as the identity on
 objects, and for $f : C \times X \to MY$, we define 
@@ -4517,6 +4509,20 @@ ${\eta^N(y_1, y_2}$
                              } \\
 &= \phi_{\ast}f \otimes \phi_{\ast}g.
 \end{align*}
+
+\end{proof}
+
+\begin{corollary}
+  Let $\phi : M \to N$ be a commutative monad morphism. Then there is a strict
+  monoidal functor 
+$$\phi_{\ast} : \Cat{Lens}_{\cat{C}}^M \to \Cat{Lens}_{\cat{C}}^N$$
+Given by 
+$$\phi_{\ast} \lens{f^{\sharp}}{f} \coloneqq \lens{f^{\sharp} \then \phi}{f}.$$
+\end{corollary}
+\begin{proof}
+We may apply \cref{prop.functoriality_monoidal_groth} to
+\cref{prop.commutative_monad_indexed_functor} (or, more precisely, to the
+pointwise opposite $(\id, \phi_{\ast}\op)$).
 \end{proof}
 
 The theorem has a useful corollary: we can always wire together

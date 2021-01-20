@@ -290,6 +290,12 @@ x  The double category of arenas and what that means for behaviors of wired syst
 *** TODO Add section in C3- on double cat of "quintets" in cat
      I am using facts about pasting of natural transformations in squares as part of my work on doubly indexed categories. It might be a good idea to have a section where I explain how these pasting diagrams work and prove the associativity and interchange laws for them (which do come up when defining the composition of the laxators in lax doubly indexed functors).
 
+** <2021-01-14 qui> 
+
+*** TODO Add paragraph in C3- under differential doctrines on differential and tangent categories.
+
+    That we get a dynamical system doctrine for a general differential or tangent category was suggested to me by Geoff Cruttwell.
+
 * Citations
 ** C1-
 *** Turing Machine in Introduction
@@ -316,3 +322,40 @@ x  The double category of arenas and what that means for behaviors of wired syst
 
    Learned about this here:
   [[https://www.researchgate.net/publication/329946076_Exact_Solution_to_a_Dynamic_SIR_Model][this paper, and it cites the bailey sir model used]] 
+
+* Notes
+** Cost senstive non-determinism.
+   I have described how we can use the two tropical rigs given by min and max on the extended positive reals.
+
+But what about a rig that keeps track of the range of costs. I'm thinking of the rig given by 
+
+{(a, b) in [0, \infty]^2 | a < b}
+equipped with multiplication 
+(a, b) + (c, d) = (a + c, b + d)
+and with addition
+(a, b) v (c, d) = (min(a, c), max(b, d))
+I'm pretty sure this works since a < b is a congruence in the category of rigs between the min and max tropical rigs.
+
+
+** Meeting with Emily <2021-01-14 qui> 
+
+*** TODO Find ref for coherence theorem
+  <2021-01-15 sex>  I took a look on the nlab, and it does not list the coherence theorem there.
+
+*** DONE Make new symbol that means "equal up to canonical iso of signature"
+    CLOSED: [2021-01-20 qua 02:22]
+
+
+*** DONE Explain "equal up to canonical iso of signature" when weak double cats are introduced.
+    CLOSED: [2021-01-20 qua 02:22]
+
+** TODO Cost Semiring
+   Andrea Censei points out that the max+ "semiring" is not a semiring, since 0 (the additive identity) is not annihilating multiplicatively.
+
+
+*** TODO add Andrea Censei to the acknowledgements
+
+** TODO Exercise system
+
+   David Spivak suggests I take the exercise system from his book.
+

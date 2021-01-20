@@ -1607,7 +1607,7 @@ horizontal category, but also how they interact through the squares.
   identity squares, and will be much more pleasant to look at when writing equations.
 \end{remark}
 
-Let's see three important examples of double categories.
+Let's see two important examples of double categories.
 
 \subsection{The double category of arenas in the deterministic doctrine}
 
@@ -1746,58 +1746,6 @@ arenas will let us generalize from the deterministic doctrine to other
 doctrines.
 
 
-\subsection{The double category of sets, functions, and matrices}\label{sec.double_cat_of_matrices}
-
-Now we turn to our second double category of interest, the double category of
-sets, functions, and matrices of sets.
-\begin{definition}\label{def.double_cat_of_matrices}
-  The double category $\Cat{Matrix}$ of sets, functions, and matrices of sets
-  is defined by:
-  \begin{itemize}
-    \item Its objects are sets.
-    \item Its horizontal category is the category of sets and functions.
-    \item Its vertical category is the category of sets and matrices of sets,
-      where composition is given by matrix multiplication. We write $M : A
-      \to B$ to say that $M$ is a $B \times A$ matrix.\footnote{Observant
-        readers will notice that multiplication of matrices of sets isn't
-        strictly associative or unital. It only satisfies those properties up to
-      isomorphism. Technically, we are defining a form of \emph{weak} double
-      category, where one form of composition is only defined up to isomorphism.
-    But since these isomorphisms are a trivial form of book-keeping, we'll sweep
-    this inconvenient fact under the rug.}
-     \item For functions $f : A \to B$ and $g : C \to D$ and matrices $M : A
-       \to C$ and $N : B \to D$, a square
-       \[
-        \begin{tikzcd}[sep=small]
-          A \ar[dd, "M"'] \ar[rr, "f"] & & B \ar[dd, "N"] \\
-           & \alpha & \\
-          C \ar[rr, "g"'] & & D
-        \end{tikzcd}
-       \]
-       is a family of functions $\alpha_{ba} : M_{ba} \to N_{g(b)f(a)}$ for all
-       $a \in A$ and $b \in B$.
-     \item Horizontal composition of squares is given by composition of the
-       families:
-       $$(\alpha | \beta)_{ba} = \beta_{g(b)f(a)} \circ \alpha_{ba}.$$
-     \item Vertical composition of squares is given by
-       \begin{align*}
-         \left( \frac{\alpha}{\beta} \right)_{ac} : \sum_{b_1 \in B_1} M^2_{cb} \times M^1_{ba} &\to \sum_{b_2 \in B_2} N^2_{h(c)b_2} \times N^1{b_2f(a)} \\
-         (b_1, m_2, m_1) &\mapsto (g(b_1), \beta(m_2), \alpha(m_1)).
-       \end{align*}
-  \end{itemize}
-\end{definition}
-
-\begin{exercise}\label{ex.double_cat_of_matrices}
-  We can see that horizontal composition of squares is associative and unital
-  since it is basically just function composition. Show that $\Cat{Matrix}$ is a
-  double category by checking that
-  \begin{enumerate}
-    \item Vertical composition of squares is associative and unital (up to isomorphism).
-      \item The interchange law holds.
-  \end{enumerate}
-\end{exercise}
-
-
 
 
 \subsection{The double category of categories, profunctors, and functors}
@@ -1916,13 +1864,75 @@ and checking that this descends correctly to the quotient.
   functors is the vertical category of the double category of categories.
 \end{remark}
 
-\begin{remark}
+\begin{remark}\label{rmk.up_to_coherent_iso}
   We omit full proofs of associativity and unitality for profunctor composition
   because they are best done with the \emph{coend calculus}, and this would take
   us quite far afield. 
   %%
   %% :CUSTOM-ID:cite-me.profunctors
   %%
+
+  However, we will note that there is always a unique coherent isomorphism
+  between any two sequences of profunctors which would be equal if unity and
+  associativity held on the nose. We will do an example, since the general
+  principle is always the same.
+
+  Consider $P : \cat{A}
+  \tickar \cat{B}$ and $Q : \cat{B} \tickar \cat{C}$. We will give the canonical
+  isomorphism $(\cat{A} \odot P) \odot (Q \odot \cat{C}) \xto{\sim} P \odot (\cat{B}
+  \odot (\cat{B} \odot Q))$.
+
+  First, we begin with an isomorphism $(\cat{A} \odot P) \odot (Q \odot \cat{C})
+  \xto{\sim} P \odot Q$ and then an isomorphism $P \odot Q \xto{\sim} P \odot (\cat{B}
+  \odot (\cat{B} \odot Q))$. The first will be given by naturality, composition and
+  re-associating; the second by inserting appropriate identities and re-associating.
+
+  An element of $(\cat{A} \odot P) \odot (Q \odot \cat{C})(A, C)$ is an equivalence
+  class $[((f, p), (q, g))]$. We may therefore use the naturality of $P$ and $Q$
+  to give the class $[(f \cdot p, q \cdot g)]\in (P \odot Q)(A, C)$. It is
+  routine to check that this is indeed an isomorphism. It is
+  hopefully clear how to do this in general.
+
+  Now, we go the other way. An element of $(P \odot Q)(A, C)$ is an equivalence
+  class $[(p, q)]$. We may then insert identities to give the class $[(p, (\id,
+  (\id, q)))] \in P \odot (\cat{B}
+  \odot (\cat{B} \odot Q))(A, C)$.
+
+A crucial point about canonical isomorphisms constructed in this manner is that
+they compose: the composite of a canonical isomorphism is the canonical
+isomorphism of that signature. 
+\end{remark}
+
+\begin{exercise}
+  Describe the canonical isomorphisms between the following composites of
+  profunctors. First, flatten them out by removing all hom profunctors using
+  naturality; then expand them again by inserting identities. Let $P : \cat{A} \tickar \cat{B}$, $Q : \cat{B} \tickar \cat{C}$,
+  and $R : \cat{C} \tickar \cat{D}$.
+  \begin{enumerate}
+    \item $(P \odot \cat{B}) \odot (\cat{B} \odot Q) \xto{\sim} \cat{A} \odot ( (P
+      \odot \cat{B}) \odot \cat{C} )$.
+    \item $P \odot ((Q \odot \cat{C}) \odot (\cat{C} \odot R)) \xto{\sim} ((P
+      \odot Q) \odot \cat{C}) \odot (R \odot \cat{D})$.
+  \end{enumerate}
+\end{exercise}
+
+\begin{remark}\label{rmk.up_to_coherent_iso_symbol}
+  We will often need equalities between squares in the double category
+  $\cat{Cat}$ whose boundaries are not precisely equal, but which are
+  canonically isomorphic. The coming
+  \cref{lem.transformation_as_square_horizontal} is an example of this common
+  scenario.
+
+  It would clutter already intricate proofs to keep track of the canonical
+  isomorphisms which are being introduced and cancelled at each step. For this
+  reason, we'll introduce notation for ``equal up to canonical isomorphism on
+  the boundary''. We will write 
+$$\alpha \coheq \beta$$
+to mean that although $\alpha$ and $\beta$ have different boundaries, these
+boundaries are canonically isomorphic and whenever they are made to be the same
+by any canonical isomorphism (pre- or post-composing $\alpha$ and $\beta$ as
+necessary), the resulting squares will be honestly equal. We will see our first
+example in \cref{lem.transformation_as_square_horizontal}.
 \end{remark}
 
 Before we move on from the double category $\Cat{Cat}$, let's record an
@@ -1988,12 +1998,12 @@ There are two ways to compose natural transformations: vertically, and
 horizontally. The above bijection respects both of these compositions. In the
 following lemmas we take the notation from \cref{prop.transformation_as_square_in_cat}.
 
-\begin{lemma}
+\begin{lemma}\label{lem.transformation_as_square_horizontal}
   Let $\alpha : F \Rightarrow G$ and $\beta : G \Rightarrow H$. Then 
-$$\overline{\alpha \then \beta} = \bar{\alpha} \mid \bar{\beta}.$$
+$$\overline{\alpha \then \beta} \coheq \bar{\alpha} \mid \bar{\beta}.$$
 \end{lemma}
 \begin{proof}
-What we have written here simply as an equality is not quite accurate; this is
+Here we are using the symbol ``$\coheq$'' from \cref{rmk.up_to_coherent_iso_symbol} for the first time; this is
 because the two sides do not have equal signature, only isomorphic signature. To
 correctly compare them, we must conjugate by the appropriate isomorphisms. Here,
 with signature included, is the actual equality we will prove:
@@ -2017,7 +2027,9 @@ with signature included, is the actual equality we will prove:
 \cat{B} \ar[rrrr, tick, equals] & & & & \cat{B}
 \end{tikzcd}
 \]
-We note that both of these isomorphisms are given by composing two arrows, so we
+We leave the canonical isomorphisms without names. They can be described by the
+process outlined in \cref{rmk.up_to_coherent_iso}. We note that both of these canonical isomorphisms
+are given by composing two arrows, so in order to prove the equality above we
 will show that given $f : X \to Y$ and $g : Y \to Z$,
 \[
 (\alpha \then \beta)_{f \then g} = \alpha_f \then \beta_g.
@@ -2050,6 +2062,12 @@ With this definition, we have
 \overline{\alpha \ast \beta} = \frac{\bar{\alpha}}{\bar{\beta}}
 \]
 \end{lemma}
+\begin{remark}
+  Note that the equality claimed here is a bona-fide equality, and not an
+  ``equality up to canonical isomorphism'' ($\coheq$). This is because the two
+  squares involved have the exact same boundary, not merely a canonically
+  isomorphic boundaries.
+\end{remark}
 \begin{proof}
 This time, we may prove the equality as stated. It comes down to showing that 
 \[
@@ -2058,11 +2076,11 @@ This time, we may prove the equality as stated. It comes down to showing that
 for any $f : X \to Y$. Consider the following diagram:
 \[
 \begin{tikzcd}& & & F_2F_1 X \ar[ddrr,color=red, "F_2\alpha_f"]
-  \arrow[dl,color=blue,"F_2\alpha_X \then \beta_{F_1 X}" description] \arrow[dlll, color=red,
+  \arrow[dl,color=blue,"F_2\alpha_X \then \beta_{G_1 X}" description] \arrow[dlll, color=red,
   "\beta_{F_1X}"']\arrow[rr]\arrow[dd, color=blue,"F_2F_1f"] & & F_2G_1 X
   \arrow[dlll, crossing over]\arrow[dd] \\ G_2F_1X \ar[ddrr, crossing over,
   color=red, "G_2\alpha_f"] \arrow[rr,crossing over]\arrow[dd] & & G_2G_1
-  X & & \\& & & F_2F_1Y\arrow[dl,color=blue,"F_2\alpha_Y \then \beta_{F_1 Y}" description] \arrow[dlll]\arrow[rr] &  & F_2G_1 Y\arrow[dlll,
+  X & & \\& & & F_2F_1Y\arrow[dl,color=blue,"F_2\alpha_Y \then \beta_{G_1 Y}" description] \arrow[dlll]\arrow[rr] &  & F_2G_1 Y\arrow[dlll,
   color=red,"\beta_{G_1 Y}"] \\ G_2F_1 Y \arrow[rr] & & G_2G_1Y\arrow[from=uu,crossing
   over, color=blue,"G_2G_1f"] & & 
 \end{tikzcd}
@@ -2144,6 +2162,8 @@ Grothendieck construction.
   \to \int^{C : \cat{C}} \cat{A}(C)$ for which the composite $\cat{C} \xto{\hat{T}}
   \int^{C : \cat{C}}\cat{A}(C) \xto{\const{proj}} \cat{C}$ with the projection
   is the identity on $\cat{C}$.
+
+  Given a section $T$, we may more suggestively refer to $\hat{T}$ by $\lens{T(-)}{(-)}$.
 \end{proposition}
 \begin{proof}
   Given a section $T$, we can form the functor
@@ -2442,7 +2462,7 @@ the doctrine of machines with discrete time whose next state is entirely
 determined by its current state and choice of parameters. But really, there have
 been many deterministic doctrines, one for each cartesian category $\cat{C}$.
 
-\begin{definition}
+\begin{definition}\label{def.deterministic_doctrines}
   Let $\cat{C}$ be a cartesian category. The \emph{deterministic doctrine}
   $\determ_\cat{C}$ in $\cat{C}$ is defined to be the indexed category
   $\smctx{-}: \cat{C}\op \to \Cat{Cat}$ together with the section $C \mapsto C$
@@ -2507,7 +2527,7 @@ just describe the various categories as they come.}
 
 We begin with the differential doctrine used to define the notion of
 differential system in \cref{def.differential_system}. 
-\begin{definition}
+\begin{definition}\label{def.euclidean_diff_doctrine}
 The \emph{Euclidean differential doctrine} $\eucdiff$ is defined by the indexed
 category $\smctx{-} : \Cat{Euc}\op \to \Cat{Cat}$ together with the section $T$
 given by 
@@ -2692,7 +2712,7 @@ product of this space with $\rr^{n + m}$.
   $$(\rr^n \times T^m) \times (\rr^k \times T^q) = \rr^{n + k} \times T^{m + q}.$$
 \end{definition}
 
-\begin{definition}
+\begin{definition}\label{def.toric_diff_doctrine}
  The \emph{toric differential doctrine} consists of $\smctx{-} : \Cat{Tori}\op
  \to \Cat{Cat}$ together with the section $T$ given by $T(\rr^n \times T^m) =
  \rr^{n + m}$ and for $f : \rr^n \times T^m \to \rr^k \times T^q$, $Tf : (\rr^n
@@ -2958,7 +2978,7 @@ With one last lemma, we will finally be able to define our general differential 
 The tangent bundle $\pi : TM \to M$ of a manifold $M$ is a submersion.
 \end{lemma}
 
-\begin{definition}
+\begin{definition}\label{def.general_diff_doctrine}
 The \emph{general differential doctrine} $\diffdoc$ is defined to be the display
 category doctrine
 $\dispdoc_{\Cat{Subm}, T}$ associated to the $\Cat{Subm} : \Cat{Man}\op \to
@@ -3091,9 +3111,7 @@ may conclude that behaviors $\Sys{Clock_k} \to \Sys{S}$ are periodic orbits
 (with period dividing $k$) of $\Sys{S}$.
 \end{example}
 
-\begin{exercise}
 
-\end{exercise}
 
 \subsection{Non-deterministic doctrines}
 
@@ -3180,7 +3198,7 @@ for our system without changing the exposed behavior.
 
 \jaz{I should include an example of non-deterministic simulation here.}
 
-\section{Restriction of Doctines}
+\section{Restriction of Doctines}\label{sec.restriction_of_doctrines}
 
 Now that we have a concise, formal definition of dynamical system doctrine, we
 can begin to treat doctrines as mathematical objects. In this section, we will
@@ -3198,7 +3216,7 @@ Since a doctrine $\dd$ consists of an indexed category $\cat{A} : \cat{C}\op \to
 and $T$ with $F$. We call this new doctrine $\dd|_F$ the \emph{restriction} of
 $\dd$ along $F$.
 
-\begin{definition}
+\begin{definition}\label{def.restriction_doctrine}
 Let $\dd = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a doctrine of dynamical
 systems. For any functor $F : \cat{D} \to \cat{C}$, we have a new doctrine
 

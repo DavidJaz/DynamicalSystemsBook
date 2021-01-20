@@ -648,6 +648,52 @@ As desired.
 
 
 
+\subsection{The double category of sets, functions, and matrices}\label{sec.double_cat_of_matrices}
+
+Now we turn to our second double category of interest, the double category of
+sets, functions, and matrices of sets.
+\begin{definition}\label{def.double_cat_of_matrices}
+  The double category $\Cat{Matrix}$ of sets, functions, and matrices of sets
+  is defined by:
+  \begin{itemize}
+    \item Its objects are sets.
+    \item Its horizontal category is the category of sets and functions.
+    \item Its vertical category is the category of sets and matrices of sets,
+      where composition is given by matrix multiplication. We write $M : A
+      \to B$ to say that $M$ is a $B \times A$ matrix.
+    \item For functions $f : A \to B$ and $g : C \to D$ and matrices $M : A
+       \to C$ and $N : B \to D$, a square
+       \[
+        \begin{tikzcd}[sep=small]
+          A \ar[dd, "M"'] \ar[rr, "f"] & & B \ar[dd, "N"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+       \]
+       is a family of functions $\alpha_{ba} : M_{ba} \to N_{g(b)f(a)}$ for all
+       $a \in A$ and $b \in B$.
+     \item Horizontal composition of squares is given by composition of the
+       families:
+       $$(\alpha | \beta)_{ba} = \beta_{g(b)f(a)} \circ \alpha_{ba}.$$
+     \item Vertical composition of squares is given by
+       \begin{align*}
+         \left( \frac{\alpha}{\beta} \right)_{ac} : \sum_{b_1 \in B_1} M^2_{cb} \times M^1_{ba} &\to \sum_{b_2 \in B_2} N^2_{h(c)b_2} \times N^1{b_2f(a)} \\
+         (b_1, m_2, m_1) &\mapsto (g(b_1), \beta(m_2), \alpha(m_1)).
+       \end{align*}
+  \end{itemize}
+\end{definition}
+
+
+\begin{exercise}\label{ex.double_cat_of_matrices}
+  We can see that horizontal composition of squares is associative and unital
+  since it is basically just function composition. Show that $\Cat{Matrix}$ is a
+  double category by checking that
+  \begin{enumerate}
+    \item Vertical composition of squares is associative and unital (up to isomorphism).
+      \item The interchange law holds.
+  \end{enumerate}
+\end{exercise}
+
 
 
 

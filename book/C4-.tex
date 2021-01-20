@@ -481,7 +481,7 @@ just throwing them into one large category. We've made the following observation
     $\Cat{Sys}\lens{I}{O}$ of systems with the interface $\lens{I}{O}$ in \cref{def.cat_of_systems_discrete}.
   \item Every wiring diagram, or more generally lens, gives us an operation that
     changes the interface of a system by wiring things together. We formalized
-    this observation into a functor $\lens{w^{\sharp}}{w} : \Cat{Sys}\lens{I}{O}
+    this observation into a functor $\Cat{Sys}\lens{w^{\sharp}}{w} : \Cat{Sys}\lens{I}{O}
     \to \Cat{Sys}\lens{I'}{O'}$ in \cref{prop.lens_comp_functor_discrete}.
   \item To describe the behavior of a system, first we have to chart out how it
     will look on its interface. We formalized this observation by giving a
@@ -495,7 +495,7 @@ just throwing them into one large category. We've made the following observation
 \Cat{Sys}(\alpha) : \Cat{Sys}\lens{f_{\flat}}{f} \to
 \Cat{Sys}\lens{g_{\flat}}{g}\left( \Cat{Sys}\littlelens{j^{\sharp}}{j}, \Cat{Sys}\littlelens{k^{\sharp}}{k} \right)
 \]
-in \cref{ex.prof_square_from_arena_square}.
+in \cref{prop.prof_square_from_arena_square}.
 \end{itemize}
 
 Now comes the time to organize all these observations. In this section, we will
@@ -534,14 +534,14 @@ in $\cat{D}$, a square
         \end{tikzcd}
 \]
 in $\Cat{Cat}$.
-\item For any two horizontal maps $f : A \to B$ and $g : B \to E$ in
+\item For any two horizontal maps $f : A \to B$ and $g : B \to C$ in
   $\cat{D}$, we have a square $\mu_{f, g} : \cat{A}(f) \odot \cat{A}(g) \to
   \cat{A}(f \mid g)$ called the \emph{compositor}:
 \begin{equation}\label{eqn.compositor}
         \begin{tikzcd}[sep=tiny]
           \cat{A}(A) \ar[dd, equals] \ar[r, "\cat{A}(f)"] & \cat{A}(B) \ar[r, "\cat{A}(f)"] & \cat{A}(E) \ar[dd, equals] \\
            & \mu_{f, g} & \\
-          \cat{A}( C ) \ar[rr, "\cat{A}(f \mid g)"'] & & \cat{A}(F)
+          \cat{A}( A ) \ar[rr, "\cat{A}(f \mid g)"'] & & \cat{A}(C)
         \end{tikzcd}
 \end{equation}
 \end{itemize}
@@ -559,7 +559,7 @@ and that $\cat{A}(\id_D) = \id_{\cat{A}(D)}$.\footnote{Here, we are hiding some
     D_2 \to D_3$ and $h : D_3 \to D_4$, the compositors $\mu$ satisfy the
     following associativity and unitality conditions:
 \begin{itemize}
-\item (Associativity) $$\frac{\mu_{f, g} | \cat{A}(h)}{\mu_{(f \mid g), h}} =
+\item (Associativity) $$\frac{\mu_{f, g} | \cat{A}(h)}{\mu_{(f \mid g), h}} \coheq 
   \frac{\cat{A}(f) | \mu_{g, h}}{\mu_{f, (g \mid h)}}.$$
 \item (Unitality) The profunctor $\cat{A}(\id_{D_1}) : \cat{A}(D_1) \tickar
   \cat{A}(D_1)$ is the identity profunctor, $\cat{A}(\id_{D_1}) = \cat{A}(D_1)$.
@@ -570,9 +570,22 @@ and that $\cat{A}(\id_D) = \id_{\cat{A}(D)}$.\footnote{Here, we are hiding some
 $$\mu_{\id, f} = \id_{\cat{A}(f)} = \mu_{f, \id}.$$
 \end{itemize}
 \item (Naturality of Compositors) For any horizontally composable squares
-  $\alpha$ and $\beta$ with bottom horizontal maps $f$ and $g$ respectively, 
+  \[
+        \begin{tikzcd}[sep=tiny]
+          A \ar[dd, "j"'] \ar[rr, "f_1"] & & B \ar[dd, "k"] \\
+           & \alpha & \\
+           C \ar[rr, "g_1"'] & & D
+        \end{tikzcd}
+        \quad\mbox{and}\quad
+        \begin{tikzcd}[sep=tiny]
+          B \ar[dd, "k"'] \ar[rr, "f_2"] & & E \ar[dd, "l"] \\
+           & \alpha & \\
+           D \ar[rr, "g_2"'] & & F
+        \end{tikzcd}
+  \]
+  
 \[
-\frac{\cat{A}( \alpha ) \mid \cat{A}( \beta )}{\mu_{f, g}} = \frac{\mu_{f} \mid \mu_g}{\cat{A}(\alpha \mid \beta)}.
+\frac{\cat{A}( \alpha ) \mid \cat{A}( \beta )}{\mu_{g_1, g_2}} = \frac{\mu_{f_1,f_2}}{\cat{A}(\alpha \mid \beta)}.
 \] 
 \end{itemize}
 \end{definition}
@@ -1304,7 +1317,7 @@ Before we move on, let's record an important lemma relating modifications to squ
   $\alpha_{D_3}$   & $(v_2)_{f_2}$
   \end{tabular}   \ar[r, equals] \&  \begin{tabular}{c|c}
     $F_1 s$ &  $(h_1)_{j_2}$ \\ \hline
-    $(v_2)_{f_1}$ & $\alpha_{D_3}$
+    $(v_2)_{f_1}$ & $\alpha_{D_4}$
                                      \end{tabular}
 \end{tikzcd}
   \]
@@ -1436,7 +1449,7 @@ F^{\frac{j}{k}} =
 \end{tikzcd}
 \]
 This is, in terms of squares in $\Cat{Cat}$:
-    $$F^{\frac{j}{k}} = \left. \frac{F^j}{\cat{B}(F^0k)} \middle| \frac{\cat{A}(j)}{F^k} \right.$$
+    $$F^{\frac{j}{k}} \coheq \left. \frac{F^j}{\cat{B}(F^0k)} \middle| \frac{\cat{A}(j)}{F^k} \right.$$
   \item (Horizontal functoriality) For composable horizontal arrows $f : D_1 \to
     D_2$ and $g : D_2 \to D_3$, 
 $$\frac{\mu^{\cat{A}}_{f, g}}{F^{f \mid g}} = \frac{F^f \mid
@@ -1451,9 +1464,19 @@ D_3 \ar[rr, "g"'] & & D_4
 \]
 in $\cat{D}_1$, we have that
 \[
-  \left. F^j \,\middle|\, \frac{\cat{A}(\alpha)}{F^g} \right. = \left.
+  \left. F^j \,\middle|\, \frac{\cat{A}(\alpha)}{F^g} \right. \coheq \left.
     \frac{F^f}{\cat{B}(F^0 \alpha)} \,\middle|\, F^k \right. .
 \]
+
+Note that use of ``$\coheq$'' here; the two sides of this equation have
+different, but canonically isomorphic boundary. What we are asking is that when these boundaries are made
+the same by composing with canonical isomorphisms in any way, they will become
+equal
+
+Note that use of ``$\coheq$'' here; the two sides of this equation have
+different, but canonically isomorphic boundary. What we are asking is that when these boundaries are made
+the same by composing with canonical isomorphisms they will become any way, they
+will become equal. 
 \end{itemize}
 
 A lax doubly indexed functor is \emph{taut} --- which we will in refer to just
@@ -1497,7 +1520,7 @@ where $F \then G$ is defined by:
 We note that by \cref{lemma.transformation_as_square_vertical}, this corresponds
 to the composite of squares: 
 \[
-(F \then G)^j \coloneqq \left. \frac{F^{D_1}}{G^{F^0 j}} \middle|
+(F \then G)^j \coheq \left. \frac{F^{D_1}}{G^{F^0 j}} \middle|
   \frac{F^j}{G^{F^0 D_2}} \right.
 \]
 \item For a horizontal $f : D_1 \to D_2$, we define
@@ -1564,7 +1587,7 @@ We may then calculate:
 \bullet \ar[r, equals, tick]                                      & \bullet
 \ar[r, equals, tick]                                              & \bullet
 \ar[r, tick]                                                  & \bullet          
-\end{tikzcd} =
+\end{tikzcd}\coheq 
 \begin{tikzcd}
 \bullet \arrow[r, equals, tick] \arrow[d] \arrow[rd, "F^D", phantom] & \bullet
 \arrow[r, tick] \arrow[d] \arrow[rd, "F^f", phantom]                   & \bullet \arrow[r, equals, tick] \arrow[d]                                    & \bullet \arrow[d] \\
@@ -1575,7 +1598,7 @@ We may then calculate:
 \bullet \arrow[r, equals, tick]                                      & \bullet
 \arrow[r, tick]                                                        & \bullet
 \arrow[r, equals, tick]                                              & \bullet          
-\end{tikzcd} =
+\end{tikzcd} \coheq
 \begin{tikzcd}
 \bullet \arrow[r, tick] \arrow[d] \arrow[rd, "F^D", phantom]                      & \bullet \arrow[r, equals, tick] \arrow[d] \arrow[rd, "F^f", phantom] & \bullet \arrow[r, equals, tick] \arrow[d]                                    & \bullet \arrow[d] \\
 \bullet \arrow[d] \arrow[r, tick] \arrow[rd, "G^{F^0 f}", phantom]                & \bullet \arrow[d] \arrow[r, equals, tick]                            & {} \arrow[d] \arrow[r, "F^k", phantom]                         & \bullet \arrow[d] \\
@@ -1737,6 +1760,281 @@ show that $\sigma(v \ast w) = \sigma v \then \sigma w$.
 \end{proof}
 
 \section{Change of Doctrine}
+
+We have learned about a variety of doctrines through the course of this book:
+\begin{itemize}
+  \item There are the deterministic doctrines (\cref{def.deterministic_doctrines})
+\[
+(\smctx{-}: \cat{C}\op \to \Cat{Cat},\, \phi \mapsto \phi \circ \pi_2)
+\]
+which may be defined for any cartesian category $\cat{C}$. While we have focused
+so far on the case $\cat{C} = \smset$, many other cartesian categories are of
+interest in the study of deterministic dynamical systems. For example, in
+ergodic theory we most often use the category of measureable spaces and
+measurable functions.\footnote{We most often consider maps which preserve a
+  specific measure on a space as well, but the category of such measure
+  preserving maps is not cartesian. Often one needs to go and twiddle these
+  general definitions of doctrines in particular cases to suit the particular
+  needs of a subject.} We often assume the dynamics of the systems are not arbitary
+set maps, but are furthermore continuous or differentiable; this means working
+in the cartesian categories of topological spaces or differentiable manifolds.
+\item There are also the differential doctrines
+  (\cref{def.euclidean_diff_doctrine,def.toric_diff_doctrine,def.general_diff_doctrine})
+  where the tangent bundle plays an important role. \jaz{ There are also non-standard
+  differential doctrines arising from cartesian differential categories and
+  tangent categories with display maps.
+ }
+\item There are the non-deterministic doctrines for any commutative monad $M$ on
+  a cartesian category $\cat{C}$. As we saw in \cref{Chapter.2}, by varying the
+  monad $M$ we can achieve a huge variety of flavors of non-determinism. This
+  includes possibilistic and stochastic non-determinism, but also other variants
+  like systems with cost-sensitive transitions and (\cref{def.system_with_costs}). 
+\end{itemize}
+These are just large classes of doctrines that have been easy to describe in
+generality. Different particular situations will require different particular
+doctrines. For example, we may decide to restrict the sorts of maps appearing in
+our doctrines by changing the base $\cat{C}$ as in
+\cref{sec.restriction_of_doctrines}. There may also be doctrines constructed by
+hand for particular purposes, such as ergodic theory.
+
+These doctrines are not isolated from each other. We have seen already in
+\cref{sec.restriction_of_doctrines} that some doctrines may be formed by
+restricting others. There are also some apparent inclusions of doctrines that
+are not explained by restriction; for example, the Euclidean differential
+doctrine is a special case of the general differential doctrine. We should be
+able to think of Euclidean differential systems and general differential systems
+without too much hassle, and we should be able to apply theorems that pertain to
+general differential systems to Euclidean ones. Another example of inclusion of
+doctrines is of deterministic systems into non-deterministic systems of any flavor.
+
+There are also more drastic ways to change doctrine. Any map of commutative
+monads $\phi : M \to N$ gives us a way of changing an $M$-system into an
+$N$-system, changing the flavor of non-determinism. We may also
+\emph{approximate} a differential system by a deterministic system. 
+
+These are all ways of \emph{changing our doctrine}, and it is these changes of
+doctrine that we will attend to in this section. 
+
+We will begin by defining a \emph{change of doctrine}, which will give us a
+category of doctrines.\footnote{\jaz{Actually a 2-category, but this will likely
+    go into an appendix.}} We will then show that forming the doubly indexed
+category of systems $\Cat{Sys}(\dd)$ is functorial in the doctrine $\dd$.
+
+\subsection{Definition}
+
+Let's recall the informal and formal definitions of dynamical system doctrines. 
+
+The informal definition is that a doctrine is a way to answer a series of
+questions about what it means to be a dynamical system.
+\begin{informal}
+  A \emph{doctrine} of dynamical systems is a particular way to answer the following
+  questions about what it means to be a dynamical system:
+  \begin{enumerate}
+  \item What does it mean to be a state?
+  \item How should the output vary with the state --- discretely,
+    continuously, linearly?
+  \item Can the kinds of input a
+    system takes in depend on what it's putting out, and how do they depend on it?
+  \item What sorts of changes are possible in a given state?
+  \item What does it mean for states to change. 
+  \item How should the way the state changes vary with the input?
+  \end{enumerate}
+\end{informal}
+
+This informal definition is captured by the sparse, formal definition that a
+doctrine is a pair consisting of an indexed category $\cat{A} : \cat{C}\op \to
+\Cat{Cat}$ together with a section $T$. The various questions correspond to the
+choices one can make when defining such a pair.
+
+To change a doctrine, then, means to change our answers to these questions. We
+want to enact this change by some formulated process. For example, if what it
+means to be a state is a to be a vector in Euclidean space, and we would like to
+change this to instead answer that to be a state means to be an element of an
+abstract set, then we want a way of taking Euclidean spaces and producing an
+abstract set.
+
+Now, we can't just fiddle arbitrarily with the answers to our questions; they
+all have to hang together in a coherent way. The formal definition can guide us
+to what sort of changes we can make that cohere in just this way. We can change
+what it means to be a state, how the output varies with the state, and the way
+the inputs vary by changing the indexed category $\cat{A}$. 
+
+Suppose that $(\cat{A}, T_1)$ and $(\cat{B}, T_2)$ are dynamical system
+doctrines. If we have an indexed functor (\cref{def.indexed_functor}) $(F, \overline{F}) :
+\cat{A} \to \cat{B}$ between indexed categories, then from a dynamical system
+$\lens{\update{S}}{\expose{S}} : \lens{T_1\State{S}}{\State{S}} \fromto
+\lens{\In{S}}{\Out{S}}$ we can get a lens 
+\[
+\lens{\overline{F}\update{S}}{F\expose{S}} : \lens{\overline{F}T_1
+  \State{S}}{F\State{S}} \fromto \lens{\overline{F}\In{S}}{F\Out{S}}
+\]
+That is, we have changed what it means to be a state ($F\State{S}$), how the
+output varies with state ($F\expose{S}$), and how the inputs vary with output
+($\overline{F}\In{S}$).
+This is not quite a dynamical system, however, since since its domain is not
+$\lens{T_2 F\State{S}}{F\State{S}}$. In order for us to get a $(\cat{B},
+T_2)$-system, we need to say how to change the what it means for a state to
+change. 
+
+The most direct way to produce a $(\cat{B}, T_2)$-system would be to compose
+with a map $\phi : \overline{F}T_1 \State{S} \to T_2 F\State{S}$ which
+tells us how to take a $T_1$ change (re-interpreted already by $\overline{F}$),
+and get a $T_2$ change (for the re-interpretation of state by $F$). Indeed, if
+we considered this map $\phi$ as a lens $\lens{\phi}{\id} : \lens{T_2 F \State{S}}{F \State{S}} \fromto \lens{\overline{F}T_1 \State{S}}{F
+  \State{S}}$, we may form the composite
+\[
+\lens{\overline{F}\update{S}}{F\expose{S}} \then \lens{\phi}{\id} : \lens{T_2 F
+  \State{S}}{F \State{S}} \fromto \lens{\overline{F}\In{S}}{F\Out{S}}.
+\]
+This is a $(\cat{B}, T_2)$-system, and this process is how we may use a change
+of doctrine to turn $(\cat{A}, T_1)$-systems into $(\cat{B},T_2)$-systems.
+
+We therefore arrive at the following formal defintion of change of doctrine.
+\begin{definition}\label{def.change_of_doctrine}
+  Let $(\cat{A} : \cat{C} \to \Cat{Cat}, T_1)$ and $(\cat{B} : \cat{D} \to
+  \Cat{Cat}, T_2)$ be dynamical system doctrines. A \emph{change of doctrine}
+  $((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B}, T_2)$ consists of:
+\begin{itemize}
+  \item An indexed functor $(F, \overline{F}) : \cat{A} \to \cat{B}$. 
+  \item A \emph{transformation of sections} $\phi : \overline{F}T_1 \to T_2 F$,
+    which consists of a family of maps $\phi_C : \overline{F}T_1 C \to T_2 FC$
+    for each $C$ in $C$, satisfying the following naturality condition:
+    \begin{itemize}
+      \item For any $f : C \to C'$, we have that the following square commutes
+        in $\cat{B}(FC)$:
+        \[
+\begin{tikzcd}
+\overline{F}T_1 C  \ar[d, "\overline{F}T_1f"'] \ar[r, "\phi_C"]& T_2 F C \ar[d, "T_2Ff"] \\
+\overline{F}f^{\ast}T_1 C' \ar[r,"(Ff)^{\ast}\phi_{C'}"']& (Ff)^{\ast}T_2 FC'
+\end{tikzcd}
+\]
+\end{itemize}
+
+\end{itemize} 
+\end{definition}
+
+We can package the transformation of sections into a natural transformation,
+which will make it easier to work with theoretically.
+\begin{proposition}\label{prop.transform_section_as_nat_transform}
+The data of a transformation of sections as in \cref{def.change_of_doctrine} is equivalent to the data
+of a natural transformation $\lens{\phi}{\id} : \lens{\overline{F}}{F} \circ T_1
+    \Rightarrow \lens{T_2(-)}{(-)} \circ F$ which acts as the identity on $F$ on
+    its bottom component. We can express this condition with the following equation on
+    diagrams of natural transformations: 
+    \[
+\begin{tikzcd}
+  \cat{C} \ar[d,"{\lens{T_1(-)}{(-)}}"'] \ar[r, "F"] & \cat{D} \ar[d,
+  "{\lens{T_2(-)}{(-)}}"] \\
+\int^{C : \cat{C}}\cat{A}(C) \ar[r, "\lens{\overline{F}}{F}"'] \ar[ur,
+Rightarrow, "{\lens{\phi}{\id}}"] \ar[d,"\pi"'] & \int^{D :
+  \cat{D}} \cat{B}(D) \ar[d, "\pi"]\\
+\cat{C} \ar[r, "F"'] & \cat{D}
+\end{tikzcd} 
+=
+\begin{tikzcd}
+  \cat{C} \ar[dd, equals] \ar[r, "F"] & \cat{D} \ar[dd, equals] \\
+  & \\
+\cat{C} \ar[r, "F"'] \ar[uur, Rightarrow, "\id_F"] & \cat{D}
+\end{tikzcd}
+\]
+\end{proposition}
+\begin{remark}
+  We note that the components of the natural transformation $\lens{\phi}{\id}$
+  here are \emph{charts} and not lenses. We will, however, exploit the duality
+  between lenses and charts whose lower component are identities.
+\end{remark}
+\begin{proof}
+  That the transformation $\lens{\phi}{\id}$ acts as the identity on $F$ means
+  that it is determined by its top map $\phi$. We can then see that the
+  naturality square for $\phi$ is precisely the square given in \cref{def.change_of_doctrine}.
+\end{proof}
+
+
+Every restriction (from \cref{sec.restriction_of_doctrines}) is a change of doctrine.
+\begin{proposition}
+Let $\dd = (\cat{A} : \cat{C}\op \to \cat{Cat}, T)$ be a doctrine, and let $F :
+\cat{D} \to \cat{C}$ be a functor. Then there is a change of doctrine $((F,
+\id), \id) : \dd_{|F} \to \dd$ from the restriction $\dd_F = (\cat{A} \circ
+F\op, T \circ F)$ (\cref{def.restriction_doctrine}) of $\dd$ by $F$ to $\dd$.
+\end{proposition}
+\begin{proof}
+By definition, $(F, \id) : \cat{A} \to (\cat{A} \circ F\op)$ is an indexed
+functor. Since, by \cref{prop.transform_section_as_nat_transform}, the data of a
+transformation of sections is the same as a natural transformation of a certain
+sort, we may take that transformation to be the identity.
+\end{proof}
+
+There are, however, more interesting changes of doctrine. For example, every
+morphism of commutative monads gives rise to a change of doctrine.
+
+\begin{proposition}\label{prop.morphism_commutative_monoid_change_doctrine}
+  Let $\phi : M \to N$ be a morphism of commutative monads on a cartesian
+  category $\cat{C}$. Then there is a change of doctrine given by
+  \[
+((\id, \phi_{\ast}), \id) : \nondet_{M} \to \nondet_{N}.
+  \]
+\end{proposition}
+\begin{proof}
+We constructed the indexed functor $(\id, \phi_{\ast}) : \smctx{-}^M \to
+\smctx{-}^N$ in \cref{prop.commutative_monad_indexed_functor}. It remains to
+show that the following square of functors commutes, so that we may take the
+transformation of sections to be the identity:
+\[
+  \begin{tikzcd}
+\cat{C} \ar[r, equals]\ar[d,"T^M"'] & \cat{C}  \ar[d,"T^N"]\\
+  \int^{C : \cat{C}}\smctx{C}^M \ar[r, "{\littlelens{\phi_{\ast}}{\id}}"']  & \int^{C : \cat{C}}
+  \smctx{C}^N  
+  \end{tikzcd}
+\]
+Let $f : C' \to C$ be a map in $\cat{C}$. Then $T^Mf$ is $\pi_2 \then f \then \eta^M
+: C' \times C' \to MC$ and $T^N f$ is $\pi_2 \then f \then \eta^N
+: C' \times C' \to NC$. Now, $\phi_{\ast}T^M f$ is $\pi_2 \then f \then \eta^M
+\then \phi_C$, but by the unit law for morphisms of commutative monads, $\eta^M
+\then \phi_C = \eta^N$. So the square commutes and we can take the
+transformation of sections to be the identity.
+\end{proof}
+  
+We may also describe changes of doctrines between various sorts of deterministic
+doctrine. 
+\begin{proposition}\label{prop.change_of_doctrine_cartesian}
+Let $F : \cat{C} \to \cat{D}$ be a cartesian functor between cartesian
+categories. Then there is a change of doctrine
+\[
+((F, \overline{F}), \id) : \determ_{\cat{C}} \to \determ_{\cat{D}} 
+\]
+from the deterministic doctrine in $\cat{C}$ to the cartesian doctrine in $\cat{D}$.
+\end{proposition}
+\begin{proof}
+We need to construct the indexed functor $(F, \overline{F})$, and then prove
+that the square 
+\[
+  \begin{tikzcd}
+\cat{C} \ar[r, "F"]\ar[d,"T^{\cat{C}}"'] & \cat{C}  \ar[d,"T^{\cat{D}}"]\\
+  \int^{C : \cat{C}}\smctx{C} \ar[r, "{\littlelens{\overline{F}}{F}}"']  & \int^{D : \cat{D}}
+  \smctx{D}  
+  \end{tikzcd}
+\]
+commutes, so that we may take the transformation of sections to be the identity.
+
+We begin first by constructing $\overline{F}$. We note that since $F$ is
+cartesian, it extends to a functor
+$$\overline{F}_C : \smctx{C} \to \smctx{FC}$$
+by sending $f : C \times X \to Y$ to $Ff : FC \times FX \to FY$. It is routine
+to check that this makes $(F, \overline{F})$ into an indexed functor. In
+particular, for a map
+$r : C' \to C$ in $\cat{C}$, we see that
+\[
+\overline{F}_{C'}(r^{\ast}f) = \overline{F}((r \times \id) \then f) = F((r
+\times \id) \then f) = (Fr \times \id) \then Ff = (Fr)^{\ast}\overline{F}(f)
+\]
+
+Next we check that the square commutes. Let $f : C' \to C$ be a map in
+$\cat{C}$. Then $T^{\cat{D}} \circ F (f) = \lens{\pi_2 \then Ff}{Ff}$, while
+$\lens{\overline{F}}{F}\lens{Tf}{f} = \lens{\overline{F}(\pi_2 \then f)}{Ff}$.
+But since $F$ is cartesian, $F(\pi_2) = \pi_2$, so these are equal.
+\end{proof}
+
+\subsection{Functoriality}
 
 \section{Approximation: Euler and Runge-Kutta}
 
