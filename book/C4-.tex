@@ -7,7 +7,7 @@
 
 
 %------------ Chapter ------------%
-\chapter{Doubly Indexed Categories of Systems}
+\chapter{Change of Doctrine}
 
 \section{Introduction}
 
@@ -176,24 +176,95 @@ since it is a sort of double categorical generalization of an indexed category.
 We'll see the definition of this notion in
 \cref{sec.indexed_double_category_of_systems}.
 
-The main reason for introducing doubly indexed categories is that doubly indexed
-\emph{functors} will organize the variety of compositionality results we will
-prove in this and the next chapter. 
+Once we have organized our systems into doubly indexed categories, we can
+discuss what it means to change our doctrine. A change of doctrine will be a way
+of turning one sort of dynamical system into another. This could mean simply
+re-interpreting the underlying structure (for example, a deterministic system
+where all maps are differentiable is in particular a discrete deterministic
+system, just by forgetting the differentiability) or by restricting the use of
+certain maps (as in \cref{def.restriction_doctrine}). But it could also mean
+approximating one sort of system by another sort of system.
 
-We will show how doubly
-indexed categories of systems can be constructed systematically from their
-doctrine. In particular, we will show that there is a
+As an example, let's consider the Euler method for approximating a differential
+system. Suppose that
+\[
+\lens{\update{S}}{\expose{S}} : \lens{\rr^{n}}{\rr^n} \fromto \lens{\rr^k}{\rr^m}
+\]
+is a Euclidean differential system $\Sys{S}$. This represents the differential equation
+\[
+\frac{ds}{dt} = \update{S}(s, p).
+\]
+That is, a trajectory is a map $s : \rr \to \rr^n$ satisfying this differential
+equation (for a choice of parameters $p : \rr \to \rr^k$). This means that the
+direction that the state $s_0$ is tending is given by $\update{S}(s_0, p_0)$. We
+could then approximate the solution, given such a starting point, by moving a
+small distance in this direction. We could get a whole sequence of states this
+way; moving in the direction our dynamics tells us we should go, and then
+checking where to go from there.
+
+The result is a deterministic system $\mathcal{E}_{\epsilon}(\Sys{S})$ whose
+dynamics is given by
+\[
+\update{\mathcal{E}_{\epsilon}(\Sys{S})}(s, p) = s + \epsilon \cdot
+\update{S}(s, p).
+\]
+Here, $\epsilon > 0$ is some small increment. We can take $\mathcal{E}_{\epsilon}(\Sys{S})$ to expose the same variable that
+$\Sys{S}$ does: $\expose{\mathcal{E}_{\epsilon}(\Sys{S})} = \expose{S}$.
+
+The change of doctrine $\mathcal{E}_{\epsilon}$ is the formula for changing from
+the Euclidean differential doctrine to the deterministic doctrine on the
+cartesian category of Euclidean spaces. We might wonder: how does changing the
+doctrine by using the Euler method affect the wiring together of systems? How
+does it affect the behaviors of the systems?
+
+We can answer the question about behaviors here. It is not true that every
+behavior of a Euclidean differential system is faithfully represented by its
+Euler method approximation. Consider, for example, the simply system
+\[
+\update{S}(s) = s
+\]
+having one state variable, and no parameters. The trajectories of this system
+are of the form $s(t) = Ce^t$ for some constant $C$. However, if we let
+$\epsilon = .1$ and consider the Euler approximation
+\[
+\update{\mathcal{E}_{.1}(\Sys{S})}(s(0)) = s(0) + .1 \cdot s(0) = 1.01
+\cdot C,
+\]
+This is not the same thing as $s(.1) = Ce^{.1} \approx 1.105 \cdot C$ (though,
+as expected, they are rather close). So we see that general behaviors are
+\emph{not} preserved!
+
+However, suppose we have a steady state of the system. For example, taking $C =
+0$ we get a steady state of the system $\update{S}(s) = s$ above. Then we have
+that
+\[
+\update{\mathcal{E}_{.1}(\Sys{S})}(0) = 0 + .1 \cdot 0 = 0.
+\]
+In other words, the steady state remains a steady state!
+
+The goal of this chapter will be to introduce the formalism which enables us to
+inquire into and prove various compositionality results concerning changes of
+doctrine. In the above situation, we will see that the Euler method
+$\mathcal{E}_{\epsilon}$ gives a change of doctrine on a \emph{restriction} of
+the Euclidean differential doctrine to affine maps. As a result, it will
+preserve any behavior whose underlying map is affine (of the form $\phi(v) = Av
++ b$ for a matrix $A$ and vector $b$), which includes all steady states (since
+constant maps are affine) but almost no trajectories in general. 
+
+We will introduce the notion of a \emph{doubly indexed functor} to organize the
+compositionality results concerning change of doctrine. We will also be using
+these doubly indexed functors in the next chapter to organize the
+compositionality of behaviors in general.
+
+We will define the notion of change of doctrine formally
+(\cref{def.change_of_doctrine}) and show that every change of doctrine gives
+rise to a doubly indexed functor between the doubly indexed categories of
+systems in the respective doctrines. In particular, we will show that there is a
 \emph{2-functor} \jaz{I am starting to think that I should put the
   2-functoriality of this into an appendix so that I don't have to introduce
   2-categories and 2-functors here.}
 $$\textbf{Sys} : \textbf{Doctrine} \to \textbf{DblIx}$$
-sending a doctrine to the doubly indexed category of systems in it. The
-2-functoriality of this construction will let us explore \emph{change of
-  doctrine}. Changes of doctrine will include the changes in flavors of
-non-determinism given by commutative monad morphisms described in
-\cref{chapter.2}, and various sorts of \emph{approximation} of differential
-systems by discrete ones. 
-
+sending a doctrine to the doubly indexed category of systems in it. 
 
 
 
@@ -324,7 +395,7 @@ then the wired together systems $\Sys{S}$ simulate $\Sys{T}$ by $\phi = \prod_i
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
-      \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+      \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f}"'] \ar[r,
       shift left] \& \lens{\In{S}}{\Out{S}}
     \end{tikzcd}
                     }
@@ -399,7 +470,7 @@ does to an element $\phi$ of $\Cat{Sys}\lens{f_{\flat}}{f}\left(\Sys{T},
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
       \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
-      \lens{I_1}{O_1} \ar[r, shift right, "\lens{f^{\sharp}}{f}"'] \ar[r,
+      \lens{I_1}{O_1} \ar[r, shift right, "\lens{f_{\flat}}{f}"'] \ar[r,
       shift left] & \lens{I_2}{O_2}
     \end{tikzcd}
 \]
@@ -412,10 +483,10 @@ $\Cat{Sys}(\alpha)(\phi)$ to be the vertical composite:
     \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
     "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
     \lens{I_1}{O_1} \ar[d, shift right, "\lens{j^{\sharp}}{j}"'] \ar[d, shift left,
-        leftarrow] \ar[r, shift right, "\lens{f^{\sharp}}{f}"']
+        leftarrow] \ar[r, shift right, "\lens{f_{\flat}}{f}"']
     \ar[r, shift left] & \lens{I_2}{O_2} \ar[d, shift left, leftarrow,
         "\lens{k^{\sharp}}{k}"] \ar[d, shift right]\\
-    \lens{I_3}{O_3} \ar[r, shift right, "\lens{g^{\sharp}}{g}"']
+    \lens{I_3}{O_3} \ar[r, shift right, "\lens{g_{\flat}}{g}"']
     \ar[r, shift left] & \lens{I_4}{O_4} \\
   \end{tikzcd}
 \]
@@ -613,7 +684,7 @@ indexed categories of deterministic systems and vectors of sets.
 Let's show that systems in a doctrine $\mathbb{D}$ do indeed form a doubly indexed category
 $$\Cat{Sys}_{\mathbb{D}} : \Cat{Arena}_{\mathbb{D}} \to \Cat{Cat}.$$
 
-\begin{definition}
+\begin{definition}\label{def.doubly_indexed_cat_systems}
   The doubly indexed category $\Cat{Sys}_{\mathbb{D}} : \Cat{Arena}_{\mathbb{D}}
   \to \Cat{Cat}$ of systems in the doctrine $\mathbb{D} = (\mathcal{A}, T)$ is defined
   as follows:
@@ -839,7 +910,7 @@ that it will facilitate our main theorem of this chapter: change of doctrine.
 
 \subsection{Double Functors}
   
-A double functor is, unsurprisingly, a functor between double categories. Just
+A double functor is the correct sort of functor between double categories. Just
 as a double category has a bit more than twice the information involved in a
 category, a double functor has a bit more than twice the information involved in
 a functor.
@@ -885,8 +956,8 @@ There is, in fact, a double category of double functors $F : \cat{D}_0 \to
 functoriality of the vertical slice construction in \cref{sec.functoriality_vertical_slice}.
 \end{remark}
 
-We will, in time, see many interesting examples of double functors. For now,
-however, we will content ourselves with the two simple examples we need to
+We will, in time, see many interesting examples of double functors. However, we
+will begin with the two simple examples we need to
 construct the doubly indexed categories $\Cat{Sys}$ and $\Cat{Vec}$.
 
 \begin{example}\label{ex.double_functor_section}
@@ -917,6 +988,77 @@ $\Cat{Matrix}$ of sets, functions, and matrices. Therefore, there is a double
 functor $\ord{1} : \ord{1} \to \Cat{Matrix}$ picking out this special element.
 \end{example}
 
+Now that we have a notion of double functor, we can define a category
+$\Cat{Dbl}$ of double categories.
+\begin{definition}\label{def.category_of_double_cats}
+The category $\Cat{Dbl}$ of double categories has as its objects the double
+categories and as its maps the double functors.
+\end{definition}
+
+From any indexed category $\cat{A}$, we can form the double categories of
+\emph{arenas} in $\cat{A}$ (\cref{def.double_cat_of_arenas_general}). In
+category theory, it is a good habit to inquire into the functoriality of any
+construction. Now that we have an appropriate category of double categories, we
+can ask if the construction $\cat{A} \mapsto \Cat{Arena}_{\cat{A}}$ is functorial.
+
+\begin{proposition}\label{prop.functoriality_arena_construction}
+The assignment $\cat{A} \mapsto \Cat{Arena}_{\cat{A}}$ sending an indexed
+category to its Grothendieck double construction (\cref{def.groth_double_construction}) is functorial.
+\end{proposition}
+\begin{proof}
+  Let $\cat{A} : \cat{C}\op \to \Cat{Cat}$ and $\cat{B} : \cat{D}\op \to
+  \Cat{Cat}$ be indexed categories, and let $(F, \overline{F}) : \cat{A} \to
+  \cat{B}$ be an indexed functor. We will produce a double functor
+  \[
+\lens{\overline{F}}{F} : \Cat{Arena}_{\cat{A}} \to \Cat{Arena}_{\cat{B}}.
+  \]
+  
+  Recall that the Grothendieck construction is functorial
+  (\cref{prop.functoriality_monoidal_groth}). From an indexed functor $(F,
+  \overline{F}) : \cat{A} \to \cat{B}$, we get a functor
+  \[
+\lens{\overline{F}}{F} : \int^{C : \cat{C}} \cat{A}(C) \to \int^{D : \cat{D}} \cat{B}(D).
+  \]
+  Since the horizontal category of $\Cat{Arena}$ is precisely the Grothendieck
+  construction, we can take this to be the horizontal component of
+  $\lens{\overline{F}}{F} :\Cat{Arena}_{\cat{A}} \to \Cat{Arena}_{\cat{B}} $.
+  Similarly, since the vertical category of $\Cat{Arena}$ is the Grothendieck
+  construction of the opposite, we can take the vertical component of
+  $\lens{\overline{F}}{F} :\Cat{Arena}_{\cat{A}} \to \Cat{Arena}_{\cat{B}} $ to
+  be $\lens{\overline{F}\op}{F} : \int^{C : \cat{C}}\cat{A}(C)\op \to \int^{D :
+    \cat{D}} \cat{B}(D)\op$. 
+
+All that remains to check then is that
+  $\lens{\overline{F}}{F} ::\Cat{Arena}_{\cat{A}} \to \Cat{Arena}_{\cat{B}}$
+  preserves squares. Let 
+\[
+    \begin{tikzcd}
+      \lens{A_1}{C_1} \arrow[r, shift left, "\lens{g_{1\flat}}{g_1}"]\arrow[r, shift right] \arrow[d, leftarrow,  shift left] \arrow[d, shift right, "\lens{f_1^{\sharp}}{f_1}"'] & \lens{A_2}{C_2} \arrow[d, leftarrow, shift left, "\lens{f_2^{\sharp}}{f_2}"] \arrow[d, shift right] \\
+      \lens{A_3}{C_3} \arrow[r, shift left]\arrow[r, shift right,
+      "\lens{g_{2\flat}}{g_2}"'] & \lens{A_4}{C_4}
+    \end{tikzcd}
+\]
+be a square in $\Cat{Arena}_{\cat{A}}$. We need to show that 
+\[
+    \begin{tikzcd}
+      \lens{\overline{F}A_1}{FC_1} \arrow[r, shift left, "\lens{\overline{F}g_{1\flat}}{Fg_1}"]\arrow[r, shift right] \arrow[d, leftarrow,  shift left] \arrow[d, shift right, "\lens{\overline{F}f_1^{\sharp}}{Ff_1}"'] & \lens{\overline{F}A_2}{FC_2} \arrow[d, leftarrow, shift left, "\lens{\overline{F}f_2^{\sharp}}{Ff_2}"] \arrow[d, shift right] \\
+      \lens{\overline{F}A_3}{FC_3} \arrow[r, shift left]\arrow[r, shift right,
+      "\lens{\overline{F}g_{2\flat}}{Fg_2}"'] & \lens{\overline{F}A_4}{FC_4}
+    \end{tikzcd}
+\]
+is a square in $\Cat{Arena}_{\cat{B}}$. But this being a square means that the
+two diagrams
+\[
+    \begin{tikzcd}
+      FC_1 \arrow[r, "Fg_1"] \arrow[d, "Ff_1"'] & FC_2 \arrow[d, "Ff_2"] &  & (F f_1 )^{\ast}\overline{F}A_3 \arrow[rr, "\overline{F}f_1^{\sharp}"] \arrow[d, "(Ff_1)^{\ast}\overline{F}g_{2\flat}"'] &                                                              & \overline{F}A_1 \arrow[d, "\overline{F}g_{1\flat}"] \\
+      FC_3 \arrow[r, "Fg_2"'] & FC_4 & & (Ff_1)^{\ast}(Fg_2)^{\ast}\overline{F}A_4 \arrow[r, equals]
+      & (Fg_1)^{\ast}(Ff_2)^{\ast}\overline{F}A_4 \arrow[r, "(Fg_1)^{\ast}\overline{F}f_2^{\sharp}"'] &
+      (Fg_1)^{\ast}\overline{F}A_2
+    \end{tikzcd}
+\]
+The left square commutes because $F$ is a functor, and the right square commutes
+because $(F, \overline{F})$ is an indexed functor.
+\end{proof}
 
 \subsection{The Vertical Slice Construction: Definition}
 
@@ -1023,7 +1165,7 @@ category. The proof is exactly as it was for $\Cat{Sys}$.
 
 We can now see that the vertical slice construction generalizes both the
 constructions of $\Cat{Sys}_{\mathbb{D}}$ and $\Cat{Vec}$. 
-\begin{proposition}
+\begin{proposition}\label{prop.sys_is_vertical_slice}
   The doubly indexed category $\Cat{Sys}_{\mathbb{D}}$ of systems in a doctrine
   $\mathbb{D} = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ is the vertical slice
   construction of the double functor $hT : h\cat{C} \to
@@ -1115,7 +1257,7 @@ $$Ff \mid v_{D_2} = v_{D_1} \mid Gf.$$
   D_3$, we have
 $$h_{\frac{j_1}{j_2}} = \frac{h_{j_1}}{h_{j_2}}.$$
 \item (Vertical Unity) $h_{\id_D} = \id_{h_D}$.
-\item (Square naturality) For any square
+\item (Square Naturality) For any square
 \[
         \begin{tikzcd}[sep=tiny]
           D_1 \ar[dd, "j_1"'] \ar[rr, "f_1"] & & D_2
@@ -1902,12 +2044,12 @@ We therefore arrive at the following formal defintion of change of doctrine.
     \begin{itemize}
       \item For any $f : C \to C'$, we have that the following square commutes
         in $\cat{B}(FC)$:
-        \[
+        \begin{equation}\label{eqn.transformation_of_sections}
 \begin{tikzcd}
 \overline{F}T_1 C  \ar[d, "\overline{F}T_1f"'] \ar[r, "\phi_C"]& T_2 F C \ar[d, "T_2Ff"] \\
 \overline{F}f^{\ast}T_1 C' \ar[r,"(Ff)^{\ast}\phi_{C'}"']& (Ff)^{\ast}T_2 FC'
 \end{tikzcd}
-\]
+\end{equation}
 \end{itemize}
 
 \end{itemize} 
@@ -1952,7 +2094,7 @@ Rightarrow, "{\lens{\phi}{\id}}"] \ar[d,"\pi"'] & \int^{D :
 
 Every restriction (from \cref{sec.restriction_of_doctrines}) is a change of doctrine.
 \begin{proposition}
-Let $\dd = (\cat{A} : \cat{C}\op \to \cat{Cat}, T)$ be a doctrine, and let $F :
+Let $\dd = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a doctrine, and let $F :
 \cat{D} \to \cat{C}$ be a functor. Then there is a change of doctrine $((F,
 \id), \id) : \dd_{|F} \to \dd$ from the restriction $\dd_F = (\cat{A} \circ
 F\op, T \circ F)$ (\cref{def.restriction_doctrine}) of $\dd$ by $F$ to $\dd$.
@@ -2034,8 +2176,342 @@ $\lens{\overline{F}}{F}\lens{Tf}{f} = \lens{\overline{F}(\pi_2 \then f)}{Ff}$.
 But since $F$ is cartesian, $F(\pi_2) = \pi_2$, so these are equal.
 \end{proof}
 
+\begin{example}
+  \cref{prop.change_of_doctrine_cartesian} gives us a number of trivial ways to
+  change the flavor of our deterministic systems.
+
+For example, it is obvious that any deterministic dynamical system whose
+$\update{}$ and $\expose{}$ maps are continuous gives rise to a determinist
+dynamcial system without the constraint of continuity, simply by forgetting that
+the maps are continuous. We formalize this observation by applying
+\cref{prop.change_of_doctrine_cartesian} to the forgetful functor $\Fun{U} : \Cat{Top}
+\to \smset$ which sends a topological space to its underlying set of points.
+
+Similarly, any deterministic dynamical system gives rise to a continuous
+deterministic dynamical system if we equip all sets involved with the discrete
+topology. This is formalized by applying
+\cref{prop.change_of_doctrine_cartesian} to the functor $\Fun{disc} : \smset \to
+\Cat{Top}$ which equips a set with the discrete topology.
+\end{example}
+
+The most interesting examples of changes of doctrine are the ones which move
+between different sorts of doctrine, such as from differential to deterministic.
+An example of this is the Euler approximation, which takes a Eulidean
+differential system to a deterministic system.
+
+\begin{proposition}
+  The Euler method gives rise to a change of doctrine
+  \[
+\mathcal{E}_{\epsilon} : \eucdiff_{|\textbf{Aff}} \to \determ_{\Cat{Euc}}.
+  \]
+  This is given by
+  $$((\id, \id), \phi) : (\smctx{|\Cat{Aff}} : \Cat{Aff}\op \to \Cat{Cat}, T) \to
+  (\smctx{|\Cat{Aff}} : \Cat{Aff}\op \to \Cat{Cat}, \rr^n \mapsto \rr^n)$$
+  where $\phi : \rr^n \times \rr^n \to \rr^n$ is defined by
+  $$\phi(s, v) = s + \epsilon \cdot v.$$
+\end{proposition}
+\begin{proof}
+  We note, first of all, that composing with $\phi$ gives us the correct formula
+  for the Euler approximation. All that we need to show is that $\phi$ is a
+  transformation of sections. This means that the following square commutes for
+  any \emph{affine} $f : \rr^n \to \rr^m$: 
+  \[
+  \begin{tikzcd}
+    \lens{\rr^n}{\rr^n} \ar[r, shift left, "{\lens{\pi_2 \then f}{f}}"] \ar[r, shift right] \ar[d, shift right,
+    "{\lens{\phi}{\id}}"'] \ar[d, shift left, leftarrow] &
+    \lens{\rr^m}{\rr^m} \ar[d, shift left, leftarrow,
+    "{\lens{\phi}{\id}}"] \ar[d, shift right]\\
+    \lens{\rr^n}{\rr^n} \ar[r, shift right, "{\lens{Tf}{f}}"']
+    \ar[r, shift left] & \lens{\rr^m}{\rr^m}
+  \end{tikzcd}
+  \]
+  The bottom component of this square commutes trivially. The top component
+  comes down to the equation 
+\[
+f(s + \epsilon \cdot v) = f(s) + \epsilon Tf(s, v)
+\]
+which says that incrementing $s$ by $\epsilon$ in the $v$ direction in $f$ is
+the same as incrementing $f(s)$ by the $\epsilon$ times the directional
+derivative of $f$ in the $v$ direction. This is true for affine function; even
+more, it characterizes affine functions, so that we see that we must assume that
+$f$ is affine for this square to commute.
+\end{proof}
+
+It would be very interesting to have a theory which allowed us to speak of
+``approximate'' changes of doctrine. If we plug a function $f : \rr^n \to \rr^m$
+into the above formulas for the Euler method, then we find that the equation
+only holds up to $O(\epsilon^2)$. For affine functions, this means that it does
+hold, which is why we restrict to affine functions. But it would be interesting
+to have a theory which could account for how these approximate equalities
+affected the various compositionality results all the way down.
+
+Considering doctrines together with their changes gives us a category
+$\Cat{Doctrine}$. 
+
+\begin{definition}\label{def.category_of_doctrines}
+  The category $\Cat{Doctrine}$ has as objects the dynamical systems doctrines
+  and as morphisms the changes of doctrine.
+
+  If $((F_1, \overline{F}_1), \phi_1) : (\cat{A}_1, T_1) \to (\cat{A}_2, T_2)$
+  and $((F_2, \overline{F}_2), \phi_2) : (\cat{A}_2, T_2) \to (\cat{A}_3, T_3)$
+  are changes of doctrine, then their composite is defined to be
+  \[
+((F_1, \overline{F}_1), \phi_1) \then ((F_2, \overline{F}_2), \phi_2) \coloneqq
+((F_1, \overline{F}_1)\then(F_2, \overline{F}_2), \phi_1 \ast \phi_2)
+\]
+where $\phi_1 \ast \phi_2$ is the transformation of sections given by
+\[
+(\phi_1 \ast \phi_2)_C \coloneqq \overline{F_2}\overline{F}_1 T_1 C
+\xto{\overline{F}_2 \phi_1} \overline{F_2} T_2 F_1 C \xto{(\phi_2)_{F_1 C}} T_3
+F_2 F_1 C.
+\]
+
+In terms of natural transformations (see
+\cref{prop.transform_section_as_nat_transform}), this is the diagram
+\[
+  \begin{tikzcd}[row sep = large]
+    \cat{C}_1 \ar[r, "F_1"]\ar[d, "T_1"'] & \cat{C}_2\ar[r, "F_2"]\ar[d, "T_2"] & \cat{C}_3\ar[d, "T_3"] \\
+    \int^{C : \cat{C}_1}\cat{A}_1(C)\ar[r, "{\lens{\overline{F}_1}{F_1}}"']
+    \ar[ur, Rightarrow, "{\littlelens{\phi_1}{\id}}"] &\int^{C : \cat{C}_2}\cat{A}_2(C)\ar[r, "{\lens{\overline{F}_2}{F_2}}"']\ar[ur, Rightarrow, "{\littlelens{\phi_2}{\id}}"] &\int^{C : \cat{C}_3}\cat{A}_3(C) 
+  \end{tikzcd}
+\]
+\end{definition}
+
+
+
 \subsection{Functoriality}
 
-\section{Approximation: Euler and Runge-Kutta}
+We use changes of doctrines to turn a system of one sort into a system of
+another sort. We sketched how this process goes above, but for good measure
+let's revisit it.
+\begin{definition}\label{def.change_of_doctrine_action_systems}
+Let $\mathbb{F} = ((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B}, T_2)$ be a change of doctrine, and
+let
+\[
+\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{T_1\State{S}}{\State{S}} \fromto \lens{\In{S}}{\Out{S}}
+\]
+be a $(\cat{A}, T_1)$-system. Then we have a $(\cat{B}, T_2)$-system $\mathbb{F}
+\Sys{S}$ defined to
+be the composite 
+\[
+\lens{\phi}{\id} \then \lens{\overline{F}\update{S}}{F\expose{S}} : \lens{T_2F\State{S}}{F\State{S}} \fromto \lens{\overline{F}\In{S}}{F\Out{S}}.
+\]
+Explicitly, this system has update $\overline{F} \update{S} \then \phi$ and
+expose $F\expose{S}$.
+\end{definition}
+
+The goal of this section will be to provide a number of compositionality results
+concerning how changing the doctrine of a system relates to wiring systems
+together and to behaviors. Specifically, we will prove the following theorem:
+\begin{theorem}\label{thm.functoriality_system_construction}
+  There is a functor 
+\[
+\Cat{Sys} : \Cat{Doctrine} \to \Cat{DblIx}
+\]
+sending a dynamical system doctrine $\dd$ to the doubly indexed category
+$\Cat{Sys}_{\dd}$ (\cref{def.doubly_indexed_cat_systems}) of systems in it. 
+
+This functor sends a change of doctrine $\mathbb{F} : \dd_1 \to \dd_2$ to the doubly indexed functor $\Cat{Sys}(\dd_1)
+\to \Cat{Sys}(\dd_2)$ which sends a $\dd_1$-system $\Sys{S}$ to the
+$\dd_2$-system $\mathbb{F}\Sys{S}$ from \cref{def.change_of_doctrine_action_systems}.
+\end{theorem}
+
+We will prove this theorem using the vertical slice construction. Recall that
+the doubly indexed category $\Cat{Sys}(\dd)$ is the vertical slice construction
+of the section $T$ considered as a double functor $(hT : h\cat{C} \to
+\Cat{Arena}_{\dd})$ (\cref{prop.sys_is_vertical_slice}). This means that if we
+can show that the assignment 
+\[
+(\cat{A} : \cat{C}\op \to \Cat{Cat}, T) \mapsto (hT : h\cat{C} \to
+\Cat{Arena}_{(\cat{A}, T)})
+\]
+gives a functor $\Cat{Doctrine} \to \Cat{DblFun}$, then we can compose this with
+the vertical slice construction $\sigma : \Cat{DblFun} \to \Cat{DblIx}$. This is
+what we will focus on.
+
+\begin{lemma}
+The assignment 
+\[
+(\cat{A} : \cat{C}\op \to \Cat{Cat}, T) \mapsto (hT : h\cat{C} \to
+\Cat{Arena}_{(\cat{A}, T)})
+\]
+gives a functor $\iota : \Cat{Doctrine} \to \Cat{DblFun}$. This functor sends a
+change of doctrines
+\begin{equation}\label{eqn.change_of_doctrines}
+  \begin{tikzcd}[row sep = large]
+    \cat{C} \ar[r, "F"]\ar[d, "T_1"'] & \cat{D} \ar[d, "T_2"] \\
+    \int^{C : \cat{C}}\cat{A}(C)\ar[r, "{\lens{\overline{F}}{F}}"']
+    \ar[ur, Rightarrow, "{\littlelens{\phi}{\id}}"] &\int^{C : \cat{D}}\cat{B}(C)
+  \end{tikzcd}
+\end{equation}
+to the morphism double functors
+\begin{equation}\label{eqn.change_of_doctrines_dblfun}
+  \begin{tikzcd}[row sep = large]
+    h\cat{C} \ar[r, "F"]\ar[d, "hT_1"'] & h\cat{D} \ar[d, "hT_2"]\ar[dl, Rightarrow, "{\littlelens{\phi}{\id}}"'] \\
+    \Cat{Arena}_{(\cat{A}, T_1)}\ar[r, "{\lens{\overline{F}}{F}}"']
+     & \Cat{Arena}_{(\cat{B}, T_2)}
+  \end{tikzcd}
+\end{equation}
+\end{lemma}
+\begin{proof}
+  With all that we have set up, there is not too much to prove here. We first
+  note that the the functoriality of the assignment $\cat{A} \mapsto
+  \Cat{Arena}_{\cat{A}}$ was proven in
+  \cref{prop.functoriality_arena_construction}. We only need to focus on the
+  vertical transformation.
+
+  We need to
+show that $\lens{\phi}{\id}$ may be interpreted as a vertical transformation
+$hT_2 \circ F \to \lens{\overline{F}}{F} \circ hT_1$. There is some subtlety
+here; in \cref{eqn.change_of_doctrines}, $\lens{\phi}{\id}$ is interpreted as a
+natural transformation taking place in the category of \emph{$\cat{B}$-charts}, while in
+\cref{eqn.change_of_doctrines_dblfun} we have a vertical transformation in the
+double category of arenas. But the vertical arrows in $\Cat{Arena}_{(\cat{B},
+  T_2)}$ are \emph{$\cat{B}$-lenses}, not $\cat{B}$-charts. This explains the
+change of direction: we can consider the \emph{chart} $\lens{\phi}{\id} :\lens{\overline{F}}{F} \circ hT_1  \to  hT_2
+\circ F$ as a \emph{lens}
+$\lens{\phi}{\id} : hT_2 \circ F \to \lens{\overline{F}}{F} \circ hT_1$ by the
+duality between charts and lenses.
+
+Let's describe precisely how $\lens{\phi}{\id}$ becomes a vertical
+transformation.
+\begin{itemize}
+  \item For every $C \in h\cat{C}$, we have the lens $\lens{\phi}{\id} :
+    \lens{T_2 FC}{F X}  \to \lens{\overline{F}T_1 C}{F F}$.
+  \item For every horizontal arrow $f : C' \to C$ in $h\cat{C}$ (which is to
+    say, any map in $\cat{C}$), we have the square
+    \begin{equation}\label{eqn.nat_trans_proof_square}
+  \begin{tikzcd}
+    \lens{T_2FC'}{FC'} \ar[r, shift left, "{\lens{T_2 Ff}{Ff}}"] \ar[r, shift right] \ar[d, shift right,
+    "{\lens{\phi}{\id}}"'] \ar[d, shift left, leftarrow] &
+    \lens{T_2FC}{FC} \ar[d, shift left, leftarrow,
+    "{\lens{\phi}{\id}}"] \ar[d, shift right]\\
+    \lens{\overline{F}T_1 C'}{FC'} \ar[r, shift right, "{\lens{\overline{F}T_1f}{Ff}}"']
+    \ar[r, shift left] & \lens{\overline{F}T_1C}{FC}
+  \end{tikzcd}
+  \end{equation}
+in $\Cat{Arena}_{(\cat{B}, T_2)}$. This is a square because both its top and
+bottom component squares commute; the bottom one trivially, and the top one by
+the defining \cref{eqn.transformation_of_sections} of $\phi$.
+\end{itemize}
+We now check that this satisfies the laws of a vertical transformation. It is
+largely trivial, since the double categories are particularly simple (as double categories).
+\begin{itemize}
+  \item (Vertical Naturality) By construction, the only vertical arrows in
+    $h\cat{C}$ are identities, so there is nothing to check.
+  \item (Horizontal Naturality) Since $\Cat{Arena}$ is thin
+    (\cref{def.thin_double_cat}), any two squares with the same signature are
+    equal, so there is nothing to check.
+  \item (Horizontal Unity) This is true since all the functors involved in
+    defining the top and bottom of the square \cref{eqn.nat_trans_proof_square}
+    preserve identities.
+  \item (Square Naturality) This again follows trivially by the thin-ness of $\Cat{Arena}$.
+\end{itemize}
+
+The proof of functoriality itself follows from a straightforward comparison of
+the two definitions of composition. They simply give the same formula on
+objects, and on horizontal morphisms we get squares of the same signature in a
+thin double category so there is nothing more to check.
+\end{proof}
+
+We can therefore define
+\[
+\Cat{Doctrine} \xto{\Cat{Sys}} \Cat{DblIx} \coloneqq \Cat{Doctrine} \xto{\iota}
+\Cat{DblFun} \xto{\sigma} \Cat{DblIx}.
+\]
+Let's take a moment to understand this definition in full. Suppose we have a
+change of doctrine $((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B},
+T_2)$. Then $\iota((F, \overline{F}), \phi)$ is a map of double functors:
+\[
+  \begin{tikzcd}[row sep = large]
+    h\cat{C} \ar[r, "F"]\ar[d, "hT_1"'] & h\cat{D} \ar[d, "hT_2"]\ar[dl, Rightarrow, "{\littlelens{\phi}{\id}}"'] \\
+    \Cat{Arena}_{(\cat{A}, T_1)}\ar[r, "{\lens{\overline{F}}{F}}"']
+     & \Cat{Arena}_{(\cat{B}, T_2)}
+  \end{tikzcd}
+\]
+Then, by \cref{prop.vertical_slice_action}, we get a doubly indexed functor
+\[
+\begin{tikzcd}
+\Cat{Arena}_{\dd_1} \arrow[dd, "{\littlelens{\overline{F}}{F}}"'] \arrow[rrd, "{
+  \Cat{Sys}_{\dd_1}}", bend left] & {}
+\arrow[dd, "{\sigma \littlelens{\phi}{\id}}"', Rightarrow] &      \\
+  &   & \Cat{Cat} \\
+\Cat{Arena}_{\dd_2} \arrow[rru, bend right, "{\Cat{Sys}_{\dd_2}}"']      & {}   &     
+\end{tikzcd}
+\]
+In this diagram, $\sigma\littlelens{\phi}{\id}$ is defined as follows:
+\begin{itemize}
+\item For a $\dd_1$-arena $\lens{A^-}{A^+}$,
+  we have the functor 
+  \[
+    \sigma\littlelens{\phi}{\id}^{\littlelens{A^-}{A^+}} :
+    \Cat{Sys}_{\dd_2}\littlelens{A^-}{A^+} \to \Cat{Sys}_{\dd_2}\littlelens{\overline{F}A^-}{FA^+}.
+  \]
+given by sending a simulation $\psi : \Sys{T} \to \Sys{S}$ to the composite:
+\[
+    \begin{tikzcd}
+      \lens{T_1\State{T}}{\State{T}} \ar[r, shift left, "\lens{T_1\psi}{\psi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{T_1\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{A^-}{A^+} \ar[r, shift right, equals] \ar[r,
+      shift left, equals] & \lens{A^-}{A^+}
+    \end{tikzcd}
+    \quad\mapsto\quad
+    \begin{tikzcd}
+      \lens{T_2F\State{T}}{F\State{T}} \ar[r, shift left,
+      "\lens{T_2F\psi}{F\psi}"] \ar[r, shift right] \ar[d, shift right, "\lens{\phi}{\id}"'] \ar[d, shift left, leftarrow] &
+      \lens{T_2F\State{S}}{F\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\phi}{\id}"] \ar[d, shift right]\\
+      \lens{\overline{F}T_1\State{T}}{F\State{T}} \ar[r, shift left, "\lens{\overline{F}T_1\psi}{F\psi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\overline{F}\update{T}}{F\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{\overline{F}T_1\State{S}}{F\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\overline{F}\update{S}}{F\expose{S}}"] \ar[d, shift right]\\
+      \lens{\overline{F}A^-}{FA^+} \ar[r, shift right, equals] \ar[r,
+      shift left, equals] & \lens{\overline{F}A^-}{FA^+}
+    \end{tikzcd}
+\]
+\item For a $\dd_1$-chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$,
+  we have the square in $\Cat{Cat}$
+  \[
+\begin{tikzcd}
+  \Cat{Sys}_{\dd_1}\littlelens{A^-}{A^+} \ar[rr, tick,
+  "{\Cat{Sys}\littlelens{f_{\flat}}{f}}"] \ar[dd, "{
+    \sigma\littlelens{\phi}{\id}}^{\littlelens{A^-}{A^+}}"'] & & \Cat{Sys}_{\dd_1}\littlelens{B^-}{B^+}
+  \ar[dd, "{ \sigma\littlelens{\phi}{\id}^{\littlelens{B^-}{B^+}}}"] \\
+& \sigma\littlelens{\phi}{\id}^{\littlelens{f_{\flat}}{f}} & \\
+\Cat{Sys}_{\dd_2}\littlelens{\overline{F}A^-}{FA^+} \ar[rr, tick,
+"{\Cat{Sys}\littlelens{\overline{F}f_{\flat}}{Ff}}"'] & & \Cat{Sys}_{\dd_2}\littlelens{\overline{F}B^-}{FB^+}
+\end{tikzcd}
+  \]
+given by sending a $\lens{f_{\flat}}{f}$-behavior to the composite:
+\[
+    \begin{tikzcd}
+      \lens{T_1\State{T}}{\State{T}} \ar[r, shift left, "\lens{T_1\psi}{\psi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{T_1\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{A^-}{A^+} \ar[r, shift right, "\lens{f_{\flat}}{f}"'] \ar[r,
+      shift left] & \lens{B^-}{B^+}
+    \end{tikzcd}
+    \quad\mapsto\quad
+    \begin{tikzcd}
+      \lens{T_2F\State{T}}{F\State{T}} \ar[r, shift left,
+      "\lens{T_2F\psi}{F\psi}"] \ar[r, shift right] \ar[d, shift right, "\lens{\phi}{\id}"'] \ar[d, shift left, leftarrow] &
+      \lens{T_2F\State{S}}{F\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\phi}{\id}"] \ar[d, shift right]\\
+      \lens{\overline{F}T_1\State{T}}{F\State{T}} \ar[r, shift left, "\lens{\overline{F}T_1\psi}{F\psi}"] \ar[r, shift right] \ar[d, shift right,
+      "\lens{\overline{F}\update{T}}{F\expose{T}}"'] \ar[d, shift left, leftarrow] &
+      \lens{\overline{F}T_1\State{S}}{F\State{S}} \ar[d, shift left, leftarrow,
+      "\lens{\overline{F}\update{S}}{F\expose{S}}"] \ar[d, shift right]\\
+      \lens{\overline{F}A^-}{FA^+} \ar[r, shift right, "\lens{\overline{F}f_{\flat}}{Ff}"'] \ar[r,
+      shift left] & \lens{\overline{F}B^-}{FB^+}
+    \end{tikzcd}
+\]
+\end{itemize}
+
+
+
+
 
 \end{document}
