@@ -1541,11 +1541,11 @@ of the more general lax variety.
 \end{tikzcd}
   \]
   
-\begin{itemize}
-  \item A double functor $$F^0 : \cat{D}_1 \to \cat{D}_2.$$
-  \item For each object $D \in \cat{D}_1$, a functor $$F^D : \cat{A}(D)
+\begin{enumerate}
+  \item\label{def:lax.doubly.indexed.functor.0} A double functor $$F^0 : \cat{D}_1 \to \cat{D}_2.$$
+  \item \label{def:lax.doubly.indexed.functor.1}For each object $D \in \cat{D}_1$, a functor $$F^D : \cat{A}(D)
     \to \cat{B}(F^0D).$$
-  \item For every vertical map $j : D_1 \to D_2$ in $\cat{D}_1$, a natural
+  \item\label{def:lax.doubly.indexed.functor.2} For every vertical map $j : D_1 \to D_2$ in $\cat{D}_1$, a natural
     transformation 
 \[
 \begin{tikzcd}
@@ -1566,7 +1566,7 @@ We ask that $F^{\id_{D}} = \id$. We recall (from
 \cat{B}(F^0 D_2) \ar[rr, tick, equals]  &  & \cat{B}(F^0 D_2)
 \end{tikzcd}
 \]
-   \item For every horizontal map $f : D_1 \to D_2$, a square
+   \item\label{def:lax.doubly.indexed.functor.3} For every horizontal map $f : D_1 \to D_2$, a square
 \[
 \begin{tikzcd}[sep=tiny]
 \cat{A}(D_1) \ar[rr, tick,"\cat{A}(f)"] \ar[dd, "F^{D_1}"'] & & \cat{A}(D_2) \ar[dd, "F^{D_2}"]\\
@@ -1575,7 +1575,7 @@ We ask that $F^{\id_{D}} = \id$. We recall (from
 \end{tikzcd}
 \]
 in $\Cat{Cat}$. We ask that $F^{\id_{D}} = \id$.
-\end{itemize}
+\end{enumerate}
 
 This data is required to satisfy the following laws:
 \begin{itemize}
@@ -1610,15 +1610,11 @@ in $\cat{D}_1$, we have that
     \frac{F^f}{\cat{B}(F^0 \alpha)} \,\middle|\, F^k \right. .
 \]
 
-Note that use of ``$\coheq$'' here; the two sides of this equation have
+Note the use of ``$\coheq$'' here; the two sides of this equation have
 different, but canonically isomorphic boundary. What we are asking is that when these boundaries are made
 the same by composing with canonical isomorphisms in any way, they will become
 equal
 
-Note that use of ``$\coheq$'' here; the two sides of this equation have
-different, but canonically isomorphic boundary. What we are asking is that when these boundaries are made
-the same by composing with canonical isomorphisms they will become any way, they
-will become equal. 
 \end{itemize}
 
 A lax doubly indexed functor is \emph{taut} --- which we will in refer to just
@@ -2181,7 +2177,7 @@ But since $F$ is cartesian, $F(\pi_2) = \pi_2$, so these are equal.
   change the flavor of our deterministic systems.
 
 For example, it is obvious that any deterministic dynamical system whose
-$\update{}$ and $\expose{}$ maps are continuous gives rise to a determinist
+$\update{}$ and $\expose{}$ maps are continuous gives rise to a deterministic
 dynamcial system without the constraint of continuity, simply by forgetting that
 the maps are continuous. We formalize this observation by applying
 \cref{prop.change_of_doctrine_cartesian} to the forgetful functor $\Fun{U} : \Cat{Top}
@@ -2199,20 +2195,39 @@ between different sorts of doctrine, such as from differential to deterministic.
 An example of this is the Euler approximation, which takes a Eulidean
 differential system to a deterministic system.
 
+Let's take a minute to recall the Euler method. If $\lens{u}{r} : \lens{\rr^n}{\rr^n} \fromto \lens{\rr^k}{\rr^m}$
+is a differential system representing the differential equation
+$$\frac{ds}{dt} = u(s, i),$$
+then for a sufficiently small $\varepsilon > 0$, the state at time $t + \varepsilon$
+will be roughly
+$$s(t + \varepsilon) \approx s(t) + \varepsilon \cdot u(s(t), i(t)).$$
+Choosing a specific $\varepsilon$ as a time increment, we can define a discrete
+time, deterministic system by
+\begin{equation}\label{eqn:euler.method.equation}
+\mathcal{E}_{\varepsilon}u(s, i) = s + \varepsilon \cdot u(s, i).
+\end{equation}
+This simple method of approximating the solution of a differential equation is
+called the Euler method. We can see the Euler method as a change of doctrine
+from a differential doctrine to a deterministic doctrine.
+
 \begin{proposition}
-  The Euler method gives rise to a change of doctrine
+  For any $\varepsilon > 0$ The Euler method gives rise to a change of doctrine
   \[
-\mathcal{E}_{\epsilon} : \eucdiff_{|\textbf{Aff}} \to \determ_{\Cat{Euc}}.
+\mathcal{E}_{\varepsilon} : \eucdiff_{|\textbf{Aff}} \to \determ_{\Cat{Euc}}.
   \]
   This is given by
   $$((\id, \id), \phi) : (\smctx{|\Cat{Aff}} : \Cat{Aff}\op \to \Cat{Cat}, T) \to
   (\smctx{|\Cat{Aff}} : \Cat{Aff}\op \to \Cat{Cat}, \rr^n \mapsto \rr^n)$$
   where $\phi : \rr^n \times \rr^n \to \rr^n$ is defined by
-  $$\phi(s, v) = s + \epsilon \cdot v.$$
+  $$\phi(s, v) = s + \varepsilon \cdot v.$$
 \end{proposition}
 \begin{proof}
   We note, first of all, that composing with $\phi$ gives us the correct formula
-  for the Euler approximation. All that we need to show is that $\phi$ is a
+  for the Euler approximation. Explicitly,
+  $$\phi \circ u(s, i) = s + \varepsilon  \cdot u(s, i),$$
+which was the definition for $\mathcal{E}_{\varepsilon}u$ in \cref{eqn:euler.method.equation}.
+
+  All that we need to show is that $\phi$ is a
   transformation of sections. This means that the following square commutes for
   any \emph{affine} $f : \rr^n \to \rr^m$: 
   \[
@@ -2227,23 +2242,31 @@ differential system to a deterministic system.
   \]
   The bottom component of this square commutes trivially. The top component
   comes down to the equation 
-\[
-f(s + \epsilon \cdot v) = f(s) + \epsilon Tf(s, v)
-\]
-which says that incrementing $s$ by $\epsilon$ in the $v$ direction in $f$ is
-the same as incrementing $f(s)$ by the $\epsilon$ times the directional
+  \begin{equation}\label{eqn:euler.affine.map}
+f(s + \varepsilon \cdot v) = f(s) + \varepsilon Tf(s, v)
+\end{equation}
+which says that incrementing $s$ by $\varepsilon$ in the $v$ direction in $f$ is
+the same as incrementing $f(s)$ by the $\varepsilon$ times the directional
 derivative of $f$ in the $v$ direction. This is true for affine function; even
 more, it characterizes affine functions, so that we see that we must assume that
 $f$ is affine for this square to commute.
 \end{proof}
 
+\begin{remark}
 It would be very interesting to have a theory which allowed us to speak of
 ``approximate'' changes of doctrine. If we plug a function $f : \rr^n \to \rr^m$
-into the above formulas for the Euler method, then we find that the equation
-only holds up to $O(\epsilon^2)$. For affine functions, this means that it does
+into the above formulas for the Euler method, then we find that \cref{eqn:euler.affine.map} 
+only holds up to $O(\varepsilon^2)$. For affine functions, this means that it does
 hold, which is why we restrict to affine functions. But it would be interesting
 to have a theory which could account for how these approximate equalities
 affected the various compositionality results all the way down.
+\end{remark}
+
+%writehere
+
+In the upcoming \cref{sec:functoriality.of.sys}, we will see what knowing that
+the Euler method is a change of doctrine lets us conclude about the behaviors
+and compositionality of Euler method approximations. 
 
 Considering doctrines together with their changes gives us a category
 $\Cat{Doctrine}$. 
@@ -2279,7 +2302,7 @@ In terms of natural transformations (see
 
 
 
-\subsection{Functoriality}
+\subsection{Functoriality}\label{sec:functoriality.of.sys}
 
 We use changes of doctrines to turn a system of one sort into a system of
 another sort. We sketched how this process goes above, but for good measure
@@ -2371,7 +2394,8 @@ double category of arenas. But the vertical arrows in $\Cat{Arena}_{(\cat{B},
 change of direction: we can consider the \emph{chart} $\lens{\phi}{\id} :\lens{\overline{F}}{F} \circ hT_1  \to  hT_2
 \circ F$ as a \emph{lens}
 $\lens{\phi}{\id} : hT_2 \circ F \to \lens{\overline{F}}{F} \circ hT_1$ by the
-duality between charts and lenses.
+duality between pure charts and lenses --- those having an identity in the
+bottom component.
 
 Let's describe precisely how $\lens{\phi}{\id}$ becomes a vertical
 transformation.
@@ -2441,11 +2465,11 @@ Then, by \cref{prop.vertical_slice_action}, we get a doubly indexed functor
 \]
 In this diagram, $\sigma\littlelens{\phi}{\id}$ is defined as follows:
 \begin{itemize}
-\item For a $\dd_1$-arena $\lens{A^-}{A^+}$,
+\item (\cref{def.lax_doubly_indexed_functor}: \cref{def:lax.doubly.indexed.functor.1}) For a $\dd_1$-arena $\lens{A^-}{A^+}$,
   we have the functor 
   \[
     \sigma\littlelens{\phi}{\id}^{\littlelens{A^-}{A^+}} :
-    \Cat{Sys}_{\dd_2}\littlelens{A^-}{A^+} \to \Cat{Sys}_{\dd_2}\littlelens{\overline{F}A^-}{FA^+}.
+    \Cat{Sys}_{\dd_1}\littlelens{A^-}{A^+} \to \Cat{Sys}_{\dd_2}\littlelens{\overline{F}A^-}{FA^+}.
   \]
 given by sending a simulation $\psi : \Sys{T} \to \Sys{S}$ to the composite:
 \[
@@ -2471,9 +2495,24 @@ given by sending a simulation $\psi : \Sys{T} \to \Sys{S}$ to the composite:
       shift left, equals] & \lens{\overline{F}A^-}{FA^+}
     \end{tikzcd}
 \]
-\item For a $\dd_1$-chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$,
+
+\item (\cref{def.lax_doubly_indexed_functor}:
+  \cref{def:lax.doubly.indexed.functor.2}) Since the doubly indexed functor is
+  \emph{taut}, for any lens $\lens{j^{\sharp}}{j} : \lens{A^{-}}{A^+} \fromto \lens{B^{-}}{B^+}$ have a commuting square
+  \begin{equation}
+  \begin{tikzcd}
+    \Cat{Sys}_{\dd_1}\littlelens{A^{-}}{A^+} \ar[d, "{\Cat{Sys}_{\dd_1}\littlelens{j^{\sharp}}{j}}"'] \ar[r, "{\sigma\littlelens{\phi}{\id}^{\littlelens{A^-}{A^+}}}"] & \Cat{Sys}_{\dd_2}\littlelens{\overline{F}A^{-}}{FA^+}  \ar[d, "{\Cat{Sys}_{\dd_2}\littlelens{\overline{F}j^{\sharp}}{Fj}}"]\\
+    \Cat{Sys}_{\dd_1}\littlelens{B^{-}}{B^+} \ar[r, "{\sigma\littlelens{\phi}{\id}^{\littlelens{B^-}{B^+}}}"'] & \Cat{Sys}_{\dd_2}\littlelens{\overline{F}B^{-}}{FB^+} 
+  \end{tikzcd}
+  \end{equation}
+  
+This tells us that changing doctrine and then wiring together systems gives the
+same result as wiring together the systems first and then changing doctrine.
+
+\item (\cref{def.lax_doubly_indexed_functor}:
+  \cref{def:lax.doubly.indexed.functor.3}) For a $\dd_1$-chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$,
   we have the square in $\Cat{Cat}$
-  \[
+  \begin{equation}\label{eqn:change.of.doctrine.prof.diag}
 \begin{tikzcd}
   \Cat{Sys}_{\dd_1}\littlelens{A^-}{A^+} \ar[rr, tick,
   "{\Cat{Sys}\littlelens{f_{\flat}}{f}}"] \ar[dd, "{
@@ -2483,7 +2522,7 @@ given by sending a simulation $\psi : \Sys{T} \to \Sys{S}$ to the composite:
 \Cat{Sys}_{\dd_2}\littlelens{\overline{F}A^-}{FA^+} \ar[rr, tick,
 "{\Cat{Sys}\littlelens{\overline{F}f_{\flat}}{Ff}}"'] & & \Cat{Sys}_{\dd_2}\littlelens{\overline{F}B^-}{FB^+}
 \end{tikzcd}
-  \]
+\end{equation}
 given by sending a $\lens{f_{\flat}}{f}$-behavior to the composite:
 \[
     \begin{tikzcd}
@@ -2508,9 +2547,63 @@ given by sending a $\lens{f_{\flat}}{f}$-behavior to the composite:
       shift left] & \lens{\overline{F}B^-}{FB^+}
     \end{tikzcd}
 \]
+
+In other words, changes of doctrine preserve behavior in the sense that if
+$\psi$ is a $\lens{f_{\flat}}{f}$-behavior then $F\psi$ is a $\len{\overline{F}f_{\flat}}{f}$-behavior.
 \end{itemize}
 
+\begin{example}
+For Euler approximatation 
+  \[
+\mathcal{E}_{\varepsilon} : \eucdiff_{|\textbf{Aff}} \to \determ_{\Cat{Euc}},
+  \]
+  we get a doubly indexed functor
+  $$(\littlelens{\id}{\id}, \sigma\littlelens{\phi}{\id}) : \Sys(\eucdiff_{|\textbf{Aff}}) \to \determ_{\Cat{Euc}}$$
+  by the functoriality of $\Cat{Sys}$, where $\phi : \rr^n \times \rr^m \to
+  \rr^n$ is $\phi(p, v) = p + \varepsilon \cdot v$. Let's see it means for this
+  to be a doubly indexed functor.
 
+  First, we have a functor
+  \[
+    \sigma\littlelens{\phi}{\id}^{\littlelens{A^-}{A^+}} :
+    \Cat{Sys}_{\eucdiff_{\textbf{Aff}}}\littlelens{A^-}{A^+} \to \Cat{Sys}_{\determ_{\Cat{Euc}}}\littlelens{A^-}{A^+}.
+  \]
+  This says that the Euler method preserves simulations. Second, we have a
+  square like \cref{eqn:change.of.doctrine.prof.diag} which says that the Euler
+  method preserves behaviors. However, we have to be careful here; the behaviors
+  $\left( \varphi, \lens{f_{\flat}}{f} \right)$ which are preserved must have
+$\varphi$ and $\lens{f_{\flat}}{f}$ in the appropriate double category of arenas, and here
+  we had to restrict to those for which $\varphi$ and $f$ are affine maps so
+  that \cref{eqn:euler.affine.map} can hold. In other words, we see that the
+  Euler method will preserve any \emph{affine} behaviors of differential systems.
+
+  Most solutions to a system of differential equations --- most trajectories ---
+  are not affine. This is to say that
+  there aren't many behaviors of shape $\Sys{Time}$ (from
+  \cref{ex:diff.doc.time.system}). There is, however, an important class of
+  affine solutions: steady states. These are the behaviors of shape $\Sys{Fix}$
+  from \cref{ex:diff.doctrine.fix}. So, in particular, we see that the Euler
+  method preserves steady states.
+
+  That the Euler method preserves steady states is of course evident from the
+  formula: if $u(s, i) = 0$, then $\mathcal{E}_{\varepsilon}u(s, i) = s +
+  \varepsilon \cdot u(s, i) = s$. But we deduced this fact from our general
+  definition of change of doctrine. This sort of analysis can tell us precisely
+  which sorts of behaviors are preserved even in situtations where it may not be
+  so obvious from looking at a defining formula.
+
+  The fact that $\Cat{Sys}(\mathcal{E}_{\varepsilon})$ is a doubly indexed
+  functor gives us a litany of compositionality checks. In particular, the
+  commuting square (\cref{def.lax_doubly_indexed_functor}:
+  \cref{def:lax.doubly.indexed.functor.2}) shows
+  that if we are to wire together a family of differential systems and then
+  approximate the result with the Euler method, we could have approximated each
+  one and then wired together the result with the same wiring pattern.
+
+
+  
+%writehere
+\end{example}
 
 
 
