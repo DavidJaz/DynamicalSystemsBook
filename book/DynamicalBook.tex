@@ -209,24 +209,24 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 % amsthm %
   \theoremstyle{plain}
-  \newmdtheoremenv[style=theoremframe]{theorem}[equation]{Theorem}
-  \newmdtheoremenv[style=theoremframe]{proposition}[equation]{Proposition}
-  \newmdtheoremenv[style=theoremframe]{corollary}[equation]{Corollary}
-  \newmdtheoremenv[style=theoremframe]{lemma}[equation]{Lemma}
+  \newmdtheoremenv[style=theoremframe]{theorem}[subsection]{Theorem}
+  \newmdtheoremenv[style=theoremframe]{proposition}[subsection]{Proposition}
+  \newmdtheoremenv[style=theoremframe]{corollary}[subsection]{Corollary}
+  \newmdtheoremenv[style=theoremframe]{lemma}[subsection]{Lemma}
   
   \theoremstyle{plain}
-  \newmdtheoremenv[style=definitionframe]{definition}[equation]{Definition}
-  \newmdtheoremenv[style=definitionframe]{informal}[equation]{Informal Definition}
-  \newmdtheoremenv[style=definitionframe]{roughDef}[equation]{Rough Definition}
+  \newmdtheoremenv[style=definitionframe]{definition}[subsection]{Definition}
+  \newmdtheoremenv[style=definitionframe]{informal}[subsection]{Informal Definition}
+  \newmdtheoremenv[style=definitionframe]{roughDef}[subsection]{Rough Definition}
   \crefname{roughDef}{Definition}{Definitions}
-  \newtheorem{construction}[equation]{Construction}
-  \newtheorem{notation}[equation]{Notation}
+  \newtheorem{construction}[subsection]{Construction}
+  \newtheorem{notation}[subsection]{Notation}
   \newtheorem{axiom}{Axiom}
   \newtheorem*{axiom*}{Axiom}
   
   \theoremstyle{remark}
-  \newtheorem{remark}[equation]{Remark}
-  \newtheorem{warning}[equation]{Warning}
+  \newtheorem{remark}[subsection]{Remark}
+  \newtheorem{warning}[subsection]{Warning}
   
 
 % Solution environment
@@ -278,9 +278,9 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 		
 %Getting ending symbols in example and exercise environments:
 	
-\newmdtheoremenv[style=exampleframe]{example}[equation]{Example}
+\newmdtheoremenv[style=exampleframe]{example}[subsection]{Example}
 
-\newmdtheoremenv[style=exerciseframe]{exc-inner}[equation]{Exercise}
+\newmdtheoremenv[style=exerciseframe]{exc-inner}[subsection]{Exercise}
 \newenvironment{exercise}[1][]{
   \def\qedsymbol{$\lozenge$}% Set the QED symbol. 
   \pushQED{\qed}

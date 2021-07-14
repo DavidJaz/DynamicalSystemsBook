@@ -428,11 +428,13 @@ are special trajectories, and we call them \emph{steady-looking} trajectories.
   steady-looking trajectory $s$.
 \end{definition}
 
+\begin{remark}\label{rmk:steady.looking.states.lax}
 While the steady states of a wired together system can be calculated from those
 of its components, this is not true for steady-looking trajectories.
 Intuitively, this is because the internal systems can be exposing changing
 outputs between eachother even while the eventual external output remains
 unchanged.
+\end{remark}
 
 \begin{exercise}\label{ex.steady_looking_trajectories}
 Consider the wiring diagram:
@@ -3283,5 +3285,21 @@ trajectories (in this restricted doctrine), or very few.
 However, any constant function is affine; for this reason, all steady states are
 affine functions, and so remain behaviors in this restricted doctrine.
 \end{example}
+
+
+\section{Summary and Futher Reading}
+
+In this chapter, we looked at a variety of behaviors of systems in different
+doctrines and saw that they could all be represented by the same equations
+relating charts with lenses. We saw how behaviors can be represented by
+dynamical systems of particular shapes --- trajectories are represented by
+timelines, steady states by a single fixed point, periodic orbits by clocks, etc. We introduced the double category of arenas to
+organize charts and lenses, and finally gave a formal definition of dynamical
+system doctrine. 
+
+The notion of dynamical systems doctrine, the double category of arenas in a
+given doctrine, and the definition of behavior of system that these 
+enable are novel contributions of this book. For a summary account, see
+\cite{Jaz_Myers_2021}.
 
 \end{document}

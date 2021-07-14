@@ -67,8 +67,8 @@ questions:
   \item We'll assume the states form a continuum, but that we only know how a
     state is tending to change, not what the ``next'' state will be. Such a
     system is generally called a \emph{system of
-      differential equations} --- the differential equations tells us the way the
-    derivatives of the state variables, the way they are tending.
+      differential equations} --- the differential equations tells us the
+    derivatives of the state variables: the way they are tending.
   \item We'll assume the states form a discrete set, but that we only have a
     guess at which state will follow from the current state. Such a system is generally
     called a \emph{Markov process}, or a \emph{Markov decision process}.
@@ -163,11 +163,13 @@ be familiar with:
 \item What a natural transformation is.
 \item What a terminal and an initial object are.
 \item What a product and a coproduct are.
-\item What a monad is, and it will help if you also know what a comomad is.
+\item What a monad is, and it will help if you also know what a comonad is.
   \item What a monoidal category is.
 \end{itemize}
 
-Good introductions to category theory abound. One place to start is \emph{An invitation to applied category theory} \cite{fong2019seven}.
+Good introductions to category theory abound. One place to start is \emph{An
+  invitation to applied category theory} \cite{fong2019seven}. Another is
+\emph{Notes on category theory} \cite{perrone2021notes}.
 
 We will be using cartesian categories quite a bit in the first few chapters.
 \begin{definition}\label{def.cartesian_category}
@@ -2815,5 +2817,21 @@ diagrams with operations from $\cat{L}$.
   operations from $\Cat{Vect}$, the theory of vector spaces. This is why we are
   able to put matrices in the beads.
 \end{example}
+
+\section{Summary and Futher Reading}
+
+In this first chapter, we introduced deterministic and differential systems and
+saw how they could be composed using wiring diagrams. The trick is that both
+systems and wiring diagrams are examples of lenses --- systems are lenses with a
+special domain, and wiring diagrams are lenses in free cartesian categories.
+
+We will build on these ideas through the rest of the book. Most directly, in \cref{chapter.2},
+we will see how non-deterministic systems can be seen as a variant of lenses:
+\emph{monadic lenses}.
+
+The idea of composing dynamical systems --- deterministic and diffeerntial ---
+using lenses can be found in
+\cite{Vagner.Spivak.Lerman:2015a}. Further exploration of
+this idea for differential systems can be found in \cite{Bakirtsiz-Vasilakopolou-Fleming:Compositional.Cyber.Physical.Systems.Modelling}. 
 
 \end{document}

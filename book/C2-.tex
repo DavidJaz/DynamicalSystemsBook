@@ -4495,17 +4495,17 @@ objects and the monoidal structures are defined identically.
   \phi_{\ast}(f \otimes g) &= (c, x_1, x_2) \mapsto \phi\left( \, \unalignedDo{
                              ${y_1 \from f(c, x_1)}$,
 ${y_2 \from g(c, x_2)}$,
-${\eta^M(y_1, y_2}$
+${\eta^M(y_1, y_2)}$
                              } \,  \right) \\
 &= \unalignedDo{
                              ${y_1 \from \phi(f(c, x_1))}$,
 ${y_2 \from \phi(g(c, x_2))}$,
-${\phi\eta^M(y_1, y_2}$
+${\phi\eta^M(y_1, y_2)}$
                              }\\
 &= \unalignedDo{
                              ${y_1 \from \phi(f(c, x_1))}$,
 ${y_2 \from \phi(g(c, x_2))}$,
-${\eta^N(y_1, y_2}$
+${\eta^N(y_1, y_2)}$
                              } \\
 &= \phi_{\ast}f \otimes \phi_{\ast}g.
 \end{align*}
@@ -4631,6 +4631,22 @@ $\State{S_2}$, and updates in the following way:
 
 
 \end{example}
+
+\section{Summary and Further Reading}
+
+In this chapter, we extended the notion of lens to monadic lenses to accomodate
+non-deterministic systems. We saw how any commutative monad gave rise to a
+doctrine of non-determinism, from possibilistic to probabilistic to costs and
+rewards. One nice thing about monads is that you can play with them in Haskell.
+There are plenty of places to learn about monads in Haskell (perhaps too many),
+so I won't make any specific recommendations. For more about monads in category
+theory, check out Chapter 5 of \cite{perrone2021notes}.
+
+We then saw how the notion of lens could be generalized to any indexed category.
+This notion of generalized lens is due to Spivak in
+\cite{spivak2019generalized}. This generalization of lens will underly our
+formal notion of dynamical system doctrine, which will be introduced in the
+next chapter. 
 
 \end{document}
 

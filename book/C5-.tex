@@ -539,7 +539,7 @@ commutative diagram:
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(S)]
 	\node[bb={2}{2}, fill=blue!10] (S) {$\Sys{S}$};
 \end{tikzpicture}
-
+\
 };
 
 
@@ -1007,9 +1007,9 @@ which acts in the following way:
 \begin{itemize}
   \item An arena $\lens{A^-}{A^+}$ gets sent to the set $\Cat{Chart}_{\determ}\left(
       \lens{I}{O}, \lens{A^-}{A^+} \right)$ of charts from $\lens{I}{O}$ to $\lens{A^-}{A^+}$.
-  \item The vertical functor is $\Cat{Chart}Arena\left( \lens{I}{O}, - \right) :
+  \item The vertical functor is $\Cat{Chart}\left( \lens{I}{O}, - \right) :
     \Cat{Lens} \to \Cat{Matrix}$ from \cref{prop.lens_to_matrix_functor_discrete}.
-  \item The horizontal functor is the representable functor $\Cat{Arena}Arena\left(
+  \item The horizontal functor is the representable functor $\Cat{Arena}\left(
       \lens{I}{O}, - \right) : \Cat{Arena} \to \smset$ which acts on a chart
     $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$ by
     post-composition.
@@ -1370,8 +1370,7 @@ first send $\Sys{S}$ to the vector of sets
 &\mapsto \Cat{Sys}\littlelens{f_{\flat}}{f}(\Sys{T}, \Sys{S}) \\
 &= \left\{  
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
@@ -1395,8 +1394,7 @@ vector of sets whose entries are pairs of the following form:
       shift left] \& \lens{I'}{O'}
     \end{tikzcd}, \quad
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
@@ -1410,8 +1408,7 @@ On the other hand, following $\Sys{S}$ along the bottom path has us first compos
 \littlelens{g_{\flat}}{g} : \littlelens{\In{T}}{\Out{T}} \tto \littlelens{I'}{O'}
 \mapsto \left\{  
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}\then \lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
@@ -1582,8 +1579,7 @@ and is accordingly a function that takes in a pair of the following form:
       shift left] \& \lens{C^-}{C^+}
     \end{tikzcd}, \quad
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
@@ -1644,13 +1640,17 @@ theorem entirely abstractly, which we record here.
 Unfortunately, $\Fun{Behave}_{\Sys{T}}$ is lax (and not taut) for general
 $\Sys{T}$. This means that while behaviors of component systems will induce
 behaviors of composite systems, it isn't necessarily the case that all behaviors
-of the composite arise this way. But there is a simple condition we can put on $\Sys{T}$ which will
+of the composite arise this way.
+
+But there is a simple condition we can put on $\Sys{T}$ which will
 ensure that $\Fun{Behave}_{\Sys{T}}$ \emph{is} taut, and therefore that we can
 recover the behaviors of wired together systems from the behaviors of their
 components: we ask that $\Sys{T}$ expose its entire state, which is to say that
 $\expose{T}$ is an isomorphism.
 
-\begin{theorem}
+
+
+\begin{theorem}\label{thm:representables.taut}
 Let $\Sys{T}$ be a system in the doctrine $\dd$, and suppose that $\expose{T}$
 is an isomorphism. Then the representable lax doubly indexed functor
 $\Fun{Behave}_{\Sys{T}}$ is in fact taut. Explicitly, for any lens
@@ -1668,7 +1668,21 @@ $\lens{w^{\sharp}}{w} : \lens{I}{O} \fromto \lens{I'}{O'}$ the natural transform
 \]
 is a natural isomorphism.
 \end{theorem}
-\begin{proof}
+
+Many of the systems representing sorts of behavior which we saw in
+\cref{chapter.3} expose their entire state. For example, the systems $\Sys{Time}$
+representing trajectories (\cref{ex.trajectory_as_behavior_discrete}), $\Sys{Fix}$ representing steady
+states (\cref{ex.steady_state_as_behavior_discrete}), and $\Sys{Clock}_n$ periodic orbits with periodic parameters (\cref{ex.periodic_orbit_as_behavior}). As examples of
+systems which don't expose their entire state, we had the systems which
+represent steady looking trajectories and periodic orbits whose parameters
+aren't periodic from \cref{ex.find_representatives_discrete}.
+\cref{thm:representables.taut} says that for the systems $\Sys{Time}$,
+$\Sys{Fix}$, and $\Sys{Clock}_n$, we can recover the behaviors of component
+systems from the behaviors of composite systems. As we noted in
+\cref{rmk:steady.looking.states.lax}, the same cannot be said for steady looking states.
+
+
+\begin{proof}[Proof of \cref{thm:representables.taut}]
 We recall that for a $\lens{I}{O}$-system $\Sys{S}$, the natural transformation
 $\Fun{Behave}_{\Sys{T}}^{\littlelens{w^{\sharp}}{w}}$ goes from the vector of
 sets
@@ -1684,8 +1698,7 @@ sets
       shift left] \& \lens{I'}{O'}
     \end{tikzcd}, \quad
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
@@ -1699,8 +1712,7 @@ to the vector of sets
 \littlelens{g_{\flat}}{g} : \littlelens{\In{T}}{\Out{T}} \tto \littlelens{I'}{O'}
 \mapsto \left\{  
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}\then \lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
@@ -1718,8 +1730,7 @@ isomorphism. Suppose we have a square
 \[
   \alpha =
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}\then \lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
@@ -1744,7 +1755,7 @@ be the domain of the second. But the square $\alpha$ tells us that $\phi \then
    \expose{T}\inv \then \phi \then \expose{S} \then w = \expose{T} \inv
     \then \expose{T} \then g = g.
   \]
-  So the two maps are really composable.
+  So the two maps really are composable.
 
   Next, we note that the following is a square:
   \[
@@ -1769,8 +1780,7 @@ right, equals] \ar[d, shift left, equals] \&
  by the commutation of this diagram. Furthermore, we note that we have a square:
  \[
 \beta =    \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{\phi \circ
-        \pi_2}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
@@ -1792,6 +1802,36 @@ equals $\expose{T}\inv \then \phi \then \expose{S}$. From the top, we see
 exactly that $h_{\flat} = g_{\flat} \then h^{\ast} w^{\sharp}$.
 \end{proof}
 
+\begin{example}
+In the deterministic doctrine $\determ$, consider the system $\Sys{Time}$ of \cref{ex.trajectory_as_behavior_discrete}:
+\[
+\lens{t\mapsto t+1}{\id}\colon\lens{\nn}{\nn}\fromto\lens{\{\fun{tick}\}}{\nn}.
+\]
+This system exposes its entire state since $\expose{Time} = \id$. A behavior of
+shape $\Sys{Time}$ is a trajectory. So, by
+\cref{thm:representables.taut}, we get a doubly indexed functor:
+\[\begin{tikzcd}
+	{\Cat{Arena}_{\determ}} \\
+	&& {\Cat{Cat}} \\
+	{\Cat{Matrix}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Cat{Sys}_{\determ}}", from=1-1,
+  to=2-3, bend left = 10]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Cat{Vec}}"', from=3-1,
+  to=2-3, bend right = 10]
+	\arrow["{\Cat{Arena}_{\determ}\left(\littlelens{\ord{1}}{\nn},-\right)}"', from=1-1, to=3-1]
+	\arrow["{\Fun{Traj}}"', shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
+\end{tikzcd}\]
+For any $\lens{I}{O}$-system $\Sys{S}$, we get a vector of sets 
+$$\littlelens{i}{o} \mapsto \Fun{Traj}_{\littlelens{i}{o}}(\Sys{S})$$
+sending each chart $\lens{i}{o} : \lens{\ord{1}}{\nn} \rightrightarrows
+\lens{I}{O}$ --- which is to say sequences $o : \nn \to O$ and $i : \nn \to I$
+of inputs --- to the set of trajectories $s : \nn \to \Sys{S}$ for that chart.
+These trajectories are, explicitly, sequences which satisfy the equations 
+\begin{align*}
+  s_{t + 1} &= \update{S}(s_t, i_t) \\
+  \expose{S}(s_t) &= o_t.
+\end{align*}
 
+\end{example}
 
 \end{document}
