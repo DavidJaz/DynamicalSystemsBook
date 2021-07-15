@@ -1832,6 +1832,37 @@ These trajectories are, explicitly, sequences which satisfy the equations
   \expose{S}(s_t) &= o_t.
 \end{align*}
 
+\cref{thm:representables.taut} tells us that trajectories in a composite system
+are families of trajectories for each system which agree on all the information
+passed between the wires. For example, consider the wiring diagram
+
+\begin{equation}\label{eqn:ex.diagram.traj.comp}
+\begin{tikzpicture}[oriented WD]
+	\node[bb={1}{2}, fill=blue!10] (A) {$\Sys{S}$};
+	\node[bb={2}{1}, below right=-1 and 1 of A, fill=blue!10] (B) {$\Sys{T}$};
+	\node[bb={0}{0}, fit={(A) (B)}] (outer) {};
+	\node[right=.6 of A_out1] (kill) {$\bullet$};
+	\draw (outer.west|-A_in1) -- (A_in1);
+	\draw (outer.west|-B_in2) -- (B_in2);
+	\draw (A_out1) to node[above, font=\footnotesize] {} (kill.center);
+	\draw (A_out2) to (B_in1);
+	\draw (B_out1) -- (B_out1-|outer.east);
+\end{tikzpicture}
+\end{equation}
+Let's suppose that all wires carry real numbers. Then this wiring diagram can be represented by the lens
+$$\lens{w^{\sharp}}{w} : \lens{\rr}{\rr \times \rr} \otimes \lens{\rr \times
+  \rr}{\rr} \fromto \lens{\rr \times \rr}{\rr}$$
+given by
+\begin{align*}
+  w((a, b), c) &= c \\
+  w^{\sharp}(((a, b), c), (x, y)) &= (x, (b, y)). 
+\end{align*}
+\jaz{FINISH THIS.}
+
 \end{example}
+
+\section{Working with Matrices of Behaviors}
+
+
 
 \end{document}

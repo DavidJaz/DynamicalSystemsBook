@@ -1609,7 +1609,7 @@ horizontal category, but also how they interact through the squares.
   identity squares, and will be much more pleasant to look at when writing equations.
 \end{remark}
 
-Let's see two important examples of double categories.
+Let's see a few important examples of double categories.
 
 \subsection{The double category of arenas in the deterministic doctrine}
 
@@ -1747,8 +1747,207 @@ This re-expression of the notion of behavior in terms of the double category of
 arenas will let us generalize from the deterministic doctrine to other
 doctrines.
 
+\subsection{The double category of sets, functions, and matrices}\label{sec.double_cat_of_matrices}
+
+Now we turn to our second double category of interest, the double category of
+sets, functions, and matrices of sets.
+\begin{definition}\label{def.double_cat_of_matrices}
+  The double category $\Cat{Matrix}$ of sets, functions, and matrices of sets
+  is defined by:
+  \begin{itemize}
+    \item Its objects are sets.
+    \item Its horizontal category is the category of sets and functions.
+    \item Its vertical category is the category of sets and matrices of sets,
+      where composition is given by matrix multiplication. We write $M : A
+      \to B$ to say that $M$ is a $B \times A$ matrix.
+    \item For functions $f : A \to B$ and $g : C \to D$ and matrices $M : A
+       \to C$ and $N : B \to D$, a square
+       \[
+        \begin{tikzcd}[sep=small]
+          A \ar[dd, "M"'] \ar[rr, "f"] & & B \ar[dd, "N"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+       \]
+       is a family of functions $\alpha_{ba} : M_{ba} \to N_{g(b)f(a)}$ for all
+       $a \in A$ and $b \in B$.
+     \item Horizontal composition of squares is given by composition of the
+       families:
+       $$(\alpha | \beta)_{ba} = \beta_{g(b)f(a)} \circ \alpha_{ba}.$$
+     \item Vertical composition of squares
+\[
+        \begin{tikzcd}[sep=tiny]
+          A_1 \ar[dd, "M^1"'] \ar[rr, "f"] & & B_1 \ar[dd, "N^1"] \\
+           & \alpha & \\
+          A_2 \ar[dd, "M^2"']\ar[rr, "g"'] & & B_2 \ar[dd, "N^2"]\\ 
+           & \beta & \\
+          A_3 \ar[rr, "h"'] & & B_3
+        \end{tikzcd}
+\]
+ is given by
+       \begin{align*}
+         \left( \frac{\alpha}{\beta} \right)_{ac} : \sum_{b_1 \in B_1} M^2_{cb_1} \times M^1_{b_1a} &\to \sum_{b_2 \in B_2} N^2_{h(c)b_2} \times N^1_{b_2f(a)} \\
+         (b_1, m_2, m_1) &\mapsto (g(b_1), \beta(m_2), \alpha(m_1)).
+       \end{align*}
+  \end{itemize}
+\end{definition}
 
 
+\begin{exercise}\label{ex.double_cat_of_matrices}
+  We can see that horizontal composition of squares is associative and unital
+  since it is basically just function composition. Show that $\Cat{Matrix}$ is a
+  double category by checking that
+  \begin{enumerate}
+    \item Vertical composition of squares is associative and unital (up to isomorphism).
+      \item The interchange law holds.
+  \end{enumerate}
+\end{exercise}
+
+There is another useful way to express the double category of matrices in terms
+of pullbacks: spans. A span of sets from $A$ to $B$ is a diagram
+\[
+\begin{tikzcd}
+	& S \\
+	A && B
+	\arrow["{s_A}"', from=1-2, to=2-1]
+	\arrow["{s_B}", from=1-2, to=2-3]
+\end{tikzcd}
+\]
+We can think of this as a matrix of sets by sending any $a \in A$ and $b \in B$
+to the set $S_{ba} = \{x \in S \mid a = s_{A}(x) \mbox{ and } s_{B} = b\}$. And
+to any $(B\times A)$-matrix $M$ of sets, we can associate the span
+\[\begin{tikzcd}
+	& {\sum_{(a, b) \in A \times B} M_{ba}} \\
+	A && B
+	\arrow["{\pi_1}"', from=1-2, to=2-1]
+	\arrow["{\pi_2}", from=1-2, to=2-3]
+\end{tikzcd}\]
+with the disjoint union of all $M_{ba}$ at the top, with the two maps begin the
+projections onto $A$ and $B$ respectively.
+
+The composition of matrices can be represented in terms of spans as well. Given
+the spans $S$ from $A$ to $B$ and $T$ from $B$ to $C$, we can define their
+composite span $\frac{S}{T}$ from $A$ to $C$ by taking the pullback:
+\[\begin{tikzcd}
+	&& {S \times_B T} \\
+	& S && T \\
+	A && B && C
+	\arrow["{s_A}"', from=2-2, to=3-1]
+	\arrow["{s_B}", from=2-2, to=3-3]
+	\arrow["{t_B}"', from=2-4, to=3-3]
+	\arrow["{t_C}", from=2-4, to=3-5]
+	\arrow["{\pi_1}"', from=1-3, to=2-2]
+	\arrow["{\pi_2}", from=1-3, to=2-4]
+	\arrow["{\left(\frac{S}{T}  \right)_A}"', bend right = 40, dashed, from=1-3, to=3-1]
+	\arrow["{\left(\frac{S}{T}  \right)_C}", bend left = 40, dashed, from=1-3, to=3-5]
+	\arrow["\ulcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-3, to=3-3]
+\end{tikzcd}\]
+where 
+$$S \times_B T = \{(x, y) \in S \times T \mid s_B(x) = t_B(y)\}.$$
+A bit of thinking shows that this corresponds to the composite of matrices.
+\begin{exercise}
+  Let $M$ be an $(A \times B)$-matrix and $N$ be a $(B \times C)$-matrix.
+  Consider the following diagram:
+  \[\begin{tikzcd}
+	&& {\sum_{(a, c)}\left(\frac{M}{N}\right)_{ca}} \\
+	& {\sum_{(a, b)}M_{ba}} && {\sum_{(b, c)} N_{cb}} \\
+	A && B && C
+	\arrow["{s_A}"', from=2-2, to=3-1]
+	\arrow["{s_B}", from=2-2, to=3-3]
+	\arrow["{t_B}"', from=2-4, to=3-3]
+	\arrow["{t_C}", from=2-4, to=3-5]
+	\arrow[dashed, from=1-3, to=2-2]
+	\arrow[dashed, from=1-3, to=2-4]
+	\arrow["\ulcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-3, to=3-3]
+\end{tikzcd}\]
+Show that there are dashed maps as in the above diagram so that the square is a
+pullback. This shows that the composition of matrices corresponds to the
+composition of spans.
+\end{exercise}
+
+One nice feature that spans have over matrices is that they work for things
+other than sets. We can take spans in any category with pullbacks. We'll record
+the double category of spans here.
+\begin{definition}\label{defn:double.cat.of.spans}
+Let $\cat{C}$ be a category with pullbacks. The double category
+$\Cat{Span}(\cat{C})$ is defined by:
+\begin{itemize}
+  \item Its objects are the objects of $\cat{C}$.
+  \item Its horizontal category is $\cat{C}$.
+  \item Its vertical category has as morphisms $S : A \to B$ the spans 
+\[
+\begin{tikzcd}[sep = small]
+	& S \\
+	A && B
+	\arrow["{s_A}"', from=1-2, to=2-1]
+	\arrow["{s_B}", from=1-2, to=2-3]
+\end{tikzcd}
+\]
+and these are composed by pullback.
+\item A square
+       \[
+        \begin{tikzcd}[sep=tiny]
+          A \ar[dd, "M"'] \ar[rr, "f"] & & B \ar[dd, "N"] \\
+           & \alpha & \\
+          C \ar[rr, "g"'] & & D
+        \end{tikzcd}
+        \quad\mbox{is a map $\alpha$ so that}\quad
+\begin{tikzcd}[sep = small]
+	A && B \\
+	S && T \\
+	C && D
+	\arrow["f", from=1-1, to=1-3]
+	\arrow["g"', from=3-1, to=3-3]
+	\arrow["{s_A}", from=2-1, to=1-1]
+	\arrow["{s_C}"', from=2-1, to=3-1]
+	\arrow["{t_B}"', from=2-3, to=1-3]
+	\arrow["{t_D}", from=2-3, to=3-3]
+	\arrow["\alpha", dashed, from=2-1, to=2-3]
+\end{tikzcd}
+\quad \mbox{commutes.}
+       \]
+      \item Horizontal composition of squares is by composing in $\cat{C}$. 
+      \item Vertical composition of squares follows from the functoriality of
+        the pullback:
+        \[
+\begin{tikzcd}[sep = small]
+	{A_1} && {B_1} \\
+	{S_1} && {T_1} \\
+	{A_2} && {B_2} \\
+	{S_2} && {T_2} \\
+	{A_3} && {B_3}
+	\arrow["{f_1}", from=1-1, to=1-3]
+	\arrow["{f_2}"', from=3-1, to=3-3]
+	\arrow[from=2-1, to=1-1]
+	\arrow[from=2-1, to=3-1]
+	\arrow[from=2-3, to=1-3]
+	\arrow[from=2-3, to=3-3]
+	\arrow["\alpha", from=2-1, to=2-3]
+	\arrow[from=4-1, to=3-1]
+	\arrow[from=4-1, to=5-1]
+	\arrow[from=5-1, to=5-3]
+	\arrow[from=4-3, to=3-3]
+	\arrow[from=4-3, to=5-3]
+	\arrow["\beta", from=4-1, to=4-3]
+\end{tikzcd}
+\quad\mapsto\quad
+\begin{tikzcd}[sep = small]
+	A_1 && B_1 \\
+	S_1 \times_{A_2} S_2 && T_1 \times_{B_2} T_2 \\
+	A_3 && B_3
+	\arrow["f_1", from=1-1, to=1-3]
+	\arrow["f_3"', from=3-1, to=3-3]
+	\arrow[ from=2-1, to=1-1]
+	\arrow[ from=2-1, to=3-1]
+	\arrow[from=2-3, to=1-3]
+	\arrow[ from=2-3, to=3-3]
+	\arrow["{\frac{\alpha}{\beta}}", dashed, from=2-1, to=2-3]
+\end{tikzcd}
+        \]
+\end{itemize}
+
+  
+\end{definition}
 
 \subsection{The double category of categories, profunctors, and functors}
 
@@ -2680,6 +2879,19 @@ This says that $\Sys{S}$ is not changing in state $s$ on input $i$, or that $s$
 is a steady state of $\Sys{S}$ for input $i$ as in \cref{def.steady_state_differential}.
 \end{example}
 
+The Euclidean differential doctrine $\eucdiff$ is a special case of a
+\emph{cartesian differential doctrine}. The category $\Cat{Euc}$ is a
+\emph{cartesian differential category}, and for any cartesian differential
+category we can make a cartesian differential doctrine. We won't define the
+notion of 
+cartesian differential category here, as the definition is a bit involved. See
+\cite{blute2009cartesian} for a comprehensive introduction.
+\begin{definition}
+  For any cartesian differential category $\cat{C}$ with differential operator
+  $T$, we have a doctrine $\cartdiff$ defined by the indexed category $\smctx{-}
+  : \cat{C}\op \to \Cat{Cat}$ together with the section given by $T$. 
+\end{definition}
+
 Now, we would like to also show that periodic orbits are behaviors in a
 differential doctrine, but we're a bit stuck. In the Euclidean doctrine, there's
 no way to ensure that a trajectory $\phi : \rr \to \rr^n$ is periodic. Recall
@@ -2774,7 +2986,7 @@ of manifolds exist, but all pullbacks of submersions exist and are submersions.
 \end{lemma}
 
 This situation arises enough that we can give an abstract definition of it. 
-\begin{definition}
+\begin{definition}\label{defn:display.maps}
 Let $\cat{C}$ be a category. A class of \emph{display maps} in
 $\cat{C}$ is a class of maps $\cat{D}$ which satisfies the following: 
 \begin{itemize}
@@ -2967,7 +3179,7 @@ $(\cat{C}, \cat{D})$ with such an endofunctor $T : \cat{C} \to \cat{C}$ and
 natural transformation $\pi : T \to \id_{\cat{C}}$ whose components are all
 display maps.
 
-\begin{definition}
+\begin{definition}\label{defn:dispdoc}
 Let $(\cat{C}, \cat{D})$ be a category with display maps and let $T : \cat{C}
 \to \cat{C}$ be an endofunctor and
 $\pi : T \to \id_{\cat{C}}$ a natural transformation whose components are all
@@ -3113,7 +3325,55 @@ may conclude that behaviors $\Sys{Clock_k} \to \Sys{S}$ are periodic orbits
 (with period dividing $k$) of $\Sys{S}$.
 \end{example}
 
+\subsection{Dependent deterministic doctrines}
 
+The doctrine $\dispdoc_{(\cat{C}, T)}$ of display maps can also help us describe deterministic
+doctrines in which the sorts of input a system can accept depend on the output
+that system is currently exposing. These are called \emph{dependent} deterministic
+systems.
+
+\begin{definition}
+Let $(\Ca, \Da)$ be a category with display maps (\cref{defn:display.maps}) and
+finite products, and suppose that product projections $\pi_1 : C \times D \to C$
+are display maps. Then we have a section $TC = C \times C \xto{\pi_1} C$, and so
+we may define the depdendent deterministic doctrine $\depdet_{C}$ to be the
+display map doctrine $\dispdoc_{(\cat{C}, \cat{D}), T}$.
+\end{definition}
+
+Let's understand dependent
+deterministic systems in the category of sets with every map taken as a display map.
+
+\begin{definition}
+A \emph{dependent deterministic} system $\Sys{S}$ in the category of sets consists of:
+\begin{itemize}
+  \item A set $\State{S}$ of states,
+  \item A set $\Out{S}$ of outputs, and for each output $o \in \Out{S}$, a set
+    $\In{S}(o)$ of inputs valid in output $o$. If we define $\In{S} := \sum_{o
+      \in \Out{S}}\In{S}(o)$ to be the disjoint union of all of these ouput
+    sets, then we can package this assignment $o \mapsto \In{S}(o)$ into a
+    function $\In{S} \to \Out{S}$ which sends an input to the output it is valid
+    in. That is, the interface of a dependent system is a dependent set.
+  \item An exposed variable $\expose{S} : \State{S} \to \Out{S}$.
+  \item For every state $s \in \State{S}$, an update function $\update{S}(s, -)
+    : \In{S}(\expose{S}(s)) \to \State{S}$ sending an input which is valid in
+    the output exposed by $s$ to the next state.
+\end{itemize} 
+\end{definition}
+
+\begin{example}
+Consider the following simple example of a dependent system. A $\Sys{Diner}$ accepts
+orders when it is open, but when it is closed it doesn't. The set of possible
+outputs, or \emph{orientations} of the diner in it's environment, is $\Out{S} =
+\{\const{open}, \const{closed}\}$. When the diner is closed it excepts no input,
+so $\In{S}(\const{closed}) = \{\const{tick}\}$ will simply represent the ticking
+of time; other the other hand, when the diner is open then
+$\In{S}(\const{open})$ will be the set of possible orders.
+\end{example}
+
+Dependent deterministic systems in $\smset$ are tremendously interesting in
+their own right, and we won't be able to do them justice here.
+
+%writehere
 
 \subsection{Non-deterministic doctrines}
 

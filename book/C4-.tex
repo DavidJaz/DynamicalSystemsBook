@@ -2132,6 +2132,26 @@ Let $f : C' \to C$ be a map in $\cat{C}$. Then $T^Mf$ is $\pi_2 \then f \then \e
 transformation of sections to be the identity.
 \end{proof}
   
+\begin{example}\label{ex:commutative.monad.change.doctrine.det}
+  For any commutative monad $M : \cat{C} \to \cat{C}$, there is a unique commutative monad map from
+  the identity monad $\id_{\cat{C}}$. Therefore,
+  \cref{prop.morphism_commutative_monoid_change_doctrine} gives us a change of
+  doctrine $\determ_{\cat{C}} \to \nondet_{M}$ which lets us interpret
+  deterministic systems as special cases of non-deterministic systems.
+\end{example}
+
+\begin{example}\label{ex:commutative.monad.change.doctrine.prob.to.poss}
+\cref{prop:com.monad.prob.to.poss} constructs a commutative monad morphism $\phi
+: \probset \to \powset$ sending a probability distribution to the set of
+elements with non-zero probability. Therefore,
+\cref{prop.morphism_commutative_monoid_change_doctrine} gives us a change of
+doctrine $\nondet_{\probset} \to \nondet_{\powset}$ which reinterprets a
+probabilistic system as a possibilistic one where the state $s'$ is possibly the
+udpate $\phi_{\ast}\update{S}(s, i)$ of state $s$ with input $i$ just when just
+when the probability $\update{S}(s, i)(s')$ that $s$ will transition to $s'$ on
+input $i$ is non-zero.
+\end{example}
+
 We may also describe changes of doctrines between various sorts of deterministic
 doctrine. 
 \begin{proposition}\label{prop.change_of_doctrine_cartesian}
@@ -2247,7 +2267,7 @@ f(s + \varepsilon \cdot v) = f(s) + \varepsilon Tf(s, v)
 \end{equation}
 which says that incrementing $s$ by $\varepsilon$ in the $v$ direction in $f$ is
 the same as incrementing $f(s)$ by the $\varepsilon$ times the directional
-derivative of $f$ in the $v$ direction. This is true for affine function; even
+derivative of $f$ in the $v$ direction. This is true for affine functions; even
 more, it characterizes affine functions, so that we see that we must assume that
 $f$ is affine for this square to commute.
 \end{proof}
@@ -2613,5 +2633,8 @@ arenas, the doubly indexed category of systems separates the systems from their
 interfaces and the behaviors from their charts. This let's us describe the
 various sorts of composition --- of systems and of behaviors --- and their
 relationships. We then saw how this construction varied as we changed doctrine.
+
+There are other examples of changes of doctrines not covered here. For example,
+the Rutta-Kunge approximation can be seen as a change of doctrine; see \cite{ngotiaoco2017compositionality}.
 
 \end{document}
