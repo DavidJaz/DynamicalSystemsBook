@@ -3,11 +3,291 @@
 %
 
 
-\setcounter{chapter}{6}%Just finished 4.
+\setcounter{chapter}{6}%Just finished 5.
 
-\chapter{Sheaves of Behaviors}\label{chapter.6} 
+\chapter{Paradigms of Composition}\label{chapter.6} 
 
 \section{Introduction}
+
+
+Throughout this book so far, we seen dynamical systems modeled by state spaces exposing
+variables and updating according to external parameters. This sort of dynamical
+system is \emph{lens-based} --- systems are themselves lenses, and they compose by
+lens composition. We might describe them as \emph{parameter-setting systems},
+since we compose these systems by setting the parameters of some according to
+the exposed state variables of others.
+
+But this is not the only way to present a system. Consider, for example, a
+circuit diagram:
+\begin{equation}\label{eqn:circuit.diagram.2}
+    \begin{circuitikz}
+      \draw (0,0)
+      to[V,v=$V$] (0,2) % The voltage source
+      to (2,2)
+      to[R=$R$] (2,0) % The resistor
+      to[L=$L$] (0,0);
+    \end{circuitikz}
+    \end{equation}
+In \cref{ex.RL_circuit_trajectory} we saw how we could use Kirchoff's laws to
+interpret this circuit as a differential system
+  \[
+\lens{\update{RL}}{\id} : \lens{\rr}{\rr} \fromto \lens{\rr^2 \times \rr^{\ast}}{\rr}
+  \]
+  where
+  \[
+\update{RL}\left( I, \begin{bmatrix} V \\ R \\ L \end{bmatrix} \right) \coloneqq
+\frac{V - RI}{L}.
+\]
+But why not consider the circuit \emph{itself} as a system? This is a different
+way of thinking about systems: the circuit is a diagram, it doesn't have a set
+of states, exposed variables of state, and it doesn't update according to
+parameters. Nevertheless, we can compose circuits together to get more complex
+circuits. For example, we can think of the circuit (\ref{eqn:circuit.diagram.2})
+as the composite of two smaller circuits:
+\begin{equation}\label{eqn:circut.diagram.compose}
+  \begin{circuitikz}[baseline=(center)]
+      \draw (0,0)
+      to[V,v=$V$] (0,2) % The voltage source
+      to (2,2);
+      \draw (2, 0) to[L=$L$] (0,0);
+      \node[circle,fill=black, inner sep = 1pt] (term1) at (2,0) {};
+      \node[circle,fill=black, inner sep = 1pt] (term2) at (2,2) {};
+
+      \node[circle,fill=black, inner sep = 1pt] (term3) at (3,0) {};
+      \node[circle,fill=black, inner sep = 1pt] (term4) at (3,2) {};
+      \draw (3, 2) to[R=$R$] (3,0);
+      \node (center) at (1,1) {};
+    \end{circuitikz}
+\quad\mapsto\quad
+  \begin{circuitikz}[baseline=(center)]
+      \draw (0,0)
+      to[V,v=$V$] (0,2) % The voltage source
+      to (2,2)
+      to[R=$R$] (2,0) % The resistor
+      to[L=$L$] (0,0);
+      
+      \node (center) at (1,1) {};
+      \node[circle,fill=black, inner sep = 1pt] (term1) at (2,0) {};
+      \node[circle,fill=black, inner sep = 1pt] (term2) at (2,2) {};
+    \end{circuitikz}
+\end{equation}
+We compose circuit diagrams by gluing their wires together --- just like we might
+actually solder two physical circuits together. Another example of a system like
+circuit diagrams is a population flow graph (as, for example, in
+\cref{defn:population.flow.graph.sir}). A simple population flow graph consists
+of a graph whose vertices are \emph{places} and whose edges are paths between
+places, each labeled by its flow rate.
+\begin{equation}\label{eqn:pop.flow.graph.1}
+\begin{tikzpicture}
+	\node[draw] {
+  \begin{tikzcd}[column sep=small]
+    \Sys{Boston} \ar[rr, bend left=5, "r_1"]\ar[rr, bend right=5, leftarrow, "r_2"'] \ar[dr, "r_3"'] &  & \ar[dl, "r_4"]\Sys{NYC}\\
+& \Sys{Tallahassee} &
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+We can compose population flow graphs by gluing places together. Fore example,
+we can think of population flow graph (\ref{eqn:pop.flow.graph.1}) as the
+composite of two smaller population flow graphs:
+\begin{equation}\label{eqn:pop.flow.graph.comp}
+\begin{tikzpicture}[baseline=(center)]
+	\node[draw] (center) {
+  \begin{tikzcd}[column sep=small]
+    \Sys{Boston} \ar[rr, bend left=5, "r_1"]\ar[rr, bend right=5, leftarrow, "r_2"'] \ar[dr, "r_3"'] &  & \Sys{NYC}\\
+& \Sys{Tallahassee} &
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\quad
+\begin{tikzpicture}[baseline=(center)]
+	\node[draw] (center) {
+  \begin{tikzcd}[column sep=small]
+    & \ar[dl, "r_4"]\Sys{NYC}\\
+\Sys{Tallahassee} &
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\quad\mapsto\quad
+\begin{tikzpicture}[baseline=(center)]
+	\node[draw] (center) {
+  \begin{tikzcd}[column sep=small]
+    \Sys{Boston} \ar[rr, bend left=5, "r_1"]\ar[rr, bend right=5, leftarrow, "r_2"'] \ar[dr, "r_3"'] &  & \ar[dl, "r_4"]\Sys{NYC}\\
+& \Sys{Tallahassee} &
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\end{equation}
+We have added in the connection between New York and Tallahassee by gluing
+together the places in these two population flow graphs. 
+
+
+How can we describe this kind of
+composition in general? Instead of exposing variables of state, systems like
+circuit diagrams and population flow graphs expose
+certain parts of themselves (the ends of wires, some of their places) to their environment. We can refer to these parts of
+a circuit-diagram like system as its \emph{ports}. The ports form the
+\emph{interface} of this sort of system.
+
+For now, let's suppose that a system $\Sys{S}$
+has a finite set of ports $\Ports{S}$, which acts as its interface. For example,
+we can see the ports of the open circuit diagram on the left of
+(\ref{eqn:circut.diagram.compose}):
+\begin{equation}\label{eqn:circuit.diagram.ports}
+  \begin{circuitikz}[baseline=(center)]
+      \node (left) at (-1,0) {};
+      \node (bottom) at (-1, -.5) {};
+      \draw (0,0)
+      to[V,v=$V$] (0,2) % The voltage source
+      to (2,2);
+      \draw (2, 0) to[L=$L$] (0,0);
+      \node[circle,fill=red, inner sep = 1pt] (term1) at (2,0) {};
+      \node[circle,fill=red, inner sep = 1pt] (term2) at (2,2) {};
+      \node[draw, fit={(left) (bottom) (term2)}] (S) {};
+      \node[above = .3 cm of S] (syslabel) {$\Sys{S}$};
+
+
+      \node[circle,fill=red, inner sep = 1pt] (term3) at (4,0) {};
+      \node[circle,fill=red, inner sep = 1pt] (term4) at (4,2) {};
+      \draw [|-to, shorten <=.3cm, shorten >=.3cm] (term3) to[] (term1);
+      \draw [|-to, shorten <=.cm, shorten >=.3cm] (term4) to[] (term2);
+      \node[draw, fit=(term3)(term4)] (ports) {};
+      \node[above = .3 cm of ports] (portslabel) {$\Ports{S}$};
+    \end{circuitikz}
+\end{equation}
+
+We can see the set of ports as a trivial sort of circuit diagram --- one with no
+interesting components of any kind --- which has been included into the circuit
+diagram $\Sys{S}$. That is, the way we describe an interface is by a map
+$\partial_{\Sys{S}} : L\Ports{S} \to \Sys{S}$ which picks out the ports in the
+system $\Sys{S}$, and where $L$ is some operation that takes a finite set into a
+particularly simple sort of system.
+
+Suppose we want to describe the composition
+of \cref{eqn:circut.diagram.compose}. This will compose system $\Sys{S}$ with
+the system $\Sys{T}$:
+\begin{equation}
+  \begin{circuitikz}[baseline=(center)]
+      \draw (2,2) to[R=$R$] (2, 0);
+      \node[circle,fill=red, inner sep = 1pt] (term1) at (2,0) {};
+      \node[circle,fill=red, inner sep = 1pt] (term2) at (2,2) {};
+      \node[draw, fit={($(term1) - (.5,0)$) ($ (term2) + (.5,0)$)}] (S) {};
+      \node[above = .3 cm of S] (syslabel) {$\Sys{T}$};
+
+
+      \node[circle,fill=red, inner sep = 1pt] (term3) at (4,0) {};
+      \node[circle,fill=red, inner sep = 1pt] (term4) at (4,2) {};
+      \draw [|-to, shorten <=.3cm, shorten >=.3cm] (term3) to[] (term1);
+      \draw [|-to, shorten <=.cm, shorten >=.3cm] (term4) to[] (term2);
+      \node[draw, fit=(term3)(term4)] (ports) {};
+      \node[above = .3 cm of ports] (portslabel) {$\Ports{T}$};
+    \end{circuitikz}
+\end{equation}
+Just like with the parameter setting systems we've been composing the whole
+book, we will compose these two systems first by considering them together as a
+joint system, and then composing them according to a composition pattern. Here,
+the composition pattern should tell us which ports get glued together, and then
+which of the resulting things should be re-exposed as ports. For this, we will use
+a \emph{cospan}:
+\begin{equation}
+  \begin{tikzpicture}
+      \node[circle,fill=red, inner sep = 1pt] (term1) at (0,0) {};
+      \node[circle,fill=red, inner sep = 1pt] (term2) at (0,1) {};
+      \node[draw, fit=(term1)(term2)] (ports) {};
+      \node[below = .3 cm of ports] (portslabel) {$\Ports{S}$};
+
+      \node[circle,fill=red, inner sep = 1pt] (term3) at (2,0) {};
+      \node[circle,fill=red, inner sep = 1pt] (term4) at (2,1) {};
+      \node[draw, fit=(term3)(term4)] (ports) {};
+      \node[below = .3 cm of ports] (portslabel) {$\Ports{T}$};
+
+      \node[circle,fill=red, inner sep = 1pt] (mid1) at (4,2) {};
+      \node[circle,fill=red, inner sep = 1pt] (mid2) at (4,3) {};
+      \node[draw, fit={(mid1) (mid2)}] (mid) {};
+      \node[below = .3 cm of mid] (midlabel) {$M$};
+
+     \node (end1) at (6,0) {};
+      \node (end2) at (6,1) {};
+      \node[draw, fit={(end1)(end2)}] (outerports) {};
+      \node[below = .3 cm of outerports] (portslabel) {$\Ports{S \circ_M T}$};
+
+      
+      \draw [|->, shorten <= .3 cm, shorten >= .5 cm] (term1) to[bend left = 14] (mid1);
+      \draw [|->, shorten <= .3 cm, shorten >= .5 cm] (term3) to[bend left = 10] (mid1);
+      \draw [|->, shorten <= .3 cm, shorten >= .5 cm] (term2) to[bend left = 10] (mid2);
+      \draw [|->, shorten <= .3 cm, shorten >= .5 cm] (term4) to[bend left = 10] (mid2);
+  \end{tikzpicture}
+\end{equation}
+
+Here, the composite system exposes no ports, so we leave its set of ports empty.
+But with the map on the left, we show how we want to glue the ports of $\Sys{S}$
+and $\Sys{T}$ together. To actually get the composite system, we actually glue
+these ports along this plan. Gluing objects together in a category means taking
+a \emph{pushout}:
+\[
+\begin{tikzcd}
+	& {\Sys{S} \circ_M T} \\
+	{\Sys{S} + \Sys{T}} && M \\
+	& {\Ports{S} + \Ports{T}} && {\Ports{S \circ_M T}}
+	\arrow["{\partial_{\Sys{S}} + \partial{\Sys{T}}}", from=3-2, to=2-1]
+	\arrow[from=3-2, to=2-3]
+	\arrow[from=3-4, to=2-3]
+	\arrow[from=2-3, to=1-2]
+	\arrow[from=2-1, to=1-2]
+	\arrow["\ulcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
+	\arrow["{\partial_{\Sys{S} \circ_{M} \Sys{T}}}"', bend right = 30, dashed, from=3-4, to=1-2]
+\end{tikzcd}
+\]
+
+The symbol $+$ here is denoting the coproduct, or disjoint union, which lets us
+put our circuit diagrams side by side.
+
+We can describe systems like circuit diagrams and population flow graphs which
+are composed using pushouts in the above way \emph{port-plugging
+  systems}. The idea with these systems is that they expose some ports, and we
+compose them by plugging the ports of one system into the ports of another ---
+gluing them together using pushouts. But parameter-setting (lens-based) and
+port-plugging (pushout based) ways of thinking about systems still do not exhaust all the ways we can
+think about systems. In fact, we've missed a crucially important perspective:
+the \emph{behavioral approach} to systems theory.
+
+The parameter setting (lens-based) and port-plugging (pushout-based) ways of thinking about systems are very useful for the \emph{design} of systems; we give
+a minimal set of data ($\expose{}$ and $\update{}$ in the case of parameter
+setting systems, and something like a circuit diagram or flow graph with exposed
+ports for port-plugging systems) which in principle determines all behaviors, though it
+might take some work to understand what behaviors are actually in the system
+once we have set it up. But for the \emph{analysis} of dynamical systems, we
+seek to prove properties about how systems behave. It helps if we
+already know how a system behaves.
+
+In the \emph{behavioral} approach to systems theory, pioneered by Jan Willems,
+we take ``behavior'' as a primitive. In its most basic formulation, the behavioral
+approach to systems theory considers a system $\Sys{S}$ to have a set
+$\Set{B}(S)$ of ``behaviors''. The system also exposes some variables of these
+behaviors in a function $\expose{S} : \Set{B}_{\Sys{S}} \to \Set{V}_{\Sys{S}}$
+to a set
+$\Set{V}_{\Sys{S}}$ of possible values for these exposed variables. For example
+consider water flowing through the a pipe $\Sys{P}_1$. We could model the
+behaviors of this system by the changing inflow and outflow over time. That is,
+we could take
+\[
+\Set{B}_{\Sys{P}_1} = \{(i, o) \mid i, o: \rr \to \rr\}
+\]
+to be the set of pairs of functions representing the flows through time.
+
+
+
+
+We can see \cref{thm.representable_discrete} as
+showing us that we can apply the behavioral approach to dynamical systems in any
+doctrine; the doubly indexed functoriality of the behaviors says that the
+process of taking behaviors respects the composition of systems.
+
+
+
+
+
+
 
 
 
