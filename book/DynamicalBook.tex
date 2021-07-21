@@ -122,6 +122,62 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 	
 	\input{tikz_stuff}
 
+  
+\tikzset{
+  	unoriented WD/.style={
+  		every to/.style={draw},
+  		shorten <=-\penetration, shorten >=-\penetration,
+  		label distance=-2pt,
+  		thick,
+  		node distance=\spacing,
+  		execute at begin picture={\tikzset{
+  			x=\spacing, y=\spacing}}
+  		},
+  	pack size/.store in=\psize,
+  	pack size = 8pt,
+  	spacing/.store in=\spacing,
+  	spacing = 8pt,
+  	link size/.store in=\lsize,
+  	link size = 2pt,
+		penetration/.store in=\penetration,
+		penetration = 2pt,
+  	pack color/.store in=\pcolor,
+  	pack color = blue,
+  	pack inside color/.store in=\picolor,
+  	pack inside color=blue!20,
+  	pack outside color/.store in=\pocolor,
+  	pack outside color=blue!50!black,
+  	surround sep/.store in=\ssep,
+  	surround sep=8pt,
+  	link/.style={
+  		circle, 
+  		draw=black, 
+  		fill=black,
+  		inner sep=0pt, 
+  		minimum size=\lsize
+  	},
+  	pack/.style={
+  		circle, 
+  		draw = \pocolor, 
+  		fill = \picolor,
+  		inner sep = .25*\psize,
+  		minimum size = \psize
+  	},
+  	outer pack/.style={
+  		ellipse, 
+  		draw,
+  		inner sep=\ssep,
+  		color=\pocolor,
+  	},
+  	intermediate pack/.style={
+  		ellipse,
+  		dashed, 
+  		draw,
+  		inner sep=\ssep,
+  		color=\pocolor,
+  	},
+}
+
 \newcommand{\unalignedDo}[1]{\framebox{\begin{tikzpicture}[baseline=(current bounding box.center),every node/.style={inner sep=0pt, minimum size=0pt,outer sep=0pt}]
 \node(do) {\textbf{do}};
 \coordinate (11) at ($(do.east)+(0.25cm,0)$);

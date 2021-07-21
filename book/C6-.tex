@@ -263,18 +263,39 @@ already know how a system behaves.
 In the \emph{behavioral} approach to systems theory, pioneered by Jan Willems,
 we take ``behavior'' as a primitive. In its most basic formulation, the behavioral
 approach to systems theory considers a system $\Sys{S}$ to have a set
-$\Set{B}(S)$ of ``behaviors''. The system also exposes some variables of these
-behaviors in a function $\expose{S} : \Set{B}_{\Sys{S}} \to \Set{V}_{\Sys{S}}$
+$\Set{B}(S)$ of state variables or ``behaviors''. The system also exposes some of these
+state variables in a function $\expose{S} : \Set{B}_{\Sys{S}} \to \Set{V}_{\Sys{S}}$
 to a set
-$\Set{V}_{\Sys{S}}$ of possible values for these exposed variables. For example
-consider water flowing through the a pipe $\Sys{P}_1$. We could model the
-behaviors of this system by the changing inflow and outflow over time. That is,
-we could take
-\[
-\Set{B}_{\Sys{P}_1} = \{(i, o) \mid i, o: \rr \to \rr\}
-\]
-to be the set of pairs of functions representing the flows through time.
+$\Set{V}_{\Sys{S}}$ of possible values for these exposed variables.
 
+Consider, for example, a Carnot heat engine. A Carnot heat engine is a
+theoretical machine which converts a heat difference into work. 
+\begin{equation}\label{eqn:carnot.heat.engine}
+\begin{tikzpicture}
+\node[draw, inner sep = .4cm] (hot) {$T_h$};
+\node[draw, circle, right = of hot, inner sep = .3cm] (middle) {$\Sys{C}$};
+\node[draw, right = of middle, inner sep = .4cm] (cold) {$T_c$};
+\node[below = of middle] (out) {};
+
+\draw[-to] (hot) -- node[above = .1cm]{$Q_h$} (middle);
+\draw[-to] (middle) -- node[above = .1cm]{$Q_c$} (cold);
+\draw[-to] (middle) -- node[left = .1cm]{$W$} (out);
+\end{tikzpicture}
+\end{equation}
+We have a hot temperature source (``boiler'') $T_h$ supplying an amount $Q_h$ of
+heat to the engine, and a cold temperature sink
+(``condenser'') $T_c$ taking an amount $Q_c$ of heat out of the engine, and
+the Carnot engine $\Sys{C}$ in the middle which extracts a work $W$ (say, by
+turning a crank to lift a pulley carrying a certain weight). The amount
+of work extracted is the difference of the amount of heat supplied versus taken
+out:
+$$W = Q_h - Q_c.$$
+We can model this system by its variables:
+$$\Set{B}_{\Sys{C}} = \left\{ (T_h, T_c, Q_h, Q_c, W) \in \rr^5 \mid \mbox{All positive, }
+W = Q_h - Q_c,\, T_h > T_c \right\}$$
+Of all these variables, we will only consider the two temperature resevoirs and
+the work to be exposed. Therefore $\Set{V}_{\Sys{C}} = \rr^3$ and
+$\expose{S}(T_h, T_c, Q_h, Q_c, W) = (T_h, T_c, W)$. 
 
 
 

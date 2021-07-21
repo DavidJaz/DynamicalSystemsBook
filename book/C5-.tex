@@ -1343,7 +1343,7 @@ This is the blueprint for how our systems will compose.
 \Fun{Behave}_{\Sys{T}}^{\littlelens{I}{O}}(\Sys{S})_{\littlelens{f_{\flat}}{f}}
 \coloneqq \Cat{Sys}\littlelens{f_{\flat}}{f}(\Sys{T}, \Sys{S}). 
 \]
-This is quickly shown to be functorial by horizontal associativity of squares in $\Cat{Arena}$.
+This is functorial by horizontal associativity of squares in $\Cat{Arena}$.
 \item For any lens $\lens{w^{\sharp}}{w} : \lens{I}{O} \fromto \lens{I'}{O'}$,
   we need a natural transformation
   \[
@@ -1559,15 +1559,14 @@ We can see both sides as natural transformations of the signature
   \end{tikzcd}
 \]
 
-Accordingly, let $\psi \in \Cat{Sys}\littlelens{f_{\flat}}{f}(\Sys{S}, \Sys{U})$
-be a behavior with chart $\littlelens{f_{\flat}}{f}$. We need to show that
+So, to show this equality holds, let's start with a behavior $\psi \in \Cat{Sys}\littlelens{f_{\flat}}{f}(\Sys{S}, \Sys{U})$ with chart $\littlelens{f_{\flat}}{f}$. We need to show that
 passing this through the left side of \cref{eqn.interchange_func} equals the
 result of passing it through the right hand side. The result is an element of
 \[
 \Cat{Vec}\Cat{Arena}\left( \littlelens{\In{T}}{\Out{T}},
       \littlelens{g_{\flat}}{g} \right)\left(\cdots, \cdots  \right)
 \]
-and is accordingly a function that takes in a pair of the following form:
+and is for that reason a function that takes in a pair of the following form:
 \[
   (\square_j, \phi) = \left(  
     \begin{tikzcd}[ampersand replacement = \&]
@@ -1608,7 +1607,7 @@ which equals, rather simply:
 \[
 \frac{\phi \mid \psi}{\square_j \mid \alpha}.
 \]
-
+That these two composites are equal is precisely the interchange law of a double category.
 
 
 \end{itemize}
@@ -1861,6 +1860,230 @@ given by
 
 \end{example}
 
+\begin{example}\label{ex:trajectories.compositional.behavior}
+In a differential doctrine --- for simplicity let's say the Euclidean
+differential doctrine $\eucdiff$ --- the system
+\[
+\Sys{Time} = \lens{1}{\id} : \lens{\rr^1}{\rr^1} \fromto \lens{\rr^0}{\rr^1}
+\]
+which expresses the differential equation
+$$\frac{ds}{dt} = 1$$
+represents trajectories (see \cref{ex:diff.doc.time.system}). As this system
+exposes its entire state, \cref{thm:representables.taut} gives us a doubly
+indexed functor
+\[
+\begin{tikzcd}
+	{\Cat{Arena}_{\eucdiff}} \\
+	&& {\Cat{Cat}} \\
+	{\Cat{Matrix}}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Cat{Sys}_{\eucdiff}}", from=1-1,
+  to=2-3, bend left = 10]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Cat{Vec}}"', from=3-1,
+  to=2-3, bend right = 10]
+	\arrow["{\Cat{Arena}_{\determ}\left(\littlelens{\ord{1}}{\nn},-\right)}"', from=1-1, to=3-1]
+	\arrow["{\Fun{Traj}}"', shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+\]
 
+\end{example}
+
+\section{The Behavioral Approach to Systems Theory}
+
+Throughout this book so far, we seen dynamical systems modeled by state spaces exposing
+variables and updating according to external parameters. This sort of dynamical
+system is \emph{lens-based} --- systems are themselves lenses, and they compose by
+lens composition. We might describe them as \emph{parameter-setting systems},
+since we compose these systems by setting the parameters of some according to
+the exposed state variables of others.
+
+
+The parameter setting (lens-based) ways of thinking about systems are very useful for the \emph{design} of systems; we give
+a minimal set of data ($\expose{}$ and $\update{}$) which in principle determines all behaviors, though it
+might take some work to understand what behaviors are actually in the system
+once we have set it up. But for the \emph{analysis} of dynamical systems, we
+seek to prove properties about how systems behave. It helps if we
+already know how a system behaves.
+
+In the \emph{behavioral} approach to systems theory, pioneered by Jan Willems,
+we take ``behavior'' as a primitive. In its most basic formulation, the behavioral
+approach to systems theory considers a system $\Sys{S}$ to have a set
+$\Set{B}(S)$ of state variables or ``behaviors''. The system also exposes some of these
+state variables in a function $\expose{S} : \Set{B}_{\Sys{S}} \to \Set{V}_{\Sys{S}}$
+to a set
+$\Set{V}_{\Sys{S}}$ of possible values for these exposed variables.
+
+In other words, we can see the behavioral approach to systems theory as taking
+place in the doubly indexed category $\Cat{Vec} : \Cat{Matrix} \to \Cat{Cat}$
+(or, as we'll see, some variants of it). An interface is a set $V$ of possible
+values, and a system is a vector $B_v$ of sets varying over $v \in V$ --- the behaviors in
+which the exposed variables take that given value. This might sound a bit
+different from the idea of a function $\expose{S} : \Set{B}_{\Sys{S}} \to
+\Set{V}_{\Sys{S}}$, but we can define the set $B_v$ to be $\expose{S}\inv(v)$,
+and pass between these two notions. That is, we are making use of the
+equivalence between the double categories of matrices and the double categories
+of spans explored in \cref{sec.double_cat_of_matrices} to think of vectors of
+sets of length $V$ as functions into $V$, and to think of matrices of sets as spans.
+
+\begin{example}
+Consider the Lotka-Volterra predator prey model $\Sys{LK}$ of
+\cref{sec.differential_system} which is given by the following system of
+differential equations:
+\[
+  \begin{cases}
+    
+\frac{dr}{dt} =  \const{b}_{\Sys{Rabbits}}
+\cdot r - c_1 f r \\
+\frac{df}{dt} = c_2 r f - \const{d}_{\Sys{Foxes}}
+\cdot f
+  \end{cases}
+\]
+Here, $r$ is the population of rabbits and $f$ is the population of foxes. In
+\cref{ex:lotka.volterra.model}, we saw how to represent this as a differential
+system $\lens{\rr^2}{\rr^2} \fromto \lens{\rr^2}{\ord{1}}$ with $\expose{LK} =
+!$ the terminal map and
+  \[
+\update{\Sys{Rabbits}}( {r, (\const{b}_{\Sys{Rabbits}}, \const{d}_{\Sys{Rabbits}})} )
+= \const{b}_{\Sys{Rabbits}} \cdot r - \const{d}_{\Sys{Rabbits}} \cdot r.
+\]
+For the behavioral approach, we would apply the doubly indexed functor
+taking trajectories (from \cref{ex:trajectories.compositional.behavior}) to get
+the behavioral point of view on the system $\Sys{LK}$: 
+\[
+\Fun{Behave}_{\Sys{Time}}^{\littlelens{\rr^2}{\rr^2}}(\Sys{LK}) \in \Cat{Vec}\left(
+  \Cat{Arena}_{\eucdiff}\left( \littlelens{\ord{1}}{\rr},\,
+    \littlelens{\rr^2}{\rr^2} \right) \right).
+\]
+In other words, the set $\Set{B}_{\Sys{LK}}$ of behaviors is the set of trajectories together
+with their charts in $\Sys{LK}$, and $\Set{V}_{\Sys{LK}}$ is the set of charts
+for those trajectories --- that is, parameters varying in time. We can calculate
+this from the definitions in \cref{thm.representable_discrete}:
+
+\begin{align*}
+  \Set{V}_{\Sys{LK}} &= \Cat{Arena}_{\eucdiff}\left( \littlelens{\ord{1}}{\rr},\,
+                       \littlelens{\rr^2}{\ord{1}} \right)\\
+                     &= \left\{
+\lens{(\const{b}_{\Sys{Rabbits}}, \const{d}_{\Sys{Foxes}})}{!} : \lens{\ord{1}}{\rr} \rightrightarrows \lens{\rr^2}{\ord{1}}
+                       \right\} \\
+  &= \{((\const{b}_{\Sys{Rabbits}}, \const{d}_{\Sys{Foxes}})) : \rr \to \rr^4\}.\\
+  \Set{B}_{\Sys{LK}} &= \left\{
+    \begin{tikzcd}[ampersand replacement = \&, column sep = large]
+      \lens{\rr}{\rr} \ar[r, shift left, dashed, "\lens{(\frac{dr}{dt}, \frac{df}{dt})}{(r, f)}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      "\lens{1}{\id}"'] \ar[d, shift left, leftarrow] \&
+      \lens{\rr^2}{\rr^2} \ar[d, shift left, leftarrow,
+      "\lens{\update{LK}}{\expose{LK}}"] \ar[d, shift right]\\
+      \lens{\ord{1}}{\rr} \ar[r, dashed, shift right, "{\lens{(\const{b}_{\Sys{Rabbits}}, \const{d}_{\Sys{Foxes}})}{!}}"'] \ar[r, dashed,
+      shift left] \& \lens{\rr^2}{\ord{1}}
+    \end{tikzcd} 
+  \right\} \\
+  &= \left\{((r, f),(\const{b}_{\Sys{Rabbits}}, \const{d}_{\Sys{Foxes}})) : \rr \to \rr^4 \middle| \begin{cases}
+\frac{dr}{dt} =  \const{b}_{\Sys{Rabbits}}
+\cdot r - c_1 f r \\
+\frac{df}{dt} = c_2 r f - \const{d}_{\Sys{Foxes}}
+\cdot f
+  \end{cases}\right\}.\\
+\end{align*}
+and the map $\Set{B}_{\Sys{LK}} \to \Set{V}_{\Sys{LK}}$ is the projection
+exposing the parameters:
+\[
+((r, f), (\const{b}_{\Sys{Rabbits}},
+\const{d}_{\Sys{Foxees}})) \mapsto (\const{b}_{\Sys{Rabbits}},
+\const{d}_{\Sys{Foxees}}).
+\]
+\end{example}
+\begin{remark}
+Note
+that the parameters of the original differential system
+$\Sys{LK}$ are considered as exposed variables of state in the behavioral
+approach. This is because the behavioral approach composes systems by setting
+exposed variables equal to eachother, so the parameters must be considered as
+exposed variables so that they can be set equal to other variables.
+\end{remark}
+
+In this section, we'll a bit of how the behavioral approach to systems theory
+works, and why we might want to do it. We'll begin with the main idea in
+\cref{sec:behavioral.idea}. Then, in \cref{sec:behavioral.diagrams}, we'll see that in the behavioral
+approach, there is a different sort of \emph{undirected} wiring diagram which
+is used to compose systems
+\[
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+	\node[pack] (f1) {$\Sys{S}_1$};
+	\node[pack, below right=1.7 and 1 of f1] (f3) {$\Sys{S}_2$};
+	\node[pack, above right=1.7 and 1 of f3] (f2) {$\Sys{S}_3$};
+	\node[pack, below right=1.7 and 1 of f2] (f4) {$\Sys{S}_4$};
+	\node[outer pack, fit=(f1) (f4)] (outer) {};
+	%
+	\node[link] at ($(f1)!-.4!(outer)$) (t) {};
+	\node[link] at ($(f1)!.5!(f3)$) (u) {};
+	\node[link] at (f3 |-f1) (v){};
+	\node[link] at ($(f3)!.5!(f2)$) (w) {};
+	\node[link] at ($(w)!.3!(f4)$) (x) {};
+	\node[link, below=.5 of f3] (y) {};
+	\node[link] at ($(f4)!-.4!(outer)$) (z) {};
+	%
+	\draw (f1) -- (outer);
+	\draw (v) -- (outer.north-|v);
+	\draw (f4) -- (outer);
+	\draw (f1) -- (v) -- (f2) -- (f3) -- (y);
+	\draw (f1) -- (f3) to[bend right=10] (x);
+	\draw (x) to [bend right=10] (f2);
+	\draw (x) -- (f4);
+\end{tikzpicture}
+\]
+The idea of this diagram is that each wire carries an exposed variable of the
+behaviors of each system. An connection between wires expresses an
+equality of the variables carried on them. The wiring diagram as a whole shows
+how the systems in it \emph{share} their variables. If lens-based systems are
+all about setting parameters, the behavioral approach to systems theory using
+spans is all about sharing variables.
+
+Just as the wiring diagrams for lens based systems are the lenses in categories
+of arities, the wiring diagrams for the span-based behavioral approach are spans
+in the category of arities --- cospans of finite sets. 
+
+\subsection{The idea of the behavioral approach}\label{sec:behavioral.idea}
+
+In the behavioral approach to systems theory, a system is a set (or variable
+set, see \cref{sec:behavioral.types}) of \emph{behaviors} of the system. A
+system exposes some variables of its behaviors. We can draw a behavioral system as a blob with wires dangling out of it which we
+imagine are carrying the exposed variables. For example, the following system $\Sys{S}$
+exposes three variables:
+\[
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+	\node[pack] (f1) at (0, 0) {$\Sys{S}$};
+	%
+	\node[link] at (1.5,0) (t1) {};
+	\node[link] at (-.75,1.3) (t2) {};
+	\node[link] at (-.75,-1.3) (t3) {};
+	%
+  \draw (f1) -- (t1);
+  \draw (f1) -- (t2);
+  \draw (f1) -- (t3);
+\end{tikzpicture}
+\]
+
+
+As we have seen in
+\cref{thm.representable_discrete}, we can get behavioral systems for any type of
+behavior in any doctrine. One benefit of the behavioral approach is that all of
+these different doctrines can be composed on the same footing: they're all just
+behavioral systems.
+
+Consider, for example, a thermostat controlling a heating unit that warms a
+room. If the temperature of the room falls
+below $15{}^{\circ}C$, the heater is turned on and the temperature rises; but if the
+temperature exceeds $25{}^{\circ}C$, the thermostat will be turned off and
+the temperature will slowly fall. Without paying too much heed to the actual
+rate of increase and decrease of the temperature (let's imagine for the moment
+that they are linear), we can model this system as a
+composite system with components the heater $\Sys{H}$ and the thermostat $\Sys{T}$.
+
+
+
+
+\subsection{Undirected wiring diagrams as spans in categories of arities}\label{sec:behavioral.diagrams}
+
+\subsection{Behavior types: sheaves on the interval domain}\label{sec:behavioral.types}
+
+\subsection{Control and design problems}\label{sec:behavioral.control}
 
 \end{document}
