@@ -2029,7 +2029,7 @@ is used to compose systems
 	\draw (x) -- (f4);
 \end{tikzpicture}
 \]
-The idea of this diagram is that each wire carries an exposed variable of the
+The idea of these \emph{bubble diagrams} is that each wire carries an exposed variable of the
 behaviors of each system. An connection between wires expresses an
 equality of the variables carried on them. The wiring diagram as a whole shows
 how the systems in it \emph{share} their variables. If lens-based systems are
@@ -2048,12 +2048,12 @@ system exposes some variables of its behaviors. We can draw a behavioral system 
 imagine are carrying the exposed variables. For example, the following system $\Sys{S}$
 exposes three variables:
 \[
-\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+\begin{tikzpicture}[unoriented WD, spacing=14pt]
 	\node[pack] (f1) at (0, 0) {$\Sys{S}$};
 	%
-	\node[link] at (1.5,0) (t1) {};
-	\node[link] at (-.75,1.3) (t2) {};
-	\node[link] at (-.75,-1.3) (t3) {};
+	\node at (1.5,0) (t1) {};
+	\node at (-.75,1.3) (t2) {};
+	\node at (-.75,-1.3) (t3) {};
 	%
   \draw (f1) -- (t1);
   \draw (f1) -- (t2);
@@ -2068,22 +2068,703 @@ behavior in any doctrine. One benefit of the behavioral approach is that all of
 these different doctrines can be composed on the same footing: they're all just
 behavioral systems.
 
-Consider, for example, a thermostat controlling a heating unit that warms a
-room. If the temperature of the room falls
-below $15{}^{\circ}C$, the heater is turned on and the temperature rises; but if the
-temperature exceeds $25{}^{\circ}C$, the thermostat will be turned off and
-the temperature will slowly fall. Without paying too much heed to the actual
-rate of increase and decrease of the temperature (let's imagine for the moment
-that they are linear), we can model this system as a
-composite system with components the heater $\Sys{H}$ and the thermostat $\Sys{T}$.
+Consider the following example borrowed from Willems'
+\cite{Willems:Behavioral.Approach}. We consider a square bucket of water with
+two pipes at the bottom through which the water can flow:
+\[
+  \Sys{Bucket}_1 =
+  \begin{tikzpicture}[baseline=(center)]
+    \fill[blue!40!white] (0, 0) rectangle (2,2);
+    \fill[blue!40!white] (-.2, .2) rectangle (0.01,.4);
+    \fill[blue!40!white] (2.2, .2) rectangle (1.99,.4);
+    \draw[line width = .1cm] (0, 2.5) -- (0,.4) -- (-.2,.4);
+    \draw[line width = .1cm] (-.2, .2) -- (0,.2) -- (0,0)
+      -- (2,0) -- (2, .2) -- (2.2, .2);
+    \draw[line width = .1cm] (2.2, .4) -- (2, .4) -- (2, 2.5);
+
+    \draw[<->, blue!50!black] (1,.1cm) -- node[right] {$h_1$} (1, 2);
+    \node[left] at (-.2, .3) {$p_{11}$};
+    \node[below left] at (-.2, .3) {$f_{11}$};
+    \node[right] at (2.2, .3) {$p_{12}$};
+    \node[below right] at (2.2, .3) {$f_{12}$};
+
+    \node (center) at (1, 1) {};
+  \end{tikzpicture}
+\]
+The variable behaviors here are the pressures $p_{11}$ and $p_{12}$, the flows
+$f_{11}$ and $f_{12}$, and the height of the water $h_1$. We suppose that these
+quantities are related in the following ways:
+\begin{align*}
+  \frac{dh_1}{dt} &= F_1(h_1, p_{11}, p_{12}) \\
+  f_{11} &= H_{11}(h_1, p_{11})\\
+  f_{12} &= H_{12}(h_1, p_{12})
+\end{align*}
+for some functions $F_{1}$, $H_{11}$, and $H_{12}$. Therefore, the set of
+behaviors is the set real valued functions of time which satisfy these laws:
+\[
+\Set{B}_{\Sys{Bucket}_1} = \left\{ (h_1, f_{11}, f_{12}, p_{11}, p_{12}) : \rr
+  \to \rr^5\, \middle|\,
+\begin{aligned}
+  \frac{dh_1}{dt} &= F_1(h_1, p_{11}, p_{12}) \\
+  f_{11} &= H_{11}(h_1, p_{11})\\
+  f_{12} &= H_{12}(h_1, p_{12})
+\end{aligned}
+\right\}
+\]
+We will suppose that we will only pump water to and from the bucket through the
+pipes at the bottom. This means that we will only expose the variables
+concerning those pipes.
+\[
+\Set{V}_{\Sys{Bucket}_1} = (\rr^4)^{\rr}
+\]
+and where
+$$\expose{Bucket_1}(h_1, f_{11}, f_{12}, p_{11}, p_{12}) = (f_{11}, f_{12},
+p_{11}, p_{12}).$$
+We can bubble up the $\Sys{Bucket}_1$ system as the following bubble diagram:
+\[
+\begin{tikzpicture}[unoriented WD, spacing=14pt]
+	\node[pack] (f1) at (0, 0) {$\mathsf{Bucket_1}$};
+	%
+	\node at (2,2) (t1) {};
+	\node at (-2,2) (t2) {};
+	\node at (-2,-2) (t3) {};
+	\node at (2,-2) (t4) {};
+
+  \node[above right] at (t1) {$p_{12}$};
+  \node[above left] at (t2) {$p_{11}$};
+  \node[below left] at (t3) {$f_{11}$};
+  \node[below right] at (t4) {$f_{12}$};
+	%
+  \draw (f1) -- (t1);
+  \draw (f1) -- (t2);
+  \draw (f1) -- (t3);
+  \draw (f1) -- (t4);
+\end{tikzpicture}
+\]
+Each wire carries a variable element of $\rr \to \rr$, and the $\Sys{Bucket}_1$
+system exposes four of such variables.
+
+Now, suppose we had another bucket $\Sys{Bucket}_2$, governed by a similar set
+of variables satisfying a similar set of laws, but with functions $F_{2}$,
+$H_{21}$, and $H_{22}$ instead.
+\[
+  \Sys{Bucket}_2 = 
+  \begin{tikzpicture}[baseline=(center)]
+    \fill[blue!40!white] (0, 0) rectangle (2.5,1.5);
+    \fill[blue!40!white] (-.2, .2) rectangle (0.01,.4);
+    \fill[blue!40!white] (2.7, .2) rectangle (2.49,.4);
+    \draw[line width = .1cm] (0, 2) -- (0,.4) -- (-.2,.4);
+    \draw[line width = .1cm] (-.2, .2) -- (0,.2) -- (0,0)
+      -- (2.5,0) -- (2.5, .2) -- (2.7, .2);
+    \draw[line width = .1cm] (2.7, .4) -- (2.5, .4) -- (2.5, 2);
+
+    \draw[<->, blue!50!black] (1.25,.1cm) -- node[right] {$h_2$} (1.25, 1.4);
+    \node[left] at (-.2, .3) {$p_{21}$};
+    \node[below left] at (-.2, .3) {$f_{22}$};
+    \node[right] at (2.7, .3) {$p_{22}$};
+    \node[below right] at (2.7, .3) {$f_{21}$};
+
+    \node (center) at (1.15, .75) {};
+  \end{tikzpicture}
+\quad = \quad
+\begin{tikzpicture}[unoriented WD, spacing=14pt, baseline=(f1)]
+	\node[pack] (f1) at (0, 0) {$\mathsf{Bucket_2}$};
+	%
+	\node at (2,2) (t1) {};
+	\node at (-2,2) (t2) {};
+	\node at (-2,-2) (t3) {};
+	\node at (2,-2) (t4) {};
+
+  \node[above right] at (t1) {$p_{21}$};
+  \node[above left] at (t2) {$p_{22}$};
+  \node[below left] at (t3) {$f_{21}$};
+  \node[below right] at (t4) {$f_{22}$};
+	%
+  \draw (f1) -- (t1);
+  \draw (f1) -- (t2);
+  \draw (f1) -- (t3);
+  \draw (f1) -- (t4);
+\end{tikzpicture}
+\]
+Suppose we connect the two buckets up by the pipes at the bottom:
+\[
+  \Sys{Buckets} = 
+  \begin{tikzpicture}[baseline=(center)]
+    \fill[blue!40!white] (0, 0) rectangle (2,2);
+    \fill[blue!40!white] (-.2, .2) rectangle (0.01,.4);
+    \fill[blue!40!white] (2.4, .2) rectangle (1.99,.4);
+    \draw[line width = .1cm] (0, 2.5) -- (0,.4) -- (-.2,.4);
+    \draw[line width = .1cm] (-.2, .2) -- (0,.2) -- (0,0)
+      -- (2,0) -- (2, .2) -- (2.4, .2);
+    \draw[line width = .1cm] (2.4, .4) -- (2, .4) -- (2, 2.5);
+
+    \draw[<->, blue!50!black] (1,.1cm) -- node[right] {$h_1$} (1, 2);
+    \node[left] at (-.2, .3) {$p_{11}$};
+    \node[below left] at (-.2, .3) {$f_{11}$};
+
+    %%%%
+    \node (center) at (0, 1) {};
+    
+    \fill[blue!40!white] (2.6, 0) rectangle (5.1,1.5);
+    \fill[blue!40!white] (2.4, .2) rectangle (2.6,.4);
+    \fill[blue!40!white] (5.3, .2) rectangle (5.09,.4);
+    \draw[line width = .1cm] (2.6, 2) -- (2.6,.4) -- (2.4,.4);
+    \draw[line width = .1cm] (2.4, .2) -- (2.6,.2) -- (2.6,0)
+      -- (5.1,0) -- (5.1, .2) -- (5.3, .2);
+    \draw[line width = .1cm] (5.3, .4) -- (5.1, .4) -- (5.1, 2);
+
+    \draw[<->, blue!50!black] (3.85,.1cm) -- node[right] {$h_2$} (3.85, 1.4);
+    \node[right] at (5.3, .3) {$p_{22}$};
+    \node[below right] at (5.3, .3) {$f_{22}$};
+  \end{tikzpicture}
+\]
+To express this combined system, we need that the pressures in the connected
+pipes to be equal (since they are now one pipe), and we need the flows to be opposite (since any flow out of one
+bucket goes into the other). That is, we need $p_{12} = p_{21}$ and $f_{12} +
+f_{21} = 0$. All in all, the combined system has behaviors
+\begin{equation}\label{eqn:combined.bucket.system}
+  \Set{B}_{\Sys{Buckets}} = \left\{ \begin{aligned}
+      (h_1, f_{11}, f_{12}, p_{11}, p_{12}) &: \rr \to \rr^5\\
+      (h_2, f_{21}, f_{22}, p_{21}, p_{22}) &: \rr \to \rr^5\\
+    \end{aligned}\,\middle|\,
+\begin{aligned}
+  \frac{dh_i}{dt} &= F_i(h_i, p_{i1}, p_{i2}) \\
+  f_{i1} &= H_{i1}(h_i, p_{i1})\\
+  f_{i2} &= H_{i2}(h_i, p_{i2})\\ 
+  p_{12} &= p_{21} \\
+  0 &= f_{12} + f_{21}
+\end{aligned}
+  \right\}
+  \end{equation}
+Meanwhile, the only variables which are exposed by $\Sys{Buckets}$ are the two
+remaining open pipes, so
+\begin{align*}
+  \Set{V}_{\Sys{Buckets}} &= \rr \to \rr^4 \\
+  \expose{Buckets}\left(\begin{aligned}
+      (h_1, f_{11}, f_{12}, p_{11}, p_{12}) \\
+      (h_2, f_{21}, f_{22}, p_{21}, p_{22})\\
+    \end{aligned}  \right) &= (f_{11}, f_{22}, p_{11}, p_{22}).
+\end{align*}
+
+We can express the pattern of interconnection between $\Sys{Bucket}_1$ and
+$\Sys{Bucket}_2$ as a bubble diagram to see precisely how $\Sys{Buckets}$ arises
+as a composition of the two systems:
+\begin{equation}\label{eqn:bucket.diagram}
+\begin{tikzpicture}[unoriented WD, spacing=14pt, baseline=(f1)]
+	\node[pack] (f1) at (0, 0) {$\mathsf{Buckets}$};
+	%
+	\node[] at (2,2) (t1) {};
+	\node[] at (-2,2) (t2) {};
+	\node[] at (-2,-2) (t3) {};
+	\node[] at (2,-2) (t4) {};
+
+  \node[above right] at (t1) {$p_{22}$};
+  \node[above left] at (t2) {$p_{11}$};
+  \node[below left] at (t3) {$f_{11}$};
+  \node[below right] at (t4) {$f_{22}$};
+	%
+  \draw (f1) -- (t1);
+  \draw (f1) -- (t2);
+  \draw (f1) -- (t3);
+  \draw (f1) -- (t4);
+\end{tikzpicture}
+\quad = \quad
+\begin{tikzpicture}[unoriented WD, baseline = (plus)]
+	\node[pack] (f1) {$\Sys{Bucket}_1$};
+	\node[circle, draw, below right=1.7 and 1 of f1] (plus) {$+$};
+	\node[pack, above right=1.7 and 1 of plus] (f2) {$\Sys{Bucket}_2$};
+  \node[circle, draw, below = 1.7 of plus] (zero) {$0$};
+	\node[outer pack, fit={ (f1) (plus) (f2) (zero) }] (outer) {};
+	%
+  \node[link, above = 6 of plus] (link) {};
+ 	%
+  \draw (f1) to[out = 45, in = 180] (link);
+  \draw (f2) to[out = 135, in = 0] (link);
+  \draw (f1) to[out = 315, in=135] (plus);
+  \draw (f2) to[out = 225, in=45] (plus);
+  \draw (zero) -- (plus);
+  \draw (f1) to[out=135, in=135] (outer);
+  \draw (f1) to[out=225, in=225] (outer);
+  \draw (f2) to[out=45, in=45] (outer);
+  \draw (f2) to[out=315, in=315] (outer);
+\end{tikzpicture}
+\end{equation}
+
+When the wires are connected in this diagram, they express an \emph{equality}
+between their exposed variables. The top connection signifies that $p_{12} =
+p_{21}$. The bubbled up $+$ signifies a relation (other than equality): it says
+that the sum of the variables on the top two wires equals the third wire. We set
+that third wire to be constant at $0$, so in total we get the relation that
+$f_{12} + f_{21} = 0$.
+
+We can analyze this composition of the systems $\Sys{Bucket}_1$ and
+$\Sys{Bucket}_2$ in terms of the doubly indexed category
+$\Cat{Vec} : \Cat{Matrix} \to \Cat{Cat}$, or rather the equivalent doubly
+indexed category $\Cat{Set}/(-) : \Cat{Span}(\Cat{Set}) \to \Cat{Cat}$. To see how this works, let's remember how we compose
+lens based systems in a given doctrine $\dd$.
+
+Let's compose the $\Sys{Clock}$ and $\Sys{Meridian}$ systems into the
+$\Sys{ClockWithDisplay}$ system from \cref{ex.ClockWithDisplay}.
+\begin{equation}\label{eqn:example.diag.clockwithdispl}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=2pt, bb port sep=1, baseline=(Y.center)]
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{Meridian}$};
+  	\node[bb={0}{1}, fill=blue!10, below=2 of X1] (X2) {$\Sys{Clock}$};
+	\node[bb={0}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\Sys{ClockWithDisplay}$};
+	\draw (X1_out1) to (Y_out1);
+  \draw let \p1=(X1.south west), \p2=(X2.north east), \n1=\bbportlen, \n2=\bby in
+    (X2_out1) to[in=0] (\x2 + \n1, \y2 + \n2) -- (\x1 - \n1, \y2 + \n2) to[out=180] (X1_in1);
+  \draw (X2_out1) to (Y_out2);
+	\draw[label] 
+		node [right=2pt of Y_out1] {$\Set{a.m./p.m.}$}
+		node [right=2pt of Y_out2] {$\Set{Hour}$}
+		;
+\end{tikzpicture}
+\quad=\quad
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Y.center)]
+	\node[bb={1}{1}, fill=blue!10] (X1) {$\Sys{Meridian}$};
+  	\node[bb={0}{1}, fill=blue!10, below=2 of X1] (X2) {$\Sys{Clock}$};
+
+  \node[dashed, bb={1}{2}, fit={($(X1.north west)+(-2,1)$) ($(X1.north east)+(2,1)$) ($(X2.south)+(0,-3)$)}]  (Mid) {};
+  \node[above=0pt of Mid.south] (Label) {$\Sys{Meridian} \otimes \Sys{Clock}$};
+
+	\node[bb={0}{2}, fit={($(Mid.north west)+(-3,1)$) ($(Mid.north east)+(2,1)$) ($(Mid.south)+(0,-5)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\lens{w^{\sharp}}{w}$};
+
+	\draw (X1_out1) to (Mid_out1|-X1_out1);
+  \draw (X2_out1) to (Mid_out2|-X2_out1) coordinate (Midout);
+  \draw (Mid_in1|-X1_in1) coordinate (Midin) to (X1_in1);
+
+  \draw (Mid_out1|-X1_out1) to (Y_out1|-X1_out1);
+  \draw (Mid_out2|-X2_out1) to (Y_out1|-X2_out1);
+  
+  
+  \draw let \p1=(Mid.south east), \p2=(Mid.south west), \n1=\bbportlen, \n2=\bby in
+    (Midout) to[out=0, in=0] (\x1 + \n1, \y1-\n2) -- (\x2 - \n1, \y1 - \n2) to[out=180, in=180] (Midin);
+
+	\draw[label] 
+		node [right=2pt of Y_out1|-X1_out1] {$\Set{a.m./p.m.}$}
+		node [right=2pt of Y_out2|-X2_out1] {$\Set{Hour}$}
+		;
+\end{tikzpicture}
+\end{equation}
+
+We begin with
+$\Sys{Clock}$, which is in the category
+$\Cat{Sys}_{\determ}\lens{\ord{1}}{\Set{Hour}}$ of deterministic
+systems with interface $\lens{\ord{1}}{\Set{Hour}}$, and $\Sys{Meridian}$, which
+is in the category $\Cat{Sys}_{\determ}\lens{\Set{Hour}}{\Set{a.m./p.m.}}$ of
+deterministic systems with interface $\lens{\Set{Hour}}{\Set{a.m./p.m.}}$. We
+then form their parallel product $\Sys{Meridian} \otimes \Sys{Clock}$, which is
+in $\Cat{Sys}_{\determ}\lens{\1\times\Set{Hour}}{\Set{a.m./p.m.} \times
+  \Set{Hour}}$. The wiring diagram itself
+\begin{equation}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=2cm, bb port length=0, bb port sep=2, baseline=(Y.center)]
+  \node[bb={1}{2}, fill=blue!10]  (Mid) {};
+
+	\node[bb={0}{2}, fit={($(Mid.north west)+(-3,1)$) ($(Mid.north east)+(2,1)$) ($(Mid.south)+(0,-5)$)}] (Y) {};
+  \node[above=0pt of Y.south] (Label) {$\lens{w^{\sharp}}{w}$};
 
 
+  \draw (Mid_out1) to (Y_out1|-Mid_out1);
+  \draw (Mid_out2) to (Y_out1|-Mid_out2);
+  
+  
+  \draw let \p1=(Mid.south east), \p2=(Mid.south west), \n1=\bbportlen, \n2=\bby in
+    (Mid_out2) to[out=0, in=0] (\x1 + \n1, \y1-\n2) -- (\x2 - \n1, \y1 - \n2) to[out=180, in=180] (Mid_in1);
 
+	\draw[label] 
+		node [right=2pt of Y_out1|-Mid_out1] {$\Set{a.m./p.m.}$}
+		node [right=2pt of Y_out2|-Mid_out2] {$\Set{Hour}$}
+		;
+\end{tikzpicture}
+\end{equation}
+is a lens
+$$\lens{w^{\sharp}}{w} : \lens{\1\times\Set{Hour}}{\Set{a.m./p.m.} \times \Set{Hour}} \leftrightarrows \lens{\ord{1}}{\Set{a.m./p.m.} \times \Set{Hour}}.$$
+That is, it is a vertical arrow in the double category $\Cat{Arena}_{\determ}$
+of arenas in the deterministic doctrine. The doubly indexed category $\Cat{Sys}_{\determ}
+: \Cat{Arena}_{\determ} \to \Cat{Cat}$ furnishes us with a functor
+$$\Cat{Sys}_{\determ}\littlelens{w^{\sharp}}{w} : \Cat{Sys}_{\determ}\lens{\1\times\Set{Hour}}{\Set{a.m./p.m.} \times
+  \Set{Hour}} \to \Cat{Sys}_{\determ}\lens{\ord{1}}{\Set{a.m./p.m.} \times \Set{Hour}}$$
+Despite its formidible name, this functor is just given by composing in
+$\Cat{Arena}_{\determ}$ with the lens $\lens{w^{\sharp}}{w}$. We then apply this
+functor to $\Sys{Meridian} \otimes \Sys{Hour}$ to get the composite system $\Sys{ClockWithDisplay}$:
+$$\Sys{ClockWithDisplay} = \Cat{Sys}_{\determ}\littlelens{w^{\sharp}}{w}(\Sys{Meridian} \otimes \Sys{Hour}).$$
 
-\subsection{Undirected wiring diagrams as spans in categories of arities}\label{sec:behavioral.diagrams}
+This story is mirrored in the behavioral approach to systems theory, except
+instead of working with the doubly indexed category $\Cat{Sys}_{\dd} :
+\Cat{Arena}_{\dd} \to \Cat{Cat}$, we work in the doubly indexed category
+$\Cat{Vec} : \Cat{Matrix} \to \Cat{Cat}$ --- or, rather, the equivalent doubly
+indexed category $\Cat{Set}/(-) : \Cat{Span}(\Cat{Set}) \to \Cat{Cat}$.
 
-\subsection{Behavior types: sheaves on the interval domain}\label{sec:behavioral.types}
+We begin with the systems $\Sys{Bucket}_1$ and $\Sys{Bucket}_2$, both in
+$\Cat{Set}/(\rr^4)^{\rr}$; that is, $\Sys{Bucket}_1$ is identified with the map
+$\expose{Bucket_1} : \Set{B}_{\Sys{Bucket_1}} \to (\rr^4)^{\rr}$, and the same
+for $\Sys{Bucket_2}$. We then form the parallel product of these systems,
+which in this case is given by their cartesian product
+\[
+\expose{\Sys{Bucket}_1} \times \expose{\Sys{Bucket}_2} :
+\Set{B}_{\Sys{Bucket}_1} \times \Set{B}_{\Sys{Bucket}_2} \to (\rr^4)^{\rr}
+\times (\rr^4)^{\rr}
+\]
+which is an object of $\Cat{Set}/((\rr^4)^{\rr} \times (\rr^4)^{\rr})$. Now, the
+wiring diagram 
+\[
+  W = 
+\begin{tikzpicture}[unoriented WD, baseline = (plus)]
+	\node[pack] (f1) {$\phantom{\Sys{Bucket}_1}$};
+	\node[circle, draw, below right=1.7 and 1 of f1] (plus) {$+$};
+	\node[pack, above right=1.7 and 1 of plus] (f2) {$\phantom{\Sys{Bucket}_2}$};
+  \node[circle, draw, below = 1.7 of plus] (zero) {$0$};
+	\node[outer pack, fit={ (f1) (plus) (f2) (zero) }] (outer) {};
+	%
+  \node[link, above = 6 of plus] (link) {};
+  \node[above = .1cm of link] {$a_1$};
+ 	%
+  \draw (f1) to[out = 45, in = 180] (link);
+  \draw (f2) to[out = 135, in = 0] (link);
+  \draw (f1) to[out = 315, in=135] node[below left] {$a_2$} (plus);
+  \draw (f2) to[out = 225, in=45] node[below right] {$a_3$} (plus);
+  \draw (zero) -- node[left] {$a_4$}(plus);
+  \draw (f1) to[out=135, in=135] node[below left] {$a_5$} (outer);
+  \draw (f1) to[out=225, in=225] node[below left] {$a_6$}(outer);
+  \draw (f2) to[out=45, in=45]node[left] {$a_7$} (outer);
+  \draw (f2) to[out=315, in=315] node[right] {$a_8$}(outer);
+\end{tikzpicture}
+\]
+may be described as a span of sets,
+\[\begin{tikzcd}
+	& W \\
+	{(\rr^4)^{\rr} \times (\rr^4)^{\rr}} && {(\rr^4)^{\rr}}
+	\arrow["{w_1}"', from=1-2, to=2-1]
+	\arrow["{w_2}", from=1-2, to=2-3]
+\end{tikzcd}\]
+which is to say a vertical arrow in
+$\Cat{Span}(\Cat{Set})$. 
+We'll explain how bubble diagrams correspond to spans in a more systematic way in
+\cref{sec:behavioral.diagrams}, but for now we can define $W$ as follows:
+  \begin{equation}\label{eqn:buckets.span.def}
+    W = \left\{ (a_i)_{1 \leq i \leq 8} : \rr \to \rr^8 \,\middle|\, \begin{aligned}
+        a_2 + a_3 &= a_4 \\
+        a_4 &= 0
+\end{aligned}\right\} \\
+  \end{equation}
+  \begin{align*}
+    w_1((a_i)_{1 \leq i \leq 8}) &= ((a_6, a_2, a_5, a_1), (a_3, a_8, a_1, a_7))\\
+    w_2((a_i)_{1 \leq i \leq 8}) &= (a_6, a_7, a_5, a_8)
+                                   \end{align*}
+
+We then compose $\Sys{Bucket}_1$ and $\Sys{Bucket}_2$ into the composite
+$\Sys{Buckets}$ by applying $\Cat{Vec}(W)$ to $\Sys{Bucket_1} \times \Sys{Bucket_2}$:
+\[
+\Sys{Buckets} = \Cat{Vec}(W)(\Sys{Bucket_1} \times \Sys{Bucket_2}).
+\]
+This means composing with $W$ in the category of spans. Recall that we can see
+the map $\expose{\Sys{Bucket}_1} \times \expose{\Sys{Bucket}_2} :
+\Set{B}_{\Sys{Bucket}_1} \times \Set{B}_{\Sys{Bucket}_2} \to (\rr^4)^{\rr}
+\times (\rr^4)^{\rr}$ as a span from $\ord{1}$ to $(\rr^4)^{\rr} \times
+(\rr^4)^{\rr}$. Composing with $W$ therefore means we have the following
+pullback diagram:
+\[\begin{tikzcd}
+	& {\Set{B}_{\Sys{Buckets}}} \\
+	{\Set{B}_{\Sys{Bucket}_1} \times \Set{B}_{\Sys{Bucket_2}}} && W \\
+	& {(\rr^4)^{\rr} \times (\rr^4)^{\rr}} && {(\rr^4)^{\rr}}
+	\arrow["{w_1}"', from=2-3, to=3-2]
+	\arrow["{w_2}", from=2-3, to=3-4]
+	\arrow["{\expose{Bucket_1} \,\times\, \expose{Bucket_2}}"', from=2-1, to=3-2]
+	\arrow[dashed, from=1-2, to=2-1]
+	\arrow[dashed, from=1-2, to=2-3]
+	\arrow["\ulcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
+	\arrow["{\expose{Buckets}}", bend left = 30, from=1-2, to=3-4]
+\end{tikzcd}\]
+
+Quite explicitly, this defines $\Set{B}_{\Sys{Buckets}}$ to be the set
+\begin{equation} \label{eqn:combined.bucket.system.2}
+\Set{B}_{\Sys{Buckets}} = \left\{ \begin{aligned} (h_1, f_{11}, f_{12}, p_{11}, p_{12}) &: \rr \to \rr^5\\
+      (h_2, f_{21}, f_{22}, p_{21}, p_{22}) &: \rr \to \rr^5\\ (a_i)_{1 \leq i
+        \leq 8} &: \rr \to \rr^8 \end{aligned} \,
+  \middle|\, \begin{aligned}\frac{dh_i}{dt} &= F_i(h_i, p_{i1}, p_{i2}) \\
+  f_{i1} &= H_{i1}(h_i, p_{i1})\\
+  f_{i2} &= H_{i2}(h_i, p_{i2})\\
+        a_2 + a_3 &= a_4 &
+        a_4 &= 0\\
+        p_{11} &= a_5  &
+        f_{11} &= a_6 \\
+        p_{12} &= a_1  &
+        f_{12} &= a_2 \\
+        p_{21} &= a_1  &
+        f_{21} &= a_3 \\
+        p_{22} &= a_7  &
+        f_{22} &= a_8
+\end{aligned} \right\}
+\end{equation}
+At first glance, this is quite a bit larger than the definition of
+$\Set{B}_{\Sys{Buckets}}$ we gave in \cref{eqn:combined.bucket.system}. But most
+of the equations here are setting the $f$s and $p$s from each $\Sys{Bucket}_i$
+to be equal to the $a$s coming form the wiring diagram $W$. When the dust has
+settled, the two definitions are equivalent --- which is to say more precisely
+that they are isomorphic in the category $\Cat{Vec}((\rr^4)^{\rr})$.
+
+\begin{exercise}
+  Describe explicitly the isomorphism between the definitions of
+  $\Set{B}_{\Sys{Bucket}}$ in \cref{eqn:combined.bucket.system} and
+  \cref{eqn:combined.bucket.system.2}. Check that this isomorphism commutes with
+  the two definitions of $\expose{Buckets}$ as well.
+\end{exercise}
+
+A crucial feature of the behavioral approach to systems theory is that
+constraints on system behaviors are treated at the same level as the systems
+themselves. Suppose we want to constrain the system $\Sys{Buckets}$ so that the
+water flows from left to right. That is, we want $f_{11} > 0$ and $f_{22} < 0$.
+These constraints give rise to a subset $\Sys{C}$ of the set
+$(\rr^2)^{\rr}$:
+\begin{equation}\label{eqn:constraints.ex}
+\Sys{C} = \{ (f_{11}, f_{22}) \mid f_{11} > 0 \mbox{ and } f_{22} < 0 \}.
+\end{equation}
+
+We can consider the subset $\Sys{C}$ of $(\rr^{4})^{\rr}$ as an object of
+$\Cat{Set}/(\rr^{4})^{\rr}$ by equipping it with the inclusion $\Sys{C}
+\hookrightarrow (\rr^{4})^{\rr}$. We can bubble up this constraint just like a system (though to emphasize that we
+are thinking of it as a constraint and not as a system, we will not fill the
+bubble with blue):
+\[
+\begin{tikzpicture}[unoriented WD, spacing=14pt, baseline=(f1)]
+	\node[draw, circle] (f1) at (0, 0) {$\mathsf{C}$};
+	%
+	\node[] at (-2,-2) (t3) {};
+	\node[] at (2,-2) (t4) {};
+
+  \node[below left] at (t3) {$f_{11}$};
+  \node[below right] at (t4) {$f_{22}$};
+	%
+  \draw (f1) -- (t3);
+  \draw (f1) -- (t4);
+\end{tikzpicture}
+\]
+To express the system $\Sys{Buckets}$ constrained so that the inequalities
+$f_{11} > 0$ and $f_{22} < 0$ hold, we can use another bubble diagram:
+\[
+  \Sys{BucketsConstrained} :=
+\begin{tikzpicture}[unoriented WD, baseline = (buckets)]
+  \node[pack] (buckets) {$\mathsf{Buckets}$};
+  \node[draw, circle, above = of buckets] (constraint) {$\mathsf{C}$};
+  \node[outer pack, fit={(buckets) (constraint)}] (outer) {};
+
+  \node[link, above right = of buckets] (f11) {};
+  \node[link, above left = of buckets] (f22) {};
+  \node[link, below right = of buckets] (p11) {};
+  \node[link, below left = of buckets] (p22) {};
+
+  \draw (buckets) to[out=45, in=230] (f11) to[out=90, in=335] (constraint);
+  \draw (buckets) to[out= 135, in=300] (f22) to[out=90, in=205] (constraint);
+  \draw (buckets) -- (p11) -- (outer);
+  \draw (buckets) -- (p22) -- (outer);
+\end{tikzpicture}
+\]
+
+This is a new system with interface $(\rr^2)^{\rr}$. Suppose we want to ask if
+this constraint $\Sys{C}$ is sufficient to ensure that the pressures on the
+pipes (the remaining exposed variables) are within certain bounds $[b_{i0}, b_{i1}]$. We can
+express these constraints $\Sys{P}$ on pressure as a subset of
+$(\rr^{2})^{\rr}$:
+\[
+\Sys{P} = \{(p_{11}, p_{22}) \mid b_{10} \leq p_{11} \leq b_{11}\text{, and}
+b_{20} \leq p_{22} \leq b_{21}\} \hookrightarrow (\rr^4)^{\rr}.
+\]
+The question of whether the constrained system $\Sys{BucketsConstrained}$
+satisfies the constraints $\Sys{P}$ is then the question of whether there is a
+map $\phi : \Sys{BucketsConstrained} \to \Sys{P}$ in
+$\Cat{Set}/(\rr^4)^{\rr}$: 
+\begin{equation}\label{eqn:constraint.triangle}
+\begin{tikzcd}
+	{\Sys{BucketsConstrained}} && {\Sys{P}} \\
+	& {(\rr^2)^{\rr}}
+	\arrow[dashed, from=1-1, to=1-3, "\phi"]
+	\arrow[from=1-1, to=2-2]
+	\arrow[hook, from=1-3, to=2-2]
+\end{tikzcd}
+\end{equation}
+The map $\phi$ is a function of all the state variables of
+$\Sys{BucketsConstrained}$, but the commutativity of
+\cref{eqn:constraint.triangle} says that it must be given by 
+$$\phi(\ldots, p_{11}, \ldots, p_{22}, \ldots) = (p_{11}, p_{22}).$$
+Therefore, the existence of $\phi$ is the same thing as the \emph{proposition}
+that $p_{11}$ is between $b_{10}$ and $b_{11}$ and the same for $p_{22}$ ---
+that is, the proposition that $\Sys{BucketsConstrained}$ satisfies the
+constraint $\Sys{P}$. 
+
+The question of devising such a constraint $\Sys{C}$ (or, even better, a system
+which implements this constraint) for a system
+$\Sys{Buckets}$ so that the constrained system admits a map to another
+constraint $\Sys{P}$ is known as a \emph{control problem}. We will see control
+problems and their categorical dual, \emph{design problems}, in more detail in \cref{sec:behavioral.control}.
+
+All of our variables in the previous examples were variables of time. This is
+very common for behaviors, especially those coming from differential doctrines.
+Instead of having all our sets be $A^{\rr}$ for an $A$ varying in time $t \in
+\rr$, we could bake in this variation into time into our notion of set itself.
+That is, we can work in a category of \emph{variable sets}, or \emph{sheaves}.
+In such a category, the set $A$ would already include, implicitly, the variation
+in time. The sheaf theoretic setting for the behavioral appraoch to systems
+theory is explored in \cite{schultz2016dynamical} and
+\cite{schultz2019temporal}; we will summarize it in \cref{sec:behavioral.types},
+and show that trajectories in the general differential doctrine $\diffdoc$
+(\cref{def.general_diff_doctrine}) land in sheaves over time intervals. 
+
+\subsection{Bubble diagrams as spans in categories of arities}\label{sec:behavioral.diagrams}
+
+Though we have been describing the behavioral approach to systems theory as
+taking place within the doubly indexed category $\Cat{Set}/(-) :
+\Cat{Span}(\Cat{Set}) \to \Cat{Cat}$, we can do it in any category that allows
+us to compose spans --- namely, and category with finite limits. Just like we
+had different dynamical system doctrines for lens-based systems, we can see each
+category with finite limits as a doctrine for the behavioral approach. We will
+call these \emph{behavioral doctrines}.
+
+\begin{definition}
+A \emph{doctrine for the behavioral approach} or \emph{behavioral doctrine} is a
+category $\cat{C}$ with finite limits. The doubly indexed category of systems in
+the behavioral doctrine $\cat{C}$ is 
+$$\Cat{BSys}_{\cat{C}} := \cat{C}/(-) : \Cat{Span}(\cat{C}) \to \Cat{Cat}$$
+defined as the vertical slice construction applied to the inclusion $\ord{1} :
+\ord{1} \to \Cat{Span}(\cat{C})$ of the terminal object of $\cat{C}$:
+\[
+\Cat{BSys}_{\cat{C}} := \sigma(\ord{1} : \ord{1} \to \Cat{Span}(\cat{C})).
+\]
+\end{definition}
+
+So far, we have only seen the behavioral doctrine $\Cat{Set}$ of sets, but in
+\cref{sec:behavioral.types} we will see a behavioral doctrine of sheaves over
+time intervals. Though we don't as many different examples of behavioral
+doctrines as we do for dynamical system doctrines, the notion can help us
+clarify the basic ideas of the behavioral approach: it's all about \emph{spans},
+much in the way that dynamical systems doctrines are all about lenses.
+
+All the way back in \cref{sec:wiring.diagrams.as.lenses}, we saw that wiring
+diagrams are lenses in special categories: the free cartesian categories. We
+needed a cartesian category to describe the notion of lens given in
+\cref{def.lens}. We can make an analogy here: to describe the behavioral
+approach to systems theory, we use spans which require finite limits. It stands
+to reason that we should expect our bubble diagrams for the behavioral approach
+to be spans in \emph{free finitely complete categories}. We'll see that this is
+precisely the case.
+
+Before we see a formal definiton of bubble diagram, let's give an informal definition.
+\begin{informal}
+  A \emph{bubble diagram} is a diagram which consists of a number of \emph{inner
+  bubbles} drawn within an \emph{outer bubble}, each with some \emph{ports}.
+There are furthermore \emph{links}, which are drawn as small dots. The bubbles
+are wired together by connecting to the links:
+\begin{enumerate}
+  \item Every port on an inner bubble is wired to a unique link.
+\item Every port on the outer bubble is wired to a unique link.
+\end{enumerate}
+The category of bubble diagrams has as its objects the bubbles and as its
+morphisms the bubble diagrams. Bubble diagrams are composed by filling the inner
+bubbles with other bubble diagrams, the erasing the middle layer of bubbles, and
+coalescing any connected links into a single link. 
+
+\begin{equation}\label{eqn.bubble_diagram_example_misc}
+\begin{tabular}{c|c|c}
+\small Bubbles &\small Bubble Diagrams &\small Composition by nesting\\\hline
+~&&\\
+\parbox{.5in}{
+\begin{tikzpicture}[unoriented WD]
+  \node[pack, fill=blue!10] (X1) {$\phantom{S}$};
+  \node[above right = of X1] (w11) {};
+  \draw (X1) -- (w11);
+  
+  \node[pack, fill=blue!10, below=.4cm of X1] (X2) {$\phantom{S}$};
+  \node[above right = of X2] (w21) {};
+  \node[below left = of X2] (w22) {};
+  \draw (X2) -- (w21);
+  \draw (X2) -- (w22);
+  
+  \node[pack, fill=blue!10, below=.4cm of X2] (X3) {$\phantom{S}$};   
+  \node[above right = of X3] (w31) {};
+  \node[above left = of X3] (w32) {};
+  \node[below right = of X3] (w33) {};
+  \node[below left = of X3] (w34) {};
+  \draw (X3) -- (w31);
+  \draw (X3) -- (w32);
+  \draw (X3) -- (w33);
+  \draw (X3) -- (w34);
+\end{tikzpicture}
+}
+&
+\;\;\parbox{1.85in}{
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+	\node[pack] (f1) {$\phantom{f_1}$};
+	\node[pack, below right=1.7 and 1 of f1] (f3) {$\phantom{f_1}$};
+	\node[pack, above right=1.7 and 1 of f3] (f2) {$\phantom{f_1}$};
+	\node[pack, below right=1.7 and 1 of f2] (f4) {$\phantom{f_1}$};
+	\node[outer pack, fit=(f1) (f4)] (outer) {};
+	%
+	\node[link] at ($(f1)!-.4!(outer)$) (t) {};
+	\node[link] at ($(f1)!.5!(f3)$) (u) {};
+	\node[link] at (f3 |-f1) (v){};
+	\node[link] at ($(f3)!.5!(f2)$) (w) {};
+	\node[link] at ($(w)!.3!(f4)$) (x) {};
+	\node[link, below=.5 of f3] (y) {};
+	\node[link] at ($(f4)!-.4!(outer)$) (z) {};
+	%
+	\draw (f1) -- (outer);
+	\draw (v) -- (outer.north-|v);
+	\draw (f4) -- (outer);
+	\draw (f1) -- (v) -- (f2) -- (f3) -- (y);
+	\draw (f1) -- (f3) to[bend right=10] (x);
+	\draw (x) to [bend right=10] (f2);
+	\draw (x) -- (f4);
+\end{tikzpicture}
+}
+&
+\;\;\parbox{2.8in}{
+    \hspace{-.2in}
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+  \node[pack] (top) {$\phantom{S}$};
+  \node[link, above = of top] (toplink) {};
+  \node[link, below right = .75 and 1 of top] (toplink2) {};
+  \node[link, below left = .75 and 1 of top] (toplink3) {};
+  \node[draw, dashed, ellipse, fit = {(top) (toplink) (toplink2) (toplink3)}] (topdashed) {};
+
+  \node[pack, below right = 4.5 and 1 of top] (midright) {$\phantom{S}$}; 
+  \node[pack, below left = 4.5 and 1 of top] (midleft) {$\phantom{S}$}; 
+  \node[link] (midlink) at ($(midleft)!.5!(midright)$) {};
+  \node[link, left = of midleft] (midlink2) {};
+  \node[link, right = of midright] (midlink3) {};
+  \node[draw, dashed, ellipse, fit = {(midright) (midleft) (midlink2) (midlink3)}] (middashed) {};
+
+  \node[link, above right = 1.5 and 1 of middashed] (outlink1) {};
+  \node[link, above left = 1.5 and 1 of middashed] (outlink2) {};
+  \node[link, above = 1 of topdashed] (outlink3) {};
+  
+  \node[outer pack, fit = {(middashed) (topdashed)}] (outer) {};
+
+  \draw (top) to[out=120, in=210] (toplink);
+  \draw (top) to[out=60, in=330] (toplink);
+  \draw (toplink) to (topdashed) to (outlink3) to (outer);
+  \draw (top) to[out=210, in=60] (toplink3) to[out=210, in=0] (outlink2) to[out=180, in= 180] (outer);
+  \draw (top) to[out=330, in=120] (toplink2) to[out=270, in=120] (outlink1);
+  \draw (midright) to (midlink) to (midleft);
+  \draw (midright) to (midlink3) to[out=0, in=270] (outlink1);
+  \draw (midleft) to (midlink2) to[out=180, in=270] (outlink2);
+\end{tikzpicture}
+}
+\end{tabular}
+\end{equation}
+\end{informal}
+
+We can formalize these diagrams as spans in the free finitely complete category.
+Luckily, we already know what the free finitely complete category is; it turns
+out to be the same as the free cartesian category, the category $\Cat{Arity}$ of
+arities (\cref{defn:category.of.arities})! 
+
+Recall that the category of arities is equivalent to the opposite of the
+category of finite sets. 
 
 \subsection{Control and design problems}\label{sec:behavioral.control}
 
-\end{document}
+
+\subsection{Behavior types: sheaves on the interval domain}\label{sec:behavioral.types}
+
+\end{document} 
