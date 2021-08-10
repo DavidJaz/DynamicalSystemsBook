@@ -2013,7 +2013,7 @@ $$\XX^I \times \XX^J = \XX^{I + J}.$$
 
 If you like opposite categories, this might clarify things a bit.
 
-\begin{proposition}
+\begin{proposition}\label{prop:cat.arities.finset.op}
 $\arity$ is isomorphic to the opposite of the category finite sets
 \[\arity\cong\finset\op.\]
 \end{proposition}
@@ -2603,7 +2603,7 @@ lens in a cartesian category of our choosing.
   actual sets $\{\const{a.m.},\const{p.m.}\}$ and $\{1, 2,\ldots, 12\}$.
 \end{example}
 
-\subsection{Wiring diagrams with operations as lenses in Lawvere theories}
+\subsection{Wiring diagrams with operations as lenses in Lawvere theories}\label{sec:wiring.diagrams.Lawvere}
 
 The wiring diagrams we have described as lenses in categories of arities are
 pure wiring diagrams. But in \cref{ex.wiring_lotka_volterra}, we used a wiring
@@ -2712,7 +2712,7 @@ entirely and adding the law $(0 \cdot a) + b = b$. Lawvere wanted to avoid these
 petty differences in presentation. He focuses
 instead on the cartesian category freely
 containing the operations of the theory (satisfying their laws). This gives an invariant
-of the concept of real vector space that is independent of how that concept is presented.
+of the concept of real vector space that is independent of how that concept is presented axiomatically.
 
 A Lawvere theory is, in some sense, a category of arities ``with extra maps''.
 We think of these extra maps as coming from the operations of some theory.
@@ -2830,9 +2830,10 @@ We will build on these ideas through the rest of the book. Most directly, in \cr
 we will see how non-deterministic systems can be seen as a variant of lenses:
 \emph{monadic lenses}.
 
-The idea of composing dynamical systems --- deterministic and diffeerntial ---
+The idea of composing dynamical systems --- deterministic and differential ---
 using lenses can be found in
 \cite{Vagner.Spivak.Lerman:2015a}. Further exploration of
 this idea for differential systems can be found in \cite{Bakirtsiz-Vasilakopolou-Fleming:Compositional.Cyber.Physical.Systems.Modelling}. 
+
 
 \end{document}

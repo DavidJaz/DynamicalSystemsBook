@@ -1086,7 +1086,7 @@ categories admit representable double functors\footnote{Any object in a double
   category does admit a representable \emph{lax} double functor, but we won't
   need any of these and so won't introduce this notion.}. There is a small
 condition on an object: the \emph{horizontal factor condition}.
-\begin{definition}
+\begin{definition}\label{defn:spanlike}
   Let $\cat{D}$ be a double category. An object $D$ of $\cat{D}$ satisfies the
   \emph{horizontal factor condition} when for any square 
 \[
@@ -2427,7 +2427,7 @@ wiring diagram
   \draw (f2) to[out = 225, in=45] node[below right] {$a_3$} (plus);
   \draw (zero) -- node[left] {$a_4$}(plus);
   \draw (f1) to[out=135, in=135] node[below left] {$a_5$} (outer);
-  \draw (f1) to[out=225, in=225] node[below left] {$a_6$}(outer);
+  \draw (outer) to[in=225, out=225] node[below left] {$a_6$}(f1);
   \draw (f2) to[out=45, in=45]node[left] {$a_7$} (outer);
   \draw (f2) to[out=315, in=315] node[right] {$a_8$}(outer);
 \end{tikzpicture}
@@ -2647,7 +2647,8 @@ needed a cartesian category to describe the notion of lens given in
 approach to systems theory, we use spans which require finite limits. It stands
 to reason that we should expect our bubble diagrams for the behavioral approach
 to be spans in \emph{free finitely complete categories}. We'll see that this is
-precisely the case.
+precisely the case, although we will want to restrict to a certain class of
+``nice'' spans.
 
 Before we see a formal definiton of bubble diagram, let's give an informal definition.
 \begin{informal}
@@ -2656,8 +2657,11 @@ Before we see a formal definiton of bubble diagram, let's give an informal defin
 There are furthermore \emph{links}, which are drawn as small dots. The bubbles
 are wired together by connecting to the links:
 \begin{enumerate}
-  \item Every port on an inner bubble is wired to a unique link.
-\item Every port on the outer bubble is wired to a unique link.
+  \item Every port on an inner bubble is wired to a unique link, and every link
+    is wired to some inner port.
+\item Every port on the outer bubble is wired to a unique link, and a link is
+  wired to at most one outer port.
+  \item No two links are connected.
 \end{enumerate}
 The category of bubble diagrams has as its objects the bubbles and as its
 morphisms the bubble diagrams. Bubble diagrams are composed by filling the inner
@@ -2754,17 +2758,594 @@ coalescing any connected links into a single link.
 \end{equation}
 \end{informal}
 
-We can formalize these diagrams as spans in the free finitely complete category.
+Composition of bubble diagrams is given by nesting and then coalescing links, so
+that no two links are connected in a diagram.
+\begin{equation}\label{eqn:composing.bubble.diagrams}
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny, baseline=($(top)!.5!(midleft)$)]
+  \node[pack] (top) {$\phantom{S}$};
+  \node[link, above = of top] (toplink) {};
+  \node[link, below right = .75 and 1 of top] (toplink2) {};
+  \node[link, below left = .75 and 1 of top] (toplink3) {};
+  \node[draw, dashed, ellipse, fit = {(top) (toplink) (toplink2) (toplink3)}] (topdashed) {};
+
+  \node[pack, below right = 4.5 and 1 of top] (midright) {$\phantom{S}$}; 
+  \node[pack, below left = 4.5 and 1 of top] (midleft) {$\phantom{S}$}; 
+  \node[link] (midlink) at ($(midleft)!.5!(midright)$) {};
+  \node[link, left = of midleft] (midlink2) {};
+  \node[link, right = of midright] (midlink3) {};
+  \node[draw, dashed, ellipse, fit = {(midright) (midleft) (midlink2) (midlink3)}] (middashed) {};
+
+  \node[link, above right = 1.5 and 1 of middashed] (outlink1) {};
+  \node[link, above left = 1.5 and 1 of middashed] (outlink2) {};
+  \node[link, above = 1 of topdashed] (outlink3) {};
+  
+  \node[outer pack, fit = {(middashed) (topdashed)}] (outer) {};
+
+  \draw (top) to[out=120, in=210] (toplink);
+  \draw (top) to[out=60, in=330] (toplink);
+  \draw (toplink) to (topdashed) to (outlink3) to (outer);
+  \draw (top) to[out=210, in=60] (toplink3) to[out=210, in=0] (outlink2) to[out=180, in= 180] (outer);
+  \draw (top) to[out=330, in=120] (toplink2) to[out=270, in=120] (outlink1);
+  \draw (midright) to (midlink) to (midleft);
+  \draw (midright) to (midlink3) to[out=0, in=270] (outlink1);
+  \draw (midleft) to (midlink2) to[out=180, in=270] (outlink2);
+\end{tikzpicture}
+\quad\rightsquigarrow\quad
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny, baseline=($(top)!.5!(midleft)$)]
+  \node[pack] (top) {$\phantom{S}$};
+  \node[link, above = 1.5 of top] (toplink) {};
+  \node[fit = {(top) (toplink) (toplink2) (toplink3)}] (topdashed) {};
+
+  \node[pack, below right = 4.5 and 1 of top] (midright) {$\phantom{S}$}; 
+  \node[pack, below left = 4.5 and 1 of top] (midleft) {$\phantom{S}$}; 
+  \node[link] (midlink) at ($(midleft)!.5!(midright)$) {};
+  \node[ellipse, fit = {(midright) (midleft) (midlink2) (midlink3)}] (middashed) {};
+
+  \node[link, above right = 1.5 and 1 of middashed] (outlink1) {};
+  \node[link, above left = 1.5 and 1 of middashed] (outlink2) {};
+  
+  \node[outer pack, fit = {(middashed) (topdashed)}] (outer) {};
+
+  \draw (top) to[out=120, in=210] (toplink);
+  \draw (top) to[out=60, in=330] (toplink);
+  \draw (toplink) to (outer);
+  \draw (top) to[out=210, in=60]  (outlink2) to[out=180, in= 180] (outer);
+  \draw (top) to[out=330, in=120]  (outlink1);
+  \draw (midright) to (midlink) to (midleft);
+  \draw (midright) to[out=0, in=270]  (outlink1);
+  \draw (midleft) to[out=180, in=270]  (outlink2);
+\end{tikzpicture}
+\end{equation}
+
+
+We can formalize these diagrams as certain spans in the free finitely complete category.
 Luckily, we already know what the free finitely complete category is; it turns
 out to be the same as the free cartesian category, the category $\Cat{Arity}$ of
-arities (\cref{defn:category.of.arities})! 
+arities (\cref{defn:category.of.arities})!
+\begin{proposition}
+For a set $\cat{T}$ of types, the category $\Cat{Arity}_{\cat{T}}$ of arities typed in $\cat{T}$ is the \emph{free finitely complete category} on the set of objects $\cat{T}$. That is, for any finitely complete category $\cat{C}$ and function $C_{(-)} : \cat{T} \to \cat{C} $, there is a functor $\fun{ev}_{C} : \Cat{Arity}_{{\cat{T}}} \to \cat{C}$ which preserves finite limits, and this functor is unique up to a unique natural isomorphism.
+  \end{proposition}
+  \begin{proof}[Proof Sketch]
+   Since $\cat{C}$ is finitely complete, it is in particular cartesian. Therefore, we get a unique cartesian functor $\fun{ev}_{C} : \Cat{Arity}_{{\cat{T}}} \to \cat{C}$. We can then check that this functor preserves finite limits in addition to products; this is ultimately because pullbacks of product projections are given by other product projections.
+    \end{proof}
 
 Recall that the category of arities is equivalent to the opposite of the
-category of finite sets. 
+category of finite sets (\cref{prop:cat.arities.finset.op}). A span in the
+category of arities is a diagram
+\[
+\begin{tikzcd}
+	& {\XX^L} \\
+	{\XX^I} && {\XX^O}
+	\arrow["{i^{\ast}}"', from=1-2, to=2-1]
+	\arrow["{o^{\ast}}", from=1-2, to=2-3]
+\end{tikzcd}
+\]
+where $I$, $L$, and $O$ are finite sets and $i : I \to L$ and $o : O \to L$ are
+functions. We interpret such a span as a bubble diagram in the following way:
+\begin{itemize}
+  \item The set $I$ is the set of inner ports on any of the inner bubbles, the
+    set $O$ is the set of outer ports on the outer bubble, and the set $L$ is
+    the set of links.
+  \item The function $i : I \to L$ sends each inner port to the link it is
+    connected too, and the function $o : O \to L$ sends each outer port to the
+    link it is connected to.
+\end{itemize}
+If we have multiple inner bubbles, then we take a span with domain the cartesian
+product $\XX^{I_1} \times \cdots \times \XX^{I_n}$, so that $I = I_1 + \cdots +
+I_n$.
+
+\jaz{Diagram from D.Spivak.}
+\begin{equation}\label{eqn.cospan}
+\begin{tikzpicture}[penetration=0, unoriented WD, spacing=20pt, pack size=25pt]
+  \begin{scope}[font=\small]
+  	\node[pack] (a) {$I_1$};
+  	\node[pack, right=4 of a] (b) {$I_2$};
+  	\node[pack] at ($(a)!.5!(b)+(0,-2)$) (c) {$I_3$};
+  	\node[outer pack, fit=(a) (b) (c)] (outer) {};
+  \end{scope}
+%
+	\begin{scope}[font=\fontsize{5pt}{0}\selectfont]
+		\draw[shorten >= -3pt, shorten <=-3pt, red] (outer.200) to[bend left=50pt]
+			node[pos=-.1] {$2$}
+			node[pos=.5, link, red, label={[above right, font=\footnotesize]:$t$}] {}
+			node[pos=1.1] {$1$}
+			(outer.240);
+		\draw[shorten >= -3pt] (a) to[bend left=20pt]
+			node[pos=-.1] {$1$}
+			node[pos=.5, link, label={[above, font=\footnotesize]:$u$}] {}
+			node[pos=1.15] {$3$}
+			(outer.170);
+		\draw[shorten >= -3pt] (a) to[bend right=20pt]
+			node[pos=-.15] {$2$}
+			node[pos=.5, link, label={[right, font=\footnotesize]:$v$}] {}
+			node[pos=1.25] {$4$}
+			(outer.130);
+  	\draw (a) to 
+			node[pos=-.05] {$3$} 
+			node[pos=.5, link, label={[above, font=\footnotesize]:$w$}] {} 
+			node[pos=1.05] {$1$}
+			(b);
+		\draw (a) to[bend right]
+			node[pos=-.1] {$4$}
+			node[pos=.5, link, label={[above, font=\footnotesize]:$x$}] {}
+			node[pos=1.1] {$1$}
+			(c);
+		\draw (b) to[bend left]
+			node[pos=-.1] {$2$}
+			node[pos=.5, link, label={[above, font=\footnotesize]:$y$}] (y) {}
+			node[pos=1.1] {$2$}
+			(c);
+		\node[link, label={[above, font=\footnotesize]:${\color{red} s }$}, red] at ($(y)!.5!(outer.0)$) {};
+		\draw[shorten >= -3pt] (c) to
+			node[pos=-.15] {$3$}
+			node[pos=.5, link, label={[left, font=\footnotesize]:$z$}] {}
+			node[pos=1.25] {$6$}
+			(outer);
+		\draw[shorten >= -3pt] (y) to
+			node[pos=1.15] {$5$}
+			(outer.-30);
+	\end{scope}
+	\begin{scope}[font=\scriptsize,x=1em, decoration={brace, amplitude=4pt},y=3ex]
+		\node[link, label=$1$, below right=0 and 10 of b.90] (a1) {};
+		\node[link, label=$2$, right=1 of a1] (a2) {};
+		\node[link, label=$3$, right=1 of a2] (a3) {};
+		\node[link, label=$4$, right=1 of a3] (a4) {};
+		\node[link, label=$1$, right=1 of a4] (b1) {};
+		\node[link, label=$2$, right=1 of b1] (b2) {};
+		\node[link, label=$1$, right=1 of b2] (c1) {};
+		\node[link, label=$2$, right=1 of c1] (c2) {};
+		\node[link, label=$3$, right=1 of c2] (c3) {};
+		\draw[decorate] ($(a1.north)+(-2pt,10pt)$) to node[above=6pt] {$I_1$} ($(a4.north)+(2pt,10pt)$);
+		\draw[decorate] ($(b1.north)+(-2pt,10pt)$) to node[above=6pt] {$I_2$} ($(b2.north)+(2pt,10pt)$);
+		\draw[decorate] ($(c1.north)+(-2pt,10pt)$) to node[above=6pt] {$I_3$} ($(c3.north)+(2pt,10pt)$);
+		\node[link, label=${\color{red} s }$, red] at ($(a1)!.5!(a2)+(0,-2.5)$) (s) {};
+		\node[link, label=${\color{red} t }$, red, right=1 of s] (t) {};
+		\node[link, label=$u$, right=1 of t] (u) {};
+		\node[link, label=$v$, right=1 of u] (v) {};
+		\node[link, label=$w$, right=1 of v] (w) {};
+		\node[link, label=$x$, right=1 of w] (x) {};
+		\node[link, label=$y$, right=1 of x] (y) {};
+		\node[link, label=$z$, right=1 of y] (z) {};
+		\node[link, label={[below]:${\color{red} 1 }$}, red] at ($(t)+(0,-2)$) (outer1) {};
+		\node[link, label={[below]:${\color{red} 2 }$}, right=1 of outer1, red] (outer2) {};
+		\node[link, label={[below]:$3$}, right=1 of outer2] (outer3) {};
+		\node[link, label={[below]:$4$}, right=1 of outer3] (outer4) {};
+		\node[link, label={[below]:$5$}, right=1 of outer4] (outer5) {};
+		\node[link, label={[below]:$6$}, right=1 of outer5] (outer6) {};
+		\draw[decorate] ($(outer6.south)+(2pt,-12pt)$) to node[below=6pt] {$O$} ($(outer1.south)+(-2pt,-12pt)$);
+	\end{scope}
+	\begin{scope}[->, shorten >=8pt, thin, in=90, out=-90]
+  	\draw (a1) to (u);
+  	\draw (a2) to (v);
+  	\draw (a3) to (w);
+  	\draw (a4) to (x);
+  	\draw (b1) to (w);
+  	\draw (b2) to (y);
+  	\draw (c1) to (x);
+  	\draw (c2) to (y);
+  	\draw (c3) to (z);
+	\end{scope}
+	\begin{scope}[->, shorten >=2pt, thin, in=-90, out=90]
+		\draw[red] (outer1) to (t);
+		\draw[red] (outer2) to (t);
+		\draw (outer3) to (u);
+		\draw (outer4) to (v);
+		\draw (outer5) to (y);
+		\draw (outer6) to (z);
+	\end{scope}
+\end{tikzpicture}
+\end{equation}
+
+Note what can happen if we use just any old span in $\Cat{Arity}$: we can have
+``passing wires'', like the wire connecting outer port $1$ with outer port $2$
+in \cref{eqn.cospan}, and we can have dangling links like $s$ which aren't
+connected to anything. These are drawn in red above. This sort of loosey-goosey diagram is well known; it is
+an \emph{undirected wiring diagram}.
+\begin{definition}
+  An \emph{undirected wiring diagram} is a span in the category $\Cat{Arity}$ of
+  arities. Equivalently, it is a cospan of finite sets. A span
+\[
+\begin{tikzcd}
+	& {\XX^L} \\
+	{\XX^{I_1} \times \cdots \times \XX^{I_n}} && {\XX^O}
+	\arrow["{i^{\ast}}"', from=1-2, to=2-1]
+	\arrow["{o^{\ast}}", from=1-2, to=2-3]
+\end{tikzcd}
+\]
+is an undirected wiring diagram with $n$ inner bubbles, with bubble $i$ having
+the finite set $I_i$ of ports, with the finite set of links $L$, and the outer
+bubble having finite set of ports $O$. Informally, these satisfy the laws:
+\begin{enumerate}
+  \item Every inner port $p \in I_i$ is wired to a unique link $i(p)$
+  \item Every outer port $p \in O$ is wired to a unique link $o(p)$
+  \item No two links are wired together.
+\end{enumerate}
+
+\end{definition}
+
+However, these external connections and dangling wires tend to clutter up the
+works. A bubble diagram is an undirected wiring diagram without these cluttering
+bits. We enforce the extra two parts of the bubble diagram laws --- that every
+link is connected to some inner port and that a link is connected to at most one
+outer port --- by asking that the left leg $i$ of the span is \emph{surjective}
+while the right leg $o$ of the span is \emph{injective}. That $i$ is surjective
+means that every link is wired to some inner port. That $o$ is injective means
+that each link is wired to at most one outer port.
+
+\begin{definition}
+ A \emph{bubble diagram} is a span in the category $\Cat{Arity}$ of
+  arities whose left leg is surjective (as a finite set map) and whose right leg is injective. Equivalently, it is a cospan of finite sets where the left leg is surjective and the right leg is injective. A span
+\[
+\begin{tikzcd}
+	& {\XX^L} \\
+	{\XX^{I_1} \times \cdots \times \XX^{I_n}} && {\XX^O}
+	\arrow["{i^{\ast}}"', from=1-2, to=2-1]
+	\arrow["{o^{\ast}}", from=1-2, to=2-3]
+\end{tikzcd}
+\]
+\end{definition}
+
+\begin{exercise}
+  Draw the corresponding undirected wiring diagrams for the following cospans. Is it a bubble diagram?
+  \begin{enumerate}
+    \item
+          \[
+\begin{tikzpicture}
+	\boxofbullets{2}{(-4,-1)}{x}{$x$}{left=0pt};
+	\boxofbullets{4}{(-4,.5)}{q}{$q$}{left=0pt};
+	\boxofbullets[1.2]{3}{(-2,0)}{y}{$y$}{above=0pt};
+	\boxofbullets{1}{(0,0)}{z}{$z$}{right=0pt};
+	\draw[blue, dashed, |->] (pt_z_1) -- (pt_y_3);
+	\draw[blue, dashed, |->] (pt_x_1) -- (pt_y_2);
+	\draw[blue, dashed, |->] (pt_x_2) -- (pt_y_3);
+	\draw[blue, dashed, |->] (pt_q_1) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_q_2) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_q_3) -- (pt_y_2);
+	\draw[blue, dashed, |->] (pt_q_4) -- (pt_y_3);
+	\node[below=0 of box_x] (lab x) {$\XX^{\ord{4}} \times \XX^{\ord{2}}$};
+	\node at (lab x-|box_z) (lab z) {$\XX^{\ord{3}}$};
+	\node at (lab x-|box_y) (lab y) {$\XX^{\ord{1}}$};
+	\draw[->] (lab y) -- (lab z);
+	\draw[->] (lab y) -- (lab x);
+  \end{tikzpicture}
+          \]
+    \item
+          \[
+\begin{tikzpicture}
+	\boxofbullets{2}{(-4,-1)}{x}{$x$}{left=0pt};
+	\boxofbullets{3}{(-4,.5)}{q}{$q$}{left=0pt};
+	\boxofbullets{1}{(-4,1.6)}{r}{$r$}{left=0pt};
+	\boxofbullets[1.2]{3}{(-2,0)}{y}{$y$}{above=0pt};
+	\boxofbullets{2}{(0,0)}{z}{$z$}{right=0pt};
+	\draw[blue, dashed, |->] (pt_r_1) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_z_1) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_z_2) -- (pt_y_2);
+	\draw[blue, dashed, |->] (pt_x_1) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_x_2) -- (pt_y_2);
+	\draw[blue, dashed, |->] (pt_q_1) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_q_2) -- (pt_y_2);
+	\draw[blue, dashed, |->] (pt_q_3) -- (pt_y_3);
+	\node[below=0 of box_x] (lab x) {$\XX^{\ord{2}}\times \XX^{\ord{3}} \times\XX^{\ord{1}}$};
+	\node at (lab x-|box_z) (lab z) {$\XX^{\ord{3}}$};
+	\node at (lab x-|box_y) (lab y) {$\XX^{\ord{2}}$};
+	\draw[->] (lab y) -- (lab z);
+	\draw[->] (lab y) -- (lab x);
+  \end{tikzpicture}
+          \]
+    \item
+          \[
+\begin{tikzpicture}
+	\boxofbullets{1}{(-4,0)}{x}{$x$}{left=0pt};
+	\boxofbullets[1.2]{1}{(-2,0)}{y}{$y$}{above=0pt};
+	\boxofbullets{2}{(0,0)}{z}{$z$}{right=0pt};
+	\draw[blue, dashed, |->] (pt_z_1) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_z_2) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_x_1) -- (pt_y_1);
+	\node[below=0 of box_z] (lab z) {$\XX^{\ord{2}}$};
+	\node at (lab z-|box_x) (lab x) {$\XX^{\ord{1}}$};
+	\node at (lab x-|box_y) (lab y) {$\XX^{\ord{1}}$};
+	\draw[->] (lab y) -- (lab z);
+	\draw[->] (lab y) -- (lab x);
+  \end{tikzpicture}
+\]
+  \end{enumerate}
+
+\end{exercise}
+
+\begin{exercise}\label{ex:bubble.diagrams.as.spans}
+Express the following undirected diagrams as spans in the category of arities. Which are bubble diagrams?
+\begin{enumerate}
+  \item
+        \[
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+	\node[pack] (f1) {$\phantom{f_1}$};
+	\node[pack, below right=1.7 and 1 of f1] (f3) {$\phantom{f_1}$};
+	\node[pack, above right=1.7 and 1 of f3] (f2) {$\phantom{f_1}$};
+	\node[pack, below right=1.7 and 1 of f2] (f4) {$\phantom{f_1}$};
+	\node[outer pack, fit=(f1) (f4)] (outer) {};
+	%
+	\node[link] at ($(f1)!-.4!(outer)$) (t) {};
+	\node[link] at ($(f1)!.5!(f3)$) (u) {};
+	\node[link] at (f3 |-f1) (v){};
+	\node[link] at ($(f3)!.5!(f2)$) (w) {};
+	\node[link] at ($(w)!.3!(f4)$) (x) {};
+	\node[link, below=.5 of f3] (y) {};
+	\node[link] at ($(f4)!-.4!(outer)$) (z) {};
+	%
+	\draw (f1) -- (outer);
+	\draw (v) -- (outer.north-|v);
+	\draw (f4) -- (outer);
+	\draw (f1) -- (v) -- (f2) -- (f3) -- (y);
+	\draw (f1) -- (f3) to[bend right=10] (x);
+	\draw (x) to [bend right=10] (f2);
+	\draw (x) -- (f4);
+\end{tikzpicture}
+        \]
+        \item
+        \[
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+	\node[pack] (f1) {$\phantom{f_1}$};
+	\node[pack, right= 3 of f1] (f4) {$\phantom{f_1}$};
+  \node[link] (l1) at ($(f1)!.5!(f4) - (0, 1)$) {};
+	\node[outer pack, fit=(f1) (f4)] (outer) {};
+
+	%
+  \draw (f1) to (l1);
+  \draw (f4) to (l1);
+  \draw (outer) to[out=300, in = 320] (l1);
+  \draw (outer) to[out=240, in = 220] (l1);
+	%
+\end{tikzpicture}
+        \]
+    \item
+          \[
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny, baseline=($(top)!.5!(midleft)$)]
+  \node[pack] (top) {$\phantom{S}$};
+  \node[link, above = of top] (toplink) {};
+  \node[link, below right = .75 and 1 of top] (toplink2) {};
+  \node[link, below left = .75 and 1 of top] (toplink3) {};
+  \node[draw,  ellipse, fit = {(top) (toplink) (toplink2) (toplink3)}] (topdashed) {};
+
+
+  \draw (top) to[out=120, in=210] (toplink);
+  \draw (top) to[out=60, in=330] (toplink);
+  \draw (toplink) to (topdashed);
+  \draw (top) to[out=210, in=60] (toplink3) to (topdashed);
+  \draw (top) to[out=330, in=120] (toplink2) to (topdashed);
+\end{tikzpicture}
+          \]
+    \item
+          \[
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny, baseline=($(top)!.5!(midleft)$)]
+
+  \node[pack] (midright) {$\phantom{S}$};
+  \node[pack, left = 2 of midright] (midleft) {$\phantom{S}$};
+  \node[link] (midlink) at ($(midleft)!.5!(midright)$) {};
+  \node[link, left = of midleft] (midlink2) {};
+  \node[link, right = of midright] (midlink3) {};
+  \node[draw,  ellipse, fit = {(midright) (midleft) (midlink2) (midlink3)}] (middashed) {};
+
+  \draw (midright) to (midlink) to (midleft);
+  \draw (midright) to (midlink3) to (middashed);
+  \draw (midleft) to (midlink2) to (middashed);
+\end{tikzpicture}
+          \]
+  \item
+        \[
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny]
+  \node[pack] (topdashed) {};
+
+  \node[pack, below = 3 of topdashed] (middashed) {};
+
+  \node[link, above right = 1.5 and 1 of middashed] (outlink1) {};
+  \node[link, above left = 1.5 and 1 of middashed] (outlink2) {};
+  \node[link, above = 1 of topdashed] (outlink3) {};
+
+  \node[outer pack, fit = {(middashed) (topdashed)}] (outer) {};
+
+  \draw (topdashed) to (outlink3) to (outer);
+  \draw (topdashed) to[out=210, in=0] (outlink2) to[out=180, in= 180] (outer);
+  \draw (topdashed) to[out=335, in=120] (outlink1);
+  \draw (middashed) to[out=0, in=270] (outlink1);
+  \draw (middashed) to[out=180, in=270] (outlink2);
+\end{tikzpicture}
+\]
+  \end{enumerate}
+  \end{exercise}
+
+Both undirected wiring diagrams and bubble diagrams are composed by pullback in the category $\Cat{Arity}$ of arities, which is pushout in the category of finite sets. Let's recall the definition of pushout in the category of finite sets.
+\begin{definition}
+  Given a solid diagram
+  \[
+\begin{tikzcd}
+	& B +_{A} C \\
+	B && C \\
+	& A
+	\arrow["f", from=3-2, to=2-1]
+	\arrow["g"', from=3-2, to=2-3]
+	\arrow[dashed, from=2-1, to=1-2]
+	\arrow[dashed, from=2-3, to=1-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
+\end{tikzcd}
+  \]
+  The pushout $B+_{A}C$ of $f$ and $g$ is defined to be the disjoint union of $A$ and $B$, quotiented by the relation which sets $f(a)$ equal to $g(a)$:
+  \[
+P = \frac{A + B}{f(a) \sim g(a)}.
+\]
+The map $B \to B +_{A} C$ is the map $b \mapsto [b]$, the inclusion $B \to B + C$ followed by the quotient map, and similarly $C \to B +_{A} C$ is $c \mapsto [c]$.
+
+Note that though the notation $B +_{A} C$ only mentions the sets involved, to form the pushout we need to know the functions $f$ and $g$ as well.
+\end{definition}
+
+We can understand the composite of undirected wiring diagrams as follows:
+\[
+\begin{tikzcd}
+	&& {\XX^{L +_M L'}} \\
+	& {\XX^L} && {\XX^{L'}} \\
+	{\XX^{I}} && {\XX^{M}} && {\XX^{O}}
+	\arrow[from=2-2, to=3-1]
+	\arrow[from=2-2, to=3-3]
+	\arrow[from=2-4, to=3-3]
+	\arrow[from=1-3, to=2-2]
+	\arrow[from=1-3, to=2-4]
+	\arrow[from=2-4, to=3-5]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-3, to=3-3]
+	\arrow[bend right = 30, dashed, from=1-3, to=3-1]
+	\arrow[bend left = 30, dashed, from=1-3, to=3-5]
+\end{tikzcd}
+\]
+The set $L$ is the set of links in the first diagram, and the set $L'$ is the set of links in the second diagram. The set of links in the new diagram is their pushout $L +_{M} L'$ over the set of middle ports; this is the disjoint union of $L$ and $L'$ with any two links set equal when they are connected to the same middle port.
+
+\begin{exercise}
+Consider the composite \cref{eqn:composing.bubble.diagrams} reproduced here:
+\begin{equation}
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny, baseline=($(top)!.5!(midleft)$)]
+  \node[pack] (top) {$\phantom{S}$};
+  \node[link, above = of top] (toplink) {};
+  \node[link, below right = .75 and 1 of top] (toplink2) {};
+  \node[link, below left = .75 and 1 of top] (toplink3) {};
+  \node[draw, dashed, ellipse, fit = {(top) (toplink) (toplink2) (toplink3)}] (topdashed) {};
+
+  \node[pack, below right = 4.5 and 1 of top] (midright) {$\phantom{S}$};
+  \node[pack, below left = 4.5 and 1 of top] (midleft) {$\phantom{S}$};
+  \node[link] (midlink) at ($(midleft)!.5!(midright)$) {};
+  \node[link, left = of midleft] (midlink2) {};
+  \node[link, right = of midright] (midlink3) {};
+  \node[draw, dashed, ellipse, fit = {(midright) (midleft) (midlink2) (midlink3)}] (middashed) {};
+
+  \node[link, above right = 1.5 and 1 of middashed] (outlink1) {};
+  \node[link, above left = 1.5 and 1 of middashed] (outlink2) {};
+  \node[link, above = 1 of topdashed] (outlink3) {};
+
+  \node[outer pack, fit = {(middashed) (topdashed)}] (outer) {};
+
+  \draw (top) to[out=120, in=210] (toplink);
+  \draw (top) to[out=60, in=330] (toplink);
+  \draw (toplink) to (topdashed) to (outlink3) to (outer);
+  \draw (top) to[out=210, in=60] (toplink3) to[out=210, in=0] (outlink2) to[out=180, in= 180] (outer);
+  \draw (top) to[out=330, in=120] (toplink2) to[out=270, in=120] (outlink1);
+  \draw (midright) to (midlink) to (midleft);
+  \draw (midright) to (midlink3) to[out=0, in=270] (outlink1);
+  \draw (midleft) to (midlink2) to[out=180, in=270] (outlink2);
+\end{tikzpicture}
+\quad\rightsquigarrow\quad
+\begin{tikzpicture}[unoriented WD, spacing=8pt, font=\tiny, baseline=($(top)!.5!(midleft)$)]
+  \node[pack] (top) {$\phantom{S}$};
+  \node[link, above = 1.5 of top] (toplink) {};
+  \node[fit = {(top) (toplink) (toplink2) (toplink3)}] (topdashed) {};
+
+  \node[pack, below right = 4.5 and 1 of top] (midright) {$\phantom{S}$};
+  \node[pack, below left = 4.5 and 1 of top] (midleft) {$\phantom{S}$};
+  \node[link] (midlink) at ($(midleft)!.5!(midright)$) {};
+  \node[ellipse, fit = {(midright) (midleft) (midlink2) (midlink3)}] (middashed) {};
+
+  \node[link, above right = 1.5 and 1 of middashed] (outlink1) {};
+  \node[link, above left = 1.5 and 1 of middashed] (outlink2) {};
+
+  \node[outer pack, fit = {(middashed) (topdashed)}] (outer) {};
+
+  \draw (top) to[out=120, in=210] (toplink);
+  \draw (top) to[out=60, in=330] (toplink);
+  \draw (toplink) to (outer);
+  \draw (top) to[out=210, in=60]  (outlink2) to[out=180, in= 180] (outer);
+  \draw (top) to[out=330, in=120]  (outlink1);
+  \draw (midright) to (midlink) to (midleft);
+  \draw (midright) to[out=0, in=270]  (outlink1);
+  \draw (midleft) to[out=180, in=270]  (outlink2);
+\end{tikzpicture}
+\end{equation}
+
+Using that you have already seen how to express each constituent bubble diagram as a span in \cref{ex:bubble.diagrams.as.spans}, compute the composite diagram using pullbacks in the category of arities (or pushouts in the category of finite sets). Check that it gives the correct diagram.
+  \end{exercise}
+
+  It is not obvious that the composite of bubble diagrams is itself a bubble diagram; we need to check that the resulting legs of the span are respectively surjective and injective. Let's do that now.
+  \begin{lemma}
+    The composite of bubble diagrams is a bubble diagram. That is, in the following diagram
+\[
+\begin{tikzcd}
+	&& {\XX^{L +_M L'}} \\
+	& {\XX^L} && {\XX^{L'}} \\
+	{\XX^{I}} && {\XX^{M}} && {\XX^{O}}
+	\arrow[from=2-2, to=3-1, "i_{1}^{\ast}"']
+	\arrow[from=2-2, to=3-3, "o_{1}^{\ast}"]
+	\arrow[from=2-4, to=3-3, "i_{2}^{\ast}"']
+	\arrow[from=1-3, to=2-2]
+	\arrow[from=1-3, to=2-4]
+	\arrow[from=2-4, to=3-5, "o_{1}^{\ast}"]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-3, to=3-3]
+	\arrow[bend right = 30, dashed, from=1-3, to=3-1, "i_{3}^{\ast}"']
+	\arrow[bend left = 30, dashed, from=1-3, to=3-5, "o_{3}^{\ast}" ]
+\end{tikzcd}
+\]
+If $i_{1}$ and $i_{2}$ are surjective and $o_{1}$ and $o_{2}$ are injective, then $i_{3}$ is surjective and $o_{3}$ is injective.
+    \end{lemma}
+    \begin{proof}
+      We will show that the inclusion $j_{1} : L \to L +_{M} L'$ is surjective, and the inclusion $j_{2} : L' \to L +_{M} L'$ is injective.
+
+      An element of $L +_{M} L'$ is either of the form $[\ell]$ for $\ell \in L$ or $[\ell
+      '] $ for $\ell' \in L'$. If it is of the form $[\ell]$ for $\ell \in L$, the it is in the image of $j_{1}$ by definition. Suppose that it is of the form $[\ell']$ for $\ell' \in L'$. By hypothesis, $i_{2} : M \to L'$ is surjective, so $\ell' = i_{2}m$ for some $m \in M$. But then $[\ell'] = [i_{2}m] = [o_{1}m]$ is in the image of $j_{1}$.
+
+      Now, suppose we have two elements $x$ and $y \in L'$ for which $[x] = [y]$ in $L +_{M} L'$. This means that $x$ and $y$ are related by the equivalence relation generated by $i_{2}(m) \sim o_{1}(m)$ for any $m \in M$. Explicitly, this means there is a zig-zag of elements $L$ and $L'$, each related by a element of $M$, connecting $x$ and $y$; that is, a sequence of elements $\ell_{1}, \ldots \ell_{n} \in L$ and $m_{1}, \ldots, m_{2n}$ with $x = i_{2}m_{1} $, $i_{2}m_{2n} = y$, and that $o_{1}m_{2k -1} = \ell_{k} =  o_{1}m_{2k} $ for $1 < k \leq n$ and $i_{2}m_{2k -2} = i_{2}m_{2k-1}$ for $1 < k \leq n$.
+\[
+\begin{tikzcd}[sep = tiny]
+	&& {\ell_1} &&&& {\ell_2} && {\ell_n} \\
+	& {m_1} && {m_2} && {m_3} && \cdots && {m_{2n}} \\
+	x &&&& {i_2m_2 = i_2m_3} &&&&&& y
+	\arrow["{i_2}"', maps to, from=2-2, to=3-1]
+	\arrow["{o_1}", maps to, from=2-2, to=1-3]
+	\arrow["{o_1}"', maps to, from=2-4, to=1-3]
+	\arrow["{i_2}", maps to, from=2-4, to=3-5]
+	\arrow["{i_2}"', maps to, from=2-6, to=3-5]
+	\arrow["{o_2}", maps to, from=2-6, to=1-7]
+	\arrow[maps to, from=2-8, to=1-7]
+	\arrow[maps to, from=2-8, to=1-9]
+	\arrow["{o_1}"', maps to, from=2-10, to=1-9]
+	\arrow["{i_2}", maps to, from=2-10, to=3-11]
+\end{tikzcd}
+\]
+We may prove this by induction on the length $n$ of the zig-zag. If the zig-zag has length $0$, then $x$ already equals $y$. Suppose that the zig-zag has length $n+1$; we will show that $i_{2}m_{2n-1} = y$ so that by the inductive hypothesis, $x = i_{2}m_{2n-1} = y$. Now, by assumption, $o_{1}m_{2n-1} = \ell_{n} = o_{1}m_{2n}$. Since $o_{1}$ was presumed to be injective, this means that $m_{2n-1} = m_{2n}$; but then $i_{2}m_{2n-1} = i_{2}m_{2n} = y$.
+    \end{proof}
+
+
+Recall from \cref{prop.interpret_typed_wiring_diagram} that we can interpret lenses in categories of arities in any cartesian category by the universal property of $\Cat{Arity}$ as the free cartesian category. Since $\Cat{Arity}$ is the free finitely complete category, we can use the same trick to interpret bubble diagrams into spans in any finitely complete category. We can then use these spans to compose systems using the behavioral approach to systems theory.
+
+    \begin{proposition}
+      For a set $\cat{T}$ of types and a function $C_{(-)} : \cat{T} \to \cat{T}$ interpreting each type as an object of a finitely complete category $\cat{C}$, there is a unique (up to unique isomorphism) double functor
+      $$\fun{ev}_{C} : \Cat{Span}(\Cat{Arity}_{\cat{T}}) \to \Cat{Span}(\cat{C})$$
+      interpreting each undirected wiring diagram as a span in $\cat{C}$.
+      \end{proposition}
+
+
+      \begin{definition}
+        For a set $\cat{T}$ of types, the double category $\Cat{Bubble}_{{\cat{T}}}$ is the sub-double category of the double category $\Cat{Span}(\Cat{Arity})$ of undirected wiring diagrams consisting of the bubble diagram.
+    \end{definition}
+
+
+
 
 \subsection{Control and design problems}\label{sec:behavioral.control}
 
 
 \subsection{Behavior types: sheaves on the interval domain}\label{sec:behavioral.types}
 
-\end{document} 
+\end{document}

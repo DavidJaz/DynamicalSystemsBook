@@ -273,6 +273,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
   \theoremstyle{plain}
   \newmdtheoremenv[style=definitionframe]{definition}[subsection]{Definition}
   \newmdtheoremenv[style=definitionframe]{informal}[subsection]{Informal Definition}
+  \newmdtheoremenv[style=definitionframe]{semiformal}[subsection]{Semi-formal Definition}
   \newmdtheoremenv[style=definitionframe]{roughDef}[subsection]{Rough Definition}
   \crefname{roughDef}{Definition}{Definitions}
   \newtheorem{construction}[subsection]{Construction}
@@ -608,7 +609,11 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\cartdiff}{\mathbb{C}\textsc{artDiff}}
 \newcommand{\diffdoc}{\mathbb{D}\textsc{iff}}
 \newcommand{\dispdoc}{\mathbb{D}\textsc{isp}}
-\newcommand{\nondet}{\mathbb{N}\textsc{ondet}} 
+\newcommand{\nondet}{\mathbb{N}\textsc{ondet}}
+\newcommand{\paradigm}[1]{\mathfrak{#1}}
+\newcommand{\paramsetting}{\mathfrak{P}\textsc{aramSetting}}
+\newcommand{\variablesharing}{\mathfrak{V}\textsc{ariableSharing}}
+
 
 \newcommand{\shp}{^{\sharp}}
 
@@ -748,6 +753,10 @@ To Andr\'e Joyal and Bill Lawvere
 
 \mathversion{normal2}
 \subfile{C5-}
+\mathversion{normal}
+
+\mathversion{normal2}
+\subfile{C6-}
 \mathversion{normal}
 
 \appendix
