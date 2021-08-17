@@ -265,25 +265,25 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 % amsthm %
   \theoremstyle{plain}
-  \newmdtheoremenv[style=theoremframe]{theorem}[subsection]{Theorem}
-  \newmdtheoremenv[style=theoremframe]{proposition}[subsection]{Proposition}
-  \newmdtheoremenv[style=theoremframe]{corollary}[subsection]{Corollary}
-  \newmdtheoremenv[style=theoremframe]{lemma}[subsection]{Lemma}
+  \newmdtheoremenv[style=theoremframe]{theorem}[subsubsection]{Theorem}
+  \newmdtheoremenv[style=theoremframe]{proposition}[subsubsection]{Proposition}
+  \newmdtheoremenv[style=theoremframe]{corollary}[subsubsection]{Corollary}
+  \newmdtheoremenv[style=theoremframe]{lemma}[subsubsection]{Lemma}
   
   \theoremstyle{plain}
-  \newmdtheoremenv[style=definitionframe]{definition}[subsection]{Definition}
-  \newmdtheoremenv[style=definitionframe]{informal}[subsection]{Informal Definition}
-  \newmdtheoremenv[style=definitionframe]{semiformal}[subsection]{Semi-formal Definition}
-  \newmdtheoremenv[style=definitionframe]{roughDef}[subsection]{Rough Definition}
+  \newmdtheoremenv[style=definitionframe]{definition}[subsubsection]{Definition}
+  \newmdtheoremenv[style=definitionframe]{informal}[subsubsection]{Informal Definition}
+  \newmdtheoremenv[style=definitionframe]{semiformal}[subsubsection]{Semi-formal Definition}
+  \newmdtheoremenv[style=definitionframe]{roughDef}[subsubsection]{Rough Definition}
   \crefname{roughDef}{Definition}{Definitions}
-  \newtheorem{construction}[subsection]{Construction}
-  \newtheorem{notation}[subsection]{Notation}
+  \newtheorem{construction}[subsubsection]{Construction}
+  \newtheorem{notation}[subsubsection]{Notation}
   \newtheorem{axiom}{Axiom}
   \newtheorem*{axiom*}{Axiom}
   
   \theoremstyle{remark}
-  \newtheorem{remark}[subsection]{Remark}
-  \newtheorem{warning}[subsection]{Warning}
+  \newtheorem{remark}[subsubsection]{Remark}
+  \newtheorem{warning}[subsubsection]{Warning}
   
 
 % Solution environment
@@ -335,9 +335,9 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 		
 %Getting ending symbols in example and exercise environments:
 	
-\newmdtheoremenv[style=exampleframe]{example}[subsection]{Example}
+\newmdtheoremenv[style=exampleframe]{example}[subsubsection]{Example}
 
-\newmdtheoremenv[style=exerciseframe]{exc-inner}[subsection]{Exercise}
+\newmdtheoremenv[style=exerciseframe]{exc-inner}[subsubsection]{Exercise}
 \newenvironment{exercise}[1][]{
   \def\qedsymbol{$\lozenge$}% Set the QED symbol. 
   \pushQED{\qed}

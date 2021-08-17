@@ -74,7 +74,8 @@ lets us compose behaviors:
     \lens{\In{T}}{\Out{T}} \ar[r, shift right, "\lens{f_{\flat}}{f}"'] \ar[r,
     shift left] & \lens{\In{S}}{\Out{S}} \ar[r, shift right,
     "\lens{g_{\flat}}{g}"'] \ar[r, shift left]& \lens{\In{U}}{\Out{U}}
-  \end{tikzcd} \xequals{\quad}
+  \end{tikzcd}
+  \xequals{\quad}
   \begin{tikzcd}
     \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T(\psi\phi)}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &

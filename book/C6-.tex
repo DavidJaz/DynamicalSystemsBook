@@ -281,7 +281,7 @@ quantities are related in the following ways:
 \end{align*}
 for some functions $F_{1}$, $H_{11}$, and $H_{12}$. Therefore, the set of
 behaviors is the set real valued functions of time which satisfy these laws:
-\[
+\begin{equation}\label{eqn:bucket1.def}
 \Set{B}_{\Sys{Bucket}_1} = \left\{ (h_1, f_{11}, f_{12}, p_{11}, p_{12}) : \rr
   \to \rr^5\, \middle|\,
 \begin{aligned}
@@ -290,7 +290,7 @@ behaviors is the set real valued functions of time which satisfy these laws:
   f_{12} &= H_{12}(h_1, p_{12})
 \end{aligned}
 \right\}
-\]
+\end{equation}
 We will suppose that we will only pump water to and from the bucket through the
 pipes at the bottom. This means that we will only expose the variables
 concerning those pipes.
@@ -1612,22 +1612,22 @@ is an undirected wiring diagram in the essentially algebraic theory of real vect
 
 
 
-\subsection{Behavior types: sheaves on the interval domain}\label{sec:behavioral.types}
+\subsection{The behavioral doctrine of interval sheaves}\label{sec:behavioral.types}
 
-So far, we have only really seen the behavioral doctrine $\Cat{Set}$ of sets, which gives rise to the doubly indexed category $\Cat{Vec} : \Cat{Matrix} \to \Cat{Cat}$. In this section, we will see another behavioral doctrine: the topos of \emph{behavior types}, or \emph{interval sheaves}.
+So far, we have only really seen the behavioral doctrine $\Cat{Set}$ of sets, which gives rise to the doubly indexed category $\Cat{Vec} : \Cat{Matrix} \to \Cat{Cat}$. In this section, we will see another behavioral doctrine: the topos of \emph{interval sheaves}.
 
 Many systems, especially differential systems, give rise to trajectories which vary in time. While in \cref{sec:behavioral.idea} we simply included the time variable into our definition in of the sets --- taking $(\rr^{4})^{\rr}$ instead of $\rr^{4}$ --- it would be nice if we didn't have to worry about this every time and could instead focus on the actual type of the variables. We will see that by moving from sets to \emph{variable sets}, or \emph{sheaves}, we can incorporate the variation of our trajectories in time without cluttering the types of our variables.
-A great deal can be said about the sheaf approach to modelling dynamical systems; we will just scratch the surface here.
+A great deal can be said about the sheaf approach to modelling dynamical systems --- for example, see \cite{schultz2016dynamical} and \cite{schultz2019temporal}. We will just scratch the surface here.
 
-We will end this section by showing that the doubly indexed functor $\Fun{Traj}$ defined in \cref{ex:trajectories.compositional.behavior} which takes the trajectories in a differential doctrine actually lands in the behavioral doctrine of behavior types, and not just in the behavioral doctrine of sets.
+We will end this section by showing that the doubly indexed functor $\Fun{Traj}$ defined in \cref{ex:trajectories.compositional.behavior} which takes the trajectories in a differential doctrine actually lands in the behavioral doctrine of interval sheaves, and not just in the behavioral doctrine of sets.
 
-The fundamental idea behind behavior types is that we would like to bake in variation in time into the definition of our objects. Instead of having a set $X$ of behaviors, we would like to have a set $X(\ell)$ of behaviors which last for a time of length $\ell$.  We say that $\ell$ is the time interval during which the behavior $b \in X(\ell)$ takes place. If we have any time interval $\ell'$ which is contained in $\ell$, then we can restrict $b$ to its part which occurs during the interval $\ell'$; we write this as $b|_{\ell'} \in X(\ell')$.
+The fundamental idea behind interval sheaves is that we would like to bake in variation in time into the definition of our objects. Instead of having a set $X$ of behaviors, we would like to have a set $X(\ell)$ of behaviors which last for a time of length $\ell$.  We say that $\ell$ is the time interval during which the behavior $b \in X(\ell)$ takes place. If we have any time interval $\ell'$ which is contained in $\ell$, then we can restrict $b$ to its part which occurs during the interval $\ell'$; we write this as $b|_{\ell'} \in X(\ell')$.
 
 We will begin by describing the category of intervals.
 \begin{definition}
   An \emph{interval} is a positive real number $\ell \in (0, \infty)$. A morphism $a : \ell' \to \ell$ is a real number $a \in [0, \ell)$ so that $a + \ell' \leq \ell$. Morphisms are composed by addition, and the identity is $0 : \ell \to \ell$.
 
-  We denote the category of intervals by $\mathbb{I}$.
+  We denote the category of intervals by $\mathbb{I}$. We say a morphism $a : \ell' \to \ell$ of intervals is \emph{strict} if $a > 0$ and $a + \ell' < \ell$ (strict inequalities on both sides). We will write $a : \ell' \rightsquigarrow \ell$ to say that $a$ is strict.
 \end{definition}
 We can picture a morphism $a : \ell' \to \ell$ as in the following diagram:
 
@@ -1657,9 +1657,10 @@ We can picture a morphism $a : \ell' \to \ell$ as in the following diagram:
  \end{tikzpicture}
  \end{center}
 
- A behavior type is a \emph{sheaf} on the category of intervals. We won't introduce sheaves in general, just this special case. A sheaf on the category of intervals a functor $\mathbb{I}\op \to \Cat{Set}$ (a pre-sheaf) satisfying a certain gluing property.
+ An interval sheaf is a \emph{sheaf} on the category of intervals. We won't introduce sheaves in general, just this special case. A sheaf on the category of intervals a functor $\mathbb{I}\op \to \Cat{Set}$ (a
+ ``presheaf'') satisfying a certain gluing property.
  \begin{definition}
-   A \emph{behavior type} or \emph{interval sheaf} $X$ cosists of:
+   An \emph{interval sheaf} $X$ consists of:
    \begin{enumerate}
            \item For every interval $\ell$, a set $X(\ell)$ of behaviors which may occur during the interval $\ell$.
      \item For every morphism $a : \ell' \to \ell$ of intervals, a restriction function
@@ -1672,13 +1673,207 @@ We can picture a morphism $a : \ell' \to \ell$ as in the following diagram:
       \item (Functoriality) For any $a' : \ell'' \to \ell'$ and $a : \ell' \to \ell$, we have
             $$(b|_{a})|_{a'} = b|_{a' + a}$$
             for all $b \in X(\ell)$, with $a' + a : \ell'' \to \ell$ the composite of $a'$ and $a$.
-            \item (Gluing)
+      \item (Gluing) $X(\ell)$ is the limit of $X(\ell')$ taken over all strict inclusions $a : \ell' \to \ell$ (where $a > 0$ and $a + \ell' < \ell$):
+            \[
+            X(\ell) \xto{\sim} \lim_{a : \ell' \rightsquigarrow \ell} X(\ell').
+            \]
+More explicitly, we ask that the canonical map from $X(\ell)$ to the limit given by restricting behaviors in $X(\ell)$ along strict inclusions $a : \ell' \rightsquigarrow \ell$ is an isomorphism.
     \end{enumerate}
+    An assignment of sets $X(\ell)$ with restriction maps satisfying Unity and Functoriality is known as an \emph{interval presheaf}. This is equivalently a functor $X :  \mathbb{I}\op \to \smset$.
 \end{definition}
 
-\subsection{Control and design problems}\label{sec:behavioral.control}
+The unity and functoriality laws are straightforward consistency checks on behaviors. Unity says that the portion of a behavior taking place over a whole interval is that behavior. Functoriality says that if we have a behavior $b$ taking place in interval $\ell$, and we look at the portion of that behavior taking place in the subinterval $a : \ell' \to \ell$, and then at the further subinterval $a' : \ell'' \to \ell'$, the result is the same as simply looking at the portion of that behavior taking place in that further subinterval.
 
-In this section, we will introduce the notion of \emph{control} and \emph{design} problems.
+Gluing is a bit more tricky. It means that a behavior is determined by what it does on all strict subintervals. We can split the gluing condition apart into two further conditions.
+\begin{lemma}\label{lem:gluing.condition.two.conditions}
+  An interval presheaf $X$ is an interval sheaf --- satisfies the Gluing condition --- if and only if
+  \begin{enumerate}
+          \item (Separation) For every pair of behaviors $b_{1},\, b_{2} \in X(\ell)$, if $b_{1}|_{a} = b_{2}|_{a}$ for all strict $a : \ell' \rightsquigarrow \ell$, then $b_{1} = b_{2}$.
+    \item (Existence) For any family $b_{a} \in X(\ell_{a})$ of behaviors indexed by strict inclusions $a : \ell_{a} \to \ell$ which are \emph{compatible} in the sense that for any $a' : \ell_{a + a'} \to \ell_{a}$ so that $b_{a + a'} = b_{a}|_{a'} $, there is a whole behavior $b \in X(\ell)$ such that $b_{a} = b|_{a}$.
+  \end{enumerate}
+  \end{lemma}
+  \begin{proof}
+    These two properties say that the canonical map
+    $$X(\ell) \to \lim_{a : \ell' \rightsquigarrow \ell} X(\ell')$$
+    are injective and surjective respectively.
+  \end{proof}
+
+\begin{example}\label{ex:sheaf.of.cont.funcs}
+  For any $n \in \nn$, there is an interval sheaf $\mathcal{C}^{n}$ of $n$-times continuously differentiable real valued functions. Explicitly,
+  $$\mathcal{C}^{n}(\ell) = \{f : (0, \ell) \to \rr \mid \mbox{$f$ is $n$-times continously differentiable.}\}.$$
+  The restriction maps are given by restricting: if $a : \ell' \to \ell$, then $f|_{a} = f \circ (x \mapsto a + x)$ where $x \mapsto a + x : (0, \ell') \to (0, \ell)$ is the inclusion of $(0, \ell')$ into $(0, \ell)$ shifted over by $a$. Unit and functoriality conditions follow directly from unit and associativity of composition; the only tricky law to check is the gluing condition. We can check both parts of the gluing condition using \cref{lem:gluing.condition.two.conditions}:
+  \begin{enumerate}
+          \item (Separation) Suppose that $f_{1}$ and $f_{2} : (0, \ell) \to \rr$ are $n$-times continuously differentiable and that their restriction to any subintervals are equal. Since $(0, \ell)$ is open, for every $x \in (0, \ell)$ there is a strict subinterval in $(0, \ell)$ containing $x$; therefore, $f_{1}$ and $f_{2}$ are equal on this subinterval and therefore at $x$. So $f_{1} = f_{2}$.
+          \item (Existence) Suppose we have compatible functions $f_{a} : (0, \ell_{a}) \to \rr$ for every $a : \ell_{a} \rightsquigarrow \ell$. For any $x \in (0, \ell)$, there is a strict subinterval $a_{x} : \ell_{a_{x}} \rightsquigarrow \ell$ containing $x$ in the sense that $x \in (a_{x}, a_{x} + \ell_{a_{x}})$. We may therefore define a function $f : (0, \ell) \to \rr$ by $f(x) = f_{a_x}(x)$. This is well defined since if $a' : \ell' \rightsquigarrow \ell$ is any other strict subinterval containing $x$, then $x$ is also in their intersection which is a strict subinterval; by the compatibility of the functions $f_{a}$, it follows that $f_{a_{x}}(x) = f_{a'}(x)$ on this intersection. Since being $n$-times continuously differentiable is a local property and $f$ is defined to be a $n$-times continously differentiable in the neighborhood of any point, $f$ is also $n$-times continously differentiable.
+    \end{enumerate}
+
+    We can think of the interval $\mathcal{C}^{0}$ as the set of real numbers \emph{varying continuously in time}.
+  \end{example}
+
+  \begin{example}
+    We can adapt all the sets of \cref{sec:behavioral.idea} to be interval sheaves by building in the variation of time. For example, we may define $\Set{B}_{\Sys{Bucket_{1}}}$ from \cref{eqn:bucket1.def} as an interval sheaf by
+    \[
+\Set{B}_{{\Sys{Bucket}_{1}}}(\ell) :=\left\{ (h_1, f_{11}, f_{12}, p_{11}, p_{12}) :(0, \ell)
+  \to \rr^5\, \middle|\,
+\begin{aligned}
+  \frac{dh_1}{dt} &= F_1(h_1, p_{11}, p_{12}) \\
+  f_{11} &= H_{11}(h_1, p_{11})\\
+  f_{12} &= H_{12}(h_1, p_{12})
+\end{aligned}
+\right\}
+    \]
+  with restriction given by restriction of functions.
+    \end{example}
+
+
+  A map of interval sheaves is a natural transformation between the functors $X : \mathbb{I}\op \to \smset$ and $Y : \mathbb{I}\op \to \smset$.
+  \begin{definition}
+    Let $X$ and $Y$ be interval sheaves. A map $f : X \to Y$ is a family of functions $f_{{\ell}} : X(\ell) \to Y(\ell)$ for which the following naturality square commutes:
+    \[
+\begin{tikzcd}
+	{X(\ell)} & {Y(\ell)} \\
+	{X(\ell')} & {Y(\ell')}
+	\arrow["{|_a}"', from=1-1, to=2-1]
+	\arrow["{f_{\ell}}", from=1-1, to=1-2]
+	\arrow["{|_a}", from=1-2, to=2-2]
+	\arrow["{f_{\ell'}}"', from=2-1, to=2-2]
+\end{tikzcd}
+    \]
+   for any $a : \ell' \to \ell$. That is, for any behavior $b \in X(\ell)$, we have
+    $$f_{\ell}(b)|_{a} = f_{\ell'}(b|_{a}).$$
+
+We denote the category of interval sheaves by $\Cat{Sh}(\mathbb{I})$.
+  \end{definition}
+
+  \begin{example}\label{ex:sheaf.of.cont.funcs.map}
+    Continuing on from \cref{ex:sheaf.of.cont.funcs}, suppose that $\phi : \rr \to \rr$ is any $n$-times continuously differentiable function. Then we get a map of interval sheaves $\phi_{{\ast}} : \mathcal{C}^{n} \to \mathcal{C}^{n}$ given by post-composition with $\phi$: we define $(\phi_{{\ast}})_{\ell}(f) := \phi \circ f$ for $f : (0, \ell) \to \rr$ in $\mathcal{C}^{n}(\ell)$. Naturality then follows from associativity of composition.
+
+    If we think of $f \in \mathcal{C}^{n}$ as a real number varying in time, then $\phi_{\ast}(f)$ is its image under the function $\phi$.
+  \end{example}
+
+In order for interval sheaves to give a behavioral doctrine, we need to be able to take pullbacks of interval sheaves. Luckily, pullbacks of interval sheaves can be taken componentwise in the category of sets.
+\begin{proposition}
+  Let $f : X \to Z$ and $g : Y \to Z$ be maps of interval sheaves. Then their pullback $X \times_{Z} Y$ may be defined at $\ell$ by taking the pullback of $f_{\ell} : X(\ell) \to Z(\ell)$ and $g_{\ell} : Y(\ell) \to Z(\ell)$ in the category of sets.
+  \[
+(X \times_{Z} Y)(\ell) := X(\ell) \times_{Z(\ell)} Y(\ell).
+  \]
+
+  The terminal interval sheaf is defined by $\ord{1}(\ell) = \ord{1}$ or all $\ell$.
+  \end{proposition}
+
+  \begin{definition}
+The behavioral doctrine of interval sheaves is the finitely complete category $\Cat{Sh}(\mathbb{I})$.
+    \end{definition}
+
+    \begin{exercise}
+Go through \cref{sec:behavioral.idea} and adapt the story to work within the behavioral doctrine of interval sheaves. What has to change, and what remains the same?
+      \end{exercise}
+
+For the rest of this section, we will show that trajectories in differential doctrines land in the behavioral doctrine of interval sheaves.
+\begin{theorem}
+  There is a doubly indexed functor
+  \[
+\begin{tikzcd}
+	{\Cat{Arena}_{\diffdoc}} \\
+	&& {\Cat{Cat}} \\
+	{\Cat{Span}(\Cat{Sh}(\mathbb{I}))}
+	\arrow[""{name=0, anchor=center, inner sep=0}, "{\Cat{Sys}_{\diffdoc}}", from=1-1,
+  to=2-3, bend left = 10]
+	\arrow[""{name=1, anchor=center, inner sep=0}, "{\Cat{Sh}(\mathbb{I})/(-)}"', from=3-1,
+  to=2-3, bend right = 10]
+	\arrow["{\Cat{Arena}_{\determ}\left({(0,-)},-\right)}"', from=1-1, to=3-1]
+	\arrow["{\Fun{Traj}}"', shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
+\end{tikzcd}
+  \]
+  sending a system in the general differential doctrine to its interval sheaf of trajectories.
+  \end{theorem}
+
+  We begin by including the interval category $\mathbb{I}$ into the category $\Cat{Sys}_{\diffdoc}$ of systems and behaviors in the general differential doctrine. We will then show that we get a doubly indexed functor landing in interval presheaves. We will then note that these presheaves are in fact sheaves --- they satisfy the gluing condition.
+  \begin{lemma}
+    There is an inclusion $\iota : \mathbb{I} \to \Cat{Sys}_{{\diffdoc}}$ sending each interval $\ell$ to the system
+    $$\lens{1}{\id} : \lens{T(0, \ell)}{(0, \ell)} \fromto \lens{\ord{1}}{(0, \ell)}$$
+    and every morphism $a : \ell' \to \ell$ to the square
+    \[
+    \begin{tikzcd}
+      \lens{T(0, \ell')}{(0, \ell')} \ar[r, shift left, "\littlelens{T(a +)}{(a + )}"] \ar[r, shift right] \ar[d, shift right,
+      "\littlelens{1}{\id}"'] \ar[d, shift left, leftarrow] &
+      \lens{T(0, \ell)}{(0, \ell)} \ar[d, shift left, leftarrow,
+      "\littlelens{1}{\id}"] \ar[d, shift right]\\
+      \lens{\ord{1}}{(0, \ell')} \ar[r, shift left] \ar[r,
+      shift right, "\littlelens{!}{a +}"'] & \lens{\ord{1}}{(0, \ell)}
+    \end{tikzcd}
+    \]
+    \end{lemma}
+    \begin{proof}
+ The square commutes since the derivative of the function $x \mapsto a + x$ is $1$. The assignment is functorial by the definition of composition in the interval category.
+  \end{proof}
+
+  We can use this inclusion of $\mathbb{I}$ into $\Cat{Sys}_{\diffdoc}$ to show that the trajectories form interval sheaves. A trajectory $\gamma$ of length $\ell$ in a system $\Sys{S}$ is a behavior of shape $\iota(\ell)$ in $\Sys{S}$:
+  \[
+    \begin{tikzcd}
+      \lens{T(0, \ell)}{(0, \ell)} \ar[r, shift left, "\littlelens{T\gamma}{\gamma}"] \ar[r, shift right] \ar[d, shift right,
+      "\littlelens{1}{\id}"'] \ar[d, shift left, leftarrow] &
+      \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\littlelens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{\ord{1}}{(0, \ell)} \ar[r, shift left] \ar[r,
+      shift right, "\littlelens{f_{{\flat}}}{f}"'] & \lens{\In{S}}{\Out{S}}
+    \end{tikzcd}
+  \]
+We can restrict trajectories by pre-composition:
+\[
+  \begin{tikzcd}
+    \lens{T(0, \ell')}{(0, \ell')} \ar[r, shift left, "\lens{T(a +)}{(a +)}"] \ar[r, shift right] \ar[d, shift right,
+    "\lens{1}{\id}"'] \ar[d, shift left, leftarrow] &
+    \lens{T(0, \ell)}{(0, \ell)} \ar[r, shift left, "\lens{T\gamma}{\gamma}"] \ar[r, shift right] \ar[d, shift left, leftarrow,
+    "\lens{1}{\id}"] \ar[d, shift right] &
+    \lens{T\State{S}}{\State{S}}\ar[d, shift left, leftarrow,
+    "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right] \\
+    \lens{\ord{1}}{(0, \ell')} \ar[r, shift right, "\lens{!}{(a +)}"'] \ar[r,
+    shift left] & \lens{1}{(0, \ell)} \ar[r, shift right,
+    "\lens{f_{\flat}}{f}"'] \ar[r, shift left]& \lens{\In{S}}{\Out{S}}
+  \end{tikzcd}
+\]
+
+Explicitly, we will make the following definition.
+\begin{definition}\label{defn:trajectories.interval.sheaf}
+  For a system $\Sys{S} \in \Cat{Sys}_{{\diffdoc}}\littlelens{I}{O}$ in the general differential doctrine, we define the interval (pre)sheaf of trajectories $\Fun{Traj}(\Sys{S})$ by
+  \begin{align*}
+    \Fun{Traj}(\Sys{S})(\ell) &:= \Fun{Behave}_{\iota(\ell)}(\Sys{S})\\
+    &=
+    \left\{
+    \begin{tikzcd}[ampersand replacement = \&]
+      \lens{T(0, \ell)}{(0, \ell)} \ar[r, dashed, shift left, "\littlelens{T\gamma}{\gamma}"] \ar[r, shift right, dashed] \ar[d, shift right,
+      "\littlelens{1}{\id}"'] \ar[d, shift left, leftarrow] \&
+      \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
+      "\littlelens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
+      \lens{\ord{1}}{(0, \ell)} \ar[r, dashed, shift left] \ar[r,
+      shift right, dashed, "\littlelens{f_{{\flat}}}{f}"'] & \lens{\In{S}}{\Out{S}}
+    \end{tikzcd}
+      \right\}
+  \end{align*}
+  with the projection $\Fun{Traj}(\Sys{S}) \to \Cat{Arena}_{\diffdoc}\left(\iota -, \littlelens{I}{O}\right)$  in $\Cat{Sh}(\mathbb{I})/\Cat{Arena}_{\diffdoc}\left(\iota -, \littlelens{I}{O}\right)$ defined by
+  $$\left(\gamma,\, \littlelens{f_{{\flat}}}{f}\right) \mapsto \littlelens{f_{\flat}}{f}$$
+
+ Restriction is given by precomposition.
+  \end{definition}
+
+  \begin{exercise}
+Check that the definition of $\Fun{Traj}(\Sys{S})$ in \cref{defn:trajectories.interval.sheaf} really gives an interval presheaf. Then check that the projection $\Fun{Traj}(\Sys{S}) \to \Cat{Arena}_{\diffdoc}\left(\iota -, \littlelens{I}{O}\right)$ is a map of interval presheaves.
+  \end{exercise}
+
+  We can, at this point, show that we are in fact working with interval sheaves. The rest of the proof does not depend on this, since maps and pullbacks of interval sheaves are the same as those of interval presheaves. But it will be nice to get it out of the way.
+  \begin{lemma}
+  For a system $\Sys{S} \in \Cat{Sys}_{{\diffdoc}}\littlelens{I}{O}$ in the general differential doctrine, the interval presheaf of trajectories $\Fun{Traj}(\Sys{S})$ is a sheaf.
+  \end{lemma}
+  \begin{proof}
+We will show that $\Fun{Traj})(\Sys{S})$ satisfies the two conditions of \cref{lem:gluing.condition.two.conditions}:
+\begin{enumerate}
+\item If two trajectories are equal on every strict subinterval, then they are in particular equal at every point, and are therefore equal.
+\item If we have a compatible family of trajectories $\gamma_a$ on every strict subinterval $a : \ell' \rightsquigarrow \ell$, then we can define a trajectory $\gamma$ by $\gamma(t) = \gamma_{a_{t}}(t)$ for some strict subinterval $a_{t} : \ell_{t} \rightsquigarrow \ell$ containing $t$. This is well defined by the compatibility of the family $\gamma_{a}$.
+        \end{enumerate}
+  \end{proof}
+
+To show that the rest of the doubly indexed functor lands correctly in interval sheaves all comes down to this: in defining the doubly indexed functors $\Fun{Behave}_{{\iota(\ell)}}$, we only compose \emph{on the right}. Since our interval sheaf structure is given by composing \emph{on the left}, the various parts of the doubly indexed functor will give rise to sheaf maps by the associativity of left and right composition.
 
 \section{Drawing Systems: The Port Plugging Paradigm}\label{sec:diagram.approach}
 
