@@ -645,7 +645,8 @@ the map $\expose{\Sys{Bucket}_1} \times \expose{\Sys{Bucket}_2} :
 \times (\rr^4)^{\rr}$ as a span from $\ord{1}$ to $(\rr^4)^{\rr} \times
 (\rr^4)^{\rr}$. Composing with $W$ therefore means we have the following
 pullback diagram:
-\[\begin{tikzcd}
+\begin{equation}\label{eqn:pullback.composition.of.systems}
+\begin{tikzcd}
 	& {\Set{B}_{\Sys{Buckets}}} \\
 	{\Set{B}_{\Sys{Bucket}_1} \times \Set{B}_{\Sys{Bucket_2}}} && W \\
 	& {(\rr^4)^{\rr} \times (\rr^4)^{\rr}} && {(\rr^4)^{\rr}}
@@ -656,7 +657,8 @@ pullback diagram:
 	\arrow[dashed, from=1-2, to=2-3]
 	\arrow["\ulcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
 	\arrow["{\expose{Buckets}}", bend left = 30, from=1-2, to=3-4]
-\end{tikzcd}\]
+\end{tikzcd}
+\end{equation}
 
 Quite explicitly, this defines $\Set{B}_{\Sys{Buckets}}$ to be the set
 \begin{equation} \label{eqn:combined.bucket.system.2}
@@ -820,7 +822,7 @@ This definition of the variable sharing paradigm answers the questions of \cref{
       \item Interfaces are connected in composition patterns given by spans.
         \item Systems are composed by \emph{sharing variables} --- that is, by setting their exposed variables equal according to the composition pattern. This is accomplished via span composition.
   \item A map between systems is a function of their behaviors which respects their exposed variables. This acts on interfaces via a function that tells us how to translate exposed variables of the first system to exposed variables of the second.
-        \item Maps between systems can be composed along composition patterns when we have a square in the double category of arenas.
+        \item Maps between systems can be composed along composition patterns when we have a square in the double category of spans.
 \end{itemize}
 We will discuss these points in more detail in \cref{sec:behavioral.diagrams}.
 
@@ -1847,7 +1849,7 @@ Explicitly, we will make the following definition.
       \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\littlelens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
       \lens{\ord{1}}{(0, \ell)} \ar[r, dashed, shift left] \ar[r,
-      shift right, dashed, "\littlelens{f_{{\flat}}}{f}"'] & \lens{\In{S}}{\Out{S}}
+      shift right, dashed, "\littlelens{f_{{\flat}}}{f}"'] \& \lens{\In{S}}{\Out{S}}
     \end{tikzcd}
       \right\}
   \end{align*}
@@ -1877,7 +1879,9 @@ To show that the rest of the doubly indexed functor lands correctly in interval 
 
 \section{Drawing Systems: The Port Plugging Paradigm}\label{sec:diagram.approach}
 
-But this is not the only way to present a system. Consider, for example, a
+There is another approach to systems modelling which is very common in the sciences: drawing diagrams! Diagrams help express the structure of complex systems in ways that can be appreciated visually.
+
+Consider, for example, a
 circuit diagram:
 \begin{equation}\label{eqn:circuit.diagram.2}
     \begin{circuitikz}
@@ -2084,7 +2088,7 @@ But with the map on the left, we show how we want to glue the ports of $\Sys{S}$
 and $\Sys{T}$ together. To actually get the composite system, we actually glue
 these ports along this plan. Gluing objects together in a category means taking
 a \emph{pushout}:
-\[
+\begin{equation}\label{eqn:pushout.composite.of.systems}
 \begin{tikzcd}
 	& {\Sys{S} \circ_M T} \\
 	{\Sys{S} + \Sys{T}} && M \\
@@ -2097,7 +2101,7 @@ a \emph{pushout}:
 	\arrow["\ulcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-2, to=3-2]
 	\arrow["{\partial_{\Sys{S} \circ_{M} \Sys{T}}}"', bend right = 30, dashed, from=3-4, to=1-2]
 \end{tikzcd}
-\]
+\end{equation}
 
 The symbol $+$ here is denoting the coproduct, or disjoint union, which lets us
 put our circuit diagrams side by side.
@@ -2106,66 +2110,34 @@ We can describe systems like circuit diagrams and population flow graphs which
 are composed using pushouts in the above way \emph{port-plugging
   systems}. The idea with these systems is that they expose some ports, and we
 compose them by plugging the ports of one system into the ports of another ---
-gluing them together using pushouts. But parameter-setting (lens-based) and
-port-plugging (pushout based) ways of thinking about systems still do not exhaust all the ways we can
-think about systems. In fact, we've missed a crucially important perspective:
-the \emph{behavioral approach} to systems theory.
+gluing them together using pushouts.
 
-The parameter setting (lens-based) and port-plugging (pushout-based) ways of thinking about systems are very useful for the \emph{design} of systems; we give
-a minimal set of data ($\expose{}$ and $\update{}$ in the case of parameter
-setting systems, and something like a circuit diagram or flow graph with exposed
-ports for port-plugging systems) which in principle determines all behaviors, though it
-might take some work to understand what behaviors are actually in the system
-once we have set it up. But for the \emph{analysis} of dynamical systems, we
-seek to prove properties about how systems behave. It helps if we
-already know how a system behaves.
+\begin{definition}
+  A \emph{doctrine} for the \emph{port-plugging paradigm} is a category $\cat{D}$ with finite colimits, which we can think of as a category of diagrams.
 
-In the \emph{behavioral} approach to systems theory, pioneered by Jan Willems,
-we take ``behavior'' as a primitive. In its most basic formulation, the behavioral
-approach to systems theory considers a system $\Sys{S}$ to have a set
-$\Set{B}(S)$ of state variables or ``behaviors''. The system also exposes some of these
-state variables in a function $\expose{S} : \Set{B}_{\Sys{S}} \to \Set{V}_{\Sys{S}}$
-to a set
-$\Set{V}_{\Sys{S}}$ of possible values for these exposed variables.
+  The \emph{port-plugging} paradigm of composition $\portplugging$ which encapsulates the diagrammatic approach to systems theory is the functor which sends each port-plugging doctrine $\cat{D}$ to the vertical slice construction of the inclusion of the initial object into the double category of cospans in $\cat{D}$:
+  $$\Cat{Sys}^{\portplugging}_{{\cat{D}}} := \sigma(\ord{1} \to \Cat{Cospan}(\cat{D})).$$
+  \end{definition}
 
-Consider, for example, a Carnot heat engine. A Carnot heat engine is a
-theoretical machine which converts a heat difference into work. 
-\begin{equation}\label{eqn:carnot.heat.engine}
-\begin{tikzpicture}
-\node[draw, inner sep = .4cm] (hot) {$T_h$};
-\node[draw, circle, right = of hot, inner sep = .3cm] (middle) {$\Sys{C}$};
-\node[draw, right = of middle, inner sep = .4cm] (cold) {$T_c$};
-\node[below = of middle] (out) {};
-
-\draw[-to] (hot) -- node[above = .1cm]{$Q_h$} (middle);
-\draw[-to] (middle) -- node[above = .1cm]{$Q_c$} (cold);
-\draw[-to] (middle) -- node[left = .1cm]{$W$} (out);
-\end{tikzpicture}
-\end{equation}
-We have a hot temperature source (``boiler'') $T_h$ supplying an amount $Q_h$ of
-heat to the engine, and a cold temperature sink
-(``condenser'') $T_c$ taking an amount $Q_c$ of heat out of the engine, and
-the Carnot engine $\Sys{C}$ in the middle which extracts a work $W$ (say, by
-turning a crank to lift a pulley carrying a certain weight). The amount
-of work extracted is the difference of the amount of heat supplied versus taken
-out:
-$$W = Q_h - Q_c.$$
-We can model this system by its variables:
-$$\Set{B}_{\Sys{C}} = \left\{ (T_h, T_c, Q_h, Q_c, W) \in \rr^5 \mid \mbox{All positive, }
-W = Q_h - Q_c,\, T_h > T_c \right\}$$
-Of all these variables, we will only consider the two temperature resevoirs and
-the work to be exposed. Therefore $\Set{V}_{\Sys{C}} = \rr^3$ and
-$\expose{S}(T_h, T_c, Q_h, Q_c, W) = (T_h, T_c, W)$. 
+  This definition of the port plugging paradigm answers the questions of \cref{informal:paradigm} in the following ways:
+  \begin{enumerate}
+          \item A system is a diagram $D$ in $\cat{D}$ together with an map $\partial : I \to D$ picking out the interface of the diagram --- the parts of it which are considered to be exposed to the environment.
+          \item An interface is a diagram $I$ which may be included as an exposed part of another diagram. That is, $I$ consists of the \emph{ports} of a diagram.
+          \item Interfaces are connected by cospans which describe which parts of the interfaces are to be glued together.
+          \item Systems are composed by \emph{gluing their interfaces together}, that is, by plugging the ports of one system into those of another. This is accomplished by cospan composition.
+          \item A map between systems is a map of diagrams which acts in a specified way on their interfaces.
+          \item Maps between systems can be composed along the composition patterns when we have a square in the double category of cospans.
+  \end{enumerate}
 
 
 
-We can see \cref{thm.representable_discrete} as
-showing us that we can apply the behavioral approach to dynamical systems in any
-doctrine; the doubly indexed functoriality of the behaviors says that the
-process of taking behaviors respects the composition of systems.
+There is a close formal analogy between the diagrammatic and the behavioral approachs to systems theory: \cref{eqn:pushout.composition.of.systems} is the same diagram as \cref{eqn:pullback.composition.of.systems}, just with all the arrows going the other way around. This means we can use bubble diagrams to describe composites of diagrams as well!
+
+\subsection{Port-plugging doctrines: Labelled graphs}
 
 
 
+\subsection{Bubble diagrams for the port-plugging paradigm}
 
 
 

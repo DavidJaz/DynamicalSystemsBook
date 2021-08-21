@@ -267,28 +267,25 @@ bimr/.tip={Glyph[glyph math command=triangleright, glyph length=1.1ex]},
 }
 
 \newcommand{\coverpic}{
-\begin{tikzpicture}
-	\node {\treepic};
-	\draw[blue, densely dotted] (current bounding box.south west) rectangle
-(current bounding box.north east);
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb small]
+  \node[bb={2}{2}, fill=blue!10] (X1) {};
+  \node[bb={1}{1}, fit={(X1) ($(X1.north)+(0,1)$)}, densely dotted] (Y1) {};
+  \node[bb={2}{1}, fill=blue!10, below right=4 and 0 of X1] (X2) {};
+  \node[bb={0}{2}, fill=blue!10, below left=of X2] (X3) {};
+  \node[bb={1}{2}, fit=(X2) (X3), densely dotted] (Y2) {};
+  \node[bb={1}{2}, fit=(Y1) (Y2)] (Z) {};
+  \draw[ar] (Z_in1') to (Y2_in1);
+  \draw[ar] (Y2_in1') to (X2_in1);
+  \draw[ar] (X3_out1) to (X2_in2);
+  \draw[ar] (X3_out2) to (Y2_out2');
+  \draw (Y2_out2) to (Z_out2');
+  \draw[ar] (Y1_in1') to (X1_in2);
+  \draw (X1_out2) to (Y1_out1');
+  \draw[ar] (Y1_out1) to (Z_out1');
+  \draw (X2_out1) to (Y2_out1');
+  \draw[ar] let \p1=(Y2.north east), \p2=(Y1.south west), \n1={\y1+\bby}, \n2=\bbportlen in
+          (Y2_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (Y1_in1);
+  \draw[ar] let \p1=(X1.north east), \p2=(X1.north west), \n1={\y1+\bby}, \n2=\bbportlen in
+          (X1_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X1_in1);
 \end{tikzpicture}
 }%{\earpic}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
