@@ -20,7 +20,8 @@ jobs:
           path: book/DynamicalBook.pdf
       - run: mkdir build
       - run: cp book/DynamicalBook.pdf build/
-      - uses: maxheld83/ghpages@v0.3.0
-        env:
-          BUILD_DIR: build/
-          GH_PAT: ${{ secrets.GH_PAT }}
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
