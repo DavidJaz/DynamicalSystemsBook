@@ -7,7 +7,7 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@latest
+        uses: xu-cheng/latex-action@v2
         with:
           root_file: DynamicalBook.tex
           working_directory: book
