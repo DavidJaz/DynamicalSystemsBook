@@ -12,7 +12,7 @@ jobs:
           root_file: DynamicalBook.tex
           working_directory: book
           args: -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode -latexoption=-shell-escape
-          extra_system_packages: python-pygments
+          extra_system_packages: py-pygments
       - name: Uploads the document
         uses: actions/upload-artifact@v2
         with:
