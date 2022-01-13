@@ -5,7 +5,7 @@
 
 \setcounter{chapter}{5}%Just finished 5.
 
-\chapter{Paradigms of Composition}\label{chapter.6} 
+\chapter{Dynamical System Doctrines}\label{chapter.6}
 
 \section{Introduction}
 
@@ -17,14 +17,14 @@ lens composition. We might describe them as \emph{parameter-setting systems},
 since we compose these systems by setting the parameters of some according to
 the exposed state variables of others.
 
-There are many parameter-setting doctrines: deterministic (distrete, continuous, measurable), differential (Euclidean, general), non-deterministic (possibilistic, probabilistic, cost-aware, etc.). From each doctrine $\dd$, we constructed a doubly indexed category $\Cat{Sys}_{\dd} : \Cat{Arena}_{\dd} \to \Cat{Cat}$, indexed by the double category of arenas in the doctrine $\dd$. This doubly indexed category organized the behaviors of the systems in doctrine $\dd$ (through the charts) and the ways that systems can be composed (through the lenses).
+There are many parameter-setting systems theories: deterministic (distrete, continuous, measurable), differential (Euclidean, general), non-deterministic (possibilistic, probabilistic, cost-aware, etc.). From each doctrine $\dd$, we constructed a doubly indexed category $\Cat{Sys}_{\dd} : \Cat{Arena}_{\dd} \to \Cat{Cat}$, indexed by the double category of arenas in the doctrine $\dd$. This doubly indexed category organized the behaviors of the systems in doctrine $\dd$ (through the charts) and the ways that systems can be composed (through the lenses).
 
 But composing systems through lenses is not the only way to model systems. In this section we will see two more ways of understanding what it means to be a system: the \emph{behavioral approach} to systems theory, which composes systems by sharing their exposed variables, and the \emph{diagrammatic approach} to systems theory, which composes diagrams describing systems by gluing together their exposed parts. In the behavioral approach (see \cite{sec:behavioral.approach}), systems are understood as (variable) sets of behaviors, some of which are exposed to their environment. These systems are composed by \emph{sharing} these exposed behaviors --- that is, by declaring the behaviors exposed by some systems to be the same. In the diagrammatic approach (see \cite{sec:diagram.approach}), systems are presented by diagrams formed by basic constituent parts, some of which are exposed to their environment. These systems are composed by gluing together their exposed parts.
 
-In total, we will have three \emph{paradigms of composition} --- ways of thinking about what a \emph{theory of systems} could be, including how they are to be composed.
+In total, we will have three \emph{doctrines of dynamical systems} --- ways of thinking about what a \emph{theory of systems} could be, including how they are to be composed.
 
 \begin{informal}\label{informal:paradigm}
- A \emph{paradigm of composition} is a particular way to answer the following questions about it means to be a \emph{systems theory}:
+ A \emph{doctrine of dynamical systems} is a particular way to answer the following questions about it means to be a \emph{systems theory}:
  \begin{itemize}
    \item What does it mean to be a system? Does it have a notion of states, or of behaviors? Or is it a diagram describing the way some primitive parts are organized?
    \item What should the interface of a system be?
@@ -35,7 +35,7 @@ In total, we will have three \emph{paradigms of composition} --- ways of thinkin
   \end{itemize}
   \end{informal}
 
-The \emph{parameter-setting paradigm} which has been the focus of the book so far answers these questions in the following way:
+The \emph{parameter-setting doctrine} which has been the focus of the book so far answers these questions in the following way:
 \begin{itemize}
   \item A system consists of a notion of how things can be, called the \emph{states}, and a notion of how things will change given how they are, called the \emph{dynamics}. In total, a system is a lens of the form $\lens{\update{S}}{\expose{S}} : \lens{T\State{S}}{\State{S}} \fromto \lens{\In{S}}{\Out{S}}$.
   \item The dynamics of a system can invovle certain \emph{parameters}, and \emph{expose} some variables of its state. The admissible parameters can depend on the variables being exposed. In total, an interface for a system is an arena $\lens{\In{S}}{\Out{S}}$.
@@ -45,13 +45,13 @@ The \emph{parameter-setting paradigm} which has been the focus of the book so fa
   \item When we have a square in the double category of arenas between charts and lenses, we may compose maps of systems --- behaviors --- along the composition patterns represented by the lenses.
 \end{itemize}
 
-Formally, we have organized the answers to these questions in our definition of the doubly indexed category $\Cat{Sys}_{\dd} : \Cat{Arena}_{{\dd}} \to \Cat{Cat}$ in a given doctrine $\dd$. The doctrine further specifies these answers along the lines of \cref{informal.doctrine}. In general, there may be many doctrines in any paradigm of composition, further specifying what it really means to be a system within that systems theory. At the end of the day, however, we can expect to get a doubly indexed category, indexed by a double category of interfaces and sending each interface to the category of systems with that interface.
+Formally, we have organized the answers to these questions in our definition of the doubly indexed category $\Cat{Sys}_{\dd} : \Cat{Arena}_{{\dd}} \to \Cat{Cat}$ in a given doctrine $\dd$. The doctrine further specifies these answers along the lines of \cref{informal.doctrine}. In general, there may be many systems theories in any doctrine, further specifying what it really means to be a system within that systems theory. At the end of the day, however, we can expect to get a doubly indexed category, indexed by a double category of interfaces and sending each interface to the category of systems with that interface.
 
-We will not give a fully formal definition of paradigm of composition in this book. Nevertheless, we can give a useful, semi-formal approximation: a paradigm of composition is any systematic way to product doubly indexed categories of systems.
+We will not give a fully formal definition of dynamical systems doctrine in this book. Nevertheless, we can give a useful, semi-formal approximation: a doctrine is any systematic way to produce doubly indexed categories of systems.
 \begin{semiformal}
-  A \emph{paradigm of composition} is a systematic way to produce doubly indexed categories of systems. As a first pass, we might say a paradigm of composition $\paradigm{P}$ is a functor
+  A \emph{doctrine of dynamical systems} is a systematic way to produce doubly indexed categories of systems. As a first pass, we might say a doctrine of composition $\paradigm{P}$ is a functor
   $$\Cat{Sys}^{\paradigm{P}} : \Cat{Doctrine}^{\paradigm{P}} \to \Cat{DblIx}$$
-  from a category of $\paradigm{P}$-doctrines to the category of doubly indexed categories. To a $\paradigm{P}$-doctrine $\dd$, this associates a doubly indexed category
+  from a category of $\paradigm{P}$-systems theories to the category of doubly indexed categories. To a $\paradigm{P}$-doctrine $\dd$, this associates a doubly indexed category
   $$\Cat{Sys}^{\paradigm{P}}_{{\dd}} : \Cat{Interface}^{{\paradigm{P}}}_{{\dd}} \to \Cat{Cat}$$
   indexed by a double category $\Cat{Interface}^{{\paradigm{P}}}_{{\dd}}$ of interfaces in the $\paradigm{P}$-doctrine $\dd$. This answers the questions of \cref{informal:paradigm} in the following ways:
   \begin{itemize}
@@ -64,12 +64,29 @@ We will not give a fully formal definition of paradigm of composition in this bo
   \end{itemize}
   \end{semiformal}
 
-So far in this book, we have been working in the parameter-setting paradigm of composition given by lens composition.
+  \begin{remark}
+    We take the term \emph{doctrine} from Lawvere. Lawvere used the term ``doctrine'' in categorical logic to describe the various ways to be a logical theory. For example, some theories are first order theories, expressed in first order logic. Some are algebraic theories, expressed using only equalities between function systems. The different sorts of theories --- first order, higher order, algebraic, etc. --- are the \emph{doctrines}. We can see the following table of analogies:
+    \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      Level & -1 & 0 & 1 & 2 & 3 \\ \hline
+      Logic & property & element & model & theory & doctrine \\ \hline
+      Systems Theory & constraint & behavior & system & theory & doctrine \\ \hline
+      \end{tabular}
+      \end{center}
+      The ``level'' here is the categorical level, where a set is a $0$-category, a category is a $1$-category, and a $2$-category --- with maps between its objects and maps between those maps --- is level 2. There is a \emph{set} of behaviors in a system, a \emph{category} of systems in a given theory (or, really, a doubly indexed category), and a \emph{$2$-category} of theories in a given doctrine (though we only described its $1$-categorical structure in this book).
+
+      For nerds who like this sort of thing, I would like to emphasize that this level is \emph{not} the truncation level. If instead of sets we were working with homotopy types, then level $0$ would still be elements, and level $-1$ would be identifications between these elements, and $-2$ identifications between these identifications, and so on. In general, the negative levels would have (increasingly abelian) cohomological information about the positive levels.
+
+
+  \end{remark}
+
+So far in this book, we have been working in the parameter-setting doctrine given by lens composition.
 \begin{definition}
-The \emph{parameter-setting paradigm} $\paramsetting$ consists of the functor $\Cat{Sys}^{{\paramsetting}} : \Cat{Doctrine}^{\paramsetting} \to \Cat{DblIx}$ defined in \cref{thm.functoriality_system_construction}
+The \emph{parameter-setting doctrine} $\paramsetting$ consists of the functor $\Cat{Sys}^{{\paramsetting}} : \Cat{Doctrine}^{\paramsetting} \to \Cat{DblIx}$ defined in \cref{thm.functoriality_system_construction}
   \end{definition}
 
-  In this chapter, we will meet two other paradigms of composition: the \emph{behavioral approach} to systems theory which is characterized by span composition which we will call the \emph{variable sharing paradigm}, and the \emph{diagrammatic approach} to systems theory which is characterized by cospan composition which we will call the \emph{port-plugging paradigm}. These three paradigms --- parameter-setting, variable-sharing, and port-plugging --- capture a wide range of categorical systems theories in use. They are, however, by no means exhaustive.
+  In this chapter, we will meet two other doctrines: the \emph{behavioral approach} to systems theory which is characterized by span composition which we will call the \emph{variable sharing doctrine}, and the \emph{diagrammatic approach} to systems theory which is characterized by cospan composition which we will call the \emph{port-plugging doctrine}. These three doctrines --- parameter-setting, variable-sharing, and port-plugging --- capture a wide range of categorical systems theories in use. They are, however, by no means exhaustive.
 
 
 
@@ -245,11 +262,11 @@ exposes three variables:
 As we have seen in
 \cref{thm.representable_discrete}, we can get behavioral systems for any type of
 behavior in any doctrine. One benefit of the behavioral approach is that all of
-these different doctrines can be composed on the same footing: they're all just
+these different systems theories can be composed on the same footing: they're all just
 behavioral systems.
 
 Consider the following example borrowed from Willems'
-\cite{Willems:Behavioral.Approach}. We consider a square bucket of water with
+\cite{Willems:2007a}. We consider a square bucket of water with
 two pipes at the bottom through which the water can flow:
 \[
   \Sys{Bucket}_1 =
@@ -782,7 +799,7 @@ constraint $\Sys{P}$ is known as a \emph{control problem}. We will see control
 problems and their categorical dual, \emph{design problems}, in more detail in \cref{sec:behavioral.control}.
 
 All of our variables in the previous examples were variables of time. This is
-very common for behaviors, especially those coming from differential doctrines.
+very common for behaviors, especially those coming from differential systems theories.
 Instead of having all our sets be $A^{\rr}$ for an $A$ varying in time $t \in
 \rr$, we could bake in this variation into time into our notion of set itself.
 That is, we can work in a category of \emph{variable sets}, or \emph{sheaves}.
@@ -797,15 +814,15 @@ Though we have been describing the behavioral approach to systems theory as
 taking place within the doubly indexed category $\Cat{Set}/(-) :
 \Cat{Span}(\Cat{Set}) \to \Cat{Cat}$, we can do it in any category that allows
 us to compose spans --- namely, and category with finite limits. Just like we
-had different dynamical system doctrines for lens-based systems, we can see each
+had different theory of dynamical system for lens-based systems, we can see each
 category with finite limits as a doctrine for the behavioral approach. We will
-call these \emph{behavioral doctrines}.
+call these \emph{behavioral systems theories}.
 
 \begin{definition}
 A \emph{doctrine for the behavioral approach} or a \emph{behavioral doctrine} is a
 category $\cat{C}$ with finite limits.
 
-The \emph{variable sharing} paradigm of composition $\variablesharing$ which encapsulates the behavioral approach to systems theory is the functor which sends each behavioral doctrine $\cat{C}$ to the doubly indexed category of systems in
+The \emph{variable sharing} doctrine of composition $\variablesharing$ which encapsulates the behavioral approach to systems theory is the functor which sends each behavioral doctrine $\cat{C}$ to the doubly indexed category of systems in
 the behavioral doctrine $\cat{C}$:
 $$\Cat{BSys}_{\cat{C}} := \cat{C}/(-) : \Cat{Span}(\cat{C}) \to \Cat{Cat}$$
 This is defined as the vertical slice construction applied to the inclusion $\ord{1} :
@@ -815,7 +832,7 @@ This is defined as the vertical slice construction applied to the inclusion $\or
 \]
 \end{definition}
 
-This definition of the variable sharing paradigm answers the questions of \cref{informal:paradigm} in the following ways:
+This definition of the variable sharing doctrine answers the questions of \cref{informal:paradigm} in the following ways:
 \begin{itemize}
         \item A system is a notion of behavior $\Set{B}_{\sys{S}}$ together with a function exposing its variables $\expose{S} : \Set{B}_{{\sys{S}}} \to I$.
       \item An interface is a codomain $I$ for the exposed variables.
@@ -829,9 +846,9 @@ We will discuss these points in more detail in \cref{sec:behavioral.diagrams}.
 So far, we have only seen the behavioral doctrine $\Cat{Set}$ of sets, but in
 \cref{sec:behavioral.types} we will see a behavioral doctrine of sheaves over
 time intervals. Though we won't see as many different examples of behavioral
-doctrines as we have for dynamical system doctrines (in the parameter-setting paradigm), the notion can help us
+systems theories as we have for parameter-setting systems theories, the notion can help us
 clarify the basic ideas of the behavioral approach: it's all about \emph{spans},
-much in the way that dynamical systems doctrines are all about lenses.
+much in the way that parameter-setting theories are all about lenses.
 
 \subsection{Bubble diagrams as spans in categories of arities}\label{sec:behavioral.diagrams}
 
@@ -1475,7 +1492,7 @@ Using that you have already seen how to express each constituent bubble diagram 
   \end{exercise}
 
   It is not obvious that the composite of bubble diagrams is itself a bubble diagram; we need to check that the resulting legs of the span are respectively surjective and injective. Let's do that now.
-  \begin{lemma}
+  \begin{lemma}\label{lem:composite.of.bubble.diagrams.is.bubble.diagram}
     The composite of bubble diagrams is a bubble diagram. That is, in the following diagram
 \[
 \begin{tikzcd}
@@ -1501,7 +1518,7 @@ If $i_{1}$ and $i_{2}$ are surjective and $o_{1}$ and $o_{2}$ are injective, the
       An element of $L +_{M} L'$ is either of the form $[\ell]$ for $\ell \in L$ or $[\ell
       '] $ for $\ell' \in L'$. If it is of the form $[\ell]$ for $\ell \in L$, the it is in the image of $j_{1}$ by definition. Suppose that it is of the form $[\ell']$ for $\ell' \in L'$. By hypothesis, $i_{2} : M \to L'$ is surjective, so $\ell' = i_{2}m$ for some $m \in M$. But then $[\ell'] = [i_{2}m] = [o_{1}m]$ is in the image of $j_{1}$.
 
-      Now, suppose we have two elements $x$ and $y \in L'$ for which $[x] = [y]$ in $L +_{M} L'$. This means that $x$ and $y$ are related by the equivalence relation generated by $i_{2}(m) \sim o_{1}(m)$ for any $m \in M$. Explicitly, this means there is a zig-zag of elements $L$ and $L'$, each related by a element of $M$, connecting $x$ and $y$; that is, a sequence of elements $\ell_{1}, \ldots \ell_{n} \in L$ and $m_{1}, \ldots, m_{2n}$ with $x = i_{2}m_{1} $, $i_{2}m_{2n} = y$, and that $o_{1}m_{2k -1} = \ell_{k} =  o_{1}m_{2k} $ for $1 < k \leq n$ and $i_{2}m_{2k -2} = i_{2}m_{2k-1}$ for $1 < k \leq n$.
+      Now, suppose we have two elements $x$ and $y \in L'$ for which $[x] = [y]$ in $L +_{M} L'$. This means that $x$ and $y$ are related by the equivalence relation generated by $i_{2}(m) \sim o_{1}(m)$ for any $m \in M$. Explicitly, this means there is a zig-zag of elements in $L$ and $L'$, each related by a element of $M$, connecting $x$ and $y$; that is, a sequence of elements $\ell_{1}, \ldots \ell_{n} \in L$ and $m_{1}, \ldots, m_{2n}$ with $x = i_{2}m_{1} $, $i_{2}m_{2n} = y$, and that $o_{1}m_{2k -1} = \ell_{k} =  o_{1}m_{2k} $ for $1 < k \leq n$ and $i_{2}m_{2k -2} = i_{2}m_{2k-1}$ for $1 < k \leq n$.
 \[
 \begin{tikzcd}[sep = tiny]
 	&& {\ell_1} &&&& {\ell_2} && {\ell_n} \\
@@ -1512,7 +1529,7 @@ If $i_{1}$ and $i_{2}$ are surjective and $o_{1}$ and $o_{2}$ are injective, the
 	\arrow["{o_1}"', maps to, from=2-4, to=1-3]
 	\arrow["{i_2}", maps to, from=2-4, to=3-5]
 	\arrow["{i_2}"', maps to, from=2-6, to=3-5]
-	\arrow["{o_2}", maps to, from=2-6, to=1-7]
+	\arrow["{o_{1}}", maps to, from=2-6, to=1-7]
 	\arrow[maps to, from=2-8, to=1-7]
 	\arrow[maps to, from=2-8, to=1-9]
 	\arrow["{o_1}"', maps to, from=2-10, to=1-9]
@@ -1523,8 +1540,8 @@ We may prove this by induction on the length $n$ of the zig-zag. If the zig-zag 
     \end{proof}
 
 The main upside to using bubble diagrams over the more general undirected wiring diagrams is that bubble diagrams have a nicer double category for our purposes.
-      \begin{definition}
-        For a set $\cat{T}$ of types, the double category $\Cat{Bubble}_{{\cat{T}}}$ is the sub-double category of the double category $\Cat{Span}(\Cat{Arity})$ of undirected wiring diagrams consisting of the bubble diagram.
+      \begin{definition}\label{defn:bubble.diagram.cat}
+        For a set $\cat{T}$ of types, the double category $\Cat{Bubble}_{{\cat{T}}}$ is the sub-double category of the double category $\Cat{Span}(\Cat{Arity}_{{\cat{T}}})$ of undirected wiring diagrams consisting of the bubble diagram.
     \end{definition}
 
     Let's understand this double category. A vertical map in the double category $\Cat{Span}(\Cat{Arity})$ is an undirected wiring diagram, and a horizontal map is a map $f^{\ast} : \XX^{I} \to \XX^{J}$ in $\Cat{Arity}_{\cat{T}}$. A square is a diagram
@@ -1771,7 +1788,7 @@ The behavioral doctrine of interval sheaves is the finitely complete category $\
 Go through \cref{sec:behavioral.idea} and adapt the story to work within the behavioral doctrine of interval sheaves. What has to change, and what remains the same?
       \end{exercise}
 
-For the rest of this section, we will show that trajectories in differential doctrines land in the behavioral doctrine of interval sheaves.
+For the rest of this section, we will show that trajectories in differential systems theories land in the behavioral doctrine of interval sheaves.
 \begin{theorem}
   There is a doubly indexed functor
   \[
@@ -1877,7 +1894,19 @@ We will show that $\Fun{Traj})(\Sys{S})$ satisfies the two conditions of \cref{l
 
 To show that the rest of the doubly indexed functor lands correctly in interval sheaves all comes down to this: in defining the doubly indexed functors $\Fun{Behave}_{{\iota(\ell)}}$, we only compose \emph{on the right}. Since our interval sheaf structure is given by composing \emph{on the left}, the various parts of the doubly indexed functor will give rise to sheaf maps by the associativity of left and right composition.
 
-\section{Drawing Systems: The Port Plugging Paradigm}\label{sec:diagram.approach}
+\subsection{Further Reading in the Behavioral Doctrine}
+
+I have only given the briefest sketch of what can be done in the behavioral doctrine here. In this subsection, I would like to suggest some further reading on this doctrine of dynamical systems.
+
+The behavioral doctrine of dynamical systems is named for Jan Willems' \emph{behavioral approach} to systems theory, which was put forward in the paper \cite{Willems:first.paper} and expanded significantly in subsequent papers. See e.g. \cite{Willems:2007a, Willems.Polderman:2013a}.
+
+A central reference, and one that we drew on in \cref{sec:behavioral.types}, is the book \emph{Temporal Type Theory} by David I. Spivak and Patrick Schultz \cite{schultz2019temporal}. For more detailed examples of how interval sheaves can be used to describe the behavioral approach to dynamical systems, see \cite{schultz2016dynamical}.
+
+For an interesting and deep examples of behavioral theories, see Baez, Weisbart, and Yassine's \emph{Open Systems in Classical Mechanics} \cite{Baez-Weisbart-Yassine:Open.Systems}. In this paper, the authors construct categories of Hamiltonian and (respectively) Lagrangian spans, and express the Legendre transform as a functor from the Lagrangian to the Hamiltonian category. While this does not exactly fit into the formalism presented here for technical reasons (namely, the category of manifolds does not have all pullbacks), it is close enough for the same reasoning to apply. I expect that by expanding the class of objects considered by Baez, Weisbart, and Yassine, from manifolds to some more convientient category of differential spaces, one could see these Hamiltonian and Lagrangian systems as theories in the behavioral doctrine proper. Another approach would be to expand the behavioral doctrine to allow for categories that might not have all pullbacks, but still admit some sort of span double category.
+
+
+
+\section{Drawing Systems: The Port Plugging Doctrine}\label{sec:diagram.approach}
 
 There is another approach to systems modelling which is very common in the sciences: drawing diagrams! Diagrams help express the structure of complex systems in ways that can be appreciated visually.
 
@@ -2112,14 +2141,14 @@ are composed using pushouts in the above way \emph{port-plugging
 compose them by plugging the ports of one system into the ports of another ---
 gluing them together using pushouts.
 
-\begin{definition}
-  A \emph{doctrine} for the \emph{port-plugging paradigm} is a category $\cat{D}$ with finite colimits, which we can think of as a category of diagrams.
+\begin{definition}\label{defn:port-plugging.paradigm}
+  A \emph{doctrine} for the \emph{port-plugging doctrine} is a category $\cat{D}$ with finite colimits, which we can think of as a category of diagrams.
 
-  The \emph{port-plugging} paradigm of composition $\portplugging$ which encapsulates the diagrammatic approach to systems theory is the functor which sends each port-plugging doctrine $\cat{D}$ to the vertical slice construction of the inclusion of the initial object into the double category of cospans in $\cat{D}$:
+  The \emph{port-plugging} doctrine $\portplugging$ which encapsulates the diagrammatic approach to systems theory is the functor which sends each port-plugging doctrine $\cat{D}$ to the vertical slice construction of the inclusion of the initial object into the double category of cospans in $\cat{D}$:
   $$\Cat{Sys}^{\portplugging}_{{\cat{D}}} := \sigma(\ord{1} \to \Cat{Cospan}(\cat{D})).$$
   \end{definition}
 
-  This definition of the port plugging paradigm answers the questions of \cref{informal:paradigm} in the following ways:
+  This definition of the port plugging doctrine answers the questions of \cref{informal:paradigm} in the following ways:
   \begin{enumerate}
           \item A system is a diagram $D$ in $\cat{D}$ together with an map $\partial : I \to D$ picking out the interface of the diagram --- the parts of it which are considered to be exposed to the environment.
           \item An interface is a diagram $I$ which may be included as an exposed part of another diagram. That is, $I$ consists of the \emph{ports} of a diagram.
@@ -2129,18 +2158,309 @@ gluing them together using pushouts.
           \item Maps between systems can be composed along the composition patterns when we have a square in the double category of cospans.
   \end{enumerate}
 
-
-
 There is a close formal analogy between the diagrammatic and the behavioral approachs to systems theory: \cref{eqn:pushout.composition.of.systems} is the same diagram as \cref{eqn:pullback.composition.of.systems}, just with all the arrows going the other way around. This means we can use bubble diagrams to describe composites of diagrams as well!
 
-\subsection{Port-plugging doctrines: Labelled graphs}
+\subsection{Port-plugging systems theories: Labelled graphs}
+
+Let's work out a class of port-plugging theories to get a sense for how it feels to work within the doctrine. Most of the examples we gave above were graphs whose nodes and edges were labebelled with some sort of data. We can formalize this situation in general.
+
+First, let's recall what a \emph{graph} is, for a category theorist. There are many different flavors of graph, and what category theorists tend to prefer would be called \emph{directed multi-graphs with loops} by more traditional graph theorists. We will just call them graphs.
+
+\begin{definition}\label{defn:graph}
+A \emph{graph} $G$ consists of a set $G_{0}$ of nodes, a set $G_{1}$ of edges, and functions $s,\, t : G_{1} \rightrightarrows G_{0}$ sending each edge $e$ to its source node $s(e)$ and target node $t(e)$. We write $e : a \to b$ to say that $s(e) = a$ and $t(e) = b$.
+
+A graph map $\varphi : G \to H$ consists of two functions $\varphi_{0} : G_{0} \to H_{0}$ and $\varphi_{1} : G_{1} \to H_{1}$ sending nodes to nodes and edges to edges which commute with source and target. That is, $\varphi_{0}(s(e)) = s(\varphi_{1}(e))$ and same for $t$. In other words, if $e : a \to b$ in $G$, then $\varphi_{1}(e) : \varphi_{0}(a) \to \varphi_{0}(b)$ in $H$. We'll usually refer to both $\varphi_{0}$ and $\varphi_{1}$ as $\varphi$ as long as it isn't confusing to do so.
+
+We denote the category of graphs by $\Cat{Graph}$.
+\end{definition}
+
+\begin{example}
+  Here's an example of a graph $G$:
+  \[
+    \begin{tikzpicture}
+\node[draw, circle] (1) at (0, 0) {\(1\)};
+\node[draw,  below = of 1, circle] (2) {\(2\)};
+\node[draw,  circle, left = of 2] (3) {\(3\)};
+
+\draw[->] (1) to node[right = 5 pt] {$a$} (2) ;
+\draw[->] (2) to[bend left] node[below = 5 pt] {$b$} (3) ;
+\draw[->] (2) to[bend right] node[above = 5 pt] {$c$} (3) ;
+\draw[->] (2) to[out = 0, in = 270, looseness = 5] node[below = 5pt] (2) {$d$} (2);
+      \end{tikzpicture}
+  \]
+  We can describe this using \cref{defn:graph} by setting $G_{0} := \{1, 2, 3\}$ and $G_{1} := \{a, b, c, d\}$, together with
+  \[
+  \begin{matrix}
+    s(a) = 1 & t(a) = 2 \\
+    s(b) = 2 & t(b) = 3 \\
+    s(c) = 2 & t(c) = 3 \\
+    s(d) = 2 & t(d) = 2 \\
+    \end{matrix}
+  \]
+
+  We should emphasize that the names we have adorned the picture $G$ with are just that: names. They are unique identifiers for each node and edge in $G$, \emph{not} labels (which might be shared by different nodes and edges). We'll soon see a definition of a labelled graph which will make this disctinction more stark.
+\end{example}
 
 
 
-\subsection{Bubble diagrams for the port-plugging paradigm}
+Using some category theory, we can expedite our understanding of the category of graphs.
+\begin{proposition}
+ The category $\Cat{Graph}$ of graphs is the category of presheaves on the category $0 \rightrightarrows 1$ consisting of two objects $0$ and $1$ and two arrows $s$ and $t$ from $0$ to $1$.
+\end{proposition}
+\begin{proof}
+This is a matter of checking definitions against eachother. A presheaf $G$ on that small category would consists of two sets $G(0)$ and $G(1)$ together with two functions $G(s), G(t) : G(1) \rightrightarrows G(0)$ --- precisely a graph. Furthermore, a natural transformation between these presheaves will be a graph map.
+\end{proof}
+
+As a corollary, we note that the category of graphs has all limits and colimits, and that they may be calculated in the category of sets. That is, the (co)limit of a diagram of graphs has as nodes the (co)limit of the diagram of sets of nodes, and similarly for its edges. In particular, the category of graphs is has all finite colimits.
+\begin{corollary}
+The category $\Cat{Graph}$ has all finite colimits. The empty graph has no nodes or edges, and the pushout of graphs is the graph with nodes the pushout of the nodes and edges the pushout of the edges.
+  \end{corollary}
+
+  In effect, what this means is that taking the pushout of graphs means gluing them together.
+  \begin{example}
+    Consider the graph $\bullet \to \bullet$ with two nodes and a single edge from one to the other. There are two maps from the graph $\bullet$ having just one node into $\bullet \to \bullet$ which we might call $s$ and $t$; the first picks out the source of the edge, and the second picks out the target. We can then form the following pushout square:
+    \[
+\begin{tikzcd}
+	\bullet & {(\bullet \to \bullet)} \\
+	{(\bullet \to \bullet)} & {(\bullet \to \bullet \to \bullet)}
+	\arrow["t"', from=1-1, to=2-1]
+	\arrow["s", from=1-1, to=1-2]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=180}, draw=none, from=2-2, to=1-1]
+\end{tikzcd}
+    \]
+    The two maps from $\bullet \to \bullet$ to $\bullet \to \bullet \to \bullet$ include it as the first edge and second edge respectively. The fact that the square commutes means that the target of the first edge is the source of the second edge. That this is a pushout means that to map out of $\bullet \to \bullet \to \bullet$, it suffices to give two maps out of $\bullet \to \bullet$ which send the target of the first to the same place as the source of the second.
+
+    As you can see, taking the pushout glues together the two graphs over their shared part.
+  \end{example}
+
+We are interested in labelled graphs. We will give a general definition of labelled graphs in the upcoming \cref{defn:labelled.graph.general}, but for now we make the following defintion of two important special cases.
+\begin{definition}\label{defn:labelled.graph}
+  Let $G$ be a graph and $L$ a set of \emph{labels}. Then
+  \begin{enumerate}
+          \item An \emph{edge labelling} of $G$ in $L$ is a function $\ell : G_{1} \to L$.
+         \item A \emph{node labelling} of $G$ in $L$ is a function $\ell : G_{0} \to L$.
+  \end{enumerate}
+\end{definition}
+
+\begin{example}\label{ex:transition.system.labelled.graph}
+The transition diagrams we drew as way back in \cref{ex.transition_diagram_discrete} to describe our deterministic systems can be seen as labelled graphs. An $\lens{I}{O}$-system $\Sys{S}$ will be a graph with nodes $\State{S}$ and an edge $s \to s'$ for each $i \in I$ with $\update{S}(s, i) = s'$. This will have a node-labeling given by $\expose{S}$ and an edge labelling given by sending the edge $s \to s'$ corresponding to input $i$ to $i$.
+  \end{example}
+
+\begin{example}
+We can view a graph with edge labels in the set $(0, \infty)$ of positive real numbers as a network of connections $c$ with capacity $\ell(c)$. Or, we can see such a labelling as telling us the flow which is currently moving through the connection $c$. There are many ways we could use such a labelling.
+  \end{example}
+
+  \begin{example}
+We can see an $\Sys{RL}$-circuit such as this one from \cref{ex.RL_circuit_trajectory}
+  \[
+    \begin{circuitikz}
+      \draw (0,0)
+      to[V,v=$V$] (0,2) % The voltage source
+      to (2,2)
+      to[R=$R$] (2,0) % The resistor
+      to[L=$L$] (0,0);
+    \end{circuitikz}
+  \]
+  as a labelled graph, with edge labels in the set $\{V, R, L\} \times (0, \infty) + \{W\}$. A plain wire will be labelled $W$, while a voltage source will be labelled $(V, v)$ where $v \in (0, \infty)$ is the voltage, and similarly for resistors and inductors.
+  \end{example}
+
+In order to better understand the categories of labelled graphs, we can re-interpret the definition of labelled graphs in terms of graph maps. First, we need to describe a few special graphs.
+
+
+\begin{definition}
+Let $L$ be a set. We describe two important graphs built out of $L$:
+\begin{enumerate}
+        \item First, the graph $EL$ has a single node with all the elements of $L$ as edges. That is, $EL_{0} = \ord{1}$ and $EL_{1} = L$, with $s$ and $t$ both being the unique function from $L$  to $\ord{1}$.
+        \item Second, the graph $KL$ --- the \emph{complete} graph on $L$ --- has nodes $L$ and a single edge from each node to each other node (including from a node to itself). Formally, $KL_{0} = L$ and $KL_{1} = L \times L$, with $s$ and $t$ the first and second projection $L \times L \to L$.
+    \end{enumerate}
+\end{definition}
+
+Now we can re-interpret \cref{defn:labelled.graph}
+\begin{proposition}
+  Let $G$ be a graph and $L$ a set of \emph{labels}.
+  \begin{enumerate}
+\item An \emph{edge labelling} of $G$ in $L$ is a graph map $\ell : G \to EL$.
+\item A \emph{node labelling} of $G$ in $L$ is a graph map $\ell : G \to KL$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+First, let's consider edge labellings. An edge labelling of $G$ in $L$ is a function $\ell : G_{1} \to L$; given such a function, we can make a map $\hat{\ell} : G \to EL$ by defining $\hat{\ell}_{1} = \ell$ and $\hat{\ell}_{0}$ to be the unique function $G_{0} \to \ord{1}$. Conversely, any graph map $\ell : G \to EL$ gives us $\ell_{1} : G_{1} \to L$. These two processes are inverse, because there is a unique function $G_{0} \to \ord{1}$.
+
+
+The case of node labellings is very similar. Let $\ell : G_{0} \to L$ be a node labelling. We can then define a map $\hat{\ell} : G \to KL$ by $\hat{\ell}_{0} = \ell$ and $\hat{\ell}_{1}(e) = (\ell(s(e)), \ell(t(e)))$. Conversely, for any map $\ell : G \to KL$ we have $\ell_{0} : G_{0} \to L$. These two processes are inverse since any edge $e : a \to b$ must be sent to a edge $\ell(a) \to \ell(b)$, but there is exactly one such edge.
+  \end{proof}
+
+This reframing justifies us generaling the notion of labelling to allow values in any graph.
+  \begin{definition}
+Let $\mathcal{L}$ be a graph. A graph labelled in $\mathcal{L}$ is a graph $G$ together with a labelling map $\ell : G \to \mathcal{L}$.
+
+A map of $\mathcal{L}$-labelled graphs $G \to H$ is a map $\varphi : G \to H$ which preserves labels in the sense that $\varphi \then \ell_{H} = \ell_{G}$. We denote the category of $\mathcal{L}$-labelled graphs by $\Cat{Graph}_{\mathcal{L}}$. Category theoretically, the category $\Cat{Graph}_{\mathcal{L}}$ is the \emph{slice category} of $\Cat{Graph}$ over $\mathcal{L}$.
+    \end{definition}
+
+      \begin{example}
+Continuing \cref{ex:transition.system.labelled.graph}, we can think of a transition diagram for an $\lens{I}{O}$-system as a $KO \times EL$ labelled graph. By the universal propoerty of the product, a labelling in $KO \times EI$ is a labelling in $KO$ together with a labelling in $EI$, which is to say a node labelling in $O$ together with an edge labelling in $I$.
+        \end{example}
+
+We can think of a general graph $\mathcal{L}$ as giving us a system of labels with constraints. The nodes of $\mathcal{L}$ are the possible node-labels, and the edges of $\mathcal{L}$ are the possible edge labels. But an edge label is constrained to go between two node labels. Therefore, the way the edges are linked together constrains what sort of labels an edge might have given the labels its source and target have.
+
+    \begin{example}
+Let $\mathcal{L}$ be the graph $0 \to 1$ with two nodes and a single edge between them. A $\mathcal{L}$-labelled graph is a \emph{bipartite} graph. That is, a graph $G$ with a map $\ell : G \to \mathcal{L}$ divides the nodes of $G$ in two --- those with $\ell(n) = 0$ and those with $\ell(n) = 1$ --- and there can only be edges from a node labelled $0$ to a node labelled $1$.
+      \end{example}
+
+As a corollary of our abstract description of labelled graphs, we can see quite quickly that the category of labelled graphs has finite colimits for any labelling graph $\mathcal{L}$.
+
+\begin{proposition}\label{prop:colimits.labelled.graphs}
+For any graph $\mathcal{L}$ of labels, the category $\Cat{Graph}_{\mathcal{L}}$ of graphs labelled in $\mathcal{L}$ has all finite colimits which can be calculated in $\Cat{Graph}$.
+  \end{proposition}
+  \begin{proof}
+This is a general fact concerning slice categories, see for example Proposition 3.3.8 of \cite{Riehl:intro.to.cats}.
+  \end{proof}
+
+  Going further, if we have any map $f : \mathcal{L} \mathcal{L}'$ of label graphs, we get a functor
+  $$f_{\ast} : \Cat{Graph}_{\mathcal{L}} \to \Cat{Graph}_{\mathcal{L}'}$$
+  given by sending $\ell : G \to \mathcal{L}$ to $\ell \then f : G \to \mathcal{L}'$. This functor preserves finite colimits, since by \cref{prop:colimits.labelled.graphs} we may calculate these on the underlying graphs without reference to the labelling. For this reason, we get a functor
+  \[
+    \Cat{Graph}_{(-)} : \Cat{Graph} \to \Cat{FinCoCompleteCat}
+  \]
+
+  This will let us define the doctrine of labelled graphs.
+
+  \begin{definition}\label{defn:paradigm.labelled.graphs}
+    A theory for the doctrine of labelled graphs is a graph of labels $\mathcal{L}$.
+
+    The doctrine of labelled graphs $\labelledgraphs$ is the functor that sends a graph $\mathcal{L}$ of labels to the vertical slice construction of the inclusion of the empty graph into the double category of cospans in the category $\Cat{Graph}_{\mathcal{L}}$ of graphs labelled in $\mathcal{L}$:
+
+    \[
+\Cat{Sys}^{\labelledgraphs}_{{\mathcal{L}}} := \sigma(\ord{1} \to \Cat{Cospan}(\Cat{Graph}_{\mathcal{L}})).
+  \]
+  \end{definition}
+
+The doctrine of labelled graphs is a restriction of the port-plugging doctrine \cref{defn:port-plugging.paradigm}. For that reason, it answers the questions of \cref{informal:paradigm} in much the same way.
+  \begin{enumerate}
+          \item A system is a labelled graph $\ell : G \to \mathcal{L}$ in $\Cat{Graph}_{\mathcal{L}}$ together with an map $\partial : I \to G$ picking out the interface of the diagram --- the parts of it which are considered to be exposed to the environment.
+          \item An interface is a labelled graph $ \ell : I \to \mathcal{L} $ which may be included as an exposed part of another labelled graph. That is, $I$ consists of the \emph{ports} of a diagram.
+          \item Interfaces are connected by cospans which describe which parts of the interfaces are to be glued together. These cospans respect the labelling.
+          \item Systems are composed by \emph{gluing their interfaces together}, that is, by plugging the ports of one system into those of another. This is accomplished by cospan composition.
+          \item A map between systems is a map of labelled graphs which acts in a specified way on their interfaces.
+          \item Maps between systems can be composed along the composition patterns when we have a square in the double category of cospans.
+  \end{enumerate}
+
+  The examples we saw in the introduction to this section can all be seen as labelled graphs, so we have seen how composition works in the doctrine of labelled graphs. But we still need to see how we can use bubble diagrams to describe composition patterns in the port-plugging doctrine.
+
+\subsection{Bubble diagrams for the port-plugging doctrine}
+
+In the definition of the port-plugging paradigm, we take the double category of interfaces in a theory (that is, a finitely cocomplete category ``of diagrams'') $\cat{D}$ to be the double category of cospans $\Cat{Cospan}(\cat{D})$ in $\cat{D}$. The thing about this double category is that it is \emph{not} spanlike in the sense of \cref{defn:spanlike}.\footnote{It is, as you might guess, cospanlike instead.} But, somewhat remarkably, the double category of bubble diagrams $\Cat{Bubble}_{\cat{T}}$ of \cref{defn:bubble.diagram.cat} \emph{is} spanlike. So, if we use bubble diagrams to compose our port-plugging systems, we can take advantage of \cref{thm:representable.lax.doubly.indexed.functors} to construct representable functors in this doctrine as well.
+But first, let's describe how we can use bubble diagrams in the port-plugging doctrine in the first place.
+
+We can use bubble diagrams to describe composition in the port-plugging doctrine, just like we did for the behavioral doctrine. In \cref{sec:behavioral.diagrams}, we exploited the fact that $\Cat{Arity}$ was the free category with finite limits generated by a single object to interpret spans in $\Cat{Arity}$ in any category with finite limits. Since we defined bubble diagrams to be spans in $\Cat{Arity}$ (or its many-typed variants) with left leg surjective and right leg injective, this let us interpret bubble diagrams in any category with finite limits.
+
+But $\Cat{Arity} \cong \Cat{FinSet}\op$ is the opposite of the category of finite sets. This means that $\Cat{FinSet}$ is the free category with finite \emph{colimits} generated by a single object. We can see bubble diagrams as certain cospans in $\Cat{FinSet}$, which is arguably a more direct way to understand what they are. For this reason, we can interpret bubble diagrams in any category with finite colimits, allowing us to use them to describe composition in the port-plugging doctrine.
+
+\begin{proposition}\label{prop:finset.free.cocomplete.cat}
+  The category of typed finite sets $\Cat{FinSet}_{\cat{T}}$ is the free category with finite colimits on the set of objects $\cat{T}$. As a corollary, for every function $P : \cat{T} \to \cat{D}$ from $\cat{T}$ to a finitely cocomplete category $\cat{D}$, we get a double functor
+  \[
+   \fun{ev}_{P} :  \Cat{Cospan}(\Cat{FinSet}_{\cat{T}}) \to \Cat{Cospan}(\cat{D})
+  \]
+  which sends $\tau : X \to \cat{T}$ to the coproduct $\sum_{x \in X} P_{\tau x}$ in $\cat{D}$.
+\end{proposition}
+
+Given a collection $P : \cat{T} \to \cat{D}$ of \emph{ports}, \cref{prop:finset.free.cocomplete.cat} will let us restrict the double indexed category
+
+$$\sigma(\ord{1} \xto{\ord{0}} \Cat{Cospan}(\cat{D})) = (-)/\cat{D} : \Cat{Cospan}(\cat{D}) \to \Cat{Cat}$$
+along the double functor $\Cat{Bubble}_{\cat{T}} \hookrightarrow \Cat{Cospan}(\Cat{FinSet}_{\cat{T}}) \xto{\fun{ev}_{P}} \Cat{Cospan}(\cat{D})$.
+
+Let's now prove that $\Cat{Bubble}_{\cat{T}}$ is spanlike. We will need a crucial lemma.
+\begin{lemma}\label{lem:pushout.also.pullback}
+  Let $I \rightarrow L \leftarrow M$ and $M \rightarrow L' \leftarrow O$ be bubble diagrams. Then in the following diagram describing their composite:
+\[
+\begin{tikzcd}
+	&& {{L +_M L'}} \\
+	& {L} && {{L'}} \\
+	{{I}} && {{M}} && {{O}}
+	\arrow[from=2-2, to=3-1, "i_{1}"', leftarrow]
+	\arrow[from=2-2, to=3-3, "o_{1}", leftarrow]
+	\arrow[from=2-4, to=3-3, "i_{2}"', leftarrow]
+	\arrow[from=1-3, to=2-2, leftarrow]
+	\arrow[from=1-3, to=2-4, leftarrow]
+	\arrow[from=2-4, to=3-5, "o_{1}", leftarrow]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-45}, draw=none, from=1-3, to=3-3]
+	\arrow[bend right = 30, dashed, from=1-3, to=3-1, "i_{3}"', leftarrow]
+	\arrow[bend left = 30, dashed, from=1-3, to=3-5, "o_{3}", leftarrow ]
+\end{tikzcd}
+\]
+the middle square is a pullback in addition to being a pushout.
+  \end{lemma}
+  \begin{proof}
+This follows from the fact that $\Cat{FinSet}_{\cat{T}}$ is an \emph{adhesive} category which implies in particular that any pushout of a monomorphism is also a pullback. We'll prove this fact directly.
+
+We will show that $M$ is bijective with the pullback $L \times_{L+_{M}L'} L'$ via the map $m \mapsto (o_{1}(m), i_{2}(m))$. Suppose we have $\ell \in L$ and $\ell' \in L'$ with $[\ell] = [\ell']$ in $L +_{M} L'$, seeking to show that there is a unique $m \in M$ for which $\ell = o_{1}(m)$ and $i_{2}(m) = \ell'$. First, we note that uniqueness follows immediately from the assumption that $o_{1}$ is injective; if $\ell = o_{1}(m)$ and $\ell = o_{1}(m')$, then we may conclude that $m = m'$. So it remains to show that there is any such $m$.
+
+We know that $[\ell] = [\ell']$ in $L +_{M} L'$, so we know that there is a zig-zag of elements in $L$ and $L'$, each related by an element of $M$, which connect $\ell$ and $\ell'$. We can show that this zig-zag may be taken to have length $1$, so that $\ell$ and $\ell'$ are directly connected by a single $m \in M$.
+
+Suppose that we have a zig-zag
+\[
+\begin{tikzcd}[sep = tiny]
+	&& {\ell_1} &&&& {\ell_2} && {\ell'} \\
+	& {m_1} && {m_2} && {m_3} && \cdots  \\
+	\ell &&&& {o_{1}m_2 = o_{1}m_3} &&&&
+	\arrow["{o_{1}}"', maps to, from=2-2, to=3-1]
+	\arrow["{i_{2}}", maps to, from=2-2, to=1-3]
+	\arrow["{i_{2}}"', maps to, from=2-4, to=1-3]
+	\arrow["{o_{1}}", maps to, from=2-4, to=3-5]
+	\arrow["{o_{1}}"', maps to, from=2-6, to=3-5]
+	\arrow["{i_{2}}", maps to, from=2-6, to=1-7]
+	\arrow[maps to, from=2-8, to=1-7]
+	\arrow[maps to, from=2-8, to=1-9]
+\end{tikzcd}
+\]
+Note that all the middle terms have $o_{1}m_{2i} = o_{1}m_{2i+1}$; by the injectivity of $o_{1}$, this implies that $m_{2i} = m_{2i+1}$ so that in fact there is a single $m$ directly connecting $\ell$ and $\ell'$.
+    \end{proof}
+
+    Now we can prove that the double category of bubble diagrams is spanlike.
+\begin{theorem}\label{thm:bubble.diagrams.are.spanlike}
+The double category $\Cat{Bubble}_{\cat{T}}$ of bubble diagrams (with wires typed in the set $\cat{T}$) is spanlike.
+  \end{theorem}
+  \begin{proof}
+    We have to show that any square into the composite of two bubble diagrams factors uniquely as the vertical composite of two squares. Consider the following diagram:
+    \[
+\begin{tikzcd}
+	D &&& I \\
+	D && {} & L \\
+	D &&& {L +_M L'} & M \\
+	D &&& {L'} \\
+	D &&& O
+	\arrow[from=1-1, to=2-1, equals]
+	\arrow[from=2-1, to=3-1, equals]
+	\arrow[from=3-1, to=4-1, equals]
+	\arrow[from=4-1, to=5-1, equals]
+	\arrow[from=1-1, to=1-4]
+	\arrow[from=5-1, to=5-4]
+	\arrow[from=1-4, to=2-4]
+	\arrow[from=3-5, to=2-4]
+	\arrow[from=3-5, to=4-4]
+	\arrow[from=5-4, to=4-4]
+	\arrow[from=2-4, to=3-4]
+	\arrow[from=4-4, to=3-4]
+	\arrow["\alpha"{description}, from=3-1, to=3-4]
+	\arrow[dashed, from=2-1, to=2-4]
+	\arrow[dashed, from=4-1, to=4-4]
+\end{tikzcd}
+    \]
+    The solid diagram is a square $\alpha$ from $D$ to the composite of $I \to L \from M$ and $M \to L' \from O$. The dashed arrows are uniquely determined by compsing $D \to I \to L$ and $D \to O \to L'$ respectively, and because the two solid squares commute, they are both equalized when composed with the inclusions into $L +_{M} L'$. Then, by \cref{lem:pushout.also.pullback}, there is a unique map $D \to M$ making the diagram commute; but this is precisely the splitting of $\alpha$ into two squares that we needed.
+  \end{proof}
+
+Because of \cref{thm:bubble.diagrams.are.spanlike}, we can use \cref{thm:representable.lax.doubly.indexed.functors} to construct representable lax doubly indexed functors in the port-pluggin doctrine. As an example of such a functor, consider the theory of (unlabelled) graphs and the system $\Sys{P}_{3} = \bullet \to \bullet \to \bullet \to \bullet$, with interface $\bullet \quad \bullet$ included as its endpoints, in this theory. This system $\Sys{P}_{3}$ represents paths of length $3$, and so we get a lax doubly indexed functor sending a graph with boundary to the set of paths of length $3$ from one boundary node to another in it. That is doubly indexed functor is lax and not taut reflects an important fact about the compositionality of graphs: when graphs are composed, new paths can appear which weren't possible before.
 
 
 
+
+\subsection{Further Reading in the port-plugging doctrine}
+
+There has been a lot of work done in the port-plugging doctrine, and we have hardly scratched the surface.
+
+In its categorical guise, this doctrine was innaugurated with Brendan Fong's work on \emph{decorated cospans} in his thesis \cite{Fong:Thesis}. For examples of putting this theory to work, see \cite{baez2018compositional, baez2016compositional, baez2017compositional}. This was later expanded by Kenny Courser and John Baez to a theory of \emph{structured cospans} in \cite{Baez.Courser:Structured.Cospans} (see \cite{Baez.Courser.Vasilakopolou:Structured.vs.Decorated} for a detailed comparison between these approaches). John Baez and his students have used these theories in a variety of settings; see for example \cite{Baez.Master:Open.Petri.Nets, Baez.Courser:Open.Markov.Processes}.
 
 
 

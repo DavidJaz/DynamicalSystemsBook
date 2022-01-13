@@ -23,7 +23,7 @@ Let's take stock of where we've been so far in the past couple chapters.
     of \emph{non-deteerministic systems}.
   \item In \cref{sec.behavior_discrete}, we learned about behaviors and \emph{charts}. We saw
     how to define behaviors of systems using the notion of chart. Finally, we
-    gave a formal definition of \emph{dynamical system doctrine}, systematizing
+    gave a formal definition of \emph{theory of dynamical systems}, systematizing
     the various different notions --- discrete, differential, non-deterministic
     --- of dynamical systems. 
 \end{itemize}
@@ -40,7 +40,7 @@ In this chapter, we will see how these two sorts of composition interact. In
 short, behaviors of component systems give rise to behaviors of composite
 systems. The way that behaviors of the whole arise from behaviors of the parts
 is called \emph{compositionality}. In this chapter, we will prove a general
-compositionality theorem concerning any sort of behavior in any doctrine.
+compositionality theorem concerning any sort of behavior in any systems theory.
 
 But the behaviors of the component systems must be compatible with
 eachother: if a system $\Sys{S_1}$ has its parameters set by the exposed
@@ -61,7 +61,7 @@ We have in fact already proven most of the crucial lemmas we need for this
 result in \cref{sec.behaviors_general}. In this chapter, we will organize these
 lemmas with the notion of a \emph{doubly indexed category}. We will then construct \emph{representable doubly indexed
   functors} which will organize the various facts concerning the
-compositionality of any sort of behavior in any doctrine.
+compositionality of any sort of behavior in any systems theory.
 
 
 
@@ -77,7 +77,7 @@ behavior in $\Sys{U}$, then we get a $\Sys{T}$-shaped behavior in $\Sys{U}$. But
 In this section we will give a
 taste by showing how steady states compose. Later, in \cref{sec.representables}, we will see a very abstract
 theorem that generalizes what we do here for steady states in the deterministic
-doctrine to something that works for \emph{any sort of behavior} in \emph{any doctrine}.
+systems theory to something that works for \emph{any sort of behavior} in \emph{any systems theory}.
 But in order for that abstract theorem to make sense, we should first see the concrete
 case of steady states in detail.  
 
@@ -772,8 +772,8 @@ wiring according to that lens.
 
 This process of turning a lens into a matrix will give us a functor $\Cat{Lens}
 \to \Cat{Matrix}$ from the category of lenses to the category of matrices of
-sets. We'll start by exploring this functor in the deterministic doctrine; then
-we will abstract and find that the same argument works in any doctrine.
+sets. We'll start by exploring this functor in the deterministic systems theory; then
+we will abstract and find that the same argument works in any systems theory.
 
 The resulting matrices will have entries that are either $\ord{1}$ or
 $\emptyset$; we can think of this as telling us whether ($\ord{1}$) or not ($\emptyset$) the two charts
@@ -787,7 +787,7 @@ will end up with a matrix whose entries either have a single element or are empt
 
 
 \begin{proposition}\label{prop.lens_to_matrix_functor_discrete}
-  For any arena in the deterministic doctrine $\lens{I}{O}$, there is a functor 
+  For any arena in the deterministic systems theory $\lens{I}{O}$, there is a functor
 $$\Cat{Chart}_{\determ}\left( \littlelens{I}{O},\, - \right) : \Cat{Lens}_{\determ} \to \Cat{Matrix}$$
 from the category of lenses to the category of matrices of sets which sends an
 arena $\lens{A^-}{A^+}$ to the set $\Cat{Chart}_{\determ}\left( \lens{I}{O},
@@ -1080,7 +1080,7 @@ This construction is an example of a more general notion of \emph{representable
   double functor}. Using the general notion, we can construct a similar double functor
 $$\Cat{Arena}_{\dd}\left( \littlelens{I}{O}, - \right) : \Cat{Arena}_{\dd} \to
 \Cat{Matrix}$$
-for any doctrine $\dd$.
+for any systems theory $\dd$.
 Unlike for categories, not all objects in all double
 categories admit representable double functors\footnote{Any object in a double
   category does admit a representable \emph{lax} double functor, but we won't
@@ -1187,11 +1187,11 @@ composition, and vertical functoriality of squares comes down to the interchange
 
 \cref{thm:representable.double.functor} gives us
 \cref{prop.representable_double_functor} as a special case since the double
-category $\Cat{Arena}_{\dd}$ of arenas in any doctrine $\dd$ is \emph{spanlike} --- every arena
+category $\Cat{Arena}_{\dd}$ of arenas in any systems theory $\dd$ is \emph{spanlike} --- every arena
 $\lens{I}{O}$ satisfies the horizontal factor condition.
 
 \begin{lemma}\label{lem:arena.is.spanlike}
-For any doctrine $\dd$, the double category $\Cat{Arena}_{\dd}$ of arenas in
+For any systems theory $\dd$, the double category $\Cat{Arena}_{\dd}$ of arenas in
 $\dd$ is spanlike: every arena satisfies the horizontal factor condition.
 \end{lemma}
 \begin{proof}
@@ -1277,10 +1277,10 @@ As a corollary, \cref{thm:representable.double.functor} gives us a representable
 double functor
 $$\Cat{Arena}_{\dd}\left( \littlelens{I}{O}, - \right) : \Cat{Arena}_{\dd} \to
 \Cat{Matrix}$$
-in any doctrine $\dd$. So we can turn any lens in any doctrine into a matrix in
+in any systems theory $\dd$. So we can turn any lens in any systems theory into a matrix in
 a way that preserves the composition of lenses.
 \begin{theorem}\label{thm:representable.dbl.fun.doctrine}
-  For any doctrine $\dd$ and any arena $\lens{I}{O}$, there is a representable
+  For any systems theory $\dd$ and any arena $\lens{I}{O}$, there is a representable
   double functor
   $$\Cat{Arena}_{\dd}\left( \littlelens{I}{O}, - \right) : \Cat{Arena}_{\dd} \to \Cat{Matrix}.$$
 \end{theorem}
@@ -1303,7 +1303,7 @@ functor.
 
 
 \begin{theorem}\label{thm.representable_discrete}
-  For any doctrine $\dd$ and any system $\Sys{T}$ in $\dd$, there is a lax doubly indexed functor 
+  For any systems theory $\dd$ and any system $\Sys{T}$ in $\dd$, there is a lax doubly indexed functor
 $\Fun{Behave}_{\Sys{T}} : \Cat{Sys}_{\dd} \to \Cat{Vec}$
 which sends systems to their sets of $\Sys{T}$-shaped behaviors.
 \[\begin{tikzcd}
@@ -1613,11 +1613,11 @@ That these two composites are equal is precisely the interchange law of a double
 \end{itemize}
 
 
-While we have phrased this theorem in terms of dynamical systems doctrine, the
+While we have phrased this theorem in terms of theory of dynamical systems, the
 proof uses only the structure available to the doubly indexed category
 $\Cat{Sys}_{\dd} : \Cat{Arena}_{\dd} \to \Cat{Cat}$. We can therefore state this
 theorem entirely abstractly, which we record here.
-\begin{theorem}
+\begin{theorem}\label{thm:representable.lax.doubly.indexed.functors}
   Let $\cat{A} : \cat{D} \to \Cat{Cat}$ be a doubly indexed category with
   $\cat{D}$ a spanlike double category. Then for any $\Sys{T} \in \cat{A}(D)$,
   there is a \emph{representable} lax doubly indexed functor
@@ -1650,7 +1650,7 @@ $\expose{T}$ is an isomorphism.
 
 
 \begin{theorem}\label{thm:representables.taut}
-Let $\Sys{T}$ be a system in the doctrine $\dd$, and suppose that $\expose{T}$
+Let $\Sys{T}$ be a system in the systems theory $\dd$, and suppose that $\expose{T}$
 is an isomorphism. Then the representable lax doubly indexed functor
 $\Fun{Behave}_{\Sys{T}}$ is in fact taut. Explicitly, for any lens
 $\lens{w^{\sharp}}{w} : \lens{I}{O} \fromto \lens{I'}{O'}$ the natural transformation
@@ -1802,7 +1802,7 @@ exactly that $h_{\flat} = g_{\flat} \then h^{\ast} w^{\sharp}$.
 \end{proof}
 
 \begin{example}
-In the deterministic doctrine $\determ$, consider the system $\Sys{Time}$ of \cref{ex.trajectory_as_behavior_discrete}:
+In the deterministic systems theory $\determ$, consider the system $\Sys{Time}$ of \cref{ex.trajectory_as_behavior_discrete}:
 \[
 \lens{t\mapsto t+1}{\id}\colon\lens{\nn}{\nn}\fromto\lens{\{\fun{tick}\}}{\nn}.
 \]
@@ -1861,8 +1861,8 @@ given by
 \end{example}
 
 \begin{example}\label{ex:trajectories.compositional.behavior}
-In a differential doctrine --- for simplicity let's say the Euclidean
-differential doctrine $\eucdiff$ --- the system
+In a differential systems theory --- for simplicity let's say the Euclidean
+differential systems theory $\eucdiff$ --- the system
 \[
 \Sys{Time} = \lens{1}{\id} : \lens{\rr^1}{\rr^1} \fromto \lens{\rr^0}{\rr^1}
 \]

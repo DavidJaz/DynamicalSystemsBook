@@ -7,24 +7,23 @@
 
 
 %------------ Chapter ------------%
-\chapter{Change of Doctrine}
+\chapter{Change of Systems Theory}
 
 \section{Introduction}
 
 In the last chapter, we saw a general formulation of the notion of behavior of
-system and precise definition of the notion of dynamical system doctrine. Let's
-recall the definition of dynamical system doctrine.
+system and precise definition of the notion of systems theory. Let's
+recall the definition of a theory of dynamical systems.
 
 \begin{definition}\label{def.doctrine}
-A \emph{dynamical system doctrine} consists of an indexed category $\cat{A} :
+A \emph{theory of dynamical systems} consists of an indexed category $\cat{A} :
 \cat{C}\op \to \Cat{Cat}$ together with a section $T$.
 \end{definition}
 
-This concise definition packs a big punch. Describing a dynamical system
-doctrine amounts to answering the informal questions about what it means to be a
+This concise definition packs a big punch. Describing a theory of dynamical systems amounts to answering the informal questions about what it means to be a
 system:
 \begin{informal}
-  A \emph{doctrine} of dynamical systems is a particular way to answer the following
+  A \emph{theory} of dynamical systems is a particular way to answer the following
   questions about what it means to be a dynamical system:
   \begin{enumerate}
   \item What does it mean to be a state?
@@ -38,7 +37,7 @@ system:
   \end{enumerate}
 \end{informal}
 
-Constructing a doctrine is no small thing. But once we have a doctrine, we have
+Constructing a systems theory is no small thing. But once we have a systems theory, we have
 may work in its double category of arenas to quickly derive a few
 compositionality results about systems.
 
@@ -85,8 +84,8 @@ lets us compose behaviors:
     \ar[r, shift left] & \lens{\In{U}}{\Out{U}}
   \end{tikzcd}
 \]
-So, we have a category of systems and behaviors in any doctrine, just as we
-defined in the deterministic doctrine.
+So, we have a category of systems and behaviors in any systems theory, just as we
+defined in the deterministic systems theory.
 
 On the other hand, vertical composition tells us something else interesting: if
 you get a chart $\lens{g_{\flat}}{g}$ by wiring together a chart
@@ -178,7 +177,7 @@ We'll see the definition of this notion in
 \cref{sec.indexed_double_category_of_systems}.
 
 Once we have organized our systems into doubly indexed categories, we can
-discuss what it means to change our doctrine. A change of doctrine will be a way
+discuss what it means to change our systems theory. A change of systems theory will be a way
 of turning one sort of dynamical system into another. This could mean simply
 re-interpreting the underlying structure (for example, a deterministic system
 where all maps are differentiable is in particular a discrete deterministic
@@ -212,10 +211,10 @@ dynamics is given by
 Here, $\epsilon > 0$ is some small increment. We can take $\mathcal{E}_{\epsilon}(\Sys{S})$ to expose the same variable that
 $\Sys{S}$ does: $\expose{\mathcal{E}_{\epsilon}(\Sys{S})} = \expose{S}$.
 
-The change of doctrine $\mathcal{E}_{\epsilon}$ is the formula for changing from
-the Euclidean differential doctrine to the deterministic doctrine on the
+The change of systems theory $\mathcal{E}_{\epsilon}$ is the formula for changing from
+the Euclidean differential systems theory to the deterministic systems theory on the
 cartesian category of Euclidean spaces. We might wonder: how does changing the
-doctrine by using the Euler method affect the wiring together of systems? How
+systems theory by using the Euler method affect the wiring together of systems? How
 does it affect the behaviors of the systems?
 
 We can answer the question about behaviors here. It is not true that every
@@ -245,27 +244,27 @@ In other words, the steady state remains a steady state!
 
 The goal of this chapter will be to introduce the formalism which enables us to
 inquire into and prove various compositionality results concerning changes of
-doctrine. In the above situation, we will see that the Euler method
-$\mathcal{E}_{\epsilon}$ gives a change of doctrine on a \emph{restriction} of
-the Euclidean differential doctrine to affine maps. As a result, it will
+systems theory. In the above situation, we will see that the Euler method
+$\mathcal{E}_{\epsilon}$ gives a change of systems theory on a \emph{restriction} of
+the Euclidean differential systems theory to affine maps. As a result, it will
 preserve any behavior whose underlying map is affine (of the form $\phi(v) = Av
 + b$ for a matrix $A$ and vector $b$), which includes all steady states (since
 constant maps are affine) but almost no trajectories in general. 
 
 We will introduce the notion of a \emph{doubly indexed functor} to organize the
-compositionality results concerning change of doctrine. We will also be using
+compositionality results concerning change of systems theory. We will also be using
 these doubly indexed functors in the next chapter to organize the
 compositionality of behaviors in general.
 
-We will define the notion of change of doctrine formally
-(\cref{def.change_of_doctrine}) and show that every change of doctrine gives
+We will define the notion of change of systems theory formally
+(\cref{def.change_of_doctrine}) and show that every change of systems theory gives
 rise to a doubly indexed functor between the doubly indexed categories of
-systems in the respective doctrines. In particular, we will show that there is a
+systems in the respective systems theories. In particular, we will show that there is a
 \emph{2-functor} \jaz{I am starting to think that I should put the
   2-functoriality of this into an appendix so that I don't have to introduce
   2-categories and 2-functors here.}
-$$\textbf{Sys} : \textbf{Doctrine} \to \textbf{DblIx}$$
-sending a doctrine to the doubly indexed category of systems in it. 
+$$\textbf{Sys} : \textbf{Theory} \to \textbf{DblIx}$$
+sending a systems theory to the doubly indexed category of systems in it.
 
 
 
@@ -282,9 +281,9 @@ double category of arenas shows us is that wiring together systems is functorial
 with respect to simulations --- that is, behaviors that don't change the
 interface.
 
-We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary doctrine.
+We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary systems theory.
   \begin{definition}\label{def.cat_of_systems}
-  Let $\mathbb{D} = (\cat{A}, T)$ be a dynamical system doctrine. For a
+  Let $\mathbb{D} = (\cat{A}, T)$ be a theory of dynamical systems. For a
     $\cat{A}$-arena $\lens{I}{O}$, the category $\Cat{Sys}\lens{A}{C}$ of
     $\mathbb{D}$-systems with interface $\lens{I}{O}$ is defined by:
 \begin{itemize}
@@ -682,12 +681,12 @@ indexed categories of deterministic systems and vectors of sets.
 
 \paragraph{The doubly indexed category of systems}
 
-Let's show that systems in a doctrine $\mathbb{D}$ do indeed form a doubly indexed category
+Let's show that systems in a systems theory $\mathbb{D}$ do indeed form a doubly indexed category
 $$\Cat{Sys}_{\mathbb{D}} : \Cat{Arena}_{\mathbb{D}} \to \Cat{Cat}.$$
 
 \begin{definition}\label{def.doubly_indexed_cat_systems}
   The doubly indexed category $\Cat{Sys}_{\mathbb{D}} : \Cat{Arena}_{\mathbb{D}}
-  \to \Cat{Cat}$ of systems in the doctrine $\mathbb{D} = (\mathcal{A}, T)$ is defined
+  \to \Cat{Cat}$ of systems in the systems theory $\mathbb{D} = (\mathcal{A}, T)$ is defined
   as follows:
 \begin{itemize}
 \item Our indexing base is the double category $\Cat{Arena}_{\mathbb{D}}$ of arenas, since we
@@ -894,13 +893,13 @@ by the interchange law.
   \section{Vertical Slice Construction}\label{sec.vertical_slice}
 
   In the previous section, we constructed the doubly indexed categories
-  $\Cat{Sys}_{\mathbb{D}}$ of systems in a doctrine $\mathbb{D}$ and $\Cat{Vec}$
+  $\Cat{Sys}_{\mathbb{D}}$ of systems in a systems theory $\mathbb{D}$ and $\Cat{Vec}$
   of vectors of sets ``by hand''. However, both constructions felt very
   familiar. In this section, we will show that they are both instances of a
   general construction: the \emph{vertical slice construction}.
 
 The main reason for recasting the above constructions in more general terms is
-that it will facilitate our main theorem of this chapter: change of doctrine.
+that it will facilitate our main theorem of this chapter: change of systems theory.
 
   The vertical slice construction will take a \emph{double functor} $F :
   \cat{D}_0 \to \cat{D}_1$ and produce a doubly indexed category $\sigma F :
@@ -962,7 +961,7 @@ will begin with the two simple examples we need to
 construct the doubly indexed categories $\Cat{Sys}$ and $\Cat{Vec}$.
 
 \begin{example}\label{ex.double_functor_section}
-Let $\mathbb{D} = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a doctrine. We
+Let $\mathbb{D} = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a systems theory. We
 recall that the section $T : \cat{C} \to \int^{C : \cat{C}}\cat{A}(C)$ is a functor to the
 Grothendieck construction of $\cat{A}$. We may promote this into a double
 functor into the double category of arenas $\Cat{Arena}_{\mathbb{D}}$ in a
@@ -1167,7 +1166,7 @@ category. The proof is exactly as it was for $\Cat{Sys}$.
 We can now see that the vertical slice construction generalizes both the
 constructions of $\Cat{Sys}_{\mathbb{D}}$ and $\Cat{Vec}$. 
 \begin{proposition}\label{prop.sys_is_vertical_slice}
-  The doubly indexed category $\Cat{Sys}_{\mathbb{D}}$ of systems in a doctrine
+  The doubly indexed category $\Cat{Sys}_{\mathbb{D}}$ of systems in a systems theory
   $\mathbb{D} = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ is the vertical slice
   construction of the double functor $hT : h\cat{C} \to
   \Cat{Arena}_{\mathbb{D}}$ given by considering the section $T$ as a double
@@ -1190,7 +1189,7 @@ This is also a matter of checking that the definitions coincide.
 
 \subsection{Natural Transformations of Double Functors}
 We now turn towards proving the functoriality of the vertical slice construction
-as a first step in proving the change of doctrine theorem. In order to express
+as a first step in proving the change of systems theory functoriality theorem. In order to express
 the functoriality of the vertical slice construction, we will first need learn
 about natural transformations between double functors.
 
@@ -1898,11 +1897,11 @@ show that $\sigma(v \ast w) = \sigma v \then \sigma w$.
 \end{itemize}
 \end{proof}
 
-\section{Change of Doctrine}
+\section{Change of systems theory}
 
-We have learned about a variety of doctrines through the course of this book:
+We have learned about a variety of systems theory through the course of this book:
 \begin{itemize}
-  \item There are the deterministic doctrines (\cref{def.deterministic_doctrines})
+  \item There are the deterministic systems theory (\cref{def.deterministic_doctrines})
 \[
 (\smctx{-}: \cat{C}\op \to \Cat{Cat},\, \phi \mapsto \phi \circ \pi_2)
 \]
@@ -1913,60 +1912,60 @@ ergodic theory we most often use the category of measureable spaces and
 measurable functions.\footnote{We most often consider maps which preserve a
   specific measure on a space as well, but the category of such measure
   preserving maps is not cartesian. Often one needs to go and twiddle these
-  general definitions of doctrines in particular cases to suit the particular
+  general definitions of systems theory in particular cases to suit the particular
   needs of a subject.} We often assume the dynamics of the systems are not arbitary
 set maps, but are furthermore continuous or differentiable; this means working
 in the cartesian categories of topological spaces or differentiable manifolds.
-\item There are also the differential doctrines
+\item There are also the differential systems theories
   (\cref{def.euclidean_diff_doctrine,def.toric_diff_doctrine,def.general_diff_doctrine})
   where the tangent bundle plays an important role. \jaz{ There are also non-standard
-  differential doctrines arising from cartesian differential categories and
+  differential systems theories arising from cartesian differential categories and
   tangent categories with display maps.
  }
-\item There are the non-deterministic doctrines for any commutative monad $M$ on
+\item There are the non-deterministic systems theories for any commutative monad $M$ on
   a cartesian category $\cat{C}$. As we saw in \cref{Chapter.2}, by varying the
   monad $M$ we can achieve a huge variety of flavors of non-determinism. This
   includes possibilistic and stochastic non-determinism, but also other variants
   like systems with cost-sensitive transitions and (\cref{def.system_with_costs}). 
 \end{itemize}
-These are just large classes of doctrines that have been easy to describe in
+These are just large classes of systems theories that have been easy to describe in
 generality. Different particular situations will require different particular
-doctrines. For example, we may decide to restrict the sorts of maps appearing in
-our doctrines by changing the base $\cat{C}$ as in
-\cref{sec.restriction_of_doctrines}. There may also be doctrines constructed by
+systems theories. For example, we may decide to restrict the sorts of maps appearing in
+our systems theories by changing the base $\cat{C}$ as in
+\cref{sec.restriction_of_doctrines}. There may also be systems theories constructed by
 hand for particular purposes, such as ergodic theory.
 
-These doctrines are not isolated from each other. We have seen already in
-\cref{sec.restriction_of_doctrines} that some doctrines may be formed by
-restricting others. There are also some apparent inclusions of doctrines that
+These systems theories are not isolated from each other. We have seen already in
+\cref{sec.restriction_of_doctrines} that some systems theories may be formed by
+restricting others. There are also some apparent inclusions of systems theories that
 are not explained by restriction; for example, the Euclidean differential
-doctrine is a special case of the general differential doctrine. We should be
+systems theories is a special case of the general differential systems theories. We should be
 able to think of Euclidean differential systems and general differential systems
 without too much hassle, and we should be able to apply theorems that pertain to
 general differential systems to Euclidean ones. Another example of inclusion of
-doctrines is of deterministic systems into non-deterministic systems of any flavor.
+systems theories is of deterministic systems into non-deterministic systems of any flavor.
 
-There are also more drastic ways to change doctrine. Any map of commutative
+There are also more drastic ways to change systems theories. Any map of commutative
 monads $\phi : M \to N$ gives us a way of changing an $M$-system into an
 $N$-system, changing the flavor of non-determinism. We may also
 \emph{approximate} a differential system by a deterministic system. 
 
-These are all ways of \emph{changing our doctrine}, and it is these changes of
-doctrine that we will attend to in this section. 
+These are all ways of \emph{changing our systems theories}, and it is these changes of
+systems theories that we will attend to in this section.
 
-We will begin by defining a \emph{change of doctrine}, which will give us a
-category of doctrines.\footnote{\jaz{Actually a 2-category, but this will likely
+We will begin by defining a \emph{change of systems theory}, which will give us a
+category of systems theories.\footnote{\jaz{Actually a 2-category, but this will likely
     go into an appendix.}} We will then show that forming the doubly indexed
-category of systems $\Cat{Sys}(\dd)$ is functorial in the doctrine $\dd$.
+category of systems $\Cat{Sys}(\dd)$ is functorial in the systems theories $\dd$.
 
 \subsection{Definition}
 
-Let's recall the informal and formal definitions of dynamical system doctrines. 
+Let's recall the informal and formal definitions of theories of dynamical systems.
 
-The informal definition is that a doctrine is a way to answer a series of
+The informal definition is that a systems theory is a way to answer a series of
 questions about what it means to be a dynamical system.
 \begin{informal}
-  A \emph{doctrine} of dynamical systems is a particular way to answer the following
+  A \emph{theory} of dynamical systems is a particular way to answer the following
   questions about what it means to be a dynamical system:
   \begin{enumerate}
   \item What does it mean to be a state?
@@ -1981,11 +1980,11 @@ questions about what it means to be a dynamical system.
 \end{informal}
 
 This informal definition is captured by the sparse, formal definition that a
-doctrine is a pair consisting of an indexed category $\cat{A} : \cat{C}\op \to
+systems theory is a pair consisting of an indexed category $\cat{A} : \cat{C}\op \to
 \Cat{Cat}$ together with a section $T$. The various questions correspond to the
 choices one can make when defining such a pair.
 
-To change a doctrine, then, means to change our answers to these questions. We
+To change a systems theory, then, means to change our answers to these questions. We
 want to enact this change by some formulated process. For example, if what it
 means to be a state is a to be a vector in Euclidean space, and we would like to
 change this to instead answer that to be a state means to be an element of an
@@ -1999,7 +1998,7 @@ what it means to be a state, how the output varies with the state, and the way
 the inputs vary by changing the indexed category $\cat{A}$. 
 
 Suppose that $(\cat{A}, T_1)$ and $(\cat{B}, T_2)$ are dynamical system
-doctrines. If we have an indexed functor (\cref{def.indexed_functor}) $(F, \overline{F}) :
+systems theories. If we have an indexed functor (\cref{def.indexed_functor}) $(F, \overline{F}) :
 \cat{A} \to \cat{B}$ between indexed categories, then from a dynamical system
 $\lens{\update{S}}{\expose{S}} : \lens{T_1\State{S}}{\State{S}} \fromto
 \lens{\In{S}}{\Out{S}}$ we can get a lens 
@@ -2026,12 +2025,12 @@ we considered this map $\phi$ as a lens $\lens{\phi}{\id} : \lens{T_2 F \State{S
   \State{S}}{F \State{S}} \fromto \lens{\overline{F}\In{S}}{F\Out{S}}.
 \]
 This is a $(\cat{B}, T_2)$-system, and this process is how we may use a change
-of doctrine to turn $(\cat{A}, T_1)$-systems into $(\cat{B},T_2)$-systems.
+of systems theories to turn $(\cat{A}, T_1)$-systems into $(\cat{B},T_2)$-systems.
 
-We therefore arrive at the following formal defintion of change of doctrine.
+We therefore arrive at the following formal defintion of change of systems theory.
 \begin{definition}\label{def.change_of_doctrine}
   Let $(\cat{A} : \cat{C} \to \Cat{Cat}, T_1)$ and $(\cat{B} : \cat{D} \to
-  \Cat{Cat}, T_2)$ be dynamical system doctrines. A \emph{change of doctrine}
+  \Cat{Cat}, T_2)$ be theories of dynamical systems. A \emph{change of systems theories}
   $((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B}, T_2)$ consists of:
 \begin{itemize}
   \item An indexed functor $(F, \overline{F}) : \cat{A} \to \cat{B}$. 
@@ -2089,10 +2088,10 @@ Rightarrow, "{\lens{\phi}{\id}}"] \ar[d,"\pi"'] & \int^{D :
 \end{proof}
 
 
-Every restriction (from \cref{sec.restriction_of_doctrines}) is a change of doctrine.
+Every restriction (from \cref{sec.restriction_of_doctrines}) is a change of systems theory.
 \begin{proposition}
-Let $\dd = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a doctrine, and let $F :
-\cat{D} \to \cat{C}$ be a functor. Then there is a change of doctrine $((F,
+Let $\dd = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a systems theory, and let $F :
+\cat{D} \to \cat{C}$ be a functor. Then there is a change of systems theory $((F,
 \id), \id) : \dd_{|F} \to \dd$ from the restriction $\dd_F = (\cat{A} \circ
 F\op, T \circ F)$ (\cref{def.restriction_doctrine}) of $\dd$ by $F$ to $\dd$.
 \end{proposition}
@@ -2103,12 +2102,12 @@ transformation of sections is the same as a natural transformation of a certain
 sort, we may take that transformation to be the identity.
 \end{proof}
 
-There are, however, more interesting changes of doctrine. For example, every
-morphism of commutative monads gives rise to a change of doctrine.
+There are, however, more interesting changes of systems theory. For example, every
+morphism of commutative monads gives rise to a change of systems theory.
 
 \begin{proposition}\label{prop.morphism_commutative_monoid_change_doctrine}
   Let $\phi : M \to N$ be a morphism of commutative monads on a cartesian
-  category $\cat{C}$. Then there is a change of doctrine given by
+  category $\cat{C}$. Then there is a change of systems theory given by
   \[
 ((\id, \phi_{\ast}), \id) : \nondet_{M} \to \nondet_{N}.
   \]
@@ -2137,7 +2136,7 @@ transformation of sections to be the identity.
   For any commutative monad $M : \cat{C} \to \cat{C}$, there is a unique commutative monad map from
   the identity monad $\id_{\cat{C}}$. Therefore,
   \cref{prop.morphism_commutative_monoid_change_doctrine} gives us a change of
-  doctrine $\determ_{\cat{C}} \to \nondet_{M}$ which lets us interpret
+  systems theory $\determ_{\cat{C}} \to \nondet_{M}$ which lets us interpret
   deterministic systems as special cases of non-deterministic systems.
 \end{example}
 
@@ -2146,22 +2145,22 @@ transformation of sections to be the identity.
 : \probset \to \powset$ sending a probability distribution to the set of
 elements with non-zero probability. Therefore,
 \cref{prop.morphism_commutative_monoid_change_doctrine} gives us a change of
-doctrine $\nondet_{\probset} \to \nondet_{\powset}$ which reinterprets a
+systems theory $\nondet_{\probset} \to \nondet_{\powset}$ which reinterprets a
 probabilistic system as a possibilistic one where the state $s'$ is possibly the
 udpate $\phi_{\ast}\update{S}(s, i)$ of state $s$ with input $i$ just when just
 when the probability $\update{S}(s, i)(s')$ that $s$ will transition to $s'$ on
 input $i$ is non-zero.
 \end{example}
 
-We may also describe changes of doctrines between various sorts of deterministic
-doctrine. 
+We may also describe changes of systems theories between various sorts of deterministic
+systems theory.
 \begin{proposition}\label{prop.change_of_doctrine_cartesian}
 Let $F : \cat{C} \to \cat{D}$ be a cartesian functor between cartesian
-categories. Then there is a change of doctrine
+categories. Then there is a change of systems theory
 \[
 ((F, \overline{F}), \id) : \determ_{\cat{C}} \to \determ_{\cat{D}} 
 \]
-from the deterministic doctrine in $\cat{C}$ to the cartesian doctrine in $\cat{D}$.
+from the deterministic systems theoy in $\cat{C}$ to the cartesian systems theory in $\cat{D}$.
 \end{proposition}
 \begin{proof}
 We need to construct the indexed functor $(F, \overline{F})$, and then prove
@@ -2211,8 +2210,8 @@ topology. This is formalized by applying
 \Cat{Top}$ which equips a set with the discrete topology.
 \end{example}
 
-The most interesting examples of changes of doctrine are the ones which move
-between different sorts of doctrine, such as from differential to deterministic.
+The most interesting examples of changes of systems theory are the ones which move
+between different sorts of systems theory, such as from differential to deterministic.
 An example of this is the Euler approximation, which takes a Eulidean
 differential system to a deterministic system.
 
@@ -2228,11 +2227,11 @@ time, deterministic system by
 \mathcal{E}_{\varepsilon}u(s, i) = s + \varepsilon \cdot u(s, i).
 \end{equation}
 This simple method of approximating the solution of a differential equation is
-called the Euler method. We can see the Euler method as a change of doctrine
-from a differential doctrine to a deterministic doctrine.
+called the Euler method. We can see the Euler method as a change of systems theory
+from a differential systems theory to a deterministic systems theory.
 
 \begin{proposition}
-  For any $\varepsilon > 0$ The Euler method gives rise to a change of doctrine
+  For any $\varepsilon > 0$ The Euler method gives rise to a change of systems theory
   \[
 \mathcal{E}_{\varepsilon} : \eucdiff_{|\textbf{Aff}} \to \determ_{\Cat{Euc}}.
   \]
@@ -2275,7 +2274,7 @@ $f$ is affine for this square to commute.
 
 \begin{remark}
 It would be very interesting to have a theory which allowed us to speak of
-``approximate'' changes of doctrine. If we plug a function $f : \rr^n \to \rr^m$
+``approximate'' changes of systems theory. If we plug a function $f : \rr^n \to \rr^m$
 into the above formulas for the Euler method, then we find that \cref{eqn:euler.affine.map} 
 only holds up to $O(\varepsilon^2)$. For affine functions, this means that it does
 hold, which is why we restrict to affine functions. But it would be interesting
@@ -2286,19 +2285,19 @@ affected the various compositionality results all the way down.
 %writehere
 
 In the upcoming \cref{sec:functoriality.of.sys}, we will see what knowing that
-the Euler method is a change of doctrine lets us conclude about the behaviors
+the Euler method is a change of systems theory lets us conclude about the behaviors
 and compositionality of Euler method approximations. 
 
-Considering doctrines together with their changes gives us a category
-$\Cat{Doctrine}$. 
+Considering systems theories together with their changes gives us a category
+$\Cat{Theory}$.
 
 \begin{definition}\label{def.category_of_doctrines}
-  The category $\Cat{Doctrine}$ has as objects the dynamical systems doctrines
-  and as morphisms the changes of doctrine.
+  The category $\Cat{Theory}$ has as objects the theories of dynamical systems
+  and as morphisms the changes of theories.
 
   If $((F_1, \overline{F}_1), \phi_1) : (\cat{A}_1, T_1) \to (\cat{A}_2, T_2)$
   and $((F_2, \overline{F}_2), \phi_2) : (\cat{A}_2, T_2) \to (\cat{A}_3, T_3)$
-  are changes of doctrine, then their composite is defined to be
+  are changes of systems theories, then their composite is defined to be
   \[
 ((F_1, \overline{F}_1), \phi_1) \then ((F_2, \overline{F}_2), \phi_2) \coloneqq
 ((F_1, \overline{F}_1)\then(F_2, \overline{F}_2), \phi_1 \ast \phi_2)
@@ -2325,11 +2324,11 @@ In terms of natural transformations (see
 
 \subsection{Functoriality}\label{sec:functoriality.of.sys}
 
-We use changes of doctrines to turn a system of one sort into a system of
+We use changes of systems theories to turn a system of one sort into a system of
 another sort. We sketched how this process goes above, but for good measure
 let's revisit it.
 \begin{definition}\label{def.change_of_doctrine_action_systems}
-Let $\mathbb{F} = ((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B}, T_2)$ be a change of doctrine, and
+Let $\mathbb{F} = ((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B}, T_2)$ be a change of systems theory, and
 let
 \[
 \Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{T_1\State{S}}{\State{S}} \fromto \lens{\In{S}}{\Out{S}}
@@ -2345,17 +2344,17 @@ expose $F\expose{S}$.
 \end{definition}
 
 The goal of this section will be to provide a number of compositionality results
-concerning how changing the doctrine of a system relates to wiring systems
+concerning how changing the theory of a system relates to wiring systems
 together and to behaviors. Specifically, we will prove the following theorem:
 \begin{theorem}\label{thm.functoriality_system_construction}
   There is a functor 
 \[
-\Cat{Sys} : \Cat{Doctrine} \to \Cat{DblIx}
+\Cat{Sys} : \Cat{Theory} \to \Cat{DblIx}
 \]
-sending a dynamical system doctrine $\dd$ to the doubly indexed category
+sending a theory of dynamical systems $\dd$ to the doubly indexed category
 $\Cat{Sys}_{\dd}$ (\cref{def.doubly_indexed_cat_systems}) of systems in it. 
 
-This functor sends a change of doctrine $\mathbb{F} : \dd_1 \to \dd_2$ to the doubly indexed functor $\Cat{Sys}(\dd_1)
+This functor sends a change of systems theory $\mathbb{F} : \dd_1 \to \dd_2$ to the doubly indexed functor $\Cat{Sys}(\dd_1)
 \to \Cat{Sys}(\dd_2)$ which sends a $\dd_1$-system $\Sys{S}$ to the
 $\dd_2$-system $\mathbb{F}\Sys{S}$ from \cref{def.change_of_doctrine_action_systems}.
 \end{theorem}
@@ -2369,7 +2368,7 @@ can show that the assignment
 (\cat{A} : \cat{C}\op \to \Cat{Cat}, T) \mapsto (hT : h\cat{C} \to
 \Cat{Arena}_{(\cat{A}, T)})
 \]
-gives a functor $\Cat{Doctrine} \to \Cat{DblFun}$, then we can compose this with
+gives a functor $\Cat{Theory} \to \Cat{DblFun}$, then we can compose this with
 the vertical slice construction $\sigma : \Cat{DblFun} \to \Cat{DblIx}$. This is
 what we will focus on.
 
@@ -2379,8 +2378,8 @@ The assignment
 (\cat{A} : \cat{C}\op \to \Cat{Cat}, T) \mapsto (hT : h\cat{C} \to
 \Cat{Arena}_{(\cat{A}, T)})
 \]
-gives a functor $\iota : \Cat{Doctrine} \to \Cat{DblFun}$. This functor sends a
-change of doctrines
+gives a functor $\iota : \Cat{Theory} \to \Cat{DblFun}$. This functor sends a
+change of systems theories
 \begin{equation}\label{eqn.change_of_doctrines}
   \begin{tikzcd}[row sep = large]
     \cat{C} \ar[r, "F"]\ar[d, "T_1"'] & \cat{D} \ar[d, "T_2"] \\
@@ -2461,11 +2460,11 @@ thin double category so there is nothing more to check.
 
 We can therefore define
 \[
-\Cat{Doctrine} \xto{\Cat{Sys}} \Cat{DblIx} \coloneqq \Cat{Doctrine} \xto{\iota}
+\Cat{Theory} \xto{\Cat{Sys}} \Cat{DblIx} \coloneqq \Cat{Theory} \xto{\iota}
 \Cat{DblFun} \xto{\sigma} \Cat{DblIx}.
 \]
 Let's take a moment to understand this definition in full. Suppose we have a
-change of doctrine $((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B},
+change of systems theories $((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B},
 T_2)$. Then $\iota((F, \overline{F}), \phi)$ is a map of double functors:
 \[
   \begin{tikzcd}[row sep = large]
@@ -2527,8 +2526,8 @@ given by sending a simulation $\psi : \Sys{T} \to \Sys{S}$ to the composite:
   \end{tikzcd}
   \end{equation}
   
-This tells us that changing doctrine and then wiring together systems gives the
-same result as wiring together the systems first and then changing doctrine.
+This tells us that changing systems theories and then wiring together systems gives the
+same result as wiring together the systems first and then changing systems theories.
 
 \item (\cref{def.lax_doubly_indexed_functor}:
   \cref{def:lax.doubly.indexed.functor.3}) For a $\dd_1$-chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+} \tto \lens{B^-}{B^+}$,
@@ -2569,7 +2568,7 @@ given by sending a $\lens{f_{\flat}}{f}$-behavior to the composite:
     \end{tikzcd}
 \]
 
-In other words, changes of doctrine preserve behavior in the sense that if
+In other words, changes of systems theory preserve behavior in the sense that if
 $\psi$ is a $\lens{f_{\flat}}{f}$-behavior then $F\psi$ is a $\lens{\overline{F}f_{\flat}}{f}$-behavior.
 \end{itemize}
 
@@ -2609,7 +2608,7 @@ $\varphi$ and $\lens{f_{\flat}}{f}$ in the appropriate double category of arenas
   That the Euler method preserves steady states is of course evident from the
   formula: if $u(s, i) = 0$, then $\mathcal{E}_{\varepsilon}u(s, i) = s +
   \varepsilon \cdot u(s, i) = s$. But we deduced this fact from our general
-  definition of change of doctrine. This sort of analysis can tell us precisely
+  definition of change of systems theory. This sort of analysis can tell us precisely
   which sorts of behaviors are preserved even in situtations where it may not be
   so obvious from looking at a defining formula.
 
@@ -2628,14 +2627,14 @@ $\varphi$ and $\lens{f_{\flat}}{f}$ in the appropriate double category of arenas
 
 \section{Summary and Further Reading}
 
-In this chapter, we organized the systems in a doctrine into doubly indexed
+In this chapter, we organized the systems in a systems theory into doubly indexed
 categories. While all the action takes place within the double category of
 arenas, the doubly indexed category of systems separates the systems from their
 interfaces and the behaviors from their charts. This let's us describe the
 various sorts of composition --- of systems and of behaviors --- and their
-relationships. We then saw how this construction varied as we changed doctrine.
+relationships. We then saw how this construction varied as we changed systems theory.
 
-There are other examples of changes of doctrines not covered here. For example,
-the Rutta-Kunge approximation can be seen as a change of doctrine; see \cite{ngotiaoco2017compositionality}.
+There are other examples of changes of systems theories not covered here. For example,
+the Rutta-Kunge approximation can be seen as a change of systems theory; see \cite{ngotiaoco2017compositionality}.
 
 \end{document}

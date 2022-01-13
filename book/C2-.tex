@@ -7,7 +7,7 @@
 \setcounter{chapter}{1}%Just finished 1.
 
 
-\chapter{Non-deterministic doctrines}\label{sec.non_deterministic_systems}
+\chapter{Non-deterministic systems theories}\label{sec.non_deterministic_systems}
 
 So far, we have seen how deterministic systems of the discrete- and
 continuous-time variety can be wired together. But modelling a system
@@ -30,7 +30,7 @@ the next character will be. This would give us a \emph{stochastic} model of the
 email-writer system.
 
 In this section, we will see a variety of non-deterministic (discrete-time)
-doctrines. The kind of non-deterministism --- possibilistic, stochastic, etc.
+systems theories. The kind of non-deterministism --- possibilistic, stochastic, etc.
 --- will be encoded in a \emph{commutative monad}
 (\cref{def.commutative_monad}). 
 
@@ -82,9 +82,9 @@ update of $\Sys{S'}$ give us the set of possibilities:
 $$\update{S'}(\Blue, \true) = \{\Blue, \Red\}.$$
 
 
-In this section, we will see two dynamical system doctrines which, instead of
+In this section, we will see two systems theories which, instead of
 telling us the next state, tell us which states are possible or which are
-probable. Both are examples of \emph{non-deterministic} doctrines, since the
+probable. Both are examples of \emph{non-deterministic} systems theories, since the
 current state doesn't determine precisely the next state.
 
 \begin{definition}\label{def.possibilistic_system}
@@ -921,16 +921,16 @@ $p$ on states and an input $i$ to the distribution
 s \mapsto \sum_{s' \in \State{S}} p(s') \update{S}(s', i)(s).
 \]
 
-\section{Monadic doctrines and the Kleisli category}\label{sec.monad_doctrine}
+\section{Monadic systems theories and the Kleisli category}\label{sec.monad_doctrine}
 We have now seen two sorts of non-determinism expressed by commutative monads.
-To each of these we associated a doctrine:
+To each of these we associated a systems theories:
 \begin{itemize}
-  \item To the powerset monad $\powset$, we associated the doctrine of
+  \item To the powerset monad $\powset$, we associated the systems theory of
     possibilistic systems. This is because a map $f : A \to \powset B$ is a
     \emph{possibilistic map} --- it assigns
     a set of \emph{possible images} to each element $a \in A$. 
   \item To the probability distribution monad $\probset$, we associated the
-    doctrine of stochastic system. This is because a map $f : A \to \probset B$
+    theory of stochastic systems. This is because a map $f : A \to \probset B$
     is a stochastic map.
 \end{itemize}
 In general, for any commutative monad $M$ we call a map of the form $f : A \to
@@ -1450,7 +1450,7 @@ is a system whose dynamics is given by a Kleisli map for $M$. It consists of:
   \end{itemize}
 \end{definition}
 
-This will let us more swiftly describe new non-deterministic doctrines.
+This will let us more swiftly describe new non-deterministic systems theories.
 
 For
 example, suppose that our system is free to choose which state it transitions
@@ -4636,7 +4636,7 @@ $\State{S_2}$, and updates in the following way:
 
 In this chapter, we extended the notion of lens to monadic lenses to accomodate
 non-deterministic systems. We saw how any commutative monad gave rise to a
-doctrine of non-determinism, from possibilistic to probabilistic to costs and
+theory of non-determinism, from possibilistic to probabilistic to costs and
 rewards. One nice thing about monads is that you can play with them in Haskell.
 There are plenty of places to learn about monads in Haskell (perhaps too many),
 so I won't make any specific recommendations. For more about monads in category
@@ -4645,7 +4645,7 @@ theory, check out Chapter 5 of \cite{perrone2021notes}.
 We then saw how the notion of lens could be generalized to any indexed category.
 This notion of generalized lens is due to Spivak in
 \cite{spivak2019generalized}. This generalization of lens will underly our
-formal notion of dynamical system doctrine, which will be introduced in the
+formal notion of systems theory, which will be introduced in the
 next chapter. 
 
 \end{document}

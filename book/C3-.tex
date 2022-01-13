@@ -46,9 +46,9 @@ the behaviors of composed systems.
 
 A trajectory is the simplest and freest sort of behavior a system can have. A
 trajectory is just ``what a state does''. In this section, we will see what
-trajectories look like in the deterministic and differential doctrines.
+trajectories look like in the deterministic and differential systems theories.
 
-\subsubsection{Trajectories in the deterministic doctrine}\label{sec.trajectory_discrete}
+\subsubsection{Trajectories in the deterministic systems theory}\label{sec.trajectory_discrete}
 In the introduction, we saw that the $\Sys{Clock}$ system
 \cref{eqn.clock_system_box} has behaves in this way if it starts at $3$ o'clock: 
 $$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
@@ -204,11 +204,11 @@ Later, in \cref{sec.representables}, we will see that given trajectories of
 component systems, we get a trajectory of a whole wired system. Even better,
 every trajectory of the whole wired system can be calculated this way.
 
-\subsubsection{Trajectories in the differential doctrine}\label{sec.trajectory_differential}
+\subsubsection{Trajectories in the differential systems theory}\label{sec.trajectory_differential}
 
 In a differential system, there is no ``next'' state after a given state. All we
 know is how each state is tending to change. So to define a trajectory in the
-differential doctrine, we can't just pick a state and see how it updates;
+differential systems theory, we can't just pick a state and see how it updates;
 instead, we are going to pick a state $s_t$ for every time $t \in \mathbb{R}$
 which are changing in the way described by the system. 
 
@@ -348,9 +348,9 @@ transition from susceptible to infected and infected to removed; see \cite{SIR_s
 A steady state of a system is a state which does not change. Steady states are
 important because they are guarantees of stability: a vase in a steady state is doing great, a heart in a steady state is in need of attention.
 
-\subsubsection{Steady states in the deterministic doctrine}
+\subsubsection{Steady states in the deterministic systems theory}
 
-A steady state in the deterministic doctrine is a state which transitions to itself.
+A steady state in the deterministic systems theory is a state which transitions to itself.
 
 \begin{definition}\label{def.steady_state_discrete}
  Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
@@ -501,9 +501,9 @@ When we wire these together, we get this system:
   
 \end{exercise}
 
-\subsubsection{Steady states in the differential doctrine}
+\subsubsection{Steady states in the differential systems theory}
 
-A steady state in the differential doctrine is a state which has no tendency to change.
+A steady state in the differential systems theory is a state which has no tendency to change.
 
 \begin{definition}\label{def.steady_state_differential}
  Let $$\Sys{S} = \lens{\update{S}}{\expose{S}} : \lens{\State{S}}{\State{S}}
@@ -573,7 +573,7 @@ repeat. To a reasonable approximation, the position of the earth around the sun
 follows a cycle that repeats every year. Using this as a paradigmatic example,
 we call these behaviors that repeat \emph{periodic orbits}.
 
-\subsubsection{Periodic orbits in the deterministic doctrine}
+\subsubsection{Periodic orbits in the deterministic systems theory}
 
 \begin{definition}[Periodic orbit] \label{def.periodic_orbit_discrete}
   A $\lens{p}{v}$-trajectory $s : \nn \to \State{S}$ is \emph{periodic} if there
@@ -619,7 +619,7 @@ parameters; how are they different from steady states? Are there any of these in
   don't have periodic parameters? 
 \end{exercise}
 
-\subsubsection{Periodic orbits in the differential doctrine}
+\subsubsection{Periodic orbits in the differential systems theory}
 
 \begin{definition}
 A $p$-trajectory $s : \rr \to \State{S}$ for a differential system $\Sys{S}$ is
@@ -676,7 +676,7 @@ The \emph{period} of an eventually periodic trajectory is
 
 \begin{exercise}
   Formulate an analogous definition of eventually periodic orbit in the
-  differential doctrine.
+  differential systems theory.
 \end{exercise}
 
 
@@ -687,7 +687,7 @@ The \emph{period} of an eventually periodic trajectory is
 
 
 %---- Section ----%
-\section{Behaviors of systems in the deterministic doctrine}\label{sec.behaviors}
+\section{Behaviors of systems in the deterministic theory}\label{sec.behaviors}
 
 In the previous
 \cref{sec.trajectory_discrete,sec.steady_state_discrete,sec.periodic_orbit_discrete},
@@ -701,9 +701,9 @@ systems.} in its own right, one that \emph{represents} that sort of
 behavior. The representative system of a certain kind of behavior behaves in
 exactly that way, and does nothing else.
 
-We will begin, for concreteness, with the deterministic doctrine. We will then
+We will begin, for concreteness, with the deterministic systems theory. We will then
 return in the next section to see how we may formulate a general definition
-which also encompasses the differential doctrine.
+which also encompasses the differential systems theory.
 
 We begin with a general definition of \emph{chart}. A behavior is defined
 relative to its chart, which is the choice of parameters and the values of the
@@ -1309,7 +1309,7 @@ on the outside.
 Let's see what this notion looks like for deterministic systems; then we will
 describe it in a doctrinal way.
 \begin{definition}\label{def.bisimulation_discrete}
-  In the deterministic doctrine, a \emph{bisimulation} $\sim$ between $\lens{I}{O}$-systems $\Sys{S}$ and
+  In the deterministic systems theory, a \emph{bisimulation} $\sim$ between $\lens{I}{O}$-systems $\Sys{S}$ and
   $\Sys{U}$ is a relation $\sim : \State{S} \times \State{U} \to \{\true,
   \false\}$ between states of these systems such that $s \sim u$ only when $s$
   and $u$ have related dynamics:
@@ -1356,7 +1356,7 @@ being bisimilar is independent of the particular bisimulation. To see this, we
 need to introduce an interesting system: the system of trees.
 
 \begin{definition}
-  Let $\lens{I}{O}$ be an arena in the deterministic doctrine. An
+  Let $\lens{I}{O}$ be an arena in the deterministic systems theory. An
   $\lens{I}{O}$-tree $\tau$ (or a $O$-labeled, $I$-branching tree) consists of:
   \begin{itemize}
     \item A \emph{root} $\fun{root}(\tau) \in O$.
@@ -1367,7 +1367,7 @@ need to introduce an interesting system: the system of trees.
 
 
 \begin{definition}
-Let $\lens{I}{O}$ be an arena in the deterministic doctrine. The $\lens{I}{O}$-system
+Let $\lens{I}{O}$ be an arena in the deterministic systems theory. The $\lens{I}{O}$-system
 $\Sys{Tree}_{\littlelens{I}{O}}$ of $\lens{I}{O}$-trees has
 \begin{itemize}
 \item $\State{Tree}$ is the set of $\lens{I}{O}$-trees.
@@ -1489,8 +1489,8 @@ us deal with our two kinds of composition: the composition of systems, and the
 composition of behaviors. By revealing that \cref{def.behavior_discrete} can be
 expressed as a square in a double category of \emph{arenas}, we will find a
 generalization of this definition of behavior which applies to the differential
-doctrine as well. It is at this point that we will introduce the formal
-definition of a \emph{dynamical system doctrine}.
+systems theory as well. It is at this point that we will introduce the formal
+definition of a \emph{theory of dynamical systems}.
 
 \begin{definition}\label{def.double_category}
   A \emph{double category} $\cat{D}$ has:
@@ -1611,14 +1611,14 @@ horizontal category, but also how they interact through the squares.
 
 Let's see a few important examples of double categories.
 
-\subsection{The double category of arenas in the deterministic doctrine}
+\subsection{The double category of arenas in the deterministic systems theory}
 
 Finally, we are ready to meet the double category of arenas in the deterministic
-doctrine. This is where our dynamical
+systems theory. This is where our dynamical
 systems live, and where they behave.
 
 \begin{definition}\label{def.double_category_of_arenas_discrete}
-  The \emph{double category of arenas} in the deterministic doctrine is a double
+  The \emph{double category of arenas} in the deterministic systems theory is a double
   category which has:
   \begin{itemize}
   \item Its objects are the \emph{arenas}, pairs of sets $\lens{A^-}{A^+}$.
@@ -1744,8 +1744,8 @@ squares in the double category of arenas.
 \end{proof}
 
 This re-expression of the notion of behavior in terms of the double category of
-arenas will let us generalize from the deterministic doctrine to other
-doctrines.
+arenas will let us generalize from the deterministic systems theory to other
+systems theories.
 
 \subsection{The double category of sets, functions, and matrices}\label{sec.double_cat_of_matrices}
 
@@ -2295,7 +2295,7 @@ G_2 G_1 Y$, which means that they are equal. But this is what we were trying to 
 
 \end{proof}
 
-\section{Dynamical System Doctrines}\label{sec.doctrines}
+\section{Theories of Dynamical Systems}\label{sec.doctrines}
 
 In \cref{sec.wiring_together_non_det}, we saw how from the data of an indexed
 category $\cat{A} : \cat{C}\op \to \Cat{Cat}$ we could define a category of $\cat{A}$-lenses via the Grothendieck
@@ -2320,7 +2320,7 @@ can define a system, in general, to be an $\cat{A}$-lens of the form
 At this point, your categorical nose should be twitching. We've given a
 assignment on objects; how is this assignment functorial? We can discover what
 sort of functoriality we need from considering the expression in \cref{prop.behavior_as_square_of_arenas_discrete} of behaviors as
-squares of arenas in the deterministic doctrine:
+squares of arenas in the deterministic systems theory:
 \[
     \begin{tikzcd}
       \lens{\State{T}}{\State{T}} \ar[r, shift left, "\lens{\phi \circ
@@ -2404,18 +2404,18 @@ In order to define lenses, we need the data of an indexed category $\cat{A} :
 \cat{C}\op \to \Cat{Cat}$. In order to define dynamical systems as
 $\cat{A}$-lenses, and to define the behaviors between them, we need the data of
 a section $T$ of $\cat{A}$. Putting these two bits of data together, we get the
-notion of \emph{dynamical system doctrine}.
+notion of \emph{dynamical system systems theory}.
 
 \begin{definition}\label{def.doctrine}
-A \emph{dynamical system doctrine} consists of an indexed category $\cat{A} :
+A \emph{theory of dynamical systems} consists of an indexed category $\cat{A} :
 \cat{C}\op \to \Cat{Cat}$ together with a section $T$.
 \end{definition}
 
-Having this definition of doctrine in mind, we can now define the notion of
+Having this definition of systems theory in mind, we can now define the notion of
 dynamical system and behavior in complete generality.
 
 \begin{definition}\label{def.doctrine_system}
-A dynamical system in a doctrine $\mathbb{D} = (\cat{A}, T)$ is an $\cat{A}$-lens of the form
+A dynamical system in a theory of dynamical systems $\mathbb{D} = (\cat{A}, T)$ is an $\cat{A}$-lens of the form
 \[
 \lens{\update{S}}{\expose{S}} : \lens{T\State{S}}{\State{S}} \fromto \lens{\In{S}}{\Out{S}}.
 \]
@@ -2436,7 +2436,7 @@ Explcitly, this consists of:
 \end{definition}
 
 In order to define the notion of behavior, we will need to generalize the double
-category of arenas from the deterministic doctrine to an arbitrary doctrine. To
+category of arenas from the deterministic systems theory to an arbitrary systems theory. To
 do this, we will define the \emph{Grothendieck double construction}, which
 produces a double category of arenas from an indexed category $\cat{A}$.
 
@@ -2508,7 +2508,7 @@ It just remains to show that commuting squares compose.
 We can now check that this does indeed abstract the double category of arenas.
 
 \begin{proposition}\label{prop.arenas_double_groth_contextual_maps}
-  The double category of arenas in the deterministic doctrine is the
+  The double category of arenas in the deterministic systems theory is the
   Grothendieck double construction of the indexed category of sets and functions
   in context $\smctx{-} : \smset\op \to \Cat{Cat}$:
 $$\Cat{Arena} = \sqiint^{C \in \smset} \smctx{C}.$$ 
@@ -2578,10 +2578,10 @@ $$\Cat{Arena}_{\cat{A}} := \sqiint^{C \in \cat{C}} \cat{A}(C).$$
 \end{definition}
 
 With this definition of the double category of arenas in hand, we can define a
-behavior in a general doctrine.
+behavior in a general systems theory.
 \begin{definition}
- Let $\mathbb{D} = (\cat{A}, T)$ be a doctrine, and $\Sys{T}$ and $\Sys{S}$ two
- systems in this doctrine. Given an $\cat{A}$-chart
+ Let $\mathbb{D} = (\cat{A}, T)$ be a systems theory, and $\Sys{T}$ and $\Sys{S}$ two
+ systems in this systems theory. Given an $\cat{A}$-chart
  \[
 \lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}} \rightrightarrows \lens{\In{S}}{\Out{S}},
  \]
@@ -2603,15 +2603,14 @@ behavior in a general doctrine.
 
 In \cref{sec.behaviors_general}, we will see what composition in the double
 category $\Cat{Arena}_{\cat{A}}$ of $\cat{A}$-arenas let's us conclude about
-composition of systems and behaviors. For now, in the rest of this section, we will formally introduce the dynamical system
-doctrines we have been working with throughout the book, with some precise
+composition of systems and behaviors. For now, in the rest of this section, we will formally introduce the theories of dynamical systems we have been working with throughout the book, with some precise
 variations we can now make clear.
 
 But before we do that, let's see how the above
 rather terse formal definition captures the intuitive and informal definition
 given in \cref{informal.doctrine}:
 \begin{informal}
-  A \emph{doctrine} of dynamical systems is a particular way to answer the following
+  A \emph{theory} of dynamical systems is a particular way to answer the following
   questions about what it means to be a dynamical system:
   \begin{enumerate}
   \item What does it mean to be a state?
@@ -2649,22 +2648,22 @@ and a section $T$ constitutes a series of answers to each of these questions.
     \lens{T\State{S}}{\State{S}}$, choosing the action of $T$ on maps $\phi$
     will tell us what it means to interpret changes of state that arise from the
     dynamics of the system into whole behaviors of the system. We will see an
-    elaboriation of this idea when we discuss behaviors in doctrines other than
-    the deterministic doctrine.
+    elaboriation of this idea when we discuss behaviors in systems theories other than
+    the deterministic systems theory.
   \item By choosing the maps of $\cat{A}$, we will determine what sort of map
     $\update{S}$ is. This will determine in what sort of way the changes in
     state vary with parameters.
 \end{enumerate}
 
-\subsection{The deterministic doctrines}
+\subsection{The deterministic systems theories}
 
-We have been speaking of the deterministic doctrine throughout this book to mean
-the doctrine of machines with discrete time whose next state is entirely
+We have been speaking of the deterministic systems theory throughout this book to mean
+the theory of machines with discrete time whose next state is entirely
 determined by its current state and choice of parameters. But really, there have
-been many deterministic doctrines, one for each cartesian category $\cat{C}$.
+been many deterministic systems theories, one for each cartesian category $\cat{C}$.
 
 \begin{definition}\label{def.deterministic_doctrines}
-  Let $\cat{C}$ be a cartesian category. The \emph{deterministic doctrine}
+  Let $\cat{C}$ be a cartesian category. The \emph{deterministic systems theory}
   $\determ_\cat{C}$ in $\cat{C}$ is defined to be the indexed category
   $\smctx{-}: \cat{C}\op \to \Cat{Cat}$ together with the section $C \mapsto C$
   and $\phi \mapsto \phi \circ \pi_2$ defined in \cref{prop.section_discrete}.
@@ -2672,10 +2671,10 @@ been many deterministic doctrines, one for each cartesian category $\cat{C}$.
 
 \begin{remark}
  \cref{prop.behavior_as_square_of_arenas_discrete} Shows that behaviors in a
- deterministic doctrine are precisely what we studied (and saw examples of) in \cref{sec.behaviors}.
+ deterministic systems theory are precisely what we studied (and saw examples of) in \cref{sec.behaviors}.
 \end{remark}
 
-There are many different deterministic doctrines, one for each choice of
+There are many different deterministic systems theory, one for each choice of
 cartesian category $\cat{C}$. For example:
 \begin{itemize}
   \item If $\cat{C} = \Cat{Set}$ is the category of sets, we have discontinuous, discrete-time,
@@ -2690,7 +2689,7 @@ cartesian category $\cat{C}$. For example:
   \item And so on...
 \end{itemize}
 
-Let's see how to interpret the determistic doctrine in the case that $\cat{C} =
+Let's see how to interpret the determistic systems theory in the case that $\cat{C} =
 \smset$ answers the questions of \cref{informal.doctrine}.
 \begin{enumerate}
  \item A state is an element of a set.
@@ -2705,7 +2704,7 @@ Let's see how to interpret the determistic doctrine in the case that $\cat{C} =
 
 
 \begin{exercise}
-Answer the questions of \cref{informal.doctrine} in for the following doctrines:
+Answer the questions of \cref{informal.doctrine} in for the following systems theories:
 \begin{enumerate}
    \item $\determ_{\Cat{Top}}$.
    \item $\determ_{\Cat{Man}}$.
@@ -2713,23 +2712,23 @@ Answer the questions of \cref{informal.doctrine} in for the following doctrines:
 \end{enumerate}
 \end{exercise}
 
-\subsection{The differential doctrines}
+\subsection{The differential systems theories}
 
-We can now define the differential doctrines, which will finally let us see the
+We can now define the differential systems theories, which will finally let us see the
 definitions of differential behavior given in \cref{sec.kinds_of_behavior} as
 different incarnations of a single, general definition.
 
-Unlike the case with deterministic doctrines, we will not be giving a single,
-general definition of ``differential'' doctrine. We will be defining our
-different differential doctrines ad-hoc.\footnote{One can give a general
-  definition of differential doctrine that specializes to these various notions
+Unlike the case with deterministic systems theories, we will not be giving a single,
+general definition of ``differential'' systems theory. We will be defining our
+different differential systems theory ad-hoc.\footnote{One can give a general
+  definition of differential systems theory that specializes to these various notions
   with the notion of \emph{tangent category with display maps}. But we prefer to
 just describe the various categories as they come.}
 
-We begin with the differential doctrine used to define the notion of
+We begin with the differential systems theory used to define the notion of
 differential system in \cref{def.differential_system}. 
 \begin{definition}\label{def.euclidean_diff_doctrine}
-The \emph{Euclidean differential doctrine} $\eucdiff$ is defined by the indexed
+The \emph{Euclidean differential systems theory} $\eucdiff$ is defined by the indexed
 category $\smctx{-} : \Cat{Euc}\op \to \Cat{Cat}$ together with the section $T$
 given by 
 \begin{itemize}
@@ -2757,7 +2756,7 @@ Note that if $f : \rr \to \rr^n$ is a function, then
 $$Tf(t, v) = \frac{df}{dt}(t) \cdot v.$$
 \end{remark}
 
-The Euclidean differential doctrine $\eucdiff$ answers the questions of
+The Euclidean differential systems theory $\eucdiff$ answers the questions of
 \cref{informal.doctrine} in the following way:
 \begin{enumerate}
   \item A state is a $n$-tuple of real numbers, which is to say a point in $\rr^n$.
@@ -2769,14 +2768,14 @@ The Euclidean differential doctrine $\eucdiff$ answers the questions of
   \item The changes in state vary differentiably with the input.
 \end{enumerate}
 
-Let's see what behaviors look like in the Euclidean differential doctrine. Note
+Let's see what behaviors look like in the Euclidean differential systems theory. Note
 that since the indexed category of $\eucdiff$ is $\smctx{-} : \Cat{Euc}\op \to
 \Cat{Cat}$, its double category of arenas is the same as for the deterministic
-doctrine $\determ_{\Cat{Euc}}$. However, the definition of behavior will be
+systems theory $\determ_{\Cat{Euc}}$. However, the definition of behavior will be
 different because the section is different. Let's work out what a general
 behavior is in $\eucdiff$ explicitly.
 \begin{proposition}
-Let $\Sys{T}$ and $\Sys{S}$ be systems in the Euclidean differential doctrine. 
+Let $\Sys{T}$ and $\Sys{S}$ be systems in the Euclidean differential systems theory.
 
 A
 chart $\lens{f_{\flat}}{f} : \lens{\In{T}}{\Out{T}} \rightrightarrows
@@ -2879,21 +2878,21 @@ This says that $\Sys{S}$ is not changing in state $s$ on input $i$, or that $s$
 is a steady state of $\Sys{S}$ for input $i$ as in \cref{def.steady_state_differential}.
 \end{example}
 
-The Euclidean differential doctrine $\eucdiff$ is a special case of a
-\emph{cartesian differential doctrine}. The category $\Cat{Euc}$ is a
+The Euclidean differential systems theory $\eucdiff$ is a special case of a
+\emph{cartesian differential systems theory}. The category $\Cat{Euc}$ is a
 \emph{cartesian differential category}, and for any cartesian differential
-category we can make a cartesian differential doctrine. We won't define the
+category we can make a cartesian differential systems theory. We won't define the
 notion of 
 cartesian differential category here, as the definition is a bit involved. See
 \cite{blute2009cartesian} for a comprehensive introduction.
 \begin{definition}
   For any cartesian differential category $\cat{C}$ with differential operator
-  $T$, we have a doctrine $\cartdiff$ defined by the indexed category $\smctx{-}
+  $T$, we have a systems theory $\cartdiff$ defined by the indexed category $\smctx{-}
   : \cat{C}\op \to \Cat{Cat}$ together with the section given by $T$. 
 \end{definition}
 
 Now, we would like to also show that periodic orbits are behaviors in a
-differential doctrine, but we're a bit stuck. In the Euclidean doctrine, there's
+differential systems theory, but we're a bit stuck. In the Euclidean systems theory, there's
 no way to ensure that a trajectory $\phi : \rr \to \rr^n$ is periodic. Recall
 that $\phi$ being periodic means that 
 $$\phi(t) = \phi(t + k)$$
@@ -2927,7 +2926,7 @@ product of this space with $\rr^{n + m}$.
 \end{definition}
 
 \begin{definition}\label{def.toric_diff_doctrine}
- The \emph{toric differential doctrine} consists of $\smctx{-} : \Cat{Tori}\op
+ The \emph{toric differential systems theory} consists of $\smctx{-} : \Cat{Tori}\op
  \to \Cat{Cat}$ together with the section $T$ given by $T(\rr^n \times T^m) =
  \rr^{n + m}$ and for $f : \rr^n \times T^m \to \rr^k \times T^q$, $Tf : (\rr^n
  \times T^m) \times \rr^{n + m} \to \rr^k \times T^q$ defined to be
@@ -3065,7 +3064,7 @@ a \then i \then pi_2) = a \then i$, from which we may deduce that $z = a \then i
 
 
 We can now construct the indexed category that will form the basis of our new
-differential doctrine. We will do so at the general level of display map
+differential systems theory. We will do so at the general level of display map
 categories, since the construction relies only on this structure.
 \begin{definition}
 Let $(\cat{C}, \cat{D})$ be a category with display maps. The indexed category $\cat{D} : \cat{C}\op \to \Cat{Cat}$ is defined as
@@ -3174,7 +3173,7 @@ to giving such a functor into $\Cat{Chart}_{\cat{D}}$, which, by
 $\cat{D}$.
 \end{proof}
 
-We may therefore define a doctrine associated to any category with display maps
+We may therefore define a systems theory associated to any category with display maps
 $(\cat{C}, \cat{D})$ with such an endofunctor $T : \cat{C} \to \cat{C}$ and
 natural transformation $\pi : T \to \id_{\cat{C}}$ whose components are all
 display maps.
@@ -3183,23 +3182,23 @@ display maps.
 Let $(\cat{C}, \cat{D})$ be a category with display maps and let $T : \cat{C}
 \to \cat{C}$ be an endofunctor and
 $\pi : T \to \id_{\cat{C}}$ a natural transformation whose components are all
-display maps. Then this data forms a doctrine $\dispdoc_{\cat{D}, T}$ given by $\cat{D} : \cat{C}\op \to
+display maps. Then this data forms a systems theory $\dispdoc_{\cat{D}, T}$ given by $\cat{D} : \cat{C}\op \to
 \Cat{Cat}$ and the section induced by sending $C$ to $\pi : TC \to C$ in $\cat{D}(C)$.
 \end{definition}
 
-With one last lemma, we will finally be able to define our general differential doctrine.
+With one last lemma, we will finally be able to define our general differential systems theory.
 \begin{lemma}
 The tangent bundle $\pi : TM \to M$ of a manifold $M$ is a submersion.
 \end{lemma}
 
 \begin{definition}\label{def.general_diff_doctrine}
-The \emph{general differential doctrine} $\diffdoc$ is defined to be the display
-category doctrine
+The \emph{general differential systems theory} $\diffdoc$ is defined to be the display
+category systems theory
 $\dispdoc_{\Cat{Subm}, T}$ associated to the $\Cat{Subm} : \Cat{Man}\op \to
 \Cat{Cat}$ and the tangent bundle functor $T$.
 \end{definition}
 
-A dynamical system in the general differential doctrine $\diffdoc$ consists of a
+A dynamical system in the general differential systems theory $\diffdoc$ consists of a
 state space $\State{S}$, and output space $\Out{S}$, but then a \emph{submersion
 of inputs} $\pi_{\In{S}} : \In{S} \to \Out{S}$. We can think of $\pi$ as assigning to
 each input the output that it is valid for. The update then has signature 
@@ -3218,7 +3217,7 @@ vector at $s$. There will be a lot more to say about dynamical systems in which
 the sorts of inputs allowed depend on the current output in later chapters, but
 for now we'll have to content ourselves with a simple example.
 
-The general differential doctrine $\diffdoc$ answers the questions of
+The general differential systems theory $\diffdoc$ answers the questions of
 \cref{informal.doctrine} in the following way:
 \begin{enumerate}
   \item A state is a point in a smooth manifold.
@@ -3254,18 +3253,18 @@ direction we tell it by defining
 $$\update{S}(s, i) = ki.$$
 \end{example}
 
-We note that any system $\Sys{S}$ in the Euclidean differential doctrine can be
+We note that any system $\Sys{S}$ in the Euclidean differential systems theory can be
 considered as
-a system in the general differential doctrine by defining the bundle of inputs
+a system in the general differential systems theory by defining the bundle of inputs
 to the $\pi_1 : \Out{S} \times \In{S} \to \Out{S}$ and noting that the pullback
 of a product projection is a product projection, so that we may take the domain
 of the new update $u : \expose{S}^{\ast} \pi_1 \to \pi_{T\State{S}}$ to be
 $\State{S} \times \In{S}$, just as it was. We may then define $u(s, i) = (s,
 \update{S}(s, i))$, equating $T\State{S} = T\rr^n$ with $\rr^n \times \rr^n$.
-Later, when we discuss change of doctrine, we will see that this follows from a
-\emph{morphism of doctrines} $\eucdiff \to \diffdoc$.
+Later, when we discuss change of systems theory, we will see that this follows from a
+\emph{morphism of systems theories} $\eucdiff \to \diffdoc$.
 
-We can now describe periodic orbits as behaviors in the general differential doctrine.
+We can now describe periodic orbits as behaviors in the general differential systems theory.
 \begin{example}
   Let $\Sys{Clock_k}$ be the system in $\diffdoc$ with:
 \begin{itemize}
@@ -3325,10 +3324,10 @@ may conclude that behaviors $\Sys{Clock_k} \to \Sys{S}$ are periodic orbits
 (with period dividing $k$) of $\Sys{S}$.
 \end{example}
 
-\subsection{Dependent deterministic doctrines}
+\subsection{Dependent deterministic systems theory}
 
-The doctrine $\dispdoc_{(\cat{C}, T)}$ of display maps can also help us describe deterministic
-doctrines in which the sorts of input a system can accept depend on the output
+The systems theory $\dispdoc_{(\cat{C}, T)}$ of display maps can also help us describe deterministic
+systems theories in which the sorts of input a system can accept depend on the output
 that system is currently exposing. These are called \emph{dependent} deterministic
 systems.
 
@@ -3336,8 +3335,8 @@ systems.
 Let $(\cat{C}, \cat{D})$ be a category with display maps (\cref{defn:display.maps}) and
 finite products, and suppose that product projections $\pi_1 : C \times D \to C$
 are display maps. Then we have a section $TC = C \times C \xto{\pi_1} C$, and so
-we may define the depdendent deterministic doctrine $\depdeterm_{C}$ to be the
-display map doctrine $\dispdoc_{(\cat{C}, \cat{D}), T}$.
+we may define the depdendent deterministic systems theory $\depdeterm_{C}$ to be the
+display map systems theory $\dispdoc_{(\cat{C}, \cat{D}), T}$.
 \end{definition}
 
 Let's understand dependent
@@ -3375,9 +3374,9 @@ their own right, and we won't be able to do them justice here.
 
 %writehere
 
-\subsection{Non-deterministic doctrines}
+\subsection{Non-deterministic systems theories}
 
-In this section, we will define the non-deterministic doctrines. We've already
+In this section, we will define the non-deterministic systems theories. We've already
 done most of the work for this back in \cref{chapter.2}. In particular, in
 \cref{thm.bikleisli_indexed_cat}, we showed that to every commutative monad $M :
 \cat{C} \to \cat{C}$ on a cartesian category, there is a monoidal strict indexed
@@ -3385,7 +3384,7 @@ category
 $$\smctx{}^M : \cat{C}\op \to \Cat{Cat}$$
 sending each object $C \in \cat{C}$ to the category $\smctx{C}^M$ of Klesli maps
 $C \times X \to MY$ in the context of $C$. We will take this to be the indexed
-category underlying the doctrine of non-deterministic systems associated to $M$;
+category underlying the systems theory of non-deterministic systems associated to $M$;
 it remains to construct a section $T$.
 
 \begin{proposition}\label{prop.section_bikliesli}
@@ -3413,12 +3412,12 @@ which is the right hand side.
 
 \begin{definition}\label{def.non-det_doctrine}
   Let $M : \cat{C} \to \cat{C}$ be a commutative monad on a cartesian category
-  $\cat{C}$. The \emph{$M$-flavored non-deterministic doctrine} $\nondeterm_M$
+  $\cat{C}$. The \emph{$M$-flavored non-deterministic systems theory} $\nondeterm_M$
   is defined to be the indexed category $\smctx{-}^M : \cat{C}\op \to \Cat{Cat}$
   together with section defined in \cref{prop.section_bikliesli}. 
 \end{definition}
 
-The non-deterministic doctrine $\nondeterm_M$ answers the questions of
+The non-deterministic systems theory $\nondeterm_M$ answers the questions of
 \cref{informal.doctrine} in the following way (taking $\cat{C} = \smset$ for concreteness):
 \begin{enumerate}
   \item A state is an element of a set.
@@ -3432,15 +3431,15 @@ The non-deterministic doctrine $\nondeterm_M$ answers the questions of
 \end{enumerate}
 
 \begin{exercise}
-Answer these questions more specifically for the following doctrines:
+Answer these questions more specifically for the following systems theories:
 \begin{enumerate}
-  \item The non-deterministic Moore machine doctrine $\nondeterm_{\powset}$.
-  \item The probabilistic doctrine $\nondeterm_{\probset}$.
-\item The worst-case cost doctrine $\nondeterm_{\Cat{Cost}}$.
+  \item The non-deterministic Moore machine theory $\nondeterm_{\powset}$.
+  \item The probabilistic systems theory $\nondeterm_{\probset}$.
+\item The worst-case cost systems theory $\nondeterm_{\Cat{Cost}}$.
 \end{enumerate}
 \end{exercise}
 
-Behaviors in non-deterministic doctrines tend to be a little strict. This is
+Behaviors in non-deterministic systems theory tend to be a little strict. This is
 because the notion of trajectory is a bit more subtle in the non-deterministic
 case. When does a sequence $s : \nn \to \State{S}$ constitute a trajectory of
 the system $\Sys{S}$? Is it when $s_t$ \emph{will} transition to $s_{t +1}$ (in
@@ -3448,39 +3447,39 @@ that $\update{S}(s_t, i_t) = \eta(s_{t+ 1})$)? Or perhaps when it \emph{can}
 transition that way --- but how do we express this notion in general?
 
 While the notion of behavior we have given in this chapter works well for
-deterministic and differential doctrines, it does not work as well for
-non-deterministic doctrines. Instead of asking whether or not a sequence of
+deterministic and differential systems theories, it does not work as well for
+non-deterministic systems theories. Instead of asking whether or not a sequence of
 states is a trajectory, we might instead want to ask how possible or likely it is
 for such a sequence of states to occur through an evolution of the system.
 Figuring out how to express this idea nicely and generally remains future work.
 
-On the other hand, simulations of non-deterministic doctrines remain
+On the other hand, simulations of non-deterministic systems theories remain
 interesting, because they tell us when we might be able to use a simpler model
 for our system without changing the exposed behavior.
 
 \jaz{I should include an example of non-deterministic simulation here.}
 
-\section{Restriction of Doctines}\label{sec.restriction_of_doctrines}
+\section{Restriction of systems theories}\label{sec.restriction_of_doctrines}
 
-Now that we have a concise, formal definition of dynamical system doctrine, we
-can begin to treat doctrines as mathematical objects. In this section, we will
-look at a simple way to construct a new doctrine from an old one:
+Now that we have a concise, formal definition of dynamical system systems theories, we
+can begin to treat systems theories as mathematical objects. In this section, we will
+look at a simple way to construct a new systems theories from an old one:
 \emph{restriction} along a functor. 
 
-We will use restrictions of doctrines in
+We will use restrictions of systems theories in
 order to more precisely control some of the upcoming functoriality results.
-Often, we will only be able to prove a theorem by restricting the doctrine beforehand.
+Often, we will only be able to prove a theorem by restricting the systems theories beforehand.
 
 
-Since a doctrine $\dd$ consists of an indexed category $\cat{A} : \cat{C}\op \to
+Since a systems theories $\dd$ consists of an indexed category $\cat{A} : \cat{C}\op \to
 \Cat{Cat}$ together with a section $T$, if we have a functor $F : \cat{D} \to
-\cat{C}$ then we should be able to produce a new doctrine by composing $\cat{A}$
-and $T$ with $F$. We call this new doctrine $\dd|_F$ the \emph{restriction} of
+\cat{C}$ then we should be able to produce a new systems theories by composing $\cat{A}$
+and $T$ with $F$. We call this new systems theories $\dd|_F$ the \emph{restriction} of
 $\dd$ along $F$.
 
 \begin{definition}\label{def.restriction_doctrine}
-Let $\dd = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a doctrine of dynamical
-systems. For any functor $F : \cat{D} \to \cat{C}$, we have a new doctrine
+Let $\dd = (\cat{A} : \cat{C}\op \to \Cat{Cat}, T)$ be a systems theories of dynamical
+systems. For any functor $F : \cat{D} \to \cat{C}$, we have a new systems theories
 
 $$\dd|_F := (\cat{A} \circ F\op, T \circ F)$$
 
@@ -3499,10 +3498,10 @@ F\op$; this calculation is a straightforward unfolding of definitions.
 
 \begin{example}\label{ex.affine_restriction_euclidean}
 In the next chapter we will see a few approximation methods as ways of changing
-doctrine. 
+systems thories.
 
  However, these approximations do not preserve all features of the
-doctrines; in general, they are only exact for a restricted class of functions. For example, the Euler method which approximates a differential
+systems theories; in general, they are only exact for a restricted class of functions. For example, the Euler method which approximates a differential
 equation
 $$\frac{ds}{dt} = F(s, p)$$
 on a Euclidean space by the discrete-time update function 
@@ -3511,9 +3510,9 @@ only exactly reproduces \emph{affine} behaviors of systems. Being affine is a
 rather severe restriction on the behavior of a dynamical system, but it does
 allow the important case of steady states.
 
-In order to capture Euler approximation as a change of doctrine in the exact
+In order to capture Euler approximation as a change of systems theories in the exact
 manner to be explored in the next chapter, we therefore need to restrict the
-Euclidean differential doctrine $\eucdiff$ to \emph{affine} functions. Recall
+Euclidean differential systems theories $\eucdiff$ to \emph{affine} functions. Recall
 that the indexing base of $\eucdiff$ is the category $\Cat{Euc}$ of Euclidean
 spaces and differentiable functions. We may therefore take our restriction functor to be
 the inclusion $\Cat{Aff} \hookrightarrow \Cat{Euc}$ of affine functions between
@@ -3521,11 +3520,11 @@ Euclidean spaces.
 \end{example}
 
 Now that we have the formalities out of the way, let's understand what
-restricting a doctrine means for the theory of systems in it. Because we have
-changed the indexing base for the doctrine, we have changed the objects of
+restricting a systems theory means for the theory of systems in it. Because we have
+changed the indexing base for the systems theory, we have changed the objects of
 states and exposed variables, and the bottom part of both the lenses and charts. 
 
-In particular, the object of states of a $\dd|_F$-doctrine is now an object of
+In particular, the object of states of a $\dd|_F$-system is now an object of
 $\cat{D}$ and not of $\cat{C}$. The exposed variable $\expose{S} : \State{S} \to
 \Out{S}$ is now a map in $\cat{D}$. Furthermore, and rather drastically, the underlying map $\phi :
 \State{T} \to \State{S}$ of a behavior is also a map in $\cat{D}$.
@@ -3533,32 +3532,31 @@ $\cat{D}$ and not of $\cat{C}$. The exposed variable $\expose{S} : \State{S} \to
 \begin{example}
 Continuing from \cref{ex.affine_restriction_euclidean}, we may consider what a
 behavior represented by the system $\Sys{T} = \lens{t \mapsto 1}{\id} : \lens{\rr}{\rr} \tto
-\lens{\ord{1}}{\rr}$ is in the restricted doctrine $\eucdiff|_{\Cat{Aff}}$.
+\lens{\ord{1}}{\rr}$ is in the restricted systems theory $\eucdiff|_{\Cat{Aff}}$.
 
 Since $\Sys{T}$ represents trajectories in $\eucdiff$, it will represent
 trajectories in $\eucdiff|_{\Cat{Aff}}$. However, we have restricted the
 underlying map $s : \rr \to \State{S}$ to lie in $\Cat{Aff}$ --- that is, to be
 affine. There are not often affine solutions to general differential equations,
 so for the most part we will simply find that a system $\Sys{S}$ has \emph{no}
-trajectories (in this restricted doctrine), or very few.
+trajectories (in this restricted systems theory), or very few.
 
 However, any constant function is affine; for this reason, all steady states are
-affine functions, and so remain behaviors in this restricted doctrine.
+affine functions, and so remain behaviors in this restricted systems theory.
 \end{example}
 
 
 \section{Summary and Futher Reading}
 
 In this chapter, we looked at a variety of behaviors of systems in different
-doctrines and saw that they could all be represented by the same equations
+systems theory and saw that they could all be represented by the same equations
 relating charts with lenses. We saw how behaviors can be represented by
 dynamical systems of particular shapes --- trajectories are represented by
 timelines, steady states by a single fixed point, periodic orbits by clocks, etc. We introduced the double category of arenas to
-organize charts and lenses, and finally gave a formal definition of dynamical
-system doctrine. 
+organize charts and lenses, and finally gave a formal definition of theory of dynamical systems.
 
-The notion of dynamical systems doctrine, the double category of arenas in a
-given doctrine, and the definition of behavior of system that these 
+The notion of systems thoery, the double category of arenas in a
+given systems theory, and the definition of behavior of system that these
 enable are novel contributions of this book. For a summary account, see
 \cite{Jaz_Myers_2021}.
 

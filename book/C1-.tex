@@ -32,14 +32,14 @@ often depends on how they currently are. This is the fundamental idea underlying
 You and I are big, complicated dynamical systems. Our bodies and minds are in
 some particular configuration, and over time this configuration changes. We can
 sense things --- seeing, touching, tasting --- and what we sense affects how our
-bodies and mind changes. Seeing a scary snake can make me recoil and feel fear,
+bodies and minds change. Seeing a scary snake can make me recoil and feel fear,
 but seeing a cute snake plushie can make me go over and start to pet it.
 Some parts of me are also put back into the environment, like the expression on
 my face. But not all of me is exposed in that way --- some things just go on in
 my head.
 
 This is the basic model of a dynamical system we will be working with in this
-book. But to make the above informal definition precise, we need to answer
+book.\footnote{At least until \cref{Chapter.6}, where we will encounter other \emph{doctrines} of dynamical systems.} But to make the above informal definition precise, we need to answer
 a number of questions:
 \begin{itemize}
   \item What should a state be, really? Do we just have an abstract set of
@@ -58,12 +58,12 @@ a number of questions:
 \end{itemize}
 
 Different people have decided on different answers to these questions for
-different purposes. Here are some of the most widespread ways to answer those
+different purposes. Here are three of the most widespread differents ways to answer those
 questions:
 \begin{enumerate}
   \item We'll assume the states form a discrete set, and that if we know the
     current state and our parameters, we know exactly what the next state will
-    be. Such a system generally called a \emph{Moore machine}.
+    be. Such a system generally called a \emph{Moore machine} or \emph{deterministic automaton}.
   \item We'll assume the states form a continuum, but that we only know how a
     state is tending to change, not what the ``next'' state will be. Such a
     system is generally called a \emph{system of
@@ -74,10 +74,10 @@ questions:
     called a \emph{Markov process}, or a \emph{Markov decision process}.
 \end{enumerate}
 
-We will call a way of answering these questions the \emph{doctrine} of dynamical
+We will call a way of answering these questions the \emph{theory} of dynamical
 systems we are working in.
 \begin{informal}\label{informal.doctrine}
-  A \emph{doctrine} of dynamical systems is a particular way to answer the following
+  A \emph{theory} of dynamical systems --- or a \emph{systems theory} for short --- is a particular way to answer the following
   questions about what it means to be a dynamical system:
   \begin{itemize}
   \item What does it mean to be a state?
@@ -92,13 +92,13 @@ systems we are working in.
 \end{informal}
 
 Moore machines, differential equations, and Markov decision processes are each
-dynamical systems understood in a different doctrine.
+dynamical systems understood in a different theory.
 \begin{enumerate}
   \item A Moore machine is a dynamical system in a \emph{discrete and
-      deterministic} doctrine.
+      deterministic} systems theory.
   \item A system of differential equations is a dynamical system in a
-    \emph{differential} doctrine.
-  \item A Markov decision process is a dynamical system in a \emph{stochastic} doctrine.
+    \emph{differential} systems theory.
+  \item A Markov decision process is a dynamical system in a \emph{stochastic} systems theory.
 \end{enumerate}
 
 In most cases, mathematicians have assumed that that the kinds of parameters our systems take in
@@ -106,14 +106,10 @@ never change --- that our system will always interface with
     its environment in the same way. However, this assumption is quite
     restrictive; after all, I change the way I interface with my environment all
     the time. Every time I turn and face a new direction, I open myself up to
-    new inputs. There are variations on all of the above doctrines which allow for the
-    kinds of input to depend on what the system is putting out, but in this book
-    we will take a deep dive into the discrete and deterministic variant.
+    new inputs. There are variations on all of the above systems theories which allow for the
+    kinds of input to depend on what the system is putting out, but for most of this book, we will work with systems theories that pick a fixed sort of input.
 
-\begin{enumerate}
-  \item[4.] A \emph{dependent system} is a dynamical system in a
-    (discrete, deterministic, and) \emph{dependent} doctrine.
-\end{enumerate}
+
 
 The dynamical systems we will see in this book are \emph{open} in the sense that
 they take in inputs from their environment and expose outputs back to their
@@ -135,13 +131,11 @@ systems \emph{composition}.
   form bigger things.
 \end{informal}
 
-Functions can be composed by $g \circ f(x) = g(f(x))$, and dynamical systems
+Functions can be composed by plugging outputs into inputs, and dynamical systems
 can be composed by plugging in the variables of the states of some into the
 parameters of others.
   
-This book is all about composing dynamical systems.\jaz{We should also tell the
-  story that categories for doing the mathematics of dependent systems --- ie
-  you need category theory to talk about dependent systems effectively.} Because of this, we will use
+This book is all about composing dynamical systems. Because of this, we will use
 the abstract language of composition: \emph{category theory}.
 \begin{informal}
 \emph{Category theory} is the abstract study of composition.
@@ -154,8 +148,7 @@ the abstract language of composition: \emph{category theory}.
 \subsection{Category Theory}
 
 We'll be using the language of category theory quite freely in this book, and so
-we'll expect you to know the basics. These are the notions we will expect you to
-be familiar with:
+we'll expect you to know the basics. These are the notions in category theory that you should look up if they are unfamiliar to you:
 \begin{itemize}
 \item What a category is.
 \item What an isomorphism is.
@@ -169,7 +162,7 @@ be familiar with:
 
 Good introductions to category theory abound. One place to start is \emph{An
   invitation to applied category theory} \cite{fong2019seven}. Another is
-\emph{Notes on category theory} \cite{perrone2021notes}.
+\emph{Notes on category theory} \cite{perrone2021notes}. For more mathematically inclined readers, see \cite{Riehl:Cats.in.context}.
 
 We will be using cartesian categories quite a bit in the first few chapters.
 \begin{definition}\label{def.cartesian_category}
@@ -187,20 +180,22 @@ We will be using cartesian categories quite a bit in the first few chapters.
 \end{definition}
 
 We will also use some more advanced category theory, like indexed
-categories, double categories, and toposes. However, you don't need to know them up front; we will introduce these concepts
+categories and double categories. However, you don't need to know them up front; we will introduce these concepts
 as we use them.
 
 While we're at it, here's some notation we'll use repeatedly throughout the book. The $n$th ordinal is denoted $\ord{n}$. It is defined to be the set
 \[
 \ord{n}\coloneqq\{1,2,\ldots,n\}.
 \]
-So $\ord{0}$ is the empty set, $\ord{1}$ is a one-element set, etc.
+So $\ord{0}$ is the empty set, $\ord{1}$ is a one-element set, etc. We will also use
+$$A + B$$
+to mean the disjoint union (or coproduct) of sets.
 
 %-------- Section --------%
-\section{Deterministic and differential doctrines}
+\section{Deterministic and differential systems theories}
 
 In this chapter, we will see how to wire together dynamical systems of all
-different sorts. First, however, we start with two exemplary doctrines:
+different sorts. First, however, we start with two exemplary systems theories:
 
 \begin{enumerate}
 \item First, systems which we will call \emph{(discrete-time) deterministic
@@ -245,7 +240,7 @@ If we know what hour it is, we also know what hour is coming next. So, this syst
                 t &\mapsto \begin{cases} t + 1 &\mbox{if $t < 12$}\\ 1 &\mbox{if $t = 12$}  \end{cases}
 \end{align}
 
-Here's a sample of the dynamics of the clock. Say we started at the 10 o'clock state:
+By saying that the function $\fun{tick}$ is the dynamics for this system, what we mean is that this function sends the current state of the system to the next state it will have. Here's a sample of the dynamics of the clock. Say we started at the 10 o'clock state:
 $$10 \xmapsto{\fun{tick}} 11 \xmapsto{\fun{tick}} 12 \xmapsto{\fun{tick}} 1 \To{\fun{tick}} 2
 \xmapsto{\fun{tick}} \cdots$$
 
@@ -332,7 +327,7 @@ our bare clock \eqref{eqn.clock_system_box} and the $\const{a.m.}/\const{p.m.}$ 
 \end{tikzpicture}
 \end{equation}
 
-The resulting system has states
+We've put both our systems $\Sys{Meridien}$ and $\Sys{Clock}$ into this bigger box with two outgoing wires. We didn't just dump these systems in the bigger box; we connected them up to each other and the outgoing wires. The resulting system has states
 $$\Set{HoursWithDisplay} := \Set{Hour} \times \Set{a.m./p.m.}$$
 each of which is a pair, e.g.\ $(11, \const{a.m.})$, consisting of an hour and a meridian reading.
 They update in a combined way, by using the hour shown on the clock face as the
@@ -345,8 +340,7 @@ dynamics looks like this:
 where $\fun{tick}$ and $\fun{next}$ are as in \eqref{eqn.tick} and \eqref{eqn.next}.
 
 \begin{exercise}
-  Expand the definition of the combined system out in full, and check that it
-  really does behave like the clock with $\const{a.m.}/\const{p.m.}$ display should.
+  Convince yourself that the combined system really does behave like the clock with $\const{a.m.}/\const{p.m.}$ display should.
 \end{exercise}
 
 Now that we have a working clock, we can use it for systems that need to know
@@ -471,7 +465,7 @@ form:
 \end{equation}
 
 We can see that our mystery box will take in a symbol and put out a move command
-and a write command. The way our mystery box behaves is rather mysterious. It has six states $S\cong\6$, and its update rule is given by the following table,
+and a write command. The way our mystery box behaves is rather mysterious. It has seven states $S = \{1, 2, 3, 4, 5, 6, \text{end}\}$, and its update rule is given by the following table,
 where the entry in the row $i$ and the column $s$ is written $(m,w):s'$ to express the
 move command $m$, the write command $w$, and the next state $s'$ that our
 mysterious system transitions to when input the symbol $i$ in state $s$:
@@ -480,12 +474,12 @@ mysterious system transitions to when input the symbol $i$ in state $s$:
     \hline
      & 1 & 2 & 3 & 4 & 5 & 6 \\\hline
     a & (-1, b):1 & (1, a):1 & (-1, b):3  & (1, b):2 & (-1, b):6 & (-1, b):4 \\\hline     
-   b & (-1, a):1 & (1, a):2 & (-1, b):5  & (1, a):4 & (1, a):6 & (1, a): 5 \\\hline     
+   b & (-1, a):1 & (1, a):2 & (-1, b):5  & (1, a):4 & (1, a):6 & (1, a):5 \\\hline
    c & (1, d):2 & (1, d):2 & (-1, c):5 & (1,d):4 & (1, c):5 & (1, a):1 \\\hline     
    d & (-1, c):1 & (1, a):5 & (-1, c):3 & (1,d):5 & (-1, b):3 & end \\\hline     
   \end{tabular}
 \end{equation}
-Mysterious indeed. But when we wire the two together, magic happens!
+The $\text{end}$ state always transitions to itself. Mysterious indeed. But when we wire the two together, magic happens!
 
 \begin{equation}\label{eqn.full_turing_machine}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=2pt, bb port sep=1, baseline=(Outer.center)]
@@ -507,7 +501,7 @@ Mysterious indeed. But when we wire the two together, magic happens!
 \end{equation}
 This is a universal Turing machine, i.e.\ when we encode everything into this strange alphabet, it is capable of arbitrarily complex calculation! 
 \slogan{Even simple systems can
-have very interesting behavior when plugged in to the right environment.}
+have very interesting behavior\\ when plugged in to the right environment.}
 
 %%
 %% :CUSTOM_ID:cite-this.turing_machine
@@ -531,8 +525,8 @@ That's a lot of informal definitions, we are ready for something precise:
   We refer to the pair $\lens{\In{S}}{\Out{S}}$ of exposed variable and parameter values as
   the \emph{interface} of the system.
 
-We can interpret this definition in any cartesian category $\cat{C}$; here, we
-have have used the category $\Cat{Set}$ of sets.
+We can interpret this definition in any cartesian category $\cat{C}$ by taking $\State{S}$, $\Out{S}$ and $\In{S}$ to be objects of $\cat{C}$ and $\update{S}$ and $\expose{S}$ to be maps in $\cat{C}$; here, we
+have have used the cartesian category $\Cat{Set}$ of sets.
 \end{definition}
 
 \begin{remark}
@@ -553,13 +547,13 @@ have have used the category $\Cat{Set}$ of sets.
   \item Output set $\Out{Clock} = \Set{Hour}$.
   \item Input set $\In{Clock} = \{\ast\}$, a one element set.
   \item Readout function $\expose{Clock} = \id_{\Set{Hour}}$.
-  \item update function $\update{Clock} : \Set{hours} \times \{\ast\} \to \Set{Hour}$
+  \item update function $\update{Clock} : \Set{Hour} \times \{\ast\} \to \Set{Hour}$
     defined by $\update{Clock}(t, \ast) = \fun{tick}(t)$.
   \end{itemize}
 \end{example}
 
 \begin{example}\label{ex.moore_machine}
-  The term \emph{Moore machine} is often used for the mathematical notion of
+  Not only is the term \emph{Moore machine} is used for the mathematical notion of
   deterministic system we've just presented, but it is also used for actual,
   real-life circuits which are designed on that principle.
 
@@ -583,7 +577,7 @@ Note that when we say that a system doesn't have any parameters, as in \cref{ex.
 parameter set to be empty but instead take it to have a single dummy value $\{*\}$, the one-element ``hum of existence''. In other words, having ``no parameters'' really means that the parameters are unchanging, or that there is no way to change the value of the parameters.
 
 Also, we are just exposing the whole state with the system in \cref{ex.clock_system}. There is nothing preventing our systems
-from exposing their whole state, but often some aspects of the state are private, i.e.\ not exposed for use by other systems. 
+from exposing their whole state (which means $\State{S} = \Out{S}$ and $\expose{S} = \id$), but often some aspects of the state are private, i.e.\ not exposed for use by other systems.
 
 \begin{exercise}\label{exc.clock_meridian_diner}
   Write out the clock and meridian systems from \eqref{eqn.tick} and \eqref{eqn.next} in terms of
@@ -823,7 +817,7 @@ We can box up this system like so:
 
 Now, we want the death rate of rabbits to depend on the number of foxes. But we
 also need the birth rate of the foxes to depend on the number of rabbits; after
-all, if a fox has nothing to eat, it has no time for hanky-panky. So we will add the following
+all, if a fox has nothing to eat, it has no energy for hanky-panky. So we will add the following
 system of equations to the mix:
 \[
 \begin{cases} \const{d}_{\Sys{rabbits}} = c_1 f \\ \const{b}_{\Sys{Foxes}} =
@@ -888,7 +882,7 @@ consists of:
   \item An $n$-dimensional state space $\State{S} = \rr^n$.
 \item An $m$-dimensional parameter space $\In{S} = \rr^m$.
 \item A $k$-dimensional space of exposed variable values $\Out{S} = \rr^k$.
-\item A smooth function $\update{S} : \rr^n \times \rr^m \to \rr^n$ which gives us the
+\item A smooth function $\update{S} : \rr^n \times \rr^m \to \rr^n$ --- or equivalently $n$ smooth functions ${ \update{S} }_{k} : \rr^{n} \times \rr^{m} \to \rr$ --- which gives us the
   derivative of each state variable at each time, so that the defining
   system of differential equations of $\Sys{S}$ reads
 \[
@@ -915,8 +909,8 @@ consists of:
   same, they are in fact playing very different roles. The $\rr^n$ on the left
   is playing the role of the state space, while the $\rr^n$ on the left is
   playing the role of the tangent space at $s$ for some state $s \in \rr^n$. The
-  difference will be felt in \cref{chapter.2} when we study behaviors of
-  systems: the way a trajectory is defined for differential systems is different
+  difference will be felt in \cref{chapter.3} when we study behaviors of
+  systems: the way a trajectory is defined is different
   for differential systems and determinstic systems. For differential systems, a
   trajectory will be a solution to the system of differential equations, that
   is, a function $s : \rr \to \rr^n$ which satisfies 
@@ -925,14 +919,13 @@ for all choice of times $t$, while for a deterministic system a trajectory would
 be a sequence $s_j$ of states so that $s_{j + 1} = \update{S}(s_j, i_j)$. 
 
  We will see precisely how
-  this difference is made manifest in the formal definition of a dynamical
-  system doctrine as the choice of \emph{section} in \cref{sec.doctrines}.
+  this difference is made manifest in the formal definition of a systems theory as the choice of \emph{section} in \cref{sec.doctrines}.
 \end{remark}
 
 \begin{remark}
-  There are other doctrines of differential systems that one can define (for
+  There are other theories of differential systems that one can define (for
   example, allowing the state space to be a manifold), but in this book we will
-  work with this simpler doctrine.
+  work with this simpler systems theory.
 \end{remark}
 
 \begin{example}\label{ex:lotka.volterra.model}
@@ -945,7 +938,7 @@ be a sequence $s_j$ of states so that $s_{j + 1} = \update{S}(s_j, i_j)$.
 = \const{b}_{\Sys{Rabbits}} \cdot r - \const{d}_{\Sys{Rabbits}} \cdot r.
 \]
 
-  The whole Lotka Voltera model of \cref{eqn.lotka_volterra} has $2$ state
+  The whole Lotka-Voltera model of \cref{eqn.lotka_volterra} has $2$ state
   variables (the populations of rabbits and of foxes), $2$ parameters (the birth rate of rabbits and the death rate of foxes), and $2$ exposed
   variables. It exposes its whole state, and its update is given by
   \[
@@ -961,7 +954,9 @@ be a sequence $s_j$ of states so that $s_{j + 1} = \update{S}(s_j, i_j)$.
 \end{example}
 
 \begin{example}\label{ex.sir_model_diff}
-  The most basic epidemiological model is the SIR model. This models the spread
+  The most basic epidemiological model is the SIR model. We saw the discrete version of this model in \cref{ex.SIR_model_discrete}. Here, let's see the differential version.
+
+  The SIR equations model the spread
   of disease through a population. People are either \emph{susceptible} (S),
   \emph{infected} (I), \emph{recovered} or more ominously \emph{removed} (R)
   from the model. When a susceptible person comes in contact with an infected
@@ -969,7 +964,7 @@ be a sequence $s_j$ of states so that $s_{j + 1} = \update{S}(s_j, i_j)$.
   of susceptible people tends downwards in proportion to the number of
   susceptible and the number of infected people, and the population of infected
   people tends up by the same amount. On the other hand, infected people will
-  eventually be removed from the model, either by recovering or dieing; this
+  eventually be removed from the model, either by recovering or dying; this
   means that the population of infected people tends downwards proportional to
   the current infected population, while the removed population tends upwards by
   the same amount. Said as a system of differential equations, this means:
@@ -995,9 +990,8 @@ be a sequence $s_j$ of states so that $s_{j + 1} = \update{S}(s_j, i_j)$.
   to the standard trick of encoding them as larger systems of first order
   systems. For example, to encode a second order differential equation in $n$
   variables, we would set the state space to be $\rr^{2n}$ with state variables
-  $(s, \dot{s})$ (the first $n$ being $s$, the second $n$ being $\dot{s}$). We
-  then add the equations $\frac{ds}{dt} = {\update{S}}_{s}((s, \dot{s}), i) \coloneqq \dot{s}$ to the system
-  $\frac{d\dot{s}}{dt} = {\update{S}}_{\dot{s}}((s, \dot{s}), i)$ of second order
+  $(s, \dot{s})$ (the first $n$ being $s$, the second $n$ being $\dot{s}$). We think of $s$ as the actual state variable, and $\dot{s}$ as its formal derivative. We can make this formal derivative an actual derivative by adding the equations ${\update{S}}_{k}((s, \dot{s}), i) \coloneqq \dot{s}$ for $1 \leq k \leq n$ to the system
+  $\frac{d\dot{s}}{dt} = {\update{S}}_{k}((s, \dot{s}), i)$ for $n + 1 \leq k \leq 2n$ of second order
   differential equations we were trying to model.
   
   Often, we want to think of the state variables $\dot{s}$ as \emph{hidden}
@@ -1053,21 +1047,27 @@ together --- as we did in \cref{sec.chap1_intro} for the clock and the universal
 Turing machine, and in \cref{sec.differential_system} for the Lotka-Volterra
 predator prey model --- to
 make more complex systems. We will do this using an interesting notion coming
-from the world of function programming: a \emph{lens}.
+from the world of functional programming: a \emph{lens}.
 
 %---- Subsection ----%
 \subsection{Lenses and lens composition}\label{sec.lens_discrete}
 
-A lens is a framework for bi-directional information passing.
-
-\begin{definition}\label{def.lens}
-  A \emph{lens} $\lens{f^{\sharp}}{f} : \lens{A^-}{A^+} \leftrightarrows
-  \lens{B^-}{B^+}$ in a cartesian category $\cat{C}$ consists of:
+A lens is a framework for bi-directional information passing. \begin{definition}\label{def.lens}
+  A \emph{lens}
+\[
+\lens{f^{\sharp}}{f} : \lens{A^-}{A^+} \leftrightarrows
+\lens{B^-}{B^+}
+\]
+in a cartesian category $\cat{C}$ consists of:
   \begin{itemize}
   \item A \emph{passforward} map $f : A^+ \to B^+$, and
     \item a \emph{passback} map $f^{\sharp} : A^+ \times B^- \to A^-$.
   \end{itemize}
 \end{definition}
+
+We think of the passforward $f : A^{+} \to B^{+}$ as sending information ``downstream'', while the passback $f^{{\sharp}} : A^{+} \times B^{-} \to A^{-}$ sends information back ``upstream''. But the passback is allowed to use the value in $A^{+}$ which is about to flow downstream to calculate how to pass information back upstream.
+
+
 
 The most useful thing about lenses is that they \emph{compose}.
 \begin{definition}\label{def.lens_composition}
@@ -1109,7 +1109,7 @@ Here's a picture so that you can see the information flow for the composite of l
   ``generalized elements''. We interpret an ``element'' $x$ in an object $X$ as
   a map $x : Z \to X$. If we do work with $x$ to get a new element $f(x)$ of
   $Y$, then by the Yoneda lemma there is a map $f : X \to Y$ in
-  the category which does that work by post-composition: $f(x) = f \circ x$.
+  the category which does that work by post-composition: $f(x) = f \circ x$. At least, so long as that work we do is \emph{natural} in $x$, which means that it could be done just as well if we substituted $x$ for anything else.
 
   The take-away is that even in a totally arbitrary cartesian category whose
   objects are not sets of any kind, we can still reason about them as if they
@@ -1152,7 +1152,7 @@ is a common generalization of a system and a wiring diagram which can be compose
 
 \begin{exercise}
   \begin{enumerate}
-  	\item Draw the composite of two lenses in the style of \eqref{eqn.lens_drawing}.
+  	\item Draw the composite of two lenses in the style of \eqref{eqn.lens_drawing} --- that is, with the sets as wires and the functions as beads on those wires.
    	\item Check that $\Cat{Lens}_{\cat{C}}$ is actually a category. That is, check that
     lens composition is associative, and that the identity lens is an identity
     for it. (Hint: You can use your drawing for this. You can slide the function
@@ -1206,7 +1206,9 @@ Similarly, a differential system is a lens in the category $\Cat{Euc}$ of the fo
 \]
 We can then compose this with lenses in $\Cat{Euc}$ to get new differential systems!
 
-We can use this observation to wire together different systems. We separate this into to phases: first we put two systems in parallel, then we wire them together using a lens. The first phase, combine two systems without having them interact, is achieved through what we call the \emph{parallel product} and denote $\otimes$. Two put two arenas $\lens{A_1}{B_1}$ and $\lens{A_2}{B_2}$ in parallel we just take their product in our cartesian category $\cat{C}$:
+We can use this observation to wire together different systems. We separate this into to phases: first we put two systems in parallel, then we wire them together using a lens. It's far from obvious that wiring diagrams are lenses, but we'll see precisely how they are in \cref{sec:wiring.diagrams.as.lenses} and describe the second phase there.
+
+The first phase --- combine two systems without having them interact --- is achieved through what we call the \emph{parallel product} and denote $\otimes$. Two put two arenas $\lens{A_1}{B_1}$ and $\lens{A_2}{B_2}$ in parallel we just take their product in our cartesian category $\cat{C}$:
 \[
 \lens{A_1}{B_1}\otimes\lens{A_2}{B_2}\coloneqq\lens{A_1\times A_2}{B_1\times B_2}
 \]
@@ -1241,10 +1243,16 @@ Show the parallel product of morphisms as in \cref{def.lens_parallel} using the 
 \begin{proposition}\label{prop.lens_functoriality_monoidal}
 Let $F : \cat{C} \to \cat{D}$ be a cartesian functor. The induced functor
 $\lens{F}{F} : \Cat{Lens}_{\cat{C}} \to \Cat{Lens}_{\cat{D}}$ is strong monoidal
-with respect to the parallel product.
+with respect to the parallel product --- it preserves the monoidal product $\otimes$.
 \end{proposition}
 \begin{proof}
-  Since $F$ preserves products, and \jaz{finish}.
+  Since $F$ preserves products, we have that
+  \begin{align*}
+    F\left(\lens{A^{-}}{A^{+}}\otimes \lens{B^{-}}{B^{+}}\right) &= F\lens{A^{-} \times B^{-}}{A^{+} \times B^{+}} \\
+                                                                 &= \lens{F(A^{-} \times B^{-})}{F(A^{+} \times B^{+})} \\
+                                                                 &\cong  \lens{FA^{-} \times FB^{-}}{FA^{+} \times FB^{+}} \\
+    &= F\lens{A^{-}}{A^{+}} \otimes F\lens{B^{-}}{B^{+}}.
+    \end{align*}
 \end{proof}
 
 Given two dynamical systems $\Sys{S_1}$ and $\Sys{S_2}$, their parallel product
@@ -1462,7 +1470,7 @@ of lenses.
 
 When a deterministic system is presented as a transition diagram (See
 \cref{ex.transition_diagram_discrete}), its dynamics is given by reading the
-input and following the arrow with that label, and then output the label on the
+input and following the arrow with that label, and then outputting the label on the
 resulting node. When we wire together systems presented as transition diagrams,
 the dynamics then involve reading the input labels of all inner systems, moving
 along all the arrows with those labels, and then outputing the labels at each
@@ -2109,32 +2117,12 @@ $\Cat{Lens}_{\arity}$ as a monoidal category.
 
 This definition shows us that the wiring diagrams we have been using are
 precisely the lenses you can express if you only copy, delete, and shuffle
-around your variables. Here's how we interpret a lens
-$\lens{w^{\sharp\ast}}{w^{\ast}} : \lens{\XX^{A^{-}}}{\XX^{A^+}}
-\leftrightarrows \lens{\XX^{B^{-}}}{\XX^{B^+}}$ in $\Cat{Arity}$ as a
-wiring diagram:
-\begin{itemize}
-  \item First, we interpret the index set $A^-$ as the set of input ports of the
-    inner boxes, and the set $A^+$ as the set of output ports of the inner
-    boxes. Similarly, we see $B^-$ as the set of input ports of the outer box,
-    and $B^+$ as the set of output ports of the outer box.
-  \item Then we remember that $w^{\ast} :
-    \XX^{A^+} \to \XX^{B^+}$ comes from a reindexing function $w : B^+ \to
-    A^+$), which we interpret
-    as selecting for each outer output port $p \in B^+$, the unique inner output
-    port $w(p)$ it will be wired to.
-  \item Finally, we note that $w^{\sharp\ast} : \XX^{A^+} \times \XX^{B^-} \to
-    \XX^{A^-}$ comes from a function $w^{\sharp} : A^- \to A^+ + B^-$ (because
-    $\XX^{A^+} \times \XX^{B^-} = \XX^{A^+ + B^-}$), and we interpret this as
-    selecting for each inner input port $p \in A^-$ either the inner output port
-    $w^{\sharp}(p) \in A^+$ or the outer input port
-    $w^{\sharp}(p) \in B^-$ which $p$ will be wired to.
-\end{itemize}
+around your variables.
 
-On the other hand, we can read any wiring diagram as a lens in $\arity$ in the
+We can read any wiring diagram as a lens in $\arity$ in the
 following way:
 \begin{equation}\label{eqn.wiring_diagram_to_map_in_arity}
-\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby},bb min width =1cm, bb port sep =1, bbx=.6cm,bb port length=3pt, baseline=(Y.center)] 
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby},bb min width =1cm, bb port sep =1, bbx=.6cm,bb port length=3pt, baseline=(Y.center)]
   \node[bb port sep=1.6, bb={2}{2}, fill=blue!10] (X1) {};
   \node[bb port sep=.8,bb={1}{1}, fill=blue!10, right=.7 of X1_out1] (X2) {};
   \node[bb={1}{2}, fit={(X1) (X2) ($(X1.north)+(0,1)$)}] (Y) {};
@@ -2144,9 +2132,9 @@ following way:
   \draw[ar] (X1_out2) to (Y_out2');
   \draw[ar] let \p1=(X2.north east), \p2=(X1.north west), \n1={\y2+\bby}, \n2=\bbportlen in
           (X2_out1) to[in=0] (\x1+.7*\n2,\n1) -- (\x2-.7*\n2,\n1) to[out=180] (X1_in1);
-          
 
-   \draw[label] 
+
+   \draw[label]
      node[left= 3pt of X1_out1] (label1) {$a^+_1$}
      node[left= 3pt of X2_out1] (label1) {$a^+_2$}
      node[left= 3pt of X1_out2] (label1) {$a^+_3$}
@@ -2176,6 +2164,29 @@ following way:
 \]
 \end{minipage}
 \end{equation}
+
+Here's how we interpret a lens
+$\lens{w^{\sharp\ast}}{w^{\ast}} : \lens{\XX^{A^{-}}}{\XX^{A^+}}
+\leftrightarrows \lens{\XX^{B^{-}}}{\XX^{B^+}}$ in $\Cat{Arity}$ as a
+wiring diagram:
+\begin{itemize}
+  \item First, we interpret the index set $A^-$ as the set of input ports of the
+    inner boxes, and the set $A^+$ as the set of output ports of the inner
+    boxes. Similarly, we see $B^-$ as the set of input ports of the outer box,
+    and $B^+$ as the set of output ports of the outer box.
+  \item Then we remember that $w^{\ast} :
+    \XX^{A^+} \to \XX^{B^+}$ comes from a reindexing function $w : B^+ \to
+    A^+$), which we interpret
+    as selecting for each outer output port $p \in B^+$, the unique inner output
+    port $w(p)$ it will be wired to.
+  \item Finally, we note that $w^{\sharp\ast} : \XX^{A^+} \times \XX^{B^-} \to
+    \XX^{A^-}$ comes from a function $w^{\sharp} : A^- \to A^+ + B^-$ (because
+    $\XX^{A^+} \times \XX^{B^-} = \XX^{A^+ + B^-}$, where$A^{+} + B^{-}$ is the disjoint union of $A^{+}$ and $B^{-}$), and we interpret this as
+    selecting for each inner input port $p \in A^-$ either the inner output port
+    $w^{\sharp}(p) \in A^+$ or the outer input port
+    $w^{\sharp}(p) \in B^-$ which $p$ will be wired to.
+\end{itemize}
+
 
 
 \begin{exercise}
@@ -2296,8 +2307,8 @@ $\lens{w^{\sharp}}{w}$, and then remove this middle layer of boxes.
 
 \draw[label] node[right = 3pt of {Outer_out1|-Middle_out3}] (label) {$c^+_1$};
 \end{tikzpicture}
-\quad
-= 
+\\
+=
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Outer.center)]
 
 \node[bb={1}{1}, fill=blue!10] (TL) {\phantom{ space }};
@@ -2450,7 +2461,7 @@ this observation in the following proposition.
   \cat{C}$ from \cref{prop.arity_universal_property}.
 \end{proof}
 
-This is how we can interpret a wiring diagram as a lens in whatever cartesian category we
+The upshot of \cref{prop.wiring_diagram_as_lens} is that we may interpret a wiring diagram as a lens in whatever cartesian category we
 are working in. There is, however, a slight issue; in most of our previous
 examples, there have been many different types of signals flowing along the
 wires. We can fix this by using \emph{typed arities}. We will keep track of what
@@ -2466,8 +2477,8 @@ wires that carry the same type of signal.
       \emph{typing function}
       $\tau_{(-)} : I \to \cat{T}$. We interpret $\tau_i \in \cat{T}$ as the
       type of element $i \in I$.
-    \item Maps $f^{\ast} : \prod_{i \in I} \XX_{\tau_i} \to
-      \prod_{j \in J} \XX_{\tau_j}$ for any function $f : I \to J$ which
+    \item Maps $f^{\ast} : \prod_{j \in J} \XX_{\tau_j} \to
+      \prod_{i \in I} \XX_{\tau_i}$ for any function $f : I \to J$ which
       preserves the typing: $\tau_{fi} = \tau_i$.
     \item Composition is given by $g^{\ast} \circ f^{\ast} = (f \circ g)^{\ast}$
       and the identity is given by $\id := \id^{\ast}$. 
@@ -2513,11 +2524,10 @@ universal property.
   $\fun{ev}_C$ is the unique such functor up to a unique natural isomorphism.
 \end{proposition}
 \begin{proof}[Proof Sketch]
-  Just like in \cref{prop.arity_universal_property}, we can take
+  Just like in \cref{prop.arity_universal_property}, we define
 
   $$\Fun{ev}_C\left( \prod_{i \in I} \XX_{\tau_i} \right) :=
-  \prod_{i \in I} C_{\tau_i}.$$
-
+  \prod_{i \in I} C_{\tau_i}.\qedhere$$
 \end{proof}
 \begin{exercise}
   Complete the proof of \cref{prop.arity_universal_property_typed}.
@@ -2560,6 +2570,9 @@ lens in a cartesian category of our choosing.
   which interprets a typed wiring diagram as a lens in $\cat{C}$ with
   appropriately typed values flowing along its wires.
 \end{proposition}
+\begin{proof}
+Combine \cref{prop.arity_universal_property} with \cref{prop.lens_functoriality}.
+  \end{proof}
 
 \begin{remark}
   Because the action of $\Fun{ev}_C$ is so simple, we will often just equate the
@@ -2590,9 +2603,9 @@ lens in a cartesian category of our choosing.
 \end{tikzpicture}
 \end{equation}
   from \cref{ex.ClockWithDisplay} as a lens in
-  a category of typed arities in the following way. We have two types:
+  a category of typed arities using \cref{prop.interpret_typed_wiring_diagram}.  We have two types:
   $\Set{a.m./p.m.}$ and $\Set{Hour}$. So, $\cat{T} = \{\Set{a.m./p.m.},
-  \Set{Hour}\}$. Then
+  \Set{Hour}\}$.  Then
   \begin{align*}
     w &= (t : \Set{Hour},\, m : \Set{a.m./p.m.} \mapsto t : \Set{Hour},\, m : \Set{a.m./p.m.}) \\
     w^{\sharp} &= (t : \Set{Hour},\, m : \Set{a.m./p.m.} \mapsto t : \Set{Hour})
@@ -2600,7 +2613,7 @@ lens in a cartesian category of our choosing.
   giving us a wiring diagram in $\Cat{WD}_{\cat{T}}$. We can then interepret
   this as the lens from $\cref{ex.ClockWithDisplay}$ as the image of this wiring
   diagram which interprets the types $\Set{a.m./p.m.}$ and $\Set{Hour}$ as the
-  actual sets $\{\const{a.m.},\const{p.m.}\}$ and $\{1, 2,\ldots, 12\}$.
+  actual sets $\{\const{a.m.},\const{p.m.}\}$ and $\{1, 2,\ldots, 12\}$ --- which is choosing the $C_{-} : \cat{T} \to \smset$ used in \cref{prop.interpret_typed_wiring_diagram}.
 \end{example}
 
 \subsection{Wiring diagrams with operations as lenses in Lawvere theories}\label{sec:wiring.diagrams.Lawvere}
@@ -2665,7 +2678,7 @@ little green beads on the wires.
 \end{informal}
 
 \begin{example}
-  The wiring diagram \cref{eqn.wiring_lotka_volterra} (reproduced below) is a
+  The wiring diagram (\ref{eqn.wiring_lotka_volterra}) (reproduced below) is a
   wiring diagram in the algebraic theory of real vector spaces. The little green
   beads have scalar multiplications drawn in them.
   \[
@@ -2703,7 +2716,7 @@ able to say that ``wiring diagrams with operations from $\mathbb{T}$ are lenses
 in such and such cartesian category''. We can do this with the notion of Lawvere theory. 
 
 Lawvere introduced his theories in his 1963 thesis ``Functorial Semantics of
-Algebraic Theories'' \cite{} as the invariant concepts of algebraic theories,
+Algebraic Theories'' \cite{Lawvere:Functorial.Semantics} as the invariant concepts of algebraic theories,
 freed from any particular presentation by symbols and their relations. In
 \cref{ex.vector_theory}, we presented the algebraic theory of real vector spaces
 in a particular way; but we could have done it differently, say by avoiding the
@@ -2729,7 +2742,7 @@ the generating object $\XX$, we will see that the objects
 of Lawvere theories are often $A^I$ for some ``actual'' object $A$ in some
 cartesian category.
 \begin{example}
-  The single sorted Lawvere theory $\Cat{Vect}$ of real vector spaces can be defined as follows:
+  The single sorted Lawvere theory $\Cat{Vect}$ of real vector spaces is the category of finite dimensional vector spaces, which can be defined as follows:
   \begin{itemize}
     \item For every finite set $I$, it has an object $\rr^I \in \Cat{Vect}$.
     \item A map $f : \rr^I \to \rr^J$ is a linear map, or equivalently a $J
