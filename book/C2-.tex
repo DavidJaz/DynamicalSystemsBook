@@ -190,14 +190,14 @@ $$\State{S} \times \In{S} \times \In{S} \xto{\update{S}} \powset \State{S}
 \In{S} \xto{U} \powset \State{S}.$$
 
 This process of lifting a function $A \times B \to \powset C$ to a function
-$\powset A \times B \to \powset C$ is fundamental, and worthy of abstraction.
+$\powset (A \times B) \to \powset C$ is fundamental, and worthy of abstraction.
 This operation comes from the fact that $\powset$ is a \emph{commutative monad}.
 \begin{definition}\label{def.commutative_monad}
 Let $\cat{C}$ be a cartesian category. A \emph{monad} $(M, \eta)$ on $\cat{C}$ consists of:
 \begin{itemize}
   \item An assignment of an object $MA$ to every object $A \in \cat{C}$.
   \item For every object $A \in \cat{A}$, a map $\eta_A : A \to MA$.
-  \item For every map $f : A \to MB$, a \emph{lift} $f^M : MA \to MA$. 
+  \item For every map $f : A \to MB$, a \emph{lift} $f^M : MA \to MB$. 
 \end{itemize}
 This data is required to satisfy the following laws:
 \begin{itemize}
@@ -349,7 +349,7 @@ of subsets of $S$ to its union $\bigcup{s \in S} s$.
       C$, both sides of this diagram will give us $\{(a, b, c) \mid a \in X, b
       \in Y, c \in Z\}$. 
     \item (\cref{eqn.com_monad_monad_unit}) For $(a, b) \in A \times B$, we have
-      $\eta(a, b) = \{a, b\}$, and $\sigma(\eta(a), \eta(b)) = \{(x, y) \mid x
+      $\eta(a, b) = \{(a, b)\}$, and $\sigma(\eta(a), \eta(b)) = \{(x, y) \mid x
       \in \{a\},\, y \in \{b\}\}$.
    \item (\cref{eqn.com_monad_monad_mult}) Let $S$ be a set of subsets of $A$
      and $T$ a set of subsets of $B$. The bottom path gives us
@@ -402,9 +402,9 @@ equation for $f : X \to MY$:
 }
 \coloneqq f^M(m)
 \end{equation}
-where $m$ is an element of $MX$ and $f : X \to MY$. For $M = \probset$, we can
-understand the do notation in this way: $m$ is a subset of $X$, $f^M(m)$ is the
-subset $\{f(x) \in Y \mid x \in m\}$. We see this reflected in the do notation;
+where $m$ is an element of $MX$ and $f : X \to MY$. For $M = \powset$, we can
+understand the do notation in this way: $m$ is a subset of $X$, $f^\powset(m)$ is the
+subset $\bigcup \{f(x) \in \powset Y \mid x \in m\}$. We see this reflected in the do notation;
 we can read it as saying ``get an element $x$ from $m$, and then apply $f(x)$ to
 it; join together all the results.'' As we see more monads, we will see that a
 similar story can be told about them using the do notation.
@@ -618,7 +618,7 @@ A stochastic system is a system whose dynamics is given by a stochastic map.
     \item a function $\expose{S} : \State{S} \to \Out{S}$, the \emph{exposed variable of state} or
       \emph{expose} function, which takes a state to the output it yields; and
     \item a function $\update{S} : \State{S} \times \In{S} \to
-      \powset\State{S}$, where $\probset\State{S}$ is the set of subsets of
+      \probset\State{S}$, where $\probset\State{S}$ is the set of subsets of
       $\State{S}$. This is the \emph{dynamics} or
       \emph{update} function which takes a state and a parameter and gives the
       set of possible next states.
@@ -1542,7 +1542,7 @@ A (discrete-time) system with costs is a $\Fun{Cost}$-system.
   The crucial question we want to ask of this model is: how much will the
   project cost in the best case scenario, given a sequence of external
   conditions? That is, we will iterate the action of the system through the
-  sequence of paramters starting at
+  sequence of parameters starting at
   $\emptyset \in \State{Proj}$, and then ask the cost of $\Set{Steps} \in
   \State{Proj}$ at the end. 
 \end{example}
