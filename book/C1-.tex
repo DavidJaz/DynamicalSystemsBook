@@ -145,7 +145,7 @@ the abstract language of composition: \emph{category theory}.
 
 
 %---- Subsection ----%
-\subsection{Category Theory}
+\subsection{Category Theory}\label{sec:category.theory}
 
 We'll be using the language of category theory quite freely in this book, and so
 we'll expect you to know the basics. These are the notions in category theory that you should look up if they are unfamiliar to you:
@@ -661,8 +661,8 @@ That is, we have
 
 To draw a transition diagram of a system $\Sys{S}$, we draw each state $s \in
 \State{S}$ as a bubble filled with the label $\expose{S}(s)$, and for each
-parameter $i \in \In{S}$ we draw an arrow from $s$ to $\update{S}(s, i)$. For a
-diagram like this to be a transition diagram, every node must have an edge
+parameter $i \in \In{S}$ we draw an arrow from $s$ to $\update{S}(s, i)$ and label it by $i$. For a
+diagram like this to be a transition diagram, every node must have exactly one edge
 leaving it for each parameter.
 \end{example}
 
@@ -674,18 +674,17 @@ leaving it for each parameter.
   A \emph{deterministic finite automaton} (DFA) is a simple model of computation.
   Given our definition of deterministic system, DFAs are easy enough to define:
   they are just the deterministic systems with finitely many states whose output values are either
-  $\const{true}$ or $\const{false}$. 
+  $\const{accept}$ or $\const{reject}$.
 
   This means that the exposed variable of state $\expose{S} : \State{S} \to
-  \{\const{true},\, \const{false}\}$ is a boolean valued function. We say a
-  state $s$ is an \emph{accept state} if $\expose{S}(s) = \const{true}$, and a
-  \emph{reject state} if $\expose{S}(s) = \const{false}$.
+  \{\const{accept},\, \const{reject}\}$ is a boolean valued function. We say a
+  state $s$ is an \emph{accept state} if $\expose{S}(s) = \const{accept}$, and a
+  \emph{reject state} if $\expose{S}(s) = \const{reject}$.
 
   The idea is that a DFA is a question answering machine. Given a starting state
   $s_0$ and a sequence of input values $i_1, \ldots, i_n$, we get a sequence of
   states by $s_{t+1}:= \update{S}(s_t, i_t)$. The answer to the question is
   ``yes'' if $s_n$ is an accept state, and ``no'' if $s_n$ is a reject state.
-
 \end{example}
 
 There is an important special case of deterministic systems which appear very
@@ -698,7 +697,7 @@ careful with what we mean exactly. We mean that there is no \emph{variation} in
 the parameters or variables, that they are trivial. That is, we make the
 following definition.
 \begin{definition}
-  A deterministic system $\Sys{S}$ is \emph{closed} if both $\In{S}$ and
+  We say that a deterministic system $\Sys{S}$ as ``no inputs'' if $\In{S}$ has a single element, and has ``no outputs'' if $\Out{S}$ has a single element. We say that $\Sys{S}$ is \emph{closed} if it has no inputs and no outputs: both $\In{S}$ and
   $\Out{S}$ have only one element
   \[\In{S}\cong\{*\}\cong\Out{S}.\]
 \end{definition}
@@ -735,7 +734,7 @@ following wiring diagram:
 \end{tikzpicture}
 \]
 
-To have this be a closed model is to think --- or pretend --- that the our model
+To model this as a closed system is to think --- or pretend --- that the our model
 of the $\Sys{Agent}$ and the $\Sys{Environment}$ includes all possible external
 parameters, that it is well isolated from its own environment.
 
@@ -796,7 +795,7 @@ Now, rabbits are prey; they are eaten by other animals. That means that the rate
 at which rabbits die will depend on how often they are being eaten, and how
 often they are being eaten will depend on how many predators there are out there.
 
-Now, the population of any predator will also change according to a birth rate
+The population of any predator will also change according to a birth rate
 and death rate. Suppose we have a similarly defined system of $\Sys{Foxes}$
 goverened whose population is governed by the differential equation
 \[
@@ -1052,7 +1051,8 @@ from the world of functional programming: a \emph{lens}.
 %---- Subsection ----%
 \subsection{Lenses and lens composition}\label{sec.lens_discrete}
 
-A lens is a framework for bi-directional information passing. \begin{definition}\label{def.lens}
+A lens is a framework for bi-directional information passing. We will see that lenses are a common generalization of systems and of wiring diagrams.
+\begin{definition}\label{def.lens}
   A \emph{lens}
 \[
 \lens{f^{\sharp}}{f} : \lens{A^-}{A^+} \leftrightarrows
@@ -1068,7 +1068,6 @@ in a cartesian category $\cat{C}$ consists of:
 We think of the passforward $f : A^{+} \to B^{+}$ as sending information ``downstream'', while the passback $f^{{\sharp}} : A^{+} \times B^{-} \to A^{-}$ sends information back ``upstream''. But the passback is allowed to use the value in $A^{+}$ which is about to flow downstream to calculate how to pass information back upstream.
 
 
-
 The most useful thing about lenses is that they \emph{compose}.
 \begin{definition}\label{def.lens_composition}
   Let $\lens{f^{\sharp}}{f} : \lens{A^-}{A^+} \leftrightarrows \lens{B^-}{B^+}$ and
@@ -1079,7 +1078,7 @@ The most useful thing about lenses is that they \emph{compose}.
   $$(a^+, c^-) \mapsto f^{\sharp}\left(a^+, g^{\sharp}(f(a^+), c^-)\right).$$
 \end{definition}
 Here's a picture so that you can see the information flow for the composite of lenses:%
-\footnote{We draw this with a different style---green boxes, etc.---so that the reader will not confuse it with our usual wiring diagrams for systems. These are not dynamic in any way; everything below is just a set.}
+\footnote{We draw this with a different style---green boxes, etc.---so that the reader will not confuse it with our usual wiring diagrams for systems. These are not dynamic in any way; every wire is a set and every bead on that wire is a function.}
 \begin{equation}\label{eqn.lens_drawing}
 \begin{tikzpicture}[oriented WD, bb small, bb port length=5pt, baseline=(f)]
 	\node[bb={1}{1}, rounded corners=5pt, draw=dgreen] (f) {$f$};
@@ -1131,8 +1130,6 @@ has:
 \item Composition is given by lens composition as in \cref{def.lens_composition}.
 \end{definition}
 
-\jaz{Emily suggests giving a better motivation for lens. E.g. saying that a lens
-is a common generalization of a system and a wiring diagram which can be composed.}
 
 \begin{remark}
   The category of lenses is special among categories because it is named for its
@@ -1198,9 +1195,9 @@ a system $\Sys{S}$ with a lens $\lens{f^{\sharp}}{f} : \lens{\In{S}}{\Out{S}}
 \leftrightarrows \lens{I}{O}$ to get a new dynamical system
 $$  \lens{\update{S}}{\expose{S}} \then \lens{f^{\sharp}}{f} :
 \lens{\State{S}}{\State{S}} \leftrightarrows \lens{I}{O}$$
-with a new interface!
+with a new interface! We will see that wiring diagrams are a special sort of lenses too in the upcoming \cref{sec:wiring.diagrams.as.lenses}, so that wiring together systems will be an instance of lens composition.
 
-Similarly, a differential system is a lens in the category $\Cat{Euc}$ of the form
+Similarly, a differential system is a lens in the category $\Cat{Euc}$ (\cref{def.euc_cat}) of the form
 \[
 \lens{\update{S}}{\expose{S}} : \lens{\rr^n}{\rr^n} \fromto \lens{\rr^m}{\rr^k}.
 \]
@@ -1208,7 +1205,7 @@ We can then compose this with lenses in $\Cat{Euc}$ to get new differential syst
 
 We can use this observation to wire together different systems. We separate this into to phases: first we put two systems in parallel, then we wire them together using a lens. It's far from obvious that wiring diagrams are lenses, but we'll see precisely how they are in \cref{sec:wiring.diagrams.as.lenses} and describe the second phase there.
 
-The first phase --- combine two systems without having them interact --- is achieved through what we call the \emph{parallel product} and denote $\otimes$. Two put two arenas $\lens{A_1}{B_1}$ and $\lens{A_2}{B_2}$ in parallel we just take their product in our cartesian category $\cat{C}$:
+The first phase --- combine two systems without having them interact --- is achieved through what we call the \emph{parallel product} and denote $\otimes$. To put two arenas $\lens{A_1}{B_1}$ and $\lens{A_2}{B_2}$ in parallel we just take their product in our cartesian category $\cat{C}$:
 \[
 \lens{A_1}{B_1}\otimes\lens{A_2}{B_2}\coloneqq\lens{A_1\times A_2}{B_1\times B_2}
 \]
@@ -1221,7 +1218,7 @@ In \cref{def.lens_parallel} we define parallel product for morphisms in $\Cat{Le
   \lens{g^{\sharp}}{g} : \lens{A_1 \times A_2}{B_1 \times B_2} \leftrightarrows
   \lens{C_1 \times C_2}{D_1 \times D_2}$$
   to have passforward $f \times g$ and passback
-  $$((b_1, b_2), (c_1, c_2)) \mapsto (f^{\sharp}(b_1, c_2), g^{\sharp}(b_2, c_2)).$$
+  $$((b_1, b_2), (c_1, c_2)) \mapsto (f^{\sharp}(b_1, c_1), g^{\sharp}(b_2, c_2)).$$
   In terms of morphisms, this is
   $$(B_1 \times B_2) \times (C_1 \times C_2) \xto{\sim} (B_1 \times C_1) \times
   (B_2 \times C_2) \xto{f^{\sharp} \times g^{\sharp}} A_1 \times A_2.$$
@@ -1932,7 +1929,6 @@ The category of wiring diagrams has boxes as its objects and wiring diagrams as
 its morphisms. Wiring diagrams are composed by filling the inner boxes with other wiring
 diagrams, and then erasing the middle layer of boxes.
 
-\jaz{This diagram is from D. Spivak.}
 \begin{equation}\label{eqn.wiring_diagram_example_misc}
 \begin{tabular}{c|c|c}
 \small Boxes &\small Wiring Diagrams &\small Composition by nesting\\\hline
@@ -2031,10 +2027,10 @@ a language for writing down the objects and arrows  of $\arity$ that makes it
 look like it does.
 Think of the elements of $\XX^I$ as finite lists of variables $\XX^I = (x_i \mid i \in
 I)$ indexed by the set $I$. Then for any reindexing function $f : J \to I$, we
-can see $f^{\ast}$ as telling us how $J$-variables are assigned $I$-variables. For example,
+can see $f^{\ast}$ as telling us how $J$-variables are assigned $I$-variables. We can see this as a $J$-indexed list of the variables $x_{i}$. For example,
 consider the function $f : \ord{3}\to \ord{2}$ given by $1\mapsto 1$, $2 \mapsto 1$, and $3\mapsto 2$
 \[
-\begin{tikzpicture}
+\begin{tikzpicture}[baseline=(center)]
 	\boxofbullets{3}{(0,0)}{y}{$y$}{right=0pt};
 	\boxofbullets{2}{(-2,0)}{x}{$x$}{left=0pt};
 	\draw[blue, dashed, |->] (pt_y_1) -- (pt_x_1);
@@ -2043,14 +2039,15 @@ consider the function $f : \ord{3}\to \ord{2}$ given by $1\mapsto 1$, $2 \mapsto
 	\node[below=0 of box_y] (lab y) {$\XX^\3$};
 	\node at (lab y-|box_x) (lab x) {$\XX^\2$};
 	\draw[->] (lab x) -- (lab y);
+  \coordinate (center) at (0,-.5);
 \end{tikzpicture}
 \]
 In other words, $f$ says that the first slot of the resulting list will be
 filled by the second variable of the first, and the second slot will be filled
-by the first variable, and the third slot will be filled by the second variable.
+by the first variable, and the third slot will be filled by the second variable. We could write these lists of variables as $(x_{1}, x_{2}) \mapsto (x_{1}, x_{1}, x_{2})$ to make it look like a function. We'll call this the \emph{function notation}.
 
 
-Composition is of course just given by composing functions in the opposite direction.
+Composition is just given by composing functions in the opposite direction.
 %given by propagating the reindexing. If we have the function
 %\begin{align*}
 %  g : \ord{4} &\to \ord{3} \\
@@ -2060,14 +2057,14 @@ Composition is of course just given by composing functions in the opposite direc
 %\end{align*}
 For example, given some $g\colon\4\to\3$, we just compose to get our map $\XX^\2\to\XX^\4$.
 \[
-\begin{tikzpicture}
+\begin{tikzpicture}[baseline=(center)]
 	\boxofbullets{2}{(-4,0)}{x}{$x$}{left=0pt};
 	\boxofbullets[1.2]{3}{(-2,0)}{y}{$y$}{above=0pt};
 	\boxofbullets{4}{(0,0)}{z}{$z$}{right=0pt};
 	\draw[blue, dashed, |->] (pt_z_1) -- (pt_y_1);
 	\draw[blue, dashed, |->] (pt_z_2) -- (pt_y_1);
-	\draw[blue, dashed, |->] (pt_z_3) -- (pt_y_2);
-	\draw[blue, dashed, |->] (pt_z_4) -- (pt_y_1);
+	\draw[blue, dashed, |->] (pt_z_3) -- (pt_y_3);
+	\draw[blue, dashed, |->] (pt_z_4) -- (pt_y_2);
 	\draw[blue, dashed, |->] (pt_y_1) -- (pt_x_1);
 	\draw[blue, dashed, |->] (pt_y_2) -- (pt_x_1);
 	\draw[blue, dashed, |->] (pt_y_3) -- (pt_x_2);
@@ -2075,9 +2072,27 @@ For example, given some $g\colon\4\to\3$, we just compose to get our map $\XX^\2
 	\node at (lab z-|box_y) (lab y) {$\XX^\3$};
 	\node at (lab z-|box_x) (lab x) {$\XX^\2$};
 	\draw[->] (lab y) -- (lab z);
-	\draw[->] (lab x) -- (lab y);	
+	\draw[->] (lab x) -- (lab y);
+  \coordinate (center) at (0,-.5);
+\end{tikzpicture}
+\quad
+=
+\quad
+\begin{tikzpicture}[baseline=(center)]
+	\boxofbullets{4}{(0,0)}{y}{$z$}{right=0pt};
+	\boxofbullets{2}{(-2,0)}{x}{$x$}{left=0pt};
+	\draw[blue, dashed, |->] (pt_y_1) -- (pt_x_1);
+	\draw[blue, dashed, |->] (pt_y_2) -- (pt_x_1);
+	\draw[blue, dashed, |->] (pt_y_3) -- (pt_x_2);
+	\draw[blue, dashed, |->] (pt_y_4) -- (pt_x_1);
+	\node[below=0 of box_y] (lab y) {$\XX^\4$};
+	\node at (lab y-|box_x) (lab x) {$\XX^\2$};
+	\draw[->] (lab x) -- (lab y);
+  \coordinate (center) at (0,-.5);
 \end{tikzpicture}
 \]
+
+If we write both of these in function notation, then we can see that the composite can be calculated by just ``composing the functions''. The map $f^{\ast} : \XX^{\3} \to \XX^{\2}$ looks like $(x_{1},x_{2}) \mapsto (x_{1}, x_{1}, x_{2})$ in function notation, and the map $g^{\ast} : \XX^{\4} \to \XX^{\3}$ looks like $(y_{1}, y_{2}, y_{3}) \mapsto (y_{1}, y_{1}, y_{3}, y_{2})$. Their composite would look like $(x_{1}, x_{2}) \mapsto (x_{1}, x_{1}, x_{2}, x_{1})$, and this is precisely the composite $(g \then f)^{\ast}$.
 
 %Then we can see calculate $g^{\ast} \circ f^{\ast}$ by substituting variables
 %using in $g^{\ast}$ for the variables in the right hand side of $f^{\ast}$:
@@ -2307,7 +2322,7 @@ $\lens{w^{\sharp}}{w}$, and then remove this middle layer of boxes.
 
 \draw[label] node[right = 3pt of {Outer_out1|-Middle_out3}] (label) {$c^+_1$};
 \end{tikzpicture}
-\\
+\]\[
 =
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = .3cm, bby =.3cm, bb min width=.5cm, bb port length=0, bb port sep=1, baseline=(Outer.center)]
 
@@ -2476,7 +2491,7 @@ wires that carry the same type of signal.
     \item Objects $\prod_{i \in I} \XX_{\tau_i}$ for any finite set $I$ and
       \emph{typing function}
       $\tau_{(-)} : I \to \cat{T}$. We interpret $\tau_i \in \cat{T}$ as the
-      type of element $i \in I$.
+      type of index $i \in I$.
     \item Maps $f^{\ast} : \prod_{j \in J} \XX_{\tau_j} \to
       \prod_{i \in I} \XX_{\tau_i}$ for any function $f : I \to J$ which
       preserves the typing: $\tau_{fi} = \tau_i$.
@@ -2497,11 +2512,11 @@ wires that carry the same type of signal.
   set, and a morphism is a commuting triangle like this:
   \[
     \begin{tikzcd}
-      I \ar[rr, dashed] \ar[dr, "\tau"'] & & J \ar[dl, "\tau"] \\
+      I \ar[rr, dashed, "f"] \ar[dr, "\tau"'] & & J \ar[dl, "\tau"] \\
       & \cat{T} &
     \end{tikzcd}
   \]
-
+This is a function $f : I \to J$ so that $\tau_{fi} = \tau_{i}$ for all $i \in I$.
 
   Expand the isomorphism out in full and check
   that you understand it.
@@ -2533,10 +2548,9 @@ universal property.
   Complete the proof of \cref{prop.arity_universal_property_typed}.
 \end{exercise}
 
-As before, we note that the map
+As before, we note that this functor sends a map in $\Cat{Arity}_{\cat{T}}$ to the function that does exactly that. For example,
 $$(x_1 : \tau_1,\, x_2 : \tau_2,\, x_3 : \tau_2 \mapsto x_2 : \tau_2,\, x_1 :
 \tau_1,\, x_2 : \tau_1)$$
-\spiz{redraw}
 gets sent by $\Fun{ev}_C$ to the function $C_{\tau_1} \times C_{\tau_2} \times C_{\tau_3} \to
 C_{\tau_2} \times C_{\tau_1} \times C_{\tau_2}$ which sends $(c_1,\, c_2,\, c_3)$ to
 $(c_2,\, c_1,\, c_2)$

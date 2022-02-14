@@ -25,7 +25,7 @@ extraordinarily complex and modelling it to the point that we would know exactly
 which email they will write is nigh impossible. 
 
 So, instead, we could use what
-we know about how emails that this person writes tend to look to predict what
+we know about how this person usually writes emails to predict what
 the next character will be. This would give us a \emph{stochastic} model of the
 email-writer system.
 
@@ -68,7 +68,7 @@ For example, consider the following transition system:
 \end{equation}
 The inputs to this system are from the set $\In{S} = \{\true, \false\}$, and
 the outputs are from the set $\Out{S} = \{\Red, \Blue, \Green\}$. Suppose that we can only see
-what the system is outputing, and that it is outputing $\Blue$. If we feed the
+what the system is outputting, and that it is outputing $\Blue$. If we feed the
 system $\false$, we will see $\Blue$. But, if we feed the system $\true$, what
 happens depends on whether the system was in state $1$ or state $3$; if we were
 in state $1$, then we will see $\Red$, but if were were in state $3$, we will
@@ -182,7 +182,7 @@ But from $\update{S} : \State{S} \times \In{S} \to \powset\State{S}$ we can
 define a function $U : \powset \State{S} \times \In{S} \to
 \powset\State{S}$ by
 \[
-U(S, i) = \{s' \mid s \in S,\, s' \in \update{S}(s, i)\} =
+U(S, i) := \{s' \mid s \in S,\, s' \in \update{S}(s, i)\} =
 \bigcup_{s \in S} \update{S}(s, i)
 \]
 Then we can define the iterated action of the system to be the composite
@@ -191,7 +191,7 @@ $$\State{S} \times \In{S} \times \In{S} \xto{\update{S}} \powset \State{S}
 
 This process of lifting a function $A \times B \to \powset C$ to a function
 $\powset A \times B \to \powset C$ is fundamental, and worthy of abstraction.
-This operation comes from the fact that $\powset$ is a \emph{commutative monad}.
+This operation comes from the fact that $\powset$ is a \emph{commutative monad}. Take a deep breath, because here comes the definition.
 \begin{definition}\label{def.commutative_monad}
 Let $\cat{C}$ be a cartesian category. A \emph{monad} $(M, \eta)$ on $\cat{C}$ consists of:
 \begin{itemize}
@@ -366,9 +366,17 @@ Finally, we take the union over this to get
 \[
 \mu(\powset \sigma(\sigma(S, T))) = \bigcup_{s \in S,\, t \in T}\{(x, y) \mid x \in s,\, y \in t\}.
 \]
-These two paths are easily seen to give the same result.
+        We end out proof by noting that
+        \[
+        \left\{(x, y) \,\middle|\, x \in \bigcup_{s \in S} s,\, y \in \bigcup_{t \in T} t\right\}
+        =\bigcup_{s \in S,\, t \in T}\{(x, y) \mid x \in s,\, y \in t\}.
+        \]
 \end{itemize}
 \end{proof}
+
+\begin{remark}
+While the powerset monad is commutative, the list monad is not. For the list monad, \cref{eqn.com_monad_monad_mult} does not hold since the two lists end up in a different order in the end.
+  \end{remark}
 
 Using the commutative monad structure of $\powset$, we can see that $U : \powset
 \State{S} \times \In{S} \to \powset \State{S}$ is the composite
@@ -412,7 +420,7 @@ similar story can be told about them using the do notation.
 
 There are a few rules for do notation which correspond to the laws for a
 monad. We can discover them by using \cref{eqn.do_notation_def} to expand out a
-few terms. First of all, since $\eta^M = \id_{MX}$, if $m$ is an element of $MX$, then
+few terms. First of all, since $\eta_M = \id_{MX}$, if $m$ is an element of $MX$, then
 \[
   \unalignedDo{
     $x \from m$,
@@ -544,7 +552,7 @@ $$\sum_{a \in X} \lambda_a a$$
       convex linear combination must sum to 1, the coefficient of the single
       element must be $1$. So $\probset \{a\} = \{1 \cdot a\}$ contains a single element.
     \item If $A = \{a, b\}$, things get more interesting. Now there are three
-      possible subsets $X$: $\{a\}$, $\{b\}$, and $\{a, b\}$. A convex
+      inhabited subsets $X$: $\{a\}$, $\{b\}$, and $\{a, b\}$. A convex
       combination with a single element must have coefficient $1$, so we at
       least have the convex combinations $1 \cdot a$ and $1 \cdot b$. But for
       the set $\{a, b\}$, we have the convex combination
@@ -556,14 +564,14 @@ $$\sum_{a \in X} \lambda_a a$$
 \probset \{a, b\} = \{\lambda a + (1 - \lambda) b \mid \lambda \in [0, 1]\}
       \]
       which is bijective with the closed interval $[0, 1]$.
-    \item In general, if $A$ is a finite set with $n$ elements, then $\probset
+    \item In general, if $A$ is a finite set with $n + 1$ elements, then $\probset
       A$ can be identified with the \emph{standard $n$-simplex}, that is, the
       set of solutions to the equation
-      $\sum_{i = 1}^n \lambda_i = 1$
+      $\sum_{i = 1}^{n + 1} \lambda_i = 1$
       for $\lambda_i \in [0,1]$.
       \[
-\probset \ord{n} \cong \{(\lambda_1, \ldots, \lambda_n) \in [0,1]^n \mid \sum_{i
-= 1}^n \lambda_i = 1\}.
+\probset \ord{n + 1} \cong \{(\lambda_1, \ldots, \lambda_{n + 1}) \in [0,1]^{n + 1} \mid \sum_{i
+= 1}^{n+1} \lambda_i = 1\}.
       \]
   \end{enumerate}
 \end{example}
@@ -590,17 +598,17 @@ $$p(b \mid a) \coloneqq f(a)(b).$$
   it was raining. We can express these various conditional probabilities as a
   stochastic function
   \[
-\{\const{wet}, \const{dry}\} \times \{\const{umbrella}, \const{no-umbrella}\}
-\to \probset \{\const{raining}, \const{not-raining}\}.
+\{\const{wet}, \const{dry}\} \times \{\const{umbrella}, \const{no\text{-}umbrella}\}
+\to \probset \{\const{raining}, \const{not\text{-}raining}\}.
   \]
  We can describe this stochastic function in full by giving its stochastic
  matrix:
  \[
    \kbordermatrix{
-      & (\const{wet}, \const{umbrella}) & (\const{wet}, \const{no-umbrella}) &
-      (\const{dry}, \const{umbrella}) & (\const{dry}, \const{no-umbrella}) \\
+      & (\const{wet}, \const{umbrella}) & (\const{wet}, \const{no\text{-}umbrella}) &
+      (\const{dry}, \const{umbrella}) & (\const{dry}, \const{no\text{-}umbrella}) \\
       \const{raining} & .9 & .9 & .5 & .3 \\
-      \const{not-raining} & .1 & .1 & .5 & .7
+      \const{not\text{-}raining} & .1 & .1 & .5 & .7
   }
  \]
 \end{example}
@@ -624,14 +632,17 @@ A stochastic system is a system whose dynamics is given by a stochastic map.
       set of possible next states.
   \end{itemize}
 \end{definition}
+\begin{remark}
+Note that the exposed variable of a stochastic system is \emph{not} a stochastic function. This is theoretically important for wiring stochastic systems together, because it is necessary for stochastic lens composition to be well defined. We will return to this point in \cref{sec.wiring_together_non_det}.
+  \end{remark}
 
 \begin{remark}
  A stochastic system is often called a \emph{Markov process}. 
 \end{remark}
 
 \begin{example}\label{ex.markov_text_generator}
-  A simple, but entertaining example of a stochastic system is a text generator.
-  Suppose we have a big pile of text --- say, the speeches of a famous person
+  A simple but entertaining example of a stochastic system is a text generator.
+  Suppose we have a big pile of text --- say, the plays written by a famous author
   --- and we want to generate some text that looks like it was written by the
   same author. There are many sophisticated ways to do this, but here's a very
   bone-headed approach. We will look at the text in $5$-character length
@@ -822,11 +833,11 @@ f^{\probset}(\eta_A(a)) = \sum_{a' \in \{a\}}\sum_{b \in Y_{a'}}
    \item Given stochastic functions $f : A \to \probset B$ and $g : B \to
      \probset C$, we need to show that $g^{\probset}(f^{\probset}(p)) =
      (g^{\probset}\circ f)^{\probset}(p)$. Let
-\begin{align*}
- p &= \sum_{a \in X} \lambda_{a}, \\
-f(a) &= \sum_{b \in Y_a} \rho_{ba} b, \\
-g(b) &= \sum_{c \in Z_b} \gamma_{cb} c.
-\end{align*}
+          \[
+          p = \sum_{a \in X} \lambda_{a},  \quad
+          f(a) = \sum_{b \in Y_a} \rho_{ba} b, \quad
+g(b) = \sum_{c \in Z_b} \gamma_{cb} c.
+          \]
        Then we see that
        \[
 g^{\probset}(f(a)) = \sum_{c \in \bigcup_{b \in \bigcup_{a \in X} Y_a }} \gamma_{cb} \rho_{ba} c
@@ -859,11 +870,11 @@ g^{\probset}(f(a)) = \sum_{c \in \bigcup_{b \in \bigcup_{a \in X} Y_a }} \gamma_
   us $p = \sum_{a \in X} \lambda_a a$.
 \item (\cref{eqn.com_monad_left_unit}) The same, but on the other side.
 \item (\cref{eqn.com_monad_assoc}) Suppose that we have
-  \begin{align*}
-    p &= \sum_{a \in X} p_a a, \\
-    q &= \sum_{b \in Y} q_b b, \\
-    r &= \sum_{c \in Z} r_c c.
-  \end{align*}
+          \[
+    p = \sum_{a \in X} p_a a, \quad
+    q = \sum_{b \in Y} q_b b, \quad
+    r = \sum_{c \in Z} r_c c.
+          \]
   The both paths of \cref{eqn.com_monad_assoc} give us the distribution
   \[
 \sum_{(a, b, c) \in X \times Y \times Z} p_a q_b r_c (a, b, c).
@@ -889,7 +900,7 @@ g^{\probset}(f(a)) = \sum_{c \in \bigcup_{b \in \bigcup_{a \in X} Y_a }} \gamma_
 which means that finally
 \[
 \mu\left(\probset \sigma\left( \sigma\left( \sum_i \lambda_i p_i, \sum_j \rho_j
-      q_j \right) \right) \right)(a, b) = \sum_i \sum_j \rho_j p_i(a)q_j(b).
+      q_j \right) \right) \right)(a, b) = \sum_i \sum_j \lambda_{i}\rho_j p_i(a)q_j(b).
 \]
   \end{itemize}
 
@@ -1475,10 +1486,10 @@ prohibitively expensive, or impossible.
     \]
     is the set of cost functions $c : A \to [0, \infty]$ which assign finite
     values to only finitely many elements of $A$.
-  \item For a set $A$, $\eta^{\Fun{Cost}} : A \to \Fun{Cost}(A)$ assumes that we
+  \item For a set $A$, $\eta_{\Fun{Cost}} : A \to \Fun{Cost}(A)$ assumes that we
     can only produce what we have, but that if we already have it, it's free. Formally:
 \[
-\eta^{\Fun{Cost}}(a)(a') \coloneqq \begin{cases} 0 &\mbox{if $a = a'$} \\
+\eta_{\Fun{Cost}}(a)(a') \coloneqq \begin{cases} 0 &\mbox{if $a = a'$} \\
   \infty &\mbox{otherwise}\end{cases}
 \]
 
@@ -1713,7 +1724,7 @@ We will show that the assignment $A \mapsto \probset(\rr \times A)$
  the monad $M$''. We can do this explicitly using the map $\lambda : R \times MA
  \to M(R \times A)$ defined to be the composite
  \[
-\lambda \coloneqq R \times MA \xto{\eta^M \times \id} MR \times MA \xto{\sigma^M} M(R \times A)
+\lambda \coloneqq R \times MA \xto{\eta_M \times \id} MR \times MA \xto{\sigma^M} M(R \times A)
  \]
 Intuitively, this takes a reward $r \in R$ and a non-deterministic $a \in MA$
 and gives us the non-determinstic pair $(r, a)$.
@@ -1723,8 +1734,8 @@ Let $M$ be a commutative monad and $(R, +, 0)$ a commutative monoid. Then the
 assignment $A \mapsto M(R \times A)$ is a commutative monad with the following
 structure:
 \begin{itemize}
-  \item $\eta^{M(R\times -)} : A \to M(R \times A)$ is the composite $A
-    \xto{\eta^R} R \times A \xto{\eta^M} M(R \times A)$.
+  \item $\eta_{M(R\times -)} : A \to M(R \times A)$ is the composite $A
+    \xto{\eta_R} R \times A \xto{\eta_M} M(R \times A)$.
   \item Given $f : A \to M(R \times B)$, we define $f^{M(R \times -)}$ to be the
     following composite:
     \begin{multline*}
@@ -1933,7 +1944,7 @@ operation of turning a deterministic system into an $M$-system has a few nice
 properties; for example, if we iterate the system and then turn it into an
 $M$-system, we get the same result as if we had iterated it as an $M$-system.
 
-In general, if we have a commutative monad morphism $M \to N$, then we can turn
+In general, if we have a commutative monad map $M \to N$, then we can turn
 $M$-systems into $N$-systems.
 
 \begin{definition}\label{def.com_monad_map}
@@ -1943,7 +1954,7 @@ the following diagrams commute:
 \item
   \begin{equation}\label{eqn.com_monad_map_unit}
     \begin{tikzcd}
-    A \ar[r, "\eta^M"] \ar[dr, "\eta^N"'] & M A \ar[d, "\phi"] \\
+    A \ar[r, "\eta_M"] \ar[dr, "\eta_N"'] & M A \ar[d, "\phi"] \\
     & N A
     \end{tikzcd}
   \end{equation}
@@ -1968,10 +1979,10 @@ the following diagrams commute:
 
 \begin{proposition}
   There is a unique commutative monad map $\id \to M$, and it is given by
-  $\eta^M$. \end{proposition}
+  $\eta_M$. \end{proposition}
 \begin{proof}
 Let $\phi$ be such a map. Then condition \cref{eqn.com_monad_map_unit} says
-precisely that $\phi = \eta^M$. So it just remains to check that $\eta$ is a commutative monad map.
+precisely that $\phi = \eta_M$. So it just remains to check that $\eta$ is a commutative monad map.
   Now, \cref{eqn.com_monad_map_unit} commutes trivially, and
   \cref{eqn.com_monad_map_mult} is in this case one of the diagrams defining $M$
   from \cref{eqn.monad_laws}. Finally, \cref{eqn.com_monad_map_tensor} is in
@@ -1979,7 +1990,7 @@ precisely that $\phi = \eta^M$. So it just remains to check that $\eta$ is a com
 \end{proof}
 
 We can then turn any deterministic system $\Sys{S}$ into an $M$-system by
-defining its new update to be $\eta^M \circ \update{S}$. For possibilistic
+defining its new update to be $\eta_M \circ \update{S}$. For possibilistic
 systems, this says that only the state that $\Sys{S}$ actually transitions into
 is possible. For stochastic systems, this says that the probability that the
 system transitions into the state it actually transitions into is $1$.
@@ -2040,28 +2051,28 @@ This lets us turn a stochastic system into a possibilistic system, saying that a
 transition is possible if it has non-zero probability.
 
 \begin{exercise}
-Show that $\probset \eta^{\rr} : \probset A \to \probset(\rr \times A)$ is a
+Show that $\probset \eta_{\rr} : \probset A \to \probset(\rr \times A)$ is a
 commutative monad morphism. That is, show that the following diagrams commute:
 \begin{enumerate}
 \item
   \begin{equation}
     \begin{tikzcd}
-    A \ar[r, "\eta^{\probset}"] \ar[dr, "\eta^{\probset(\rr \times -)}"'] & \probset A \ar[d, "\probset(\eta^{\rr})"] \\
+    A \ar[r, "\eta_{\probset}"] \ar[dr, "\eta_{\probset(\rr \times -)}"'] & \probset A \ar[d, "\probset(\eta_{\rr})"] \\
     & \probset(\rr \times A) 
     \end{tikzcd}
   \end{equation}
 \item
   \begin{equation}
     \begin{tikzcd}[column sep=large]
-    \probset^2 A \ar[r, "\probset\probset\eta^{\rr} \then \probset \eta^{\rr}"] \ar[d, "\mu^{\probset}"'] & \probset(\rr \times \probset(\rr \times A))\ar[d, "\mu^{\probset(\rr \times -)}"] \\
-    \probset A \ar[r, "\probset \eta^{\rr}"'] & \probset(\rr \times A)
+    \probset^2 A \ar[r, "\probset\probset\eta_{\rr} \then \probset \eta_{\rr}"] \ar[d, "\mu^{\probset}"'] & \probset(\rr \times \probset(\rr \times A))\ar[d, "\mu^{\probset(\rr \times -)}"] \\
+    \probset A \ar[r, "\probset \eta_{\rr}"'] & \probset(\rr \times A)
     \end{tikzcd}
   \end{equation}
 \item
   \begin{equation}
     \begin{tikzcd}[column sep=large]
-    \probset A \times \probset B \ar[r, "\probset \eta^{\rr} \times \probset\eta^{\rr}"] \ar[d, "\sigma^{\probset}"'] & \probset(\rr \times A) \times \probset(\rr \times B) \ar[d, "\sigma^{\probset(\rr \times -)}"] \\
-    \probset (A \times B) \ar[r, "\probset \eta^{\rr}"'] & \probset( \rr \times A \times B)
+    \probset A \times \probset B \ar[r, "\probset \eta_{\rr} \times \probset\eta_{\rr}"] \ar[d, "\sigma^{\probset}"'] & \probset(\rr \times A) \times \probset(\rr \times B) \ar[d, "\sigma^{\probset(\rr \times -)}"] \\
+    \probset (A \times B) \ar[r, "\probset \eta_{\rr}"'] & \probset( \rr \times A \times B)
     \end{tikzcd}
   \end{equation}
 \end{enumerate}
@@ -2116,7 +2127,7 @@ Before we begin, we note that, by the
   the solid outer diagram in 
   \begin{equation}\label{eqn.com_monad_map_lift_helper}
 \begin{tikzcd}
-M A \arrow[r, "\phi"] \arrow[d, "Mf"']                          & NA \arrow[d, "Nf \then N\phi)"] \\
+M A \arrow[r, "\phi"] \arrow[d, "Mf"']                          & NA \arrow[d, "Nf \then N\phi"] \\
 M^2 B \arrow[d, "\mu^M"'] \arrow[r, "\phi \then N\phi", dashed] & N^2 B \arrow[d, "\mu^N"]        \\
 MB \arrow[r, "\phi"']                                           & N B                            
 \end{tikzcd}
@@ -2141,8 +2152,8 @@ square in this diagram; so, if it commutes, then the outer square (which is
 \begin{proof}
   We will check that this is a functor; that it is strictly symmetric monoidal
   follows from this and from the fact that it acts as the identity on objects. 
-  The identity $\eta^M : A \to M A$ in $\Cat{Kl}(M)$ gets sent to
-  $\phi_{\ast}\eta^M = \eta^M \then \phi$. This equals $\eta^N : A \to NA$ by \cref{eqn.com_monad_map_unit}.
+  The identity $\eta_M : A \to M A$ in $\Cat{Kl}(M)$ gets sent to
+  $\phi_{\ast}\eta_M = \eta_M \then \phi$. This equals $\eta_N : A \to NA$ by \cref{eqn.com_monad_map_unit}.
 
   Given $f : A \to MB$ and $g : B \to MC$, their composite is $f \then g^M : A
   \to M C$, so that
@@ -2348,8 +2359,8 @@ Consider a stochastic source process
 \end{tikzpicture}
   \]
 We can imagine, as Claude Shannon did, that this source is an interlocutor
-communicating over a wire. Suppose we have another interlocutor who will read
-the signal generated by our source and generate their own signal in repsonse:
+communicating over a wire. Suppose we have another interlocutor who reads
+the signal generated by our source and generates their own signal in repsonse:
   \[
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bbx = 1cm, bby =.5cm, bb min width=1cm, bb port length=4pt, bb port sep=1, baseline=(X.center)]
 	\node[bb={1}{1}, fill=blue!10] (X) {$\Sys{Transformer}$};
@@ -2403,7 +2414,7 @@ This new notion of monadic lens which lets us wire together non-deterministic
 systems will be the focus of this section.
 
 In \cref{sec.wiring_discrete_systems}, we saw how to wire together systems
-deterministically and with functions from an algebraic theory on the wire. This
+deterministically, and using functions from an algebraic theory on the wire. This
 worked because wiring diagrams could be interpreted as lenses, and deterministic
 and differential systems were also lenses; then we could just compose them.
 
@@ -2431,7 +2442,7 @@ the \emph{Grothendieck construction}. This perspective constructs the category
 of lenses out of an \emph{indexed category} $\smctx{-} : \cat{C}\op \to
 \Cat{Cat}$ of objects of the cartesian category $\cat{C}$ \emph{in context}.
 This construction works for \emph{any} indxed category $\cat{A} : \cat{C}\op \to
-\Cat{Cat}$, which lets us define a notion of $\cat{A}$-lenses out of any indexed
+\Cat{Cat}$, which lets us define a notion of $\cat{A}$-lenses using any indexed
 category. By choosing an appropriate indexed category, we will arrive at the
 notion of $M$-lenses for a commutative monad $M$; this will give us the wiring
 diagram calculus for non-deterministic systems that we wanted.
@@ -2456,11 +2467,7 @@ passback maps that take $C^+$ as an extra argument.
 
 \begin{definition}
   A \emph{strict indexed category} $\cat{A} : \cat{C}\op \to \Cat{Cat}$ is a
-  contravariant functor\footnote{A pseudo-functor is like a functor,
-    but it only satisfies the functoriality conditions up to isomorphism, and
-    these isomorphisms must satisfy some laws that make them ``cohere''. The
-    indexed categories we will see in \cref{chapter.1,chapter.2,chapter.3}
-    will all be actual functors, however.}. We call the category $\cat{C}$ the
+  contravariant functor. We call the category $\cat{C}$ the
   \emph{base} of the indexed category $\cat{A}$. Explicitly, an indexed
   category $\cat{A}$ has:
   \begin{itemize}
@@ -2500,8 +2507,7 @@ more throughout the book.
     \item To each set $A$, we assign the category $\smset^A$ of sets indexed by
       $A$. The objects of $\smset^A$ are the sets $X : A \to \smset$ indexed by
       $A$, and a map $f : X \to Y$ is a family of maps $f_a : X_a \to Y_a$
-      indexed by the elements $a \in A$. Composition is given componentwise: $(g
-      \circ f)_a = g_a \circ f_a$.
+      indexed by the elements $a \in A$. Composition is given componentwise: $(f \then g)_a = f_a \then g_a$.
     \item To every function $f : A' \to A$, we get a reindexing functor
 $$f^{\ast} : \smset^A \to \smset^{A'}$$
    Given by precomposition: $X \mapsto X \circ f$. The indexed set $X \circ f :
@@ -2542,11 +2548,11 @@ that the Grothendieck construction is a sort of sum.\footnote{The Grothendieck
     \item Given $\lens{f_{\flat}}{f} : \lens{A}{C} \rightrightarrows
       \lens{A'}{C'}$ and $\lens{g_{\flat}}{g} : \lens{A'}{C'} \rightrightarrows
       \lens{A''}{C''}$, their composite is given by
-      $$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{f^{\ast}g_{\flat}
-      \circ f_{\flat}}{g \circ f}$$
+      $$\lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g} \coloneqq \lens{f_{\flat} \then f^{\ast}g_{\flat}
+      }{f \then g}$$
     Written with the signatures, this looks like
     $$\lens{A \xto{f_{\flat}} f^{\ast}A' \xto{f^{\ast}g_{\flat}}
-      f^{\ast}g^{\ast}A'' \xequals{\phantom{\gamma}} (g \circ f)^\ast A''}{C \xto{f} C' \xto{g} C''}$$
+      f^{\ast}g^{\ast}A'' \xequals{\phantom{\gamma}} (f \then g)^\ast A''}{C \xto{f} C' \xto{g} C''}$$
     \item The identity is given by $\lens{\id_A}{\id_C} : \lens{A}{C}
       \rightrightarrows \lens{A}{C}$
   \end{itemize}
@@ -2577,9 +2583,8 @@ First, let's show that if both $f$ and $f_{\flat}$ are isomorphisms, then
 $\lens{f_{\flat}}{f}$ is an isomorphism. We then have $f\inv : C' \to C$ and
 $f_{\flat}\inv : f^{\ast}A' \to A$. From $f_{\flat}\inv$, we can form
 $(f\inv)^{\ast} (f_{\flat}\inv) : (f\inv)^{\ast}f^{\ast} A' \to
-(f\inv)^{\ast}A$, which we can pre-compose with some of the coherences to have
-the signature $A' \to (f\inv)^{\ast} A$:
-$$A' \xequals{\,} (f \circ f\inv)^{\ast} A' \xequals{\,} 
+(f\inv)^{\ast}A$, which has signature $A' \to (f\inv)^{\ast} A$ because $f\inv \then f = \id$:
+$$A' \xequals{\,} (f\inv \then f)^{\ast} A' \xequals{\,}
 (f\inv)^{\ast} f^{\ast} A' \xto{(f\inv)^{\ast} (f_{\flat}\inv)} (f\inv)^{\ast} A.$$
 Now, consider the map $\lens{(f\inv)^{\ast}f_{\flat}\inv}{f\inv} : \lens{A'}{C'}
 \tto \lens{A}{C}$. We'll show that this is an
@@ -2597,11 +2602,13 @@ $f^{\ast}$ to the second equation, we find that $f_{\flat} \circ
 f^{\ast}g_{\flat} = \id$, so that $f_{\flat}$ is an isomorphism with inverse $f^{\ast}g_{\flat}$.
 \end{proof}  
 
+\iffalse
 \begin{remark}
   \cref{prop.isomorphism_in_groth_construction} gives a general solution to
   \cref{ex.isomorphism_in_category_of_charts}, since the category of charts is a
   Grothendieck construction.
 \end{remark}
+\fi
 
 This proposition suggests two interesting classes of maps in a Grothendieck
 construction: the maps $\lens{f_{\flat}}{f}$ for which $f$ is an isomorphism, and
@@ -2628,7 +2635,7 @@ maps in $\cat{C}$.
 
 \begin{example}
   We have often seen systems that expose their entire state, like $\Sys{Time}$ 
-  of \cref{ex.trajectory_as_behavior_discrete}. Considered as lenses, these are
+  of \cref{ex.trajectory_as_behavior_discrete}. We will soon see that lenses are maps in a Grothendieck construction. Considered as lenses, these systems are
   \emph{pure} in the sense that their $\expose{}$ function is an isomorphism.
 \end{example}
 
@@ -2889,7 +2896,7 @@ $$(\Delta_C \times X) \then (\pi_2 \times X)= \id_{C \times
 and
 $$( \Delta_C \times X ) \then (C \times \Delta_C \times X) = ( \Delta_C \times
 X) \then (\Delta_C\times X \times C).$$
-These hold by some simple work in the cartesian category $\cat{C}$ (see \cref{ex.cartesian_comonad}).
+These hold by some simple work in the cartesian category $\cat{C}$ (see \cref{ex.cartesian_comonad}). On elements, the first says that the composite $x \mapsto (x, 0) \mapsto x$ and $x \mapsto (0, x) \mapsto x$ are both the identity function $x \mapsto x$. The second says that $x \mapsto (x, x) \mapsto ((x, x), x)$ equals $x \mapsto (x, x) \mapsto (x, (x, x))$, at least when we forget about the inner parentheses.
 
 With these laws in hand, we can prove associativity and identity of composition in $\smctx{C}$ by
 appealing to the following diagrams:
@@ -3255,6 +3262,8 @@ we can then prove that $r^{\ast}$ is a functor graphically:
 \end{tikzpicture}
 \]
 
+Those laws mean that $x \mapsto r(x) \mapsto 0$ is equal to $x \mapsto 0$ and $x \mapsto r(x) \mapsto (r(x), r(x))$ equals $x \mapsto (x, x) \mapsto (r(x), r(x))$.
+
 
 \begin{proposition}\label{prop.lenses_as_groth_construction}
   The category $\Cat{Lens}_{\cat{C}}$ of lenses in $\cat{C}$ is the
@@ -3315,8 +3324,7 @@ $\smset^{(-)}$-lens $\lens{f^{\sharp}}{f} : \lens{A^-_a}{a \in A^+} \fromto
   \item A family of passback functions $f^{\sharp}_{a} : B^- \to A^-$ for every
     $a \in A^+$.
 \end{itemize}
-We call these \emph{dependent lenses}, and they will be a major character in the
-later chapters of this book.
+We call these \emph{dependent lenses}.
 \end{example}
 
 \subsection{Monoidal indexed categories and the product of lenses}
@@ -3334,15 +3342,15 @@ of lenses to generalized lenses. For this, we will need the notion of an
 
 \begin{definition}\label{def.monoidal_indexed}
 A \emph{monoidal strict indexed category} $(\cat{A} : \cat{C}\op \to \Cat{Cat},
-\otimes, \ord{1}, \boxtimes, \mathbb{1})$ consists of:
+\otimes, \ord{1}, \boxtimes, \hat{\ord{1}})$ consists of:
 \begin{itemize}
   \item A strict indexed category $\cat{A} : \cat{C}\op \to \Cat{Cat}$,
 \item A monoidal structure $(\otimes, \ord{1})$ on $\cat{C}$,
 \item A natural family of functors $\boxtimes : \cat{A}(C) \times \cat{A}(C')
-  \to \cat{A}(C \otimes C')$ and $\mathbb{1} \in \cat{A}(\ord{1})$ with natural
+  \to \cat{A}(C \otimes C')$ and $\hat{\ord{1}} \in \cat{A}(\ord{1})$ with natural
   isomorphisms 
 $$A_1 \boxtimes (A_2 \boxtimes A_3) \cong (A_1 \boxtimes A_2) \boxtimes A_3,$$
-$$\mathbb{1} \boxtimes A \cong A \cong A \boxtimes \mathbb{1}.$$
+$$\hat{\ord{1}} \boxtimes A \cong A \cong A \boxtimes \hat{\ord{1}}.$$
 These natural isomorphisms are required to satisfy coherences reminiscent of
 those of a monoidal category.
 \end{itemize}
@@ -3375,7 +3383,7 @@ given by the cartesian product may be equivalently given by the data:
 \begin{proof}[Proof Sketch]
 We define the product $\otimes : \cat{A}(C) \times \cat{A}(C) \to \cat{A}(C)$ as
 $\boxtimes \circ \Delta^{\ast}$ where $\Delta : C \to C \times C$ is the
-diagonal. We similarly define $\ord{1} \in \cat{A}(C)$ as $!^{\ast}(\mathbb{1})$.
+diagonal. We similarly define $\ord{1} \in \cat{A}(C)$ as $!^{\ast}(\hat{\ord{1}})$.
 \end{proof}
 
 We use \cref{thm.monoidal_indexed_cartesian} and \cref{thm.monoidal_indexed} to
@@ -3427,7 +3435,7 @@ The rest then follows by \cref{thm.monoidal_indexed_cartesian} and \cref{thm.mon
 
 \subsection{Monadic lenses as generalized lenses}
 
-Now we are ready to define monadic lenses. We have a formula: we just need to
+Now we are ready to define monadic lenses. We have a formula for getting lenses out of an indexed category; we just need to
 find the right indexed category. We will do this by modifying the definition of
 $\smctx{C}$ so that a map is of the form $C \times X \to M Y$. If the resulting
 categories $\smctx{C}^M$ remain indexed over $\cat{C}$, we have a ready made
@@ -4483,8 +4491,8 @@ We now show that this is functorial using the do notation:
 \end{align*}
 We also note that $\phi_{\ast} \id = \id$ since 
 \begin{align*}
-\phi_{\ast}(\id) = \pi_2 \then \eta^M \then \phi \\
-&= \pi_2 \then \eta^N\\
+\phi_{\ast}(\id) &= \pi_2 \then \eta_M \then \phi \\
+&= \pi_2 \then \eta_N\\
 &= \id
 \end{align*}
 
@@ -4495,17 +4503,17 @@ objects and the monoidal structures are defined identically.
   \phi_{\ast}(f \otimes g) &= (c, x_1, x_2) \mapsto \phi\left( \, \unalignedDo{
                              ${y_1 \from f(c, x_1)}$,
 ${y_2 \from g(c, x_2)}$,
-${\eta^M(y_1, y_2)}$
+${\eta_M(y_1, y_2)}$
                              } \,  \right) \\
-&= \unalignedDo{
+&=(c, x_1, x_2) \mapsto \unalignedDo{
                              ${y_1 \from \phi(f(c, x_1))}$,
 ${y_2 \from \phi(g(c, x_2))}$,
-${\phi\eta^M(y_1, y_2)}$
+${\phi\eta_M(y_1, y_2)}$
                              }\\
-&= \unalignedDo{
+&=(c, x_1, x_2) \mapsto \unalignedDo{
                              ${y_1 \from \phi(f(c, x_1))}$,
 ${y_2 \from \phi(g(c, x_2))}$,
-${\eta^N(y_1, y_2)}$
+${\eta_N(y_1, y_2)}$
                              } \\
 &= \phi_{\ast}f \otimes \phi_{\ast}g.
 \end{align*}

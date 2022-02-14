@@ -76,7 +76,7 @@ lets us compose behaviors:
   \end{tikzcd}
   \xequals{\quad}
   \begin{tikzcd}
-    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T(\psi\phi)}{\psi\phi}"] \ar[r, shift right] \ar[d, shift right,
+    \lens{T\State{T}}{\State{T}} \ar[r, shift left, "\lens{T(\phi\then\psi)}{\phi\then\psi}"] \ar[r, shift right] \ar[d, shift right,
     "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] &
     \lens{T\State{U}}{\State{U}} \ar[d, shift left, leftarrow,
     "\lens{\update{U}}{\expose{U}}"] \ar[d, shift right]\\
@@ -138,8 +138,6 @@ together and then compose them; the end result is the same.
   \cref{eqn.understanding_squares_in_double_cat_of_arenas2} with the square in
   \cref{eqn.understanding_squares_in_double_cat_of_arenas}. This basic fact
   underlies our arguments in the upcoming \cref{sec.steady_states_matrix_arithmetic}. 
-
-We'll return to this idea in \cref{ex.prof_square_from_arena_square}.
 \end{example}
 
 While our results are most smoothly proven in the double category of arenas,
@@ -174,7 +172,7 @@ their two sorts of composition keeping in mind the separation between interfaces
 and systems. We call this abstract algebra a \emph{doubly indexed category},
 since it is a sort of double categorical generalization of an indexed category.
 We'll see the definition of this notion in
-\cref{sec.indexed_double_category_of_systems}.
+\cref{sec.indexed_double_category_of_systems}. Later, in \cref{Chapter.6}, we'll see how this abstraction of the algebra of composition of systems can be used to work in other \emph{doctrines} of dynamical systems --- ways of thinking about what it means to be a systems theory at all.
 
 Once we have organized our systems into doubly indexed categories, we can
 discuss what it means to change our systems theory. A change of systems theory will be a way
@@ -202,16 +200,16 @@ small distance in this direction. We could get a whole sequence of states this
 way; moving in the direction our dynamics tells us we should go, and then
 checking where to go from there.
 
-The result is a deterministic system $\mathcal{E}_{\epsilon}(\Sys{S})$ whose
+The result is a deterministic system $\mathcal{E}_{\varepsilon}(\Sys{S})$ whose
 dynamics is given by
 \[
-\update{\mathcal{E}_{\epsilon}(\Sys{S})}(s, p) = s + \epsilon \cdot
+\update{\mathcal{E}_{\varepsilon}(\Sys{S})}(s, p) = s + \varepsilon \cdot
 \update{S}(s, p).
 \]
-Here, $\epsilon > 0$ is some small increment. We can take $\mathcal{E}_{\epsilon}(\Sys{S})$ to expose the same variable that
-$\Sys{S}$ does: $\expose{\mathcal{E}_{\epsilon}(\Sys{S})} = \expose{S}$.
+Here, $\varepsilon > 0$ is some small increment. We can take $\mathcal{E}_{\varepsilon}(\Sys{S})$ to expose the same variable that
+$\Sys{S}$ does: $\expose{\mathcal{E}_{\varepsilon}(\Sys{S})} = \expose{S}$.
 
-The change of systems theory $\mathcal{E}_{\epsilon}$ is the formula for changing from
+The change of systems theory $\mathcal{E}_{\varepsilon}$ is the formula for changing from
 the Euclidean differential systems theory to the deterministic systems theory on the
 cartesian category of Euclidean spaces. We might wonder: how does changing the
 systems theory by using the Euler method affect the wiring together of systems? How
@@ -225,9 +223,9 @@ Euler method approximation. Consider, for example, the simply system
 \]
 having one state variable, and no parameters. The trajectories of this system
 are of the form $s(t) = Ce^t$ for some constant $C$. However, if we let
-$\epsilon = .1$ and consider the Euler approximation
+$\varepsilon = .1$ and consider the Euler approximation
 \[
-\update{\mathcal{E}_{.1}(\Sys{S})}(s(0)) = s(0) + .1 \cdot s(0) = 1.01
+\update{\mathcal{E}_{.1}(\Sys{S})}(s(0)) = s(0) + .1 \cdot s(0) = 1.1
 \cdot C,
 \]
 This is not the same thing as $s(.1) = Ce^{.1} \approx 1.105 \cdot C$ (though,
@@ -245,11 +243,12 @@ In other words, the steady state remains a steady state!
 The goal of this chapter will be to introduce the formalism which enables us to
 inquire into and prove various compositionality results concerning changes of
 systems theory. In the above situation, we will see that the Euler method
-$\mathcal{E}_{\epsilon}$ gives a change of systems theory on a \emph{restriction} of
+$\mathcal{E}_{\varepsilon}$ gives a change of systems theory on a \emph{restriction} of
 the Euclidean differential systems theory to affine maps. As a result, it will
 preserve any behavior whose underlying map is affine (of the form $\phi(v) = Av
 + b$ for a matrix $A$ and vector $b$), which includes all steady states (since
-constant maps are affine) but almost no trajectories in general. 
+constant maps are affine) but almost no trajectories in general.
+
 
 We will introduce the notion of a \emph{doubly indexed functor} to organize the
 compositionality results concerning change of systems theory. We will also be using
@@ -260,9 +259,7 @@ We will define the notion of change of systems theory formally
 (\cref{def.change_of_doctrine}) and show that every change of systems theory gives
 rise to a doubly indexed functor between the doubly indexed categories of
 systems in the respective systems theories. In particular, we will show that there is a
-\emph{2-functor} \jaz{I am starting to think that I should put the
-  2-functoriality of this into an appendix so that I don't have to introduce
-  2-categories and 2-functors here.}
+\emph{functor}
 $$\textbf{Sys} : \textbf{Theory} \to \textbf{DblIx}$$
 sending a systems theory to the doubly indexed category of systems in it.
 
@@ -284,12 +281,12 @@ interface.
 We repeat the definition of $\Cat{Sys}\lens{I}{O}$ for an arbitrary systems theory.
   \begin{definition}\label{def.cat_of_systems}
   Let $\mathbb{D} = (\cat{A}, T)$ be a theory of dynamical systems. For a
-    $\cat{A}$-arena $\lens{I}{O}$, the category $\Cat{Sys}\lens{A}{C}$ of
+    $\cat{A}$-arena $\lens{I}{O}$, the category $\Cat{Sys}\lens{I}{O}$ of
     $\mathbb{D}$-systems with interface $\lens{I}{O}$ is defined by:
 \begin{itemize}
   \item Its objects are $\cat{A}$-lenses $\lens{\update{S}}{\expose{S}} :
-    \lens{T\State{S}}{\State{S}} \fromto \lens{I}{O}$, which we can call
-    \emph{systems} in this general setting.
+    \lens{T\State{S}}{\State{S}} \fromto \lens{I}{O}$, which are
+    \emph{systems} in this systems theory (\cref{def.doctrine_system}).
   \item Its maps are \emph{simulations}, the behaviors which have identity
     chart. That is, the maps are the squares 
 \[
@@ -327,7 +324,7 @@ then the wired together systems $\Sys{S}$ simulate $\Sys{T}$ by $\phi = \prod_i
   \begin{itemize}
     \item For a system $\Sys{S} = \lens{\update{S}}{\expose{S}} :
       \lens{T\State{S}}{\State{S}}\fromto \lens{I}{O}$,
-      $$\Cat{Sys}\lens{f^{\sharp}}{f}(\Sys{S}) = \lens{f^{\sharp}}{f} \circ \lens{\update{S}}{\expose{S}}.$$
+      $$\Cat{Sys}\lens{f^{\sharp}}{f}(\Sys{S}) = \lens{\update{S}}{\expose{S}} \then \lens{f^{\sharp}}{f}.$$
     \item For a behavior, $\Cat{Sys}\lens{f^{\sharp}}{f}$ acts in the following way:
       \[
   \begin{tikzcd}
@@ -440,8 +437,7 @@ $\Cat{Sys}\lens{j^{\sharp}}{j} : \Cat{Sys}\lens{I_1}{O_1} \to
 these lenses. We also saw in \cref{prop.profunctor_from_chart} that we get
 profunctors $\Cat{Sys}\lens{f_{\flat}}{f} : \Cat{Sys}\lens{I_1}{O_1} \tickar
 \Cat{Sys}\lens{I_2}{O_2}$ and $\Cat{Sys}\lens{g_{\flat}}{g} :
-\Cat{Sys}\lens{I_3}{O_3} \tickar \Cat{Sys}\lens{I_4}{O_4}$ from these charts. We
-can also get a square of profunctors 
+\Cat{Sys}\lens{I_3}{O_3} \tickar \Cat{Sys}\lens{I_4}{O_4}$ from these charts. Now let's see how to get a square of profunctors
 from the square $\alpha$ in the double category of arenas:
 \[
 \begin{tikzcd}
@@ -460,7 +456,7 @@ That is, a natural transformation of the following signature:
 \Cat{Sys}\lens{g_{\flat}}{g}\left( \Cat{Sys}\littlelens{j^{\sharp}}{j}, \Cat{Sys}\littlelens{k^{\sharp}}{k} \right).\]
 
 To define the natural transformation $\Cat{Sys}(\alpha)$, we need to say what it
-does to an element $\phi$ of $\Cat{Sys}\lens{f_{\flat}}{f}\left(\Sys{T},
+does to an element $\phi \in \Cat{Sys}\lens{f_{\flat}}{f}\left(\Sys{T},
   \Sys{S}\right)$. Recall that the elements of this profunctor are behaviors with
   chart $\lens{f_{\flat}}{f}$, so really $\phi$ is a square
 \[
@@ -780,7 +776,7 @@ we define a vector of sets of length $A$ to be a dependent set $V : A \to
   to be $$\Cat{Vec}(A) \coloneqq \smset^A$$
 the category of sets depending on $A$. 
 
-Given a $(B \times A)$-matrix $M$, we can treat a $A$-vector $V$ as a $A \times
+Given a $(B \times A)$-matrix $M : B \times A \to \smset$ (as in \cref{def.double_cat_of_matrices}), we can treat a $A$-vector $V$ as a $A \times
 \ord{1}$ matrix and form the $B \times \ord{1}$ matrix $MV$. This gives us a
 functor
 \begin{align*}
@@ -788,7 +784,7 @@ functor
                V &\mapsto (MV)_b = \sum_{a \in A} M_{ba} \times V_a \\
            f : V \to W &\mapsto ( (a, m, v) \mapsto (a, m, f(v)) )
 \end{align*}
-which we refer to as the linear functor given by $M$.
+which we refer to as the \emph{linear functor} given by $M$.
 \end{definition}
 
 \begin{definition}
@@ -800,7 +796,7 @@ of sets is defined by:
     vectors of length $A$.
   \item To every $(B \times A)$-matrix $M : A \to B$, we assign the linear
     functor $\Cat{Vec}(M) : \Cat{Vec}(A) \to \Cat{Vec}(B)$ given by $M$ (\cref{def.linear_functor}).
-  \item To every function $f : A \to B$, we associate the profunctor
+  \item To every function $f : A \to B$, we associate the profunctor\\
     $\Cat{Vec}(f) : \Cat{Vec}(A) \tickar \Cat{Vec}(B)$ defined by
 $$\Cat{Vec}(f)(V, W) = \{ F : (a \in A) \to V_a \to W_{f(a)} \}.$$
 That is, $F \in \Cat{Vec}(f)(V, W)$ is a family of functions $F(a,-) : V_a \to
@@ -865,7 +861,7 @@ equivalently a square of the following form in $\Cat{Matrix}$:
           A \ar[rr, "f"'] & & B
         \end{tikzcd}
       \]
-      Therefore, we can describe $\Cat{Vec}(f)(V, W)$ as the following set:
+      Therefore, we can describe $\Cat{Vec}(f)(V, W)$ as the following set of squares in $\Cat{Matrix}$:
 \[
 \Cat{Vec}(f)(V, W) = \left\{ F \,\middle|
         \begin{tikzcd}[sep=tiny]
@@ -888,7 +884,7 @@ by the interchange law.
 
   If this argument seemed wholly too similar to the one we gave for the doubly
   indexed category of systems, your suspicions are not misplaced. These are both are instances of a very general \emph{vertical
-    slice construction}, which we turn our attension to now.
+    slice construction}, which we turn our attention to now.
 
   \section{Vertical Slice Construction}\label{sec.vertical_slice}
 
@@ -1047,7 +1043,7 @@ be a square in $\Cat{Arena}_{\cat{A}}$. We need to show that
     \end{tikzcd}
 \]
 is a square in $\Cat{Arena}_{\cat{B}}$. But this being a square means that the
-two diagrams
+two following diagrams commute:
 \[
     \begin{tikzcd}
       FC_1 \arrow[r, "Fg_1"] \arrow[d, "Ff_1"'] & FC_2 \arrow[d, "Ff_2"] &  & (F f_1 )^{\ast}\overline{F}A_3 \arrow[rr, "\overline{F}f_1^{\sharp}"] \arrow[d, "(Ff_1)^{\ast}\overline{F}g_{2\flat}"'] &                                                              & \overline{F}A_1 \arrow[d, "\overline{F}g_{1\flat}"] \\
@@ -1143,7 +1139,7 @@ category. The proof is exactly as it was for $\Cat{Sys}$.
     vertical associativity:
 \begin{align*}
   \sigma F\left(\frac{k_1}{k_2}\right)(f, \alpha) &= \left(f,  \frac{\alpha}{\left( \frac{k_1}{k_2} \right)} \right) \\
-= \left(f, \frac{\left( \frac{\alpha}{k_1} \right)}{k_2}   \right)\\
+&= \left(f, \frac{\left( \frac{\alpha}{k_1} \right)}{k_2}   \right)\\
 &= \sigma F(k_2) \circ \sigma F (k_1)((f, \alpha)).
 \end{align*}
 
@@ -1516,7 +1512,7 @@ is:
   \item Prove that $(\id_{\cat{D}_0}, \id_{\cat{D}_1}, \id_{F})$ provides an
     identity map $F \to F$.
   \item Prove that composition is associative. The key part will be showing that
-    $(v \ast w) \ast u = v \ast (w \ast u)$.
+    $$(v \ast w) \ast u = v \ast (w \ast u).$$
 \end{enumerate}
 \end{exercise}
 
@@ -1626,7 +1622,7 @@ to vertical maps $j : D_1 \to D_2$ in $\cat{D}_1$ are natural isomorphisms.
 The definition of doubly indexed functor involves a lot of data, but this is
 because it is a big collection of functoriality results. 
 
-We need to compose lax doubly indexed functors.
+Before getting to our functoriality theorem, we need to compose lax doubly indexed functors.
 \begin{definition}
 If $(F^0, F) : \cat{A} \to \cat{B}$ and $(G^0, G) : \cat{B} \to \cat{C}$ are two
 doubly indexed functors, we define their composite 
@@ -1725,7 +1721,8 @@ We may then calculate:
 \bullet \ar[r, equals, tick]                                      & \bullet
 \ar[r, equals, tick]                                              & \bullet
 \ar[r, tick]                                                  & \bullet          
-\end{tikzcd}\coheq 
+\end{tikzcd}
+       \coheq
 \begin{tikzcd}
 \bullet \arrow[r, equals, tick] \arrow[d] \arrow[rd, "F^D", phantom] & \bullet
 \arrow[r, tick] \arrow[d] \arrow[rd, "F^f", phantom]                   & \bullet \arrow[r, equals, tick] \arrow[d]                                    & \bullet \arrow[d] \\
@@ -1736,7 +1733,9 @@ We may then calculate:
 \bullet \arrow[r, equals, tick]                                      & \bullet
 \arrow[r, tick]                                                        & \bullet
 \arrow[r, equals, tick]                                              & \bullet          
-\end{tikzcd} \coheq
+\end{tikzcd}
+        \]\[
+        \coheq
 \begin{tikzcd}
 \bullet \arrow[r, tick] \arrow[d] \arrow[rd, "F^D", phantom]                      & \bullet \arrow[r, equals, tick] \arrow[d] \arrow[rd, "F^f", phantom] & \bullet \arrow[r, equals, tick] \arrow[d]                                    & \bullet \arrow[d] \\
 \bullet \arrow[d] \arrow[r, tick] \arrow[rd, "G^{F^0 f}", phantom]                & \bullet \arrow[d] \arrow[r, equals, tick]                            & {} \arrow[d] \arrow[r, "F^k", phantom]                         & \bullet \arrow[d] \\
@@ -1899,7 +1898,7 @@ show that $\sigma(v \ast w) = \sigma v \then \sigma w$.
 
 \section{Change of systems theory}
 
-We have learned about a variety of systems theory through the course of this book:
+We have learned about a variety of systems theory in this book:
 \begin{itemize}
   \item There are the deterministic systems theory (\cref{def.deterministic_doctrines})
 \[
@@ -1918,10 +1917,10 @@ set maps, but are furthermore continuous or differentiable; this means working
 in the cartesian categories of topological spaces or differentiable manifolds.
 \item There are also the differential systems theories
   (\cref{def.euclidean_diff_doctrine,def.toric_diff_doctrine,def.general_diff_doctrine})
-  where the tangent bundle plays an important role. \jaz{ There are also non-standard
-  differential systems theories arising from cartesian differential categories and
-  tangent categories with display maps.
- }
+  where the tangent bundle plays an important role. There are also non-standard
+  differential systems theories arising from cartesian differential categories \cite{Cruttwell:Differential.Cat} and
+  tangent categories with display maps \cite{Cruttwell:Tangent.Category}.
+
 \item There are the non-deterministic systems theories for any commutative monad $M$ on
   a cartesian category $\cat{C}$. As we saw in \cref{Chapter.2}, by varying the
   monad $M$ we can achieve a huge variety of flavors of non-determinism. This
@@ -1951,11 +1950,8 @@ $N$-system, changing the flavor of non-determinism. We may also
 \emph{approximate} a differential system by a deterministic system. 
 
 These are all ways of \emph{changing our systems theories}, and it is these changes of
-systems theories that we will attend to in this section.
-
-We will begin by defining a \emph{change of systems theory}, which will give us a
-category of systems theories.\footnote{\jaz{Actually a 2-category, but this will likely
-    go into an appendix.}} We will then show that forming the doubly indexed
+systems theories that we will attend to in this section. We will begin by defining a \emph{change of systems theory}, which will give us a
+category of systems theories. We will then show that forming the doubly indexed
 category of systems $\Cat{Sys}(\dd)$ is functorial in the systems theories $\dd$.
 
 \subsection{Definition}
@@ -1993,7 +1989,7 @@ abstract set.
 
 Now, we can't just fiddle arbitrarily with the answers to our questions; they
 all have to hang together in a coherent way. The formal definition can guide us
-to what sort of changes we can make that cohere in just this way. We can change
+to what sort of changes we can make that cohere in just this way. For example, we can change
 what it means to be a state, how the output varies with the state, and the way
 the inputs vary by changing the indexed category $\cat{A}$. 
 
@@ -2061,10 +2057,11 @@ of a natural transformation $\lens{\phi}{\id} : \lens{\overline{F}}{F} \circ T_1
     diagrams of natural transformations: 
     \[
 \begin{tikzcd}
-  \cat{C} \ar[d,"{\lens{T_1(-)}{(-)}}"'] \ar[r, "F"] & \cat{D} \ar[d,
+  \cat{C} \ar[dd,"{\lens{T_1(-)}{(-)}}"'] \ar[r, "F"] & \cat{D} \ar[dd,
   "{\lens{T_2(-)}{(-)}}"] \\
-\int^{C : \cat{C}}\cat{A}(C) \ar[r, "\lens{\overline{F}}{F}"'] \ar[ur,
-Rightarrow, "{\lens{\phi}{\id}}"] \ar[d,"\pi"'] & \int^{D :
+  & \\
+\int^{C : \cat{C}}\cat{A}(C) \ar[r, "\lens{\overline{F}}{F}"'] \ar[uur,
+Rightarrow, "{\lens{\phi}{\id}}" near start] \ar[d,"\pi"'] & \int^{D :
   \cat{D}} \cat{B}(D) \ar[d, "\pi"]\\
 \cat{C} \ar[r, "F"'] & \cat{D}
 \end{tikzcd} 
@@ -2231,14 +2228,14 @@ called the Euler method. We can see the Euler method as a change of systems theo
 from a differential systems theory to a deterministic systems theory.
 
 \begin{proposition}
-  For any $\varepsilon > 0$ The Euler method gives rise to a change of systems theory
+  For any $\varepsilon > 0$, the Euler method gives rise to a change of systems theory
   \[
 \mathcal{E}_{\varepsilon} : \eucdiff_{|\textbf{Aff}} \to \determ_{\Cat{Euc}}.
   \]
   This is given by
-  $$((\id, \id), \phi) : (\smctx{|\Cat{Aff}} : \Cat{Aff}\op \to \Cat{Cat}, T) \to
-  (\smctx{|\Cat{Aff}} : \Cat{Aff}\op \to \Cat{Cat}, \rr^n \mapsto \rr^n)$$
-  where $\phi : \rr^n \times \rr^n \to \rr^n$ is defined by
+  $$((\iota, \iota), \phi) : (\smctx{|\Cat{Aff}} : \Cat{Aff}\op \to \Cat{Cat}, T) \to
+  (\smctx{|\Cat{Euc}} : \Cat{Euc}\op \to \Cat{Cat}, \rr^n \mapsto \rr^n)$$
+  where $\iota : \Cat{Aff} \to \Cat{Euc}$ is the inclusion and $\phi : \rr^n \times \rr^n \to \rr^n$ is defined by
   $$\phi(s, v) = s + \varepsilon \cdot v.$$
 \end{proposition}
 \begin{proof}
@@ -2312,7 +2309,7 @@ F_2 F_1 C.
 In terms of natural transformations (see
 \cref{prop.transform_section_as_nat_transform}), this is the diagram
 \[
-  \begin{tikzcd}[row sep = large]
+  \begin{tikzcd}[row sep = huge]
     \cat{C}_1 \ar[r, "F_1"]\ar[d, "T_1"'] & \cat{C}_2\ar[r, "F_2"]\ar[d, "T_2"] & \cat{C}_3\ar[d, "T_3"] \\
     \int^{C : \cat{C}_1}\cat{A}_1(C)\ar[r, "{\lens{\overline{F}_1}{F_1}}"']
     \ar[ur, Rightarrow, "{\littlelens{\phi_1}{\id}}"] &\int^{C : \cat{C}_2}\cat{A}_2(C)\ar[r, "{\lens{\overline{F}_2}{F_2}}"']\ar[ur, Rightarrow, "{\littlelens{\phi_2}{\id}}"] &\int^{C : \cat{C}_3}\cat{A}_3(C) 
@@ -2339,8 +2336,8 @@ be the composite
 \[
 \lens{\phi}{\id} \then \lens{\overline{F}\update{S}}{F\expose{S}} : \lens{T_2F\State{S}}{F\State{S}} \fromto \lens{\overline{F}\In{S}}{F\Out{S}}.
 \]
-Explicitly, this system has update $\overline{F} \update{S} \then \phi$ and
-expose $F\expose{S}$.
+Explicitly, this system has update map $\overline{F} \update{S} \then \phi$ and
+expose map $F\expose{S}$.
 \end{definition}
 
 The goal of this section will be to provide a number of compositionality results
@@ -2381,7 +2378,7 @@ The assignment
 gives a functor $\iota : \Cat{Theory} \to \Cat{DblFun}$. This functor sends a
 change of systems theories
 \begin{equation}\label{eqn.change_of_doctrines}
-  \begin{tikzcd}[row sep = large]
+  \begin{tikzcd}[row sep = huge]
     \cat{C} \ar[r, "F"]\ar[d, "T_1"'] & \cat{D} \ar[d, "T_2"] \\
     \int^{C : \cat{C}}\cat{A}(C)\ar[r, "{\lens{\overline{F}}{F}}"']
     \ar[ur, Rightarrow, "{\littlelens{\phi}{\id}}"] &\int^{C : \cat{D}}\cat{B}(C)
@@ -2389,7 +2386,7 @@ change of systems theories
 \end{equation}
 to the morphism double functors
 \begin{equation}\label{eqn.change_of_doctrines_dblfun}
-  \begin{tikzcd}[row sep = large]
+  \begin{tikzcd}[row sep = huge]
     h\cat{C} \ar[r, "F"]\ar[d, "hT_1"'] & h\cat{D} \ar[d, "hT_2"]\ar[dl, Rightarrow, "{\littlelens{\phi}{\id}}"'] \\
     \Cat{Arena}_{(\cat{A}, T_1)}\ar[r, "{\lens{\overline{F}}{F}}"']
      & \Cat{Arena}_{(\cat{B}, T_2)}
@@ -2414,8 +2411,8 @@ double category of arenas. But the vertical arrows in $\Cat{Arena}_{(\cat{B},
 change of direction: we can consider the \emph{chart} $\lens{\phi}{\id} :\lens{\overline{F}}{F} \circ hT_1  \to  hT_2
 \circ F$ as a \emph{lens}
 $\lens{\phi}{\id} : hT_2 \circ F \to \lens{\overline{F}}{F} \circ hT_1$ by the
-duality between pure charts and lenses --- those having an identity in the
-bottom component.
+duality between pure charts and pure lenses. Recall that pure charts and lenses are those having an isomorphism in the
+bottom component (\cref{def.pure_and_cartesian}).
 
 Let's describe precisely how $\lens{\phi}{\id}$ becomes a vertical
 transformation.
@@ -2449,7 +2446,7 @@ largely trivial, since the double categories are particularly simple (as double 
   \item (Horizontal Unity) This is true since all the functors involved in
     defining the top and bottom of the square \cref{eqn.nat_trans_proof_square}
     preserve identities.
-  \item (Square Naturality) This again follows trivially by the thin-ness of $\Cat{Arena}$.
+  \item (Square Naturality) This again follows trivially by the thinness of $\Cat{Arena}$.
 \end{itemize}
 
 The proof of functoriality itself follows from a straightforward comparison of
@@ -2467,7 +2464,7 @@ Let's take a moment to understand this definition in full. Suppose we have a
 change of systems theories $((F, \overline{F}), \phi) : (\cat{A}, T_1) \to (\cat{B},
 T_2)$. Then $\iota((F, \overline{F}), \phi)$ is a map of double functors:
 \[
-  \begin{tikzcd}[row sep = large]
+  \begin{tikzcd}[row sep = huge]
     h\cat{C} \ar[r, "F"]\ar[d, "hT_1"'] & h\cat{D} \ar[d, "hT_2"]\ar[dl, Rightarrow, "{\littlelens{\phi}{\id}}"'] \\
     \Cat{Arena}_{(\cat{A}, T_1)}\ar[r, "{\lens{\overline{F}}{F}}"']
      & \Cat{Arena}_{(\cat{B}, T_2)}
@@ -2578,8 +2575,8 @@ For Euler approximatation
 \mathcal{E}_{\varepsilon} : \eucdiff_{|\textbf{Aff}} \to \determ_{\Cat{Euc}},
   \]
   we get a doubly indexed functor
-  $$\left(\littlelens{\id}{\id}, \sigma\littlelens{\phi}{\id}\right) : \Sys(\eucdiff_{|\textbf{Aff}}) \to \determ_{\Cat{Euc}}$$
-  by the functoriality of $\Cat{Sys}$, where $\phi : \rr^n \times \rr^m \to
+  $$\left(\littlelens{\iota}{\iota}, \sigma\littlelens{\phi}{\id}\right) : \Sys(\eucdiff_{|\textbf{Aff}}) \to \determ_{\Cat{Euc}}$$
+  by the functoriality of $\Cat{Sys}$, where $\iota : \Cat{Aff}\to \Cat{Euc}$ is the inclusion and $\phi : \rr^n \times \rr^m \to
   \rr^n$ is $\phi(p, v) = p + \varepsilon \cdot v$. Let's see it means for this
   to be a doubly indexed functor.
 

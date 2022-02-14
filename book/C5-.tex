@@ -20,7 +20,7 @@ Let's take stock of where we've been so far in the past couple chapters.
     interpreted as special sorts of lenses, and how we can wire together systems
     using lens composition.
   \item In \cref{sec.non_deterministic_systems} we learned about various sorts
-    of \emph{non-deteerministic systems}.
+    of \emph{non-deterministic systems}.
   \item In \cref{sec.behavior_discrete}, we learned about behaviors and \emph{charts}. We saw
     how to define behaviors of systems using the notion of chart. Finally, we
     gave a formal definition of \emph{theory of dynamical systems}, systematizing
@@ -57,9 +57,8 @@ charts) by this matrix yields the vector of behaviors of the composite. We begin
 section explaining this idea in detail for steady states of deterministic
 systems.
 
-We have in fact already proven most of the crucial lemmas we need for this
-result in \cref{sec.behaviors_general}. In this chapter, we will organize these
-lemmas with the notion of a \emph{doubly indexed category}. We will then construct \emph{representable doubly indexed
+We have in fact already developed most of the important definitions --- doubly indexed category and lax doubly indexed functor --- and proven most of the crucial lemmas we need for this
+result in \cref{sec.behaviors_general}. In this chapter, we will then construct \emph{representable doubly indexed
   functors} which will organize the various facts concerning the
 compositionality of any sort of behavior in any systems theory.
 
@@ -84,7 +83,7 @@ case of steady states in detail.
 Recall that the chart of a steady state $s \in \State{S}$ is the pair
 $\lens{i}{o}$ with $o = \expose{S}(s)$ and $\update{S}(s, i) = s$. The set of all
 possible charts for steady states is therefore $\In{S} \times \Out{S}$, and for
-every chart $\lens{i}{o}$ we have the set $\Set{Steady}_{Sys{S}}\lens{i}{o}$ of
+every chart $\lens{i}{o}$ we have the set $\Set{Steady}_{\Sys{S}}\lens{i}{o}$ of
 steady states for this chart. 
 
 We can see this function $\Set{Steady}_{\Sys{S}} : \In{S} \times \Out{S} \to \smset$ as a
@@ -192,10 +191,10 @@ at the input $i$, and $s_2$ must expose $o$; but, most importantly, $s_2$ must t
 $\expose{S_1}(s_1)$ which $s_1$ exposes.
 
 So, to find the set of
-$\lens{\true}{\true}$-steady states of $\Sys{S}$, we must a state of
-$\Sys{S_1}$ which is steady for the input $\true$ and then a steady state of
-$\Sys{S_2}$ whose input is what that state outputs and whose output is $\true$.
-There are three pieces of data here: the state of $\Sys{S_1}$, the state of
+$\lens{\true}{\true}$-steady states of $\Sys{S}$, we must find a state $s_{1}$ of
+$\Sys{S_1}$ which is steady for the input $\true$ and then a steady state $s_{2}$ of
+$\Sys{S_2}$ whose input is what $s_{1}$ outputs and whose output is $\true$.
+There are three pieces of data here: the steady state $s_{1}$ of $\Sys{S_1}$, the steady state $s_{2}$ of
 $\Sys{S_2}$, and the intermediate value expose by the first state and input into
 the second state. We can therefore describe the set of $\lens{\true}{\true}$-steady states of
 $\Sys{S}$ like this:
@@ -428,7 +427,7 @@ product, and then forming a loop.
 \paragraph{Steady states and matrix arithmetic}
 
 For the remainder of this section, we will show that we can calculate the steady
-state matrix of a wired together system in terms of its component system in a
+state matrix of a composite system in terms of its component system in a
 very simple way:
 \begin{itemize}
   \item First, take the steady state matrices of the component systems.
@@ -641,9 +640,8 @@ $$\fun{tr}_{A}M \cong \Set{Tr}^A M$$
   \[
 \sum_{((a, c'), (a', b')) \in (A \times C) \times (A \times B)}
 \Set{Tr}^A_{(c,b)((a, c'),(a', b'))} \times M_{(a,c')(a',b')} \cong M_{(a, c)(a,
-  b)}.
+  b)}.\qedhere
 \]
-As desired.
 \end{proof}
 
 
@@ -681,7 +679,7 @@ it will work for almost any doubly indexed category $\cat{A} : \cat{D} \to \Cat{
 on the indexing double category $\cat{D}$). $\Fun{Behave}_{\Sys{T}}$ will be a
 \emph{representable} doubly indexed category. Before going on to construct
 representable doubly indexed categories, let's take a minute to refresh
-ourselves on what representable functors our for categories. The essential idea
+ourselves on what representable functors are for categories. The essential idea
 is the same.
 
 If $\cat{C}$ is a category and $T$ an object of $\cat{C}$, then we can see maps $f : T
@@ -779,7 +777,7 @@ The resulting matrices will have entries that are either $\ord{1}$ or
 $\emptyset$; we can think of this as telling us whether ($\ord{1}$) or not ($\emptyset$) the two charts
 are to be wired together. As we saw in
 \cref{ex.understanding_squares_in_double_cat_of_arenas}, we can see a square in the double
-category of arenas as telling us whether how a chart can be wired together along
+category of arenas as telling us how a chart can be wired together along
 a lens into another chart. Therefore, we will take the entries of our matrices
 to be the sets of appropriate squares in arena --- but there is either a single
 square (if the appropriate equations hold) or no square (if they don't), so we
@@ -852,7 +850,8 @@ which we can see holds by
 \begin{align*}
   w^{\sharp}(f(o), g_{\flat}(i, o)) &= w^{\sharp}(f(o), v^{\sharp}(g(o), h_{\flat}(i, o))) \\
                                     &= w^{\sharp}(f(o), v^{\sharp}(wf(o), h_{\flat}(i, o))) \\
-  &= f_{\flat}(i, o) &\mbox{by the commutativity of the square on the right.}
+                                    &= f_{\flat}(i, o) \\
+                                    &\phantom{=}\quad\mbox{by the commutativity of the square on the right.}
 \end{align*}
 
 On the other hand, to show that the bottom of the bottoms square commutes, we
@@ -994,7 +993,7 @@ how this operation interacts with charts. This is an example of a
 \emph{representable} double functor.
 
 
-We will first define the double functor $\Cat{Chart}_{\determ}\left( \lens{I}{O}, -
+We will first define the double functor $\Cat{Arena}_{\determ}\left( \lens{I}{O}, -
 \right) : \Cat{Arena}_{\determ} \to \Cat{Matrix}$ represented by an arena $\lens{I}{O}$
 explicitly. Then we will see how this argument can be abstracted to a double
 category which satisfies a horizontal factorization property.
@@ -1025,8 +1024,9 @@ which acts in the following way:
       \end{tikzcd}
     \]
     in the double category of arenas, we give the square
-    \[\Cat{Arena}_{\determ}\left(\littlelens{I}{O}, \beta \right)  =
-      \begin{tikzcd}
+        \[\Cat{Arena}_{\determ}\left(\littlelens{I}{O}, \beta \right)  =\]
+        \[
+      \begin{tikzcd}[sep = large]
         \Cat{Arena}_{\determ}\left(\littlelens{I}{O}, \littlelens{A^-}{A^+} \right) \ar[r, "{\Cat{Arena}_{\determ}\left(\littlelens{I}{O}, \littlelens{f_{\flat}}{f} \right)}"]  \ar[d, "{\Cat{Arena}_{\determ}\left(\littlelens{I}{O}, \littlelens{j^{\sharp}}{j} \right)}"'] 
          &  \Cat{Arena}_{\determ}\left(\littlelens{I}{O}, \littlelens{B^-}{B^+} \right)\ar[d,
         "{ \Cat{Arena}_{\determ}\left(\littlelens{I}{O}, \littlelens{k^{\sharp}}{k} \right) }"] \\
@@ -1293,9 +1293,9 @@ We now come to the mountaintop. It's been quite a climb, and we're almost there.
 We can now describe all the ways that behaviors of systems get put together when
 we wire systems together. There are a bunch of laws governing how behaviors get
 put together, and we organize them all into the notion of a \emph{lax doubly
-  indexed functor}. To any system $\Sys{T}$, we will give a lax doubly indexed
+  indexed functor}. To any system $\Sys{T}$ in a systems theory $\dd$, we will give a lax doubly indexed
 functor
-$$\Fun{Behave}_{\Sys{T}} : \Cat{Sys} \to \Cat{Vec}.$$
+$$\Fun{Behave}_{\Sys{T}} : \Cat{Sys}_{\dd} \to \Cat{Vec}.$$
 
 Since behaviors of shape $\Sys{T}$ are a sort of map out of $\Sys{T}$, we may
 think of $\Fun{Behave}_{\Sys{T}}$ as a \emph{representable} lax doubly indexed
@@ -1328,7 +1328,7 @@ be ``compose in the appropriate way in the appropriate double category''.
     \Cat{Matrix}$ which send an arena to the set of charts from
     $\lens{\In{T}}{\Out{T}}$ to that arena. It will send a chart to the function
     given by composing with that chart, and it will send a lens to a matrix that
-    describes the wiring pattern in the lens. We've seen how to do this in \cref{thm:representable.dbl.fun.doctrine}:
+    describes the wiring pattern in that lens. We've seen how to do this in \cref{thm:representable.dbl.fun.doctrine}:
     $$\Fun{Behave}^0_{\Sys{T}} = \Cat{Arena}\left( \littlelens{\In{T}}{\Out{T}},
       -\right)$$
 This is the blueprint for how our systems will compose.
@@ -1474,7 +1474,7 @@ sorts of composition interact.
     means that nesting of wiring diagrams commutes with finding behaviors of our systems.
   \item (Horizontal Functoriality) This asks us to suppose that we have two
     charts and a behavior of each. The law then says that composing a behavior
-    of shape $\Sys{T}$ the composite of the behaviors is the same as composing
+    of shape $\Sys{T}$ with the composite of those behaviors is the same as composing
     it with the first one and then with the second one.
   \item (Functorial Interchange) This asks us to suppose that we have a pair of
     wiring patterns and compatible charts between them (a square in $\Cat{Arena}$). The law then says that if we
@@ -1489,7 +1489,7 @@ Though it seems like it would be a mess of symbols to check these laws, they in
 fact fall right out of the laws for the double categories of arenas and
 matrices, and the functoriality of \cref{prop.representable_double_functor}.
 That is, we've already built up all the tools we need to prove this fact, we
-just need to finish describing it.
+just need to finish proving that $\Fun{Behave}_{\Sys{T}}$ is a lax doubly indexed functor.
 
 \begin{itemize}
   \item (Vertical Lax Functoriality) Suppose we have composable lenses
@@ -1561,7 +1561,7 @@ We can see both sides as natural transformations of the signature
 
 So, to show this equality holds, let's start with a behavior $\psi \in \Cat{Sys}\littlelens{f_{\flat}}{f}(\Sys{S}, \Sys{U})$ with chart $\littlelens{f_{\flat}}{f}$. We need to show that
 passing this through the left side of \cref{eqn.interchange_func} equals the
-result of passing it through the right hand side. The result is an element of
+result of passing it through the right hand side. On both sides, the result is an element of
 \[
 \Cat{Vec}\Cat{Arena}\left( \littlelens{\In{T}}{\Out{T}},
       \littlelens{g_{\flat}}{g} \right)\left(\cdots, \cdots  \right)
@@ -1613,9 +1613,9 @@ That these two composites are equal is precisely the interchange law of a double
 \end{itemize}
 
 
-While we have phrased this theorem in terms of theory of dynamical systems, the
+While we have phrased this theorem in terms of systems theories, the
 proof uses only the structure available to the doubly indexed category
-$\Cat{Sys}_{\dd} : \Cat{Arena}_{\dd} \to \Cat{Cat}$. We can therefore state this
+$\Cat{Sys}_{\dd} : \Cat{Arena}_{\dd} \to \Cat{Cat}$ itself. We can therefore state this
 theorem entirely abstractly, which we record here.
 \begin{theorem}\label{thm:representable.lax.doubly.indexed.functors}
   Let $\cat{A} : \cat{D} \to \Cat{Cat}$ be a doubly indexed category with
@@ -1678,7 +1678,7 @@ aren't periodic from \cref{ex.find_representatives_discrete}.
 \cref{thm:representables.taut} says that for the systems $\Sys{Time}$,
 $\Sys{Fix}$, and $\Sys{Clock}_n$, we can recover the behaviors of component
 systems from the behaviors of composite systems. As we noted in
-\cref{rmk:steady.looking.states.lax}, the same cannot be said for steady looking states.
+\cref{rmk:steady.looking.states.lax}, the same cannot be said for steady looking trajectories.
 
 
 \begin{proof}[Proof of \cref{thm:representables.taut}]
@@ -1729,7 +1729,7 @@ isomorphism. Suppose we have a square
 \[
   \alpha =
     \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left,  "\lens{T\phi}{\phi}"] \ar[r,  shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}\then \lens{w^{\sharp}}{w}"] \ar[d, shift right]\\
@@ -1772,14 +1772,14 @@ right, equals] \ar[d, shift left, equals] \&
     h \then w &= \expose{T}\inv \then \phi \then \expose{S} \then w \\
               &= \expose{T}\inv \then \expose{T} \then g \\
               &= g &\mbox{and}\\
-   h_{\flat} &= g_{\flat} \then h^{\ast} w^{\sharp}.
+   h_{\flat} &= g_{\flat} \then h^{\ast} w^{\sharp} &\mbox{, by definition.}
   \end{align*}
 
  We see that the definition of $\lens{h_{\flat}}{h}$ is basically forced on us
  by the commutation of this diagram. Furthermore, we note that we have a square:
  \[
 \beta =    \begin{tikzcd}[ampersand replacement = \&]
-      \lens{\State{T}}{\State{T}} \ar[r, shift left, dashed, "\lens{T\phi}{\phi}"] \ar[r, dashed, shift right] \ar[d, shift right,
+      \lens{\State{T}}{\State{T}} \ar[r, shift left,  "\lens{T\phi}{\phi}"] \ar[r,  shift right] \ar[d, shift right,
       "\lens{\update{T}}{\expose{T}}"'] \ar[d, shift left, leftarrow] \&
       \lens{\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
@@ -1787,7 +1787,7 @@ right, equals] \ar[d, shift left, equals] \&
       shift left] \& \lens{I}{O}
     \end{tikzcd} 
 \]
-by reinterpreting $\alpha$.
+by the commutativity of $\alpha$.
 
 Finally, it remains to show that for any $\lens{h_{\flat}}{h}$ fitting into
 these two squares $\square_h$ and $\beta$, we have that
@@ -1796,8 +1796,7 @@ these two squares $\square_h$ and $\beta$, we have that
   \expose{T}^{-1\ast}\phi^{\ast}\expose{S}^{\ast}w^{\sharp}}{\expose{T}\inv
   \then \phi \then \expose{S}} .
 \]
-In fact, this equality follows by $\square_h$ alone. From the bottom of $\square_h$, we see that $h = g \then w$, which
-equals $\expose{T}\inv \then \phi \then \expose{S}$. From the top, we see
+From the bottom of $\beta$, we see that $\expose{T} \then h = \phi \then \expose{S}$, which means that $h = \expose{T}\inv \then \phi \then \expose{S}$ since $\expose{T}$ is an isomorphism. From the top of $\square_h$, we see
 exactly that $h_{\flat} = g_{\flat} \then h^{\ast} w^{\sharp}$.
 \end{proof}
 

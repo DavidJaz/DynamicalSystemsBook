@@ -12,9 +12,9 @@
 \section{Introduction}
 
 So far, we have seen how to wire up dynamical systems. But we haven't seen our
-dynamical systems actually \emph{do anything}. In this section, we will begin to
+dynamical systems actually \emph{do} anything. In this section, we will begin to
 study the behavior of our dynamical systems. We will see particular kinds of
-behaviors our systems can have:
+behaviors our systems can have, including
 trajectories, steady states, and periodic orbits.
 
 \begin{informal}
@@ -36,7 +36,7 @@ We will then investigate the definition of behaviors in terms of a \emph{double
   category} which merges together the category of lenses with a category of
 \emph{charts} (which are important for defining behaviors). We will see that
 behaviors are certain squares in this double category, and see what using this
-doublec category can tell us about how behaviors of component systems relate to
+double category can tell us about how behaviors of component systems relate to
 the behaviors of composed systems. 
 
 
@@ -50,8 +50,8 @@ trajectories look like in the deterministic and differential systems theories.
 
 \subsubsection{Trajectories in the deterministic systems theory}\label{sec.trajectory_discrete}
 In the introduction, we saw that the $\Sys{Clock}$ system
-\cref{eqn.clock_system_box} has behaves in this way if it starts at $3$ o'clock: 
-$$3 \xmapsto{\fun{tick}} 4 \xmapsto{\fun{tick}} 5 \xmapsto{\fun{tick}} 6
+\cref{eqn.clock_system_box} has behaves in this way if it starts at $11$ o'clock:
+$$11 \xmapsto{\fun{tick}} 12 \xmapsto{\fun{tick}} 1 \xmapsto{\fun{tick}}2
 \xmapsto{\fun{tick}} \cdots$$
 
 This sequence of states of the clock system, each following from the last by the
@@ -79,8 +79,8 @@ the system in order for the states to change.
 
 Its worth noting that a trajectory $s : \nn \to \State{S}$ in a deterministic system is determined
 entirely by its start state $s_0$. This is what makes deterministic systems
-deterministic; if you know the dynamics and you know what state the system is
-in, you know how it will continue to behave. We'll relax this condition later in \cref{??}.
+deterministic: if you know the dynamics and you know what state the system is
+in, you know how it will continue to behave.
 
 \begin{example}
 Consider the SIR model of \cref{ex.SIR_model_discrete}. Suppose that we let our
@@ -131,10 +131,11 @@ person to start, that is $(s_0, i_0, r_0) = (999, 1, 0)$.
 \end{example}
 
 
+
 \begin{example}\label{ex.transition_diagram_discrete_traj}
 If a deterministic system is written as a transition diagram, then the
-trajectories in the system are paths through the diagram. Recall from
-\cref{ex.transition_diagram_discrete} this system:
+trajectories in the system are paths through the diagram. Recall this system from
+\cref{ex.transition_diagram_discrete}:
 \[
 \begin{tikzpicture}
 	\node[draw] {
@@ -346,7 +347,7 @@ transition from susceptible to infected and infected to removed; see \cite{SIR_s
 \subsection{Steady states}
 
 A steady state of a system is a state which does not change. Steady states are
-important because they are guarantees of stability: a vase in a steady state is doing great, a heart in a steady state is in need of attention.
+important because they are guarantees of stability: you know what they are going to keep doing once you know what they are doing. A vase in a steady state is doing great, a heart in a steady state is in need of attention.
 
 \subsubsection{Steady states in the deterministic systems theory}
 
@@ -372,12 +373,12 @@ state is steady for the input parameter $\Orange$ but not for
 the input parameter $\Green$.
 \end{remark}
 
-Unlike with trajectories, a system need not necessarily have \emph{any} steady
+Unlike with trajectories, a system might not have \emph{any} steady
 states. For example, the $\Sys{Clock}$ has no steady states; it always keeps
 ticking to the next hour. 
 
 In the transition diagram of a finite deterministic system, steady states will be loops
-that begin and end at the same node. Since the system is finite, we can arrange
+that begin and end at the same node. Since such a system is finite, we can arrange
 the steady states by their chart into a $\In{S} \times \Out{S}$ matrix. For example, in
 \cref{ex.transition_diagram_discrete}, we get the following $\{\Green,\, \Orange\} \times \{a,\, b\}$ matrix:
 \begin{equation}\label{eqn.steady_state_matrix_transition_diagram_discrete}
@@ -664,7 +665,7 @@ periodic. We call these trajectories \emph{eventually} periodic orbits, since
 they eventually end up in a repeating cycle of states.
 
 \begin{definition}[Eventually periodic orbit] \label{def.eventually_periodic_orbit_discrete}
-A $\lens{p}{v}$-trajectory $s : \nn \to
+Working in a deterministic systems theory, a $\lens{p}{v}$-trajectory $s : \nn \to
   \State{S}$ is \emph{eventually periodic} if there are times $t_0 < t_1 \in
   \nn$ such that $s_{t_0 + t} = s_{t_1 + t}$ for all $t \in \nn$. If the sequence of
   parameters $p : \nn \to \In{S}$ is also eventually periodic with the same
@@ -708,7 +709,7 @@ which also encompasses the differential systems theory.
 We begin with a general definition of \emph{chart}. A behavior is defined
 relative to its chart, which is the choice of parameters and the values of the
 variables it will expose. For example, the chart of a steady state was a
-parameter and an output value so that the state is steady with that parameter
+parameter and an output value so that the state is steady given that parameter
 and it exposes that output value.
 
 \begin{definition}\label{def.chart_discrete}
@@ -768,7 +769,7 @@ is the chart of the behavior $\phi$.
   Suppose that we have transition diagrams for systems $\Sys{T}$ and $\Sys{S}$.
   Then a behavior of shape $\Sys{T}$ in $\Sys{S}$ will correspond to part of the
   transition diagram of $\Sys{S}$ which is shaped like the transition diagram of
-  $\Sys{T}$. See the upcoming examples to see how this looks in practice.
+  $\Sys{T}$. See the upcoming examples for examples of how this looks in practice.
 \end{remark}
 
  Let's make this definition feel real with a few examples.
@@ -1005,8 +1006,8 @@ behavior of type $\Sys{T}$.
     \item A steady-looking trajectory (see \cref{def.steady_looking_trajectory_discrete}).
     \item A periodic orbit of period at most $n$ whose parameters aren't
       necessarily also periodic (see \cref{def.periodic_orbit_discrete}).
-    \item An trajectory which yields the same output value at every
-      $10^{\text{th}}$ step.
+    \item A trajectory which yields the same output value at every
+      $10^{\text{th}}$ step, but can do anything else in between.
      \qedhere
   \end{enumerate}
 \end{exercise}
@@ -1092,8 +1093,8 @@ systems as its objects and behaviors as its morphisms; and there is!
     \item Composition the composite of a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
       \tto \lens{B^-}{B^+}$ with a chart $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
       \tto \lens{C^-}{C^+}$ is 
-$$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{(a^+, a^-)
-  \mapsto g_{\flat}(f(a^+), f_{\flat}(a^+, a^-))}{g \circ f}.$$
+$$\lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g}   \coloneqq \lens{(a^+, a^-)
+  \mapsto g_{\flat}(f(a^+), f_{\flat}(a^+, a^-))}{f \then g}.$$
      \item The identity chart is $\lens{\pi_2}{\id} : \lens{A^-}{A^+}
        \rightrightarrows \lens{A^-}{A^+}$.
   \end{itemize}
@@ -1105,12 +1106,12 @@ $$\lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f} \coloneqq \lens{(a^+, a^-)
       \tto \lens{B^-}{B^+}$, $\lens{g_{\flat}}{g} : \lens{B^-}{B^+}
       \tto \lens{C^-}{C^+}$, and $\lens{h_{\flat}}{h} : \lens{C^-}{C^+}
       \tto \lens{D^-}{D^+}$, show that 
-$$\lens{h_{\flat}}{h} \circ \left( \lens{g_{\flat}}{g} \circ \lens{f_{\flat}}{f}
-\right) = \left( \lens{h_{\flat}}{h} \circ \lens{g_{\flat}}{g} \right) \circ \lens{f_{\flat}}{f}.$$
+$$\lens{f_{\flat}}{f} \then \left( \lens{g_{\flat}}{g} \then \lens{h_{\flat}}{h}
+\right) = \left( \lens{f_{\flat}}{f} \then \lens{g_{\flat}}{g} \right) \then \lens{h_{\flat}}{h}.$$
     \item For a chart $\lens{f_{\flat}}{f} : \lens{A^-}{A^+}
       \tto \lens{B^-}{B^+}$, show that 
-$$ \lens{\pi_2}{\id} \circ \lens{f_{\flat}}{f} = \lens{f_{\flat}}{f} =
-\lens{f_{\flat}}{f} \circ \lens{\pi_2}{\id}.$$
+$$ \lens{\pi_2}{\id} \then \lens{f_{\flat}}{f} = \lens{f_{\flat}}{f} =
+\lens{f_{\flat}}{f} \then \lens{\pi_2}{\id}.$$
   \end{enumerate}
 \end{exercise}
 
@@ -1457,7 +1458,7 @@ $\tau$ to get a new tree $\fun{subtree}(\tau, i)$:
     i|_{\ord{n}}))$ is the $i^{\text{th}}$ child of the tree found by following
     $i$ for the first $n$ steps.
 \end{itemize}
-Note that $\!_{\Sys{S}}(\update{S}^{\ast}(s, i)) = \fun{subtree}(!_{\Sys{S}}(s),
+Note that $!_{\Sys{S}}(\update{S}^{\ast}(s, i)) = \fun{subtree}(!_{\Sys{S}}(s),
 i)$ by a quick inductive argument. Now we can show that $\sim$ is a bisimulation.
 
 \begin{itemize}
@@ -1714,7 +1715,11 @@ together charts.
   $\lens{B^-}{B^+}$ and $\lens{D^-}{D^+}$ respectively. The square then says
   that $\lens{d^-}{d^+}$ are the values you would get if you passed
   $\lens{b^-}{b^+}$ along the wires in the wiring diagram
-  $\lens{w^{\sharp}}{w}$.
+  $\lens{w^{\sharp}}{w}$:
+  \begin{align*}
+    w(b^{+}) &= d^{+},\\
+    w^{\sharp}(b^{+}, d^{-}) = b^{-}.
+  \end{align*}
 \end{example}
 
 Taking for granted that the double category of arenas is indeed a double
@@ -1751,6 +1756,8 @@ systems theories.
 
 Now we turn to our second double category of interest, the double category of
 sets, functions, and matrices of sets.
+
+\jaz{Where did I first define a matrix of sets? If it's before this, I should reference it. If it's after this, I should just introduce it here instead.}
 \begin{definition}\label{def.double_cat_of_matrices}
   The double category $\Cat{Matrix}$ of sets, functions, and matrices of sets
   is defined by:
@@ -1971,7 +1978,7 @@ as an element of $P(A', B')$.
 
 If we call maps $f : A' \to A$ in a category $\cat{A}$ \emph{homomorphisms}
 because they go between objects of the same form, we could call elements $p : A
-\xtickar B$ --- that is, $p \in P(A, B)$ --- as \emph{heteromorphisms}, maps
+\xtickar{} B$ --- that is, $p \in P(A, B)$ --- as \emph{heteromorphisms}, maps
 going between objects of different forms.
 
 We can't necessarily compose these heteromorphisms, which we can see right away
@@ -2068,7 +2075,7 @@ and checking that this descends correctly to the quotient.
 \begin{remark}\label{rmk.up_to_coherent_iso}
   We omit full proofs of associativity and unitality for profunctor composition
   because they are best done with the \emph{coend calculus}, and this would take
-  us quite far afield. 
+  us quite far afield. See \cite{Grandis:Double.Cats} and \cite{Loregian:Coend.Calculus} for more about profunctors and double categories.
   %%
   %% :CUSTOM-ID:cite-me.profunctors
   %%
@@ -2345,7 +2352,7 @@ define the notion of behavior in general.
   \emph{section} $T$ of $\cat{A}$ consists of the following assignments:
   \begin{itemize}
     \item To every object $C \in \cat{C}$, an object $TC \in \cat{A}(C)$.
-    \item To every $\phi : C' \to C$, a map $T\phi : TC' \to \phi^{\ast}C$.
+    \item To every $\phi : C' \to C$, a map $T\phi : TC' \to \phi^{\ast}TC$.
   \end{itemize}
   These are required to satisfy the following laws:
   \begin{itemize}
@@ -2405,6 +2412,8 @@ In order to define lenses, we need the data of an indexed category $\cat{A} :
 $\cat{A}$-lenses, and to define the behaviors between them, we need the data of
 a section $T$ of $\cat{A}$. Putting these two bits of data together, we get the
 notion of \emph{dynamical system systems theory}.
+
+
 
 \begin{definition}\label{def.doctrine}
 A \emph{theory of dynamical systems} consists of an indexed category $\cat{A} :
@@ -2472,12 +2481,12 @@ is the double category defined by:
   We will call the squares in the Grothendieck double construction
   \emph{commuting squares}, since they represent the proposition that the
   ``lower'' and ``upper'' squares appearing in their boundary commute.
-\item Composition is given as in the appropriate Grothendieck constructions.
+\item Composition of arrows in both directions is given as in the appropriate Grothendieck constructions.
 \end{itemize}
 
 \end{definition}
 
-It just remains to show that commuting squares compose.
+It just remains to show that commuting squares compose. The lower squares compose because they are ordinary squares. It just remains to show that the upper squares commute.
 \begin{itemize}
 \item For vertical composition we appeal to the following diagram:
   \[
@@ -2571,10 +2580,10 @@ category.
   construction of $\cat{A}$:
 $$\Cat{Arena}_{\cat{A}} := \sqiint^{C \in \cat{C}} \cat{A}(C).$$
 
-  Note that the horizontal category of $\Cat{Arena}_{\cat{A}}$ is the category
-  $\Cat{Chart}_{\cat{A}}$ of $\cat{A}$-charts (\cref{def.chart_general}), and the vertical category of
+  The horizontal category of $\Cat{Arena}_{\cat{A}}$ is the category
+  $\Cat{Chart}_{\cat{A}}$ of $\cat{A}$-charts, and the vertical category of
   $\Cat{Arena}_{\cat{A}}$ is the category $\Cat{Lens}_{\cat{A}}$ of
-  $\cat{A}$-lenses (\cref{def.lens_general}).
+  $\cat{A}$-lenses.
 \end{definition}
 
 With this definition of the double category of arenas in hand, we can define a
@@ -2635,7 +2644,7 @@ and a section $T$ constitutes a series of answers to each of these questions.
     choosing how the output will vary with the state.
   \item The input $\In{S}$ will be an object of $\cat{A}(\Out{S})$, and
     therefore defining the objects of $\cat{A}(\Out{S})$ --- in particular, how
-    does they 
+    they
     depend on $\Out{S}$ --- will determine how a system's space of inputs may
     depend on its outputs.
   \item The our update map $\update{S} : \expose{S}^{\ast} I \to T\State{S}$
@@ -2695,7 +2704,7 @@ Let's see how to interpret the determistic systems theory in the case that $\cat
  \item A state is an element of a set.
  \item The output varies as a function of the state, with constraints on what
    sort of function.
- \item No, the kinds of inputs do not depend on the state.
+ \item No, the kinds of inputs do not depend on the state --- they live in a set which does not depend on the current exposed variable.
  \item From a state, one may transition to any other state (since $T\State{S} = \State{S}$).
  \item We treat the changes and the states in the same way, interpreting a
    change as the next state.
@@ -2722,7 +2731,7 @@ Unlike the case with deterministic systems theories, we will not be giving a sin
 general definition of ``differential'' systems theory. We will be defining our
 different differential systems theory ad-hoc.\footnote{One can give a general
   definition of differential systems theory that specializes to these various notions
-  with the notion of \emph{tangent category with display maps}. But we prefer to
+  with the notion of \emph{tangent category with display maps} \cite{Cruttwell:Tangent.Category}. But we prefer to
 just describe the various categories as they come.}
 
 We begin with the differential systems theory used to define the notion of
@@ -2801,7 +2810,7 @@ A $\lens{f_{\flat}}{f}$-behavior is a smooth function $\phi : \State{T} \to
       shift left, "\lens{f_{\flat}}{f}"'] & \lens{\In{S}}{\Out{S}}
     \end{tikzcd}
 \]
-using by specializing \cite{eqn.dbl_cat_arena_square_commuting} to the above
+using by specializing \cref{eqn.dbl_cat_arena_square_commuting} to the above
 case, using the definition of $T\phi$ in $\eucdiff$.  
 \end{proof}
 
@@ -2849,9 +2858,8 @@ case, using the definition of $T\phi$ in $\eucdiff$.
 \item $\State{Fix} = \rr^0 = \Out{Fix}$ and $\expose{Fix} = \id$.
 \item $\In{Fix} = \rr^0$ and $\update{Fix}(\ast, \ast) = \ast$.
 \end{itemize}
-This system has no state variables. Nevertheless, a chart $\
-lens{i}{o} : \lens{\In{Fix}}{\Out{Fix}} \rightrightarrows
-\lens{\In{S}}{\Out{S}}$ into some other system $\Sys{S}$ is not trivial; it is a
+This system has no state variables. Nevertheless, a chart $\lens{i}{o} : \lens{\In{Fix}}{\Out{Fix}} \rightrightarrows \lens{\In{S}}{\Out{S}}$
+into some other system $\Sys{S}$ is not trivial; it is a
 pair of elements $i \in \In{S}$ and $o \in \Out{S}$.
 
 A $\lens{i}{o}$-behavior $s : \Sys{Fix} \to \Sys{S}$ consists of a
@@ -2882,12 +2890,12 @@ The Euclidean differential systems theory $\eucdiff$ is a special case of a
 \emph{cartesian differential systems theory}. The category $\Cat{Euc}$ is a
 \emph{cartesian differential category}, and for any cartesian differential
 category we can make a cartesian differential systems theory. We won't define the
-notion of 
+notion of
 cartesian differential category here, as the definition is a bit involved. See
 \cite{blute2009cartesian} for a comprehensive introduction.
 \begin{definition}
   For any cartesian differential category $\cat{C}$ with differential operator
-  $T$, we have a systems theory $\cartdiff$ defined by the indexed category $\smctx{-}
+  $T$, we have a systems theory $\cartdiff_{\cat{C}, T}$ defined by the indexed category $\smctx{-}
   : \cat{C}\op \to \Cat{Cat}$ together with the section given by $T$. 
 \end{definition}
 
@@ -2940,7 +2948,7 @@ Now, strictly speaking we don't \emph{have} to do this if we only want to add
 circles, because circles have a trivial tangent bundle. But it will turn out
 that defining the section $T$ will involve choosing, once and for all, a
 particular trivialization of the tangent bundle of the circle and expressing all
-derivatives in terms of this. It will end up much easier to simply jump over to manifolds.
+derivatives in terms of this. It will end up much easier to simply jump over to general manifolds in a single leap.
 
 We recall that to any manifold $M$ there is an associated tangent bundle $\pi :
 TM \to M$. A vector field on a manifold $M$ is a section $v : M \to TM$ of the
@@ -2969,7 +2977,7 @@ of manifolds exist, but all pullbacks of submersions exist and are submersions.
   A \emph{submsersion} $\phi : M \to N$ is a map of manifolds for which $T_p\phi
   : T_p M \to T_{\phi(p)} N$ is surjective for each $p \in M$.
 
-  We note that every isomorphism is a submersion, and that the composite of
+  We note that every diffeomorphism is a submersion, and that the composite of
   submersions is a submersion.
 \end{definition}
 
@@ -3081,6 +3089,18 @@ follows:
 We note that this is functorial up to coherent isomorphism by the uniqueness (up
 to unique isomorphism) of the pullback.
 \end{definition}
+
+\begin{exercise}
+ Let $\cat{C}$ be a cartesian category, and equip it with the class $\cat{D}$ of maps
+ which are isomorphic to product projections, as in
+ \cref{prop.cartesian_display_maps}. Prove that $\cat{D} : \cat{C}\op \to
+ \Cat{Cat}$ is equivalent, as an indexed category, to $\smctx{-} : \cat{C}\op
+ \to \Cat{Cat}$.
+\end{exercise}
+
+  \begin{exercise}
+Let $\cat{C}$ be a category with all pullbacks and let $\cat{D} = \cat{C}$ be the class of all maps. Show Show that $\cat{D} : \cat{C}\op \to \Cat{Cat}$ is the \emph{self-indexing} of $\cat{C}$. It sends an object $C \in \cat{C}$ to the \emph{slice category} $\cat{C} \downarrow C$ whose objects are maps $x : X \to C$ and whose maps $f : x \to y$ are maps $f : X \to Y$ with $f \then y = x$.
+  \end{exercise}
  
 We can specialize this to the category of smooth manifolds with submersions the
 display maps
@@ -3094,13 +3114,6 @@ The indexed category $\Cat{Subm} : \Cat{Man}\op \to \Cat{Cat}$ is defined as fol
 \end{itemize}
 \end{definition}
 
-\begin{exercise}
- Let $\cat{C}$ be a cartesian category, and equip it with the class $\cat{D}$ of maps
- which are isomorphic to product projections, as in
- \cref{prop.cartesian_display_maps}. Prove that $\cat{D} : \cat{C}\op \to
- \Cat{Cat}$ is equivalent, as an indexed category, to $\smctx{-} : \cat{C}\op
- \to \Cat{Cat}$.
-\end{exercise}
 
 If $(\cat{C}, \cat{D})$ is a category with display maps, then the category of
 charts of $\cat{D} : \cat{C}\op \to \Cat{Cat}$ is easy to understand in terms of $\cat{D}$.
@@ -3186,6 +3199,21 @@ display maps. Then this data forms a systems theory $\dispdoc_{\cat{D}, T}$ give
 \Cat{Cat}$ and the section induced by sending $C$ to $\pi : TC \to C$ in $\cat{D}(C)$.
 \end{definition}
 
+\begin{example}\label{ex:cartesian.cat.display.doc}
+Let $\cat{C}$ be a cartesian category and $\cat{D}$ be the class of product projections up to isomorphism. We can define $T : \cat{C} \to \cat{C}$ by $TC := C \times C$ and define $\pi : T \to \id$ by $\pi_{C} := \pi_{1} : C \times C \to C$. The systems theory $\dispdoc_{\cat{D}, T}$ so defined is precisely the deterministic systems theory of \cref{def.deterministic_doctrines}.
+  \end{example}
+
+  \begin{example}
+Let $\cat{C}$ be a category with pullbacks and $\cat{D} = \cat{C}$ be all maps. If we define $TC := C \times C$ and $\pi = \pi_{1} : C \times C \to C$ in the same way as in \cref{ex:cartesian.cat.display.doc}, then the systems theory $\dispdoc_{\cat{C}, T}$ is the systems theory of \emph{dependent} deterministic systems. The main difference between this systems theory and the ordinary determinstic systems theory is that what sort of input a system may take in can depend on the current exposed variable. In particular, an interface for a dependent deterministic system $\Sys{S}$ will consist of a map $v : \In{S} \to \Out{S}$ which we can think of sending each input to the output it is valid for. The update is then of the form
+\[
+\begin{tikzcd}
+\State{S} \times_{\Out{S}} \In{S} \ar[rr, "\update{S}"] & & \State{S}
+\end{tikzcd}
+\]
+In other words, $\update{S}(s, i)$ is defined when $v(i) = \expose{S}(s)$, or when $i$ is an input valid for the exposed variable $\expose{S}(s)$ of state $s$. We can think of each $v\inv(o)$ for $o \in O$ as a menu of available inputs given output $o$. We will talk a bit more about dependent systems in \cref{sec:dep.determ.doctrine}.
+
+    \end{example}
+
 With one last lemma, we will finally be able to define our general differential systems theory.
 \begin{lemma}
 The tangent bundle $\pi : TM \to M$ of a manifold $M$ is a submersion.
@@ -3213,22 +3241,20 @@ which is to say that it is a triangle of the form
 \] 
 which assigns to each state-input pair $(s, i)$ where $i$ is valid given the
 state $s$ in the sense that $\expose{S}(s) = \pi_{\In{S}}(i)$ to a tangent
-vector at $s$. There will be a lot more to say about dynamical systems in which
-the sorts of inputs allowed depend on the current output in later chapters, but
-for now we'll have to content ourselves with a simple example.
+vector at $s$.
 
 The general differential systems theory $\diffdoc$ answers the questions of
 \cref{informal.doctrine} in the following way:
 \begin{enumerate}
   \item A state is a point in a smooth manifold.
   \item The output is a smooth function of the state.
-  \item The kind of input can dependend on the output, but it does so
-    continuously (in the sense that the assignment sending an input to the
+  \item The kind of input can dependend on the current output, but it does so
+    smoothly (in the sense that the assignment sending an input to the
     output it is valid for is a submersion).
   \item A possible change in a state is given by a tangent vector.
   \item For a state to change means that it is tending in this direction. That
     is, it has derivative equal to the given tangent vector.
-  \item The changes in state vary differentiably with the input.
+  \item The changes in state vary smoothly with the input.
 \end{enumerate}
 
 \begin{example}
@@ -3277,8 +3303,8 @@ We can now describe periodic orbits as behaviors in the general differential sys
    $q : \rr \to \rr / k \zz$.
 \end{itemize}
 The universal property of $\rr / k \zz$ says that a smooth function $\gamma :
-\rr \to M$ factors through $q : \rr \to \rr / k \zz$ if and only if $\gamma(kn)
-= \gamma(0)$ for all $n \in \zz$.
+\rr \to M$ factors through $q : \rr \to \rr / k \zz$ if and only if $\gamma(t + k)
+= \gamma(t)$ for all $t \in \rr$.
 
 A chart for $\Sys{Clock_k}$ into a system $\Sys{S}$ is a square
 \[
@@ -3288,8 +3314,8 @@ A chart for $\Sys{Clock_k}$ into a system $\Sys{S}$ is a square
   \end{tikzcd}
 \]
 By the various universal properties involved, this is the same data as a pair of maps $\hat{p} : \rr \to
-\In{S}$ and $\hat{v} : \rr \to \Out{S}$ for which $\hat{p}(nk) = 0$ and
-$\hat{v}(nk) = 0$ for all $n \in \zz$, and for which $\pi \circ \hat{i} =
+\In{S}$ and $\hat{v} : \rr \to \Out{S}$ for which $\hat{p}(t + k) = \hat{p}(t)$ and
+$\hat{v}(t + k) = \hat{v}(t)$ for all $t \in \rr$, and for which $\pi \circ \hat{i} =
 \hat{v}$.
 
 Now, a behavior $\phi : \Sys{Clock_k} \to \Sys{S}$ is a square
@@ -3299,8 +3325,8 @@ Now, a behavior $\phi : \Sys{Clock_k} \to \Sys{S}$ is a square
       "\lens{1}{\id}"'] \ar[d, shift left, leftarrow] &
       \lens{T\State{S}}{\State{S}} \ar[d, shift left, leftarrow,
       "\lens{\update{S}}{\expose{S}}"] \ar[d, shift right]\\
-      \lens{{\ast}}{\rr} \ar[r, shift right] \ar[r,
-      shift left, "\lens{p}{v}"'] & \lens{\In{S}}{\Out{S}}
+      \lens{{\ast}}{\rr} \ar[r, shift right, "\lens{p}{v}"'] \ar[r,
+      shift left] & \lens{\In{S}}{\Out{S}}
     \end{tikzcd}
   \]
   Let $\hat{\phi} : \rr \to \State{S}$ be $\phi \circ q$. First, this being a
@@ -3324,7 +3350,7 @@ may conclude that behaviors $\Sys{Clock_k} \to \Sys{S}$ are periodic orbits
 (with period dividing $k$) of $\Sys{S}$.
 \end{example}
 
-\subsection{Dependent deterministic systems theory}
+\subsection{Dependent deterministic systems theory}\label{sec:dep.determ.doctrine}
 
 The systems theory $\dispdoc_{(\cat{C}, T)}$ of display maps can also help us describe deterministic
 systems theories in which the sorts of input a system can accept depend on the output
@@ -3334,7 +3360,7 @@ systems.
 \begin{definition}
 Let $(\cat{C}, \cat{D})$ be a category with display maps (\cref{defn:display.maps}) and
 finite products, and suppose that product projections $\pi_1 : C \times D \to C$
-are display maps. Then we have a section $TC = C \times C \xto{\pi_1} C$, and so
+are display maps (although there may be other display maps). Then we have a section $TC = C \times C \xto{\pi_1} C$, and so
 we may define the depdendent deterministic systems theory $\depdeterm_{C}$ to be the
 display map systems theory $\dispdoc_{(\cat{C}, \cat{D}), T}$.
 \end{definition}
@@ -3363,16 +3389,13 @@ A \emph{dependent deterministic} system $\Sys{S}$ in the category of sets consis
 Consider the following simple example of a dependent system. A $\Sys{Diner}$ accepts
 orders when it is open, but when it is closed it doesn't. The set of possible
 outputs, or \emph{orientations} of the diner in it's environment, is $\Out{S} =
-\{\const{open}, \const{closed}\}$. When the diner is closed it excepts no input,
+\{\const{open}, \const{closed}\}$. When the diner is closed it accepts no input,
 so $\In{S}(\const{closed}) = \{\const{tick}\}$ will simply represent the ticking
 of time; other the other hand, when the diner is open then
 $\In{S}(\const{open})$ will be the set of possible orders.
 \end{example}
 
-Dependent deterministic systems in $\smset$ are tremendously interesting in
-their own right, and we won't be able to do them justice here.
-
-%writehere
+Even in the case $\cat{C} = \smset$, the dependent deterministic systems theory is remarkably rich. So rich, in fact, that David Spivak and Nelson Niu have written a whole book just on this systems theory \cite{Spivak.Niu:Poly}. So we'll leave the details of this systems theory to them.
 
 \subsection{Non-deterministic systems theories}
 
@@ -3504,9 +3527,9 @@ systems thories.
 systems theories; in general, they are only exact for a restricted class of functions. For example, the Euler method which approximates a differential
 equation
 $$\frac{ds}{dt} = F(s, p)$$
-on a Euclidean space by the discrete-time update function 
-$$u(s, p) = s + \epsilon F(s, p)$$
-only exactly reproduces \emph{affine} behaviors of systems. Being affine is a
+on a Euclidean sace by the discrete-time update function
+$$u(s, p) = s + \varepsilon F(s, p)$$
+(for $\varepsilon > 0$) only exactly reproduces \emph{affine} behaviors of systems. Being affine is a
 rather severe restriction on the behavior of a dynamical system, but it does
 allow the important case of steady states.
 
@@ -3555,9 +3578,11 @@ dynamical systems of particular shapes --- trajectories are represented by
 timelines, steady states by a single fixed point, periodic orbits by clocks, etc. We introduced the double category of arenas to
 organize charts and lenses, and finally gave a formal definition of theory of dynamical systems.
 
-The notion of systems thoery, the double category of arenas in a
+The notion of systems theory, the double category of arenas in a
 given systems theory, and the definition of behavior of system that these
 enable are novel contributions of this book. For a summary account, see
 \cite{Jaz_Myers_2021}.
+
+
 
 \end{document}
