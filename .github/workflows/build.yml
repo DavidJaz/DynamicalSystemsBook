@@ -1,0 +1,22 @@
+name: Build LaTeX document
+on:
+  pull_request:
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: DynamicalBook.tex
+          working_directory: book
+          args: -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode -latexoption=-shell-escape
+          extra_system_packages: py-pygments
+      - name: Uploads the document
+        uses: actions/upload-artifact@v2
+        with:
+          name: DynamicalBook
+          path: book/DynamicalBook.pdf
