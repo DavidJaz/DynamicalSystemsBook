@@ -29,9 +29,9 @@ In total, we will have three \emph{doctrines of dynamical systems} --- ways of t
    \item What does it mean to be a system? Does it have a notion of states, or of behaviors? Or is it a diagram describing the way some primitive parts are organized?
    \item What should the interface of a system be?
    \item How can interfaces be connected in composition patterns?
-  \item How are systems composed through composition patterns between their interfaces.
+  \item How are systems composed through composition patterns between their interfaces?
   \item What is a map between systems, and how does it affect their interfaces?
-  \item When can maps between systems be composed along the same composition patterns as the systems.
+  \item When can maps between systems be composed along the same composition patterns as the systems?
   \end{itemize}
   \end{informal}
 
@@ -192,7 +192,7 @@ Note
 that the parameters of the original differential system
 $\Sys{LK}$ are considered as exposed variables of state in the behavioral
 approach. This is because the behavioral approach composes systems by setting
-exposed variables equal to eachother, so the parameters must be considered as
+exposed variables equal to each other, so the parameters must be considered as
 exposed variables so that they can be set equal to other variables.
 \end{remark}
 
@@ -2208,7 +2208,7 @@ Using some category theory, we can expedite our understanding of the category of
  The category $\Cat{Graph}$ of graphs is the category of presheaves on the category $0 \rightrightarrows 1$ consisting of two objects $0$ and $1$ and two arrows $s$ and $t$ from $0$ to $1$.
 \end{proposition}
 \begin{proof}
-This is a matter of checking definitions against eachother. A presheaf $G$ on that small category would consists of two sets $G(0)$ and $G(1)$ together with two functions $G(s), G(t) : G(1) \rightrightarrows G(0)$ --- precisely a graph. Furthermore, a natural transformation between these presheaves will be a graph map.
+This is a matter of checking definitions against each other. A presheaf $G$ on that small category would consists of two sets $G(0)$ and $G(1)$ together with two functions $G(s), G(t) : G(1) \rightrightarrows G(0)$ --- precisely a graph. Furthermore, a natural transformation between these presheaves will be a graph map.
 \end{proof}
 
 As a corollary, we note that the category of graphs has all limits and colimits, and that they may be calculated in the category of sets. That is, the (co)limit of a diagram of graphs has as nodes the (co)limit of the diagram of sets of nodes, and similarly for its edges. In particular, the category of graphs is has all finite colimits.
