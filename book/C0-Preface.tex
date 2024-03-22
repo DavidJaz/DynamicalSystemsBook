@@ -13,14 +13,14 @@ This book is a work in progress --- including the acknowledgements below! Use at
 
 Categorical systems theory is an emerging field of mathematics which seeks to apply the methods of category theory to general systems theory. General systems theory is the study of systems --- ways things can be and change, and models thereof --- in full generality. The difficulty is that there doesn't seem to be a single core idea of what it means to be a ``system''. Different people have, for different purposes, come up with a vast array of different modeling techniques and definitions that could be called ``systems''. There is often little the same in the precise content of these definitions, though there are still strong, if informal, analogies to be made accross these different fields. This makes coming up with a mathematical theory of general systems tantalizing but difficult: what, after all, is a system in general?
 
-Category theory has been describe as the mathematics of formal analogy making. It allows us to make analogies between fields by focusing not on content of the objects of those fields, but by the ways that the objects of those fields relate to one another. Categorical systems theory applies this idea to general systems theory, avoiding the issue of not having a contentful definition of system by instead focusing on the ways that systems interact with eachother and their environment.
+Category theory has been described as the mathematics of formal analogy making. It allows us to make analogies between fields by focusing not on content of the objects of those fields, but by the ways that the objects of those fields relate to one another. Categorical systems theory applies this idea to general systems theory, avoiding the issue of not having a contentful definition of system by instead focusing on the ways that systems interact with each other and their environment.
 
 These are the main ideas of categorical systems theory:
 \begin{enumerate}
 \item Any system interacts with its environment through an \emph{interface}, which can be described separately from the system itself.
 \item All interactions of a system with its environment take place through its interface, so that from the point of view of the environment, all we need to know about a system is what is going on at the interface.
 \item Systems interact with other systems through their respective interfaces. So, to understand complex systems in terms of their component subsystems, we need to understand the ways that interfaces can be connected. We call these ways that interfaces can be connected \emph{composition patterns}.
-\item Given a composition pattern describing how some interface are to be connected, and some systems with those interfaces, we should have a \emph{composite} system which consists of those subsystems interacting according to the composition pattern. The ability to form composite systems of interacting component systems is called \emph{modularity}, and is a well known boon in the design of complex systems.
+\item Given a composition pattern describing how some interfaces are to be connected, and some systems with those interfaces, we should have a \emph{composite} system which consists of those subsystems interacting according to the composition pattern. The ability to form composite systems of interacting component systems is called \emph{modularity}, and is a well known boon in the design of complex systems.
 \end{enumerate}
 
 In a sense, the definitions of categorical systems theory are all about \emph{modularity} --- how can systems be composed of subsystems. On the other hand, the theorems of categorical systems theory often take the form of \emph{compositionality} results. These say that certain facts and features of composite systems can be understood or calculated in terms of their component systems and the composition pattern.
@@ -35,9 +35,9 @@ This abstract overview leaves a lot of questions to be answered. What is, or wha
    \item What does it mean to be a system? Does it have a notion of states, or of behaviors? Or is it a diagram describing the way some primitive parts are organized?
    \item What should the interface of a system be?
    \item How can interfaces be connected in composition patterns?
-  \item How are systems composed through composition patterns between their interfaces.
+  \item How are systems composed through composition patterns between their interfaces?
   \item What is a map between systems, and how does it affect their interfaces?
-  \item When can maps between systems be composed along the same composition patterns as the systems.
+  \item When can maps between systems be composed along the same composition patterns as the systems?
   \end{itemize}
   \end{informal}
 
@@ -91,12 +91,12 @@ But \cref{inf.dynam_sys} is not so precise. Deterministic systems, systems of di
   \item Can the kinds of input a
     system takes in depend on what it's putting out, and how do they depend on it?
   \item What sorts of changes are possible in a given state?
-  \item What does it mean for states to change.
+  \item What does it mean for states to change?
   \item How should the way the state changes vary with the input?
   \end{itemize}
 \end{informal}
 
-We will make this definition fully formal in \cref{Chapter.3}, after introducing enough category theory to state it. Once we have made the definition of systems theory formal, we can make the definition of system. But what is interesting about dynamical systems is how they \emph{behave}.
+We will make this definition fully formal in \cref{Chapter.3}, after introducing enough category theory to state it. Once we have made the definition of systems theory formal, we can make the definition of system formal. But what is interesting about dynamical systems is how they \emph{behave}.
 \begin{informal}\label{inf:behavior}
   A \emph{behavior} of a dynamical system is a particular way its states can
   change according to its dynamics.
@@ -123,7 +123,7 @@ Using this realization, we will prove our main compositionality theorem in \cref
     it with the first one and then with the second one.
   \item Suppose that we have a pair of
     wiring patterns and compatible charts between them. If we
-    take a bunch of behaviors whose charts are compatable according to the first
+    take a bunch of behaviors whose charts are compatible according to the first
     wiring pattern, wire them together, and then compose with a behavior of the
     second chart, we get the same thing as if we compose them all with behaviors
     of the first chart, noted that they were compatible with the second wiring
