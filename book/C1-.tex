@@ -1579,12 +1579,12 @@ That is, each city will run its own $\Sys{SIR}$ model, and each of the three
 populations can flow between cities.
 \end{definition}
 
-Now, to define a mutli-city $\Sys{SIR}$ model, we need to know what cities we
+Now, to define a multi-city $\Sys{SIR}$ model, we need to know what cities we
 are dealing with and how population flows between them. We'll call this a
 \emph{population flow graph}.
 
 \begin{definition}\label{def.population_flow_graph}
-  A \emph{population-flow graph} (for a mutli-city $\Sys{SIR}$ model) is a graph
+  A \emph{population-flow graph} (for a multi-city $\Sys{SIR}$ model) is a graph
   whose nodes are labeled by cities and whose edges $\Sys{City}_1 \to
   \Sys{City}_2$ are labeled by
   $3 \times 3$ real diagonal matrices $\const{Flow}_{1\to
@@ -1808,7 +1808,7 @@ parameter of $\Sys{NYC}$.
   model can be seen as a deterministic system. This model assumes there is a
   single population, but what if we wanted to study the spread of a disease
   through multiple cities at the same time? For this, we will need to use a
-  mutli-city SIR model.
+  multi-city SIR model.
 
   To define our multi-city SIR model, we'll first assume that we have a map of
   all our cities, and that we know the rates of travel between cities. So, let's
